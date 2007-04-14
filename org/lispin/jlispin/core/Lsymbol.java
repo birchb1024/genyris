@@ -2,7 +2,6 @@ package org.lispin.jlispin.core;
 
 public class Lsymbol extends Exp {
 	
-	public static final Lsymbol NIL = null;
 	private String _printName;
 	
 	public Lsymbol(String newSym) {
@@ -16,6 +15,11 @@ public class Lsymbol extends Exp {
 	public Object getJavaValue() { 
 		return _printName; 
 	}
-	
+
+	protected String cdrToString() {
+		if( this == SymbolTable.NIL ) 
+			return "";
+		return " . " + cdrToString();
+	}
 
 }

@@ -1,5 +1,7 @@
 package org.lispin.jlispin.core;
 
+import org.lispin.jlispin.core.SymbolTable;
+
 public class Lex {
 
 	private static final char COMMENTCHAR = ';';
@@ -17,6 +19,9 @@ public class Lex {
 		_symbolTable = symbolTable;
 	}
 
+	public boolean hasData() {
+		return _input.hasData();
+	}
 	public int parseDecimalNumber() throws LexException {
 		int collect = 0;
 		char ch;
@@ -167,6 +172,9 @@ public class Lex {
 
 		boolean forever = true;
 		do {
+			if( !_input.hasData()) {
+				return SymbolTable.EOF;
+			}
 			ch = _input.lgetc();
 			switch (ch) {
 			case '\f':
@@ -215,8 +223,8 @@ public class Lex {
 				_input.unGet(ch);
 				return parseNumber();
 
-				// case '(' : return lpar;
-				// case ')' : return rpar;
+			case '(' : return SymbolTable.leftParen;
+		    case ')' : return SymbolTable.rightParen;
 				// case '.' : return period;
 				// case QUOTECHAR : return raw_quote;
 				// case BQUOTECHAR :return back_quote;
@@ -273,12 +281,7 @@ public class Lex {
 				//
 				//
 
-				//
-				// case EOF :
-				// cursym = beof;
-				// return;
-				//
-				//
+
 			default:
 				if( (ch >= ' ') && (ch <= '~') ) {
 					_input.unGet(ch);
@@ -289,7 +292,7 @@ public class Lex {
 				}
 			}
 		} while (forever);
-		return Lsymbol.NIL;
+		return SymbolTable.NIL;
 	}
 
 	public Exp parseString() throws LexException {

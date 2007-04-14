@@ -1,11 +1,14 @@
 package org.lispin.jlispin.test.core;
 
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.InStream;
 import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Lex;
 import org.lispin.jlispin.core.LexException;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
+import org.lispin.jlispin.core.ParseException;
+import org.lispin.jlispin.core.Parser;
 import org.lispin.jlispin.core.StringInStream;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
@@ -91,5 +94,27 @@ public class LexTest extends TestCase {
 		
 	}
 
+	private void excerciseListParsing(String toParse) throws LexException, ParseException {
+		SymbolTable table = new SymbolTable();
+		InStream input = new UngettableInStream( new StringInStream(toParse));
+		Parser parser = new Parser(table, input);
+		Exp result = parser.read();
+		assertEquals(toParse, result.toString());
+	}
 
+	
+	public void testLists1() throws Exception {
+		excerciseListParsing("(1 2 3)"); 
+		excerciseListParsing("(1 (2) 3)"); 
+		excerciseListParsing("(1 (2) 3 (4 (5 (6))))"); 		
+
+		excerciseListParsing("(1 . 2)"); 
+		excerciseListParsing("(1 . (2 . 3))");	
+		
+		excerciseListParsing("(\"a\" 1.2 30000 foo)"); 
+		excerciseListParsing("(\"a\" 1.2 30000 foo (1 . (2 . 3)))"); 
+		excerciseListParsing("(\"a\" 1.2 30000 foo (1 . (2 . 3)) (1 (2) 3 (4 (5 (6)))))");		
+	}
+
+	
 }

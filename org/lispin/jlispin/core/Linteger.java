@@ -8,4 +8,5 @@ public class Linteger extends Exp {
 	public Linteger(int i) {
 		_value = i;
 	}
+
 }

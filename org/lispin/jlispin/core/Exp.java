@@ -12,5 +12,18 @@ public abstract class Exp {
 	}
 	
 	public abstract Object getJavaValue();
+	
+	public String toString() {
+		return getJavaValue().toString();
+	}
 
+    //-----------------------
+	
+	public boolean isNil() {
+		return this == SymbolTable.NIL;
+	}
+	
+	protected String cdrToString() {
+		return " . " + cdrToString();
+	}
 }

@@ -11,5 +11,10 @@ public class Lstring extends Exp {
 	public Object getJavaValue() {
 		return _value;
 	}
+	
+	public String toString() {
+		return "\"" + _value + "\"";
+	}
+
 
 }
