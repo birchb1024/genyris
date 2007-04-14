@@ -28,7 +28,7 @@ public class Lex {
 			ch = _input.lgetc();
 			if (ch <= '9' && ch >= '0') {
 				collect = 10 * collect + (ch - '0'); // FIXME integer
-														// overflow
+				// overflow
 			}
 			else {
 				_input.unGet(ch);
@@ -50,7 +50,7 @@ public class Lex {
 			ch = _input.lgetc();
 			if (ch >= '0' && ch <= '9') {
 				collect = collect + (ch - '0') / power; // FIXME integer
-														// overflow
+				// overflow
 				power = power * 10;
 			}
 			else {
@@ -185,18 +185,16 @@ public class Lex {
 					return parseIdent();
 				}
 
-				case COMMENTCHAR :
-					while( _input.hasData()) {
-						ch = _input.lgetc();
-						if( ch == '\n' ) {
-							break;
-						}							
+			case COMMENTCHAR:
+				while (_input.hasData()) {
+					ch = _input.lgetc();
+					if (ch == '\n') {
+						break;
 					}
-					break;
+				}
+				break;
 
-				
-				
-			case '"' :
+			case '"':
 				_input.unGet(ch);
 				return parseString();
 
@@ -277,80 +275,77 @@ public class Lex {
 				// return;
 				//
 				//
-				default:
-						_input.unGet(ch);
-						return parseIdent();
+			default:
+				_input.unGet(ch);
+				return parseIdent();
 
 				// cursym = c_ident();
 				// return;
 				// }
 				// else {
 				// c_warn_header("Ignoring Illegal Character", linecount);
-				//		                fprintf(consoleStderr,"Ignoring Illegal Character: %d %c\n",ch, ch);
-				//		            }
-				//			 }
+				// fprintf(consoleStderr,"Ignoring Illegal Character: %d
+				// %c\n",ch, ch);
+				// }
+				// }
 			}
 		} while (forever);
 		return Symbol.NIL;
 	}
 
-public Exp parseString() {
-	return null;
-}
-//		EXP LispinLex::c_string()
-//		{
-//		int i=0;
-//		char string[LEN_STRING] = "";
-//		EXP first = NIL;
-//		EXP tmp = NIL,last = NIL;
-//
-//			while( (ch = input.lgetc()) != '"') {
-//				if( ch == ((int)EOF))
-//					break;
-//				if( ch == '\134') {
-//					int ch2;
-//
-//					ch2 = input.lgetc();
-//					if( ch2 == EOF) break;
-//					switch( ch2) {
-//						case 'n' : ch = '\n'; break;
-//						case 'r' : ch = '\r'; break;
-//						case 't' : ch = '\t'; break;
-//						case 'f' : ch = '\f'; break;
-//						case '"' : ch = '\"'; break;
-//						case 'e' : ch = '\033'; break;
-//						case '\134' : ch = '\134'; break; /* ? */
-//						default: ch = ch2; /* ungetc(ch2,input); */ break;
-//					}
-//				}
-//				if( i < LEN_STRING -1)
-//					string[i++] = (char)ch;
-//				else {
-//					string[i] = 0;
-//					tmp = newbscell(newscell(string));
-//					tmp->reg.zpair.zcdr = NIL;
-//					if( first == NIL )  {
-//						first = tmp;
-//						last = tmp;
-//					}
-//					last->reg.zpair.zcdr = tmp;
-//					last = tmp;
-//					i = 0;
-//					string[i++] = (char)ch;
-//				}
-//			}
-//			string[i] = 0;
-//			if( first == NIL ) {
-//				first = newscell(string);
-//			}
-//			else if( i != 0 ) {
-//				tmp = newbscell(newscell(string));
-//				tmp->reg.zpair.zcdr = NIL;
-//				last->reg.zpair.zcdr = tmp;
-//			}
-//			return( first );
-//		
+	public Exp parseString() throws LexException {
 
+		char ch;
+		String collect = "";
 
+		if (!_input.hasData()) {
+			throw new LexException("empty string");
+		}
+		ch = _input.lgetc();
+		if (ch != '\"') {
+			throw new LexException("malformed string");
+		}
+		while (_input.hasData()) {
+			ch = _input.lgetc();
+			if (ch == '"') {
+				break;
+			}
+			else {
+				if (ch == '\\') {
+					if (!_input.hasData())
+						throw new LexException("unexpected end of file");
+					char ch2 = _input.lgetc();
+					switch (ch2) {
+					case 'n':
+						ch = '\n';
+						break;
+					case 'r':
+						ch = '\r';
+						break;
+					case 't':
+						ch = '\t';
+						break;
+					case 'f':
+						ch = '\f';
+						break;
+					case '"':
+						ch = '\"';
+						break;
+					case 'e':
+						ch = '\033';
+						break;
+					case '\\':
+						ch = '\\';
+						break;
+					default:
+						ch = ch2;
+						break;
+					}
+				}
+				collect += ch;
+			}
+		}
+		return new Lstring(collect);
+	}
 
 }

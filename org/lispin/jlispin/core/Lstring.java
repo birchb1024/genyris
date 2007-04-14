@@ -1,0 +1,15 @@
+package org.lispin.jlispin.core;
+
+public class Lstring extends Exp {
+	
+	String _value;
+
+	public Lstring(String str) {
+		_value = str;
+	}
+
+	public Object getJavaValue() {
+		return _value;
+	}
+
+}

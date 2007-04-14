@@ -5,6 +5,7 @@ import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Lex;
 import org.lispin.jlispin.core.LexException;
 import org.lispin.jlispin.core.Linteger;
+import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.StringInStream;
 import org.lispin.jlispin.core.Symbol;
 import org.lispin.jlispin.core.SymbolTable;
@@ -26,7 +27,7 @@ public class LexTest extends TestCase {
 		assertEquals(((Double)expected.getJavaValue()).doubleValue(), ((Double)lexer.nextToken().getJavaValue()).doubleValue(), 0.00001);		
 	}
 
-	private void excerciseNextTokenSym(Exp expected, String toparse) throws LexException {
+	private void excerciseNextTokenExp(Exp expected, String toparse) throws LexException {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
 		assertEquals(expected, lexer.nextToken());		
 	}
@@ -53,20 +54,31 @@ public class LexTest extends TestCase {
 
 	public void testLexIdent1() throws Exception {
 
-		excerciseNextTokenSym(new Symbol("foo"), "foo");
-		excerciseNextTokenSym(new Symbol("foo*bar"), "foo\\*bar");
-		excerciseNextTokenSym(new Symbol("quux"), "\n\nquux");
-		excerciseNextTokenSym(new Symbol("|123|"), "  \t|123|");
+		excerciseNextTokenExp(new Symbol("foo"), "foo");
+		excerciseNextTokenExp(new Symbol("foo*bar"), "foo\\*bar");
+		excerciseNextTokenExp(new Symbol("quux"), "\n\nquux");
+		excerciseNextTokenExp(new Symbol("|123|"), "  \t|123|");
 
 	}
 	public void testLexIdentMinus() throws Exception {
-		excerciseNextTokenSym(new Symbol("-f"), "-f");
-		excerciseNextTokenSym(new Symbol("--"), "--");
+		excerciseNextTokenExp(new Symbol("-f"), "-f");
+		excerciseNextTokenExp(new Symbol("--"), "--");
 	}
 	public void testLexCommentStrip() throws Exception {
-		excerciseNextTokenSym(new Symbol("X"), "X ; foo");
-		excerciseNextTokenSym(new Symbol("Y"), "; stripped \nY");
-		excerciseNextTokenSym(new Linteger(12), "   \n\t\f      ; stripped \n12");
+		excerciseNextTokenExp(new Symbol("X"), "X ; foo");
+		excerciseNextTokenExp(new Symbol("Y"), "; stripped \nY");
+		excerciseNextTokenExp(new Linteger(12), "   \n\t\f      ; stripped \n12");
 		}
+
+
+	public void testLexString() throws Exception {
+		excerciseNextTokenExp(new Lstring("str"), "\"str\"");
+		excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
+		excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
+		excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
+		excerciseNextTokenExp(new Lstring("\n\t\f\r\\"), "\"\n\t\f\r\\\\\"");
+		excerciseNextTokenExp(new Lstring("a1-"), "\"\\a\\1\\-\"");
+	}
+
 
 }
