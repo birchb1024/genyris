@@ -2,7 +2,7 @@ package org.lispin.jlispin.test.core;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.Interpreter;
+import org.lispin.jlispin.interp.Interpreter;
 
 
 public class TestInterpreter extends TestCase {

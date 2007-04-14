@@ -3,7 +3,7 @@ package org.lispin.jlispin.core;
 public class Lsymbol extends Exp {
 	
 	private String _printName;
-	private Exp _symbolValue;
+
 	private static int nextgensym = 0;
 	
 	public Lsymbol(String newSym) {
@@ -19,7 +19,7 @@ public class Lsymbol extends Exp {
     	return _printName.hashCode();
     }
 
-	public Object getPrintName() { 
+	public String getPrintName() { 
 		return _printName; 
 	}
 	public Object getJavaValue() { 
@@ -29,15 +29,11 @@ public class Lsymbol extends Exp {
 	protected String cdrToString() {
 		if( this == SymbolTable.NIL ) 
 			return "";
-		return " . " + cdrToString();
+		return " . " + toString();
+	}
+	
+	public boolean isSelfEvaluating() {
+		return false;
 	}
 
-	public Exp set(Exp valu) {
-		_symbolValue = valu;
-		return valu;
-	}
-
-	public Exp get() {
-		return _symbolValue;
-	}
 }

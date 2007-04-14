@@ -16,6 +16,14 @@ public class Lcons extends Exp {
 		return result;
 	}
 	
+	public Exp car() {
+		return _car;
+	}
+
+	public Exp cdr() {
+		return _cdr;
+	}
+	
 	protected String cdrToString() {
 
 		return " " + _car.toString() + _cdr.cdrToString();			
@@ -26,4 +34,7 @@ public class Lcons extends Exp {
 		return "(" + _car.toString() + _cdr.cdrToString() + ")";
 	}
 
+	public boolean isSelfEvaluating() {
+		return false;
+	}
 }

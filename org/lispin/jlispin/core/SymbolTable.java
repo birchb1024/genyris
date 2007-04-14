@@ -14,12 +14,16 @@ public class SymbolTable {
 	public static Exp rightParen;
 	public static Exp period;
 	public static Exp EOF;
+	public static Exp lambda;
+	public static Exp lambdaq;
 	
 	public SymbolTable() {
 		_table = new HashMap();
 		leftParen = internString("leftParen");
 		rightParen = internString("righParen");
 		period = internString("period");
+		lambda = internString("lambda");
+		lambdaq = internString("lambdaq");
 		EOF = internString("EOF");
 		NIL = internString("nil");
 		T = internString("t");
@@ -37,6 +41,17 @@ public class SymbolTable {
 			_table.put(newSym, sym);
 			return sym; 
 		}
+	}
+
+
+	public void intern(Exp newSym) throws Exception {
+		if( _table.containsKey(((Lsymbol)newSym).getPrintName())) {
+			throw new Exception("Can't intern symbol - already exists.");
+		}
+		else {
+			_table.put(((Lsymbol)newSym).getPrintName(), newSym);
+		}
+		
 	}
 
 }
