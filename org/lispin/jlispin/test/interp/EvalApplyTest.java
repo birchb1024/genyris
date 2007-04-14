@@ -33,12 +33,13 @@ public class EvalApplyTest extends TestCase {
 		env.defineVariable(new Lsymbol("cons"), new BuiltInCons());
 		env.defineVariable(SymbolTable.quote, SymbolTable.quote);
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
-		env.defineVariable(new Lsymbol("alpha"), new Linteger(23));
-		env.defineVariable(new Lsymbol("bravo"), new Linteger(45));
+		Environment env2 = new Environment(env);
+		env2.defineVariable(new Lsymbol("alpha"), new Linteger(23));
+		env2.defineVariable(new Lsymbol("bravo"), new Linteger(45));
 		InStream input = new UngettableInStream( new StringInStream(exp));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
-		Exp result = env.eval(expression);
+		Exp result = env2.eval(expression);
 		assertEquals(expected, result.toString());
 	}
 	
@@ -62,5 +63,16 @@ public class EvalApplyTest extends TestCase {
 	public void testLambda2() throws Exception {		
 		excerciseEval("((lambda (x) (cons x x)) 23)", "(23 . 23)");
 		excerciseEval("((lambda (x y) (cons x y)) 5 nil)", "(5)");
+		excerciseEval("((lambda (x y) (quote x)) 23 45)", "x");
 	}
+	public void testSequence() throws Exception {		
+		excerciseEval("((lambda (x) (cons x x) (cons 3 4)) 23)", "(3 . 4)");
+		excerciseEval("((lambda (x y) (cons x x) (cons y x)) 23 45)", "(45 . 23)");
+	}
+
+	public void testSet() throws Exception {		
+		excerciseEval("((lambda (x) (setq x 99) (cons x x)) 23)", "(99 . 99)");
+	}
+
+
 }
