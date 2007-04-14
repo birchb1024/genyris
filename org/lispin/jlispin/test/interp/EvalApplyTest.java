@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.InStream;
+import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.Parser;
 import org.lispin.jlispin.core.StringInStream;
@@ -32,6 +33,8 @@ public class EvalApplyTest extends TestCase {
 		env.defineVariable(new Lsymbol("cons"), new BuiltInCons());
 		env.defineVariable(SymbolTable.quote, SymbolTable.quote);
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
+		env.defineVariable(new Lsymbol("alpha"), new Linteger(23));
+		env.defineVariable(new Lsymbol("bravo"), new Linteger(45));
 		InStream input = new UngettableInStream( new StringInStream(exp));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
@@ -39,8 +42,18 @@ public class EvalApplyTest extends TestCase {
 		assertEquals(expected, result.toString());
 	}
 	
+	public void testLambdaVariables() throws Exception {		
+		excerciseEval("alpha", "23");
+		excerciseEval("bravo", "45");
+		excerciseEval("(quote alpha)", "alpha");
+		excerciseEval("(cons alpha bravo)", "(23 . 45)");
+		excerciseEval("(cons alpha (cons bravo nil))", "(23 45)");
+		}
+
 	public void testLambdaBuitins() throws Exception {		
 		excerciseEval("(cons 4 5)", "(4 . 5)");
+		excerciseEval("(cons 4 (cons 5 nil))", "(4 5)");
+		excerciseEval("(cons 4 nil)", "(4)");
 		excerciseEval("(quote 99)", "99");
 		excerciseEval("(quote (34)))", "(34)");
 		excerciseEval("(quote (foo)))", "(foo)");
