@@ -6,6 +6,6 @@ public class Ldouble extends Exp {
 	
 	public Ldouble(double d) {_value = d;}
 	
-	public Object getValue() { return new Double(_value); }
+	public Object getJavaValue() { return new Double(_value); }
 
 }

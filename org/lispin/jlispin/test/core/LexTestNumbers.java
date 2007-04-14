@@ -6,24 +6,26 @@ import junit.framework.TestCase;
 
 public class LexTestNumbers extends TestCase {
 	
+	public SymbolTable _table = new SymbolTable();
+	
 	private int excerciseParseDecimalNumber(String input) throws LexException
 	{
-		return new Lex(new UngettableInStream( new StringInStream(input))).parseDecimalNumber();
+		return new Lex(new UngettableInStream( new StringInStream(input)), _table).parseDecimalNumber();
 	}
 	private double excerciseParseDecimalFraction(String input) throws LexException
 	{
-		return new Lex(new UngettableInStream( new StringInStream(input))).parseDecimalFraction();
+		return new Lex(new UngettableInStream( new StringInStream(input)), _table).parseDecimalFraction();
 	}
 	private int excerciseParseNumberInt(String input) throws LexException
 	{
-		Exp result =  new Lex(new UngettableInStream( new StringInStream(input))).parseNumber();
-		return ((Integer) result.getValue()).intValue();
+		Exp result =  new Lex(new UngettableInStream( new StringInStream(input)), _table).parseNumber();
+		return ((Integer) result.getJavaValue()).intValue();
 	}
 
 	private double excerciseParseNumberDouble(String input) throws LexException
 	{
-		Exp result =  new Lex(new UngettableInStream( new StringInStream(input))).parseNumber();
-		return ((Double) result.getValue()).doubleValue();
+		Exp result =  new Lex(new UngettableInStream( new StringInStream(input)), _table).parseNumber();
+		return ((Double) result.getJavaValue()).doubleValue();
 	}
 
 	public void testParseDecimalNumber1() throws Exception {

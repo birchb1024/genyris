@@ -4,13 +4,13 @@ public abstract class Exp {
 	
 	public boolean equals(Object compare) {
 		if( compare.getClass() == this.getClass()) {
-			return this.getValue() == ((Exp)compare).getValue();
+			return this.getJavaValue().equals(((Exp)compare).getJavaValue());
 		}
 		else {
 			return false;
 		}
 	}
 	
-	public abstract Object getValue();
+	public abstract Object getJavaValue();
 
 }

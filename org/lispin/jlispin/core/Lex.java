@@ -2,11 +2,19 @@ package org.lispin.jlispin.core;
 
 public class Lex {
 
-	private InStream _input;
-	private int linecount = 0;
+	private static final char COMMENTCHAR = ';';
 
-	public Lex(InStream inputSource) {
+	private static final char BQUOTECHAR = '`';
+
+	private static final char QUOTECHAR = '\'';
+
+	private InStream _input;
+
+	private SymbolTable _symbolTable;
+
+	public Lex(InStream inputSource, SymbolTable symbolTable) {
 		_input = inputSource;
+		_symbolTable = symbolTable;
 	}
 
 	public int parseDecimalNumber() throws LexException {
@@ -19,7 +27,8 @@ public class Lex {
 		while (_input.hasData()) {
 			ch = _input.lgetc();
 			if (ch <= '9' && ch >= '0') {
-				collect = 10 * collect + (ch - '0'); // FIXME integer overflow
+				collect = 10 * collect + (ch - '0'); // FIXME integer
+														// overflow
 			}
 			else {
 				_input.unGet(ch);
@@ -40,7 +49,8 @@ public class Lex {
 		while (_input.hasData()) {
 			ch = _input.lgetc();
 			if (ch >= '0' && ch <= '9') {
-				collect = collect + (ch - '0') / power; // FIXME integer overflow
+				collect = collect + (ch - '0') / power; // FIXME integer
+														// overflow
 				power = power * 10;
 			}
 			else {
@@ -67,7 +77,7 @@ public class Lex {
 			_input.unGet(nextChar);
 		leading = parseDecimalNumber();
 		if (!this._input.hasData()) {
-			return new Linteger(sign*leading);
+			return new Linteger(sign * leading);
 		}
 		nextChar = _input.lgetc();
 		double fraction = 0;
@@ -100,127 +110,178 @@ public class Lex {
 		}
 
 	}
-	
-///*
-//public Exp nextToken()
-//	{
-//		char ch;
-//
-//		boolean forever = true;
-//		   do{
-//		      ch = _input.lgetc();
-//		      switch( ch ) {
-//		         case '\f':
-//		         case '\n':
-//		            linecount++;
-//		         case '\t':
-//		         case ' ':
-//		         case '\r':
-//		            break;
-//				 case '-' :
-//		            ch = _input.lgetc();
-//					if( ch >='0' && ch <= '9') {
-//						_input.unGet('-');
-//						_input.unGet(ch);						
-//		 				return parseNumber();
-//					}
-//					else {
-//						_input.unGet('-');
-//						_input.unGet(ch);	
-//						return c_ident();
-//					}
-//					break;
-//
-//				 case '"' :
-//					cursym = c_string();
-//					return;
-//
-//		         case '0' : case '1' : case '2' : case '3' : case '4' :
-//		         case '5' : case '6' : case '7' : case '8' : case '9' :
-//		            cursym = c_number((int)1);
-//		            return;
-//
-//				 case '(' : cursym = lpar; return;
-//				 case ')' : cursym = rpar; return;
-//				 case '.' : cursym = period; return;
-//				 case QUOTECHAR : cursym = raw_quote; return;
-//				 case BQUOTECHAR : cursym = back_quote; return;
-//				 case FUNCCHAR : {
-//		            ch = input.lgetc();
-//					if( ch == '\'' ) {
-//						cursym = raw_func;
-//		            	return;
-//					}
-//					else if( ch == USERCHAR2 ) {
-//						cursym = raw_uchar2;
-//		            	return;
-//					}
-//					else if( ch == USERCHAR1 ) {
-//		            	cursym = raw_uchar1;
-//		            	return;
-//		            }
-//				 	else if( ch == '|' )
-//				 	{
-//						do {
-//						   ch = input.lgetc();
-//						   if( ch == '|' )
-//						   {
-//							   ch = input.lgetc();
-//							   if( ch == '#') // comment ended
-//								{
-//									break;;
-//								}
-//							}
-//						} while( ch != ((int)EOF) );
-//						break;
-//		            }
-//					else {
-//						input.lungetc(ch);
-//						ch = FUNCCHAR;
-//		                cursym = c_ident();
-//		            	return;
-//					}
-//				}
-//				break;
-//
-//				 case COMMACHAR : {
-//		            ch = input.lgetc();
-//					if( ch == ATCHAR ) {
-//						cursym = raw_comma_at;
-//					}
-//					else {
-//		           		input.lungetc(ch);
-//						ch = COMMACHAR;
-//						cursym = raw_comma;
-//					}
-//				 }
-//				 return;
-//
-//
-//				 case COMMENTCHAR :
-//					do {  /* strip comments */
-//		               ch = input.lgetc();
-//		            } while( ch != '\n' && ch != ((int)EOF) );
-//		            input.lungetc(ch); /* comment line are counted */
-//		            break;
-//
-//		         case EOF :
-//					cursym = beof;
-//		            return;
-//
-//
-//		         default:
-//		            if( (ch >= ' ') && (ch <= '~') ) {
-//		                ch = tolower(ch);
-//		                cursym = c_ident();
-//		                return;
-//		            }
-//		            else {
-//		                c_warn_header("Ignoring Illegal Character", linecount);
-//		                fprintf(consoleStderr,"Ignoring Illegal Character: %d %c\n",ch, ch);
-//		            }
-//			 }
-//			 } while( forever );
-//	}
-//	*/
+
+	// predicate
+	private boolean isIdentCharacter(char c) {
+
+		switch (c) {
+
+		case '\f':
+		case '\n':
+		case '\t':
+		case ' ':
+		case '\r':
+		case '(':
+		case ')':
+		case COMMENTCHAR:
+		case BQUOTECHAR:
+		case QUOTECHAR:
+		case '"':
+			return false;
+
+		default:
+			return true;
+
+		}
+	}
+
+	public Exp parseIdent() throws LexException {
+		char ch;
+		String collect = "";
+
+		if (!_input.hasData()) {
+			throw new LexException("unexpected end of file");
+		}
+
+		while (_input.hasData()) {
+			ch = _input.lgetc();
+			if (isIdentCharacter(ch)) {
+				if (ch == '\\')
+					ch = _input.lgetc();
+				collect += ch;
+			}
+		}
+		return _symbolTable.internString(collect);
+	}
+
+	public Exp nextToken() throws LexException {
+		char ch;
+
+		boolean forever = true;
+		do {
+			ch = _input.lgetc();
+			switch (ch) {
+			case '\f':
+			case '\n':
+			case '\t':
+			case ' ':
+			case '\r':
+				break;
+			case '-':
+				ch = _input.lgetc();
+				if (ch >= '0' && ch <= '9') {
+					_input.unGet(ch);
+					_input.unGet('-');
+
+					return parseNumber();
+				}
+				else {
+					_input.unGet(ch);
+					_input.unGet('-');
+					return parseIdent();
+				}
+
+			// case '"' :
+			// _input.unGet(ch);
+			// return c_string();
+
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				_input.unGet(ch);
+				return parseNumber();
+
+				// case '(' : return lpar;
+				// case ')' : return rpar;
+				// case '.' : return period;
+				// case QUOTECHAR : return raw_quote;
+				// case BQUOTECHAR :return back_quote;
+				// case FUNCCHAR : {
+				// ch = input.lgetc();
+				// if( ch == '\'' ) {
+				// cursym = raw_func;
+				// return;
+				// }
+				// else if( ch == USERCHAR2 ) {
+				// cursym = raw_uchar2;
+				// return;
+				// }
+				// else if( ch == USERCHAR1 ) {
+				// cursym = raw_uchar1;
+				// return;
+				// }
+				// else if( ch == '|' )
+				// {
+				// do {
+				// ch = input.lgetc();
+				// if( ch == '|' )
+				// {
+				// ch = input.lgetc();
+				// if( ch == '#') // comment ended
+				// {
+				// break;;
+				// }
+				// }
+				// } while( ch != ((int)EOF) );
+				// break;
+				// }
+				// else {
+				// input.lungetc(ch);
+				// ch = FUNCCHAR;
+				// cursym = c_ident();
+				// return;
+				// }
+				// }
+				// break;
+				//
+				// case COMMACHAR : {
+				// ch = input.lgetc();
+				// if( ch == ATCHAR ) {
+				// cursym = raw_comma_at;
+				// }
+				// else {
+				// input.lungetc(ch);
+				// ch = COMMACHAR;
+				// cursym = raw_comma;
+				// }
+				// }
+				// return;
+				//
+				//
+				// case COMMENTCHAR :
+				// do { /* strip comments */
+				// ch = input.lgetc();
+				// } while( ch != '\n' && ch != ((int)EOF) );
+				// input.lungetc(ch); /* comment line are counted */
+				// break;
+				//
+				// case EOF :
+				// cursym = beof;
+				// return;
+				//
+				//
+				default:
+						_input.unGet(ch);
+						return parseIdent();
+
+				// cursym = c_ident();
+				// return;
+				// }
+				// else {
+				// c_warn_header("Ignoring Illegal Character", linecount);
+				//		                fprintf(consoleStderr,"Ignoring Illegal Character: %d %c\n",ch, ch);
+				//		            }
+				//			 }
+			}
+		} while (forever);
+		return Symbol.NIL;
+	}
+
 }
