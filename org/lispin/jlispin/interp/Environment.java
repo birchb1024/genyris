@@ -71,6 +71,10 @@ public class Environment {
 		else if( isFirstSymbol(expression, SymbolTable.lambda) ) {
 			return new Procedure(this, expression);
 		}
+		else if( isFirstSymbol(expression, SymbolTable.quote) ) {
+			
+			return expression.cdr().car();
+		}
 		else if( expression.listp() ) { 
 			Exp proc = eval(expression.car());
 			Exp[] arguments = this.evalExpressionList(expression.cdr());

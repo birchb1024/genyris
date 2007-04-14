@@ -4,9 +4,7 @@ import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.InStream;
-import org.lispin.jlispin.core.LexException;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.ParseException;
 import org.lispin.jlispin.core.Parser;
 import org.lispin.jlispin.core.StringInStream;
 import org.lispin.jlispin.core.SymbolTable;
@@ -32,6 +30,7 @@ public class EvalApplyTest extends TestCase {
 		Environment env = new Environment(null);
 		SymbolTable table = new SymbolTable();
 		env.defineVariable(new Lsymbol("cons"), new BuiltInCons());
+		env.defineVariable(SymbolTable.quote, SymbolTable.quote);
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		InStream input = new UngettableInStream( new StringInStream(exp));
 		Parser parser = new Parser(table, input);
@@ -40,6 +39,13 @@ public class EvalApplyTest extends TestCase {
 		assertEquals(expected, result.toString());
 	}
 	
+	public void testLambdaBuitins() throws Exception {		
+		excerciseEval("(cons 4 5)", "(4 . 5)");
+		excerciseEval("(quote 99)", "99");
+		excerciseEval("(quote (34)))", "(34)");
+		excerciseEval("(quote (foo)))", "(foo)");
+		}
+
 	public void testLambda2() throws Exception {		
 		excerciseEval("((lambda (x) (cons x x)) 23)", "(23 . 23)");
 		excerciseEval("((lambda (x y) (cons x y)) 5 nil)", "(5)");
