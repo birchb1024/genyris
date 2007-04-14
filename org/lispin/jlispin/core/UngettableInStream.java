@@ -3,35 +3,48 @@ package org.lispin.jlispin.core;
 public class UngettableInStream implements InStream {
 
 		private InStream _input;
-		private boolean _ungetCharPresent; 
-		private char _ungetChar; 	
+		private char[] _ungetChars; 	
+		private int _readPointer;
+		
+
+		public UngettableInStream(InStream aStream, int size) {
+			_input = aStream;
+			_ungetChars = new char[size];
+			_readPointer = -1;
+		}
 		
 		public UngettableInStream(InStream aStream) {
 			_input = aStream;
-			_ungetCharPresent = false;
+			_ungetChars = new char[10];
+			_readPointer = -1;		}
+
+		private boolean bufferEmpty() {
+			return _readPointer < 0;
 		}
-		
+		private boolean bufferFull() {
+			return _readPointer >= _ungetChars.length - 1 ;
+		}
+
 		public boolean hasData() {
-			return _ungetCharPresent || _input.hasData();
+			return !bufferEmpty() || _input.hasData();
 		}
 		
 		public char lgetc() {
-			if( _ungetCharPresent ) {
-				_ungetCharPresent = false;
-				return _ungetChar;
+			if( bufferEmpty() ) {
+				return _input.lgetc();
 			}
 			else {
-				return _input.lgetc();
+				return _ungetChars[_readPointer--];
 			}
 		}
 
 		public void unGet(char x) throws LexException {
-			if( _ungetCharPresent ) {
-				throw new LexException("TODO");
+			if( bufferFull() ) {
+				throw new LexException("too many characters pushed back on ungettable stream");
 			}
 			else {
-				_ungetCharPresent = true;
-				_ungetChar = x;
+				_readPointer++;
+				_ungetChars[_readPointer] = x;
 			}
 		}
 }
