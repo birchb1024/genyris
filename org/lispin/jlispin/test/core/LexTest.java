@@ -114,6 +114,7 @@ public class LexTest extends TestCase {
 		excerciseListParsing("(\"a\" 1.2 30000 foo)"); 
 		excerciseListParsing("(\"a\" 1.2 30000 foo (1 . (2 . 3)))"); 
 		excerciseListParsing("(\"a\" 1.2 30000 foo (1 . (2 . 3)) (1 (2) 3 (4 (5 (6)))))");		
+		excerciseListParsing("(defun my-func (x) (cons x x))");	
 	}
 
 	
