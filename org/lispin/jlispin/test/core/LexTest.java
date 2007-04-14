@@ -60,10 +60,13 @@ public class LexTest extends TestCase {
 
 	}
 	public void testLexIdentMinus() throws Exception {
-
 		excerciseNextTokenSym(new Symbol("-f"), "-f");
 		excerciseNextTokenSym(new Symbol("--"), "--");
-
 	}
+	public void testLexCommentStrip() throws Exception {
+		excerciseNextTokenSym(new Symbol("X"), "X ; foo");
+		excerciseNextTokenSym(new Symbol("Y"), "; stripped \nY");
+		excerciseNextTokenSym(new Linteger(12), "   \n\t\f      ; stripped \n12");
+		}
 
 }

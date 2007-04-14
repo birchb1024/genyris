@@ -150,6 +150,10 @@ public class Lex {
 					ch = _input.lgetc();
 				collect += ch;
 			}
+			else {
+				_input.unGet(ch);
+				break;
+			}
 		}
 		return _symbolTable.internString(collect);
 	}
@@ -181,9 +185,20 @@ public class Lex {
 					return parseIdent();
 				}
 
-			// case '"' :
-			// _input.unGet(ch);
-			// return c_string();
+				case COMMENTCHAR :
+					while( _input.hasData()) {
+						ch = _input.lgetc();
+						if( ch == '\n' ) {
+							break;
+						}							
+					}
+					break;
+
+				
+				
+			case '"' :
+				_input.unGet(ch);
+				return parseString();
 
 			case '0':
 			case '1':
@@ -255,12 +270,7 @@ public class Lex {
 				// return;
 				//
 				//
-				// case COMMENTCHAR :
-				// do { /* strip comments */
-				// ch = input.lgetc();
-				// } while( ch != '\n' && ch != ((int)EOF) );
-				// input.lungetc(ch); /* comment line are counted */
-				// break;
+
 				//
 				// case EOF :
 				// cursym = beof;
@@ -283,5 +293,64 @@ public class Lex {
 		} while (forever);
 		return Symbol.NIL;
 	}
+
+public Exp parseString() {
+	return null;
+}
+//		EXP LispinLex::c_string()
+//		{
+//		int i=0;
+//		char string[LEN_STRING] = "";
+//		EXP first = NIL;
+//		EXP tmp = NIL,last = NIL;
+//
+//			while( (ch = input.lgetc()) != '"') {
+//				if( ch == ((int)EOF))
+//					break;
+//				if( ch == '\134') {
+//					int ch2;
+//
+//					ch2 = input.lgetc();
+//					if( ch2 == EOF) break;
+//					switch( ch2) {
+//						case 'n' : ch = '\n'; break;
+//						case 'r' : ch = '\r'; break;
+//						case 't' : ch = '\t'; break;
+//						case 'f' : ch = '\f'; break;
+//						case '"' : ch = '\"'; break;
+//						case 'e' : ch = '\033'; break;
+//						case '\134' : ch = '\134'; break; /* ? */
+//						default: ch = ch2; /* ungetc(ch2,input); */ break;
+//					}
+//				}
+//				if( i < LEN_STRING -1)
+//					string[i++] = (char)ch;
+//				else {
+//					string[i] = 0;
+//					tmp = newbscell(newscell(string));
+//					tmp->reg.zpair.zcdr = NIL;
+//					if( first == NIL )  {
+//						first = tmp;
+//						last = tmp;
+//					}
+//					last->reg.zpair.zcdr = tmp;
+//					last = tmp;
+//					i = 0;
+//					string[i++] = (char)ch;
+//				}
+//			}
+//			string[i] = 0;
+//			if( first == NIL ) {
+//				first = newscell(string);
+//			}
+//			else if( i != 0 ) {
+//				tmp = newbscell(newscell(string));
+//				tmp->reg.zpair.zcdr = NIL;
+//				last->reg.zpair.zcdr = tmp;
+//			}
+//			return( first );
+//		
+
+
 
 }
