@@ -84,6 +84,10 @@ public class Lex {
 		if (nextChar == '.') {
 			fraction = parseDecimalFraction();
 		}
+		else {
+			_input.unGet(nextChar);
+			return new Linteger(sign * leading);
+		}
 
 		double floatingValue = sign * (leading + fraction);
 
@@ -106,7 +110,7 @@ public class Lex {
 		}
 		else {
 			_input.unGet(nextChar);
-			return (new Linteger(sign * leading));
+			return (new Ldouble(floatingValue));
 		}
 
 	}
@@ -276,21 +280,16 @@ public class Lex {
 				//
 				//
 			default:
-				_input.unGet(ch);
-				return parseIdent();
-
-				// cursym = c_ident();
-				// return;
-				// }
-				// else {
-				// c_warn_header("Ignoring Illegal Character", linecount);
-				// fprintf(consoleStderr,"Ignoring Illegal Character: %d
-				// %c\n",ch, ch);
-				// }
-				// }
+				if( (ch >= ' ') && (ch <= '~') ) {
+					_input.unGet(ch);
+					return parseIdent();
+				}
+				else {
+					throw new LexException("invalid input character");
+				}
 			}
 		} while (forever);
-		return Symbol.NIL;
+		return Lsymbol.NIL;
 	}
 
 	public Exp parseString() throws LexException {

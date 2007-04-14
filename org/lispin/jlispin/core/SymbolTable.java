@@ -20,7 +20,7 @@ public class SymbolTable {
 			return (Exp) _table.get(newSym);
 		}
 		else {
-			Symbol sym = new Symbol(newSym);
+			Lsymbol sym = new Lsymbol(newSym);
 			_table.put(newSym, sym);
 			return sym; 
 		}

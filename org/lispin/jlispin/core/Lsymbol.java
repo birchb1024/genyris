@@ -1,11 +1,11 @@
 package org.lispin.jlispin.core;
 
-public class Symbol extends Exp {
+public class Lsymbol extends Exp {
 	
-	public static final Symbol NIL = null;
+	public static final Lsymbol NIL = null;
 	private String _printName;
 	
-	public Symbol(String newSym) {
+	public Lsymbol(String newSym) {
 		_printName = newSym;
 	}
 	

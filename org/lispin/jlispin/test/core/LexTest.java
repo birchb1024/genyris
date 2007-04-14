@@ -7,7 +7,7 @@ import org.lispin.jlispin.core.LexException;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.StringInStream;
-import org.lispin.jlispin.core.Symbol;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.UngettableInStream;
 
@@ -54,19 +54,19 @@ public class LexTest extends TestCase {
 
 	public void testLexIdent1() throws Exception {
 
-		excerciseNextTokenExp(new Symbol("foo"), "foo");
-		excerciseNextTokenExp(new Symbol("foo*bar"), "foo\\*bar");
-		excerciseNextTokenExp(new Symbol("quux"), "\n\nquux");
-		excerciseNextTokenExp(new Symbol("|123|"), "  \t|123|");
+		excerciseNextTokenExp(new Lsymbol("foo"), "foo");
+		excerciseNextTokenExp(new Lsymbol("foo*bar"), "foo\\*bar");
+		excerciseNextTokenExp(new Lsymbol("quux"), "\n\nquux");
+		excerciseNextTokenExp(new Lsymbol("|123|"), "  \t|123|");
 
 	}
 	public void testLexIdentMinus() throws Exception {
-		excerciseNextTokenExp(new Symbol("-f"), "-f");
-		excerciseNextTokenExp(new Symbol("--"), "--");
+		excerciseNextTokenExp(new Lsymbol("-f"), "-f");
+		excerciseNextTokenExp(new Lsymbol("--"), "--");
 	}
 	public void testLexCommentStrip() throws Exception {
-		excerciseNextTokenExp(new Symbol("X"), "X ; foo");
-		excerciseNextTokenExp(new Symbol("Y"), "; stripped \nY");
+		excerciseNextTokenExp(new Lsymbol("X"), "X ; foo");
+		excerciseNextTokenExp(new Lsymbol("Y"), "; stripped \nY");
 		excerciseNextTokenExp(new Linteger(12), "   \n\t\f      ; stripped \n12");
 		}
 
@@ -78,6 +78,17 @@ public class LexTest extends TestCase {
 		excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
 		excerciseNextTokenExp(new Lstring("\n\t\f\r\\"), "\"\n\t\f\r\\\\\"");
 		excerciseNextTokenExp(new Lstring("a1-"), "\"\\a\\1\\-\"");
+	}
+	
+	public void testCombination1() throws Exception {
+		Lex lexer = new Lex(new UngettableInStream( new StringInStream("int 12 double\n 12.34\r\n -12.34e5 \"string\" ")), _table);
+		assertEquals(new Lsymbol("int"), lexer.nextToken());				
+		assertEquals(new Linteger(12), lexer.nextToken());					
+		assertEquals(new Lsymbol("double"), lexer.nextToken());					
+		assertEquals(new Ldouble(12.34), lexer.nextToken());					
+		assertEquals(new Ldouble(-12.34e5), lexer.nextToken());	
+		assertEquals(new Lstring("string"), lexer.nextToken());	
+		
 	}
 
 
