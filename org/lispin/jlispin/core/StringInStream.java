@@ -9,11 +9,16 @@ public class StringInStream implements InStream {
 		_value = astring.toCharArray();
 		_readPointer = 0;
 	}
+
+	public boolean hasData() {
+		return this._readPointer <_value.length;
+	}
+	
 	public char lgetc() {
 		return _value[_readPointer++];
 	}
 
-	public  void lungetc(char x) throws LexException {
+	public  void unGet(char x) throws LexException {
 		throw new LexException("TODO");
 
 	}

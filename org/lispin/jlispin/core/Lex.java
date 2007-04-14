@@ -3,113 +3,100 @@ package org.lispin.jlispin.core;
 public class Lex {
 
 	private InStream _input;
-	private char ch;
-	
+
 	public Lex(InStream inputSource) {
 		_input = inputSource;
-		ch = 0;
 	}
 
-	public Exp nextsym() {
-		return null;
-	}
+	public int parseDecimalNumber() throws LexException {
+		int collect = 0;
+		char ch;
 
-	public static double lpower(double x, int y) {
-		// Raise a number to an integer power.
-		double ret = 1.0;
-
-		if (y >= 0) {
-			while (y > 0) {
-				ret *= x;
-				y -= 1;
+		if (!_input.hasData()) {
+			throw new LexException("unexpected end of file");
+		}
+		while (_input.hasData()) {
+			ch = _input.lgetc();
+			if (ch <= '9' && ch >= '0') {
+				collect = 10 * collect + (ch - '0'); // FIXME integer overflow
 			}
-		} else { /* -ve power so divide */
-			while (y < 0) {
-				ret /= x;
-				y += 1;
+			else {
+				_input.unGet(ch);
+				return collect;
 			}
 		}
-		return (ret);
+		return collect;
 	}
-	
-	public int asciiToInt( char x ) throws LexException
-	{
 
-	  	if( x <= '9' && x >= '0' ) {
-	      return( x - '0' );
+	public double parseDecimalFraction() throws LexException {
+		double collect = 0;
+		double power = 10;
+		char ch;
+
+		if (!_input.hasData()) {
+			throw new LexException("unexpected end of file");
 		}
-	  	else {
-			if( x == '.') {
-	     		_input.lungetc(x);
-	   	   		return( 888 ); /* This must be a float ! */
-	  		}
-	   		else {
-				if( x == 'e' || x == 'E') {
-	      			_input.lungetc(x);
-	      			return( 999 ); /* This must be a mantissa ! */
-	   			}
-	   			else {
-	     			_input.lungetc(x);
-	      			return( 100 );  /* ie return value is > 9 */
-	   			}
+		while (_input.hasData()) {
+			ch = _input.lgetc();
+			if (ch >= '0' && ch <= '9') {
+				collect = collect + (ch - '0') / power; // FIXME integer overflow
+				power = power * 10;
+			}
+			else {
+				_input.unGet(ch);
+				return collect;
 			}
 		}
+		return collect;
 	}
 
-	Exp parseNumber(int sign) throws LexException
-	{
-	int d;
-	int leading = 0;
-	int mantissa = 0;
-	int mant_sign = 1;
-	double trailing = 0.0;
-	double place = 0.1;
-	boolean itsafloat = false;
+	public Exp parseNumber() throws LexException {
+		int leading = 0;
+		int mantissa = 0;
+		int mant_sign = 1;
+		int sign = 1;
 
+		char nextChar;
 
-	   d = asciiToInt( ch );
-	   do {
-	      leading = 10*leading + d;
-	      ch = _input.lgetc();
-	      d = asciiToInt(ch);
-	   } while( d < 10 );
+		nextChar = _input.lgetc();
+		if (nextChar == '-') {
+			sign = -1;
+		}
+		else
+			_input.unGet(nextChar);
+		leading = parseDecimalNumber();
+		if (!this._input.hasData()) {
+			return new Linteger(sign*leading);
+		}
+		nextChar = _input.lgetc();
+		double fraction = 0;
+		if (nextChar == '.') {
+			fraction = parseDecimalFraction();
+		}
 
-	   if( d == 888) { /* parse the fractional part of a float */
-			itsafloat = true;
-	          ch = _input.lgetc();   /* skip the '.' */
-	          ch = _input.lgetc();
-	          while
-	          ( (d = asciiToInt( ch )) < 10) {
-	               trailing = trailing + d*place;
-	               place = place/10.0;
-	               ch = _input.lgetc();
-	          }
-	   }
+		double floatingValue = sign * (leading + fraction);
 
-	   if( d == 999) { /* parse the mantissa part of a float */
-	          ch = _input.lgetc();   /* skip the 'e' */
-	          ch = _input.lgetc();
-	          if( ch == '-' ) {
-	               mant_sign = -1;
-	               ch = _input.lgetc();
-	          }
-	          while( (d = asciiToInt( ch )) < 10) {
-	               mantissa = mantissa*10 + d;
-	               ch = _input.lgetc();
-	          }
+		if (!_input.hasData()) {
+			return (new Ldouble(floatingValue));
+		}
+		nextChar = _input.lgetc();
+		if (nextChar == 'e') {
+			nextChar = _input.lgetc();
+			if (nextChar == '-') {
+				mant_sign = -1;
+			}
+			else {
+				_input.unGet(nextChar);
+			}
+			mantissa = parseDecimalNumber();
+			double mantissaRaised = Math.pow(10, mant_sign * mantissa);
 
-	   }
-	   if( itsafloat ) {
-	          /* must be floating-point */
-		double lp = lpower(10, mant_sign*mantissa);
+			return (new Ldouble(floatingValue * mantissaRaised));
+		}
+		else {
+			_input.unGet(nextChar);
+			return (new Linteger(sign * leading));
+		}
 
-	          return( new Ldouble(sign*(leading+trailing)*lp));
-	   }
-	   else {
-	          /* must be a round integer */
-	          return( new Linteger(sign*leading));
-	   }
 	}
-	
-	
 }

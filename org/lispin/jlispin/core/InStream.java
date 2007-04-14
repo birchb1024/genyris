@@ -2,7 +2,8 @@ package org.lispin.jlispin.core;
 
 public interface InStream {
 
-	void lungetc(char x) throws LexException;
+	void unGet(char x) throws LexException;
 	char lgetc();
+	public boolean hasData();
 
 }

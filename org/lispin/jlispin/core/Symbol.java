@@ -1,7 +1,11 @@
 package org.lispin.jlispin.core;
 
-public class Symbol implements Exp {
+public class Symbol extends Exp {
 	
 	public static final Symbol NIL = null;
+	
+	public Object getValue() { return null; // TODO 
+		}
+	
 
 }
