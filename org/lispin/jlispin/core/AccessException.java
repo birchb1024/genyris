@@ -1,9 +1,11 @@
 package org.lispin.jlispin.core;
 
-public class AccessException extends Exception {
+import org.lispin.jlispin.interp.LispinException;
+
+public class AccessException extends LispinException {
 
 	public AccessException(String string) {
-		// TODO Auto-generated constructor stub
+		super(string);
 	}
 
 }

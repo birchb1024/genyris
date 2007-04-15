@@ -10,15 +10,19 @@ import org.lispin.jlispin.core.Parser;
 import org.lispin.jlispin.core.StringInStream;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.UngettableInStream;
-import org.lispin.jlispin.interp.ApplyCons;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.builtin.ConsFunction;
+import org.lispin.jlispin.interp.builtin.DefineFunction;
+import org.lispin.jlispin.interp.builtin.QuoteFunction;
+import org.lispin.jlispin.interp.builtin.SetFunction;
 
 public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
 		Environment env = new Environment(null);
-		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ApplyCons()));
+		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		SymbolTable table = new SymbolTable();
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
 		Parser parser = new Parser(table, input);
@@ -31,11 +35,13 @@ public class EvalApplyTest extends TestCase {
 	void excerciseEval(String exp, String expected) throws Exception {
 		Environment env = new Environment(null);
 		SymbolTable table = new SymbolTable();
-		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ApplyCons()));
-		env.defineVariable(SymbolTable.quote, SymbolTable.quote);
+		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ConsFunction()));
+		env.defineVariable(new Lsymbol("quote"), new LazyProcedure(env, null, new QuoteFunction()));
+		env.defineVariable(new Lsymbol("define"), new EagerProcedure(env, null, new DefineFunction()));
+		env.defineVariable(new Lsymbol("set"), new EagerProcedure(env, null, new SetFunction()));
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		Environment env2 = new Environment(env);
-		env2.defineVariable(new Lsymbol("alpha"), new Linteger(23));
+		env2.defineVariable(table.internString("alpha"), new Linteger(23));
 		env2.defineVariable(new Lsymbol("bravo"), new Linteger(45));
 		InStream input = new UngettableInStream( new StringInStream(exp));
 		Parser parser = new Parser(table, input);
@@ -66,14 +72,22 @@ public class EvalApplyTest extends TestCase {
 		excerciseEval("((lambda (x y) (cons x y)) 5 nil)", "(5)");
 		excerciseEval("((lambda (x y) (quote x)) 23 45)", "x");
 	}
+	public void testLambdaq1() throws Exception {		
+		excerciseEval("((lambdaq (s) (cons 1 s)) foo)", "(1 . foo)");
+		excerciseEval("((lambdaq (s) (cons 1 s)) (cons foo bar))", "(1 cons foo bar)");
+	}
+
 	public void testSequence() throws Exception {		
 		excerciseEval("((lambda (x) (cons x x) (cons 3 4)) 23)", "(3 . 4)");
 		excerciseEval("((lambda (x y) (cons x x) (cons y x)) 23 45)", "(45 . 23)");
 	}
 
-	public void testSet() throws Exception {		
-		excerciseEval("((lambda (x) (setq x 99) (cons x x)) 23)", "(99 . 99)");
+	public void testDefine() throws Exception {		
+		excerciseEval("((lambda () (define (quote charlie) 99) charlie))", "99");
 	}
 
-
+	public void testSet() throws Exception {		
+		excerciseEval("(set (quote alpha) 99)", "99");
+		excerciseEval("((lambda (x) (set (quote x) 99) (cons x x)) 23)", "(99 . 99)");
+	}
 }

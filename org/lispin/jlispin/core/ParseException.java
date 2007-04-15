@@ -1,9 +1,11 @@
 package org.lispin.jlispin.core;
 
-public class ParseException extends Exception {
+import org.lispin.jlispin.interp.LispinException;
+
+public class ParseException extends LispinException {
 
 		public ParseException(String string) {
-			// TODO Auto-generated constructor stub
+			super(string);
 		}
 
 	}

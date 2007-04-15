@@ -48,8 +48,10 @@ public abstract class Exp {
 	
 	public int length() throws AccessException {
 		Exp tmp = this;
-		int count = 1;
-		while((tmp = tmp.cdr()) != SymbolTable.NIL) {
+		int count = 0;
+		
+		while(tmp != SymbolTable.NIL) {
+			tmp = tmp.cdr();
 			count++;
 		}
 		return count;

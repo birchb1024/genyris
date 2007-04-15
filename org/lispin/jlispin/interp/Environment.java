@@ -42,7 +42,7 @@ public class Environment {
 			throw new UnboundException("unbound: " + symbol.toString());
 		}
 		else {
-			setVariableValue(symbol, valu);
+			_parent.setVariableValue(symbol, valu);
 		}
 	}
 
@@ -58,34 +58,30 @@ public class Environment {
 			return false;
 	}
 	
-	public Exp eval(Exp expression) throws Exception {
+	public Exp eval(Exp expression) throws UnboundException, AccessException, LispinException {
 		if( expression.isSelfEvaluating()) {
 			return expression;
 		}
 		else if( expression.getClass() == Lsymbol.class) {
 			return lookupVariableValue(expression);
 		}
-		else if( isFirstSymbol(expression, SymbolTable.lambdaq) ) { // TODO just bind in globa env
+		else if( isFirstSymbol(expression, SymbolTable.lambdaq) ) { 
 			return new LazyProcedure(this, expression, new ApplicationWithNewEnv());
 		}
-		else if( isFirstSymbol(expression, SymbolTable.lambda) ) { // TODO just bind in globa env
+		else if( isFirstSymbol(expression, SymbolTable.lambda) ) { 
 			return new EagerProcedure(this, expression,  new ApplicationWithNewEnv());
-		}
-		else if( isFirstSymbol(expression, SymbolTable.quote) ) { // TODO just bind in globa env
-			
-			return expression.cdr().car();
 		}
 		else if( expression.listp() ) { 
 			Procedure proc = (Procedure) eval(expression.car());
-			Exp[] arguments = proc.computeArguments(this, expression.cdr()); // proc may not eval all args
-			return proc.getApplyStyle().apply(proc, this, arguments );
+			Exp[] arguments = proc.computeArguments(this, expression.cdr());
+			return proc.applyFunction(this, arguments );
 		}
 
 		else 
 			return SymbolTable.NIL;
 	}
 
-	Exp evalSequence(Exp body) throws Exception {
+	Exp evalSequence(Exp body) throws LispinException {
 		if( body.cdr() == SymbolTable.NIL) {
 			return this.eval(body.car());
 		}

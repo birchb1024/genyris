@@ -6,39 +6,14 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 
-public class LazyProcedure extends Exp implements Procedure {
-	// I do not evaluate my arguments before being applied.
-	
-	Environment _env;
-	Exp _lambdaExpression;
-	final Applicable _howToApply;
+public class LazyProcedure extends Procedure {
+	// I DO NOT evaluate my arguments before being applied.
 
-	public LazyProcedure(Environment environment, Exp expression, Applicable appl) {
-		_howToApply = appl;
-		_env = environment;
-		_lambdaExpression = expression;
+	public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) {
+		super( environment,  expression,  appl);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.lispin.jlispin.interp.Procedure#getArgument(int)
-	 */
-	public Exp getArgument(int i) throws AccessException {
-		return _lambdaExpression.cdr().car().nth(i);
-	}
-
-	public Object getJavaValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.lispin.jlispin.interp.Procedure#getBody()
-	 */
-	public Exp getBody() throws AccessException {
-		return _lambdaExpression.cdr().cdr();
-	}
-
-	public Exp[] computeArguments(Environment env, Exp exp) throws Exception {
+	public Exp[] computeArguments(Environment env, Exp exp) throws AccessException {
 		return makeExpArrayFromList(exp);
 	}
 
@@ -51,10 +26,6 @@ public class LazyProcedure extends Exp implements Procedure {
 			result[i] = exp.car();
 		}
 		return result;
-	}
-
-	public Applicable getApplyStyle() {
-		return _howToApply;
 	}
 
 

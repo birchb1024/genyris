@@ -1,6 +1,5 @@
 package org.lispin.jlispin.core;
 
-import java.io.IOException;
 
 public interface InStream {
 

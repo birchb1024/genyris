@@ -1,9 +1,11 @@
 package org.lispin.jlispin.core;
 
-public class LexException extends Exception {
+import org.lispin.jlispin.interp.LispinException;
+
+public class LexException extends LispinException {
 
 	public LexException(String string) {
-		// TODO Auto-generated constructor stub
+		super(string);
 	}
 
 }

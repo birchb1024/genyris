@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
 
-public class ApplicationWithNewEnv extends Applicable {
+public class ApplicationWithNewEnv extends ApplicableFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws Exception { // TODO 
+	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException  { 
 
 		Map bindings = new HashMap();
 		for( int i=0 ; i< arguments.length ; i++ ) {
