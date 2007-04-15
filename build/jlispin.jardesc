@@ -4,7 +4,7 @@
 <options buildIfNeeded="true" compress="true" descriptionLocation="/JLispin/build/jlispin.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
-<manifest generateManifest="true" mainClassHandleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp{MainReadEvalPrintLoop.java[MainReadEvalPrintLoop" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<manifest generateManifest="true" mainClassHandleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp{ClassicReadEvalPrintLoop.java[ClassicReadEvalPrintLoop" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
 <sealing sealJar="false">
 <packagesToSeal/>
 <packagesToUnSeal/>
@@ -16,7 +16,8 @@
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.core"/>
 <file path="/JLispin/.project"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
 <file path="/JLispin/.classpath"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp.builtin"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
 </selectedElements>
 </jardesc>

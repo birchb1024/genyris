@@ -20,10 +20,10 @@ public class LazyProcedure extends Procedure {
 	private Exp[] makeExpArrayFromList(Exp exp) throws AccessException {
 		int i = 0;
 		Exp[] result = new Exp[exp.length()];
-		result[i] = exp.car();
-		while( (exp = exp.cdr()) != SymbolTable.NIL) {
-			i++;
+		while( exp.listp()) {
 			result[i] = exp.car();
+			exp = exp.cdr();
+			i++;
 		}
 		return result;
 	}

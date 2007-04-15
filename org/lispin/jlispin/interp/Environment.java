@@ -81,7 +81,7 @@ public class Environment {
 			return SymbolTable.NIL;
 	}
 
-	Exp evalSequence(Exp body) throws LispinException {
+	public Exp evalSequence(Exp body) throws LispinException {
 		if( body.cdr() == SymbolTable.NIL) {
 			return this.eval(body.car());
 		}

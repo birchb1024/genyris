@@ -13,6 +13,7 @@ import org.lispin.jlispin.core.UngettableInStream;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
 import org.lispin.jlispin.interp.builtin.QuoteFunction;
@@ -39,7 +40,9 @@ public class EvalApplyTest extends TestCase {
 		env.defineVariable(new Lsymbol("quote"), new LazyProcedure(env, null, new QuoteFunction()));
 		env.defineVariable(new Lsymbol("define"), new EagerProcedure(env, null, new DefineFunction()));
 		env.defineVariable(new Lsymbol("set"), new EagerProcedure(env, null, new SetFunction()));
+		env.defineVariable(new Lsymbol("cond"), new LazyProcedure(env, null, new ConditionalFunction()));
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
+		env.defineVariable(SymbolTable.T, SymbolTable.T);
 		Environment env2 = new Environment(env);
 		env2.defineVariable(table.internString("alpha"), new Linteger(23));
 		env2.defineVariable(new Lsymbol("bravo"), new Linteger(45));
@@ -90,4 +93,13 @@ public class EvalApplyTest extends TestCase {
 		excerciseEval("(set (quote alpha) 99)", "99");
 		excerciseEval("((lambda (x) (set (quote x) 99) (cons x x)) 23)", "(99 . 99)");
 	}
+	
+	public void testCond() throws Exception {		
+		excerciseEval("(cond)", "nil");
+		excerciseEval("(cond (t 2))", "2");
+		excerciseEval("(cond (nil 2))", "nil");
+		excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2)))", "(1 . 2)");
+		excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2) 44))", "44");
+		}
+
 }
