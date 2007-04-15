@@ -65,59 +65,34 @@ public class Environment {
 		else if( expression.getClass() == Lsymbol.class) {
 			return lookupVariableValue(expression);
 		}
-		else if( isFirstSymbol(expression, SymbolTable.lambdaq) ) {
-			return new Procedure(this, expression);
+		else if( isFirstSymbol(expression, SymbolTable.lambdaq) ) { // TODO just bind in globa env
+			return new LazyProcedure(this, expression, new ApplicationWithNewEnv());
 		}
-		else if( isFirstSymbol(expression, SymbolTable.lambda) ) {
-			return new Procedure(this, expression);
+		else if( isFirstSymbol(expression, SymbolTable.lambda) ) { // TODO just bind in globa env
+			return new EagerProcedure(this, expression,  new ApplicationWithNewEnv());
 		}
-		else if( isFirstSymbol(expression, SymbolTable.quote) ) {
+		else if( isFirstSymbol(expression, SymbolTable.quote) ) { // TODO just bind in globa env
 			
 			return expression.cdr().car();
 		}
 		else if( expression.listp() ) { 
-			Exp proc = eval(expression.car());
-			Exp[] arguments = this.evalExpressionList(expression.cdr());
-			return apply(proc, arguments );
+			Procedure proc = (Procedure) eval(expression.car());
+			Exp[] arguments = proc.computeArguments(this, expression.cdr()); // proc may not eval all args
+			return proc.getApplyStyle().apply(proc, this, arguments );
 		}
 
 		else 
 			return SymbolTable.NIL;
 	}
-	private Exp apply(Exp proc, Exp[] arguments) throws Exception { // TODO 
-		if( BuiltInProcedure.class.isInstance(proc) ) {
-			return ((BuiltInProcedure)proc).apply(this, arguments);
-		}
-		else if(Procedure.class.isInstance(proc)) {
-			Map bindings = new HashMap();
-			for( int i=0 ; i< arguments.length ; i++ ) {
-				bindings.put(((Procedure) proc).getArgument(i), arguments[i]);
-			}
-			Environment newEnv = new Environment(this, bindings);
-			return evalSequence(((Procedure) proc).getBody() , newEnv);
-		}
-		else {
-			throw new Exception("don't know how to apply kind of this prcedure");
-		}
-	}
-	private static Exp evalSequence(Exp body, Environment env) throws Exception {
+
+	Exp evalSequence(Exp body) throws Exception {
 		if( body.cdr() == SymbolTable.NIL) {
-			return env.eval(body.car());
+			return this.eval(body.car());
 		}
 		else {
-			env.eval(body.car());
-			return evalSequence(body.cdr() ,env);
+			this.eval(body.car());
+			return this.evalSequence(body.cdr());
 		}
-	}
-	private Exp[] evalExpressionList(Exp exp) throws Exception {
-		int i = 0;
-		Exp[] result = new Exp[exp.length()];
-		result[i] = eval(exp.car());
-		while( (exp = exp.cdr()) != SymbolTable.NIL) {
-			i++;
-			result[i] = eval(exp.car());
-		}
-		return result;
 	}
 
 }

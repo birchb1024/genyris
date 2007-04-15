@@ -11,5 +11,5 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 	}
 	
-
+	
 }

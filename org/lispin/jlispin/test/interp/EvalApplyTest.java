@@ -10,14 +10,15 @@ import org.lispin.jlispin.core.Parser;
 import org.lispin.jlispin.core.StringInStream;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.UngettableInStream;
-import org.lispin.jlispin.interp.BuiltInCons;
+import org.lispin.jlispin.interp.ApplyCons;
+import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 
 public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
 		Environment env = new Environment(null);
-		env.defineVariable(new Lsymbol("cons"), new BuiltInCons());
+		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ApplyCons()));
 		SymbolTable table = new SymbolTable();
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
 		Parser parser = new Parser(table, input);
@@ -30,7 +31,7 @@ public class EvalApplyTest extends TestCase {
 	void excerciseEval(String exp, String expected) throws Exception {
 		Environment env = new Environment(null);
 		SymbolTable table = new SymbolTable();
-		env.defineVariable(new Lsymbol("cons"), new BuiltInCons());
+		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ApplyCons()));
 		env.defineVariable(SymbolTable.quote, SymbolTable.quote);
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		Environment env2 = new Environment(env);
