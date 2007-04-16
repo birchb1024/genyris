@@ -103,6 +103,7 @@ public class LexTest extends TestCase {
 	}
 
 	
+	
 	public void testLists1() throws Exception {
 		excerciseListParsing("(1 2 3)"); 
 		excerciseListParsing("(1 (2) 3)"); 
@@ -117,5 +118,30 @@ public class LexTest extends TestCase {
 		excerciseListParsing("(defun my-func (x) (cons x x))");	
 	}
 
+	private void excerciseSpecialParsing(String toParse, String expected) throws LexException, ParseException {
+		SymbolTable table = new SymbolTable();
+		InStream input = new UngettableInStream( new StringInStream(toParse));
+		Parser parser = new Parser(table, input);
+		Exp result = parser.read();
+		assertEquals(expected, result.toString());
+	}
+
+	public void testSpecialLexQuote() throws Exception {
+		excerciseSpecialParsing("'a", "(quote a)"); 
+		excerciseSpecialParsing("'12.34", "(quote 12.34)"); 
+		excerciseSpecialParsing("'\"str\"", "(quote \"str\")"); 
+		excerciseSpecialParsing("'(1 2)", "(quote (1 2))"); 
+		excerciseSpecialParsing("'(1 . 2)", "(quote (1 . 2))"); 
+	}
+
+	public void testSpecialLexBackQuote() throws Exception {
+		excerciseSpecialParsing("(`a)", "(backquote a)"); 
+		excerciseSpecialParsing("(`12.34)", "(backquote 12.34)"); 
+		excerciseSpecialParsing("(`\"str\")", "(backquote \"str\")"); 
+		excerciseSpecialParsing("(`(1 2))", "(backquote (1 2))"); 
+		excerciseSpecialParsing("(`(1 . 2))", "(backquote (1 . 2))"); 
+		excerciseSpecialParsing("(``(1 . 2))", "(backquote backquote (1 . 2))"); 
+		excerciseSpecialParsing("(`(1 . 2)`)", "(backquote (1 . 2) backquote)"); 
+		}
 	
 }

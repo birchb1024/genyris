@@ -19,6 +19,8 @@ public class SymbolTable {
 	public static Exp lambda;
 	public static Exp lambdaq;
 	public static Exp quote;
+	public static Exp raw_quote;
+	public static Exp backquote;
 	
 	public SymbolTable() {
 		_table = new HashMap();
@@ -28,6 +30,8 @@ public class SymbolTable {
 		lambda = internString("lambda");
 		lambdaq = internString("lambdaq");
 		quote = internString("quote");
+		raw_quote = internString("'");
+		backquote = internString("backquote");
 		EOF = internString("EOF");
 		NIL = internString("nil");
 		T = internString("t");

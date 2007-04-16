@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-<jar path="/home/birchb/workspace/JLispin/build-output/jlispin.jar"/>
-<options buildIfNeeded="true" compress="true" descriptionLocation="/JLispin/build/jlispin.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
-<storedRefactorings deprecationInfo="true" structuralOnly="false"/>
-<selectedProjects/>
-<manifest generateManifest="true" mainClassHandleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp{ClassicReadEvalPrintLoop.java[ClassicReadEvalPrintLoop" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
-<sealing sealJar="false">
-<packagesToSeal/>
-<packagesToUnSeal/>
-</sealing>
-</manifest>
-<selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.core"/>
-<file path="/JLispin/.hgignore"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.core"/>
-<file path="/JLispin/.project"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp"/>
-<file path="/JLispin/.classpath"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp.builtin"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
-</selectedElements>
+    <jar path="/home/birchb/workspace/JLispin/build-output/jlispin.jar"/>
+    <options overwrite="true" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/JLispin/build/jlispin.jardesc" useSourceFolders="false" buildIfNeeded="true" includeDirectoryEntries="false" storeRefactorings="false"/>
+    <storedRefactorings structuralOnly="false" deprecationInfo="true"/>
+    <selectedProjects/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="" mainClassHandleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp{ClassicReadEvalPrintLoop.java[ClassicReadEvalPrintLoop">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportOutputFolder="false" exportJavaFiles="true">
+        <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.core"/>
+        <file path="/JLispin/.hgignore"/>
+        <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.core"/>
+        <file path="/JLispin/.project"/>
+        <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp"/>
+        <file path="/JLispin/.classpath"/>
+        <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
+        <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp.builtin"/>
+    </selectedElements>
 </jardesc>

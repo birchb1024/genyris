@@ -64,13 +64,13 @@ public class Parser {
 			}
 	   }
 
+		   else if( cursym == SymbolTable.raw_quote ) {
+			  nextsym();
+			  tree = new Lcons( SymbolTable.quote, new Lcons( parseExpression(), SymbolTable.NIL) );
+		   }
 //		   else lif( equal( cursym, rpar ) ) {
 //		      serr("unexpected )");
 //		      tree = NIL;
-//		   }
-//		   else if( cursym == raw_quote ) {
-//			  nextsym();
-//			  tree = cons( quote, cons( c_s_exp(), NIL) );
 //		   }
 //		   else if( cursym == back_quote ) {
 //			  nextsym();
