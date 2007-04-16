@@ -65,11 +65,14 @@ public class Environment {
 		else if( expression.getClass() == Lsymbol.class) {
 			return lookupVariableValue(expression);
 		}
+		else if( isFirstSymbol(expression, SymbolTable.lambdam) ) { 
+			return new LazyProcedure(this, expression, new MacroFunction());
+		}
 		else if( isFirstSymbol(expression, SymbolTable.lambdaq) ) { 
-			return new LazyProcedure(this, expression, new ApplicationWithNewEnv());
+			return new LazyProcedure(this, expression, new ClassicFunction());
 		}
 		else if( isFirstSymbol(expression, SymbolTable.lambda) ) { 
-			return new EagerProcedure(this, expression,  new ApplicationWithNewEnv());
+			return new EagerProcedure(this, expression,  new ClassicFunction());
 		}
 		else if( expression.listp() ) { 
 			Procedure proc = (Procedure) eval(expression.car());

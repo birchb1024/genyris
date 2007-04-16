@@ -31,8 +31,10 @@ public class ComplexInterpreterTests extends TestCase {
 	public void testExcerciseEval() throws Exception {
 		excerciseEval("(define (quote foo) 23)", "23");
 		excerciseEval("foo", "23");		
-		
 	}
 
+	public void testMacro() throws Exception {
+		excerciseEval("((lambdam (x) (quote (cons 12 2))) 99)", "(12 . 2)");
+	}
 
 }

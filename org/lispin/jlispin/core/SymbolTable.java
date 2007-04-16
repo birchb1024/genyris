@@ -18,9 +18,11 @@ public class SymbolTable {
 	public static Exp EOF;
 	public static Exp lambda;
 	public static Exp lambdaq;
+	public static Exp lambdam;
 	public static Exp quote;
 	public static Exp raw_quote;
 	public static Exp backquote;
+
 	
 	public SymbolTable() {
 		_table = new HashMap();
@@ -29,6 +31,7 @@ public class SymbolTable {
 		period = internString("period");
 		lambda = internString("lambda");
 		lambdaq = internString("lambdaq");
+		lambdam = internString("lambdam");
 		quote = internString("quote");
 		raw_quote = internString("'");
 		backquote = internString("backquote");

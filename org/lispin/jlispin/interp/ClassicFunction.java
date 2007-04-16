@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
 
-public class ApplicationWithNewEnv extends ApplicableFunction {
+public class ClassicFunction extends ApplicableFunction {
 
 	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException  { 
 
