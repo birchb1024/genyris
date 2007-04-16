@@ -4,9 +4,12 @@ import org.lispin.jlispin.core.Exp;
 
 public class MacroFunction extends ClassicFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException  { 
+	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment env) throws LispinException  { 
 
-		return env.eval(super.apply( proc, env, arguments));
+		return proc.getEnv().eval(super.bindAndExecute( proc, arguments, null));
+	}
+	public String getName() {
+		return "anonymous macro";
 	}
 
 	public Object getJavaValue() {

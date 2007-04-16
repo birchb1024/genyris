@@ -5,11 +5,11 @@ import org.lispin.jlispin.core.SymbolTable;
 public class Lex {
 
 	private static final char COMMENTCHAR = ';';
-
 	private static final char BQUOTECHAR = '`';
-
 	private static final char QUOTECHAR = '\'';
-
+	private static final char COMMACHAR = ',';
+	private static final char ATCHAR = '@';
+	
 	private InStream _input;
 
 	private SymbolTable _symbolTable;
@@ -228,6 +228,17 @@ public class Lex {
 		    case '.' : return SymbolTable.period;
 		    case QUOTECHAR : return SymbolTable.raw_quote;
 		    case BQUOTECHAR :return SymbolTable.backquote;
+			case COMMACHAR : {
+				 ch = _input.lgetc();
+				 if( ch == ATCHAR ) {
+					 return SymbolTable.raw_comma_at;
+				 }
+				 else {
+					 _input.unGet(ch);
+					 ch = COMMACHAR;
+					 return SymbolTable.raw_comma;
+				 }
+			 }
 				// case FUNCCHAR : {
 				// ch = input.lgetc();
 				// if( ch == '\'' ) {
@@ -266,16 +277,6 @@ public class Lex {
 				// }
 				// break;
 				//
-				// case COMMACHAR : {
-				// ch = input.lgetc();
-				// if( ch == ATCHAR ) {
-				// cursym = raw_comma_at;
-				// }
-				// else {
-				// input.lungetc(ch);
-				// ch = COMMACHAR;
-				// cursym = raw_comma;
-				// }
 				// }
 				// return;
 				//

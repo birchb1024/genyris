@@ -22,6 +22,11 @@ public class SymbolTable {
 	public static Exp quote;
 	public static Exp raw_quote;
 	public static Exp backquote;
+	public static Exp raw_comma_at;
+	public static Exp raw_comma;
+	public static Exp comma;
+	public static Exp comma_at;
+
 
 	
 	public SymbolTable() {
@@ -34,6 +39,10 @@ public class SymbolTable {
 		lambdam = internString("lambdam");
 		quote = internString("quote");
 		raw_quote = internString("'");
+		raw_comma_at = internString(",@");
+		raw_comma = internString(",");
+		comma_at = internString("comma-at"); // TODO - is this right?
+		comma = internString("comma");
 		backquote = internString("backquote");
 		EOF = internString("EOF");
 		NIL = internString("nil");

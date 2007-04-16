@@ -27,7 +27,7 @@ public class Environment {
 			return (Exp)_frame.get(symbol);
 		}
 		else if(_parent == null) {
-			throw new UnboundException("unbound: " + symbol.toString());
+			throw new UnboundException("unbound variable: " + symbol.toString());
 		}
 		else {
 			return _parent.lookupVariableValue(symbol);
@@ -91,6 +91,15 @@ public class Environment {
 		else {
 			this.eval(body.car());
 			return this.evalSequence(body.cdr());
+		}
+	}
+	
+	public String toString() {
+		if( _parent != null ) {
+			return _parent.toString() + "/" + _frame.toString();
+		}
+		else {
+			return "/" + _frame.toString();			
 		}
 	}
 

@@ -9,7 +9,7 @@ import org.lispin.jlispin.interp.Procedure;
 
 public class ConditionalFunction extends ApplicableFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException {
+	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment env) throws LispinException {
 
 		for(int i= 0; i < arguments.length; i++) {
 			Exp condition = env.eval(arguments[i].car()); // TODO check if it exists?
@@ -19,7 +19,6 @@ public class ConditionalFunction extends ApplicableFunction {
 		}
 		return SymbolTable.NIL;
 	}
-	
 	public Object getJavaValue() {
 		return "<the cond builtin function>";
 	}

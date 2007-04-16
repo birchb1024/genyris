@@ -9,7 +9,7 @@ import org.lispin.jlispin.interp.Procedure;
 
 public class ConsFunction extends ApplicableFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException {
+	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
 		if( arguments.length < 2)
 			throw new LispinException("Too few arguments to cons: " + arguments.length);
 		return new Lcons(arguments[0], arguments[1]);

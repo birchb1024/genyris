@@ -8,7 +8,7 @@ import org.lispin.jlispin.interp.Procedure;
 
 public class CdrFunction extends ApplicableFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException {
+	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
 		if( arguments.length != 1)
 			throw new LispinException("Too many or few arguments to car: " + arguments.length);
 		return arguments[0].cdr();

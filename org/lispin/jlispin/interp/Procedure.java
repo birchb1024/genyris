@@ -2,25 +2,29 @@ package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.SymbolTable;
 
 public abstract class Procedure extends Exp {
 	
 	Environment _env;
 	Exp _lambdaExpression;
-	final ApplicableFunction _howToApply;
+	final ApplicableFunction _functionToApply;
 
 	public Procedure(Environment environment, Exp expression, ApplicableFunction appl) {
 		_env = environment;
 		_lambdaExpression = expression;
-		_howToApply = appl;
+		_functionToApply = appl;
 	}
 	
-	public Exp getArgument(int i) throws AccessException {
-		return _lambdaExpression.cdr().car().nth(i);
+	public Exp getArgument(int index) throws AccessException {
+		if( getNumberOfRequiredArguments() <= index)
+			return SymbolTable.NIL; // ignore extra arguments 
+		else
+			return _lambdaExpression.cdr().car().nth(index);
 	}
 
 	public Object getJavaValue() {
-		return "<procedure>";
+		return "<" + _functionToApply.getName() + ">";
 	}
 
 	public Exp getBody() throws AccessException {
@@ -30,11 +34,19 @@ public abstract class Procedure extends Exp {
 	public abstract Exp[] computeArguments(Environment env, Exp exp) throws LispinException;
 
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
-		return _howToApply.apply(this, environment, arguments); // double dispatch
+		return _functionToApply.bindAndExecute(this, arguments, environment); // double dispatch
 	}
 
 	public Environment getEnv() {
 		return _env;
+	}
+
+	public int getNumberOfRequiredArguments() throws AccessException {
+		return _lambdaExpression.cdr().car().length();
+	}
+
+	public String getName() {
+		return _functionToApply.getName();
 	}
 	
 }

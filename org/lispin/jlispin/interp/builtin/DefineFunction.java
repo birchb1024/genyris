@@ -8,13 +8,12 @@ import org.lispin.jlispin.interp.Procedure;
 
 public class DefineFunction extends ApplicableFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException {
+	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment env) throws LispinException {
 		if( arguments.length != 2) throw new LispinException("Incorrect number of arguments to set.");
 		env.defineVariable(arguments[0], arguments[1]);
 		
 		return arguments[1];
 	}
-	
 	public Object getJavaValue() {
 		return "<the define builtin function>";
 	}

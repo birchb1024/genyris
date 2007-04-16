@@ -8,7 +8,7 @@ import org.lispin.jlispin.interp.Procedure;
 
 public class ReplaceCarFunction extends ApplicableFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] argument) throws LispinException {
+	public Exp bindAndExecute(Procedure proc, Exp[] argument, Environment envForBindOperations) throws LispinException {
 		if( argument.length != 2)
 			throw new LispinException("Too many or few arguments to rplaca: " + argument.length);
 		return argument[0].setCar(argument[1]);

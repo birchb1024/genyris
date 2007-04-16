@@ -8,7 +8,7 @@ import org.lispin.jlispin.interp.Procedure;
 
 public class QuoteFunction extends ApplicableFunction {
 
-	public Exp apply(Procedure proc, Environment env, Exp[] arguments) throws LispinException {
+	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
 		if( arguments.length > 1)
 			throw new LispinException("Too many arguments to quote: " + arguments.length);
 		return arguments[0];

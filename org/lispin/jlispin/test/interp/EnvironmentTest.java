@@ -56,7 +56,6 @@ public class EnvironmentTest extends TestCase {
 	
 	public void testEnvEvalSelf() throws Exception {		
 		Environment env = new Environment(null);
-		Lsymbol answer = new Lsymbol("answer");
 		Linteger int42 = new Linteger(42);
 		
 		assertEquals(int42, env.eval(int42));

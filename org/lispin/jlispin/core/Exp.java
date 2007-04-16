@@ -64,15 +64,18 @@ public abstract class Exp {
 	}
 
 	public Exp nth(int number) throws AccessException {
+		if(this == SymbolTable.NIL) {
+			throw new AccessException("nth called on nil.");			
+		}
 		Exp tmp = this;
 		int count = 0;
-		do {
+		while(tmp != SymbolTable.NIL) {
 			if( count == number ) {
 				return tmp.car();
-			}
+			}			
 			tmp = tmp.cdr();
 			count++;
-		} while(tmp != SymbolTable.NIL);
+		}
 		throw new AccessException("nth could not find item: " + number);
 	}
 

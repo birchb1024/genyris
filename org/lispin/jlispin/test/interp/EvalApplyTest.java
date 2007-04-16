@@ -13,6 +13,7 @@ import org.lispin.jlispin.core.UngettableInStream;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.interp.builtin.CarFunction;
 import org.lispin.jlispin.interp.builtin.CdrFunction;
 import org.lispin.jlispin.interp.builtin.ConditionalFunction;
@@ -38,6 +39,10 @@ public class EvalApplyTest extends TestCase {
 	}
 	
 	void excerciseEval(String exp, String expected) throws Exception {
+		excerciseEval(exp, expected, "");
+	}
+
+	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
 		Environment env = new Environment(null);
 		SymbolTable table = new SymbolTable();
 		env.defineVariable(new Lsymbol("car"), new EagerProcedure(env, null, new CarFunction()));
@@ -57,8 +62,16 @@ public class EvalApplyTest extends TestCase {
 		InStream input = new UngettableInStream( new StringInStream(exp));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
-		Exp result = env2.eval(expression);
-		assertEquals(expected, result.toString());
+
+			try {
+				Exp result;
+				result = env2.eval(expression);
+				assertEquals(expected, result.toString());
+			} 
+			catch (LispinException e) {
+				assertEquals(exceptionExpected, e.getMessage());
+			}
+
 	}
 	
 	public void testLambdaVariables() throws Exception {		
@@ -83,11 +96,18 @@ public class EvalApplyTest extends TestCase {
 		excerciseEval("(quote (foo)))", "(foo)");
 		}
 
+	public void testLambdaArguments() throws Exception {		
+		excerciseEval("((lambda () (cons 44 44)) 23)", "(44 . 44)");
+		excerciseEval("((lambda (x y) (cons x x)) 23)", "(23 . 23)", "Too few arguments supplied to proc: org.lispin.jlispin.interp.ClassicFunction");
+	}
+
 	public void testLambda2() throws Exception {		
+		excerciseEval("((lambda () (cons 44 44)) 23)", "(44 . 44)");
 		excerciseEval("((lambda (x) (cons x x)) 23)", "(23 . 23)");
 		excerciseEval("((lambda (x y) (cons x y)) 5 nil)", "(5)");
 		excerciseEval("((lambda (x y) (quote x)) 23 45)", "x");
 	}
+	
 	public void testLambdaq1() throws Exception {		
 		excerciseEval("((lambdaq (s) (cons 1 s)) foo)", "(1 . foo)");
 		excerciseEval("((lambdaq (s) (cons 1 s)) (cons foo bar))", "(1 cons foo bar)");
