@@ -225,7 +225,7 @@ public class Lex {
 
 			case '(' : return SymbolTable.leftParen;
 		    case ')' : return SymbolTable.rightParen;
-				// case '.' : return period;
+		    case '.' : return SymbolTable.period;
 				// case QUOTECHAR : return raw_quote;
 				// case BQUOTECHAR :return back_quote;
 				// case FUNCCHAR : {

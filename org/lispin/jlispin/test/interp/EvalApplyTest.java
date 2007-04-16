@@ -19,6 +19,8 @@ import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
 import org.lispin.jlispin.interp.builtin.QuoteFunction;
+import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
+import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
 import org.lispin.jlispin.interp.builtin.SetFunction;
 
 public class EvalApplyTest extends TestCase {
@@ -40,6 +42,8 @@ public class EvalApplyTest extends TestCase {
 		SymbolTable table = new SymbolTable();
 		env.defineVariable(new Lsymbol("car"), new EagerProcedure(env, null, new CarFunction()));
 		env.defineVariable(new Lsymbol("cdr"), new EagerProcedure(env, null, new CdrFunction()));
+		env.defineVariable(new Lsymbol("rplaca"), new EagerProcedure(env, null, new ReplaceCarFunction()));
+		env.defineVariable(new Lsymbol("rplacd"), new EagerProcedure(env, null, new ReplaceCdrFunction()));
 		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		env.defineVariable(new Lsymbol("quote"), new LazyProcedure(env, null, new QuoteFunction()));
 		env.defineVariable(new Lsymbol("define"), new EagerProcedure(env, null, new DefineFunction()));
@@ -74,6 +78,8 @@ public class EvalApplyTest extends TestCase {
 		excerciseEval("(quote (foo)))", "(foo)");
 		excerciseEval("(car (quote (1 . 2)))", "1");
 		excerciseEval("(cdr (quote (1 . 2)))", "2");
+		excerciseEval("(rplaca (quote (1 . 2)) 99)", "(99 . 2)");
+		excerciseEval("(rplacd (quote (1 . 2)) 100)", "(1 . 100)");
 		excerciseEval("(quote (foo)))", "(foo)");
 		}
 

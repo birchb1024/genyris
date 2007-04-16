@@ -2,8 +2,8 @@ package org.lispin.jlispin.core;
 
 public class Lcons extends Exp {
 	
-	private final Exp _car;
-	private final Exp _cdr;
+	private  Exp _car;
+	private  Exp _cdr;
 
 	public Lcons(Exp car, Exp cdr) {
 		_car = car;
@@ -24,6 +24,16 @@ public class Lcons extends Exp {
 		return _cdr;
 	}
 	
+	public Exp setCar(Exp exp) throws AccessException {
+		this._car = exp;;
+		return this;
+	}
+
+	public Exp setCdr(Exp exp) throws AccessException {
+		this._cdr = exp;;
+		return this;
+	}
+
 	protected String cdrToString() {
 
 		return " " + _car.toString() + _cdr.cdrToString();			

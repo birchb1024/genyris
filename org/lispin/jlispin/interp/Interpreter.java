@@ -11,6 +11,8 @@ import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
 import org.lispin.jlispin.interp.builtin.QuoteFunction;
+import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
+import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
 import org.lispin.jlispin.interp.builtin.SetFunction;
 
 public class Interpreter {
@@ -23,6 +25,8 @@ public class Interpreter {
 		_table = new SymbolTable();		
 		_globalEnvironment.defineVariable(new Lsymbol("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction()));
 		_globalEnvironment.defineVariable(new Lsymbol("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction()));
+		_globalEnvironment.defineVariable(new Lsymbol("rplaca"), new EagerProcedure(_globalEnvironment, null, new ReplaceCarFunction()));
+		_globalEnvironment.defineVariable(new Lsymbol("rplacd"), new EagerProcedure(_globalEnvironment, null, new ReplaceCdrFunction()));
 		_globalEnvironment.defineVariable(new Lsymbol("cons"), new EagerProcedure(_globalEnvironment, null, new ConsFunction()));
 		_globalEnvironment.defineVariable(new Lsymbol("quote"), new LazyProcedure(_globalEnvironment, null, new QuoteFunction()));
 		_globalEnvironment.defineVariable(new Lsymbol("set"), new EagerProcedure(_globalEnvironment, null, new SetFunction()));
