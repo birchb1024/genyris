@@ -13,6 +13,8 @@ import org.lispin.jlispin.core.UngettableInStream;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.builtin.CarFunction;
+import org.lispin.jlispin.interp.builtin.CdrFunction;
 import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
@@ -36,6 +38,8 @@ public class EvalApplyTest extends TestCase {
 	void excerciseEval(String exp, String expected) throws Exception {
 		Environment env = new Environment(null);
 		SymbolTable table = new SymbolTable();
+		env.defineVariable(new Lsymbol("car"), new EagerProcedure(env, null, new CarFunction()));
+		env.defineVariable(new Lsymbol("cdr"), new EagerProcedure(env, null, new CdrFunction()));
 		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		env.defineVariable(new Lsymbol("quote"), new LazyProcedure(env, null, new QuoteFunction()));
 		env.defineVariable(new Lsymbol("define"), new EagerProcedure(env, null, new DefineFunction()));
@@ -67,6 +71,9 @@ public class EvalApplyTest extends TestCase {
 		excerciseEval("(cons 4 nil)", "(4)");
 		excerciseEval("(quote 99)", "99");
 		excerciseEval("(quote (34)))", "(34)");
+		excerciseEval("(quote (foo)))", "(foo)");
+		excerciseEval("(car (quote (1 . 2)))", "1");
+		excerciseEval("(cdr (quote (1 . 2)))", "2");
 		excerciseEval("(quote (foo)))", "(foo)");
 		}
 
