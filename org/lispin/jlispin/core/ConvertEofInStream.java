@@ -22,7 +22,11 @@ public class ConvertEofInStream implements InStream {
 	
 	public boolean hasData() {
 		try {
+			if( _nextByte != InStreamEOF.EOF ) {
+				return true;
+			}
 			_nextByte = _input.getChar();
+			System.out.print((char)_nextByte);
 			if( _nextByte == InStreamEOF.EOF)
 				return false;
 			else

@@ -13,6 +13,7 @@ public class ClassicReadEvalPrintLoop {
 		Interpreter interpreter = new Interpreter();
 		
 		InStream input = new UngettableInStream( new StdioInStream());
+		// InStream input = new UngettableInStream( new ConvertEofInStream(new IndentStream(new StdioInStream())));
 		Parser parser = interpreter.newParser(input);
 		System.out.println("*** JLispin is listening...");
 		do {
