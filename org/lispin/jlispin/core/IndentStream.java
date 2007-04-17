@@ -8,6 +8,7 @@ public class IndentStream implements InStreamEOF {
 	private static final int CATCHUP = 3;
 	private static final int IN_STRING = 4;
 	private static final int IN_STRING_ESC = 5;
+	private static final int FINISHING = 6;
 
 	InStream _instream;
 
@@ -21,10 +22,10 @@ public class IndentStream implements InStreamEOF {
 
 	int _lineLevel;
 
-	int _currentLevel; // current indent level (of previous line) -1 means
+	int _currentLevel; // current indent level (of previous line) 0 means no statement
 
 	// prior to first line
-	int ch;
+	char ch;
 
 	private int[] _bufferit; // TODO maybe use a stringbuffer or some other
 
@@ -52,6 +53,7 @@ public class IndentStream implements InStreamEOF {
 		_lineLevel = 0;
 		_parseState = LEADING_WHITE_SPACE;
 		_numberOfLeadingSpaces = 0;
+		
 	}
 
 	void input() throws LexException {
@@ -96,7 +98,8 @@ public class IndentStream implements InStreamEOF {
 
 			case LEADING_WHITE_SPACE:
 				if( !_instream.hasData()) {
-					return (char)EOF;
+					finish();
+					break;
 				}
 				ch = _instream.getChar();
 				if (ch == ' ') {
@@ -113,58 +116,42 @@ public class IndentStream implements InStreamEOF {
 				else if (ch == '\n') {
 					// blank line
 					startLine();
-					return ch;
+					break;
 				}
 				else if (ch == '\t') {
 					throw new LexException(
 							"illegal tab character before statement");
 				}
-				else if (ch == '~') {
-					// continuation line so pretend indentation is aligned
-					// with the previous level
-					// TODO
-					break; // jump back to the top of the loop
-				}
-				if (_numberOfLeadingSpaces == 0) {
-					// text started at beginning of the line
-					_lineLevel = 0;
-					_parseState = IN_STATEMENT;
-					bufferit('(');
-					bufferit(ch);
-					_parseState = CATCHUP;
-					break;
-				}
-				else {
-					_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
+				
+				_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
 
-					if (_currentLevel < 0) {
-						// This is the first line
-						bufferit('(', _lineLevel + 1);
-						_currentLevel = 0;
-					}
-					else if (_currentLevel == _lineLevel) {
-						// Same indentation as previous line.
-						bufferit(')');
-						bufferit('(');
-					}
-					else if (_currentLevel < _lineLevel) {
-						bufferit('(', _lineLevel - _currentLevel);
-					}
-					else if (_currentLevel > _lineLevel) {
-						bufferit(')', _currentLevel - _lineLevel + 1);
-						bufferit('(');
-						removeTabsAfter(_currentLevel);
-					}
-					bufferit(ch);
-
-					_currentLevel = _lineLevel;
-					_parseState = CATCHUP;
-					break; 
+				if (_currentLevel < 0) {
+					// This is the first line
+					_currentLevel = 0;
 				}
+				else if (_currentLevel == _lineLevel) {
+					// Same indentation as previous line.
+					bufferit(')', 1);
+					bufferit('(', 1);
+				}
+				else if (_currentLevel < _lineLevel) {
+					bufferit('(', _lineLevel - _currentLevel);
+					}
+				else if (_currentLevel > _lineLevel) {
+					bufferit(')', _currentLevel - _lineLevel + 1);
+					bufferit('(', 1);
+					removeTabsAfter(_currentLevel);
+				}
+				bufferit(ch);
+
+				_currentLevel = _lineLevel;
+				_parseState = CATCHUP;
+				break; 
+				
 
 			case CATCHUP:
 				if (bufferitEmpty()) {
-					_parseState = IN_STATEMENT;
+					_parseState = IN_STATEMENT; 
 				}
 				else {
 					int result = bufferitReadNext();
@@ -212,7 +199,7 @@ public class IndentStream implements InStreamEOF {
 
 				case '\n':
 					startLine();
-					return (ch);
+					break;
 
 				default:
 					return (ch);
@@ -223,12 +210,23 @@ public class IndentStream implements InStreamEOF {
 				if (_instream.hasData()) {
 					ch = _instream.getChar();
 					if (ch == '\n') {
-						_lineLevel = 0;
-						_parseState = LEADING_WHITE_SPACE;
-						return (ch);
+						startLine();
+						break;
 					}
 				}
+				else {
+					finish();
+				}
 				break;
+
+			case FINISHING:
+				if (bufferitEmpty()) {
+					return EOF; 
+				}
+				else {
+					int result = bufferitReadNext();
+					return result;
+				}
 
 			}
 		}
@@ -237,8 +235,8 @@ public class IndentStream implements InStreamEOF {
 	private void finish() throws LexException {
 		// close all parenthesis
 
-		bufferit(')', _currentLevel + 1);
-		_parseState = CATCHUP;
+		bufferit(')', _currentLevel);
+		_parseState = FINISHING;
 
 	}
 
@@ -252,7 +250,7 @@ public class IndentStream implements InStreamEOF {
 	int computeDepthFromSpaces(int numsp) throws LexException {
 
 		if (numsp == 0) {
-			return (0);
+			return (1);
 		}
 		if (numsp > _tabs[_maxTab]) {
 			_maxTab++;
@@ -260,7 +258,7 @@ public class IndentStream implements InStreamEOF {
 				throw new LexException("input stream indented too deeply");
 			}
 			_tabs[_maxTab] = numsp; // remember the tabstop
-			return (_maxTab);
+			return (_maxTab+1);
 		}
 		else {
 			// look for the first tabstop on the left, starting at the left
@@ -272,7 +270,7 @@ public class IndentStream implements InStreamEOF {
 
 				if (_tabs[i] == numsp) {
 					_maxTab = i;
-					return (i);
+					return (i+1);
 				}
 			}
 			// nothing matching, so it's an error

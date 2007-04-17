@@ -15,8 +15,6 @@ public class ConvertEofInStream implements InStream {
 	}
 	
 	public char getChar() {
-		if( _nextByte == InStreamEOF.EOF)
-			throw new LexException("hasData() not called prior to lgetc().");
 		char result = (char)_nextByte;
 		_nextByte = InStreamEOF.EOF;
 		return result;
