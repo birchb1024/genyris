@@ -11,7 +11,7 @@ public class StdioInStream implements InStream {
 	}
 	
 	
-	public char lgetc() {
+	public char getChar() {
 		return (char)_nextByte;
 	}
 	

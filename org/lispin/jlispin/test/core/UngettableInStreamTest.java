@@ -14,16 +14,16 @@ public class UngettableInStreamTest extends TestCase {
 		
 		try {
 			ung.unGet('a');
-			assertEquals('a', ung.lgetc());
-			assertEquals('1', ung.lgetc());	
+			assertEquals('a', ung.getChar());
+			assertEquals('1', ung.getChar());	
 			ung.unGet('b');
 			ung.unGet('c');
 			ung.unGet('d');
-			assertEquals('d', ung.lgetc());	
-			assertEquals('c', ung.lgetc());	
-			assertEquals('b', ung.lgetc());	
-			assertEquals('2', ung.lgetc());	
-			assertEquals('3', ung.lgetc());	
+			assertEquals('d', ung.getChar());	
+			assertEquals('c', ung.getChar());	
+			assertEquals('b', ung.getChar());	
+			assertEquals('2', ung.getChar());	
+			assertEquals('3', ung.getChar());	
 		}
 		catch (LexException e) {
 			// TODO Auto-generated catch block

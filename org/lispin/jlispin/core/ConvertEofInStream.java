@@ -8,17 +8,17 @@ public class ConvertEofInStream implements InStream {
 	
 	public ConvertEofInStream(InStreamEOF in) {
 		_input = in;
-		_nextByte = (char)-1;
+		_nextByte = InStreamEOF.EOF;
 	}
-	public void unGet(int x) throws LexException {
+	public void unGet(char x) throws LexException {
 		;
 	}
 	
-	public int getChar() throws LexException {
+	public char getChar() {
 		if( _nextByte == InStreamEOF.EOF)
 			throw new LexException("hasData() not called prior to lgetc().");
-		int result = _nextByte;
-		_nextByte = (char)InStreamEOF.EOF;
+		char result = (char)_nextByte;
+		_nextByte = InStreamEOF.EOF;
 		return result;
 	}
 	

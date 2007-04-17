@@ -29,9 +29,9 @@ public class UngettableInStream implements InStream {
 			return !bufferEmpty() || _input.hasData();
 		}
 		
-		public char lgetc() {
+		public char getChar() {
 			if( bufferEmpty() ) {
-				return _input.lgetc();
+				return _input.getChar();
 			}
 			else {
 				return _ungetChars[_readPointer--];

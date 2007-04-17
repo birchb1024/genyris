@@ -14,7 +14,7 @@ public class StringInStream implements InStream {
 		return this._readPointer <_value.length;
 	}
 	
-	public char lgetc() {
+	public char getChar() {
 		return _value[_readPointer++];
 	}
 
