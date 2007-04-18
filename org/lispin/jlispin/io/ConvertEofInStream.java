@@ -1,4 +1,5 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
+
 
 public class ConvertEofInStream implements InStream {
 	
@@ -10,14 +11,14 @@ public class ConvertEofInStream implements InStream {
 		_input = in;
 		_nextByte = (char)-1;
 	}
-	public void unGet(int x) throws LexException {
+	public void unGet(char x) throws LexException {
 		;
 	}
 	
-	public int getChar() throws LexException {
-		if( _nextByte == InStreamEOF.EOF)
-			throw new LexException("hasData() not called prior to lgetc().");
-		int result = _nextByte;
+	public char readNext() {
+//		if( _nextByte == InStreamEOF.EOF)
+//			throw new LexException("hasData() not called prior to lgetc().");
+		char result = (char)_nextByte;
 		_nextByte = (char)InStreamEOF.EOF;
 		return result;
 	}

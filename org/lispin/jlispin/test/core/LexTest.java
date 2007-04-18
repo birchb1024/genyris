@@ -1,18 +1,18 @@
 package org.lispin.jlispin.test.core;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.InStream;
 import org.lispin.jlispin.core.Ldouble;
-import org.lispin.jlispin.core.Lex;
-import org.lispin.jlispin.core.LexException;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.ParseException;
-import org.lispin.jlispin.core.Parser;
-import org.lispin.jlispin.core.StringInStream;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
-import org.lispin.jlispin.core.UngettableInStream;
+import org.lispin.jlispin.io.InStream;
+import org.lispin.jlispin.io.Lex;
+import org.lispin.jlispin.io.LexException;
+import org.lispin.jlispin.io.Parser;
+import org.lispin.jlispin.io.StringInStream;
+import org.lispin.jlispin.io.UngettableInStream;
 
 import junit.framework.TestCase;
 

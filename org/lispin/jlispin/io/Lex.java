@@ -1,5 +1,9 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
 
+import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Ldouble;
+import org.lispin.jlispin.core.Linteger;
+import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.SymbolTable;
 
 public class Lex {
@@ -30,7 +34,7 @@ public class Lex {
 			throw new LexException("unexpected end of file");
 		}
 		while (_input.hasData()) {
-			ch = _input.lgetc();
+			ch = _input.readNext();
 			if (ch <= '9' && ch >= '0') {
 				collect = 10 * collect + (ch - '0'); // FIXME integer
 				// overflow
@@ -52,7 +56,7 @@ public class Lex {
 			throw new LexException("unexpected end of file");
 		}
 		while (_input.hasData()) {
-			ch = _input.lgetc();
+			ch = _input.readNext();
 			if (ch >= '0' && ch <= '9') {
 				collect = collect + (ch - '0') / power; // FIXME integer
 				// overflow
@@ -74,7 +78,7 @@ public class Lex {
 
 		char nextChar;
 
-		nextChar = _input.lgetc();
+		nextChar = _input.readNext();
 		if (nextChar == '-') {
 			sign = -1;
 		}
@@ -84,7 +88,7 @@ public class Lex {
 		if (!this._input.hasData()) {
 			return new Linteger(sign * leading);
 		}
-		nextChar = _input.lgetc();
+		nextChar = _input.readNext();
 		double fraction = 0;
 		if (nextChar == '.') {
 			fraction = parseDecimalFraction();
@@ -99,9 +103,9 @@ public class Lex {
 		if (!_input.hasData()) {
 			return (new Ldouble(floatingValue));
 		}
-		nextChar = _input.lgetc();
+		nextChar = _input.readNext();
 		if (nextChar == 'e') {
-			nextChar = _input.lgetc();
+			nextChar = _input.readNext();
 			if (nextChar == '-') {
 				mant_sign = -1;
 			}
@@ -153,10 +157,10 @@ public class Lex {
 		}
 
 		while (_input.hasData()) {
-			ch = _input.lgetc();
+			ch = _input.readNext();
 			if (isIdentCharacter(ch)) {
 				if (ch == '\\')
-					ch = _input.lgetc();
+					ch = _input.readNext();
 				collect += ch;
 			}
 			else {
@@ -175,7 +179,7 @@ public class Lex {
 			if( !_input.hasData()) {
 				return SymbolTable.EOF;
 			}
-			ch = _input.lgetc();
+			ch = _input.readNext();
 			switch (ch) {
 			case '\f':
 			case '\n':
@@ -184,7 +188,7 @@ public class Lex {
 			case '\r':
 				break;
 			case '-':
-				ch = _input.lgetc();
+				ch = _input.readNext();
 				if (ch >= '0' && ch <= '9') {
 					_input.unGet(ch);
 					_input.unGet('-');
@@ -199,7 +203,7 @@ public class Lex {
 
 			case COMMENTCHAR:
 				while (_input.hasData()) {
-					ch = _input.lgetc();
+					ch = _input.readNext();
 					if (ch == '\n') {
 						break;
 					}
@@ -229,7 +233,7 @@ public class Lex {
 		    case QUOTECHAR : return SymbolTable.raw_quote;
 		    case BQUOTECHAR :return SymbolTable.backquote;
 			case COMMACHAR : {
-				 ch = _input.lgetc();
+				 ch = _input.readNext();
 				 if( ch == ATCHAR ) {
 					 return SymbolTable.raw_comma_at;
 				 }
@@ -304,12 +308,12 @@ public class Lex {
 		if (!_input.hasData()) {
 			throw new LexException("empty string");
 		}
-		ch = _input.lgetc();
+		ch = _input.readNext();
 		if (ch != '\"') {
 			throw new LexException("malformed string");
 		}
 		while (_input.hasData()) {
-			ch = _input.lgetc();
+			ch = _input.readNext();
 			if (ch == '"') {
 				break;
 			}
@@ -317,7 +321,7 @@ public class Lex {
 				if (ch == '\\') {
 					if (!_input.hasData())
 						throw new LexException("unexpected end of file");
-					char ch2 = _input.lgetc();
+					char ch2 = _input.readNext();
 					switch (ch2) {
 					case 'n':
 						ch = '\n';

@@ -1,8 +1,8 @@
 package org.lispin.jlispin.test.core;
 
-import org.lispin.jlispin.core.LexException;
-import org.lispin.jlispin.core.StringInStream;
-import org.lispin.jlispin.core.UngettableInStream;
+import org.lispin.jlispin.io.LexException;
+import org.lispin.jlispin.io.StringInStream;
+import org.lispin.jlispin.io.UngettableInStream;
 
 import junit.framework.TestCase;
 
@@ -14,16 +14,16 @@ public class UngettableInStreamTest extends TestCase {
 		
 		try {
 			ung.unGet('a');
-			assertEquals('a', ung.lgetc());
-			assertEquals('1', ung.lgetc());	
+			assertEquals('a', ung.readNext());
+			assertEquals('1', ung.readNext());	
 			ung.unGet('b');
 			ung.unGet('c');
 			ung.unGet('d');
-			assertEquals('d', ung.lgetc());	
-			assertEquals('c', ung.lgetc());	
-			assertEquals('b', ung.lgetc());	
-			assertEquals('2', ung.lgetc());	
-			assertEquals('3', ung.lgetc());	
+			assertEquals('d', ung.readNext());	
+			assertEquals('c', ung.readNext());	
+			assertEquals('b', ung.readNext());	
+			assertEquals('2', ung.readNext());	
+			assertEquals('3', ung.readNext());	
 		}
 		catch (LexException e) {
 			// TODO Auto-generated catch block

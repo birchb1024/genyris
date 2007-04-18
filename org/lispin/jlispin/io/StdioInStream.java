@@ -1,6 +1,7 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
 
 import java.io.IOException;
+
 
 public class StdioInStream implements InStream {
 	
@@ -11,7 +12,7 @@ public class StdioInStream implements InStream {
 	}
 	
 	
-	public char lgetc() {
+	public char readNext() {
 		return (char)_nextByte;
 	}
 	

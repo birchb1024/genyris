@@ -3,11 +3,11 @@ package org.lispin.jlispin.test.interp;
 import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.InStream;
-import org.lispin.jlispin.core.Parser;
-import org.lispin.jlispin.core.StringInStream;
-import org.lispin.jlispin.core.UngettableInStream;
 import org.lispin.jlispin.interp.Interpreter;
+import org.lispin.jlispin.io.InStream;
+import org.lispin.jlispin.io.Parser;
+import org.lispin.jlispin.io.StringInStream;
+import org.lispin.jlispin.io.UngettableInStream;
 
 public class ComplexInterpreterTests extends TestCase {
 	

@@ -3,13 +3,9 @@ package org.lispin.jlispin.test.interp;
 import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.InStream;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.Parser;
-import org.lispin.jlispin.core.StringInStream;
 import org.lispin.jlispin.core.SymbolTable;
-import org.lispin.jlispin.core.UngettableInStream;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LazyProcedure;
@@ -23,6 +19,10 @@ import org.lispin.jlispin.interp.builtin.QuoteFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
 import org.lispin.jlispin.interp.builtin.SetFunction;
+import org.lispin.jlispin.io.InStream;
+import org.lispin.jlispin.io.Parser;
+import org.lispin.jlispin.io.StringInStream;
+import org.lispin.jlispin.io.UngettableInStream;
 
 public class EvalApplyTest extends TestCase {
 	

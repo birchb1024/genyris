@@ -1,4 +1,5 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
+
 
 public class StringInStream implements InStream {
 
@@ -14,7 +15,7 @@ public class StringInStream implements InStream {
 		return this._readPointer <_value.length;
 	}
 	
-	public char lgetc() {
+	public char readNext() {
 		return _value[_readPointer++];
 	}
 

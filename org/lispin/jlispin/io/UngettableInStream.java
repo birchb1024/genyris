@@ -1,4 +1,5 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
+
 
 public class UngettableInStream implements InStream {
 
@@ -29,9 +30,9 @@ public class UngettableInStream implements InStream {
 			return !bufferEmpty() || _input.hasData();
 		}
 		
-		public char lgetc() {
+		public char readNext() {
 			if( bufferEmpty() ) {
-				return _input.lgetc();
+				return _input.readNext();
 			}
 			else {
 				return _ungetChars[_readPointer--];

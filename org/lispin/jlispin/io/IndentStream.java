@@ -1,4 +1,5 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
+
 
 public class IndentStream implements InStreamEOF {
 
@@ -58,7 +59,7 @@ public class IndentStream implements InStreamEOF {
 		if (!_instream.hasData()) {
 			throw new LexException("oops");
 		}
-		ch = _instream.getChar();
+		ch = _instream.readNext();
 	}
 
 	void bufferit(int c) throws LexException {
@@ -98,7 +99,7 @@ public class IndentStream implements InStreamEOF {
 				if( !_instream.hasData()) {
 					return (char)EOF;
 				}
-				ch = _instream.getChar();
+				ch = _instream.readNext();
 				if (ch == ' ') {
 					_numberOfLeadingSpaces++;
 					break;
@@ -221,7 +222,7 @@ public class IndentStream implements InStreamEOF {
 
 			case STRIP_COMMENT:
 				if (_instream.hasData()) {
-					ch = _instream.getChar();
+					ch = _instream.readNext();
 					if (ch == '\n') {
 						_lineLevel = 0;
 						_parseState = LEADING_WHITE_SPACE;

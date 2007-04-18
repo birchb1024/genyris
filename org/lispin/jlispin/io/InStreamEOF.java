@@ -1,4 +1,4 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
 
 
 public interface InStreamEOF {

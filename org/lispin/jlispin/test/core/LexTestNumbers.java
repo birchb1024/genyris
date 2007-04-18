@@ -1,6 +1,10 @@
 package org.lispin.jlispin.test.core;
 
 import org.lispin.jlispin.core.*;
+import org.lispin.jlispin.io.Lex;
+import org.lispin.jlispin.io.LexException;
+import org.lispin.jlispin.io.StringInStream;
+import org.lispin.jlispin.io.UngettableInStream;
 
 import junit.framework.TestCase;
 

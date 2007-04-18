@@ -1,4 +1,4 @@
-package org.lispin.jlispin.core;
+package org.lispin.jlispin.io;
 
 import org.lispin.jlispin.interp.LispinException;
 
