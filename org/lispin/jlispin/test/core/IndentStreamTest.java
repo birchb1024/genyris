@@ -2,11 +2,11 @@ package org.lispin.jlispin.test.core;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.ConvertEofInStream;
-import org.lispin.jlispin.core.InStream;
-import org.lispin.jlispin.core.IndentStream;
-import org.lispin.jlispin.core.LexException;
-import org.lispin.jlispin.core.StringInStream;
+import org.lispin.jlispin.io.ConvertEofInStream;
+import org.lispin.jlispin.io.InStream;
+import org.lispin.jlispin.io.IndentStream;
+import org.lispin.jlispin.io.LexException;
+import org.lispin.jlispin.io.StringInStream;
 
 public class IndentStreamTest extends TestCase {
 
@@ -17,7 +17,7 @@ public class IndentStreamTest extends TestCase {
 		InStream ind = new ConvertEofInStream(new IndentStream(new StringInStream(toparse)));
 		String result = "";
 		while( ind.hasData() ) {
-			result += ind.getChar();
+			result += ind.readNext();
 		}
 		assertEquals(expected, result);	
 	}
