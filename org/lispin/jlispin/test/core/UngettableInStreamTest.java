@@ -24,6 +24,7 @@ public class UngettableInStreamTest extends TestCase {
 			assertEquals('b', ung.readNext());	
 			assertEquals('2', ung.readNext());	
 			assertEquals('3', ung.readNext());	
+	
 		}
 		catch (LexException e) {
 			// TODO Auto-generated catch block

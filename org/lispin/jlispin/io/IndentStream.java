@@ -231,6 +231,16 @@ public class IndentStream implements InStreamEOF {
 				}
 				break;
 
+			case FINISHING:
+				if (bufferitEmpty()) {
+					_parseState = IN_STATEMENT;
+				}
+				else {
+					int result = bufferitReadNext();
+					return result;
+				}
+				break;
+
 			}
 		}
 	}
@@ -239,7 +249,7 @@ public class IndentStream implements InStreamEOF {
 		// close all parenthesis
 
 		bufferit(')', _currentLevel + 1);
-		_parseState = CATCHUP;
+		_parseState = FINISHING;
 
 	}
 
