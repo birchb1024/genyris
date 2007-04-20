@@ -14,7 +14,7 @@ public class IndentStreamTest extends TestCase {
 		super.setUp();
 	}
 	private void excerciseIndent(String toparse, String expected) throws LexException {
-		InStream ind = new ConvertEofInStream(new IndentStream(new StringInStream(toparse)));
+		InStream ind = new ConvertEofInStream(new IndentStream(new StringInStream(toparse), false));
 		String result = "";
 		while( ind.hasData() ) {
 			result += ind.readNext();
@@ -22,8 +22,17 @@ public class IndentStreamTest extends TestCase {
 		assertEquals(expected, result);	
 	}
 	
+	private void excerciseIndentInteractive(String toparse, String expected) throws LexException {
+		InStream ind = new ConvertEofInStream(new IndentStream(new StringInStream(toparse), true));
+		String result = "";
+		while( ind.hasData() ) {
+			result += ind.readNext();
+		}
+		assertEquals(expected, result);	
+	}
+
 	public void testIndentCalc1() throws LexException {
-		IndentStream ind = new IndentStream(new StringInStream("123"));
+		IndentStream ind = new IndentStream(new StringInStream("123"), false);
 		assertEquals(1, ind.computeDepthFromSpaces(0));
 		assertEquals(2, ind.computeDepthFromSpaces(1));
 		assertEquals(3, ind.computeDepthFromSpaces(2));
@@ -32,7 +41,7 @@ public class IndentStreamTest extends TestCase {
 	}
 	
 	public void testIndentCalc2() throws LexException {
-		IndentStream ind = new IndentStream(new StringInStream("123"));
+		IndentStream ind = new IndentStream(new StringInStream("123"), false);
 		assertEquals(1, ind.computeDepthFromSpaces(0));
 		assertEquals(2, ind.computeDepthFromSpaces(1));
 		assertEquals(2, ind.computeDepthFromSpaces(1));
@@ -92,5 +101,10 @@ public class IndentStreamTest extends TestCase {
 		excerciseIndent("\n0000", "(0000)");
 	}
 	
+
+	
+	public void testIndentStream18() throws LexException {
+		excerciseIndentInteractive("1\n 2\n  3\n\n34", "(1(2(3)))(34)");
+	}
 
 }

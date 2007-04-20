@@ -9,6 +9,7 @@ public class IndentStream implements InStreamEOF {
 	private static final int IN_STRING = 4;
 	private static final int IN_STRING_ESC = 5;
 	private static final int STRIP_COMMENT = 6;
+	private static final int NEXTLINE = 7;
 
 	InStream _instream;
 
@@ -33,16 +34,19 @@ public class IndentStream implements InStreamEOF {
 	int _bufferitReadPtr; // where are we up to.
 
 	int _bufferitWritePtr; // where are we up to.
+	
+	boolean _interactive;
 
 	private int _maxTab;
 
-	public IndentStream(InStream in) {
+	public IndentStream(InStream in, boolean interactiveMode) {
 		_instream = in;
 		_tabs = new int[256]; // TODO;
 		_bufferit = new int[2048]; // TODO
 		_lineLevel = 0;
 		_parseState = LEADING_WHITE_SPACE;
 		_maxTab = 1;
+		_interactive = interactiveMode;
 	}
 
 	public void unGet(char x) throws LexException {
@@ -110,8 +114,18 @@ public class IndentStream implements InStreamEOF {
 					break; // probably MS-DOS line end - ignore
 				}
 				else if (ch == '\n') {
-					// blank line
-					startLine();
+                    if( _interactive ) {
+                        // finish the indentations all up, don't wait for more lines
+                		_lineLevel = 0;
+                		_numberOfLeadingSpaces = 0;
+                    	bufferit(')', _currentLevel);
+                        _currentLevel = 0;
+                        _parseState = NEXTLINE;
+                        removeTabsAfter(1);
+                        break;
+                    }
+                    else
+                    	startLine();
 					break;
 				}
 				else if (ch == '\t') {
@@ -147,15 +161,6 @@ public class IndentStream implements InStreamEOF {
 					break; 
 				}
 
-			case CATCHUP:
-				if (bufferitEmpty()) {
-					_parseState = IN_STATEMENT;
-				}
-				else {
-					int result = bufferitReadNext();
-					return result;
-				}
-				break;
 
 			case IN_STRING_ESC:
 				input();
@@ -217,6 +222,26 @@ public class IndentStream implements InStreamEOF {
 					finish();
 				break;
 
+			case CATCHUP:
+				if (bufferitEmpty()) {
+					_parseState = IN_STATEMENT;
+				}
+				else {
+					int result = bufferitReadNext();
+					return result;
+				}
+				break;
+
+			case NEXTLINE:
+				if (bufferitEmpty()) {
+					startLine();
+				}
+				else {
+					int result = bufferitReadNext();
+					return result;
+				}
+				break;
+
 			case FINISHING:
 				if (bufferitEmpty()) {
 					return EOF;
@@ -246,7 +271,6 @@ public class IndentStream implements InStreamEOF {
 	}
 	public int computeDepthFromSpaces(int numsp) throws LexException {
 
-		// assert(_maxTab > 0);
 		if (numsp == 0) {
 			return (1);
 		}
