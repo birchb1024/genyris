@@ -1,14 +1,16 @@
 package org.lispin.jlispin.io;
 
 
+
 public class IndentStream implements InStreamEOF {
 
 	private static final int LEADING_WHITE_SPACE = 0;
-	private static final int STRIP_COMMENT = 1;
-	private static final int IN_STATEMENT = 2;
-	private static final int CATCHUP = 3;
+	private static final int IN_STATEMENT = 1;
+	private static final int CATCHUP = 2;
+	private static final int FINISHING = 3;
 	private static final int IN_STRING = 4;
 	private static final int IN_STRING_ESC = 5;
+	private static final int STRIP_COMMENT = 6;
 
 	InStream _instream;
 
@@ -25,7 +27,7 @@ public class IndentStream implements InStreamEOF {
 	int _currentLevel; // current indent level (of previous line) -1 means
 
 	// prior to first line
-	int ch;
+	char ch;
 
 	private int[] _bufferit; // TODO maybe use a stringbuffer or some other
 
@@ -42,7 +44,7 @@ public class IndentStream implements InStreamEOF {
 		_bufferit = new int[2048]; // TODO
 		_lineLevel = 0;
 		_parseState = LEADING_WHITE_SPACE;
-		_maxTab = 0;
+		_maxTab = 1;
 	}
 
 	public void unGet(char x) throws LexException {
@@ -56,10 +58,8 @@ public class IndentStream implements InStreamEOF {
 	}
 
 	void input() throws LexException {
-		if (!_instream.hasData()) {
-			throw new LexException("oops");
-		}
 		ch = _instream.readNext();
+		System.out.println("ch = " + ch);
 	}
 
 	void bufferit(int c) throws LexException {
@@ -93,13 +93,15 @@ public class IndentStream implements InStreamEOF {
 	public int getChar() throws LexException {
 
 		while (true) {
+			System.out.println("_parseState " + _parseState);
 			switch (_parseState) {
 
 			case LEADING_WHITE_SPACE:
 				if( !_instream.hasData()) {
-					return (char)EOF;
+					finish();
+					break;
 				}
-				ch = _instream.readNext();
+				input();
 				if (ch == ' ') {
 					_numberOfLeadingSpaces++;
 					break;
@@ -114,7 +116,7 @@ public class IndentStream implements InStreamEOF {
 				else if (ch == '\n') {
 					// blank line
 					startLine();
-					return ch;
+					break;
 				}
 				else if (ch == '\t') {
 					throw new LexException(
@@ -126,24 +128,12 @@ public class IndentStream implements InStreamEOF {
 					// TODO
 					break; // jump back to the top of the loop
 				}
-				if (_numberOfLeadingSpaces == 0) {
-					// text started at beginning of the line
-					_lineLevel = 0;
-					_parseState = IN_STATEMENT;
-					bufferit('(');
-					bufferit(ch);
-					_parseState = CATCHUP;
-					break;
-				}
-				else {
+				else  {
 					_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
+System.out.println("_currentLevel = " + _currentLevel);
+System.out.println("_lineleve = " + _lineLevel);
 
-					if (_currentLevel < 0) {
-						// This is the first line
-						bufferit('(', _lineLevel + 1);
-						_currentLevel = 0;
-					}
-					else if (_currentLevel == _lineLevel) {
+					if (_currentLevel == _lineLevel) {
 						// Same indentation as previous line.
 						bufferit(')');
 						bufferit('(');
@@ -152,7 +142,7 @@ public class IndentStream implements InStreamEOF {
 						bufferit('(', _lineLevel - _currentLevel);
 					}
 					else if (_currentLevel > _lineLevel) {
-						bufferit(')', _currentLevel - _lineLevel + 1);
+						bufferit(')', _currentLevel - _lineLevel  +1);
 						bufferit('(');
 						removeTabsAfter(_currentLevel);
 					}
@@ -197,6 +187,7 @@ public class IndentStream implements InStreamEOF {
 
 			case IN_STATEMENT:
 				if( !_instream.hasData() ) {
+
 					finish();
 					break;
 				}
@@ -213,7 +204,7 @@ public class IndentStream implements InStreamEOF {
 
 				case '\n':
 					startLine();
-					return (ch);
+					break;
 
 				default:
 					return (ch);
@@ -222,25 +213,24 @@ public class IndentStream implements InStreamEOF {
 
 			case STRIP_COMMENT:
 				if (_instream.hasData()) {
-					ch = _instream.readNext();
+					input();
 					if (ch == '\n') {
-						_lineLevel = 0;
-						_parseState = LEADING_WHITE_SPACE;
-						return (ch);
+						startLine();
+						break;
 					}
 				}
+				else
+					finish();
 				break;
 
 			case FINISHING:
 				if (bufferitEmpty()) {
-					_parseState = IN_STATEMENT;
+					return EOF;
 				}
 				else {
 					int result = bufferitReadNext();
 					return result;
 				}
-				break;
-
 			}
 		}
 	}
@@ -248,7 +238,7 @@ public class IndentStream implements InStreamEOF {
 	private void finish() throws LexException {
 		// close all parenthesis
 
-		bufferit(')', _currentLevel + 1);
+		bufferit(')', _currentLevel);
 		_parseState = FINISHING;
 
 	}
@@ -258,32 +248,31 @@ public class IndentStream implements InStreamEOF {
 	}
 
 	void removeTabsAfter(int newMax) {
-		_maxTab = newMax;
+		_maxTab = newMax; // TODO unnecessary - done below alos ?
 	}
-	int computeDepthFromSpaces(int numsp) throws LexException {
+	public int computeDepthFromSpaces(int numsp) throws LexException {
 
+		// assert(_maxTab > 0);
 		if (numsp == 0) {
-			return (0);
+			return (1);
 		}
-		if (numsp > _tabs[_maxTab]) {
-			_maxTab++;
+		if (numsp > _tabs[_maxTab-1]) {
 			if (_maxTab > _tabs.length) {
 				throw new LexException("input stream indented too deeply");
 			}
 			_tabs[_maxTab] = numsp; // remember the tabstop
+			_maxTab++;
 			return (_maxTab);
 		}
 		else {
 			// look for the first tabstop on the left, starting at the left
 			// margin
-			for (int i = 0; i <= _maxTab; i++) { // sequential
-				// search
-				// is esential here.
-				// (left to right)
+			for (int i = 0; i < _maxTab; i++) { // sequential search
+												// is esential here. (left to right)
 
 				if (_tabs[i] == numsp) {
-					_maxTab = i;
-					return (i);
+					_maxTab = i+1;
+					return (_maxTab);
 				}
 			}
 			// nothing matching, so it's an error
