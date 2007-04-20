@@ -1,5 +1,7 @@
 package org.lispin.jlispin.interp;
 
+import java.io.PrintWriter;
+
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.io.ConvertEofInStream;
@@ -13,7 +15,7 @@ public class ClassicReadEvalPrintLoop {
 
 	public static void main(String[] args) {
 		Interpreter interpreter = new Interpreter();
-		
+		PrintWriter  output = new PrintWriter(System.out);
 		// InStream input = new UngettableInStream( new StdioInStream());
 		InStream input = new UngettableInStream( new ConvertEofInStream(new IndentStream(new StdioInStream(), true)));
 		Parser parser = interpreter.newParser(input);
@@ -23,11 +25,16 @@ public class ClassicReadEvalPrintLoop {
 				System.out.print("> ");
 				Exp expression;
 				expression = parser.read();
-				System.out.println(expression);
+				
+				//System.out.println(expression);
+				//expression.print(0, output);
 				if( expression.equals(SymbolTable.EOF)) {
 					System.out.println("Bye..");
+					break;
 				}
-				System.out.println(interpreter.eval(expression).toString());
+				//System.out.println(interpreter.eval(expression).toString());
+				interpreter.eval(expression).printCdrRight(0, output);
+				output.flush();
 			}
 			catch (LispinException e) {
 				e.printStackTrace();

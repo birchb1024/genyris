@@ -1,5 +1,7 @@
 package org.lispin.jlispin.core;
 
+import java.io.PrintWriter;
+
 public abstract class Exp {
 
 	public boolean equals(Object compare) {
@@ -79,5 +81,27 @@ public abstract class Exp {
 		throw new AccessException("nth could not find item: " + number);
 	}
 
+	public void printSpaces(int level, PrintWriter output) {
+		for( int i=0;i<level;i++) 
+			output.print("  ");
+	}
+
+	public void print(int level, PrintWriter output) {
+		printSpaces(level,output);
+		output.print(this.toString());
+	}
+
+	public void printCdrRight(int level, PrintWriter output) {
+		if( this == SymbolTable.NIL) 
+			return;
+		output.print(' ');
+		output.print(this.toString());
+	}
+
+	public void printCdr(int level, PrintWriter output) {
+		if( this == SymbolTable.NIL) 
+			return;
+		output.print(this.toString());
+	}
 
 }
