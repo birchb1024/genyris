@@ -1,7 +1,5 @@
 package org.lispin.jlispin.io;
 
-
-
 public class IndentStream implements InStreamEOF {
 
 	private static final int LEADING_WHITE_SPACE = 0;
@@ -59,7 +57,6 @@ public class IndentStream implements InStreamEOF {
 
 	void input() throws LexException {
 		ch = _instream.readNext();
-		System.out.println("ch = " + ch);
 	}
 
 	void bufferit(int c) throws LexException {
@@ -93,7 +90,6 @@ public class IndentStream implements InStreamEOF {
 	public int getChar() throws LexException {
 
 		while (true) {
-			System.out.println("_parseState " + _parseState);
 			switch (_parseState) {
 
 			case LEADING_WHITE_SPACE:
@@ -130,8 +126,6 @@ public class IndentStream implements InStreamEOF {
 				}
 				else  {
 					_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
-System.out.println("_currentLevel = " + _currentLevel);
-System.out.println("_lineleve = " + _lineLevel);
 
 					if (_currentLevel == _lineLevel) {
 						// Same indentation as previous line.

@@ -1,4 +1,4 @@
-package org.lispin.jlispin.test.core;
+package org.lispin.jlispin.test.io;
 
 import junit.framework.TestCase;
 

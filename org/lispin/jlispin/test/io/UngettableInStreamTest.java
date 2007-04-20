@@ -1,4 +1,4 @@
-package org.lispin.jlispin.test.core;
+package org.lispin.jlispin.test.io;
 
 import org.lispin.jlispin.io.LexException;
 import org.lispin.jlispin.io.StringInStream;
