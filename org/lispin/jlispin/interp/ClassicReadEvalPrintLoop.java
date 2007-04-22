@@ -33,7 +33,8 @@ public class ClassicReadEvalPrintLoop {
 					break;
 				}
 				//System.out.println(interpreter.eval(expression).toString());
-				interpreter.eval(expression).printCdrRight(0, output);
+				Exp result = interpreter.eval(expression);
+				result.print(0, output);
 				output.flush();
 			}
 			catch (LispinException e) {

@@ -83,25 +83,18 @@ public abstract class Exp {
 
 	public void printSpaces(int level, PrintWriter output) {
 		for( int i=0;i<level;i++) 
-			output.print("  ");
+			output.print(".");
 	}
 
 	public void print(int level, PrintWriter output) {
 		printSpaces(level,output);
-		output.print(this.toString());
+		output.print("Exp:print: " + this.toString());
 	}
 
-	public void printCdrRight(int level, PrintWriter output) {
+	public void printLeft(int level, PrintWriter output) {
 		if( this == SymbolTable.NIL) 
 			return;
-		output.print(' ');
-		output.print(this.toString());
-	}
-
-	public void printCdr(int level, PrintWriter output) {
-		if( this == SymbolTable.NIL) 
-			return;
-		output.print(this.toString());
+		output.print("????????" + this.toString());
 	}
 
 }

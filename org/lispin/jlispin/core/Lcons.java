@@ -44,64 +44,45 @@ public class Lcons extends Exp {
 		return "(" + _car.toString() + _cdr.cdrToString() + ")";
 	}
 	
-	public void printCdrRightAtoms(int level, PrintWriter output) {
-		if( _car.listp() ) {
-			output.print(' ');
-			printSpaces(level, output);
-			_car.printCdrRightList(level, output);
-		}
-		else {
-			output.print(' ');
-			output.print(_car.toString());
-			if( _cdr != SymbolTable.NIL ) {
-				output.print(' ');
-				((Lcons)_cdr).printCdrRightAtoms(level, output);	
-			}
-		}
-	}
-
-	public void printCdrRightList(int level, PrintWriter output) {
-		if( _car.listp() ) {
-			_car.printCdrDown(level, output);
-		}
-		else {
-			output.print(' ');
-			output.print(_car.toString());
-			if( _cdr != SymbolTable.NIL ) {
-				output.print(' ');
-				((Lcons)_cdr).printCdrRightList(level, output);	
-			}
-		}
-	}
-		
-	public void printCdrDown(int level, PrintWriter output) {
-		if( _car.listp() ) {
-			output.print('\n');
-			_car.printCdrRightList(level+1, output);
-			if( _cdr != SymbolTable.NIL ) {
-				_cdr.printCdr(level, output);
-			}
-		}
-		else {
-			output.print("\n");
-			printSpaces(level+1, output);
-			output.print("~");
-			printCdrRight(level, output);
-		}
-	}
 
 	public void print(int level, PrintWriter output) {
-		printSpaces(level, output);
-		output.print(_car.toString());
-		if( _cdr == SymbolTable.NIL ) {
-			return;
-		}
-		if( _cdr.listp()) {
-			((Lcons)_cdr).printCdr(level, output);
-		}
-		else {
-			output.print(" . " + _cdr.toString());
-			
+		Exp head = this;
+		while ( head != SymbolTable.NIL) {
+			if(head.listp()) {
+				Lcons headCons = ((Lcons)head);
+				if( headCons._car.listp() ) {
+					Lcons first = ((Lcons)headCons._car);
+					if(this == head || this._cdr == head) { // first or second time in the loop
+						printSpaces(level, output);
+						output.print(headCons._car.toString() + ' ');
+						head = headCons._cdr;
+						continue;
+					}
+					else {
+						output.print('\n');
+						printSpaces(level+1, output);
+						first.print(level +1  , output);
+					}
+					if( headCons._cdr.listp() ) {
+						Lcons rest = (Lcons)headCons._cdr;
+						if( !rest._car.listp()) {
+							output.print('\n');
+							printSpaces(level+1, output);
+							output.print('~');
+						}
+					}
+				}
+				else {
+					output.print(headCons._car.toString() + ' ');
+				}
+				
+				head = headCons._cdr;
+				
+			}
+			else {
+				output.print(" . ");
+				output.print(head.toString());
+			}
 		}
 	}
 
