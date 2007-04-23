@@ -25,15 +25,13 @@ public class Lsymbol extends Exp {
 	public Object getJavaValue() { 
 		return getPrintName(); 
 	}
-
-	protected String cdrToString() {
-		if( this == SymbolTable.NIL ) 
-			return "";
-		return " . " + toString();
-	}
 	
 	public boolean isSelfEvaluating() {
 		return false;
+	}
+
+	public void acceptVisitor(Visitor guest) {
+		guest.visitLsymbol(this);
 	}
 
 }

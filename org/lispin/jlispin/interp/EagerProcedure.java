@@ -2,6 +2,7 @@ package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.core.Visitor;
 
 public class EagerProcedure extends Procedure  {
 	// I DO evaluate my arguments before being applied.
@@ -19,6 +20,10 @@ public class EagerProcedure extends Procedure  {
 			i++;
 		}
 		return result;
+	}
+
+	public void acceptVisitor(Visitor guest) {
+		guest.visitEagerProc(this);
 	}
 
 }

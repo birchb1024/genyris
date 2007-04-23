@@ -1,8 +1,11 @@
 package org.lispin.jlispin.test.interp;
 
+import java.io.StringWriter;
+
 import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Parser;
@@ -23,7 +26,13 @@ public class ComplexInterpreterTests extends TestCase {
 		Parser parser = interpreter.newParser(input);
 		Exp expression = parser.read(); 
 		Exp result = interpreter.eval(expression);
-		assertEquals(expected, result.toString());
+		
+		StringWriter out = new StringWriter();
+		BasicFormatter formatter = new BasicFormatter(out);
+		result.acceptVisitor(formatter);
+		assertEquals(expected, out.getBuffer().toString());
+
+		
 	}
 	
 	public void testExcerciseEval() throws Exception {

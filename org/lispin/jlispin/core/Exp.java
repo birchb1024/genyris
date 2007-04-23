@@ -1,6 +1,9 @@
 package org.lispin.jlispin.core;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import org.lispin.jlispin.format.BasicFormatter;
 
 public abstract class Exp {
 
@@ -16,19 +19,19 @@ public abstract class Exp {
 	public abstract Object getJavaValue();
 	
 	public String toString() {
-		return getJavaValue().toString();
+		StringWriter out = new StringWriter();
+		acceptVisitor(new BasicFormatter(out));
+		return  out.getBuffer().toString();
 	}
+	
+	public abstract void acceptVisitor(Visitor guest);
 
     //-----------------------
 	
 	public boolean isNil() {
 		return this == SymbolTable.NIL;
 	}
-	
-	protected String cdrToString() {
-		return " . " + toString();
-	}
-	
+		
 	public Exp car() throws AccessException {
 		throw new AccessException("attempt to take car of non-cons");
 	}
@@ -89,12 +92,6 @@ public abstract class Exp {
 	public void print(int level, PrintWriter output) {
 		printSpaces(level,output);
 		output.print("Exp:print: " + this.toString());
-	}
-
-	public void printLeft(int level, PrintWriter output) {
-		if( this == SymbolTable.NIL) 
-			return;
-		output.print("????????" + this.toString());
 	}
 
 }

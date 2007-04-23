@@ -17,6 +17,10 @@ public class Lcons extends Exp {
 		result[1] = _cdr;
 		return result;
 	}
+
+	public void acceptVisitor(Visitor guest) {
+		guest.visitLcons(this);
+	}
 	
 	public Exp car() {
 		return _car;
@@ -34,16 +38,7 @@ public class Lcons extends Exp {
 	public Exp setCdr(Exp exp) throws AccessException {
 		this._cdr = exp;;
 		return this;
-	}
-
-	protected String cdrToString() {
-		return " " + _car.toString() + _cdr.cdrToString();			
-		
-	}
-	public String toString() {		
-		return "(" + _car.toString() + _cdr.cdrToString() + ")";
-	}
-	
+	}	
 
 	public void print(int level, PrintWriter output) {
 		Exp head = this;

@@ -1,11 +1,14 @@
 package org.lispin.jlispin.test.interp;
 
+import java.io.StringWriter;
+
 import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LazyProcedure;
@@ -34,7 +37,10 @@ public class EvalApplyTest extends TestCase {
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
 		Exp result = env.eval(expression);
-		assertEquals("(23 . 23)", result.toString());
+		StringWriter out = new StringWriter();
+		BasicFormatter formatter = new BasicFormatter(out);
+		result.acceptVisitor(formatter);
+		assertEquals("(23 . 23)", out.getBuffer().toString());
 
 	}
 	
@@ -66,7 +72,12 @@ public class EvalApplyTest extends TestCase {
 			try {
 				Exp result;
 				result = env2.eval(expression);
-				assertEquals(expected, result.toString());
+				
+				StringWriter out = new StringWriter();
+				BasicFormatter formatter = new BasicFormatter(out);
+				result.acceptVisitor(formatter);
+				assertEquals(expected, out.getBuffer().toString());
+
 			} 
 			catch (LispinException e) {
 				assertEquals(exceptionExpected, e.getMessage());

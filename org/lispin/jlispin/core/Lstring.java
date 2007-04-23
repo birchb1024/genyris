@@ -15,6 +15,9 @@ public class Lstring extends Exp {
 	public String toString() {
 		return "\"" + _value + "\"";
 	}
+	public void acceptVisitor(Visitor guest) {
+		guest.visitLstring(this);
+	}
 
 
 }

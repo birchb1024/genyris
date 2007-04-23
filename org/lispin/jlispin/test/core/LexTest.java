@@ -1,15 +1,18 @@
 package org.lispin.jlispin.test.core;
 
+import java.io.StringWriter;
+
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
-import org.lispin.jlispin.core.ParseException;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Lex;
 import org.lispin.jlispin.io.LexException;
+import org.lispin.jlispin.io.ParseException;
 import org.lispin.jlispin.io.Parser;
 import org.lispin.jlispin.io.StringInStream;
 import org.lispin.jlispin.io.UngettableInStream;
@@ -99,7 +102,12 @@ public class LexTest extends TestCase {
 		InStream input = new UngettableInStream( new StringInStream(toParse));
 		Parser parser = new Parser(table, input);
 		Exp result = parser.read();
-		assertEquals(toParse, result.toString());
+		
+		StringWriter out = new StringWriter();
+		BasicFormatter formatter = new BasicFormatter(out);
+		result.acceptVisitor(formatter);
+		assertEquals(toParse, out.getBuffer().toString());
+
 	}
 
 	
@@ -123,7 +131,12 @@ public class LexTest extends TestCase {
 		InStream input = new UngettableInStream( new StringInStream(toParse));
 		Parser parser = new Parser(table, input);
 		Exp result = parser.read();
-		assertEquals(expected, result.toString());
+		
+		StringWriter out = new StringWriter();
+		BasicFormatter formatter = new BasicFormatter(out);
+		result.acceptVisitor(formatter);
+		assertEquals(expected, out.getBuffer().toString());
+
 	}
 
 	public void testSpecialLexQuote() throws Exception {

@@ -4,6 +4,7 @@ package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Visitor;
 
 public class LazyProcedure extends Procedure {
 	// I DO NOT evaluate my arguments before being applied.
@@ -25,6 +26,10 @@ public class LazyProcedure extends Procedure {
 			i++;
 		}
 		return result;
+	}
+
+	public void acceptVisitor(Visitor guest) {
+		guest.visitLazyProc(this);
 	}
 
 

@@ -41,7 +41,7 @@ public class SymbolTable {
 		raw_quote = internString("'");
 		raw_comma_at = internString(",@");
 		raw_comma = internString(",");
-		comma_at = internString("comma-at"); // TODO - is this right?
+		comma_at = internString("comma-at"); 
 		comma = internString("comma");
 		backquote = internString("backquote");
 		EOF = internString("EOF");

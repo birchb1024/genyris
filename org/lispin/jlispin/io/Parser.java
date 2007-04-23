@@ -2,7 +2,6 @@ package org.lispin.jlispin.io;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.ParseException;
 import org.lispin.jlispin.core.SymbolTable;
 
 public class Parser {
