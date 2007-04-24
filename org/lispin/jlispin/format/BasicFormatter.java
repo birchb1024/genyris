@@ -17,7 +17,7 @@ import org.lispin.jlispin.interp.LazyProcedure;
 
 public class BasicFormatter implements Visitor {
 	
-	private Writer _output;
+	protected Writer _output;
 	
 	public BasicFormatter(Writer out) {
 		_output = out;

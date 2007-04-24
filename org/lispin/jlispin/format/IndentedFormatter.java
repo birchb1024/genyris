@@ -3,111 +3,77 @@ package org.lispin.jlispin.format;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.Ldouble;
-import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.Lstring;
-import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
-import org.lispin.jlispin.interp.EagerProcedure;
-import org.lispin.jlispin.interp.LazyProcedure;
 
-public class IndentedFormatter implements Visitor {
+public class IndentedFormatter extends BasicFormatter implements Visitor {
+	
+	private final int INDENT_DEPTH;
 
-	private Writer _output;
-
-	public IndentedFormatter(Writer out) {
-		_output = out;
+	public IndentedFormatter(Writer out, int indentDepth) {
+		super(out);
+		INDENT_DEPTH = indentDepth;
+	}
+	
+	private void printSpaces(int level) throws IOException {
+		for( int i=0;i<level;i++)
+			_output.write("   ");
 	}
 
-	public void visitEagerProc(EagerProcedure proc) {
-		try {
-			_output.write(proc.getJavaValue().toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void visitLazyProc(LazyProcedure proc) {
-		try {
-			_output.write(proc.getJavaValue().toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	void writeCdr(Exp cons) {
-		try {
-			if (cons == SymbolTable.NIL) {
-				return;
+	public void printLcons(int level, Lcons cons) throws IOException {
+		Exp head = cons;
+		int countOfRight = 0;
+		while ( !head.isNil()) {
+			countOfRight += 1;
+			if(head.listp()) {
+				Lcons headCons = ((Lcons)head);
+				if( headCons.car().listp() ) {
+					Lcons first = ((Lcons)headCons.car());
+					if(countOfRight <= INDENT_DEPTH) { 
+						printSpaces(level);
+						if(countOfRight > 1) 
+							_output.write(' ');
+						_output.write(headCons.car().toString());
+						head = headCons.cdr();
+						continue;
+					}
+					else {
+						_output.write('\n');
+						printSpaces(level+1);
+						printLcons(level +1  , first);
+					}
+					if( headCons.cdr().listp() ) {
+						Lcons rest = (Lcons)headCons.cdr();
+						if( !rest.car().listp()) {
+							_output.write('\n');
+							printSpaces(level+1);
+							_output.write('~');
+						}
+					}
+				}
+				else {
+					if(countOfRight > 1) 
+						_output.write(' ');
+					headCons.car().acceptVisitor(this);
+				}
+				head = headCons.cdr();
 			}
-			_output.write(" ");
-			if (!cons.listp()) {
+			else {
+				if(countOfRight > 1) 
+					_output.write(' ');
 				_output.write(". ");
-				cons.acceptVisitor(this);
+				head.acceptVisitor(this);
 				return;
 			}
-			cons.car().acceptVisitor(this);
-			if (cons.cdr() == SymbolTable.NIL) {
-				return;
-			}
-			writeCdr(cons.cdr());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (AccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
+	
+	
 	public void visitLcons(Lcons cons) {
 		try {
-			_output.write("(");
-			cons.car().acceptVisitor(this);
-			writeCdr(cons.cdr());
-			_output.write(")");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void visitLdouble(Ldouble dub) {
-		try {
-			_output.write(dub.getJavaValue().toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void visitLinteger(Linteger lint) {
-		try {
-			_output.write(lint.getJavaValue().toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void visitLstring(Lstring lst) {
-		try {
-			_output.write("\"" + lst.getJavaValue().toString() + "\"");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void visitLsymbol(Lsymbol lsym) {
-		try {
-			_output.write(lsym.getJavaValue().toString());
+			printLcons(0, cons);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
