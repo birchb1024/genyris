@@ -1,6 +1,5 @@
 package org.lispin.jlispin.core;
 
-import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.lispin.jlispin.format.BasicFormatter;
@@ -82,16 +81,6 @@ public abstract class Exp {
 			count++;
 		}
 		throw new AccessException("nth could not find item: " + number);
-	}
-
-	public void printSpaces(int level, PrintWriter output) {
-		for( int i=0;i<level;i++) 
-			output.print(".");
-	}
-
-	public void print(int level, PrintWriter output) {
-		printSpaces(level,output);
-		output.print("Exp:print: " + this.toString());
 	}
 
 }

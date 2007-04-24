@@ -1,6 +1,5 @@
 package org.lispin.jlispin.core;
 
-import java.io.PrintWriter;
 
 public class Lcons extends Exp {
 	
@@ -39,48 +38,6 @@ public class Lcons extends Exp {
 		this._cdr = exp;;
 		return this;
 	}	
-
-	public void print(int level, PrintWriter output) {
-		Exp head = this;
-		while ( head != SymbolTable.NIL) {
-			if(head.listp()) {
-				Lcons headCons = ((Lcons)head);
-				if( headCons._car.listp() ) {
-					Lcons first = ((Lcons)headCons._car);
-					if(this == head || this._cdr == head) { // first or second time in the loop
-						printSpaces(level, output);
-						output.print(headCons._car.toString() + ' ');
-						head = headCons._cdr;
-						continue;
-					}
-					else {
-						output.print('\n');
-						printSpaces(level+1, output);
-						first.print(level +1  , output);
-					}
-					if( headCons._cdr.listp() ) {
-						Lcons rest = (Lcons)headCons._cdr;
-						if( !rest._car.listp()) {
-							output.print('\n');
-							printSpaces(level+1, output);
-							output.print('~');
-						}
-					}
-				}
-				else {
-					output.print(headCons._car.toString() + ' ');
-				}
-				
-				head = headCons._cdr;
-				
-			}
-			else {
-				output.print(" . ");
-				output.print(head.toString());
-			}
-		}
-	}
-
 
 	public boolean isSelfEvaluating() {
 		return false;
