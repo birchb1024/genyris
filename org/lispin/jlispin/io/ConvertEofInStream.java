@@ -3,6 +3,7 @@ package org.lispin.jlispin.io;
 
 public class ConvertEofInStream implements InStream {
 	
+	private boolean _haveSavedByte;
 	private int _nextByte;
 	private InStreamEOF _input;
 
@@ -10,26 +11,27 @@ public class ConvertEofInStream implements InStream {
 	public ConvertEofInStream(InStreamEOF in) {
 		_input = in;
 		_nextByte = (char)-1;
+		_haveSavedByte = false;
 	}
 	public void unGet(char x) throws LexException {
-		;
+		throw new LexException("unGet() not implemented in ConvertEofInStream!");
 	}
 	
 	public char readNext() {
-//		if( _nextByte == InStreamEOF.EOF)
-//			throw new LexException("hasData() not called prior to lgetc().");
 		char result = (char)_nextByte;
-		_nextByte = (char)InStreamEOF.EOF;
+		_haveSavedByte = false;
 		return result;
 	}
 	
 	public boolean hasData() {
 		try {
-			_nextByte = _input.getChar();
-			if( _nextByte == InStreamEOF.EOF)
-				return false;
-			else
-				return true;
+			if(_haveSavedByte)
+				return _nextByte != InStreamEOF.EOF;
+			else {
+				_nextByte = _input.getChar();
+				_haveSavedByte = true;
+				return _nextByte != InStreamEOF.EOF;
+			}
 		} 
 		catch (LexException e) {
 			return false;

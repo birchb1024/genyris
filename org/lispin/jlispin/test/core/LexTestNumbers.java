@@ -74,6 +74,7 @@ public class LexTestNumbers extends TestCase {
 
 	public void testParseNumberDoubles() throws Exception {
 		assertEquals(1.1 , excerciseParseNumberDouble("1.1"), 0.001);
+		assertEquals(1.2345 , excerciseParseNumberDouble("1.2345"), 0.0001);
 		assertEquals(1.01, excerciseParseNumberDouble("01.01"), 0.001);
 		assertEquals(1000.1, excerciseParseNumberDouble("1000.100"), 0.001);
 		assertEquals(0.0, excerciseParseNumberDouble("0.0"), 0.001);

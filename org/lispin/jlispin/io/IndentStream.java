@@ -50,7 +50,7 @@ public class IndentStream implements InStreamEOF {
 	}
 
 	public void unGet(char x) throws LexException {
-		;
+		throw new LexException("unGet() not implemented in IndentStream!");
 	}
 
 	void startLine() {
@@ -133,10 +133,31 @@ public class IndentStream implements InStreamEOF {
 							"illegal tab character before statement");
 				}
 				else if (ch == '~') {
-					// continuation line so pretend indentation is aligned
+					// Continuation line so pretend indentation is aligned
 					// with the previous level
-					// TODO
-					break; // jump back to the top of the loop
+					// Example:
+					//  foo
+					//    bar 1 2
+					//    ~ '(1 2 3 4 5)
+					//Gives: (foo (bar 1 2) '(1 2 3 4 5))
+					//xyz
+					//  foo
+					//    bar 1 2
+					//  ~ quux
+					//Gives: (xyz (foo (bar 1 2)) quux)
+					
+					stripLeadingSpaces();
+					//readAndBufferRestOfLine();
+
+					_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
+
+					bufferit(')', _currentLevel - _lineLevel  +1);
+					bufferit(' ');
+					_currentLevel = _lineLevel-1;
+					removeTabsAfter(_currentLevel);
+
+					_parseState = CATCHUP;
+					break; 
 				}
 				else  {
 					_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
@@ -186,7 +207,6 @@ public class IndentStream implements InStreamEOF {
 
 			case IN_STATEMENT:
 				if( !_instream.hasData() ) {
-
 					finish();
 					break;
 				}
@@ -250,6 +270,16 @@ public class IndentStream implements InStreamEOF {
 					int result = bufferitReadNext();
 					return result;
 				}
+			}
+		}
+	}
+
+	private void stripLeadingSpaces() throws LexException {
+		while ( _instream.hasData()) {
+			input();
+			if( ch != ' ') {
+				_instream.unGet(ch);
+				break;							
 			}
 		}
 	}

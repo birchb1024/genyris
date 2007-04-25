@@ -36,7 +36,7 @@ public class Lex {
 		while (_input.hasData()) {
 			ch = _input.readNext();
 			if (ch <= '9' && ch >= '0') {
-				collect = 10 * collect + (ch - '0'); // FIXME integer
+				collect = 10 * collect + (ch - '0'); // TODO integer
 				// overflow
 			}
 			else {

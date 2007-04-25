@@ -14,12 +14,14 @@
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.io"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.core"/>
 <file path="/JLispin/.hgignore"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.format"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.format"/>
 <file path="/JLispin/.project"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.core"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.io"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp"/>
 <file path="/JLispin/.classpath"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp.builtin"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
 </selectedElements>
 </jardesc>

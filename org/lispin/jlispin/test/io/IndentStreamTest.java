@@ -7,6 +7,7 @@ import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.IndentStream;
 import org.lispin.jlispin.io.LexException;
 import org.lispin.jlispin.io.StringInStream;
+import org.lispin.jlispin.io.UngettableInStream;
 
 public class IndentStreamTest extends TestCase {
 
@@ -23,7 +24,7 @@ public class IndentStreamTest extends TestCase {
 	}
 	
 	private void excerciseIndentInteractive(String toparse, String expected) throws LexException {
-		InStream ind = new ConvertEofInStream(new IndentStream(new StringInStream(toparse), true));
+		InStream ind = new ConvertEofInStream(new IndentStream(new UngettableInStream(new StringInStream(toparse)), true));
 		String result = "";
 		while( ind.hasData() ) {
 			result += ind.readNext();
@@ -100,11 +101,40 @@ public class IndentStreamTest extends TestCase {
 	public void testIndentStream17() throws LexException {
 		excerciseIndent("\n0000", "(0000)");
 	}
-	
-
-	
 	public void testIndentStream18() throws LexException {
 		excerciseIndentInteractive("1\n 2\n  3\n\n34", "(1(2(3)))(34)");
+	}
+	public void testIndentStream19() throws LexException {
+		excerciseIndentInteractive("1\n 2\n ~ 3", "(1(2) 3)");
+	}
+	public void testIndentStream20() throws LexException {
+		excerciseIndentInteractive("1\n 2\n ~3", "(1(2) 3)");
+	}
+	public void testIndentStream21() throws LexException {
+		excerciseIndentInteractive("1\n 2\n  3\n ~ 22", "(1(2(3)) 22)");
+	}
+	public void testIndentStream22() throws LexException {
+		excerciseIndentInteractive("~3", " 3");
+	}
+	public void testIndentStream23() throws LexException {
+		excerciseIndentInteractive("~(3)", " (3)");
+	}
+	public void testIndentStream24() throws LexException {
+		excerciseIndentInteractive("~(3 \n~ 4)", " (3  4)");
+	}
+	public void testIndentStream25() throws LexException {
+		excerciseIndentInteractive("~1\n~2\n~3", " 1 2 3");
+		//~1
+		//~2
+		//~3
+	}
+	public void testIndentStream26() throws LexException {
+		excerciseIndentInteractive("foo\n bar\n ~1\n ~2\n~3", "(foo(bar) 1 2) 3");
+		//foo
+		// bar
+		// ~1
+		// ~2
+		//~3
 	}
 
 }

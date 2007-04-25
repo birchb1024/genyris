@@ -27,6 +27,12 @@ public class IndentedFormatterTest extends TestCase {
 		assertEquals(expected, out.getBuffer().toString());
 	}
 
+	public void testAtom1() throws Exception {
+		excerciseFormatter("12", "12", 2);	
+	} 
+	public void testAtom2() throws Exception {
+		excerciseFormatter("nil", "nil", 2);	
+	} 
 	public void test1() throws Exception {
 		excerciseFormatter("(1 2.3 \"str\" (symbol))", "1 2.3 \"str\"\n   symbol", 2);	
 	} 

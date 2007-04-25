@@ -20,7 +20,7 @@ public class StringInStream implements InStream {
 	}
 
 	public  void unGet(char x) throws LexException {
-		throw new LexException("TODO");
+		throw new LexException("StringInStream: unGet not supported!");
 
 	}
 

@@ -18,4 +18,5 @@ public interface Visitor {
 
 	public void visitEagerProc(EagerProcedure eproc);
 
+	public void visitFrame(Frame frame);
 }

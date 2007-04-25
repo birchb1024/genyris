@@ -7,6 +7,7 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
+import org.lispin.jlispin.core.Frame;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
@@ -21,6 +22,15 @@ public class BasicFormatter implements Visitor {
 	
 	public BasicFormatter(Writer out) {
 		_output = out;
+	}
+
+	public void visitFrame(Frame frame) {
+		try {
+			_output.write(frame.getJavaValue().toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void visitEagerProc(EagerProcedure proc) {
