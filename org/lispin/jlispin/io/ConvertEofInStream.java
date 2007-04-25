@@ -23,20 +23,15 @@ public class ConvertEofInStream implements InStream {
 		return result;
 	}
 	
-	public boolean hasData() {
-		try {
-			if(_haveSavedByte)
-				return _nextByte != InStreamEOF.EOF;
-			else {
-				_nextByte = _input.getChar();
-				_haveSavedByte = true;
-				return _nextByte != InStreamEOF.EOF;
-			}
-		} 
-		catch (LexException e) {
-			return false;
-		}
+	public boolean hasData() throws LexException {
 
+		if(_haveSavedByte)
+			return _nextByte != InStreamEOF.EOF;
+		else {
+			_nextByte = _input.getChar();
+			_haveSavedByte = true;
+			return _nextByte != InStreamEOF.EOF;
+		} 
 	}
 	
 }

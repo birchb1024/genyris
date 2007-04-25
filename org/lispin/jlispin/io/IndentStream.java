@@ -184,11 +184,19 @@ public class IndentStream implements InStreamEOF {
 
 
 			case IN_STRING_ESC:
+				if( !_instream.hasData()) {
+					finish();
+					break;
+				}
 				input();
 				_parseState = IN_STRING;
 				return (ch);
 
 			case IN_STRING:
+				if( !_instream.hasData()) {
+					finish();
+					break;
+				}
 				input();
 
 				switch (ch) {

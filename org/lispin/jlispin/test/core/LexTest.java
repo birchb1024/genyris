@@ -2,6 +2,8 @@ package org.lispin.jlispin.test.core;
 
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
@@ -12,12 +14,9 @@ import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Lex;
 import org.lispin.jlispin.io.LexException;
-import org.lispin.jlispin.io.ParseException;
 import org.lispin.jlispin.io.Parser;
 import org.lispin.jlispin.io.StringInStream;
 import org.lispin.jlispin.io.UngettableInStream;
-
-import junit.framework.TestCase;
 
 public class LexTest extends TestCase {
 	
@@ -35,7 +34,7 @@ public class LexTest extends TestCase {
 
 	private void excerciseNextTokenExp(Exp expected, String toparse) throws LexException {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-		assertEquals(expected, lexer.nextToken());		
+		assertEquals(expected.toString(), lexer.nextToken().toString());		
 	}
 
 	public void testLex1() throws Exception {
@@ -88,16 +87,16 @@ public class LexTest extends TestCase {
 	
 	public void testCombination1() throws Exception {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream("int 12 double\n 12.34\r\n -12.34e5 \"string\" ")), _table);
-		assertEquals(new Lsymbol("int"), lexer.nextToken());				
+		assertEquals(new Lsymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());				
 		assertEquals(new Linteger(12), lexer.nextToken());					
-		assertEquals(new Lsymbol("double"), lexer.nextToken());					
+		assertEquals(new Lsymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());					
 		assertEquals(new Ldouble(12.34), lexer.nextToken());					
 		assertEquals(new Ldouble(-12.34e5), lexer.nextToken());	
 		assertEquals(new Lstring("string"), lexer.nextToken());	
 		
 	}
 
-	private void excerciseListParsing(String toParse) throws LexException, ParseException {
+	private void excerciseListParsing(String toParse) throws Exception {
 		SymbolTable table = new SymbolTable();
 		InStream input = new UngettableInStream( new StringInStream(toParse));
 		Parser parser = new Parser(table, input);
@@ -126,7 +125,7 @@ public class LexTest extends TestCase {
 		excerciseListParsing("(defun my-func (x) (cons x x))");	
 	}
 
-	private void excerciseSpecialParsing(String toParse, String expected) throws LexException, ParseException {
+	private void excerciseSpecialParsing(String toParse, String expected) throws Exception {
 		SymbolTable table = new SymbolTable();
 		InStream input = new UngettableInStream( new StringInStream(toParse));
 		Parser parser = new Parser(table, input);

@@ -8,10 +8,22 @@ public class Frame extends Exp {
 	private Map _dict;
 	
 	public Frame() {
-			_dict = new HashMap();
+		_dict = new HashMap();
 	}
+	
+	public int hashCode() {
+    	return _dict.hashCode();
+    }
+
+	public boolean equals(Object compare) {
+		if( compare.getClass() != this.getClass())
+			return false;
+		else 
+			return _dict.equals(((Frame)compare).getJavaValue());
+	}
+
 	public Object getJavaValue() {
-		return null;
+		return _dict;
 	}
 
 	public void acceptVisitor(Visitor guest) {

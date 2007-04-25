@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.EagerProcedure;
@@ -30,9 +29,9 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
-		Environment env = new Environment(null);
-		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		SymbolTable table = new SymbolTable();
+		Environment env = new Environment(null);
+		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
@@ -51,20 +50,20 @@ public class EvalApplyTest extends TestCase {
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
 		Environment env = new Environment(null);
 		SymbolTable table = new SymbolTable();
-		env.defineVariable(new Lsymbol("car"), new EagerProcedure(env, null, new CarFunction()));
-		env.defineVariable(new Lsymbol("cdr"), new EagerProcedure(env, null, new CdrFunction()));
-		env.defineVariable(new Lsymbol("rplaca"), new EagerProcedure(env, null, new ReplaceCarFunction()));
-		env.defineVariable(new Lsymbol("rplacd"), new EagerProcedure(env, null, new ReplaceCdrFunction()));
-		env.defineVariable(new Lsymbol("cons"), new EagerProcedure(env, null, new ConsFunction()));
-		env.defineVariable(new Lsymbol("quote"), new LazyProcedure(env, null, new QuoteFunction()));
-		env.defineVariable(new Lsymbol("define"), new EagerProcedure(env, null, new DefineFunction()));
-		env.defineVariable(new Lsymbol("set"), new EagerProcedure(env, null, new SetFunction()));
-		env.defineVariable(new Lsymbol("cond"), new LazyProcedure(env, null, new ConditionalFunction()));
+		env.defineVariable(table.internString("car"), new EagerProcedure(env, null, new CarFunction()));
+		env.defineVariable(table.internString("cdr"), new EagerProcedure(env, null, new CdrFunction()));
+		env.defineVariable(table.internString("rplaca"), new EagerProcedure(env, null, new ReplaceCarFunction()));
+		env.defineVariable(table.internString("rplacd"), new EagerProcedure(env, null, new ReplaceCdrFunction()));
+		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
+		env.defineVariable(table.internString("quote"), new LazyProcedure(env, null, new QuoteFunction()));
+		env.defineVariable(table.internString("define"), new EagerProcedure(env, null, new DefineFunction()));
+		env.defineVariable(table.internString("set"), new EagerProcedure(env, null, new SetFunction()));
+		env.defineVariable(table.internString("cond"), new LazyProcedure(env, null, new ConditionalFunction()));
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		env.defineVariable(SymbolTable.T, SymbolTable.T);
 		Environment env2 = new Environment(env);
 		env2.defineVariable(table.internString("alpha"), new Linteger(23));
-		env2.defineVariable(new Lsymbol("bravo"), new Linteger(45));
+		env2.defineVariable(table.internString("bravo"), new Linteger(45));
 		InStream input = new UngettableInStream( new StringInStream(exp));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();

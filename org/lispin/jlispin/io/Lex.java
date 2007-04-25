@@ -23,7 +23,7 @@ public class Lex {
 		_symbolTable = symbolTable;
 	}
 
-	public boolean hasData() {
+	public boolean hasData() throws LexException {
 		return _input.hasData();
 	}
 	public int parseDecimalNumber() throws LexException {

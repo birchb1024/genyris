@@ -3,6 +3,7 @@ package org.lispin.jlispin.io;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.interp.LispinException;
 
 public class Parser {
 	
@@ -17,7 +18,7 @@ public class Parser {
 	    cursym = _lexer.nextToken();	
 	}
 	
-	public Exp read() throws LexException, ParseException {
+	public Exp read() throws LispinException {
 	    Exp retval = SymbolTable.NIL;
 
 	    nextsym();
@@ -30,7 +31,7 @@ public class Parser {
 	    return(retval);
 	}
 	
-	public Exp parseList() throws LexException, ParseException {
+	public Exp parseList() throws LispinException {
 		Exp tree;
 
 		nextsym();
@@ -49,7 +50,7 @@ public class Parser {
 	   return( tree );
 	}
 	
-	public Exp parseExpression() throws LexException, ParseException {
+	public Exp parseExpression() throws LispinException {
 		Exp tree = SymbolTable.NIL;
 
 		if (cursym.equals(SymbolTable.EOF)) {

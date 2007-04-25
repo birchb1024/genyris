@@ -12,7 +12,7 @@ import org.lispin.jlispin.io.Parser;
 import org.lispin.jlispin.io.StringInStream;
 import org.lispin.jlispin.io.UngettableInStream;
 
-public class ComplexInterpreterTests extends TestCase {
+public class BuiltinInterpreterTests extends TestCase {
 	
 	private Interpreter interpreter;
 
@@ -38,23 +38,19 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("foo", "23");		
 	}
 
-	public void testMacro() throws Exception {
-		excerciseEval("(define 'w 99)", "99");
-		excerciseEval("((lambdam () 'w) 45)", "99");
+	public void testEquality() throws Exception {
+		excerciseEval("(equal 1 1)", "t");
+		excerciseEval("(equal 1.2e4 1.2e4)", "t");
+		excerciseEval("(equal \"foo\" \"foo\")", "t");
+		excerciseEval("(equal 'sym 'sym)", "t");
 	}
-
-	public void testRecursion() throws Exception {
-		excerciseEval("(define 'null (lambda (exp) (cond (exp nil) (t t))))", "<org.lispin.jlispin.interp.ClassicFunction>");
-		excerciseEval("(define 'last (lambda (x) (cond ((null (cdr x)) (car x)) (t (last (cdr x))))))", "<org.lispin.jlispin.interp.ClassicFunction>");
-		excerciseEval("(last '(1 2 3 4))", "4");
-
-	}
-
-	public void testLexicalScope() throws Exception {
-		excerciseEval("(define 'x -1)", "-1");
-		excerciseEval("(define 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<org.lispin.jlispin.interp.ClassicFunction>");
-		excerciseEval("(mk-func 10)", "<org.lispin.jlispin.interp.ClassicFunction>");
-		excerciseEval("((mk-func 10) 88)", "(10 . 88)");
+	public void testEqu() throws Exception {
+		excerciseEval("(define 'var 23)", "23");
+		excerciseEval("(eq 1 1)", "nil");
+		excerciseEval("(eq 1.2e4 1.2e4)", "nil");
+		excerciseEval("(eq \"foo\" \"foo\")", "nil");
+		excerciseEval("(eq 'sym 'sym)", "t");
+		excerciseEval("(eq var var)", "t");
 	}
 
 }

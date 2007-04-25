@@ -18,18 +18,22 @@ public class RoundtripIndentedFormatterTest extends TestCase {
 
 	void excerciseFormatter(String given) throws Exception { 
 
+		// Parse the test statement to a Lisin expression
 		Interpreter interpreter = new Interpreter();
 		InStream input = new UngettableInStream( new StringInStream(given));
 		Parser parser = interpreter.newParser(input);
 		Exp expression = parser.read(); 
+		// Output as an indented string
 		StringWriter out = new StringWriter();
 		IndentedFormatter formatter = new IndentedFormatter(out, 3);
 		expression.acceptVisitor(formatter);
 		String formatted = out.getBuffer().toString();
-
+		// Parse the output back into Lisp again
 		InStream toParseAgain = new UngettableInStream( new ConvertEofInStream(new IndentStream(new UngettableInStream( new StringInStream(formatted)), false)));
 		Parser parser2 = interpreter.newParser(toParseAgain);
 		Exp expression2 = parser2.read(); 
+		
+		// The re-read expresion and the original should be the same
 		assertEquals(expression.toString(), expression2.toString());
 	}
 

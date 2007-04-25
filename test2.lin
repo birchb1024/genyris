@@ -1,0 +1,19 @@
+define 'else
+   lambda (x) x
+
+
+define 'last
+  lambda (x)
+    cond
+      (eq nil (cdr x))
+         car x
+      else
+         last (cdr x)
+
+
+cond
+   (equal (last '(1 2 3 4 5 6)) 6)
+      ~ "PASSED"
+   else
+      ~ "FAILED"
+

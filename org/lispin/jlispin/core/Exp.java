@@ -6,13 +6,14 @@ import org.lispin.jlispin.format.BasicFormatter;
 
 public abstract class Exp {
 
+	public int hashCode() {
+    	return getJavaValue().hashCode();
+    }
 	public boolean equals(Object compare) {
-		if( compare.getClass() == this.getClass()) {
-			return this.getJavaValue().equals(((Exp)compare).getJavaValue());
-		}
-		else {
+		if( compare.getClass() != this.getClass())
 			return false;
-		}
+		else 
+			return this.getJavaValue().equals(((Exp)compare).getJavaValue());
 	}
 	
 	public abstract Object getJavaValue();

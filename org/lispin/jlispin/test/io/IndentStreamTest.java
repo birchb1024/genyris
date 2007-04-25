@@ -15,7 +15,7 @@ public class IndentStreamTest extends TestCase {
 		super.setUp();
 	}
 	private void excerciseIndent(String toparse, String expected) throws LexException {
-		InStream ind = new ConvertEofInStream(new IndentStream(new StringInStream(toparse), false));
+		InStream ind = new ConvertEofInStream(new IndentStream(new UngettableInStream(new StringInStream(toparse)), false));
 		String result = "";
 		while( ind.hasData() ) {
 			result += ind.readNext();
@@ -135,6 +135,22 @@ public class IndentStreamTest extends TestCase {
 		// ~1
 		// ~2
 		//~3
+	}
+	public void testIndentStream27() throws LexException {
+		//			define 'fn
+		//			  lambda (x)
+		//			    cond
+		//			      (eq nil (cdr x))
+		//			         x
+		//			      else
+		//			         fn (cdr x)
+		excerciseIndent(
+				"define 'fn\n  lambda (x)\n    cond\n      (eq nil (cdr x))\n         x\n      else\n         fn (cdr x)\n"
+				,"(define 'fn(lambda (x)(cond((eq nil (cdr x))(x))(else(fn (cdr x))))))");
+
+	}
+	public void testIndentStream28() throws LexException {
+		excerciseIndent("\"foo\"", "(\"foo\")");
 	}
 
 }

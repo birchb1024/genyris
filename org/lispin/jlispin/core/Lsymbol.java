@@ -18,12 +18,15 @@ public class Lsymbol extends Exp {
 	public int hashCode() {
     	return _printName.hashCode();
     }
-
+	
+	public boolean equals(Object compare) {
+		return this == compare;
+	}
 	public String getPrintName() { 
 		return _printName; 
 	}
 	public Object getJavaValue() { 
-		return getPrintName(); 
+		return _printName; 
 	}
 	
 	public boolean isSelfEvaluating() {

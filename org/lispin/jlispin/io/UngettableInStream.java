@@ -26,7 +26,7 @@ public class UngettableInStream implements InStream {
 			return _readPointer >= _ungetChars.length - 1 ;
 		}
 
-		public boolean hasData() {
+		public boolean hasData() throws LexException {
 			return !bufferEmpty() || _input.hasData();
 		}
 		

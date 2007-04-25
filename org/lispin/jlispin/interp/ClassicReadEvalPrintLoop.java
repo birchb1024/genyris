@@ -20,11 +20,13 @@ public class ClassicReadEvalPrintLoop {
 
 		InStream input = new UngettableInStream( new ConvertEofInStream(new IndentStream(new UngettableInStream(new StdioInStream()), true)));
 		Parser parser = interpreter.newParser(input);
+		Writer output = new PrintWriter(System.out);
+		IndentedFormatter formatter = new IndentedFormatter(output, 3);
 		System.out.println("*** JLispin is listening...");
+		Exp expression = null;
 		do {
 			try {
 				System.out.print("\n> ");
-				Exp expression;
 				expression = parser.read();
 				;
 				if( expression.equals(SymbolTable.EOF)) {
@@ -33,14 +35,12 @@ public class ClassicReadEvalPrintLoop {
 				}
 
 				Exp result = interpreter.eval(expression);
-				Writer output = new PrintWriter(System.out);
-				IndentedFormatter formatter = new IndentedFormatter(output, 3);
 				
 				result.acceptVisitor(formatter);
 				output.flush();
 			}
 			catch (LispinException e) {
-				System.out.println("*** Error: " + e.getMessage());
+				System.out.println("*** Error: " + e.getMessage());			
 			}
 			catch (Exception e) {
 				e.printStackTrace();
