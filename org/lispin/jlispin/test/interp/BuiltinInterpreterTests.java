@@ -34,7 +34,7 @@ public class BuiltinInterpreterTests extends TestCase {
 	}
 	
 	public void testExcerciseEval() throws Exception {
-		excerciseEval("(define (quote foo) 23)", "23");
+		excerciseEval("(defvar (quote foo) 23)", "23");
 		excerciseEval("foo", "23");		
 	}
 
@@ -45,7 +45,7 @@ public class BuiltinInterpreterTests extends TestCase {
 		excerciseEval("(equal 'sym 'sym)", "t");
 	}
 	public void testEqu() throws Exception {
-		excerciseEval("(define 'var 23)", "23");
+		excerciseEval("(defvar 'var 23)", "23");
 		excerciseEval("(eq 1 1)", "nil");
 		excerciseEval("(eq 1.2e4 1.2e4)", "nil");
 		excerciseEval("(eq \"foo\" \"foo\")", "nil");

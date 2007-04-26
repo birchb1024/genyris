@@ -56,7 +56,7 @@ public class EvalApplyTest extends TestCase {
 		env.defineVariable(table.internString("rplacd"), new EagerProcedure(env, null, new ReplaceCdrFunction()));
 		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		env.defineVariable(table.internString("quote"), new LazyProcedure(env, null, new QuoteFunction()));
-		env.defineVariable(table.internString("define"), new EagerProcedure(env, null, new DefineFunction()));
+		env.defineVariable(table.internString("defvar"), new EagerProcedure(env, null, new DefineFunction()));
 		env.defineVariable(table.internString("set"), new EagerProcedure(env, null, new SetFunction()));
 		env.defineVariable(table.internString("cond"), new LazyProcedure(env, null, new ConditionalFunction()));
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
@@ -129,7 +129,7 @@ public class EvalApplyTest extends TestCase {
 	}
 
 	public void testDefine() throws Exception {		
-		excerciseEval("((lambda () (define (quote charlie) 99) charlie))", "99");
+		excerciseEval("((lambda () (defvar (quote charlie) 99) charlie))", "99");
 	}
 
 	public void testSet() throws Exception {		

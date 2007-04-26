@@ -145,8 +145,8 @@ public class IndentStreamTest extends TestCase {
 		//			      else
 		//			         fn (cdr x)
 		excerciseIndent(
-				"define 'fn\n  lambda (x)\n    cond\n      (eq nil (cdr x))\n         x\n      else\n         fn (cdr x)\n"
-				,"(define 'fn(lambda (x)(cond((eq nil (cdr x))(x))(else(fn (cdr x))))))");
+				"defvar 'fn\n  lambda (x)\n    cond\n      (eq nil (cdr x))\n         x\n      else\n         fn (cdr x)\n"
+				,"(defvar 'fn(lambda (x)(cond((eq nil (cdr x))(x))(else(fn (cdr x))))))");
 
 	}
 	public void testIndentStream28() throws LexException {
