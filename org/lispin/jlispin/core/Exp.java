@@ -84,4 +84,14 @@ public abstract class Exp {
 		throw new AccessException("nth could not find item: " + number);
 	}
 
+	public Exp last() throws AccessException {
+		if(this == SymbolTable.NIL) 
+			return SymbolTable.NIL;			
+		Exp tmp = this;
+		while(tmp.cdr() != SymbolTable.NIL) {		
+			tmp = tmp.cdr();
+		}
+		return tmp.car();
+	}
+
 }

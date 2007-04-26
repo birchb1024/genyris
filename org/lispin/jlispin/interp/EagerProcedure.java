@@ -7,7 +7,7 @@ import org.lispin.jlispin.core.Visitor;
 public class EagerProcedure extends Procedure  {
 	// I DO evaluate my arguments before being applied.
 
-	public EagerProcedure(Environment environment, Exp expression, ApplicableFunction appl) {
+	public EagerProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
 		super( environment,  expression,  appl);
 	}
 		

@@ -16,36 +16,45 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class ClassicReadEvalPrintLoop {
 
 	public static void main(String[] args) {
-		Interpreter interpreter = new Interpreter();
+		Interpreter interpreter;
+		try {
+			interpreter = new Interpreter();
+			InStream input = new UngettableInStream(new ConvertEofInStream(
+					new IndentStream(
+							new UngettableInStream(new StdioInStream()), true)));
+			Parser parser = interpreter.newParser(input);
+			Writer output = new PrintWriter(System.out);
+			IndentedFormatter formatter = new IndentedFormatter(output, 3);
+			System.out.println("*** JLispin is listening...");
+			Exp expression = null;
+			do {
+				try {
+					System.out.print("\n> ");
+					expression = parser.read();
+					;
+					if (expression.equals(SymbolTable.EOF)) {
+						System.out.println("Bye..");
+						break;
+					}
 
-		InStream input = new UngettableInStream( new ConvertEofInStream(new IndentStream(new UngettableInStream(new StdioInStream()), true)));
-		Parser parser = interpreter.newParser(input);
-		Writer output = new PrintWriter(System.out);
-		IndentedFormatter formatter = new IndentedFormatter(output, 3);
-		System.out.println("*** JLispin is listening...");
-		Exp expression = null;
-		do {
-			try {
-				System.out.print("\n> ");
-				expression = parser.read();
-				;
-				if( expression.equals(SymbolTable.EOF)) {
-					System.out.println("Bye..");
-					break;
+					Exp result = interpreter.eval(expression);
+
+					result.acceptVisitor(formatter);
+					output.flush();
 				}
-
-				Exp result = interpreter.eval(expression);
-				
-				result.acceptVisitor(formatter);
-				output.flush();
-			}
-			catch (LispinException e) {
-				System.out.println("*** Error: " + e.getMessage());			
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		} while(true);
+				catch (LispinException e) {
+					System.out.println("*** Error: " + e.getMessage());
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			} while (true);
+		}
+		catch (LispinException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.exit(-1);
+		}
 
 	}
 

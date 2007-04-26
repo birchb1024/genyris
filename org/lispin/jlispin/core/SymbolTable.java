@@ -26,7 +26,7 @@ public class SymbolTable {
 	public static Exp raw_comma;
 	public static Exp comma;
 	public static Exp comma_at;
-
+	public static Exp REST;
 
 	
 	public SymbolTable() {
@@ -47,7 +47,7 @@ public class SymbolTable {
 		EOF = internString("EOF");
 		NIL = internString("nil");
 		T = internString("t");
-		
+		REST = internString("&rest");		
 	}
 	
 

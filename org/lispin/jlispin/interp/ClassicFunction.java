@@ -3,7 +3,9 @@ package org.lispin.jlispin.interp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.SymbolTable;
 
 public class ClassicFunction extends ApplicableFunction {
@@ -15,11 +17,32 @@ public class ClassicFunction extends ApplicableFunction {
 			throw new LispinException("Too few arguments supplied to proc: " + proc.getName());
 		}
 		for( int i=0 ; i< arguments.length ; i++ ) {
-			if( proc.getArgument(i) != SymbolTable.NIL )
-				bindings.put(proc.getArgument(i), arguments[i]);
+			Exp formal = proc.getArgumentOrNIL(i);
+			if( formal == SymbolTable.REST ) {
+				Lcons actuals = assembleListFromRemainingArgs(arguments, i);
+				formal = proc.getLastArgumentOrNIL(i+1);
+				if( formal != SymbolTable.NIL ) {
+					bindings.put(formal, actuals);
+				}
+				break;
+			}
+			else if( formal != SymbolTable.NIL ) {
+				bindings.put(formal, arguments[i]);
+			}
 		}
 		Environment newEnv = new Environment(proc.getEnv(), bindings); // Use the procedure's frame to get lexical scope
 		return newEnv.evalSequence(proc.getBody());
+	}
+
+	private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i) throws LispinException, AccessException {
+		Lcons actuals = new Lcons(arguments[i], SymbolTable.NIL);
+		Lcons tail = actuals;
+		for(int j=i+1; j< arguments.length ; j++ ) {
+			Lcons newTail = new Lcons(arguments[j], SymbolTable.NIL);
+			tail.setCdr(newTail);
+			tail = newTail;
+		}
+		return actuals;
 	}
 
 	public Object getJavaValue() {

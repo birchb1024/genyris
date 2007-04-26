@@ -21,7 +21,7 @@ public class Interpreter {
 	Environment _globalEnvironment;
 	SymbolTable _table;
 	
-	public Interpreter() {
+	public Interpreter() throws LispinException {
 		_globalEnvironment = new Environment(null);
 		_table = new SymbolTable();		
 		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction()));

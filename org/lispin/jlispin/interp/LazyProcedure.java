@@ -9,7 +9,7 @@ import org.lispin.jlispin.core.Visitor;
 public class LazyProcedure extends Procedure {
 	// I DO NOT evaluate my arguments before being applied.
 
-	public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) {
+	public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
 		super( environment,  expression,  appl);
 	}
 	

@@ -1,8 +1,8 @@
-define 'else
+defvar 'else
    lambda (x) x
 
 
-define 'last
+defvar 'last
   lambda (x)
     cond
       (eq nil (cdr x))

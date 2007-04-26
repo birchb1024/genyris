@@ -57,4 +57,13 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("((mk-func 10) 88)", "(10 . 88)");
 	}
 
+	public void testRestArgs() throws Exception {
+		excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<org.lispin.jlispin.interp.ClassicFunction>");
+		excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
+		excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
+		
+		excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<anonymous macro>");
+		excerciseEval("(fnq 12 cons 1 2)", "(1 . 2)");
+	}
+
 }
