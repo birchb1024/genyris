@@ -4,16 +4,26 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Frame;
 import org.lispin.jlispin.core.Lcons;
+import org.lispin.jlispin.core.Ldouble;
+import org.lispin.jlispin.core.Linteger;
+import org.lispin.jlispin.core.Lstring;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.Visitor;
+import org.lispin.jlispin.interp.EagerProcedure;
+import org.lispin.jlispin.interp.LazyProcedure;
 
-public class IndentedFormatter extends BasicFormatter implements Visitor {
+public class IndentedFormatter implements Visitor {
 	
 	private final int INDENT_DEPTH;
+	private Writer _output;
+	private int _consDepth;
 
 	public IndentedFormatter(Writer out, int indentDepth) {
-		super(out);
+		_output = out;
 		INDENT_DEPTH = indentDepth;
+		_consDepth = 0;
 	}
 	
 	private void printSpaces(int level) throws IOException {
@@ -22,6 +32,7 @@ public class IndentedFormatter extends BasicFormatter implements Visitor {
 	}
 
 	public void printLcons(int level, Lcons cons) throws IOException {
+		_consDepth +=1;
 		Exp head = cons;
 		int countOfRight = 0;
 		while ( !head.isNil()) {
@@ -64,20 +75,61 @@ public class IndentedFormatter extends BasicFormatter implements Visitor {
 					_output.write(' ');
 				_output.write(". ");
 				head.acceptVisitor(this);
+				_consDepth -=1;
 				return;
 			}
 		}
+		_consDepth -=1;
 	}
-
 	
 	
 	public void visitLcons(Lcons cons) {
 		try {
 			printLcons(0, cons);
 		} catch (IOException e) {
+			// TODO what to do with these exceptions?
+		}
+	}
+	public void visitFrame(Frame frame) {
+		writeAtom(frame);
+	}
+
+	public void visitEagerProc(EagerProcedure proc) {
+		writeAtom(proc);
+	}
+
+	public void visitLazyProc(LazyProcedure proc){
+		writeAtom(proc);
+	}
+	public void visitLdouble(Ldouble dub){
+		writeAtom(dub);
+	}
+
+	public void visitLinteger(Linteger lint)  {
+		writeAtom(lint);
+	}
+
+	private void writeAtom(Exp exp) {
+		writeAtom(exp.getJavaValue().toString());
+	}
+
+	private void writeAtom(String str) {
+		try {
+			if( _consDepth == 0 )
+				_output.write("~ ");
+			_output.write(str);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void visitLstring(Lstring lst) {
+		writeAtom("\""+ lst.getJavaValue().toString() + "\"");
+	}
+
+	public void visitLsymbol(Lsymbol lsym) {
+		writeAtom(lsym);
 	}
 
 }
