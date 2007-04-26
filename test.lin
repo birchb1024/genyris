@@ -1,4 +1,20 @@
+;
+;
+; defun defined as a macro
+;
 defvar 'defun
-  lambdaq (name args &rest body)
-      defvar name
-         `lambda ,args ,@body 
+  lambdam (name args &rest body)
+      cons 'defvar 
+        cons 
+           cons quote 
+             cons name nil
+           cons
+             cons 'lambda
+               cons args body
+             ~ nil
+                   
+defun f (x) (cons x x)
+
+f "woo"
+
+
