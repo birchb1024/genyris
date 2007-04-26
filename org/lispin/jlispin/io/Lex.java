@@ -104,7 +104,7 @@ public class Lex {
 			return (new Ldouble(floatingValue));
 		}
 		nextChar = _input.readNext();
-		if (nextChar == 'e') {
+		if (nextChar == 'e' || nextChar == 'E') {
 			nextChar = _input.readNext();
 			if (nextChar == '-') {
 				mant_sign = -1;

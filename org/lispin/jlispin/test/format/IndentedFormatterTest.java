@@ -33,6 +33,15 @@ public class IndentedFormatterTest extends TestCase {
 	public void testAtom2() throws Exception {
 		excerciseFormatter("nil", "~ nil", 2);	
 	} 
+	public void testAtom3() throws Exception {
+		excerciseFormatter("1.23E15", "~ 1.23E15", 2);	
+	} 
+	public void testAtom4() throws Exception {
+		excerciseFormatter("foo", "~ foo", 2);	
+	} 
+	public void testAtom5() throws Exception {
+		excerciseFormatter("\"string\"", "~ \"string\"", 2);	
+	} 
 	public void test1() throws Exception {
 		excerciseFormatter("(1 2.3 \"str\" (symbol))", "1 2.3 \"str\"\n   symbol", 2);	
 	} 
