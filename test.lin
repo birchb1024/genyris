@@ -1,5 +1,4 @@
 ;
-;
 ; defun defined as a macro
 ;
 defvar 'defun
@@ -13,8 +12,22 @@ defvar 'defun
                cons args body
              ~ nil
                    
-defun f (x) (cons x x)
+defun f (x) 
+     cons x x
 
 f "woo"
+
+;; list
+defun list (&rest args) args
+
+list 1 2 3 4 5 'a 'b 'c
+
+; eval
+defvar 'eval (lambdam (exp) exp)
+
+eval (cons 1 2)
+
+    
+
 
 

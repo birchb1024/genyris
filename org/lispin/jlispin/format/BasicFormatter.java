@@ -26,7 +26,7 @@ public class BasicFormatter implements Visitor {
 
 	public void visitFrame(Frame frame) {
 		try {
-			_output.write(frame.getJavaValue().toString());
+			_output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

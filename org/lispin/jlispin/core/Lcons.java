@@ -1,18 +1,16 @@
 package org.lispin.jlispin.core;
 
-import org.lispin.jlispin.interp.LispinException;
-
 
 public class Lcons extends Exp {
 	
 	private  Exp _car;
 	private  Exp _cdr;
 
-	public Lcons(Exp car, Exp cdr) throws LispinException {
-		if( car == null )
-			throw new LispinException("null pointer in cons(car)");
-		if( cdr == null )
-			throw new LispinException("null pointer in cons(cdr)");
+	public Lcons(Exp car, Exp cdr) {
+		if( car == null || cdr == null ) {
+			System.err.println("null pointer in cons()");
+			System.exit(-1);
+		}
 		_car = car;
 		_cdr = cdr;
 	}

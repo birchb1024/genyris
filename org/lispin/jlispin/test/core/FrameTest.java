@@ -25,5 +25,12 @@ public class FrameTest extends TestCase {
 		assertEquals(true, _frame.hasKey(a));
 		
 	}
+	/*
+new
+	name: "Bill"
+	age: 29
+
+new (name: "Bill) (age: 29) 
+	 */
 
 }

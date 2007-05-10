@@ -45,6 +45,9 @@ public class IndentedFormatterTest extends TestCase {
 	public void test1() throws Exception {
 		excerciseFormatter("(1 2.3 \"str\" (symbol))", "1 2.3 \"str\"\n   symbol", 2);	
 	} 
+	public void test11() throws Exception {
+		excerciseFormatter("(1 (symbol) (sym2) (sym3))", "1 (symbol) (sym2)\n   sym3", 3);	
+	} 
 	public void test2() throws Exception {
 		excerciseFormatter("(1 2.3 (nil nil 23 45 . 89))", "1 2.3\n   nil nil 23 45 . 89", 2);	
 	} 
@@ -66,4 +69,5 @@ public class IndentedFormatterTest extends TestCase {
 	public void test8() throws Exception {
 		excerciseFormatter("(1 2 3 (44) 5 (66) 7 (88) 9)", "1 2 3\n   44\n   ~ 5\n   66\n   ~ 7\n   88\n   ~ 9", 2);	
 	} 
+
 }

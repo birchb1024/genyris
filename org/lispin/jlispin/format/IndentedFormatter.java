@@ -10,6 +10,7 @@ import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
@@ -27,11 +28,11 @@ public class IndentedFormatter implements Visitor {
 	}
 	
 	private void printSpaces(int level) throws IOException {
-		for( int i=0;i<level;i++)
+		for( int i=1;i<level;i++)
 			_output.write("   ");
 	}
 
-	public void printLcons(int level, Lcons cons) throws IOException {
+	public void printLcons(Lcons cons) throws IOException {
 		_consDepth +=1;
 		Exp head = cons;
 		int countOfRight = 0;
@@ -42,23 +43,24 @@ public class IndentedFormatter implements Visitor {
 				if( headCons.car().listp() ) {
 					Lcons first = ((Lcons)headCons.car());
 					if(countOfRight <= INDENT_DEPTH) { 
-						printSpaces(level);
 						if(countOfRight > 1) 
 							_output.write(' ');
+						else
+							printSpaces(_consDepth);
 						_output.write(headCons.car().toString());
 						head = headCons.cdr();
 						continue;
 					}
 					else {
-						_output.write('\n');
-						printSpaces(level+1);
-						printLcons(level +1  , first);
+						_output.write('\n');;
+						printSpaces(_consDepth+1);
+						printLcons(first);
 					}
 					if( headCons.cdr().listp() ) {
 						Lcons rest = (Lcons)headCons.cdr();
 						if( !rest.car().listp()) {
 							_output.write('\n');
-							printSpaces(level+1);
+							printSpaces(_consDepth+1);
 							_output.write('~');
 						}
 					}
@@ -85,13 +87,17 @@ public class IndentedFormatter implements Visitor {
 	
 	public void visitLcons(Lcons cons) {
 		try {
-			printLcons(0, cons);
+			printLcons(cons);
 		} catch (IOException e) {
 			// TODO what to do with these exceptions?
 		}
 	}
 	public void visitFrame(Frame frame) {
-		writeAtom(frame);
+		try {
+			printLcons(new Lcons(SymbolTable.DICT, frame.getAlist()));
+		} catch (IOException e) {
+			// TODO what to do with these exceptions?
+		}
 	}
 
 	public void visitEagerProc(EagerProcedure proc) {

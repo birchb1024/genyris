@@ -7,7 +7,6 @@ import org.lispin.jlispin.interp.LispinException;
 
 public class SymbolTable {
 	
-
 	private Map _table;
 	
 	public static Exp NIL;
@@ -27,7 +26,7 @@ public class SymbolTable {
 	public static Exp comma;
 	public static Exp comma_at;
 	public static Exp REST;
-
+	public static Exp DICT;
 	
 	public SymbolTable() {
 		_table = new HashMap();
@@ -48,6 +47,7 @@ public class SymbolTable {
 		NIL = internString("nil");
 		T = internString("t");
 		REST = internString("&rest");		
+		DICT = internString("dict");
 	}
 	
 

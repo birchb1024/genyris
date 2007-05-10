@@ -46,5 +46,8 @@ public class RoundtripIndentedFormatterTest extends TestCase {
 	public void testRountrip4() throws Exception {
 		excerciseFormatter("(symbol \"string\" 1 45 (list a b (symbol \"string\" 1 45 (list a b c d) 4) d) 4)");
 	}
+	public void testFrame1() throws Exception {
+		excerciseFormatter("(new (a 1) (b 2) (c 3) (d 4))");	
+	} 
 
 }
