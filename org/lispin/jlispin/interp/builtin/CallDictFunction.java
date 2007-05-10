@@ -10,7 +10,7 @@ public class CallDictFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment env) throws LispinException {
 
-		return env.evalSequence(arguments[0]); // TODO check if it exists?
+		return env.evalSequence(arguments[0]); 
 
 	}
 	public Object getJavaValue() {
