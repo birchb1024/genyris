@@ -3,19 +3,19 @@ package org.lispin.jlispin.test.core;
 import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Frame;
+import org.lispin.jlispin.core.Dict;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.SymbolTable;
 
-public class FrameTest extends TestCase {
+public class DictTest extends TestCase {
 	
 	private SymbolTable _table;
-	private Frame _frame;
+	private Dict _frame;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		_table = new SymbolTable();
-		_frame = new Frame();
+		_frame = new Dict();
 	}
 	public void test1() throws Exception {
 

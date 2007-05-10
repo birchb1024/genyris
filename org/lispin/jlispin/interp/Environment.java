@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lispin.jlispin.core.AccessException;
+import org.lispin.jlispin.core.Dict;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.interp.builtin.CallDictFunction;
 
 public class Environment {
 	
@@ -57,6 +59,13 @@ public class Environment {
 		else 
 			return false;
 	}
+	private static boolean isDictCall(Exp exp) throws AccessException {
+		if( exp.listp() )
+			return exp.car().getClass() == Dict.class ;
+		else 
+			return false;
+	}
+
 	
 	public Exp eval(Exp expression) throws UnboundException, AccessException, LispinException {
 		if( expression.isSelfEvaluating()) {

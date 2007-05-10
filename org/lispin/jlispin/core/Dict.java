@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class Frame extends Exp {
+public class Dict extends Exp {
 	private Map _dict;
 	
-	public Frame() {
+	public Dict() {
 		_dict = new HashMap();
 	}
 	
@@ -20,7 +20,7 @@ public class Frame extends Exp {
 		if( compare.getClass() != this.getClass())
 			return false;
 		else 
-			return _dict.equals(((Frame)compare)._dict);
+			return _dict.equals(((Dict)compare)._dict);
 	}
 
 	public Object getJavaValue() {
@@ -28,11 +28,11 @@ public class Frame extends Exp {
 	}
 
 	public void acceptVisitor(Visitor guest) {
-		guest.visitFrame(this);
+		guest.visitDict(this);
 	}
 		
 	public boolean isSelfEvaluating() {
-		return true;
+		return false;
 	}
 	public boolean hasKey(Exp a) {
 		return _dict.containsKey(a);
