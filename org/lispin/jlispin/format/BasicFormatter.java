@@ -7,7 +7,7 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
-import org.lispin.jlispin.core.Frame;
+import org.lispin.jlispin.core.Dict;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
@@ -24,7 +24,7 @@ public class BasicFormatter implements Visitor {
 		_output = out;
 	}
 
-	public void visitFrame(Frame frame) {
+	public void visitDict(Dict frame) {
 		try {
 			_output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
 		} catch (IOException e) {

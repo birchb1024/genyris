@@ -1,7 +1,7 @@
 package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Frame;
+import org.lispin.jlispin.core.Dict;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
@@ -12,7 +12,7 @@ import org.lispin.jlispin.interp.Procedure;
 public class DictFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment env) throws LispinException {
-		Frame f = new Frame();
+		Dict f = new Dict();
 		for(int i= 0; i < arguments.length; i++) {
 			if( !arguments[i].listp())
 				throw new LispinException("argument to new not a list");

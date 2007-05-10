@@ -5,7 +5,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.Frame;
+import org.lispin.jlispin.core.Dict;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
@@ -50,9 +50,9 @@ public class EqualityTest extends TestCase {
 	}
 	
 	public void testFrame() throws Exception {
-		Frame f1 = new Frame();
+		Dict f1 = new Dict();
 		f1.add(new Linteger(1), new Lstring("foo"));
-		Frame f2 = new Frame();
+		Dict f2 = new Dict();
 		f2.add(new Linteger(1), new Lstring("foo"));
 		assertTrue(f1.equals(f2));
 	}
