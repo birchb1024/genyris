@@ -13,15 +13,17 @@
 <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.io"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.core"/>
-<file path="/JLispin/.hgignore"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.format"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.format"/>
-<file path="/JLispin/.project"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.core"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.io"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp"/>
 <file path="/JLispin/.classpath"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp.builtin"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.format"/>
+<file path="/JLispin/.hgignore"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.format"/>
+<file path="/JLispin/test.lin"/>
+<file path="/JLispin/.project"/>
+<file path="/JLispin/test2.lin"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
 </selectedElements>
 </jardesc>

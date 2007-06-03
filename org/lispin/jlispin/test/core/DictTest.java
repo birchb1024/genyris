@@ -26,11 +26,11 @@ public class DictTest extends TestCase {
 		
 	}
 	/*
-new
+dict
 	name: "Bill"
 	age: 29
 
-new (name: "Bill) (age: 29) 
+dict (name: "Bill) (age: 29) 
 	 */
 
 }
