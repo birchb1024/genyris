@@ -1,7 +1,11 @@
 package org.lispin.jlispin.interp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 
 public class CallableEnvironment extends Exp implements Closure {
@@ -20,12 +24,15 @@ public class CallableEnvironment extends Exp implements Closure {
 		return "<CallableEnvironment>";
 	}
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
-		// TODO create new special env and env for self, apply body
-		return null;
+		Map bindings = new HashMap();
+		bindings.put(SymbolTable.self, this);
+		Environment newEnv = new SpecialEnvironment(environment, bindings, _delegate); 
+		return newEnv.evalSequence(arguments[0]);
 	}
 	public Exp[] computeArguments(Environment env, Exp exp) throws LispinException {
-		// TODO same as quote &rest
-		return null;
+		Exp[] result = new Exp[1];
+		result[0] = exp; // same as &rest
+		return result;
 	}
 	public Exp getArgumentOrNIL(int index) throws AccessException {
 		return null;
@@ -47,28 +54,8 @@ public class CallableEnvironment extends Exp implements Closure {
 		return null;
 	}
 	public int getNumberOfRequiredArguments() throws AccessException {
-		return 1;
+		return 0;
 	}
-
-//	public void defineVariable(Exp symbol, Exp valu) {
-//		_delegate.defineVariable(symbol, valu);
-//	}
-//
-//	public Exp eval(Exp expression) throws UnboundException, AccessException, LispinException {
-//		return _delegate.eval(expression);
-//	}
-//
-//	public Exp evalSequence(Exp body) throws LispinException {
-//		return _delegate.evalSequence(body);
-//	}
-//
-//	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-//		return _delegate.lookupVariableValue(symbol);
-//	}
-//
-//	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-//		_delegate.setVariableValue(symbol, valu);
-//	}
 
 	public String toString() {
 		return "<CallableEnvironment>";

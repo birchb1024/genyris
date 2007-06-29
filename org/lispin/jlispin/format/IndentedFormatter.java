@@ -15,6 +15,7 @@ import org.lispin.jlispin.core.Visitor;
 import org.lispin.jlispin.interp.CallableEnvironment;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.SpecialEnvironment;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class IndentedFormatter implements Visitor {
@@ -103,6 +104,10 @@ public class IndentedFormatter implements Visitor {
 	}
 
 	public void visitStandardEnvironment(StandardEnvironment env) {
+		writeAtom(env);
+	}
+
+	public void visitSpecialEnvironment(SpecialEnvironment env) {
 		writeAtom(env);
 	}
 

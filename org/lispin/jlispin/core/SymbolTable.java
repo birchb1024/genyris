@@ -16,6 +16,7 @@ public class SymbolTable {
 	public static Exp period;
 	public static Exp EOF;
 	public static Exp closure;
+	public static Exp self;
 	public static Exp lambda;
 	public static Exp lambdaq;
 	public static Exp lambdam;
@@ -35,6 +36,7 @@ public class SymbolTable {
 		rightParen = internString("righParen");
 		period = internString("period");
 		closure = internString("closure");
+		self = internString("self");
 		lambda = internString("lambda");
 		lambdaq = internString("lambdaq");
 		lambdam = internString("lambdam");

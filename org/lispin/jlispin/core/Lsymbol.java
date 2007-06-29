@@ -37,4 +37,8 @@ public class Lsymbol extends Exp {
 		guest.visitLsymbol(this);
 	}
 
+	public boolean isMember() {
+		return _printName.startsWith("_");
+	}
+
 }

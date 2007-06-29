@@ -3,6 +3,7 @@ package org.lispin.jlispin.core;
 import org.lispin.jlispin.interp.CallableEnvironment;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.SpecialEnvironment;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
 public interface Visitor {
@@ -25,4 +26,6 @@ public interface Visitor {
 	public void visitStandardEnvironment(StandardEnvironment environment);
 
 	public void visitCallableEnvironment(CallableEnvironment environment);
+
+	public void visitSpecialEnvironment(SpecialEnvironment environment);
 }
