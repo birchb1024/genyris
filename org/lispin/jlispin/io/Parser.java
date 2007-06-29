@@ -38,7 +38,7 @@ public class Parser {
 		if( cursym.equals(SymbolTable.rightParen ) ) {
 	      tree = SymbolTable.NIL;
 		}
-	   else if( cursym.equals(SymbolTable.period) ) {
+	   else if( cursym.equals(SymbolTable.cdr_char) ) {
 		   nextsym();
 		   tree = parseExpression();
 		   nextsym();

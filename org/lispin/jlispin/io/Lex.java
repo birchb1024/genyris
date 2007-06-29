@@ -229,7 +229,7 @@ public class Lex {
 
 			case '(' : return SymbolTable.leftParen;
 		    case ')' : return SymbolTable.rightParen;
-		    case '.' : return SymbolTable.period;
+		    case '^' : return SymbolTable.cdr_char;
 		    case QUOTECHAR : return SymbolTable.raw_quote;
 		    case BQUOTECHAR :return SymbolTable.backquote;
 			case COMMACHAR : {
@@ -243,48 +243,6 @@ public class Lex {
 					 return SymbolTable.raw_comma;
 				 }
 			 }
-				// case FUNCCHAR : {
-				// ch = input.lgetc();
-				// if( ch == '\'' ) {
-				// cursym = raw_func;
-				// return;
-				// }
-				// else if( ch == USERCHAR2 ) {
-				// cursym = raw_uchar2;
-				// return;
-				// }
-				// else if( ch == USERCHAR1 ) {
-				// cursym = raw_uchar1;
-				// return;
-				// }
-				// else if( ch == '|' )
-				// {
-				// do {
-				// ch = input.lgetc();
-				// if( ch == '|' )
-				// {
-				// ch = input.lgetc();
-				// if( ch == '#') // comment ended
-				// {
-				// break;;
-				// }
-				// }
-				// } while( ch != ((int)EOF) );
-				// break;
-				// }
-				// else {
-				// input.lungetc(ch);
-				// ch = FUNCCHAR;
-				// cursym = c_ident();
-				// return;
-				// }
-				// }
-				// break;
-				//
-				// }
-				// return;
-				//
-				//
 
 
 			default:

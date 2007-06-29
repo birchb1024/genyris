@@ -13,7 +13,7 @@ public class SymbolTable {
 	public static Exp T;
 	public static Exp leftParen;
 	public static Exp rightParen;
-	public static Exp period;
+	public static Exp cdr_char;
 	public static Exp EOF;
 	public static Exp closure;
 	public static Exp self;
@@ -34,7 +34,7 @@ public class SymbolTable {
 		_table = new HashMap();
 		leftParen = internString("leftParen");
 		rightParen = internString("righParen");
-		period = internString("period");
+		cdr_char = internString("period");
 		closure = internString("closure");
 		self = internString("self");
 		lambda = internString("lambda");

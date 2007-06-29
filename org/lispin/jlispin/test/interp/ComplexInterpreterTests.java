@@ -54,7 +54,7 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(defvar 'x -1)", "-1");
 		excerciseEval("(defvar 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(mk-func 10)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("((mk-func 10) 88)", "(10 . 88)");
+		excerciseEval("((mk-func 10) 88)", "(10 ^ 88)");
 	}
 
 	public void testRestArgs() throws Exception {
@@ -63,7 +63,7 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 		
 		excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<anonymous macro>");
-		excerciseEval("(fnq 12 cons 1 2)", "(1 . 2)");
+		excerciseEval("(fnq 12 cons 1 2)", "(1 ^ 2)");
 	}
 	public void testFrame() throws Exception {
 		excerciseEval("(dict (a 1) (b 2) (c 3))", "(dict (b 2) (c 3) (a 1))");

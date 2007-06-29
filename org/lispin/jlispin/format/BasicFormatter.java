@@ -61,7 +61,7 @@ public class BasicFormatter implements Visitor {
 			}
 			_output.write(" ");
 			if( !cons.listp() ) {
-				_output.write(". ");
+				_output.write("^ "); // cdr_char
 				cons.acceptVisitor(this);
 				return;
 			}
