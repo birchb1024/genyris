@@ -63,6 +63,7 @@ public class LexTest extends TestCase {
 		excerciseNextTokenExp(new Lsymbol("foo*bar"), "foo\\*bar");
 		excerciseNextTokenExp(new Lsymbol("quux"), "\n\nquux");
 		excerciseNextTokenExp(new Lsymbol("|123|"), "  \t|123|");
+		excerciseNextTokenExp(new Lsymbol(".x"), "  \t.x");
 
 	}
 	public void testLexIdentMinus() throws Exception {
@@ -116,12 +117,12 @@ public class LexTest extends TestCase {
 		excerciseListParsing("(1 (2) 3)"); 
 		excerciseListParsing("(1 (2) 3 (4 (5 (6))))"); 		
 
-		excerciseListParsing("(1 . 2)"); 
-		excerciseListParsing("(1 2 . 3)");	
+		excerciseListParsing("(1 ^ 2)"); 
+		excerciseListParsing("(1 2 ^ 3)");	
 		
 		excerciseListParsing("(\"a\" 1.2 30000 foo)"); 
-		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 . 3))"); 
-		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 . 3) (1 (2) 3 (4 (5 (6)))))");		
+		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 ^ 3))"); 
+		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 ^ 3) (1 (2) 3 (4 (5 (6)))))");		
 		excerciseListParsing("(defun my-func (x) (cons x x))");	
 	}
 
@@ -143,7 +144,7 @@ public class LexTest extends TestCase {
 		excerciseSpecialParsing("'12.34", "(quote 12.34)"); 
 		excerciseSpecialParsing("'\"str\"", "(quote \"str\")"); 
 		excerciseSpecialParsing("'(1 2)", "(quote (1 2))"); 
-		excerciseSpecialParsing("'(1 . 2)", "(quote (1 . 2))"); 
+		excerciseSpecialParsing("'(1 ^ 2)", "(quote (1 ^ 2))"); 
 	}
 
 	public void testSpecialLexBackQuote() throws Exception {
@@ -151,9 +152,9 @@ public class LexTest extends TestCase {
 		excerciseSpecialParsing("(`12.34)", "(backquote 12.34)");
 		excerciseSpecialParsing("(`\"str\")", "(backquote \"str\")");
 		excerciseSpecialParsing("(`(1 2))", "(backquote (1 2))");
-		excerciseSpecialParsing("(`(1 . 2))", "(backquote (1 . 2))");
-		excerciseSpecialParsing("(``(1 . 2))", "(backquote backquote (1 . 2))");
-		excerciseSpecialParsing("(`(1 . 2)`)", "(backquote (1 . 2) backquote)");
+		excerciseSpecialParsing("(`(1 ^ 2))", "(backquote (1 ^ 2))");
+		excerciseSpecialParsing("(``(1 ^ 2))", "(backquote backquote (1 ^ 2))");
+		excerciseSpecialParsing("(`(1 ^ 2)`)", "(backquote (1 ^ 2) backquote)");
 	}
 
 	public void testSpecialLexComma() throws Exception {

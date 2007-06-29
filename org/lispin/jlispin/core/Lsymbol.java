@@ -38,7 +38,7 @@ public class Lsymbol extends Exp {
 	}
 
 	public boolean isMember() {
-		return _printName.startsWith("_");
+		return _printName.startsWith(".");
 	}
 
 }

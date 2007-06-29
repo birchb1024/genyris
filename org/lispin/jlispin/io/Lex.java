@@ -13,6 +13,7 @@ public class Lex {
 	private static final char QUOTECHAR = '\'';
 	private static final char COMMACHAR = ',';
 	private static final char ATCHAR = '@';
+	private static final char MEMBERCHAR = '.';
 	
 	private InStream _input;
 
@@ -140,6 +141,7 @@ public class Lex {
 		case BQUOTECHAR:
 		case QUOTECHAR:
 		case '"':
+		case MEMBERCHAR:
 			return false;
 
 		default:
@@ -155,7 +157,13 @@ public class Lex {
 		if (!_input.hasData()) {
 			throw new LexException("unexpected end of file");
 		}
-
+		ch = _input.readNext();
+		if( ch == MEMBERCHAR ) { // . allowed as first
+			collect += ch;
+		}
+		else {
+			_input.unGet(ch);
+		}
 		while (_input.hasData()) {
 			ch = _input.readNext();
 			if (isIdentCharacter(ch)) {
