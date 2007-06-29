@@ -1,5 +1,6 @@
 package org.lispin.jlispin.core;
 
+import org.lispin.jlispin.interp.CallableEnvironment;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
 import org.lispin.jlispin.interp.StandardEnvironment;
@@ -22,4 +23,6 @@ public interface Visitor {
 	public void visitDict(Dict frame);
 
 	public void visitStandardEnvironment(StandardEnvironment environment);
+
+	public void visitCallableEnvironment(CallableEnvironment environment);
 }

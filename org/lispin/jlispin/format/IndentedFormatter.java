@@ -12,6 +12,7 @@ import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
+import org.lispin.jlispin.interp.CallableEnvironment;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
 import org.lispin.jlispin.interp.StandardEnvironment;
@@ -102,6 +103,10 @@ public class IndentedFormatter implements Visitor {
 	}
 
 	public void visitStandardEnvironment(StandardEnvironment env) {
+		writeAtom(env);
+	}
+
+	public void visitCallableEnvironment(CallableEnvironment env) {
 		writeAtom(env);
 	}
 

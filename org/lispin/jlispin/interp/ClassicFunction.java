@@ -10,7 +10,7 @@ import org.lispin.jlispin.core.SymbolTable;
 
 public class ClassicFunction extends ApplicableFunction {
 
-	public Exp bindAndExecute(AbstractClosure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
 
 		Map bindings = new HashMap();
 		if(arguments.length < proc.getNumberOfRequiredArguments()) {

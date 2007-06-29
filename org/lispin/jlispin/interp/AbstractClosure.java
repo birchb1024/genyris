@@ -5,7 +5,7 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.SymbolTable;
 
-public abstract class AbstractClosure extends Exp {
+public abstract class AbstractClosure extends Exp implements Closure {
 	
 	Environment _env;
 	Exp _lambdaExpression;

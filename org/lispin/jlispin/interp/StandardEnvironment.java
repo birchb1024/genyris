@@ -84,7 +84,7 @@ public class StandardEnvironment extends Environment {
 			return new EagerProcedure(this, expression,  new ClassicFunction());
 		}
 		else if( expression.listp() ) { 
-			AbstractClosure proc = (AbstractClosure) eval(expression.car());
+			Closure proc = (Closure) eval(expression.car());
 			Exp[] arguments = proc.computeArguments(this, expression.cdr());
 			return proc.applyFunction(this, arguments );
 		}
