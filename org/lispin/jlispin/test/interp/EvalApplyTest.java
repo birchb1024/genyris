@@ -12,6 +12,7 @@ import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LazyProcedure;
 import org.lispin.jlispin.interp.LispinException;
+import org.lispin.jlispin.interp.StandardEnvironment;
 import org.lispin.jlispin.interp.builtin.CarFunction;
 import org.lispin.jlispin.interp.builtin.CdrFunction;
 import org.lispin.jlispin.interp.builtin.ConditionalFunction;
@@ -30,7 +31,7 @@ public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
 		SymbolTable table = new SymbolTable();
-		Environment env = new Environment(null);
+		Environment env = new StandardEnvironment(null);
 		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
 		Parser parser = new Parser(table, input);
@@ -48,7 +49,7 @@ public class EvalApplyTest extends TestCase {
 	}
 
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
-		Environment env = new Environment(null);
+		Environment env = new StandardEnvironment(null);
 		SymbolTable table = new SymbolTable();
 		env.defineVariable(table.internString("car"), new EagerProcedure(env, null, new CarFunction()));
 		env.defineVariable(table.internString("cdr"), new EagerProcedure(env, null, new CdrFunction()));
@@ -61,7 +62,7 @@ public class EvalApplyTest extends TestCase {
 		env.defineVariable(table.internString("cond"), new LazyProcedure(env, null, new ConditionalFunction()));
 		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		env.defineVariable(SymbolTable.T, SymbolTable.T);
-		Environment env2 = new Environment(env);
+		Environment env2 = new StandardEnvironment(env);
 		env2.defineVariable(table.internString("alpha"), new Linteger(23));
 		env2.defineVariable(table.internString("bravo"), new Linteger(45));
 		InStream input = new UngettableInStream( new StringInStream(exp));

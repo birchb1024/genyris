@@ -23,8 +23,9 @@ public class Interpreter {
 	SymbolTable _table;
 	
 	public Interpreter() throws LispinException {
-		_globalEnvironment = new Environment(null);
+		_globalEnvironment = new StandardEnvironment(null);
 		_table = new SymbolTable();		
+		_globalEnvironment.defineVariable(_table.internString("closure"), new EagerProcedure(_globalEnvironment, null, new ClosureFunction()));
 		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction()));
 		_globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction()));
 		_globalEnvironment.defineVariable(_table.internString("rplaca"), new EagerProcedure(_globalEnvironment, null, new ReplaceCarFunction()));

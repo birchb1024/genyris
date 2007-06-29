@@ -4,7 +4,7 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 
-public class EagerProcedure extends Procedure  {
+public class EagerProcedure extends AbstractClosure  {
 	// I DO evaluate my arguments before being applied.
 
 	public EagerProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {

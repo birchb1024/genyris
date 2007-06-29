@@ -5,11 +5,11 @@ import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LispinException;
-import org.lispin.jlispin.interp.Procedure;
+import org.lispin.jlispin.interp.AbstractClosure;
 
 public class ConditionalFunction extends ApplicableFunction {
 
-	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment env) throws LispinException {
+	public Exp bindAndExecute(AbstractClosure proc, Exp[] arguments, Environment env) throws LispinException {
 
 		for(int i= 0; i < arguments.length; i++) {
 			Exp condition = env.eval(arguments[i].car()); // TODO check if it exists?

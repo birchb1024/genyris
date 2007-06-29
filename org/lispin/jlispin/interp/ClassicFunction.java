@@ -10,7 +10,7 @@ import org.lispin.jlispin.core.SymbolTable;
 
 public class ClassicFunction extends ApplicableFunction {
 
-	public Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
+	public Exp bindAndExecute(AbstractClosure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
 
 		Map bindings = new HashMap();
 		if(arguments.length < proc.getNumberOfRequiredArguments()) {
@@ -30,7 +30,7 @@ public class ClassicFunction extends ApplicableFunction {
 				bindings.put(formal, arguments[i]);
 			}
 		}
-		Environment newEnv = new Environment(proc.getEnv(), bindings); // Use the procedure's frame to get lexical scope
+		Environment newEnv = new StandardEnvironment(proc.getEnv(), bindings); // Use the procedure's frame to get lexical scope
 		return newEnv.evalSequence(proc.getBody());
 	}
 

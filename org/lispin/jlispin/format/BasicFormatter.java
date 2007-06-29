@@ -15,6 +15,7 @@ import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class BasicFormatter implements Visitor {
 	
@@ -35,7 +36,7 @@ public class BasicFormatter implements Visitor {
 
 	public void visitEagerProc(EagerProcedure proc) {
 		try {
-			_output.write(proc.getJavaValue().toString());
+			_output.write("<EagerProc: " + proc.getJavaValue().toString() + ">");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,6 +120,14 @@ public class BasicFormatter implements Visitor {
 	public void visitLsymbol(Lsymbol lsym) {
 		try {
 			_output.write(lsym.getJavaValue().toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void visitStandardEnvironment(StandardEnvironment env) {
+		try {
+			_output.write("\"" + env.getJavaValue().toString() + "\"");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

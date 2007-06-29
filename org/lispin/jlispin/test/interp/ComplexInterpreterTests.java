@@ -44,16 +44,16 @@ public class ComplexInterpreterTests extends TestCase {
 	}
 
 	public void testRecursion() throws Exception {
-		excerciseEval("(defvar 'null (lambda (exp) (cond (exp nil) (t t))))", "<org.lispin.jlispin.interp.ClassicFunction>");
-		excerciseEval("(defvar 'last (lambda (x) (cond ((null (cdr x)) (car x)) (t (last (cdr x))))))", "<org.lispin.jlispin.interp.ClassicFunction>");
+		excerciseEval("(defvar 'null (lambda (exp) (cond (exp nil) (t t))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(defvar 'last (lambda (x) (cond ((null (cdr x)) (car x)) (t (last (cdr x))))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(last '(1 2 3 4))", "4");
 
 	}
 
 	public void testLexicalScope() throws Exception {
 		excerciseEval("(defvar 'x -1)", "-1");
-		excerciseEval("(defvar 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<org.lispin.jlispin.interp.ClassicFunction>");
-		excerciseEval("(mk-func 10)", "<org.lispin.jlispin.interp.ClassicFunction>");
+		excerciseEval("(defvar 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(mk-func 10)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("((mk-func 10) 88)", "(10 . 88)");
 	}
 

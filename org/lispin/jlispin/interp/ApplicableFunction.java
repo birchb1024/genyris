@@ -4,7 +4,7 @@ import org.lispin.jlispin.core.Exp;
 
 public abstract class ApplicableFunction {
 	
-	public abstract Exp bindAndExecute(Procedure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException;
+	public abstract Exp bindAndExecute(AbstractClosure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException;
 
 	public String getName() {
 		return this.getClass().getName();

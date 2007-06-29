@@ -6,7 +6,7 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Visitor;
 
-public class LazyProcedure extends Procedure {
+public class LazyProcedure extends AbstractClosure {
 	// I DO NOT evaluate my arguments before being applied.
 
 	public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {

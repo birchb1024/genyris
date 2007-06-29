@@ -5,14 +5,14 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.SymbolTable;
 
-public abstract class Procedure extends Exp {
+public abstract class Closure extends Exp {
 	
 	Environment _env;
 	Exp _lambdaExpression;
 	final ApplicableFunction _functionToApply;
 	protected int _numberOfRequiredArguments;
 
-	public Procedure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
+	public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
 		_env = environment;
 		_lambdaExpression = expression;
 		_functionToApply = appl;

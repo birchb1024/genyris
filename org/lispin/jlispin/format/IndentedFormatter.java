@@ -14,6 +14,7 @@ import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class IndentedFormatter implements Visitor {
 	
@@ -98,6 +99,10 @@ public class IndentedFormatter implements Visitor {
 		} catch (IOException e) {
 			// TODO what to do with these exceptions?
 		}
+	}
+
+	public void visitStandardEnvironment(StandardEnvironment env) {
+		writeAtom(env);
 	}
 
 	public void visitEagerProc(EagerProcedure proc) {
