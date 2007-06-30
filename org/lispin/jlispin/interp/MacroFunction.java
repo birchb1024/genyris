@@ -6,7 +6,7 @@ public class MacroFunction extends ClassicFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException  { 
 
-		return proc.getEnv().eval(super.bindAndExecute( proc, arguments, null));
+		return Evaluator.eval(proc.getEnv(), super.bindAndExecute( proc, arguments, null));
 	}
 	public String getName() {
 		return "anonymous macro";

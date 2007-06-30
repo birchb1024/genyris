@@ -6,6 +6,7 @@ import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class EnvironmentTest extends TestCase {
@@ -59,9 +60,9 @@ public class EnvironmentTest extends TestCase {
 		Environment env = new StandardEnvironment(null);
 		Linteger int42 = new Linteger(42);
 		
-		assertEquals(int42, env.eval(int42));
+		assertEquals(int42, Evaluator.eval(env, int42));
 		Ldouble double4p2 = new Ldouble(4.2);
-		assertEquals(double4p2, env.eval(double4p2));
+		assertEquals(double4p2, Evaluator.eval(env, double4p2));
 	
 	}
 
@@ -70,8 +71,8 @@ public class EnvironmentTest extends TestCase {
 		Lsymbol answer = new Lsymbol("answer");
 		Linteger int42 = new Linteger(42);
 		env.defineVariable(answer, int42);
-		assertEquals(int42, env.eval(int42));
-		assertEquals(int42, env.eval(answer));
+		assertEquals(int42, Evaluator.eval(env, int42));
+		assertEquals(int42, Evaluator.eval(env, answer));
 	}
 
 	

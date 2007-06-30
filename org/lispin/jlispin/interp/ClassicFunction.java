@@ -31,7 +31,7 @@ public class ClassicFunction extends ApplicableFunction {
 			}
 		}
 		Environment newEnv = new StandardEnvironment(proc.getEnv(), bindings); // Use the procedure's frame to get lexical scope
-		return newEnv.evalSequence(proc.getBody());
+		return Evaluator.evalSequence(newEnv, proc.getBody());
 	}
 
 	private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i) throws LispinException, AccessException {

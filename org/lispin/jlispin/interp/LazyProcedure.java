@@ -13,7 +13,7 @@ public class LazyProcedure extends AbstractClosure {
 		super( environment,  expression,  appl);
 	}
 	
-	public Exp[] computeArguments(Environment env, Exp exp) throws AccessException {
+	public Exp[] computeArguments(Environment ignored, Exp exp) throws AccessException {
 		return makeExpArrayFromList(exp);
 	}
 

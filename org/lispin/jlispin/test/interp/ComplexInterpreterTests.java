@@ -25,7 +25,7 @@ public class ComplexInterpreterTests extends TestCase {
 		InStream input = new UngettableInStream( new StringInStream(exp));
 		Parser parser = interpreter.newParser(input);
 		Exp expression = parser.read(); 
-		Exp result = interpreter.eval(expression);
+		Exp result = interpreter.evalInGlobalEnvironment(expression);
 		
 		StringWriter out = new StringWriter();
 		BasicFormatter formatter = new BasicFormatter(out);

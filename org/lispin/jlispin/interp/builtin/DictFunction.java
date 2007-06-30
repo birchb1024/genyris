@@ -7,6 +7,7 @@ import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.LispinException;
 
 public class DictFunction extends ApplicableFunction {
@@ -19,7 +20,7 @@ public class DictFunction extends ApplicableFunction {
 			if( arguments[i].car().getClass() != Lsymbol.class )   
 					throw new LispinException("key argument to new not a symbol");
 			if(arguments[i].cdr().listp())
-				f.add(arguments[i].car(), env.eval(arguments[i].cdr().car())); 
+				f.add(arguments[i].car(), Evaluator.eval(env, arguments[i].cdr().car())); 
 			else
 				f.add(arguments[i].car(), SymbolTable.NIL);
 		}

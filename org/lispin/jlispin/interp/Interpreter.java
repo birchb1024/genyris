@@ -1,5 +1,6 @@
 package org.lispin.jlispin.interp;
 
+import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.builtin.CarFunction;
@@ -7,9 +8,9 @@ import org.lispin.jlispin.interp.builtin.CdrFunction;
 import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
+import org.lispin.jlispin.interp.builtin.DictFunction;
 import org.lispin.jlispin.interp.builtin.EqFunction;
 import org.lispin.jlispin.interp.builtin.EqualsFunction;
-import org.lispin.jlispin.interp.builtin.DictFunction;
 import org.lispin.jlispin.interp.builtin.QuoteFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
@@ -48,9 +49,8 @@ public class Interpreter {
 		return new Parser(_table, input);
 	}
 
-	public Exp eval(Exp expression) throws LispinException {
-		return _globalEnvironment.eval(expression);
-	}
-	
+	public Exp evalInGlobalEnvironment(Exp expression) throws UnboundException, AccessException, LispinException {
+		return Evaluator.eval(_globalEnvironment, expression);
+	}	
 	
 }

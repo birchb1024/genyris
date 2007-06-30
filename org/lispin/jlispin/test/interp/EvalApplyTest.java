@@ -10,6 +10,7 @@ import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.LazyProcedure;
 import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.interp.StandardEnvironment;
@@ -36,7 +37,7 @@ public class EvalApplyTest extends TestCase {
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
-		Exp result = env.eval(expression);
+		Exp result = Evaluator.eval(env, expression);
 		StringWriter out = new StringWriter();
 		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
@@ -71,7 +72,7 @@ public class EvalApplyTest extends TestCase {
 
 			try {
 				Exp result;
-				result = env2.eval(expression);
+				result = Evaluator.eval(env2, expression);
 				
 				StringWriter out = new StringWriter();
 				BasicFormatter formatter = new BasicFormatter(out);

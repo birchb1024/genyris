@@ -27,7 +27,7 @@ public class CallableEnvironment extends Exp implements Closure {
 		Map bindings = new HashMap();
 		bindings.put(SymbolTable.self, this);
 		Environment newEnv = new SpecialEnvironment(environment, bindings, _delegate); 
-		return newEnv.evalSequence(arguments[0]);
+		return Evaluator.evalSequence(newEnv, arguments[0]);
 	}
 	public Exp[] computeArguments(Environment env, Exp exp) throws LispinException {
 		Exp[] result = new Exp[1];

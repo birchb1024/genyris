@@ -37,7 +37,7 @@ public class ClassicReadEvalPrintLoop {
 						break;
 					}
 
-					Exp result = interpreter.eval(expression);
+					Exp result = interpreter.evalInGlobalEnvironment(expression);
 
 					result.acceptVisitor(formatter);
 					output.flush();
