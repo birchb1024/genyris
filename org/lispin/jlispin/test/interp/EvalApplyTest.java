@@ -13,12 +13,15 @@ import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.LazyProcedure;
 import org.lispin.jlispin.interp.LispinException;
+import org.lispin.jlispin.interp.MacroFunction;
 import org.lispin.jlispin.interp.StandardEnvironment;
 import org.lispin.jlispin.interp.builtin.CarFunction;
 import org.lispin.jlispin.interp.builtin.CdrFunction;
 import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
+import org.lispin.jlispin.interp.builtin.LambdaFunction;
+import org.lispin.jlispin.interp.builtin.LambdaqFunction;
 import org.lispin.jlispin.interp.builtin.QuoteFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
@@ -34,6 +37,7 @@ public class EvalApplyTest extends TestCase {
 		SymbolTable table = new SymbolTable();
 		Environment env = new StandardEnvironment(null);
 		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
+		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
@@ -52,6 +56,9 @@ public class EvalApplyTest extends TestCase {
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
 		Environment env = new StandardEnvironment(null);
 		SymbolTable table = new SymbolTable();
+		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
+		env.defineVariable(table.internString("lambdaq"), new LazyProcedure(env, null, new LambdaqFunction()));
+		env.defineVariable(table.internString("lambdam"), new LazyProcedure(env, null, new MacroFunction()));
 		env.defineVariable(table.internString("car"), new EagerProcedure(env, null, new CarFunction()));
 		env.defineVariable(table.internString("cdr"), new EagerProcedure(env, null, new CdrFunction()));
 		env.defineVariable(table.internString("rplaca"), new EagerProcedure(env, null, new ReplaceCarFunction()));
