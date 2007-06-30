@@ -51,9 +51,9 @@ public class EqualityTest extends TestCase {
 	
 	public void testFrame() throws Exception {
 		Dict f1 = new Dict();
-		f1.add(new Linteger(1), new Lstring("foo"));
+		f1.defineVariable(new Linteger(1), new Lstring("foo"));
 		Dict f2 = new Dict();
-		f2.add(new Linteger(1), new Lstring("foo"));
+		f2.defineVariable(new Linteger(1), new Lstring("foo"));
 		assertTrue(f1.equals(f2));
 	}
 }

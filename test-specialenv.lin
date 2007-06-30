@@ -1,6 +1,23 @@
 defvar 'the (lambda (x) x)
+defvar 'defun
+  lambdam (name args &rest body)
+      cons 'defvar 
+        cons 
+           cons quote 
+             cons name nil
+           cons
+             cons 'lambda
+               cons args body
+             ~ nil
+
 
 defvar 'c ((lambda (.x) (closure)) 34)
+
+defun some-function (.x) (closure)
+
+defvar 'my-closure (some-function 99)
+   
+my-closure .x
 
 c.x
 defvar 'd ((lambda (.y) (closure)) c)

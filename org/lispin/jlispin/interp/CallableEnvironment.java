@@ -8,7 +8,7 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 
-public class CallableEnvironment extends Exp implements Closure {
+public class CallableEnvironment extends Environment implements Closure {
 	
 	private Environment _delegate;
 	
@@ -21,7 +21,7 @@ public class CallableEnvironment extends Exp implements Closure {
 		
 	}
 	public Object getJavaValue() {
-		return "<CallableEnvironment>";
+		return toString();
 	}
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
 		Map bindings = new HashMap();
@@ -58,7 +58,25 @@ public class CallableEnvironment extends Exp implements Closure {
 	}
 
 	public String toString() {
-		return "<CallableEnvironment>";
+		return "<CallableEnvironment" + _delegate.toString() + ">";
+	}
+
+	public void defineVariable(Exp symbol, Exp valu) {
+		_delegate.defineVariable(symbol, valu);
+		
+	}
+
+	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
+		return _delegate.lookupVariableValue(symbol);
+	}
+
+	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
+		setVariableValue(symbol, valu);
+		
+	}
+
+	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
+		return _delegate.lookupVariableShallow(symbol);
 	}
 	
 

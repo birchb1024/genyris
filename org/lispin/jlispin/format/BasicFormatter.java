@@ -21,6 +21,7 @@ import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class BasicFormatter implements Visitor {
 	
+	private static final String CDRCHAR = "^";
 	private Writer _output;
 	
 	public BasicFormatter(Writer out) {
@@ -61,7 +62,7 @@ public class BasicFormatter implements Visitor {
 			}
 			_output.write(" ");
 			if( !cons.listp() ) {
-				_output.write("^ "); // cdr_char
+				_output.write(CDRCHAR + " "); // cdr_char
 				cons.acceptVisitor(this);
 				return;
 			}

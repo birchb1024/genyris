@@ -20,6 +20,7 @@ import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class IndentedFormatter implements Visitor {
 	
+	private static final char CDRCHAR = '^';
 	private final int INDENT_DEPTH;
 	private Writer _output;
 	private int _consDepth;
@@ -78,7 +79,7 @@ public class IndentedFormatter implements Visitor {
 			else {
 				if(countOfRight > 1) 
 					_output.write(' ');
-				_output.write(". ");
+				_output.write(CDRCHAR + " ");
 				head.acceptVisitor(this);
 				_consDepth -=1;
 				return;

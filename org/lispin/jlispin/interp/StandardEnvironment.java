@@ -66,5 +66,12 @@ public class StandardEnvironment extends Environment {
 			return "/" + _frame.toString();			
 		}
 	}
+	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
+		if( _frame.containsKey(symbol) ) {
+			return (Exp)_frame.get(symbol);
+		} else { 
+			throw new UnboundException("frame does not contain key: " + symbol.toString());
+		}
+	}
 
 }

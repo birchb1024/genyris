@@ -21,7 +21,7 @@ public class DictTest extends TestCase {
 
 		Exp a = _table.internString("a");
 		assertEquals(false, _frame.hasKey(a));
-		_frame.add(a, new Linteger(12));
+		_frame.defineVariable(a, new Linteger(12));
 		assertEquals(true, _frame.hasKey(a));
 		
 	}

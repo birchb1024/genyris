@@ -1,0 +1,6 @@
+defvar 'Thing
+   dict
+      .toString "toString in Thing"
+defvar 'C (dict (.print 23) (.classes (cons Thing nil)))
+defvar 'C2 (dict (.draw 99))
+defvar 'obj (dict (.classes (cons C (cons C2 nil))))
