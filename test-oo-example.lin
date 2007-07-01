@@ -1,0 +1,29 @@
+defvar 'the (lambda (x) x)
+
+defvar '$global 999
+
+defvar 'Standard-Class (dict)
+
+defvar 'Account
+    dict
+        .classes (cons Standard-Class nil)
+        .print
+            method () (cons $global .balance)
+         
+Account
+    defvar '.new
+        method (initial-balance)
+          dict
+            .classes (cons Account nil)
+            .balance initial-balance
+            
+defvar 'bb 
+  Account (.new 1000) 
+  
+bb(.print)
+
+bb((method () .balance)
+
+
+
+

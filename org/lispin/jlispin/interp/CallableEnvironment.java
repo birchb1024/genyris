@@ -78,6 +78,10 @@ public class CallableEnvironment extends Environment implements Closure {
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
 		return _delegate.lookupVariableShallow(symbol);
 	}
+
+	public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
+		return _delegate.lookupInThisClassAndSuperClasses(symbol);
+	}
 	
 
 }

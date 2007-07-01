@@ -14,6 +14,7 @@ import org.lispin.jlispin.interp.builtin.EqualsFunction;
 import org.lispin.jlispin.interp.builtin.LambdaFunction;
 import org.lispin.jlispin.interp.builtin.LambdamFunction;
 import org.lispin.jlispin.interp.builtin.LambdaqFunction;
+import org.lispin.jlispin.interp.builtin.MethodMakerFunction;
 import org.lispin.jlispin.interp.builtin.QuoteFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
@@ -32,6 +33,7 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdam"), new LazyProcedure(_globalEnvironment, null, new LambdamFunction()));
+		_globalEnvironment.defineVariable(_table.internString("method"), new LazyProcedure(_globalEnvironment, null, new MethodMakerFunction()));
 		_globalEnvironment.defineVariable(_table.internString("closure"), new EagerProcedure(_globalEnvironment, null, new ClosureFunction()));
 		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction()));
 		_globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction()));

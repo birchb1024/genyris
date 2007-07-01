@@ -30,6 +30,7 @@ public class SymbolTable {
 	public static Exp lambdaq;
 
 	public static Exp lambdam;
+	public static Exp method;
 
 	public static Exp quote;
 
@@ -50,6 +51,7 @@ public class SymbolTable {
 	public static Exp DICT;
 
 	public static Exp classes;
+	public static Exp superclasses;
 
 	public SymbolTable() {
 		_table = new HashMap();
@@ -61,6 +63,7 @@ public class SymbolTable {
 		lambda = internString("lambda");
 		lambdaq = internString("lambdaq");
 		lambdam = internString("lambdam");
+		method = internString("method");
 		quote = internString("quote");
 		raw_quote = internString("'");
 		raw_comma_at = internString(",@");
@@ -74,6 +77,7 @@ public class SymbolTable {
 		REST = internString("&rest");
 		DICT = internString("dict");
 		classes = internString(".classes");
+		superclasses = internString(".superclasses");
 	}
 
 	public Exp internString(String newSym) {

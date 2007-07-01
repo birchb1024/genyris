@@ -59,24 +59,63 @@ public class Dict extends Environment {
 	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
 		if( _dict.containsKey(symbol) ) {
 			return (Exp)_dict.get(symbol);
-		} else { 
-			if( _dict.containsKey(SymbolTable.classes) ) {
+		} 
+		if( _dict.containsKey(SymbolTable.classes) ) {
+			try {
 				return lookupInClasses(symbol);
-			} 
-			else
-				throw new UnboundException("dict does not contain key: " + symbol.toString());
+			} catch (UnboundException e) {}
 		}
+		if(_dict.containsKey(SymbolTable.superclasses)) {
+			return lookupInSuperClasses(symbol);				
+		}
+		throw new UnboundException("unbound " + symbol.toString());
 	}
 
 	private Exp lookupInClasses(Exp symbol) throws UnboundException {
+		if (!_dict.containsKey(SymbolTable.classes)) {
+			throw new UnboundException("object has no classes");
+		}
 		Exp classes = (Exp)_dict.get(SymbolTable.classes);
 		while( classes != SymbolTable.NIL) {
 			try {
 				Environment klass = (Environment)(classes.car());
-				if( klass.boundp(symbol) ) {
-					return (Exp)klass.lookupVariableShallow(symbol);
-				} else {
+				try {
+					return (Exp)klass.lookupInThisClassAndSuperClasses(symbol);
+				} catch (UnboundException e) {
+					;
+				} finally {
 					classes = classes.cdr();
+				}
+			}
+			catch (AccessException e) {
+				throw new UnboundException("bad classes list in object");
+			}
+		}
+		throw new UnboundException("dict does not contain key: " + symbol.toString());
+	}
+
+	public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
+		if( _dict.containsKey(symbol) ) {
+			return (Exp)_dict.get(symbol);
+		} else {
+			return lookupInSuperClasses(symbol);
+		}
+	}
+
+	private Exp lookupInSuperClasses(Exp symbol) throws UnboundException {
+		if( !_dict.containsKey(SymbolTable.superclasses) ) {
+			throw new UnboundException("object has no superclasses");
+		}
+		Exp superclasses = (Exp)_dict.get(SymbolTable.superclasses);
+		while( superclasses != SymbolTable.NIL) {
+			try {
+				Environment klass = (Environment)(superclasses.car());
+				try {
+					return (Exp)klass.lookupInThisClassAndSuperClasses(symbol);
+				} catch (UnboundException e) {
+					;
+				} finally {
+					superclasses = superclasses.cdr();
 				}
 			}
 			catch (AccessException e) {

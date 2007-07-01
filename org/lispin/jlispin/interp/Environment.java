@@ -8,22 +8,14 @@ public abstract class Environment extends Exp {
 	public abstract Exp lookupVariableValue(Exp symbol) throws UnboundException; 
 	
 	public abstract Exp lookupVariableShallow(Exp symbol) throws UnboundException; 
-
-	public boolean boundp(Exp symbol) {
-		try {
-			lookupVariableValue(symbol);
-			return true;
-		}
-		catch (UnboundException e) {
-			return false;
-		}
-	}
-	
+		
 	public abstract void setVariableValue(Exp symbol, Exp valu)
 			throws UnboundException;
 
 	public abstract void defineVariable(Exp symbol, Exp valu);
 
 	public abstract String toString();
+
+	public abstract Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException;
 
 }

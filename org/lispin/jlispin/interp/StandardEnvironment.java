@@ -73,5 +73,8 @@ public class StandardEnvironment extends Environment {
 			throw new UnboundException("frame does not contain key: " + symbol.toString());
 		}
 	}
+	public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
+		throw new UnboundException("lookupInSuperClasses not implemented for standard environments.");
+	}
 
 }

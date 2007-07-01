@@ -130,7 +130,7 @@ public class BasicFormatter implements Visitor {
 	}
 	public void visitStandardEnvironment(StandardEnvironment env) {
 		try {
-			_output.write("\"" + env.getJavaValue().toString() + "\"");
+			_output.write( env.getJavaValue().toString() );
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -139,7 +139,7 @@ public class BasicFormatter implements Visitor {
 
 	public void visitSpecialEnvironment(SpecialEnvironment env) {
 		try {
-			_output.write("\"" + env.getJavaValue().toString() + "\"");
+			_output.write(env.getJavaValue().toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,7 +148,7 @@ public class BasicFormatter implements Visitor {
 
 	public void visitCallableEnvironment(CallableEnvironment env) {
 		try {
-			_output.write("\"" + env.getJavaValue().toString() + "\"");
+			_output.write(env.getJavaValue().toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
