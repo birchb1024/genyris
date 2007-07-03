@@ -30,7 +30,11 @@ public class ClassicFunction extends ApplicableFunction {
 				bindings.put(formal, arguments[i]);
 			}
 		}
-		Environment newEnv = new StandardEnvironment(proc.getEnv(), bindings); // Use the procedure's frame to get lexical scope
+        Environment newEnv = new SpecialEnvironment(proc.getEnv(), bindings, envForBindOperations); 
+        // Use the procedure's frame to get lexical scope
+        // and the dynamic environment for the object stuff.
+
+        // -------- Environment newEnv = new StandardEnvironment(proc.getEnv(), bindings); // Use the procedure's frame to get lexical scope
 		return Evaluator.evalSequence(newEnv, proc.getBody());
 	}
 

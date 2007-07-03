@@ -151,6 +151,7 @@ public class IndentStreamTest extends TestCase {
 	}
 	public void testIndentStream28() throws LexException {
 		excerciseIndent("\"foo\"", "(\"foo\")");
+        excerciseIndent("quote\n  \"string\"\n", "(quote(\"string\"))");
 	}
 
 }
