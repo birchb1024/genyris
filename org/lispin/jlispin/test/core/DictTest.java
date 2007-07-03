@@ -25,8 +25,8 @@ public class DictTest extends TestCase {
 		assertEquals(true, _frame.hasKey(a));
 		
 	}
-	/*
-dict
+	/* 
+dict 
 	name: "Bill"
 	age: 29
 

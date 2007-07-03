@@ -8,11 +8,11 @@ defvar 'Account
     dict
         .classes (cons Standard-Class nil)
         .print
-            method () (cons $global .balance)
+            lambda () (cons $global .balance)
          
 Account
     defvar '.new
-        method (initial-balance)
+        lambda (initial-balance)
           dict
             .classes (cons Account nil)
             .balance initial-balance
@@ -22,7 +22,13 @@ defvar 'bb
   
 bb(.print)
 
-bb((method () .balance)
+bb((lambda () .balance))
+
+bb (set '.balance 34)
+
+bb.balance
+
+
 
 
 
