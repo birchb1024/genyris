@@ -22,7 +22,7 @@ defvar 'bb
   
 bb(.print)
 
-bb((method () .balance)
+bb((method () .balance))
 
 
 
