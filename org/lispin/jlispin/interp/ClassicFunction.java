@@ -10,8 +10,9 @@ import org.lispin.jlispin.core.SymbolTable;
 
 public class ClassicFunction extends ApplicableFunction {
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
+	public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
 
+		AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
 		Map bindings = new HashMap();
 		if(arguments.length < proc.getNumberOfRequiredArguments()) {
 			throw new LispinException("Too few arguments supplied to proc: " + proc.getName());

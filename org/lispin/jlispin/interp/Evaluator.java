@@ -14,7 +14,7 @@ public class Evaluator {
 			return env.lookupVariableValue(expression);
 		}
 		else if( expression.listp() ) { 
-			Closure proc = (Closure) eval(env, expression.car());
+			Closure proc = (Closure) eval(env, expression.car()); // TODO dynamic check.
 			Exp[] arguments = proc.computeArguments(env, expression.cdr());
 			return proc.applyFunction(env, arguments );
 		}

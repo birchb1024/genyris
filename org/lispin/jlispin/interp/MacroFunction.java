@@ -4,7 +4,9 @@ import org.lispin.jlispin.core.Exp;
 
 public class MacroFunction extends ClassicFunction {
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException  { 
+	public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment env) throws LispinException  { 
+
+		AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
 
 		return Evaluator.eval(proc.getEnv(), super.bindAndExecute( proc, arguments, null));
 	}

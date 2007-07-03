@@ -5,12 +5,11 @@ import org.lispin.jlispin.core.Exp;
 public abstract class Environment extends Exp {
 
 	// TODO reconsider exception - maybe return "unbound" symbol?
-	public abstract Exp lookupVariableValue(Exp symbol) throws UnboundException; 
-	
-	public abstract Exp lookupVariableShallow(Exp symbol) throws UnboundException; 
-		
-	public abstract void setVariableValue(Exp symbol, Exp valu)
-			throws UnboundException;
+	public abstract Exp lookupVariableValue(Exp symbol) throws UnboundException;
+
+	public abstract Exp lookupVariableShallow(Exp symbol) throws UnboundException;
+
+	public abstract void setVariableValue(Exp symbol, Exp valu) throws UnboundException;
 
 	public abstract void defineVariable(Exp symbol, Exp valu);
 
