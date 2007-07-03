@@ -1,36 +1,18 @@
 package org.lispin.jlispin.test.interp;
 
-import java.io.StringWriter;
-
 import junit.framework.TestCase;
-
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.format.BasicFormatter;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.io.InStream;
-import org.lispin.jlispin.io.Parser;
-import org.lispin.jlispin.io.StringInStream;
-import org.lispin.jlispin.io.UngettableInStream;
 
 public class ComplexInterpreterTests extends TestCase {
 	
-	private Interpreter interpreter;
+	private TestUtilities interpreter;
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		interpreter = new Interpreter();
+		interpreter = new TestUtilities();
 	}
 	
-	void excerciseEval(String exp, String expected) throws Exception {
-		InStream input = new UngettableInStream( new StringInStream(exp));
-		Parser parser = interpreter.newParser(input);
-		Exp expression = parser.read(); 
-		Exp result = interpreter.evalInGlobalEnvironment(expression);
-		
-		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out);
-		result.acceptVisitor(formatter);
-		assertEquals(expected, out.getBuffer().toString());	
+	private void excerciseEval(String exp, String expected) throws Exception {
+		assertEquals(interpreter.eval(exp), expected);
 	}
 	
 	public void testExcerciseEval() throws Exception {

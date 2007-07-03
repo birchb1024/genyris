@@ -7,10 +7,6 @@ public class Lcons extends Exp {
 	private  Exp _cdr;
 
 	public Lcons(Exp car, Exp cdr) {
-		if( car == null || cdr == null ) {
-			System.err.println("null pointer in cons()");
-			System.exit(-1);
-		}
 		_car = car;
 		_cdr = cdr;
 	}

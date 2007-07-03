@@ -48,10 +48,7 @@ public abstract class Exp {
 
 
 	public boolean listp() {
-		if (getClass() == Lcons.class)
-			return true;
-		else
-			return false;
+		return (this.getClass() == Lcons.class);
 	}
 
 	public boolean isSelfEvaluating() {

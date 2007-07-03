@@ -37,6 +37,7 @@ public class Lobject extends Environment {
 	public boolean isSelfEvaluating() {
 		return false;
 	}
+	
 	public boolean hasKey(Exp a) {
 		return _dict.containsKey(a);
 	}
@@ -126,7 +127,12 @@ public class Lobject extends Environment {
 	}
 
 	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-		_dict.put(symbol, valu);
+		if( _dict.containsKey(symbol)) {
+			_dict.put(symbol, valu);
+		}
+		else {
+			throw new UnboundException("in object, undefined variable: " + ((Lsymbol)symbol).getPrintName()); // TODO downcast
+		}
 	}
 
 	public String toString() {
