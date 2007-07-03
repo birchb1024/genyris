@@ -160,6 +160,7 @@ public class IndentStream implements InStreamEOF {
 					break; 
 				}
 				else  {
+
 					_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
 
 					if (_currentLevel == _lineLevel) {
@@ -175,8 +176,11 @@ public class IndentStream implements InStreamEOF {
 						bufferit('(');
 						removeTabsAfter(_currentLevel);
 					}
-					bufferit(ch);
-
+					if (ch == '"') {
+					    _instream.unGet('"');
+					} else {
+					    bufferit(ch);
+                    }
 					_currentLevel = _lineLevel;
 					_parseState = CATCHUP;
 					break; 
