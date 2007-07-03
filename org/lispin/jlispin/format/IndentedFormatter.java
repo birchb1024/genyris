@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Dict;
+import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
@@ -96,7 +96,7 @@ public class IndentedFormatter implements Visitor {
 			// TODO what to do with these exceptions?
 		}
 	}
-	public void visitDict(Dict frame) {
+	public void visitDict(Lobject frame) {
 		try {
 			printLcons(new Lcons(SymbolTable.DICT, frame.getAlist()));
 		} catch (IOException e) {

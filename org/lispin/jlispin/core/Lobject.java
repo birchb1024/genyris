@@ -8,10 +8,10 @@ import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.UnboundException;
 
 
-public class Dict extends Environment {
+public class Lobject extends Environment {
 	private Map _dict;
 	
-	public Dict() {
+	public Lobject() {
 		_dict = new HashMap();
 	}
 	
@@ -23,7 +23,7 @@ public class Dict extends Environment {
 		if( compare.getClass() != this.getClass())
 			return false;
 		else 
-			return _dict.equals(((Dict)compare)._dict);
+			return _dict.equals(((Lobject)compare)._dict);
 	}
 
 	public Object getJavaValue() {

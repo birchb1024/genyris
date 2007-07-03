@@ -21,7 +21,7 @@ public interface Visitor {
 
 	public void visitEagerProc(EagerProcedure eproc);
 
-	public void visitDict(Dict frame);
+	public void visitDict(Lobject frame);
 
 	public void visitStandardEnvironment(StandardEnvironment environment);
 

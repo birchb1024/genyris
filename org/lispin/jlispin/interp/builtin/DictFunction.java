@@ -1,6 +1,6 @@
 package org.lispin.jlispin.interp.builtin;
 
-import org.lispin.jlispin.core.Dict;
+import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
@@ -13,7 +13,7 @@ import org.lispin.jlispin.interp.LispinException;
 public class DictFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
-		Dict dict = new Dict();
+		Lobject dict = new Lobject();
 		for(int i= 0; i < arguments.length; i++) {
 			if( !arguments[i].listp())
 				throw new LispinException("argument to dict not a list");
