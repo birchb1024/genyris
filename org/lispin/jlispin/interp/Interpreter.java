@@ -10,6 +10,8 @@ import org.lispin.jlispin.interp.builtin.CarFunction;
 import org.lispin.jlispin.interp.builtin.CdrFunction;
 import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
+import org.lispin.jlispin.interp.builtin.DefFunction;
+import org.lispin.jlispin.interp.builtin.DefMacroFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
 import org.lispin.jlispin.interp.builtin.DictFunction;
 import org.lispin.jlispin.interp.builtin.EqFunction;
@@ -52,6 +54,8 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("quote"), new LazyProcedure(_globalEnvironment, null, new QuoteFunction()));
 		_globalEnvironment.defineVariable(_table.internString("set"), new EagerProcedure(_globalEnvironment, null, new SetFunction()));
 		_globalEnvironment.defineVariable(_table.internString("defvar"), new EagerProcedure(_globalEnvironment, null, new DefineFunction()));
+		_globalEnvironment.defineVariable(_table.internString("def"), new LazyProcedure(_globalEnvironment, null, new DefFunction()));
+		_globalEnvironment.defineVariable(_table.internString("defmacro"), new LazyProcedure(_globalEnvironment, null, new DefMacroFunction()));
 		_globalEnvironment.defineVariable(_table.internString("cond"), new LazyProcedure(_globalEnvironment, null, new ConditionalFunction()));
 		_globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction()));
 		_globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction()));

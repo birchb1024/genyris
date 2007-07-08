@@ -1,13 +1,1 @@
 ;
-; def - define a function
-;
-defvar 'def
-  lambdam (name args &rest body)
-      cons 'defvar 
-        cons 
-           list quote name
-           cons
-             cons 'lambda
-               cons args body
-             ~ nil
-              

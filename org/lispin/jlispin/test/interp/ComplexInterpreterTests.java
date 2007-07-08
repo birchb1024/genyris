@@ -24,6 +24,28 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(defvar 'w 99)", "99");
 		excerciseEval("((lambdam () 'w) 45)", "99");
 	}
+	
+
+	public void testMacroWithDefmacro() throws Exception {
+		excerciseEval("(defmacro nil! (x) (list 'defvar (list quote x) 0))", "<anonymous macro>");
+		excerciseEval("(nil! a)", "0");
+		excerciseEval("a", "0");
+	}
+
+	public void testMacroWithDefmacroDeep() throws Exception {
+		excerciseEval("(def fn (y) (defmacro nil! (x) (list 'defvar (list quote x) y)) nil!)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(defvar 'm (fn 99))", "<anonymous macro>");
+		excerciseEval("(m w)", "99");
+		excerciseEval("w", "99");
+	}
+
+	public void testMacroWithDefmacroDeep2() throws Exception {
+		excerciseEval("(defvar 'y 7777)", "7777");
+		excerciseEval("(def fn () (defmacro mac (x) (list 'defvar (list quote x) y)) mac)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(def fun (y) (defvar 'm (fn)) m)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("((fun 5555) w)", "7777");
+		excerciseEval("w", "7777");
+	}
 
 	public void testRecursion() throws Exception {
 		excerciseEval("(defvar 'null (lambda (exp) (cond (exp nil) (t t))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
@@ -57,6 +79,11 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(ff 99)", "(44 ^ 99)");
 	}
+	public void testEnvCaptureWithDef() throws Exception {
+		excerciseEval("(def mk-fn (x) (defvar 'bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
+		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(ff 99)", "(44 ^ 99)");
+	}
 	public void testEnvCaptureByClosure() throws Exception {
 		excerciseEval("(defvar 'mk-fn2  (lambda (x1) (defvar '.bal2 x1) (defvar '.fn (lambda (y) (cons y .bal2))) (closure)))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
 		excerciseEval("(defvar 'ff2 (mk-fn2 44))","<CallableEnvironment<SpecialEnvironment>>");
@@ -65,4 +92,11 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(ff2 .bal2)", "44");
 	}
 
+	public void testEnvCaptureByClosureWithDef() throws Exception {
+		excerciseEval("(def mk-fn2 (x1) (defvar '.bal2 x1) (defvar '.fn (lambda (y) (cons y .bal2))) (closure))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
+		excerciseEval("(defvar 'ff2 (mk-fn2 44))","<CallableEnvironment<SpecialEnvironment>>");
+		excerciseEval("(ff2 99)", "99");
+		excerciseEval("(ff2 (.fn 1000))", "(1000 ^ 44)");
+		excerciseEval("(ff2 .bal2)", "44");
+	}
 }

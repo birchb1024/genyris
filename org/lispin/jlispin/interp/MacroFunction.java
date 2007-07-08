@@ -8,7 +8,7 @@ public class MacroFunction extends ClassicFunction {
 
 		AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
 
-		return Evaluator.eval(proc.getEnv(), super.bindAndExecute( proc, arguments, null));
+		return Evaluator.eval(env, super.bindAndExecute( proc, arguments, proc.getEnv()));
 	}
 	public String getName() {
 		return "anonymous macro";
