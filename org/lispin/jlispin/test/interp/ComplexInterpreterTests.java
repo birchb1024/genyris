@@ -12,7 +12,7 @@ public class ComplexInterpreterTests extends TestCase {
 	}
 	
 	private void excerciseEval(String exp, String expected) throws Exception {
-		assertEquals(interpreter.eval(exp), expected);
+		assertEquals(expected, interpreter.eval(exp));
 	}
 	
 	public void testExcerciseEval() throws Exception {
@@ -51,4 +51,18 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(dict (a 1) (b 2) (c 3))", "<CallableEnvironment<dict ((b 2) (c 3) (a 1))>>");
 		excerciseEval("(equal (dict (a 1) (b 2) (c 3)) (dict (a 1) (b 2) (c 3)))", "t");
 	}
+	
+	public void testEnvCapture() throws Exception {
+		excerciseEval("(defvar 'mk-fn  (lambda (x) (defvar 'bal x) (defvar 'fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
+		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(ff 99)", "(44 ^ 99)");
+	}
+	public void testEnvCaptureByClosure() throws Exception {
+		excerciseEval("(defvar 'mk-fn2  (lambda (x1) (defvar '.bal2 x1) (defvar '.fn (lambda (y) (cons y .bal2))) (closure)))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
+		excerciseEval("(defvar 'ff2 (mk-fn2 44))","<CallableEnvironment<SpecialEnvironment>>");
+		excerciseEval("(ff2 99)", "99");
+		excerciseEval("(ff2 (.fn 1000))", "(1000 ^ 44)");
+		excerciseEval("(ff2 .bal2)", "44");
+	}
+
 }

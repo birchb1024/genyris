@@ -22,6 +22,7 @@ public class JLispinEngine extends BSFEngineImpl {
         super.initialize(mgr, lang, declaredBeans);
         try {
             _interp = new Interpreter();
+            _interp.init(true);
         } catch (LispinException e) {
             throw new BSFException(e.getMessage());
         };

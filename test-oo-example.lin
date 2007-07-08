@@ -1,5 +1,3 @@
-defvar 'the (lambda (x) x)
-
 defvar '$global 999
 
 defvar 'Standard-Class (dict)
@@ -22,7 +20,7 @@ defvar 'bb
 
 bb(.print)
 
-bb((method () .balance))
+bb((lambda () .balance))
 
 
 
