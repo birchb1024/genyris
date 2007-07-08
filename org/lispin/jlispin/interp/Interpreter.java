@@ -1,5 +1,8 @@
 package org.lispin.jlispin.interp;
 
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
@@ -19,7 +22,9 @@ import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
 import org.lispin.jlispin.interp.builtin.SetFunction;
 import org.lispin.jlispin.io.InStream;
+import org.lispin.jlispin.io.NullWriter;
 import org.lispin.jlispin.io.Parser;
+import org.lispin.jlispin.load.SourceLoader;
 
 public class Interpreter {
 	
@@ -48,9 +53,14 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		_globalEnvironment.defineVariable(SymbolTable.T, SymbolTable.T);
 		_globalEnvironment.defineVariable(SymbolTable.EOF, SymbolTable.EOF);
+		
 
 	}
 
+	public void init(boolean verbose)  throws LispinException {
+		SourceLoader.bootStrap(this, verbose? (Writer)new OutputStreamWriter(System.out): (Writer)new NullWriter());		
+	}
+	
 	public Parser newParser(InStream input) {
 		return new Parser(_table, input);
 	}

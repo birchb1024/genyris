@@ -19,13 +19,14 @@ public class ClassicReadEvalPrintLoop {
 		Interpreter interpreter;
 		try {
 			interpreter = new Interpreter();
+			interpreter.init(true);
 			InStream input = new UngettableInStream(new ConvertEofInStream(
 					new IndentStream(
 							new UngettableInStream(new StdioInStream()), true)));
 			Parser parser = interpreter.newParser(input);
 			Writer output = new PrintWriter(System.out);
 			IndentedFormatter formatter = new IndentedFormatter(output, 3);
-			System.out.println("*** JLispin is listening...");
+			System.out.println("\n*** JLispin is listening...");
 			Exp expression = null;
 			do {
 				try {
