@@ -154,4 +154,12 @@ public class IndentStreamTest extends TestCase {
         excerciseIndent("quote\n  \"string\"\n", "(quote(\"string\"))");
 	}
 
+	public void testIndentMultiStatement() throws LexException {
+		excerciseIndent("12\n34", "(12)(34)");
+		excerciseIndent("12\n34\n56", "(12)(34)(56)");
+		excerciseIndent("12\n 34\n56", "(12(34))(56)");
+		excerciseIndent("12\n 34\n\n56", "(12(34))(56)");
+		excerciseIndent("12\n 34\n\n~ 56", "(12(34)) 56");
+		excerciseIndent("12\n 34\n ~ 56\n78", "(12(34) 56)(78)");
+	}
 }

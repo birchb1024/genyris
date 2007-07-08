@@ -1,33 +1,12 @@
-;
-; defun defined as a macro
-;
-defvar 'defun
-  lambdam (name args &rest body)
-      cons 'defvar 
-        cons 
-           cons quote 
-             cons name nil
-           cons
-             cons 'lambda
-               cons args body
-             ~ nil
-                   
-defun f (x) 
-     cons x x
 
-f "woo"
+list 22
+  list
+      the 333
 
-;; list
-defun list (&rest args) args
+list 'f '(x) 
+    cons 1 2
 
-list 1 2 3 4 5 'a 'b 'c
 
-; eval
-defvar 'eval (lambdam (exp) exp)
-
-eval (cons 1 2)
-
-    
 
 
 

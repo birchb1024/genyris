@@ -14,9 +14,13 @@ import org.lispin.jlispin.interp.builtin.DefineFunction;
 import org.lispin.jlispin.interp.builtin.DictFunction;
 import org.lispin.jlispin.interp.builtin.EqFunction;
 import org.lispin.jlispin.interp.builtin.EqualsFunction;
+import org.lispin.jlispin.interp.builtin.EvalFunction;
+import org.lispin.jlispin.interp.builtin.IdentityFunction;
 import org.lispin.jlispin.interp.builtin.LambdaFunction;
 import org.lispin.jlispin.interp.builtin.LambdamFunction;
 import org.lispin.jlispin.interp.builtin.LambdaqFunction;
+import org.lispin.jlispin.interp.builtin.ListFunction;
+import org.lispin.jlispin.interp.builtin.LoadFunction;
 import org.lispin.jlispin.interp.builtin.QuoteFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
 import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
@@ -30,9 +34,11 @@ public class Interpreter {
 	
 	Environment _globalEnvironment;
 	SymbolTable _table;
+	Writer _defaultOutput;
 	
 	public Interpreter() throws LispinException {
 		_globalEnvironment = new StandardEnvironment(null);
+		_defaultOutput = new OutputStreamWriter(System.out);
 		_table = new SymbolTable();		
 		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction()));
@@ -50,6 +56,10 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction()));
 		_globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction()));
 		_globalEnvironment.defineVariable(_table.internString("dict"), new LazyProcedure(_globalEnvironment, null, new DictFunction()));
+		_globalEnvironment.defineVariable(_table.internString("eval"), new LazyProcedure(_globalEnvironment, null, new EvalFunction()));
+		_globalEnvironment.defineVariable(_table.internString("the"), new EagerProcedure(_globalEnvironment, null, new IdentityFunction()));
+		_globalEnvironment.defineVariable(_table.internString("list"), new EagerProcedure(_globalEnvironment, null, new ListFunction()));
+		_globalEnvironment.defineVariable(_table.internString("load"), new EagerProcedure(_globalEnvironment, null, new LoadFunction(this)));
 		_globalEnvironment.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		_globalEnvironment.defineVariable(SymbolTable.T, SymbolTable.T);
 		_globalEnvironment.defineVariable(SymbolTable.EOF, SymbolTable.EOF);
@@ -58,7 +68,7 @@ public class Interpreter {
 	}
 
 	public void init(boolean verbose)  throws LispinException {
-		SourceLoader.bootStrap(this, verbose? (Writer)new OutputStreamWriter(System.out): (Writer)new NullWriter());		
+		SourceLoader.loadScriptFromClasspath(this, "boot/init.lin", verbose? _defaultOutput: (Writer)new NullWriter());		
 	}
 	
 	public Parser newParser(InStream input) {
@@ -67,6 +77,10 @@ public class Interpreter {
 
 	public Exp evalInGlobalEnvironment(Exp expression) throws UnboundException, AccessException, LispinException {
 		return Evaluator.eval(_globalEnvironment, expression);
+	}
+
+	public Writer getDefaultOutputWriter() {
+		return _defaultOutput;
 	}	
 	
 }

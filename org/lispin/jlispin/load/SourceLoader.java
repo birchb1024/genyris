@@ -21,12 +21,15 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class SourceLoader {
 
 
-	public static void bootStrap(Interpreter interp, Writer writer) throws LispinException {
+	public static Exp loadScriptFromClasspath(Interpreter _interp, String filename, Writer writer) throws LispinException {
 
-		InputStream in  = SourceLoader.class.getResourceAsStream("boot/init.lin");
+		InputStream in  = SourceLoader.class.getResourceAsStream(filename);
 		// this use of getResourceAsStream() means paths are relative to this class 
 		// unless preceded by a '/'
-		executeScript(interp, new InputStreamReader(in), writer);
+		if( in == null ) {
+			return SymbolTable.NIL;
+		}
+		return executeScript(_interp, new InputStreamReader(in), writer);
 	}
 	
     public static Exp executeScript(Interpreter interp, Reader reader, Writer output) throws LispinException {
@@ -44,6 +47,7 @@ public class SourceLoader {
             result = interp.evalInGlobalEnvironment(expression);
             result.acceptVisitor(formatter);
             try {
+            	output.write('\n');
                 output.flush();
             } catch (IOException ignore) {}
         } while (true);
