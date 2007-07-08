@@ -1,1 +1,21 @@
 ;
+the "init.lin"
+
+defmacro define (var valu)
+    list 'defvar (list quote var) valu
+
+defvar 'StandardClass
+   dict
+     .name 'StandardClass
+
+defvar 'Object
+   dict
+      .name 'Object
+    
+ 
+defmacro class (name supers) 
+    list 'define name
+        dict
+           .superclasses: (cons Object supers)
+           .class StandardClass
+    

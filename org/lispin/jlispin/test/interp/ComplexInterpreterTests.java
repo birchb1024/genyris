@@ -84,19 +84,18 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(ff 99)", "(44 ^ 99)");
 	}
-	public void testEnvCaptureByClosure() throws Exception {
-		excerciseEval("(defvar 'mk-fn2  (lambda (x1) (defvar '.bal2 x1) (defvar '.fn (lambda (y) (cons y .bal2))) (closure)))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
-		excerciseEval("(defvar 'ff2 (mk-fn2 44))","<CallableEnvironment<SpecialEnvironment>>");
-		excerciseEval("(ff2 99)", "99");
-		excerciseEval("(ff2 (.fn 1000))", "(1000 ^ 44)");
-		excerciseEval("(ff2 .bal2)", "44");
+
+	
+	public void testDynamicVariablesWithDef() throws Exception {
+		excerciseEval("(def function-which-declares-dynamic-var () (defvar '.x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(def function-which-uses-dynamic-var () (list .x .x))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(function-which-declares-dynamic-var)","(88 88)");
+		excerciseEval(".x","88");
 	}
 
-	public void testEnvCaptureByClosureWithDef() throws Exception {
-		excerciseEval("(def mk-fn2 (x1) (defvar '.bal2 x1) (defvar '.fn (lambda (y) (cons y .bal2))) (closure))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
-		excerciseEval("(defvar 'ff2 (mk-fn2 44))","<CallableEnvironment<SpecialEnvironment>>");
-		excerciseEval("(ff2 99)", "99");
-		excerciseEval("(ff2 (.fn 1000))", "(1000 ^ 44)");
-		excerciseEval("(ff2 .bal2)", "44");
+	public void testDynamicVariablesWithDef2() throws Exception {
+		excerciseEval("(defvar '.x 11111)", "11111");
+		excerciseEval("(def define-some-global-y (.x) (defvar '.y \"global .y\") (cons .x .y))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(define-some-global-y 33)", "(11111 ^ \"global .y\")");
 	}
 }

@@ -45,7 +45,6 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdam"), new LazyProcedure(_globalEnvironment, null, new LambdamFunction()));
-		_globalEnvironment.defineVariable(_table.internString("closure"), new EagerProcedure(_globalEnvironment, null, new ClosureFunction()));
 		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction()));
 		_globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction()));
 		_globalEnvironment.defineVariable(_table.internString("rplaca"), new EagerProcedure(_globalEnvironment, null, new ReplaceCarFunction()));

@@ -30,8 +30,10 @@
 <file path="/JLispin/.project"/>
 <file path="/JLispin/test2.lin"/>
 <file path="/JLispin/.checkstyle"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.load"/>
 <file path="/JLispin/test-oo-example.lin"/>
 <file path="/JLispin/test-specialenv.lin"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.load.boot"/>
 </selectedElements>
 </jardesc>
