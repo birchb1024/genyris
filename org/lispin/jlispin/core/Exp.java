@@ -13,12 +13,12 @@ public abstract class Exp {
 		throw new AccessException("attempt to take car of non-cons");
 	}
 	
-	public Exp setCar(Exp exp) throws AccessException {
-		throw new AccessException("attempt to set car of non-cons");
-	}
-	
 	public Exp cdr() throws AccessException {
 		throw new AccessException("attempt to take cdr of non-cons");
+	}
+	
+	public Exp setCar(Exp exp) throws AccessException {
+		throw new AccessException("attempt to set car of non-cons");
 	}
 	
 	public Exp setCdr(Exp exp) throws AccessException {
