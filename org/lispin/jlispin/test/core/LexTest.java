@@ -63,7 +63,7 @@ public class LexTest extends TestCase {
 		excerciseNextTokenExp(new Lsymbol("foo*bar"), "foo\\*bar");
 		excerciseNextTokenExp(new Lsymbol("quux"), "\n\nquux");
 		excerciseNextTokenExp(new Lsymbol("|123|"), "  \t|123|");
-		excerciseNextTokenExp(new Lsymbol(".x"), "  \t.x");
+		excerciseNextTokenExp(new Lsymbol("_x"), "  \t _x");
 
 	}
 	public void testLexIdentMinus() throws Exception {
