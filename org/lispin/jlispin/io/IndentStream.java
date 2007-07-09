@@ -68,6 +68,7 @@ public class IndentStream implements InStreamEOF {
 
 	void input() throws LexException {
 		ch = _instream.readNext();
+		System.out.print(ch);
 	}
 
 	void bufferit(int c) throws LexException {
@@ -121,7 +122,7 @@ public class IndentStream implements InStreamEOF {
 					break; // probably MS-DOS line end - ignore
 				}
 				else if (ch == '\n') {
-					if (_interactive || _numberOfLeadingSpaces == 0) {
+					if (_interactive) {
 						// finish the indentations all up, don't wait for more lines
 						_lineLevel = 0;
 						_numberOfLeadingSpaces = 0;
@@ -167,7 +168,9 @@ public class IndentStream implements InStreamEOF {
 					break;
 				}
 				else {
-
+					if(_numberOfLeadingSpaces == 0) {
+						removeTabsAfter(1);
+					}
 					_lineLevel = computeDepthFromSpaces(_numberOfLeadingSpaces);
 
 					if (_currentLevel == _lineLevel) {
@@ -181,7 +184,7 @@ public class IndentStream implements InStreamEOF {
 					else if (_currentLevel > _lineLevel) {
 						bufferit(')', _currentLevel - _lineLevel + 1);
 						bufferit('(');
-						removeTabsAfter(_currentLevel);
+						removeTabsAfter(_lineLevel);
 					}
 					if (ch == '"') {
 						_instream.unGet('"');
