@@ -68,7 +68,6 @@ public class IndentStream implements InStreamEOF {
 
 	void input() throws LexException {
 		ch = _instream.readNext();
-		System.out.print(ch);
 	}
 
 	void bufferit(int c) throws LexException {

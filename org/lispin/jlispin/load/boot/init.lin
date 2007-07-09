@@ -6,16 +6,16 @@ defmacro define (var valu)
 
 defvar 'StandardClass
    dict
-     .name 'StandardClass
+     _name 'StandardClass
 
 defvar 'Object
    dict
-      .name 'Object
+      _name 'Object
      
  
 defmacro class (name supers) 
     list 'define name
         dict
-           .superclasses: (cons Object supers)
-           .class StandardClass
+           _superclasses (cons Object supers)
+           _class StandardClass
  
