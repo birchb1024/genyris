@@ -38,7 +38,7 @@ public class Lsymbol extends Exp {
 	}
 
 	public boolean isMember() {
-		return _printName.startsWith(".");
+		return _printName.startsWith(SymbolTable.DYNAMICSCOPECHAR);
 	}
 
 }

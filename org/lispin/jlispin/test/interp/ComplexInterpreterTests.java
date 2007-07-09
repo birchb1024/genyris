@@ -87,15 +87,15 @@ public class ComplexInterpreterTests extends TestCase {
 
 	
 	public void testDynamicVariablesWithDef() throws Exception {
-		excerciseEval("(def function-which-declares-dynamic-var () (defvar '.x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("(def function-which-uses-dynamic-var () (list .x .x))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(def function-which-uses-dynamic-var () (list _x _x))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(function-which-declares-dynamic-var)","(88 88)");
-		excerciseEval(".x","88");
+		excerciseEval("_x","88");
 	}
 
 	public void testDynamicVariablesWithDef2() throws Exception {
-		excerciseEval("(defvar '.x 11111)", "11111");
-		excerciseEval("(def define-some-global-y (.x) (defvar '.y \"global .y\") (cons .x .y))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("(define-some-global-y 33)", "(11111 ^ \"global .y\")");
+		excerciseEval("(defvar '_x 11111)", "11111");
+		excerciseEval("(def define-some-global-y (_x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(define-some-global-y 33)", "(11111 ^ \"global _y\")");
 	}
 }

@@ -5,6 +5,8 @@ import java.util.Map;
 import org.lispin.jlispin.interp.LispinException;
 
 public class SymbolTable {
+	
+	public static final String DYNAMICSCOPECHAR = "_";
     private Map       _table;
     public static Exp NIL;
     public static Exp T;
@@ -53,8 +55,8 @@ public class SymbolTable {
         T = internString("t");
         REST = internString("&rest");
         DICT = internString("dict");
-        classes = internString(".classes");
-        superclasses = internString(".superclasses");
+        classes = internString(DYNAMICSCOPECHAR + "classes");
+        superclasses = internString(DYNAMICSCOPECHAR + "superclasses");
     }
 
     public Exp internString(String newSym) {
