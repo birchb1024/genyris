@@ -7,7 +7,7 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 
-public class CallableEnvironment extends Environment implements Closure {
+public class CallableEnvironment extends Exp implements Environment, Closure {
 	
 	private Environment _delegate;
 	
@@ -24,7 +24,7 @@ public class CallableEnvironment extends Environment implements Closure {
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
 		Map bindings = new HashMap();
 		bindings.put(SymbolTable.self, this);
-		Environment newEnv = new SpecialEnvironment(environment, bindings, _delegate); 
+		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, _delegate); 
 		return Evaluator.evalSequence(newEnv, arguments[0]);
 	}
 	public Exp[] computeArguments(Environment env, Exp exp) throws LispinException {

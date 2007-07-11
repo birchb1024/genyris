@@ -96,7 +96,7 @@ public class IndentedFormatter implements Visitor {
 			// TODO what to do with these exceptions?
 		}
 	}
-	public void visitDict(Lobject frame) {
+	public void visitLobject(Lobject frame) {
 		try {
 			printLcons(new Lcons(SymbolTable.DICT, frame.getAlist()));
 		} catch (IOException e) {

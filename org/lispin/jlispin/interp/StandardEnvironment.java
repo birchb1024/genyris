@@ -6,7 +6,7 @@ import java.util.Map;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Visitor;
 
-public class StandardEnvironment extends Environment {
+public class StandardEnvironment extends Exp implements Environment {
 	
 	Map _frame; // Exp, Exp
 	Environment _parent;

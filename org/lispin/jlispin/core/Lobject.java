@@ -8,7 +8,7 @@ import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.UnboundException;
 
 
-public class Lobject extends Environment {
+public class Lobject implements Environment {
 	private Map _dict;
 	
 	public Lobject() {
@@ -31,7 +31,7 @@ public class Lobject extends Environment {
 	}
 
 	public void acceptVisitor(Visitor guest) {
-		guest.visitDict(this);
+		guest.visitLobject(this);
 	}
 		
 	public boolean isSelfEvaluating() {

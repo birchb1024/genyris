@@ -2,7 +2,7 @@ package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.Exp;
 
-public abstract class Environment extends Exp {
+public interface Environment {
 
 	// TODO reconsider exception - maybe return "unbound" symbol?
 	public abstract Exp lookupVariableValue(Exp symbol) throws UnboundException;

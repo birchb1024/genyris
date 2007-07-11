@@ -28,7 +28,7 @@ public class BasicFormatter implements Visitor {
 		_output = out;
 	}
 
-	public void visitDict(Lobject frame) {
+	public void visitLobject(Lobject frame) {
 		try {
 			_output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
 		} catch (IOException e) {
