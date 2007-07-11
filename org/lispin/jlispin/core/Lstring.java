@@ -1,6 +1,6 @@
 package org.lispin.jlispin.core;
 
-public class Lstring extends Exp {
+public class Lstring extends ExpWithEmbeddedClasses {
 	
 	String _value;
 

@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Visitor;
 
-public class StandardEnvironment extends Exp implements Environment {
+public class StandardEnvironment implements Environment {
 	
 	Map _frame; // Exp, Exp
 	Environment _parent;
@@ -20,10 +19,6 @@ public class StandardEnvironment extends Exp implements Environment {
 		_frame = bindings;
 	}
 
-	public void acceptVisitor(Visitor guest) {
-		guest.visitStandardEnvironment(this);
-		
-	}
 	public Object getJavaValue() {
 		return "<StandardEnvironment>";
 	}

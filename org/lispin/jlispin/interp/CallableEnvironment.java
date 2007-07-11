@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 
@@ -47,8 +48,7 @@ public class CallableEnvironment extends Exp implements Environment, Closure {
 	}
 
 	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-		setVariableValue(symbol, valu);
-		
+		setVariableValue(symbol, valu);		
 	}
 
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
@@ -58,6 +58,28 @@ public class CallableEnvironment extends Exp implements Environment, Closure {
 	public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
 		return _delegate.lookupInThisClassAndSuperClasses(symbol);
 	}
-	
 
+	public void addClass(Exp klass) {
+		try {
+			Exp classes = _delegate.lookupVariableShallow(SymbolTable.classes);
+			_delegate.setVariableValue(SymbolTable.classes, new Lcons (klass, classes));
+		}
+		catch (UnboundException e) {
+			_delegate.defineVariable(SymbolTable.classes, klass);
+		}
+	}
+
+	public Exp getClasses() {
+		try {
+			return _delegate.lookupVariableShallow(SymbolTable.classes);
+		}
+		catch (UnboundException e) {
+			return SymbolTable.NIL;
+		}
+	}
+
+	public void removeClass(Exp klass) {
+		; // TODO
+	}
+	
 }

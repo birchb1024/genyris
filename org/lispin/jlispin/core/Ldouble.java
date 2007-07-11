@@ -1,6 +1,6 @@
 package org.lispin.jlispin.core;
 
-public class Ldouble extends Exp {
+public class Ldouble extends ExpWithEmbeddedClasses {
 	
 	private double _value;
 	

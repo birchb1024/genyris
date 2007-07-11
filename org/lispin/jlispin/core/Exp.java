@@ -4,11 +4,12 @@ import java.io.StringWriter;
 
 import org.lispin.jlispin.format.BasicFormatter;
 
-public abstract class Exp {
+public abstract class Exp implements Classifiable {
 
 	public abstract Object getJavaValue();
 	public abstract void acceptVisitor(Visitor guest);
-	
+		
+
 	public Exp car() throws AccessException {
 		throw new AccessException("attempt to take car of non-cons");
 	}

@@ -26,5 +26,17 @@ public class EagerProcedure extends AbstractClosure  {
 	public void acceptVisitor(Visitor guest) {
 		guest.visitEagerProc(this);
 	}
+	public void addClass(Exp klass) {
+		; // Noop
+	}
+
+	public Exp getClasses() {
+		// TODO Auto-generated method stub
+		return SymbolTable.NIL;
+	}
+
+	public void removeClass(Exp klass) {
+		; // Noop
+	}
 
 }

@@ -1,6 +1,6 @@
 package org.lispin.jlispin.core;
 
-public class Lsymbol extends Exp {
+public class Lsymbol extends ExpWithEmbeddedClasses {
 	
 	private String _printName;
 

@@ -1,7 +1,8 @@
 package org.lispin.jlispin.core;
 
 
-public class Lcons extends Exp {
+
+public class Lcons extends ExpWithEmbeddedClasses {
 	
 	private  Exp _car;
 	private  Exp _cdr;

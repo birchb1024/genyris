@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.Visitor;
 
 public class SpecialEnvironment extends StandardEnvironment {
 	
@@ -44,10 +43,6 @@ public class SpecialEnvironment extends StandardEnvironment {
 	}
 	public String toString() {
 		return "<SpecialEnvironment>";
-	}
-
-	public void acceptVisitor(Visitor guest) {
-		guest.visitSpecialEnvironment(this);
 	}
 
 	public Object getJavaValue() {

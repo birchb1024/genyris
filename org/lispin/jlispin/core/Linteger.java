@@ -1,6 +1,6 @@
 package org.lispin.jlispin.core;
 
-public class Linteger extends Exp {
+public class Linteger extends ExpWithEmbeddedClasses {
 	private int _value;
 	
 	public Object getJavaValue() { 
