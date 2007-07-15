@@ -10,11 +10,9 @@ import org.lispin.jlispin.core.SymbolTable;
 public class MagicEnvironment  extends StandardEnvironment {
 	
 	private Exp _it;
-	private Environment _dynamicEnv;
 	public MagicEnvironment(Environment runtime, Exp theObject) {
-		super(null, new HashMap());
+		super(runtime, new HashMap());
 		_it = theObject;
-		_dynamicEnv = runtime;
 	}
 
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
@@ -62,7 +60,7 @@ public class MagicEnvironment  extends StandardEnvironment {
 		if(symbol.isMember()) {
 			return lookupInClasses(symbol);
 		}
-		return _dynamicEnv.lookupVariableValue(symbol);
+		return super.lookupVariableValue(symbol);
 	}
 	
 	public void defineVariable(Exp symbol, Exp valu) {

@@ -30,6 +30,9 @@ public class Evaluator {
 	}
 
 	public static Exp evalSequence(Environment env, Exp body) throws LispinException {
+		if(body == SymbolTable.NIL) {
+			return SymbolTable.NIL;
+		}
 		if( body.cdr() == SymbolTable.NIL) {
 			return eval(env, body.car());
 		}

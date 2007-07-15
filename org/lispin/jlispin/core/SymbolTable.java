@@ -16,6 +16,7 @@ public class SymbolTable {
     public static Lsymbol EOF;
     public static Lsymbol closure;
     public static Lsymbol self;
+    public static Lsymbol _self;
     public static Lsymbol lambda;
     public static Lsymbol lambdaq;
     public static Lsymbol lambdam;
@@ -59,6 +60,7 @@ public class SymbolTable {
         classes = internString(DYNAMICSCOPECHAR + "classes");
         superclasses = internString(DYNAMICSCOPECHAR + "superclasses");
         classname = internString(DYNAMICSCOPECHAR + "classname");
+        _self = internString(DYNAMICSCOPECHAR + "self");
     }
 
     public Lsymbol internString(String newSym) {

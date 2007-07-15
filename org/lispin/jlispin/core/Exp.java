@@ -15,12 +15,14 @@ public abstract class Exp implements Classifiable, Closure {
 	public abstract void acceptVisitor(Visitor guest);
 		
 	public Exp[] computeArguments(Environment ignored, Exp exp) throws LispinException {
-		Exp[] args = new Exp[1];
-		args[0] = exp;
+		Exp[] args = {exp};
 		return args;
 	}
 
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
+		if(arguments[0] == SymbolTable.NIL) {
+			throw new LispinException("Empty body to exp invocation does not make sense.");
+		}
 		Environment newEnv = new MagicEnvironment(environment, this); 
 		return Evaluator.evalSequence(newEnv, arguments[0]);		
 	}

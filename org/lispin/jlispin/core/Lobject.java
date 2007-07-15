@@ -66,9 +66,12 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
+		if( symbol == SymbolTable._self ) {
+			return this;
+		}
 		if( _dict.containsKey(symbol) ) {
 			return (Exp)_dict.get(symbol);
-		} 
+		}
 		if( _dict.containsKey(SymbolTable.classes) ) {
 			try {
 				return lookupInClasses(symbol);

@@ -39,14 +39,14 @@ public class ObjectOrientationTests extends TestCase {
 		checkEval("(defvar 'Account (dict (_classes (list Standard-Class)) (_print (lambda () (cons $global _balance))) ))",
 				"(dict (_classes ((dict))) (_print <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>))");
 		
-		eval("(Account " + 
+		checkEval("(Account " + 
 		    "(defvar '_new " + 
 		        "(lambda (initial-balance) " + 
 		          "(dict " + 
 		            "(_classes (cons Account nil)) " + 
-		            "(_balance initial-balance))))) " );
+		            "(_balance initial-balance))))) ", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>" );
 		
-		eval("(defvar 'bb  (Account (_new 1000)))");
+		checkEval("(defvar 'bb  (Account (_new 1000)))","(dict (_balance 1000) (_classes ((dict (_new <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>) (_classes ((dict))) (_print <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>)))))");
   
 		checkEval("(bb(_print))", "(999 ^ 1000)");
 
@@ -58,17 +58,18 @@ public class ObjectOrientationTests extends TestCase {
 
 		eval("(defvar 'Standard-Class (dict))");
 		
-		eval("(defvar 'Base-1 " + 
+		checkEval("(defvar 'Base-1 " + 
 		    "(dict " + 
 		        "(_classes (cons Standard-Class nil)) " + 
-		        "(_toString \"Base-1 toString\"))) " );
+		        "(_toString \"Base-1 toString\"))) ", "(dict (_classes ((dict))) (_toString \"Base-1 toString\"))" );
 		
 		checkEval("(Base-1 _toString)", "\"Base-1 toString\"");
 		        		
-		eval("(defvar 'Base-2 " + 
+		checkEval("(defvar 'Base-2 " + 
 		    "(dict " + 
 		        "(_classes (cons Standard-Class nil)) " + 
-		        "(_log \"Base-2 log\"))) " );
+		        "(_log \"Base-2 log\"))) ",
+		        "(dict (_log \"Base-2 log\") (_classes ((dict))))");
 		        
 		checkEval("(Base-2 _log)", "\"Base-2 log\"");
 
