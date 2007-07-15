@@ -1,10 +1,13 @@
 package org.lispin.jlispin.core;
 
+import org.lispin.jlispin.classes.BuiltinClasses;
+
 public class Lstring extends ExpWithEmbeddedClasses {
 	
 	String _value;
 
 	public Lstring(String str) {
+		super(BuiltinClasses.STRING);
 		_value = str;
 	}
 

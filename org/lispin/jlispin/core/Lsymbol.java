@@ -1,5 +1,7 @@
 package org.lispin.jlispin.core;
 
+import org.lispin.jlispin.classes.BuiltinClasses;
+
 public class Lsymbol extends ExpWithEmbeddedClasses {
 	
 	private String _printName;
@@ -7,10 +9,12 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 	private static int nextgensym = 0;
 	
 	public Lsymbol(String newSym) {
+		super(BuiltinClasses.SYMBOL);
 		_printName = newSym;
 	}
 	
     public Lsymbol() {
+		super(BuiltinClasses.SYMBOL);
 		_printName = "G" + nextgensym;
 		nextgensym++;
 	}

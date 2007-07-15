@@ -35,9 +35,9 @@ public class ObjectOrientationTests extends TestCase {
 		checkEval("$global", "999");
 
 		eval("(defvar 'Standard-Class (dict))");
-		checkEval("Standard-Class", "<CallableEnvironment<dict nil>>");
+		checkEval("Standard-Class", "(dict)");
 		checkEval("(defvar 'Account (dict (_classes (list Standard-Class)) (_print (lambda () (cons $global _balance))) ))",
-				"<CallableEnvironment<dict ((_classes (<CallableEnvironment<dict nil>>)) (_print <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>))>>");
+				"(dict (_classes ((dict))) (_print <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>))");
 		
 		eval("(Account " + 
 		    "(defvar '_new " + 

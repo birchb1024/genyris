@@ -7,13 +7,12 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
-import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Linteger;
+import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
-import org.lispin.jlispin.interp.CallableEnvironment;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
 import org.lispin.jlispin.interp.SpecialEnvironment;
@@ -146,13 +145,5 @@ public class BasicFormatter implements Visitor {
 		}
 	}
 
-	public void visitCallableEnvironment(CallableEnvironment env) {
-		try {
-			_output.write(env.getJavaValue().toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 }

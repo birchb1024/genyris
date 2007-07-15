@@ -8,29 +8,30 @@ public class SymbolTable {
 	
 	public static final String DYNAMICSCOPECHAR = "_";
     private Map       _table;
-    public static Exp NIL;
-    public static Exp T;
-    public static Exp leftParen;
-    public static Exp rightParen;
-    public static Exp cdr_char;
-    public static Exp EOF;
-    public static Exp closure;
-    public static Exp self;
-    public static Exp lambda;
-    public static Exp lambdaq;
-    public static Exp lambdam;
-    public static Exp method;
-    public static Exp quote;
-    public static Exp raw_quote;
-    public static Exp backquote;
-    public static Exp raw_comma_at;
-    public static Exp raw_comma;
-    public static Exp comma;
-    public static Exp comma_at;
-    public static Exp REST;
-    public static Exp DICT;
-    public static Exp classes;
-    public static Exp superclasses;
+    public static Lsymbol NIL;
+    public static Lsymbol T;
+    public static Lsymbol leftParen;
+    public static Lsymbol rightParen;
+    public static Lsymbol cdr_char;
+    public static Lsymbol EOF;
+    public static Lsymbol closure;
+    public static Lsymbol self;
+    public static Lsymbol lambda;
+    public static Lsymbol lambdaq;
+    public static Lsymbol lambdam;
+    public static Lsymbol method;
+    public static Lsymbol quote;
+    public static Lsymbol raw_quote;
+    public static Lsymbol backquote;
+    public static Lsymbol raw_comma_at;
+    public static Lsymbol raw_comma;
+    public static Lsymbol comma;
+    public static Lsymbol comma_at;
+    public static Lsymbol REST;
+    public static Lsymbol DICT;
+    public static Lsymbol classes;
+    public static Lsymbol superclasses;
+	public static Lsymbol classname;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -57,11 +58,12 @@ public class SymbolTable {
         DICT = internString("dict");
         classes = internString(DYNAMICSCOPECHAR + "classes");
         superclasses = internString(DYNAMICSCOPECHAR + "superclasses");
+        classname = internString(DYNAMICSCOPECHAR + "classname");
     }
 
-    public Exp internString(String newSym) {
+    public Lsymbol internString(String newSym) {
         if (_table.containsKey(newSym)) {
-            return (Exp)_table.get(newSym);
+            return (Lsymbol)_table.get(newSym);
         } else {
             Lsymbol sym = new Lsymbol(newSym);
             _table.put(newSym, sym);

@@ -1,5 +1,7 @@
 package org.lispin.jlispin.core;
 
+import org.lispin.jlispin.classes.BuiltinClasses;
+
 
 
 public class Lcons extends ExpWithEmbeddedClasses {
@@ -8,6 +10,7 @@ public class Lcons extends ExpWithEmbeddedClasses {
 	private  Exp _cdr;
 
 	public Lcons(Exp car, Exp cdr) {
+		super(BuiltinClasses.PAIR);
 		_car = car;
 		_cdr = cdr;
 	}

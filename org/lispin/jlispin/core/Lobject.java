@@ -5,16 +5,24 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Evaluator;
+import org.lispin.jlispin.interp.LispinException;
+import org.lispin.jlispin.interp.SpecialEnvironment;
 import org.lispin.jlispin.interp.UnboundException;
 
 
-public class Lobject implements Environment {
+public class Lobject extends Exp implements Environment {
 	private Map _dict;
 	
 	public Lobject() {
 		_dict = new HashMap();
 	}
 	
+	public Lobject(Lsymbol key, Exp value) {
+		_dict = new HashMap();
+		_dict.put(key, value);
+	}
+
 	public int hashCode() {
     	return _dict.hashCode();
     }
@@ -145,6 +153,51 @@ public class Lobject implements Environment {
 		} else { 
 			throw new UnboundException("dict does not contain key: " + symbol.toString());
 		}
+	}
+
+	public Exp getClasses() {
+		return (Exp)_dict.get(SymbolTable.classes);
+	}
+
+	public void addClass(Exp klass) {
+		Exp classes = SymbolTable.NIL;
+		if( _dict.containsKey(SymbolTable.classes) ) {
+			classes = (Exp)_dict.get(SymbolTable.classes);
+		}
+		_dict.put(SymbolTable.classes, new Lcons (klass, classes));
+	}
+
+
+	public void removeClass(Exp klass) {
+		Exp classes = SymbolTable.NIL;
+		if( _dict.containsKey(SymbolTable.classes) ) {
+			classes = (Exp)_dict.get(SymbolTable.classes);
+		}
+		try {
+			_dict.put(SymbolTable.classes, removeIf (klass, classes));
+		}
+		catch (AccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
+	private Exp removeIf(Exp exp, Exp list) throws AccessException {
+		if( list == SymbolTable.NIL) {
+			return SymbolTable.NIL;
+		}
+		if( list == exp) {
+			return removeIf(exp, list.cdr());
+		} else {
+			return new Lcons(list.car(), removeIf(exp, list.cdr()) );
+		}
+	}
+
+	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
+		Map bindings = new HashMap();
+		bindings.put(SymbolTable.self, this);
+		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this); 
+		return Evaluator.evalSequence(newEnv, arguments[0]);
 	}
 
 

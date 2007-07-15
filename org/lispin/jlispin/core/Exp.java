@@ -3,12 +3,27 @@ package org.lispin.jlispin.core;
 import java.io.StringWriter;
 
 import org.lispin.jlispin.format.BasicFormatter;
+import org.lispin.jlispin.interp.Closure;
+import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Evaluator;
+import org.lispin.jlispin.interp.LispinException;
+import org.lispin.jlispin.interp.MagicEnvironment;
 
-public abstract class Exp implements Classifiable {
+public abstract class Exp implements Classifiable, Closure {
 
 	public abstract Object getJavaValue();
 	public abstract void acceptVisitor(Visitor guest);
 		
+	public Exp[] computeArguments(Environment ignored, Exp exp) throws LispinException {
+		Exp[] args = new Exp[1];
+		args[0] = exp;
+		return args;
+	}
+
+	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
+		Environment newEnv = new MagicEnvironment(environment, this); 
+		return Evaluator.evalSequence(newEnv, arguments[0]);		
+	}
 
 	public Exp car() throws AccessException {
 		throw new AccessException("attempt to take car of non-cons");

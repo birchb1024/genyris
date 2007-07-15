@@ -1,18 +1,18 @@
 package org.lispin.jlispin.interp.builtin;
 
-import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
-import org.lispin.jlispin.interp.CallableEnvironment;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.LispinException;
 
-public class DictFunction extends ApplicableFunction {
+public class ObjectFunction extends ApplicableFunction {
+	// Create a new dict
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
+	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env) throws LispinException {
 		Lobject dict = new Lobject();
 		for(int i= 0; i < arguments.length; i++) {
 			if( !arguments[i].listp())
@@ -22,6 +22,6 @@ public class DictFunction extends ApplicableFunction {
 			else
 				dict.defineVariable(arguments[i].car(), SymbolTable.NIL);
 		}
-		return new CallableEnvironment(dict);
+		return dict;
 	}
 }

@@ -6,8 +6,9 @@ import java.util.Set;
 public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable {
 	private  Set _classes;
 
-	public ExpWithEmbeddedClasses() {
+	public ExpWithEmbeddedClasses(Lobject theInbuiltClass) {
 		_classes = new HashSet(1);
+		_classes.add(theInbuiltClass);
 	}
 	public abstract Object getJavaValue();
 	public abstract void acceptVisitor(Visitor guest);
