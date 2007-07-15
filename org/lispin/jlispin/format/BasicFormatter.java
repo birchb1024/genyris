@@ -29,7 +29,7 @@ public class BasicFormatter implements Visitor {
 
 	public void visitLobject(Lobject frame) {
 		try {
-			_output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
+			_output.write("(" + new Lcons(SymbolTable.DICT, frame.getAlist()).toString() + ")");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

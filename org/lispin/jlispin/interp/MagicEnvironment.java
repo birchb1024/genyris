@@ -54,7 +54,7 @@ public class MagicEnvironment  extends StandardEnvironment {
 		if(symbol == SymbolTable.classes) {
 			return _it.getClasses();
 		}
-		else if(symbol == SymbolTable.self) {
+		else if(symbol == SymbolTable.self || symbol == SymbolTable._self) {
 			return _it;
 		}
 		if(symbol.isMember()) {

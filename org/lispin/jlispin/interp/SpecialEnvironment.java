@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.SymbolTable;
 
 public class SpecialEnvironment extends StandardEnvironment {
 	
