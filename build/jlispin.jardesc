@@ -11,29 +11,33 @@
 </sealing>
 </manifest>
 <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.io"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.core"/>
-<javaElement handleIdentifier="=JLispin/&lt;build"/>
 <javaElement handleIdentifier="=JLispin/&lt;conf"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.core"/>
-<file path="/JLispin/test-inheritance.lin"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.apache.bsf"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.io"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp"/>
 <file path="/JLispin/.classpath"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp.builtin"/>
-<file path="/JLispin/.hgignore"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.format"/>
-<file path="/JLispin/test.lin"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.bsf"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.format"/>
 <file path="/JLispin/.project"/>
 <file path="/JLispin/test2.lin"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.classes"/>
+<file path="/JLispin/test-lambdas-as-special.lin"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.io"/>
+<javaElement handleIdentifier="=JLispin/&lt;needed"/>
+<javaElement handleIdentifier="=JLispin/&lt;build"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.apache.bsf"/>
+<file path="/JLispin/test-inheritance.lin"/>
+<file path="/JLispin/classifiable concepts.lin"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.interp.builtin"/>
+<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.format"/>
+<file path="/JLispin/.hgignore"/>
+<file path="/JLispin/test.lin"/>
 <file path="/JLispin/.checkstyle"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.load"/>
 <file path="/JLispin/test-oo-example.lin"/>
 <file path="/JLispin/test-specialenv.lin"/>
-<javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.test.interp"/>
 <javaElement handleIdentifier="=JLispin/&lt;org.lispin.jlispin.load.boot"/>
 </selectedElements>
 </jardesc>
