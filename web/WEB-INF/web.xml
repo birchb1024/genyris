@@ -4,11 +4,13 @@
 
 <web-app>
   <display-name>JLispin</display-name>
-
   	<servlet>
-    	<servlet-name>jlispin</servlet-name>
-    	<servlet-class>org.lispin.jlispin.servelet.JLispinServlet</servlet-class>
-    	<load-on-startup>2</load-on-startup>
+    	<servlet-name>org.lispin.jlispin.web.JLispinServlet</servlet-name>
+    	<servlet-class>org.lispin.jlispin.web.JLispinServlet</servlet-class>
 	</servlet>
+    <servlet-mapping>
+        <servlet-name>org.lispin.jlispin.web.JLispinServlet</servlet-name>
+        <url-pattern>/jlispin</url-pattern>
+    </servlet-mapping>
 
 </web-app>

@@ -13,7 +13,9 @@
 	<!-- should contain a single dependency.                                 -->
 	<!-- =================================================================== -->
 	<target name="all" depends="--all" description="Build all." />
-	<target name="src-compile" depends="-init, -src-compile" />
+	<target name="src-compile" depends="-clean, -init, -src-compile" />
+    <target name="clean" depends="-clean" />
+    <target name="production-war" depends="-src-compile, -production-war" />
 	
 	<!-- =================================================================== -->
 	<!-- All dependencies should be expressed below in targets beginning     -->
@@ -155,14 +157,14 @@
 		</sequential>
 	</macrodef>
 	
-	<target name="production-war">
+	<target name="-production-war">
 		<copy-war-files destdir="${production.war.dir}" />
 
 		<copy overwrite="true" todir="${production.war.dir}/WEB-INF/classes">
 			<fileset refid="product.properties.files" />
 		</copy>
 	
-		<war destfile="${production.ear.dir}/${production.war.file.name}" basedir="${production.war.dir}" webxml="${web.dir}/WEB-INF/web.xml" />
+		<war destfile="${production.war.dir}/${production.war.file.name}" basedir="${production.war.dir}" webxml="${web.dir}/WEB-INF/web.xml" />
 	</target>
 	
 </project>
