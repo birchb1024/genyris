@@ -1,0 +1,100 @@
+<project name="JLispin-Properties" basedir="../../">
+
+	<!-- ======================================================================= -->
+	<!--              Project description properties                             -->
+	<!-- ======================================================================= -->
+	<property name="project.title" value="JLispin" />
+	<property name="major.version" value="01" />
+	<property name="project.version" value="${major.version}" />
+	<property name="app.name" value="JLispin" />
+	<property name="project.app" value="JLispin" />
+	<property name="integration.dist.suffix" value="D" />
+	<property name="production.dist.suffix" value="" />
+
+	<!-- ======================================================================= -->
+	<!--              Load local and user build preferences                      -->
+	<!-- ======================================================================= -->
+
+	<!-- local overrides -->
+	<property file="${basedir}/local-build.properties" />
+
+	<!-- Load user overrides -->
+	<property file="${basedir}/build.properties" />
+
+	<!-- Environment settings -->
+	<property environment="env" />
+	<property name="javac.exec.path" location="${env.JAVA_HOME}/bin/javac" />
+
+	<!-- Java settings -->
+	<property name="source" value="1.4" />
+	<property name="optimize" value="on" />
+	<property name="debug" value="on" />
+	<property name="debuglevel" value="lines,vars,source" />
+	<property name="deprecation" value="on" />
+	<property name="nowarn" value="false" />
+	<property name="includeAntRuntime" value="false" />
+	<property name="build.compiler" value="javac1.4" />
+	<property name="test.fork" value="yes" />
+
+	<!-- Coverage -->
+	<property name="emma.enabled" value="yes" />
+	<property name="coverage.metadata.filename" value="coverage.em" />
+	<property name="coverage.output.filename" value="coverage.ec" />
+
+	<!-- ======================================================================= -->
+	<!--                         Project directories                             -->
+	<!-- ======================================================================= -->
+
+	<!-- Project configuration file directories -->
+	<property name="integration.test.conf.dir" location="${basedir}/test.integration.conf" />
+	<property name="conf.dir" location="${basedir}/conf" />
+	<property name="ant.conf.dir" location="${conf.dir}/ant" />
+
+	<!-- Source and library directories -->
+
+	<property name="java.src.dir" location="${basedir}/src" />
+	<property name="common.src.dir" location="${basedir}/anz-common" />
+	<property name="test.src.dir" location="${basedir}/test" />
+    <property name="needed.lib.dir" location="${basedir}/needed" />
+	<property name="lib.dir" location="${basedir}/web/WEB-INF/lib" />
+	<property name="testlib.dir" location="${basedir}/testlibs" />
+
+	<!-- Project web application directories -->
+	<property name="web.dir" location="${basedir}/web" />
+	<property name="web.conf.dir" location="${web.dir}/WEB-INF" />
+	<property name="web.lib.dir" location="${web.conf.dir}/lib" />
+
+	<!-- Distribution directories -->
+	<property name="dist.dir" location="${basedir}/../../dist" />
+
+	<!-- Documentation directories -->
+	<property name="doc.dir" location="${basedir}/docs" />
+	<property name="doc.java.dir" location="${doc.dir}/api" />
+
+	<!-- Build directories -->
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="tomcat.dir" location="${basedir}/tomcat" />
+	<property name="webcontent.dir" location="${basedir}/web" />
+	<property name="reports.dir" location="${build.dir}/reports" />
+	<property name="src.compile.dir" location="${build.dir}/classes" />
+	<property name="web.compile.dir" location="${web.conf.dir}/classes" />
+	<property name="integration.war.dir" location="${build.dir}/integration.war" />
+	<property name="production.war.dir" location="${build.dir}/war" />
+	<property name="jar.dir" location="${build.dir}/jar" />
+
+	<!-- Unit test directories -->
+	<property name="test.dir" location="${build.dir}/test" />
+	<property name="test.compile.dir" location="${test.dir}/classes" />
+
+
+	<!-- Test results directory -->
+	<property name="test.results.dir" location="${test.dir}/results" />
+
+	<!-- Reporting directories -->
+	<property name="test.reports.dir" location="${reports.dir}/test" />
+
+	<!-- Tools directories -->
+	<property name="tools.dir" location="${basedir}/tools" />
+	<property name="junit.lib.dir" location="${tools.dir}/junit" />
+
+</project>
