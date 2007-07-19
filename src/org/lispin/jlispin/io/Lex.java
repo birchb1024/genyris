@@ -200,7 +200,7 @@ public class Lex {
                     return SymbolTable.leftParen;
                 case ')' :
                     return SymbolTable.rightParen;
-                case '^' :
+                case ':' : // TODO DRY
                     return SymbolTable.cdr_char;
                 case QUOTECHAR :
                     return SymbolTable.raw_quote;

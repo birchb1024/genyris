@@ -20,7 +20,7 @@ import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class BasicFormatter implements Visitor {
 	
-	private static final String CDRCHAR = "^";
+	private static final String CDRCHAR = ":";
 	private Writer _output;
 	
 	public BasicFormatter(Writer out) {

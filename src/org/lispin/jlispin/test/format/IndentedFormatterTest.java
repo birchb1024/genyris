@@ -70,4 +70,7 @@ public class IndentedFormatterTest extends TestCase {
 		excerciseFormatter("(1 2 3 (44) 5 (66) 7 (88) 9)", "1 2 3\n   44\n   ~ 5\n   66\n   ~ 7\n   88\n   ~ 9", 2);	
 	} 
 
+    public void test9() throws Exception {
+        excerciseFormatter("(dict (a : 1) (b: 2))", "dict (a : 1) (b: 2)", 3);    
+    } 
 }

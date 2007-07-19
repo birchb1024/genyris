@@ -14,13 +14,14 @@ import org.lispin.jlispin.io.ConvertEofInStream;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.IndentStream;
 import org.lispin.jlispin.io.Parser;
-import org.lispin.jlispin.io.StdioInStream;
 import org.lispin.jlispin.io.StringInStream;
 import org.lispin.jlispin.io.UngettableInStream;
 
 
 public final class JLispinServlet extends HttpServlet {
 
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Respond to a GET request for the content produced by

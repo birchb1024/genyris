@@ -48,7 +48,7 @@ public class ObjectOrientationTests extends TestCase {
 		
 		checkEval("(defvar 'bb  (Account (_new 1000)))","(dict (_balance 1000) (_classes ((dict (_new <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>) (_classes ((dict))) (_print <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>)))))");
   
-		checkEval("(bb(_print))", "(999 ^ 1000)");
+		checkEval("(bb(_print))", "(999 : 1000)");
 
 		checkEval("(bb((lambda () _balance)))", "1000");
 	}

@@ -17,7 +17,7 @@ import org.lispin.jlispin.interp.LazyProcedure;
 
 public class IndentedFormatter implements Visitor {
 	
-	private static final char CDRCHAR = '^';
+	private static final char CDRCHAR = ':'; // TODO DRY
 	private final int INDENT_DEPTH;
 	private Writer _output;
 	private int _consDepth;

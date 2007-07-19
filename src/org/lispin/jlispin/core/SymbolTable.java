@@ -38,7 +38,7 @@ public class SymbolTable {
         _table = new HashMap();
         leftParen = internString("leftParen");
         rightParen = internString("righParen");
-        cdr_char = internString("period");
+        cdr_char = internString("pair-delimiter");
         closure = internString("closure");
         self = internString("self");
         lambda = internString("lambda");

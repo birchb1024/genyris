@@ -58,7 +58,7 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(defvar 'x -1)", "-1");
 		excerciseEval("(defvar 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(mk-func 10)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("((mk-func 10) 88)", "(10 ^ 88)");
+		excerciseEval("((mk-func 10) 88)", "(10 : 88)");
 	}
 
 	public void testRestArgs() throws Exception {
@@ -67,7 +67,7 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 		
 		excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<anonymous macro>");
-		excerciseEval("(fnq 12 cons 1 2)", "(1 ^ 2)");
+		excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
 	}
 	public void testFrame() throws Exception {
 		excerciseEval("(dict (a 1) (b 2) (c 3))", "(dict (b 2) (c 3) (a 1))");
@@ -77,12 +77,12 @@ public class ComplexInterpreterTests extends TestCase {
 	public void testEnvCapture() throws Exception {
 		excerciseEval("(defvar 'mk-fn  (lambda (x) (defvar 'bal x) (defvar 'fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
 		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("(ff 99)", "(44 ^ 99)");
+		excerciseEval("(ff 99)", "(44 : 99)");
 	}
 	public void testEnvCaptureWithDef() throws Exception {
 		excerciseEval("(def mk-fn (x) (defvar 'bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
 		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("(ff 99)", "(44 ^ 99)");
+		excerciseEval("(ff 99)", "(44 : 99)");
 	}
 
 	
@@ -96,6 +96,6 @@ public class ComplexInterpreterTests extends TestCase {
 	public void testDynamicVariablesWithDef2() throws Exception {
 		excerciseEval("(defvar '_x 11111)", "11111");
 		excerciseEval("(def define-some-global-y (_x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("(define-some-global-y 33)", "(11111 ^ \"global _y\")");
+		excerciseEval("(define-some-global-y 33)", "(11111 : \"global _y\")");
 	}
 }

@@ -32,9 +32,9 @@ public class BasicFormatterTest extends TestCase {
 		excerciseFormatter("(1 2.3 \"str\" (symbol))");	
 	} 
 	public void test2() throws Exception {
-		excerciseFormatter("(1 2.3 (nil nil 23 45 ^ 89))");	
+		excerciseFormatter("(1 2.3 (nil nil 23 45 : 89))");	
 	} 
 	public void test3() throws Exception {
-		excerciseFormatter("(45 ^ 89)");	
+		excerciseFormatter("(45 : 89)");	
 	} 
 }
