@@ -145,6 +145,11 @@ public class LexTest extends TestCase {
 		excerciseSpecialParsing("'\"str\"", "(quote \"str\")"); 
 		excerciseSpecialParsing("'(1 2)", "(quote (1 2))"); 
 		excerciseSpecialParsing("'(1 : 2)", "(quote (1 : 2))"); 
+        excerciseSpecialParsing("'(1:2)", "(quote (1 : 2))"); 
+        excerciseSpecialParsing("'(1 :2)", "(quote (1 : 2))"); 
+        excerciseSpecialParsing("'(a:b)", "(quote (a : b))"); 
+        excerciseSpecialParsing("'(a :b)", "(quote (a : b))"); 
+        excerciseSpecialParsing("'(a: b)", "(quote (a : b))"); 
 	}
 
 	public void testSpecialLexBackQuote() throws Exception {

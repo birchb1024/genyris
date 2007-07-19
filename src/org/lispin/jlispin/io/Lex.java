@@ -12,6 +12,7 @@ public class Lex {
     private static final char QUOTECHAR   = '\'';
     private static final char COMMACHAR   = ',';
     private static final char ATCHAR      = '@';
+    private static final char CDRCHAR      = ':';
     private InStream          _input;
     private SymbolTable       _symbolTable;
 
@@ -120,6 +121,7 @@ public class Lex {
             case COMMENTCHAR :
             case BQUOTECHAR :
             case QUOTECHAR :
+            case CDRCHAR :
             case '"' :
                 return false;
             default :
