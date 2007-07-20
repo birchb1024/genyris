@@ -202,7 +202,19 @@ public class Lobject extends Exp implements Environment {
 		Map bindings = new HashMap();
 		bindings.put(SymbolTable.self, this);
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this); 
-		return Evaluator.evalSequence(newEnv, arguments[0]);
+        if(arguments[0].listp()) {
+            return Evaluator.evalSequence(newEnv, arguments[0]);
+        } else {
+            try {
+                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);  
+                this.addClass(klass);
+                return this;
+            }
+            catch (ClassCastException e) {
+                throw new LispinException("type tag failure: " + arguments[0] + " is not a class");
+            }
+        }
+        
 	}
 
     public boolean isTaggedWith(Lobject klass) {

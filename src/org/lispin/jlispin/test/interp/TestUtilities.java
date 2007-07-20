@@ -13,7 +13,7 @@ import org.lispin.jlispin.io.UngettableInStream;
 
 public class TestUtilities {
 	
-	private Interpreter _interpreter;
+	public Interpreter _interpreter;
 	
 	public TestUtilities() throws LispinException {
 		_interpreter = new Interpreter();

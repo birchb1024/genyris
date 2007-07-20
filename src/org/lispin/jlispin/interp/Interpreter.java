@@ -13,6 +13,7 @@ import org.lispin.jlispin.interp.builtin.ConditionalFunction;
 import org.lispin.jlispin.interp.builtin.ConsFunction;
 import org.lispin.jlispin.interp.builtin.DefFunction;
 import org.lispin.jlispin.interp.builtin.DefMacroFunction;
+import org.lispin.jlispin.interp.builtin.DefineClassFunction;
 import org.lispin.jlispin.interp.builtin.DefineFunction;
 import org.lispin.jlispin.interp.builtin.ObjectFunction;
 import org.lispin.jlispin.interp.builtin.EqFunction;
@@ -48,6 +49,7 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		_globalEnvironment.defineVariable(SymbolTable.T, SymbolTable.T);
 		_globalEnvironment.defineVariable(SymbolTable.EOF, SymbolTable.EOF);
+        // TODO all these constructors need to be replaced with a factory and singletons: 
 		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdam"), new LazyProcedure(_globalEnvironment, null, new LambdamFunction()));
@@ -61,6 +63,7 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("defvar"), new EagerProcedure(_globalEnvironment, null, new DefineFunction()));
 		_globalEnvironment.defineVariable(_table.internString("def"), new LazyProcedure(_globalEnvironment, null, new DefFunction()));
 		_globalEnvironment.defineVariable(_table.internString("defmacro"), new LazyProcedure(_globalEnvironment, null, new DefMacroFunction()));
+        _globalEnvironment.defineVariable(_table.internString("class"), new LazyProcedure(_globalEnvironment, null, new DefineClassFunction()));
 		_globalEnvironment.defineVariable(_table.internString("cond"), new LazyProcedure(_globalEnvironment, null, new ConditionalFunction()));
 		_globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction()));
 		_globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction()));

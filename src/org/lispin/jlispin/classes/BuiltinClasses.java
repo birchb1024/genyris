@@ -13,17 +13,19 @@ public class BuiltinClasses {
 	public static Lobject DOUBLE;
 	public static Lobject SYMBOL;
     public static Lobject PRINTWITHCOLON;
+    public static Lobject STANDARDCLASS;
 
 	private static Lobject mkClass(String name) {
 		return new Lobject(SymbolTable.classname, new Lcons(new Lsymbol(name),SymbolTable.NIL));
 	}
 	public static void init() {
-		PAIR = mkClass("PAIR");
-		INTEGER = mkClass("INTEGER");
-		STRING = mkClass("STRING");
-		DOUBLE = mkClass("DOUBLE");
-		SYMBOL = mkClass("SYMBOL");
+		PAIR = mkClass("Pair");
+		INTEGER = mkClass("Integer");
+		STRING = mkClass("String");
+		DOUBLE = mkClass("Double");
+		SYMBOL = mkClass("Symbol");
         PRINTWITHCOLON = mkClass("PRINTWITHCOLON");
+        STANDARDCLASS = mkClass("StandardClass");
 		
 	}
 }

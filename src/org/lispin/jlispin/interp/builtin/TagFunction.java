@@ -1,7 +1,6 @@
 package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
@@ -15,7 +14,7 @@ public class TagFunction extends ApplicableFunction {
 		Exp object = arguments[0];
 		Exp newClass = arguments[1];
 		object.addClass(newClass);
-		return SymbolTable.NIL;
+		return object;
 	}
 
 }
