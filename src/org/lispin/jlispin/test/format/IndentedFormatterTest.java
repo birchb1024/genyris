@@ -71,6 +71,9 @@ public class IndentedFormatterTest extends TestCase {
 	} 
 
     public void test9() throws Exception {
-        excerciseFormatter("(dict (a : 1) (b: 2))", "dict (a : 1) (b : 2)", 3);    
+        excerciseFormatter("(xxx (a) (b: 2))", "xxx (a) (b : 2)", 3);    
+        excerciseFormatter("(xxx (a) (b: 2))", "xxx (a) (b : 2)", 3);    
+        excerciseFormatter("(xxx (a : 1) (b: 2))", "xxx (a : 1) (b : 2)", 3);    
+        excerciseFormatter("(xxx (a : (1)))", "xxx (a : (1))", 3);    
     } 
 }

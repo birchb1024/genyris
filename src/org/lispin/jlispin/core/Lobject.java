@@ -3,7 +3,7 @@ package org.lispin.jlispin.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.LispinException;
@@ -56,7 +56,9 @@ public class Lobject extends Exp implements Environment {
 		while(iter.hasNext()) {
 			Exp key = (Exp) iter.next();
 			Exp value = (Exp) _dict.get(key);
-			result = new Lcons( new Lcons(key, new Lcons(value, SymbolTable.NIL)), result);
+            Exp tmp = new Lcons(key, value);
+            tmp.addClass(BuiltinClasses.PRINTWITHCOLON);
+			result = new Lcons( tmp , result);
 		}
 		return result;
 	}
@@ -202,6 +204,19 @@ public class Lobject extends Exp implements Environment {
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this); 
 		return Evaluator.evalSequence(newEnv, arguments[0]);
 	}
+
+    public boolean isTaggedWith(Lobject klass) {
+        Exp classes = getClasses();
+        while( classes != SymbolTable.NIL) {
+            try {
+                if( classes.car() == klass)
+                    return true;
+            } catch (AccessException e) {
+                return false;
+            }
+        }
+        return false;
+    }
 
 
 }

@@ -36,17 +36,19 @@ public class ObjectOrientationTests extends TestCase {
 
 		eval("(defvar 'Standard-Class (dict))");
 		checkEval("Standard-Class", "(dict)");
-		checkEval("(defvar 'Account (dict (_classes (list Standard-Class)) (_print (lambda () (cons $global _balance))) ))",
-				"(dict (_classes ((dict))) (_print <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>))");
+		checkEval("(defvar 'Account (dict (_classes : (list Standard-Class)) (_print : (lambda () (cons $global _balance))) ))",
+				"(dict (_classes : ((dict))) (_print : <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>))");
 		
 		checkEval("(Account " + 
 		    "(defvar '_new " + 
 		        "(lambda (initial-balance) " + 
 		          "(dict " + 
-		            "(_classes (cons Account nil)) " + 
-		            "(_balance initial-balance))))) ", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>" );
+		            "(_classes: (cons Account nil)) " + 
+		            "(_balance:  initial-balance))))) ", 
+                    "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>" );
 		
-		checkEval("(defvar 'bb  (Account (_new 1000)))","(dict (_balance 1000) (_classes ((dict (_new <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>) (_classes ((dict))) (_print <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>)))))");
+		checkEval("(defvar 'bb  (Account (_new 1000)))"
+                ,"(dict (_balance : 1000) (_classes : ((dict (_new : <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>) (_classes : ((dict))) (_print : <EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>)))))");
   
 		checkEval("(bb(_print))", "(999 : 1000)");
 
@@ -60,44 +62,45 @@ public class ObjectOrientationTests extends TestCase {
 		
 		checkEval("(defvar 'Base-1 " + 
 		    "(dict " + 
-		        "(_classes (cons Standard-Class nil)) " + 
-		        "(_toString \"Base-1 toString\"))) ", "(dict (_classes ((dict))) (_toString \"Base-1 toString\"))" );
+		        "(_classes: (cons Standard-Class nil)) " + 
+		        "(_toString: \"Base-1 toString\"))) "
+                , "(dict (_classes : ((dict))) (_toString : \"Base-1 toString\"))" );
 		
 		checkEval("(Base-1 _toString)", "\"Base-1 toString\"");
 		        		
 		checkEval("(defvar 'Base-2 " + 
 		    "(dict " + 
-		        "(_classes (cons Standard-Class nil)) " + 
-		        "(_log \"Base-2 log\"))) ",
-		        "(dict (_log \"Base-2 log\") (_classes ((dict))))");
+		        "(_classes : (cons Standard-Class nil)) " + 
+		        "(_log : \"Base-2 log\"))) ",
+		        "(dict (_log : \"Base-2 log\") (_classes : ((dict))))");
 		        
 		checkEval("(Base-2 _log)", "\"Base-2 log\"");
 
 		eval("(defvar 'Class-1 " + 
 				"(dict " + 
-					"(_classes (cons Standard-Class nil)) " + 
-					"(_superclasses (cons Base-1 nil)) " + 
-					"(_print \"Class-1 print\")"  + 
-					"(_new " + 
+					"(_classes : (cons Standard-Class nil)) " + 
+					"(_superclasses : (cons Base-1 nil)) " + 
+					"(_print: \"Class-1 print\")"  + 
+					"(_new: " + 
 						"(lambda (_a) " + 
 							"(dict " + 
-								"(_classes (cons Class-1 nil)) " + 
-								"(_a _a)))))) " );
+								"(_classes: (cons Class-1 nil)) " + 
+								"(_a: _a)))))) " );
 		checkEval("(Class-1 _print)", "\"Class-1 print\"");
 		checkEval("(Class-1 _toString)", "\"Base-1 toString\"");
 		
 		eval("(defvar 'Class-2 " + 
 		    "(dict" + 
-		    	"(_classes (cons Standard-Class nil))" + 
-		    	"(_superclasses (cons Base-2 nil))" + 
-		    	"(_draw \"Class-2 draw\")))" );
+		    	"(_classes: (cons Standard-Class nil))" + 
+		    	"(_superclasses: (cons Base-2 nil))" + 
+		    	"(_draw: \"Class-2 draw\")))" );
 		        		
 		checkEval("(Class-2 _draw)", "\"Class-2 draw\"");
 		checkEval("(Class-2 _log)", "\"Base-2 log\"");
 
 		eval("(defvar 'object " + 
 			    "(dict" + 
-			      "(_classes (cons Class-1 (cons Class-2 nil)))))" );
+			      "(_classes: (cons Class-1 (cons Class-2 nil)))))" );
 		checkEval("(object _log)", "\"Base-2 log\"");
 		checkEval("(object _draw)", "\"Class-2 draw\"");
 		checkEval("(object _print)", "\"Class-1 print\"");

@@ -3,6 +3,7 @@ package org.lispin.jlispin.interp;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
+import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.SymbolTable;
 
 public abstract class AbstractClosure extends Exp implements Closure {
@@ -74,5 +75,20 @@ public abstract class AbstractClosure extends Exp implements Closure {
 		return args.last();
 
 	}
+    public void addClass(Exp klass) {
+        ; // Noop
+    }
+
+    public Exp getClasses() {
+        // TODO Auto-generated method stub
+        return SymbolTable.NIL;
+    }
+
+    public void removeClass(Exp klass) {
+        ; // Noop
+    }
+    public boolean isTaggedWith(Lobject klass) {
+        return false;
+    }
 	
 }

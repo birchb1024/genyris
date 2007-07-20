@@ -3,6 +3,7 @@ package org.lispin.jlispin.format;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
@@ -34,9 +35,18 @@ public class IndentedFormatter implements Visitor {
 	}
 
 	public void printLcons(Lcons cons) throws IOException {
+        // TODO - Yuck!
 		_consDepth +=1;
 		Exp head = cons;
 		int countOfRight = 0;
+        boolean colon = cons.isTaggedWith(BuiltinClasses.PRINTWITHCOLON);
+        if(colon) {
+            printSpaces(_consDepth);
+            _output.write(cons.car().toString());
+            _output.write(" " + CDRCHAR + " ");
+            _output.write(cons.cdr().toString());
+            return;
+        }
 		while ( !head.isNil()) {
 			countOfRight += 1;
 			if(head.listp()) {

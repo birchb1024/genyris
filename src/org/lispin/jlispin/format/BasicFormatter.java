@@ -2,7 +2,7 @@ package org.lispin.jlispin.format;
 
 import java.io.IOException;
 import java.io.Writer;
-
+import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
@@ -26,10 +26,11 @@ public class BasicFormatter implements Visitor {
 	public BasicFormatter(Writer out) {
 		_output = out;
 	}
-
-	public void visitLobject(Lobject frame) {
+    
+    public void visitLobject(Lobject frame) {
 		try {
-			_output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
+            _output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,7 +85,13 @@ public class BasicFormatter implements Visitor {
 		try {
 			_output.write("(");
 			cons.car().acceptVisitor(this);
-			writeCdr(cons.cdr());
+            boolean colon= cons.isTaggedWith(BuiltinClasses.PRINTWITHCOLON);
+            if(colon) {
+                _output.write(" : ");
+                cons.cdr().acceptVisitor(this);                
+            } else {
+                writeCdr(cons.cdr());                
+            }
 			_output.write(")");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

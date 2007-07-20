@@ -70,8 +70,8 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
 	}
 	public void testFrame() throws Exception {
-		excerciseEval("(dict (a 1) (b 2) (c 3))", "(dict (b 2) (c 3) (a 1))");
-		excerciseEval("(equal (dict (a 1) (b 2) (c 3)) (dict (a 1) (b 2) (c 3)))", "t");
+		excerciseEval("(dict (a : 1) (b:2) (c:3))", "(dict (b : 2) (c : 3) (a : 1))");
+		excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "t");
 	}
 	
 	public void testEnvCapture() throws Exception {

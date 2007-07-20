@@ -27,5 +27,8 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
 	public void removeClass(Exp klass) {
 		_classes.remove(klass);		
 	}
+    public boolean isTaggedWith(Lobject klass) {
+        return _classes.contains(klass);
+    }
 
 }

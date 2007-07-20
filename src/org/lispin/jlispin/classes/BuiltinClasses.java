@@ -12,6 +12,7 @@ public class BuiltinClasses {
 	public static Lobject STRING;
 	public static Lobject DOUBLE;
 	public static Lobject SYMBOL;
+    public static Lobject PRINTWITHCOLON;
 
 	private static Lobject mkClass(String name) {
 		return new Lobject(SymbolTable.classname, new Lcons(new Lsymbol(name),SymbolTable.NIL));
@@ -22,6 +23,7 @@ public class BuiltinClasses {
 		STRING = mkClass("STRING");
 		DOUBLE = mkClass("DOUBLE");
 		SYMBOL = mkClass("SYMBOL");
+        PRINTWITHCOLON = mkClass("PRINTWITHCOLON");
 		
 	}
 }

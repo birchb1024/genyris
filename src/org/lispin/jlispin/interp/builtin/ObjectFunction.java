@@ -2,7 +2,6 @@ package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lobject;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
@@ -17,10 +16,7 @@ public class ObjectFunction extends ApplicableFunction {
 		for(int i= 0; i < arguments.length; i++) {
 			if( !arguments[i].listp())
 				throw new LispinException("argument to dict not a list");
-			if(arguments[i].cdr().listp())
-				dict.defineVariable(arguments[i].car(), Evaluator.eval(env, arguments[i].cdr().car())); 
-			else
-				dict.defineVariable(arguments[i].car(), SymbolTable.NIL);
+			dict.defineVariable(arguments[i].car(), Evaluator.eval(env, arguments[i].cdr())); 
 		}
 		return dict;
 	}

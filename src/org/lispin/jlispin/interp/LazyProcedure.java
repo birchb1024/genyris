@@ -4,7 +4,6 @@ package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 
 public class LazyProcedure extends AbstractClosure {
@@ -33,17 +32,5 @@ public class LazyProcedure extends AbstractClosure {
 		guest.visitLazyProc(this);
 	}
 
-	public void addClass(Exp klass) {
-		; // Noop
-	}
-
-	public Exp getClasses() {
-		// TODO Auto-generated method stub
-		return SymbolTable.NIL;
-	}
-
-	public void removeClass(Exp klass) {
-		; // Noop
-	}
 
 }

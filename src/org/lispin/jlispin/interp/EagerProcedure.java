@@ -3,7 +3,6 @@ package org.lispin.jlispin.interp;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
-import org.lispin.jlispin.interp.Evaluator;
 
 public class EagerProcedure extends AbstractClosure  {
 	// I DO evaluate my arguments before being applied.
@@ -26,17 +25,6 @@ public class EagerProcedure extends AbstractClosure  {
 	public void acceptVisitor(Visitor guest) {
 		guest.visitEagerProc(this);
 	}
-	public void addClass(Exp klass) {
-		; // Noop
-	}
 
-	public Exp getClasses() {
-		// TODO Auto-generated method stub
-		return SymbolTable.NIL;
-	}
-
-	public void removeClass(Exp klass) {
-		; // Noop
-	}
 
 }
