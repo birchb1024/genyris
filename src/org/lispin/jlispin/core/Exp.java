@@ -23,8 +23,13 @@ public abstract class Exp implements Classifiable, Closure {
 		if(arguments[0] == SymbolTable.NIL) {
 			throw new LispinException("Empty body to exp invocation does not make sense.");
 		}
-		Environment newEnv = new MagicEnvironment(environment, this); 
-		return Evaluator.evalSequence(newEnv, arguments[0]);		
+		Environment newEnv = new MagicEnvironment(environment, this);
+        if(arguments[0].listp()) {
+            return Evaluator.evalSequence(newEnv, arguments[0]);		            
+        }
+        else {
+            throw new LispinException("atomic body to exp invocation does not make sense.");
+        }
 	}
 
 	public Exp car() throws AccessException {
