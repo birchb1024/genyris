@@ -90,5 +90,8 @@ public abstract class AbstractClosure extends Exp implements Closure {
     public boolean isTaggedWith(Lobject klass) {
         return false;
     }
-	
+    public boolean isInstanceOf(Lobject klass) {
+        return false;
+    }
+
 }

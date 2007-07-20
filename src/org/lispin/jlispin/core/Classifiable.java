@@ -5,6 +5,8 @@ public interface Classifiable {
 	public Exp getClasses(); 
 	public void addClass(Exp klass);
 	public void removeClass(Exp klass);
-    public boolean isTaggedWith(Lobject printwithcolon);
+    public boolean isTaggedWith(Lobject klass);
+    public boolean isInstanceOf(Lobject klass);
+    
 
 }

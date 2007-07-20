@@ -28,11 +28,18 @@ public abstract class Exp implements Classifiable, Closure {
             return Evaluator.evalSequence(newEnv, arguments[0]);		            
         }
         else {
-            throw new LispinException("atomic body to exp invocation does not make sense.");
+            try {
+                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);  
+                this.addClass(klass);
+                return this;
+            }
+            catch (ClassCastException e) {
+                throw new LispinException("type tag failure: " + arguments[0] + " is not a class");
+            }
         }
 	}
 
-	public Exp car() throws AccessException {
+    public Exp car() throws AccessException {
 		throw new AccessException("attempt to take car of non-cons");
 	}
 	
