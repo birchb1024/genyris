@@ -24,6 +24,7 @@ public class SymbolTable {
     public static Lsymbol quote;
     public static Lsymbol raw_quote;
     public static Lsymbol backquote;
+    public static Lsymbol raw_backquote;
     public static Lsymbol raw_comma_at;
     public static Lsymbol raw_comma;
     public static Lsymbol comma;
@@ -47,6 +48,7 @@ public class SymbolTable {
         method = internString("method");
         quote = internString("quote");
         raw_quote = internString("'");
+        raw_backquote = internString("`");
         raw_comma_at = internString(",@");
         raw_comma = internString(",");
         comma_at = internString("comma-at");

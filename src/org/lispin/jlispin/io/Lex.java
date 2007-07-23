@@ -209,14 +209,19 @@ public class Lex {
                 case BQUOTECHAR :
                     return SymbolTable.backquote;
                 case COMMACHAR : {
-                    ch = _input.readNext();
-                    if (ch == ATCHAR) {
-                        return SymbolTable.raw_comma_at;
+                    if(_input.hasData()) {
+                        ch = _input.readNext();
+                        if (ch == ATCHAR) {
+                            return SymbolTable.raw_comma_at;
+                        } else {
+                            _input.unGet(ch);
+                            ch = COMMACHAR;
+                            return SymbolTable.raw_comma;
+                        }
                     } else {
-                        _input.unGet(ch);
-                        ch = COMMACHAR;
                         return SymbolTable.raw_comma;
                     }
+                    
                 }
                 default :
                     if ((ch >= ' ') && (ch <= '~')) {

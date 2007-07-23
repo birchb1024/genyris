@@ -1,7 +1,12 @@
 ;
 the "init.lin"
 
-defmacro define (var valu)
-    list 'defvar (list quote var) valu
+defmacro define (var valu) (backquote (defvar ',var ,valu))
+    
+defmacro if (test success-result failure-result)
+    backquote
+       cond
+          ,test ,success-result
+          t ,failure-result
 
      

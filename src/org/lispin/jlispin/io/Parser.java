@@ -68,6 +68,9 @@ public class Parser {
             if (!cursym.equals(SymbolTable.rightParen)) {
                 throw new ParseException("missing right paren");
             }
+        } else if (cursym == SymbolTable.raw_backquote) {
+            nextsym();
+            tree = new Lcons(SymbolTable.backquote, new Lcons(parseExpression(), SymbolTable.NIL));
         } else if (cursym == SymbolTable.raw_quote) {
             nextsym();
             tree = new Lcons(SymbolTable.quote, new Lcons(parseExpression(), SymbolTable.NIL));
