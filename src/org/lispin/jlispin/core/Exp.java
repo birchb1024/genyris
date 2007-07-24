@@ -21,7 +21,7 @@ public abstract class Exp implements Classifiable, Closure {
 
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
 		if(arguments[0] == SymbolTable.NIL) {
-			throw new LispinException("Empty body to exp invocation does not make sense.");
+			throw new LispinException("Empty body to exp invocation does not make sense." + this.toString());
 		}
 		Environment newEnv = new MagicEnvironment(environment, this);
         if(arguments[0].listp()) {

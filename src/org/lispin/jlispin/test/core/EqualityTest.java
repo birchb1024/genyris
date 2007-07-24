@@ -33,6 +33,7 @@ public class EqualityTest extends TestCase {
 	}
 	public void testSymbol() throws Exception {
 		SymbolTable sym = new SymbolTable(); // force loadingof statics!
+        sym.init();
 		assertTrue(SymbolTable.NIL.equals(SymbolTable.NIL));	
 		assertFalse(new Lsymbol("hello1").equals(new Lsymbol("hello2")));	
 		assertFalse(new Lsymbol("hello").equals(new Lsymbol("hello")));	

@@ -37,6 +37,9 @@ public class SymbolTable {
 
     public SymbolTable() {
         _table = new HashMap();
+    }
+    
+    public void init() {
         leftParen = internString("leftParen");
         rightParen = internString("righParen");
         cdr_char = internString("pair-delimiter");
@@ -61,7 +64,7 @@ public class SymbolTable {
         DICT = internString("dict");
         classes = internString(DYNAMICSCOPECHAR + "classes");
         superclasses = internString(DYNAMICSCOPECHAR + "superclasses");
-        classname = internString(DYNAMICSCOPECHAR + "classname");
+        classname = internString(DYNAMICSCOPECHAR + "classname"); // Needed by Lsymbol constructor
         _self = internString(DYNAMICSCOPECHAR + "self");
     }
 

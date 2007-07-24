@@ -35,6 +35,7 @@ public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
 		SymbolTable table = new SymbolTable();
+        table.init();
 		Environment env = new StandardEnvironment(null);
 		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
@@ -56,6 +57,7 @@ public class EvalApplyTest extends TestCase {
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
 		Environment env = new StandardEnvironment(null);
 		SymbolTable table = new SymbolTable();
+        table.init();
 		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
 		env.defineVariable(table.internString("lambdaq"), new LazyProcedure(env, null, new LambdaqFunction()));
 		env.defineVariable(table.internString("lambdam"), new LazyProcedure(env, null, new MacroFunction()));

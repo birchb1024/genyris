@@ -15,6 +15,7 @@ public class DictTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		_table = new SymbolTable();
+        _table.init();  
 		_frame = new Lobject();
 	}
 	public void test1() throws Exception {

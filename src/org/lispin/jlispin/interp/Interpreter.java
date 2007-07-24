@@ -6,6 +6,7 @@ import java.io.Writer;
 import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.builtin.BackquoteFunction;
 import org.lispin.jlispin.interp.builtin.CarFunction;
@@ -46,8 +47,14 @@ public class Interpreter {
 	public Interpreter() throws LispinException {
 		_globalEnvironment = new StandardEnvironment(null);
 		_defaultOutput = new OutputStreamWriter(System.out);
-		_table = new SymbolTable();		
-		_globalEnvironment.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
+		_table = new SymbolTable();
+        // Begin Circular references between symbols and classnames require manual bootstrap here:
+		BuiltinClasses.SYMBOL = new Lobject();
+        _table.init();
+        BuiltinClasses.SYMBOL.defineVariable(SymbolTable.classname, _table.internString("Symbol"));
+        // End manual bootstrap
+ 
+        _globalEnvironment.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
 		_globalEnvironment.defineVariable(SymbolTable.T, SymbolTable.T);
 		_globalEnvironment.defineVariable(SymbolTable.EOF, SymbolTable.EOF);
         // TODO all these constructors need to be replaced with a factory and singletons: 
@@ -77,7 +84,7 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("tag"), new EagerProcedure(_globalEnvironment, null, new TagFunction()));
 		_globalEnvironment.defineVariable(_table.internString("remove-tag"), new EagerProcedure(_globalEnvironment, null, new RemoveTagFunction()));
 		
-		BuiltinClasses.init();
+        BuiltinClasses.init();
 
 		_globalEnvironment.defineVariable(_table.internString("Pair"), BuiltinClasses.PAIR);
 		_globalEnvironment.defineVariable(_table.internString("Integer"), BuiltinClasses.INTEGER);

@@ -9,4 +9,3 @@ defmacro if (test success-result failure-result)
           ,test ,success-result
           t ,failure-result
 
-     

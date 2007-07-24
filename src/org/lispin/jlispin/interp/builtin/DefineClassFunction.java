@@ -14,18 +14,18 @@ import org.lispin.jlispin.interp.LispinException;
 public class DefineClassFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
-        if( arguments.length != 2) 
+        if( arguments.length < 1) 
             throw new LispinException("Incorrect number of arguments to class.");
         if(! (arguments[0] instanceof Lsymbol)) {
             throw new LispinException("class expects a symbols.");
         }
         Exp klassname = arguments[0];
-        Exp superklasses = arguments[1];
         Lobject newClass = new Lobject();
         newClass.defineVariable(SymbolTable.classname, klassname);
         newClass.defineVariable(SymbolTable.classes
                     , new Lcons(BuiltinClasses.STANDARDCLASS , SymbolTable.NIL));
-        if(superklasses != SymbolTable.NIL) {            
+        if( arguments.length > 1) {
+            Exp superklasses = arguments[1];            
             newClass.defineVariable(SymbolTable.superclasses, lookupClasses(env, superklasses));
         }
         env.defineVariable(klassname, newClass);
