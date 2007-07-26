@@ -144,6 +144,9 @@ public class Lex {
 			case '\r':
 				break;
 			case '-':
+				if (!_input.hasData()) {
+					return SymbolTable.EOF;
+				}
 				ch = _input.readNext();
 				if (ch >= '0' && ch <= '9') {
 					_input.unGet(ch);

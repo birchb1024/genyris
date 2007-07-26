@@ -72,6 +72,7 @@ public class LexTest extends TestCase {
 
 	}
 	public void testLexIdentMinus() throws Exception {
+		excerciseNextTokenExp(new Lsymbol("-"), "- 3");
 		excerciseNextTokenExp(new Lsymbol("-f"), "-f");
 		excerciseNextTokenExp(new Lsymbol("--"), "--");
 	}

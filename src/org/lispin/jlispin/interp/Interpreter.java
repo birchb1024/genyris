@@ -37,6 +37,14 @@ import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.NullWriter;
 import org.lispin.jlispin.io.Parser;
 import org.lispin.jlispin.load.SourceLoader;
+import org.lispin.jlispin.logic.OrFunction;
+import org.lispin.jlispin.math.DivideFunction;
+import org.lispin.jlispin.math.GreaterThanFunction;
+import org.lispin.jlispin.math.LessThanFunction;
+import org.lispin.jlispin.math.MinusFunction;
+import org.lispin.jlispin.math.MultiplyFunction;
+import org.lispin.jlispin.math.PlusFunction;
+import org.lispin.jlispin.math.RemainderFunction;
 
 public class Interpreter {
 	
@@ -84,7 +92,17 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("tag"), new EagerProcedure(_globalEnvironment, null, new TagFunction()));
 		_globalEnvironment.defineVariable(_table.internString("remove-tag"), new EagerProcedure(_globalEnvironment, null, new RemoveTagFunction()));
 		
-        BuiltinClasses.init();
+		_globalEnvironment.defineVariable(_table.internString("+"), new EagerProcedure(_globalEnvironment, null, new PlusFunction()));
+		_globalEnvironment.defineVariable(_table.internString("-"), new EagerProcedure(_globalEnvironment, null, new MinusFunction()));
+		_globalEnvironment.defineVariable(_table.internString("*"), new EagerProcedure(_globalEnvironment, null, new MultiplyFunction()));
+		_globalEnvironment.defineVariable(_table.internString("/"), new EagerProcedure(_globalEnvironment, null, new DivideFunction()));
+		_globalEnvironment.defineVariable(_table.internString("%"), new EagerProcedure(_globalEnvironment, null, new RemainderFunction()));
+		_globalEnvironment.defineVariable(_table.internString(">"), new EagerProcedure(_globalEnvironment, null, new GreaterThanFunction()));
+		_globalEnvironment.defineVariable(_table.internString("<"), new EagerProcedure(_globalEnvironment, null, new LessThanFunction()));
+
+		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction()));
+
+		BuiltinClasses.init();
 
 		_globalEnvironment.defineVariable(_table.internString("Pair"), BuiltinClasses.PAIR);
 		_globalEnvironment.defineVariable(_table.internString("Integer"), BuiltinClasses.INTEGER);
