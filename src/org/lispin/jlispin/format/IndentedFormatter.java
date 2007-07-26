@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.lispin.jlispin.classes.BuiltinClasses;
+import org.lispin.jlispin.core.Bignum;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
@@ -126,6 +127,9 @@ public class IndentedFormatter implements Visitor {
 		writeAtom(lint);
 	}
 
+	public void visitBignum(Bignum bignum) {
+		writeAtom(bignum);
+	}
 	private void writeAtom(Exp exp) {
 		writeAtom(exp.getJavaValue().toString());
 	}
@@ -148,5 +152,6 @@ public class IndentedFormatter implements Visitor {
 	public void visitLsymbol(Lsymbol lsym) {
 		writeAtom(lsym);
 	}
+
 
 }

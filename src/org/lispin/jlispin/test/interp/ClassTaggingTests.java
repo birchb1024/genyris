@@ -26,13 +26,13 @@ public class ClassTaggingTests extends TestCase {
 		excerciseEval("(class Miles)", "(dict (_classes : ((dict (_classname : (StandardClass))))) (_classname : Miles))");
 		excerciseEval("(define x 45)", "45");		
         excerciseEval("(x:Miles)", "45");     
-        excerciseEval("(x _classes)", "((dict (_classname : (Integer))) (dict (_classes : ((dict (_classname : (StandardClass))))) (_classname : Miles)))");     
+        excerciseEval("(x _classes)", "((dict (_classname : (Bignum))) (dict (_classes : ((dict (_classname : (StandardClass))))) (_classname : Miles)))");     
        	}
 
     public void testTagWithTag() throws Exception {
         excerciseEval("(define Miles (dict(_classname: 'Miles)))", "(dict (_classname : Miles))");
         excerciseEval("(define x 45)", "45");       
         excerciseEval("(tag x Miles)", "45");     
-        excerciseEval("(x _classes)", "((dict (_classname : Miles)) (dict (_classname : (Integer))))");     
+        excerciseEval("(x _classes)", "((dict (_classname : Miles)) (dict (_classname : (Bignum))))");     
         }
 }

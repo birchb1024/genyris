@@ -9,6 +9,7 @@ public class BuiltinClasses {
 
 	public static Lobject PAIR;;
 	public static Lobject INTEGER;
+	public static Lobject BIGNUM;
 	public static Lobject STRING;
 	public static Lobject DOUBLE;
 	public static Lobject SYMBOL;
@@ -21,6 +22,7 @@ public class BuiltinClasses {
 	public static void init() {
 		PAIR = mkClass("Pair");
 		INTEGER = mkClass("Integer");
+		BIGNUM = mkClass("Bignum");
 		STRING = mkClass("String");
 		DOUBLE = mkClass("Double");
 		SYMBOL = mkClass("Symbol");

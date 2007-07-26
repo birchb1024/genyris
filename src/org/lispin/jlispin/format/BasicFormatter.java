@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
+import org.lispin.jlispin.core.Bignum;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
@@ -117,6 +118,15 @@ public class BasicFormatter implements Visitor {
 		}
 	}
 
+	public void visitBignum(Bignum bignum) {
+		try {
+			_output.write(bignum.getJavaValue().toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public void visitLstring(Lstring lst) {
 		try {
 			_output.write("\"" + lst.getJavaValue().toString() + "\"");
@@ -151,6 +161,7 @@ public class BasicFormatter implements Visitor {
 			e.printStackTrace();
 		}
 	}
+
 
 
 }
