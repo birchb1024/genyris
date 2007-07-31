@@ -41,6 +41,14 @@ public class ClassicReadEvalPrintLoop {
 					Exp result = interpreter.evalInGlobalEnvironment(expression);
 
 					result.acceptVisitor(formatter);
+					
+					output.write(" ;");
+					Exp klasses = result.getClasses();
+					while(klasses != SymbolTable.NIL){
+						Environment klass = (Environment) klasses.car();
+						output.write(" " + klass.lookupVariableShallow(SymbolTable.classname).toString());
+						klasses = klasses.cdr();
+					}
 					output.flush();
 				}
 				catch (LispinException e) {

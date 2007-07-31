@@ -9,8 +9,8 @@ import org.lispin.jlispin.interp.LispinException;
 public class IdentityFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
-		if( arguments.length > 1)
-			throw new LispinException("Too many arguments to identity function: " + arguments.length);
+		if( arguments.length != 1)
+			throw new LispinException("Wrong number of arguments to identity function: " + arguments.length);
 		return arguments[0];
 	}
 
