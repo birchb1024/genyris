@@ -46,6 +46,7 @@ public class IndentedFormatter implements Visitor {
             _output.write(cons.car().toString());
             _output.write(" " + CDRCHAR + " ");
             _output.write(cons.cdr().toString());
+    		_consDepth -=1;
             return;
         }
 		while ( !head.isNil()) {
