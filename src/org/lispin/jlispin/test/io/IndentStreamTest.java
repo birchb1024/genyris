@@ -127,11 +127,7 @@ public class IndentStreamTest extends TestCase {
 	}
 
 	public void testIndentStream19() throws LexException {
-		excerciseIndentInteractive("1\n 2\n ~ 3", "(1(2) 3)");
-	}
-
-	public void testIndentStream20() throws LexException {
-		excerciseIndentInteractive("1\n 2\n ~3", "(1(2) 3)");
+		excerciseIndentInteractive("1\n 2:\n  3", "(1(2:(3)))");
 	}
 
 	public void testIndentStream21() throws LexException {
@@ -194,8 +190,8 @@ public class IndentStreamTest extends TestCase {
 		excerciseIndent("12\n34\n56", "(12)(34)(56)");
 		excerciseIndent("12\n 34\n56", "(12(34))(56)");
 		excerciseIndent("12\n 34\n\n56", "(12(34))(56)");
-		excerciseIndent("12\n 34\n\n~ 56", "(12(34)) 56");
 		excerciseIndent("12\n 34\n ~ 56\n78", "(12(34) 56)(78)");
+		excerciseIndent("12\n 34\n\n~56", "(12(34)) 56");
 	}
 
 	public void testIndentMultiStatementWithSpaces() throws LexException {
