@@ -9,6 +9,7 @@ import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.LispinException;
 
 public class DefineClassFunction extends ApplicableFunction {
@@ -25,10 +26,18 @@ public class DefineClassFunction extends ApplicableFunction {
         newClass.defineVariable(SymbolTable.classes
                     , new Lcons(BuiltinClasses.STANDARDCLASS , SymbolTable.NIL));
         if( arguments.length > 1) {
-            Exp superklasses = arguments[1];            
-            newClass.defineVariable(SymbolTable.superclasses, lookupClasses(env, superklasses));
+            Exp superklasses = arguments[1]; 
+            if( superklasses != SymbolTable.NIL) {
+            	newClass.defineVariable(SymbolTable.superclasses, lookupClasses(env, superklasses));
+            }
         }
         env.defineVariable(klassname, newClass);
+        if( arguments.length > 2) {
+        	Exp body = arrayToList(arguments);
+        	body = body.cdr().cdr();
+        	body = new Lcons(klassname, body);
+        	return Evaluator.eval(env, body);
+        }
         return newClass;
     }
     private Exp lookupClasses(Environment env, Exp superklasses) throws LispinException {

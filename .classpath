@@ -5,6 +5,6 @@
 	<classpathentry kind="lib" path="needed/bsf.jar" sourcepath="/home/birchb/downloads/bsf-src-2.4.0/bsf-2.4.0/src"/>
 	<classpathentry kind="lib" path="needed/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="needed/servlet-api.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.5.0_12"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
