@@ -6,6 +6,8 @@ import org.lispin.jlispin.interp.LispinException;
 
 public class SymbolTable {
 	
+	// TODO refactor and push these 'optimisations' into the user classes. 
+	// ie use lookup() instead of a static, except in using classes.
 	public static final String DYNAMICSCOPECHAR = "_";
     private Map       _table;
     public static Lsymbol NIL;

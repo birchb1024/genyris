@@ -161,7 +161,12 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	public Exp getClasses() {
-		return (Exp)_dict.get(SymbolTable.classes);
+		if( ! _dict.containsKey(SymbolTable.classes) ) {
+			return new Lcons(BuiltinClasses.OBJECT, SymbolTable.NIL);
+		}
+		else {
+			return (Exp) _dict.get(SymbolTable.classes) ;
+		}
 	}
 
 	public void addClass(Exp klass) {

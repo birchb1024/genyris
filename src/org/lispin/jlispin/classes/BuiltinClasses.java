@@ -6,6 +6,7 @@ import org.lispin.jlispin.core.SymbolTable;
 
 public class BuiltinClasses {
 
+	public static Lobject OBJECT;
 	public static Lobject PAIR;;
 	public static Lobject INTEGER;
 	public static Lobject BIGNUM;
@@ -20,6 +21,7 @@ public class BuiltinClasses {
 	}
 	public static void init() {
 		PAIR = mkClass("Pair");
+		OBJECT = mkClass("Object");
 		INTEGER = mkClass("Integer");
 		BIGNUM = mkClass("Bignum");
 		STRING = mkClass("String");

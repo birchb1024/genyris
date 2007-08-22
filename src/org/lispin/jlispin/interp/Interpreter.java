@@ -104,6 +104,7 @@ public class Interpreter {
 
 		BuiltinClasses.init();
 
+		_globalEnvironment.defineVariable(_table.internString("Object"), BuiltinClasses.OBJECT);
 		_globalEnvironment.defineVariable(_table.internString("Pair"), BuiltinClasses.PAIR);
 		_globalEnvironment.defineVariable(_table.internString("Integer"), BuiltinClasses.INTEGER);
 		_globalEnvironment.defineVariable(_table.internString("Double"), BuiltinClasses.DOUBLE);
