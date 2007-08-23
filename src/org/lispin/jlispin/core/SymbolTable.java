@@ -36,6 +36,7 @@ public class SymbolTable {
     public static Lsymbol classes;
     public static Lsymbol superclasses;
 	public static Lsymbol classname;
+	public static Lsymbol _validate;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -68,6 +69,7 @@ public class SymbolTable {
         superclasses = internString(DYNAMICSCOPECHAR + "superclasses");
         classname = internString(DYNAMICSCOPECHAR + "classname"); // Needed by Lsymbol constructor
         _self = internString(DYNAMICSCOPECHAR + "self");
+        _validate = internString(DYNAMICSCOPECHAR + "validate");
     }
 
     public Lsymbol internString(String newSym) {
