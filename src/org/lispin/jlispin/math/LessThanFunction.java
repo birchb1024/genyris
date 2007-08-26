@@ -11,6 +11,11 @@ import org.lispin.jlispin.interp.LispinException;
 
 public class LessThanFunction extends ApplicableFunction {
 
+	private Exp NIL;
+	
+	public LessThanFunction(Exp nil) {
+		NIL = nil;
+	}
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
 		if( arguments.length != 2)
 			throw new LispinException("Not two arguments to < " + arguments.length);
@@ -28,7 +33,7 @@ public class LessThanFunction extends ApplicableFunction {
 			return SymbolTable.T;
 		}
 		else {
-			return SymbolTable.NIL;
+			return NIL;
 		}
 	}
 }

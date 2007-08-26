@@ -5,7 +5,9 @@ import junit.framework.TestCase;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Linteger;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class DictTest extends TestCase {
 	
@@ -15,8 +17,8 @@ public class DictTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		_table = new SymbolTable();
-        _table.init();  
-		_frame = new Lobject();
+        _table.init(new Lsymbol());  
+		_frame = new Lobject(new StandardEnvironment(new Lsymbol()));
 	}
 	public void test1() throws Exception {
 

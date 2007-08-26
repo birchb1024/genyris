@@ -13,9 +13,12 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 		_printName = newSym;
 	}
 	
+	public Lsymbol(String newSym, boolean bootstrap) {
+		_printName = newSym;
+	}
     public Lsymbol() {
 		super(BuiltinClasses.SYMBOL);
-		_printName = "G" + nextgensym;
+		_printName = "GX" + nextgensym;
 		nextgensym++;
 	}
 
@@ -43,6 +46,10 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 
 	public boolean isMember() {
 		return _printName.startsWith(SymbolTable.DYNAMICSCOPECHAR);
+	}
+
+	public String toString() {
+		return _printName;
 	}
 
 }

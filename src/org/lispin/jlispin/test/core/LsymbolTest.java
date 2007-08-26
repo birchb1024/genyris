@@ -8,10 +8,10 @@ public class LsymbolTest extends TestCase {
 	
 	public void testSetGet1() throws Exception {
 		
-		Lsymbol sym = new Lsymbol();
+		Lsymbol sym = new Lsymbol("G0");
 		assertEquals("G0", sym.getPrintName());;
 		
-		sym = new Lsymbol();
+		sym = new Lsymbol("G1");
 		assertEquals("G1", sym.getPrintName());
 
 	}

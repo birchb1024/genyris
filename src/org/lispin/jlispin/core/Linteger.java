@@ -19,5 +19,8 @@ public class Linteger extends ExpWithEmbeddedClasses {
 		guest.visitLinteger(this);
 	}
 
+	public String toString() {
+		return getJavaValue().toString();
+	}
 
 }

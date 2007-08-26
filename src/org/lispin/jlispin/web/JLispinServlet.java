@@ -59,7 +59,7 @@ public final class JLispinServlet extends HttpServlet {
             Exp expression = parser.read(); 
             Exp result = _interpreter.evalInGlobalEnvironment(expression);
             
-            IndentedFormatter formatter = new IndentedFormatter(writer, 3);
+            IndentedFormatter formatter = new IndentedFormatter(writer, 3, _interpreter.getNil());
             result.acceptVisitor(formatter);
         } catch (LispinException e) {
             writer.print(e.getStackTrace());

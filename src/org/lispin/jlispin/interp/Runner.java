@@ -18,7 +18,7 @@ public class Runner {
         InStream input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(stream),
                 false)));
         Parser parser = interp.newParser(input);
-        IndentedFormatter formatter = new IndentedFormatter(output, 3);
+        IndentedFormatter formatter = new IndentedFormatter(output, 3, interp.getNil());
         Exp expression = null;
         Exp result = null;
         do {

@@ -13,14 +13,17 @@ import org.lispin.jlispin.interp.UnboundException;
 
 public class Lobject extends Exp implements Environment {
 	private Map _dict;
+	private Lsymbol NIL;
 	
-	public Lobject() {
+	public Lobject(Environment parent) {
 		_dict = new HashMap();
+		NIL = parent.getNil();
 	}
 	
-	public Lobject(Lsymbol key, Exp value) {
+	public Lobject(Lsymbol key, Exp value, Lsymbol nil) {
 		_dict = new HashMap();
 		_dict.put(key, value);
+		NIL = nil;
 	}
 
 	public int hashCode() {
@@ -52,7 +55,7 @@ public class Lobject extends Exp implements Environment {
 
 	public Exp getAlist() {
 		Iterator iter = _dict.keySet().iterator();
-		Exp result = SymbolTable.NIL;
+		Exp result = NIL;
 		while(iter.hasNext()) {
 			Exp key = (Exp) iter.next();
 			Exp value = (Exp) _dict.get(key);
@@ -90,7 +93,7 @@ public class Lobject extends Exp implements Environment {
 			throw new UnboundException("object has no classes");
 		}
 		Exp classes = (Exp)_dict.get(SymbolTable.classes);
-		while( classes != SymbolTable.NIL) {
+		while( classes != NIL) {
 			try {
 				Environment klass = (Environment)(classes.car());
 				try {
@@ -121,7 +124,7 @@ public class Lobject extends Exp implements Environment {
 			throw new UnboundException("object has no superclasses");
 		}
 		Exp superclasses = (Exp)_dict.get(SymbolTable.superclasses);
-		while( superclasses != SymbolTable.NIL) {
+		while( superclasses != NIL) {
 			try {
 				Environment klass = (Environment)(superclasses.car());
 				try {
@@ -160,9 +163,9 @@ public class Lobject extends Exp implements Environment {
 		}
 	}
 
-	public Exp getClasses() {
+	public Exp getClasses(Lsymbol NIL) {
 		if( ! _dict.containsKey(SymbolTable.classes) ) {
-			return new Lcons(BuiltinClasses.OBJECT, SymbolTable.NIL);
+			return new Lcons(BuiltinClasses.OBJECT, NIL);
 		}
 		else {
 			return (Exp) _dict.get(SymbolTable.classes) ;
@@ -170,7 +173,7 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	public void addClass(Exp klass) {
-		Exp classes = SymbolTable.NIL;
+		Exp classes = NIL;
 		if( _dict.containsKey(SymbolTable.classes) ) {
 			classes = (Exp)_dict.get(SymbolTable.classes);
 		}
@@ -179,7 +182,7 @@ public class Lobject extends Exp implements Environment {
 
 
 	public void removeClass(Exp klass) {
-		Exp classes = SymbolTable.NIL;
+		Exp classes = NIL;
 		if( _dict.containsKey(SymbolTable.classes) ) {
 			classes = (Exp)_dict.get(SymbolTable.classes);
 		}
@@ -193,8 +196,8 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	private Exp removeIf(Exp exp, Exp list) throws AccessException {
-		if( list == SymbolTable.NIL) {
-			return SymbolTable.NIL;
+		if( list == NIL) {
+			return NIL;
 		}
 		if( list == exp) {
 			return removeIf(exp, list.cdr());
@@ -223,8 +226,8 @@ public class Lobject extends Exp implements Environment {
 	}
 
     public boolean isTaggedWith(Lobject klass) {
-        Exp classes = getClasses();
-        while( classes != SymbolTable.NIL) {
+        Exp classes = getClasses(NIL);
+        while( classes != NIL) {
             try {
                 if( classes.car() == klass)
                     return true;
@@ -238,5 +241,9 @@ public class Lobject extends Exp implements Environment {
     public boolean isInstanceOf(Lobject klass) {
         return isTaggedWith(klass); // TODO implent structural or nominativ subtyping here.
     }
+
+	public Lsymbol getNil() {
+		return NIL;
+	}
 
 }

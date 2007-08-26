@@ -4,6 +4,7 @@ package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.Visitor;
 
 public class LazyProcedure extends AbstractClosure {
@@ -13,13 +14,13 @@ public class LazyProcedure extends AbstractClosure {
 		super( environment,  expression,  appl);
 	}
 	
-	public Exp[] computeArguments(Environment ignored, Exp exp) throws AccessException {
-		return makeExpArrayFromList(exp);
+	public Exp[] computeArguments(Environment env, Exp exp) throws AccessException {
+		return makeExpArrayFromList(exp, env.getNil());
 	}
 
-	private Exp[] makeExpArrayFromList(Exp exp) throws AccessException {
+	private Exp[] makeExpArrayFromList(Exp exp, Lsymbol NIL) throws AccessException {
 		int i = 0;
-		Exp[] result = new Exp[exp.length()];
+		Exp[] result = new Exp[exp.length(NIL)];
 		while( exp.listp()) {
 			result[i] = exp.car();
 			exp = exp.cdr();
@@ -32,5 +33,8 @@ public class LazyProcedure extends AbstractClosure {
 		guest.visitLazyProc(this);
 	}
 
+	public String toString() {
+		return "<LazyProc: " + getJavaValue().toString() + ">";
+	}
 
 }

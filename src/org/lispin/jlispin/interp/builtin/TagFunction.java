@@ -10,7 +10,7 @@ import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.interp.UnboundException;
 
 public class TagFunction extends ApplicableFunction {
-
+	
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment environment) throws LispinException {
 		if( arguments.length != 2)
 			throw new LispinException("Too few arguments to tag: " + arguments.length);
@@ -24,6 +24,7 @@ public class TagFunction extends ApplicableFunction {
 	}
 
 	public static void validateClassTagging(Environment environment, Exp object, Lobject klass) throws LispinException {
+		Exp NIL = environment.getNil();
 		Exp validator = null;
         try {
         	validator = klass.lookupVariableValue(SymbolTable._validate);
@@ -34,7 +35,7 @@ public class TagFunction extends ApplicableFunction {
         	Exp args[] = new Exp[1];
         	args[0] = object;
         	Exp result = validator.applyFunction(environment, args);
-        	if( result == SymbolTable.NIL) {
+        	if( result == NIL) {
         		throw new LispinException("class validator error for object " + object);
         	}
         }

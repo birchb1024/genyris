@@ -23,12 +23,14 @@ public class BasicFormatter implements Visitor {
 	
 	private static final String CDRCHAR = ":";
 	private Writer _output;
+	private Lsymbol NIL;
 	
-	public BasicFormatter(Writer out) {
+	public BasicFormatter(Writer out, Lsymbol nil) {
 		_output = out;
+		NIL = nil;
 	}
     
-    public void visitLobject(Lobject frame) {
+   public void visitLobject(Lobject frame) {
 		try {
             _output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
 
@@ -58,7 +60,7 @@ public class BasicFormatter implements Visitor {
 	
 	void writeCdr(Exp cons) {
 		try {
-			if( cons == SymbolTable.NIL) {
+			if( cons == NIL) {
 				return;
 			}
 			_output.write(" ");
@@ -68,7 +70,7 @@ public class BasicFormatter implements Visitor {
 				return;
 			}
 			cons.car().acceptVisitor(this);
-			if( cons.cdr() == SymbolTable.NIL) {
+			if( cons.cdr() == NIL) {
 				return;
 			}
 			writeCdr(cons.cdr());					

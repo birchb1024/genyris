@@ -1,7 +1,7 @@
 package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.Visitor;
 
 public class EagerProcedure extends AbstractClosure  {
@@ -12,9 +12,10 @@ public class EagerProcedure extends AbstractClosure  {
 	}
 		
 	public Exp[] computeArguments(Environment env, Exp exp) throws LispinException {
+		Lsymbol NIL = env.getNil();
 		int i = 0;
-		Exp[] result = new Exp[exp.length()];
-		while( exp != SymbolTable.NIL) {
+		Exp[] result = new Exp[exp.length(NIL)];
+		while( exp != NIL) {
 			result[i] = Evaluator.eval(env, exp.car());
 			exp = exp.cdr();
 			i++;
@@ -26,5 +27,8 @@ public class EagerProcedure extends AbstractClosure  {
 		guest.visitEagerProc(this);
 	}
 
+	public String toString() {
+		return "<EagerProc: " + getJavaValue().toString() + ">";
+	}
 
 }

@@ -3,13 +3,13 @@ package org.lispin.jlispin.interp;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 
 public class Evaluator {
 	
 	// TODO - refactor this to use visitor in Exp and gt rid of if()s
 
 	public static Exp eval(Environment env, Exp expression) throws UnboundException, AccessException, LispinException {
+		Lsymbol NIL = env.getNil();
 		if( expression.isSelfEvaluating()) {
 			return expression; }
 		else if( expression.getClass() == Lsymbol.class) {
@@ -26,14 +26,15 @@ public class Evaluator {
 			}
 		}
 		else 
-			return SymbolTable.NIL;
+			return NIL;
 	}
 
 	public static Exp evalSequence(Environment env, Exp body) throws LispinException {
-		if(body == SymbolTable.NIL) {
-			return SymbolTable.NIL;
+		Lsymbol NIL = env.getNil();
+		if(body == NIL) {
+			return NIL;
 		}
-		if( body.cdr() == SymbolTable.NIL) {
+		if( body.cdr() == NIL) {
 			return eval(env, body.car());
 		}
 		else {

@@ -2,7 +2,7 @@ package org.lispin.jlispin.core;
 
 public interface Classifiable {
 	
-	public Exp getClasses(); 
+	public Exp getClasses(Lsymbol NIL); 
 	public void addClass(Exp klass);
 	public void removeClass(Exp klass);
     public boolean isTaggedWith(Lobject klass);

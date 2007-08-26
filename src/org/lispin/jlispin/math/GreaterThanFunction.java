@@ -10,6 +10,12 @@ import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LispinException;
 
 public class GreaterThanFunction extends ApplicableFunction {
+	
+	private Exp NIL;
+	
+	public GreaterThanFunction(Exp nil) {
+		NIL = nil;
+	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
 		if( arguments.length != 2)
@@ -28,7 +34,7 @@ public class GreaterThanFunction extends ApplicableFunction {
 			return SymbolTable.T;
 		}
 		else {
-			return SymbolTable.NIL;
+			return NIL;
 		}
 	}
 }

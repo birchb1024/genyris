@@ -104,13 +104,15 @@ public class LexTest extends TestCase {
 	}
 
 	private void excerciseListParsing(String toParse) throws Exception {
+		Lsymbol NIL = new Lsymbol();
 		SymbolTable table = new SymbolTable();
+		table.init(NIL);
 		InStream input = new UngettableInStream( new StringInStream(toParse));
 		Parser parser = new Parser(table, input);
 		Exp result = parser.read();
 		
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out);
+		BasicFormatter formatter = new BasicFormatter(out, NIL);
 		result.acceptVisitor(formatter);
 		assertEquals(toParse, out.getBuffer().toString());
 
@@ -133,13 +135,15 @@ public class LexTest extends TestCase {
 	}
 
 	private void excerciseSpecialParsing(String toParse, String expected) throws Exception {
+		Lsymbol NIL = new Lsymbol();
 		SymbolTable table = new SymbolTable();
+		table.init(NIL);
 		InStream input = new UngettableInStream( new StringInStream(toParse));
 		Parser parser = new Parser(table, input);
 		Exp result = parser.read();
 		
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out);
+		BasicFormatter formatter = new BasicFormatter(out, NIL);
 		result.acceptVisitor(formatter);
 		assertEquals(expected, out.getBuffer().toString());
 

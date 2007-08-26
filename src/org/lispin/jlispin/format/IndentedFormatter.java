@@ -23,11 +23,13 @@ public class IndentedFormatter implements Visitor {
 	private final int INDENT_DEPTH;
 	private Writer _output;
 	private int _consDepth;
+	private Lsymbol NIL;
 
-	public IndentedFormatter(Writer out, int indentDepth) {
+	public IndentedFormatter(Writer out, int indentDepth, Lsymbol nil) {
 		_output = out;
 		INDENT_DEPTH = indentDepth;
 		_consDepth = 0;
+		NIL = nil;
 	}
 	
 	private void printSpaces(int level) throws IOException {
@@ -49,7 +51,7 @@ public class IndentedFormatter implements Visitor {
     		_consDepth -=1;
             return;
         }
-		while ( !head.isNil()) {
+		while ( head != NIL) {
 			countOfRight += 1;
 			if(head.listp()) {
 				Lcons headCons = ((Lcons)head);

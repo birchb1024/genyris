@@ -4,19 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lsymbol;
 
 public class StandardEnvironment implements Environment {
 	
 	Map _frame; // Exp, Exp
 	Environment _parent;
+	protected Lsymbol NIL;
 	
+	public StandardEnvironment(Lsymbol nil) {
+		_parent = null;
+		_frame = new HashMap();
+		NIL = nil;
+	}
+
 	public StandardEnvironment(Environment parent) {
 		_parent = parent;
 		_frame = new HashMap();
+		NIL = parent.getNil();
 	}
 	public StandardEnvironment(Environment parent, Map bindings) {
 		_parent = parent;
 		_frame = bindings;
+		NIL = parent.getNil();
 	}
 
 	public Object getJavaValue() {
@@ -70,6 +80,10 @@ public class StandardEnvironment implements Environment {
 	}
 	public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
 		throw new UnboundException("lookupInSuperClasses not implemented for standard environments.");
+	}
+
+	public Lsymbol getNil() {
+		return NIL;
 	}
 
 }

@@ -4,6 +4,7 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Lobject;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 
 public abstract class AbstractClosure extends Exp implements Closure {
@@ -12,17 +13,19 @@ public abstract class AbstractClosure extends Exp implements Closure {
 	Exp _lambdaExpression;
 	final ApplicableFunction _functionToApply;
 	protected int _numberOfRequiredArguments;
+	Lsymbol NIL;
 
 	public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
 		_env = environment;
 		_lambdaExpression = expression;
 		_functionToApply = appl;
 		_numberOfRequiredArguments = -1;
+		NIL = environment.getNil();
 	}
 	
 	private int countFormalArguments(Exp exp) throws AccessException {
 		int count = 0;
-		while( exp != SymbolTable.NIL ) {
+		while( exp != NIL ) {
 			if( ((Lcons)exp).car() == SymbolTable.REST ) {
 				count += 1;
 				break;
@@ -35,9 +38,9 @@ public abstract class AbstractClosure extends Exp implements Closure {
 
 	public Exp getArgumentOrNIL(int index) throws AccessException {
 		if( getNumberOfRequiredArguments() <= index)
-			return SymbolTable.NIL; // ignore extra arguments 
+			return NIL; // ignore extra arguments 
 		else
-			return _lambdaExpression.cdr().car().nth(index);
+			return _lambdaExpression.cdr().car().nth(index, NIL);
 	}
 
 	public Object getJavaValue() {
@@ -72,16 +75,16 @@ public abstract class AbstractClosure extends Exp implements Closure {
 	public Exp getLastArgumentOrNIL(int i) throws AccessException {
 		Exp args = _lambdaExpression.cdr().car();
 		
-		return args.last();
+		return args.last(NIL);
 
 	}
     public void addClass(Exp klass) {
         ; // Noop
     }
 
-    public Exp getClasses() {
+    public Exp getClasses(Lsymbol nil) {
         // TODO Auto-generated method stub
-        return SymbolTable.NIL;
+        return NIL;
     }
 
     public void removeClass(Exp klass) {

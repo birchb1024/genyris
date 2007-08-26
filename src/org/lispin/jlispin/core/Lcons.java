@@ -1,6 +1,9 @@
 package org.lispin.jlispin.core;
 
+import java.io.StringWriter;
+
 import org.lispin.jlispin.classes.BuiltinClasses;
+import org.lispin.jlispin.format.BasicFormatter;
 
 
 
@@ -58,4 +61,11 @@ public class Lcons extends ExpWithEmbeddedClasses {
 	public boolean isSelfEvaluating() {
 		return false;
 	}
+	
+	public String toString() {
+		StringWriter out = new StringWriter();
+		acceptVisitor(new BasicFormatter(out, SymbolTable.NIL));
+		return out.getBuffer().toString();
+	}
+
 }

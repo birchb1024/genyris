@@ -27,7 +27,7 @@ public class SourceLoader {
 		// this use of getResourceAsStream() means paths are relative to this class 
 		// unless preceded by a '/'
 		if( in == null ) {
-			return SymbolTable.NIL;
+			throw new LispinException("loadScriptFromClasspath: null pointer from getResourceAsStream.");
 		}
 		return executeScript(_interp, new InputStreamReader(in), writer);
 	}
@@ -36,7 +36,7 @@ public class SourceLoader {
         InStream input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(new ReaderInStream(reader)),
                 false)));
         Parser parser = interp.newParser(input);
-        IndentedFormatter formatter = new IndentedFormatter(output, 3);
+        IndentedFormatter formatter = new IndentedFormatter(output, 3, interp.getNil());
         Exp expression = null;
         Exp result = null;
         do {

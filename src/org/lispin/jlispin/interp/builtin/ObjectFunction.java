@@ -12,7 +12,7 @@ public class ObjectFunction extends ApplicableFunction {
 	// Create a new dict
 
 	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env) throws LispinException {
-		Lobject dict = new Lobject();
+		Lobject dict = new Lobject(env);
 		for(int i= 0; i < arguments.length; i++) {
 			if( !arguments[i].listp())
 				throw new LispinException("argument to dict not a list");

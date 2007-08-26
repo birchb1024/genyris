@@ -9,6 +9,7 @@ import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.SymbolTable;
 
 public class Lex {
+	private Exp NIL;
 	private static final char COMMENTCHAR = ';';
 
 	private static final char BQUOTECHAR = '`';
@@ -28,6 +29,7 @@ public class Lex {
 	public Lex(InStream inputSource, SymbolTable symbolTable) {
 		_input = inputSource;
 		_symbolTable = symbolTable;
+		NIL = symbolTable.getNil();
 	}
 
 	public boolean hasData() throws LexException {
@@ -218,7 +220,7 @@ public class Lex {
 				}
 			}
 		} while (forever);
-		return SymbolTable.NIL;
+		return NIL;
 	}
 
 	public Exp parseString() throws LexException {

@@ -16,9 +16,11 @@ import org.lispin.jlispin.load.SourceLoader;
 public class LoadFunction extends ApplicableFunction {
 
 	private Interpreter _interp;
+	private Exp NIL;
 	
 	public LoadFunction(Interpreter interp) {
 		_interp = interp;
+		NIL = _interp.getNil();
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
@@ -33,8 +35,8 @@ public class LoadFunction extends ApplicableFunction {
 			}
 		}
 		result = SourceLoader.loadScriptFromClasspath(_interp, arguments[0].toString(), out);
-		if( result == SymbolTable.NIL ) {
-			return SymbolTable.NIL;
+		if( result == NIL ) {
+			return NIL;
 		}
 
 		return SymbolTable.T;

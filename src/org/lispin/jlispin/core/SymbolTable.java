@@ -9,8 +9,9 @@ public class SymbolTable {
 	// TODO refactor and push these 'optimisations' into the user classes. 
 	// ie use lookup() instead of a static, except in using classes.
 	public static final String DYNAMICSCOPECHAR = "_";
-    private Map       _table;
+    private Map _table;
     public static Lsymbol NIL;
+    //private static Lsymbol NIL;
     public static Lsymbol T;
     public static Lsymbol leftParen;
     public static Lsymbol rightParen;
@@ -42,7 +43,9 @@ public class SymbolTable {
         _table = new HashMap();
     }
     
-    public void init() {
+    public void init(Lsymbol nil) {
+    	NIL = nil;
+        _table.put("nil", NIL);
         leftParen = internString("leftParen");
         rightParen = internString("righParen");
         cdr_char = internString("pair-delimiter");
@@ -61,7 +64,6 @@ public class SymbolTable {
         comma = internString("comma");
         backquote = internString("backquote");
         EOF = internString("EOF");
-        NIL = internString("nil");
         T = internString("t");
         REST = internString("&rest");
         DICT = internString("dict");
@@ -88,5 +90,9 @@ public class SymbolTable {
         } else {
             _table.put(((Lsymbol)newSym).getPrintName(), newSym);
         }
+    }
+    
+    public Exp getNil() {
+    	return NIL;
     }
 }

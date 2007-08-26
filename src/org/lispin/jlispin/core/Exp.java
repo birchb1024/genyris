@@ -1,8 +1,5 @@
 package org.lispin.jlispin.core;
 
-import java.io.StringWriter;
-
-import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
@@ -21,7 +18,7 @@ public abstract class Exp implements Classifiable, Closure {
 	}
 
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
-		if(arguments[0] == SymbolTable.NIL) {
+		if(arguments[0] == environment.getNil()) {
 			throw new LispinException("Empty body to exp invocation does not make sense." + this.toString());
 		}
 		Environment newEnv = new MagicEnvironment(environment, this);
@@ -69,15 +66,7 @@ public abstract class Exp implements Classifiable, Closure {
 			return this.getJavaValue().equals(((Exp) compare).getJavaValue());
 	}
 
-	public String toString() {
-		StringWriter out = new StringWriter();
-		acceptVisitor(new BasicFormatter(out));
-		return out.getBuffer().toString();
-	}
-
-	public boolean isNil() {
-		return this == SymbolTable.NIL;
-	}
+	public abstract String toString();
 
 
 	public boolean listp() {
@@ -88,24 +77,24 @@ public abstract class Exp implements Classifiable, Closure {
 		return true;
 	}
 
-	public int length() throws AccessException {
+	public int length(Lsymbol NIL) throws AccessException {
 		Exp tmp = this;
 		int count = 0;
 
-		while (tmp != SymbolTable.NIL) {
+		while (tmp != NIL) {
 			tmp = tmp.cdr();
 			count++;
 		}
 		return count;
 	}
 
-	public Exp nth(int number) throws AccessException {
-		if (this == SymbolTable.NIL) {
+	public Exp nth(int number, Lsymbol NIL) throws AccessException {
+		if (this == NIL) {
 			throw new AccessException("nth called on nil.");
 		}
 		Exp tmp = this;
 		int count = 0;
-		while (tmp != SymbolTable.NIL) {
+		while (tmp != NIL) {
 			if (count == number) {
 				return tmp.car();
 			}
@@ -115,11 +104,11 @@ public abstract class Exp implements Classifiable, Closure {
 		throw new AccessException("nth could not find item: " + number);
 	}
 
-	public Exp last() throws AccessException {
-		if (this == SymbolTable.NIL)
-			return SymbolTable.NIL;
+	public Exp last(Lsymbol NIL) throws AccessException {
+		if (this == NIL)
+			return NIL;
 		Exp tmp = this;
-		while (tmp.cdr() != SymbolTable.NIL) {
+		while (tmp.cdr() != NIL) {
 			tmp = tmp.cdr();
 		}
 		return tmp.car();

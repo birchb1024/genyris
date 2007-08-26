@@ -20,7 +20,7 @@ public class IndentedFormatterTest extends TestCase {
 		Parser parser = interpreter.newParser(input);
 		Exp expression = parser.read(); 
 		StringWriter out = new StringWriter();
-		IndentedFormatter formatter = new IndentedFormatter(out, depth);
+		IndentedFormatter formatter = new IndentedFormatter(out, depth, interpreter.getNil());
 		
 		expression.acceptVisitor(formatter);
 		

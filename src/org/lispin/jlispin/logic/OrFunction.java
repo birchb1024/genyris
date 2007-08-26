@@ -9,6 +9,11 @@ import org.lispin.jlispin.interp.LispinException;
 
 public class OrFunction extends ApplicableFunction {
 
+	private Exp NIL;
+	
+	public OrFunction(Exp nil) {
+		NIL = nil;
+	}
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
 			throws LispinException {
 		if (arguments.length < 2)
@@ -18,14 +23,14 @@ public class OrFunction extends ApplicableFunction {
 			if (arguments[i] == SymbolTable.T) {
 				return SymbolTable.T;
 			}
-			else if (arguments[i] == SymbolTable.NIL) {
+			else if (arguments[i] == NIL) {
 				continue;
 			}
 			else {
 				throw new LispinException("or expects t or nil, not: " + arguments[i]);				
 			}
 		}
-		return SymbolTable.NIL;
+		return NIL;
 
 	}
 

@@ -3,6 +3,7 @@ package org.lispin.jlispin.interp.builtin;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
@@ -11,16 +12,18 @@ import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.LispinException;
 
 public class BackquoteFunction extends ApplicableFunction {
-	
+	private Lsymbol NIL;
+	public BackquoteFunction(Lsymbol nil) {
+		NIL = nil;
+	}
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
 			throws LispinException {
-        
-        
+
 		return backQuoteAux(envForBindOperations, arguments[0]);
 	}
 
     private Exp backQuoteAux(Environment env, Exp sexp) throws LispinException {
-        if(sexp == SymbolTable.NIL || (!sexp.listp())) {
+        if(sexp == NIL || (!sexp.listp())) {
             return sexp;
         }
         else {
@@ -39,7 +42,7 @@ public class BackquoteFunction extends ApplicableFunction {
         }
     }
     private Exp append(Exp l1, Exp l2) throws AccessException {
-        if( l1 == SymbolTable.NIL) {
+        if( l1 == NIL) {
             return l2;
         }
         else {

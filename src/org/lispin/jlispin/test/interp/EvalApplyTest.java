@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Linteger;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.EagerProcedure;
@@ -34,9 +35,10 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
+		Lsymbol NIL = new Lsymbol("nil");
+		Environment env = new StandardEnvironment(NIL);
 		SymbolTable table = new SymbolTable();
-        table.init();
-		Environment env = new StandardEnvironment(null);
+        table.init(NIL);  
 		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
 		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
@@ -44,7 +46,7 @@ public class EvalApplyTest extends TestCase {
 		Exp expression = parser.read();
 		Exp result = Evaluator.eval(env, expression);
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out);
+		BasicFormatter formatter = new BasicFormatter(out, NIL);
 		result.acceptVisitor(formatter);
 		assertEquals("(23 : 23)", out.getBuffer().toString());
 
@@ -55,9 +57,10 @@ public class EvalApplyTest extends TestCase {
 	}
 
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
-		Environment env = new StandardEnvironment(null);
+		Lsymbol NIL = new Lsymbol("nil");
+		Environment env = new StandardEnvironment(NIL);
 		SymbolTable table = new SymbolTable();
-        table.init();
+        table.init(NIL);
 		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
 		env.defineVariable(table.internString("lambdaq"), new LazyProcedure(env, null, new LambdaqFunction()));
 		env.defineVariable(table.internString("lambdam"), new LazyProcedure(env, null, new MacroFunction()));
@@ -70,7 +73,7 @@ public class EvalApplyTest extends TestCase {
 		env.defineVariable(table.internString("defvar"), new EagerProcedure(env, null, new DefineFunction()));
 		env.defineVariable(table.internString("set"), new EagerProcedure(env, null, new SetFunction()));
 		env.defineVariable(table.internString("cond"), new LazyProcedure(env, null, new ConditionalFunction()));
-		env.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
+		env.defineVariable(NIL, NIL);
 		env.defineVariable(SymbolTable.T, SymbolTable.T);
 		Environment env2 = new StandardEnvironment(env);
 		env2.defineVariable(table.internString("alpha"), new Linteger(23));
@@ -84,7 +87,7 @@ public class EvalApplyTest extends TestCase {
 				result = Evaluator.eval(env2, expression);
 				
 				StringWriter out = new StringWriter();
-				BasicFormatter formatter = new BasicFormatter(out);
+				BasicFormatter formatter = new BasicFormatter(out, env2.getNil());
 				result.acceptVisitor(formatter);
 				assertEquals(expected, out.getBuffer().toString());
 

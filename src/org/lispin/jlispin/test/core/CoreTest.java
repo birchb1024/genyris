@@ -6,10 +6,15 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.core.Lsymbol;
 
 public class CoreTest extends TestCase {
-
+	private Lsymbol NIL;
+	
+	public void setUp() {
+		NIL = new Lsymbol("nil");		
+	}
+	
 	public void testAccessExceptionCar() {
 
 		Exp a = new Linteger(0);
@@ -36,7 +41,7 @@ public class CoreTest extends TestCase {
 
 		Exp a = new Linteger(0);
 		try {
-			a.setCar(SymbolTable.NIL);
+			a.setCar(new Lsymbol("foo"));
 			fail("expecting exception");
 		}
 		catch (AccessException e) {
@@ -47,7 +52,7 @@ public class CoreTest extends TestCase {
 
 		Exp a = new Linteger(0);
 		try {
-			a.setCar(SymbolTable.NIL);
+			a.setCar(new Lsymbol("foo"));
 			fail("expecting exception");
 		}
 		catch (AccessException e) {
@@ -55,16 +60,17 @@ public class CoreTest extends TestCase {
 	}
 
 	public void testLength() throws AccessException {
-		Exp list = new Lcons(new Linteger(1), new Lcons(new Linteger(2), SymbolTable.NIL));
-		assertEquals(2, list.length());
-		assertEquals(1, list.cdr().length());
-		assertEquals(0, list.cdr().cdr().length());
+
+		Exp list = new Lcons(new Linteger(1), new Lcons(new Linteger(2), NIL));
+		assertEquals(2, list.length(NIL));
+		assertEquals(1, list.cdr().length(NIL));
+		assertEquals(0, list.cdr().cdr().length(NIL));
 	}
 
 	public void testLengthNIL() throws AccessException {
-		Exp list = SymbolTable.NIL;
+		Exp list = NIL;
 		try {
-			list.cdr().cdr().cdr().length();
+			list.cdr().cdr().cdr().length(NIL);
 			fail("expecting exception");
 		}
 		catch (AccessException e) {
@@ -73,7 +79,7 @@ public class CoreTest extends TestCase {
 		}
 	}
 	public void testLisp() {
-		assertTrue(new Lcons(SymbolTable.NIL, SymbolTable.NIL).listp());
+		assertTrue(new Lcons(NIL, NIL).listp());
 		assertFalse(new Linteger(1).listp());
 	}
 }

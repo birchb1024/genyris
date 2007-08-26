@@ -16,5 +16,9 @@ public class Ldouble extends ExpWithEmbeddedClasses {
 		guest.visitLdouble(this);
 	}
 
+	public String toString() {
+		return getJavaValue().toString();
+	}
+
 
 }

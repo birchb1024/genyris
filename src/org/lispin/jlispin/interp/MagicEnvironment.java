@@ -17,7 +17,7 @@ public class MagicEnvironment  extends StandardEnvironment {
 
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
 		if(symbol == SymbolTable.classes) {
-			return _it.getClasses();
+			return _it.getClasses(NIL);
 		}
 		else if(symbol == SymbolTable.self) {
 			return _it;
@@ -30,8 +30,8 @@ public class MagicEnvironment  extends StandardEnvironment {
 	}
 
 	private Exp lookupInClasses(Exp symbol) throws UnboundException {
-		Exp classes = _it.getClasses();
-		while( classes != SymbolTable.NIL) {
+		Exp classes = _it.getClasses(NIL);
+		while( classes != NIL) {
 			try {
 				Environment klass = (Environment)(classes.car());
 				try {
@@ -52,7 +52,7 @@ public class MagicEnvironment  extends StandardEnvironment {
 	public Exp lookupVariableValue(Exp exp) throws UnboundException {
 		Lsymbol symbol = (Lsymbol) exp;
 		if(symbol == SymbolTable.classes) {
-			return _it.getClasses();
+			return _it.getClasses(NIL);
 		}
 		else if(symbol == SymbolTable.self || symbol == SymbolTable._self) {
 			return _it;

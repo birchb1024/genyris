@@ -35,5 +35,8 @@ public class Bignum extends ExpWithEmbeddedClasses {
 		guest.visitBignum(this);
 	}
 
+	public String toString() {
+		return _value.toString();
+	}
 
 }

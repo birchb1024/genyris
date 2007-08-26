@@ -7,6 +7,7 @@ import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lobject;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.builtin.BackquoteFunction;
 import org.lispin.jlispin.interp.builtin.CarFunction;
@@ -51,25 +52,29 @@ public class Interpreter {
 	Environment _globalEnvironment;
 	SymbolTable _table;
 	Writer _defaultOutput;
+	public Lsymbol NIL;
 	
 	public Interpreter() throws LispinException {
-		_globalEnvironment = new StandardEnvironment(null);
+		NIL = new Lsymbol("nil", true);
+		_globalEnvironment = new StandardEnvironment(NIL);
+		BuiltinClasses.SYMBOL = new Lobject(_globalEnvironment);
+		NIL.addClass(BuiltinClasses.SYMBOL);
 		_defaultOutput = new OutputStreamWriter(System.out);
 		_table = new SymbolTable();
         // Begin Circular references between symbols and classnames require manual bootstrap here:
-		BuiltinClasses.SYMBOL = new Lobject();
-        _table.init();
+
+        _table.init(NIL);
         BuiltinClasses.SYMBOL.defineVariable(SymbolTable.classname, _table.internString("Symbol"));
         // End manual bootstrap
  
-        _globalEnvironment.defineVariable(SymbolTable.NIL, SymbolTable.NIL);
+        _globalEnvironment.defineVariable(NIL, NIL);
 		_globalEnvironment.defineVariable(SymbolTable.T, SymbolTable.T);
 		_globalEnvironment.defineVariable(SymbolTable.EOF, SymbolTable.EOF);
         // TODO all these constructors need to be replaced with a factory and singletons: 
 		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction()));
 		_globalEnvironment.defineVariable(_table.internString("lambdam"), new LazyProcedure(_globalEnvironment, null, new LambdamFunction()));
-        _globalEnvironment.defineVariable(_table.internString("backquote"), new LazyProcedure(_globalEnvironment, null, new BackquoteFunction()));
+        _globalEnvironment.defineVariable(_table.internString("backquote"), new LazyProcedure(_globalEnvironment, null, new BackquoteFunction(NIL)));
 		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction()));
 		_globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction()));
 		_globalEnvironment.defineVariable(_table.internString("rplaca"), new EagerProcedure(_globalEnvironment, null, new ReplaceCarFunction()));
@@ -82,8 +87,8 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("defmacro"), new LazyProcedure(_globalEnvironment, null, new DefMacroFunction()));
         _globalEnvironment.defineVariable(_table.internString("class"), new LazyProcedure(_globalEnvironment, null, new DefineClassFunction()));
 		_globalEnvironment.defineVariable(_table.internString("cond"), new LazyProcedure(_globalEnvironment, null, new ConditionalFunction()));
-		_globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction()));
-		_globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction()));
+		_globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction(NIL, SymbolTable.T)));
+		_globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction(NIL)));
 		_globalEnvironment.defineVariable(_table.internString("dict"), new LazyProcedure(_globalEnvironment, null, new ObjectFunction()));
 		_globalEnvironment.defineVariable(_table.internString("eval"), new LazyProcedure(_globalEnvironment, null, new EvalFunction()));
 		_globalEnvironment.defineVariable(_table.internString("the"), new EagerProcedure(_globalEnvironment, null, new IdentityFunction()));
@@ -97,12 +102,12 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("*"), new EagerProcedure(_globalEnvironment, null, new MultiplyFunction()));
 		_globalEnvironment.defineVariable(_table.internString("/"), new EagerProcedure(_globalEnvironment, null, new DivideFunction()));
 		_globalEnvironment.defineVariable(_table.internString("%"), new EagerProcedure(_globalEnvironment, null, new RemainderFunction()));
-		_globalEnvironment.defineVariable(_table.internString(">"), new EagerProcedure(_globalEnvironment, null, new GreaterThanFunction()));
-		_globalEnvironment.defineVariable(_table.internString("<"), new EagerProcedure(_globalEnvironment, null, new LessThanFunction()));
+		_globalEnvironment.defineVariable(_table.internString(">"), new EagerProcedure(_globalEnvironment, null, new GreaterThanFunction(NIL)));
+		_globalEnvironment.defineVariable(_table.internString("<"), new EagerProcedure(_globalEnvironment, null, new LessThanFunction(NIL)));
 
-		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction()));
+		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction(NIL)));
 
-		BuiltinClasses.init();
+		BuiltinClasses.init(_globalEnvironment);
 
 		_globalEnvironment.defineVariable(_table.internString("Object"), BuiltinClasses.OBJECT);
 		_globalEnvironment.defineVariable(_table.internString("Pair"), BuiltinClasses.PAIR);
@@ -128,5 +133,7 @@ public class Interpreter {
 	public Writer getDefaultOutputWriter() {
 		return _defaultOutput;
 	}	
-	
+	public Lsymbol getNil() {
+		return NIL;
+	}
 }

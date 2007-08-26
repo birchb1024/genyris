@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.io.InStream;
@@ -16,11 +17,12 @@ public class BasicFormatterTest extends TestCase {
 
 	void excerciseFormatter(String given) throws Exception { 
 		Interpreter interpreter = new Interpreter();
+		Lsymbol NIL = interpreter.getNil();
 		InStream input = new UngettableInStream( new StringInStream(given));
 		Parser parser = interpreter.newParser(input);
 		Exp expression = parser.read(); 
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out);
+		BasicFormatter formatter = new BasicFormatter(out, NIL);
 		
 		expression.acceptVisitor(formatter);
 		

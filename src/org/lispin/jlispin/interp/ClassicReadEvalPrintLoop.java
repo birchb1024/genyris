@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 import org.lispin.jlispin.core.Exp;
+import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.io.ConvertEofInStream;
@@ -17,15 +18,17 @@ public class ClassicReadEvalPrintLoop {
 
 	public static void main(String[] args) {
 		Interpreter interpreter;
+		Lsymbol NIL;
 		try {
 			interpreter = new Interpreter();
+			NIL = interpreter.getNil();
 			interpreter.init(true);
 			InStream input = new UngettableInStream(new ConvertEofInStream(
 					new IndentStream(
 							new UngettableInStream(new StdioInStream()), true)));
 			Parser parser = interpreter.newParser(input);
 			Writer output = new PrintWriter(System.out);
-			IndentedFormatter formatter = new IndentedFormatter(output, 3);
+			IndentedFormatter formatter = new IndentedFormatter(output, 3, interpreter.getNil());
 			System.out.println("\n*** JLispin is listening...");
 			Exp expression = null;
 			do {
@@ -43,8 +46,8 @@ public class ClassicReadEvalPrintLoop {
 					result.acceptVisitor(formatter);
 					
 					output.write(" ;");
-					Exp klasses = result.getClasses();
-					while(klasses != SymbolTable.NIL){
+					Exp klasses = result.getClasses(NIL);
+					while(klasses != NIL){
 						Environment klass = (Environment) klasses.car();
 						output.write(" " + klass.lookupVariableShallow(SymbolTable.classname).toString());
 						klasses = klasses.cdr();
