@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
@@ -36,7 +35,7 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
-		Lsymbol NIL = new NilSymbol();
+		NilSymbol NIL = new NilSymbol();
 		Environment env = new StandardEnvironment(NIL);
 		SymbolTable table = new SymbolTable();
         table.init(NIL);  
@@ -57,7 +56,7 @@ public class EvalApplyTest extends TestCase {
 	}
 
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
-		Lsymbol NIL = new NilSymbol();
+		NilSymbol NIL = new NilSymbol();
 		Environment env = new StandardEnvironment(NIL);
 		SymbolTable table = new SymbolTable();
         table.init(NIL);

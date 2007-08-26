@@ -7,12 +7,13 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.NilSymbol;
 
 public class CoreTest extends TestCase {
 	private Lsymbol NIL;
 	
 	public void setUp() {
-		NIL = new Lsymbol("nil");		
+		NIL = new NilSymbol();		
 	}
 	
 	public void testAccessExceptionCar() {

@@ -19,7 +19,7 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 	
     public Lsymbol() {
 		super(BuiltinClasses.SYMBOL);
-		_printName = "GX" + nextgensym;
+		_printName = "G" + nextgensym;
 		nextgensym++;
 	}
     public boolean isNil() {

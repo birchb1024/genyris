@@ -11,6 +11,7 @@ import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
@@ -34,7 +35,7 @@ public class EqualityTest extends TestCase {
 	}
 	public void testSymbol() throws Exception {
 		SymbolTable sym = new SymbolTable(); // force loadingof statics!
-        sym.init(new Lsymbol("nil"));  
+        sym.init(new NilSymbol());  
 		assertFalse(new Lsymbol("hello1").equals(new Lsymbol("hello2")));	
 		assertFalse(new Lsymbol("hello").equals(new Lsymbol("hello")));	
 		assertTrue(sym.internString("hello").equals(sym.internString("hello")));
@@ -51,9 +52,9 @@ public class EqualityTest extends TestCase {
 	}
 	
 	public void testFrame() throws Exception {
-		Lobject f1 = new Lobject(new StandardEnvironment(new Lsymbol()));
+		Lobject f1 = new Lobject(new StandardEnvironment(new NilSymbol()));
 		f1.defineVariable(new Linteger(1), new Lstring("foo"));
-		Lobject f2 = new Lobject(new StandardEnvironment(new Lsymbol()));
+		Lobject f2 = new Lobject(new StandardEnvironment(new NilSymbol()));
 		f2.defineVariable(new Linteger(1), new Lstring("foo"));
 		assertTrue(f1.equals(f2));
 	}

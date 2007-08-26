@@ -53,7 +53,7 @@ public class Interpreter {
 	Environment _globalEnvironment;
 	SymbolTable _table;
 	Writer _defaultOutput;
-	public Lsymbol NIL;
+	public NilSymbol NIL;
 	
 	public Interpreter() throws LispinException {
 		NIL = new NilSymbol();

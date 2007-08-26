@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.StandardEnvironment;
@@ -12,7 +13,7 @@ import org.lispin.jlispin.interp.StandardEnvironment;
 public class EnvironmentTest extends TestCase {
 	
 	public void testEnvBasics() throws Exception {		
-		Environment env = new StandardEnvironment(new Lsymbol("nil"));
+		Environment env = new StandardEnvironment(new NilSymbol());
 		Lsymbol sym = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env.defineVariable(sym, val);
@@ -20,7 +21,7 @@ public class EnvironmentTest extends TestCase {
 	}
 	
 	public void testEnvNested() throws Exception {		
-		Environment env1 = new StandardEnvironment(new Lsymbol("nil"));
+		Environment env1 = new StandardEnvironment(new NilSymbol());
 		Lsymbol sym = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym, val);
@@ -34,7 +35,7 @@ public class EnvironmentTest extends TestCase {
 	}
 	
 	public void testEnvNestedSets() throws Exception {		
-		Environment env1 = new StandardEnvironment(new Lsymbol("nil"));
+		Environment env1 = new StandardEnvironment(new NilSymbol());
 		Lsymbol sym1 = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym1, val);
@@ -57,7 +58,7 @@ public class EnvironmentTest extends TestCase {
 	}
 	
 	public void testEnvEvalSelf() throws Exception {		
-		Environment env = new StandardEnvironment(new Lsymbol("nil"));
+		Environment env = new StandardEnvironment(new NilSymbol());
 		Linteger int42 = new Linteger(42);
 		
 		assertEquals(int42, Evaluator.eval(env, int42));
@@ -67,7 +68,7 @@ public class EnvironmentTest extends TestCase {
 	}
 
 	public void testEnvEvalVariables() throws Exception {		
-		Environment env = new StandardEnvironment(new Lsymbol("nil"));
+		Environment env = new StandardEnvironment(new NilSymbol());
 		Lsymbol answer = new Lsymbol("answer");
 		Linteger int42 = new Linteger(42);
 		env.defineVariable(answer, int42);

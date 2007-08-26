@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.NilSymbol;
 
 public class StandardEnvironment implements Environment {
 	
@@ -12,7 +13,7 @@ public class StandardEnvironment implements Environment {
 	Environment _parent;
 	protected Lsymbol NIL;
 	
-	public StandardEnvironment(Lsymbol nil) {
+	public StandardEnvironment(NilSymbol nil) {
 		_parent = null;
 		_frame = new HashMap();
 		NIL = nil;
