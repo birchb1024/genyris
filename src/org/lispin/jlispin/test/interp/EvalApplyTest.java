@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.EagerProcedure;
@@ -35,7 +36,7 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
-		Lsymbol NIL = new Lsymbol("nil");
+		Lsymbol NIL = new NilSymbol();
 		Environment env = new StandardEnvironment(NIL);
 		SymbolTable table = new SymbolTable();
         table.init(NIL);  
@@ -46,10 +47,9 @@ public class EvalApplyTest extends TestCase {
 		Exp expression = parser.read();
 		Exp result = Evaluator.eval(env, expression);
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out, NIL);
+		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
 		assertEquals("(23 : 23)", out.getBuffer().toString());
-
 	}
 	
 	void excerciseEval(String exp, String expected) throws Exception {
@@ -57,7 +57,7 @@ public class EvalApplyTest extends TestCase {
 	}
 
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
-		Lsymbol NIL = new Lsymbol("nil");
+		Lsymbol NIL = new NilSymbol();
 		Environment env = new StandardEnvironment(NIL);
 		SymbolTable table = new SymbolTable();
         table.init(NIL);
@@ -87,7 +87,7 @@ public class EvalApplyTest extends TestCase {
 				result = Evaluator.eval(env2, expression);
 				
 				StringWriter out = new StringWriter();
-				BasicFormatter formatter = new BasicFormatter(out, env2.getNil());
+				BasicFormatter formatter = new BasicFormatter(out);
 				result.acceptVisitor(formatter);
 				assertEquals(expected, out.getBuffer().toString());
 

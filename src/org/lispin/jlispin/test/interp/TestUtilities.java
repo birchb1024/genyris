@@ -26,7 +26,7 @@ public class TestUtilities {
 		Exp result = _interpreter.evalInGlobalEnvironment(expression);
 		
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out, _interpreter.getNil());
+		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
 		return out.getBuffer().toString();
 	}

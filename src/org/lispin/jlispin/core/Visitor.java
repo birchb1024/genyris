@@ -21,5 +21,4 @@ public interface Visitor {
 	public void visitLobject(Lobject frame);
 
 	public void visitBignum(Bignum bignum);
-
 }

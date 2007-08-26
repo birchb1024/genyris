@@ -10,6 +10,7 @@ import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.io.InStream;
@@ -104,7 +105,7 @@ public class LexTest extends TestCase {
 	}
 
 	private void excerciseListParsing(String toParse) throws Exception {
-		Lsymbol NIL = new Lsymbol();
+		Lsymbol NIL = new NilSymbol();
 		SymbolTable table = new SymbolTable();
 		table.init(NIL);
 		InStream input = new UngettableInStream( new StringInStream(toParse));
@@ -112,7 +113,7 @@ public class LexTest extends TestCase {
 		Exp result = parser.read();
 		
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out, NIL);
+		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
 		assertEquals(toParse, out.getBuffer().toString());
 
@@ -135,7 +136,7 @@ public class LexTest extends TestCase {
 	}
 
 	private void excerciseSpecialParsing(String toParse, String expected) throws Exception {
-		Lsymbol NIL = new Lsymbol();
+		Lsymbol NIL = new NilSymbol();
 		SymbolTable table = new SymbolTable();
 		table.init(NIL);
 		InStream input = new UngettableInStream( new StringInStream(toParse));
@@ -143,7 +144,7 @@ public class LexTest extends TestCase {
 		Exp result = parser.read();
 		
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out, NIL);
+		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
 		assertEquals(expected, out.getBuffer().toString());
 

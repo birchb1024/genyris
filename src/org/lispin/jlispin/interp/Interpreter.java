@@ -8,6 +8,7 @@ import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lsymbol;
+import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.builtin.BackquoteFunction;
 import org.lispin.jlispin.interp.builtin.CarFunction;
@@ -55,7 +56,7 @@ public class Interpreter {
 	public Lsymbol NIL;
 	
 	public Interpreter() throws LispinException {
-		NIL = new Lsymbol("nil", true);
+		NIL = new NilSymbol();
 		_globalEnvironment = new StandardEnvironment(NIL);
 		BuiltinClasses.SYMBOL = new Lobject(_globalEnvironment);
 		NIL.addClass(BuiltinClasses.SYMBOL);

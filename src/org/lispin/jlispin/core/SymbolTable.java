@@ -10,8 +10,8 @@ public class SymbolTable {
 	// ie use lookup() instead of a static, except in using classes.
 	public static final String DYNAMICSCOPECHAR = "_";
     private Map _table;
-    public static Lsymbol NIL;
-    //private static Lsymbol NIL;
+    //public static Lsymbol NIL;
+    private static Lsymbol NIL;
     public static Lsymbol T;
     public static Lsymbol leftParen;
     public static Lsymbol rightParen;

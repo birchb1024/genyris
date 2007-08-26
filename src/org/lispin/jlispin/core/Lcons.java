@@ -5,8 +5,6 @@ import java.io.StringWriter;
 import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.format.BasicFormatter;
 
-
-
 public class Lcons extends ExpWithEmbeddedClasses {
 	
 	private  Exp _car;
@@ -64,7 +62,7 @@ public class Lcons extends ExpWithEmbeddedClasses {
 	
 	public String toString() {
 		StringWriter out = new StringWriter();
-		acceptVisitor(new BasicFormatter(out, SymbolTable.NIL));
+		acceptVisitor(new BasicFormatter(out));
 		return out.getBuffer().toString();
 	}
 

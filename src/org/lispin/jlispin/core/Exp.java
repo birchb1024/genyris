@@ -38,6 +38,10 @@ public abstract class Exp implements Classifiable, Closure {
             }
         }
 	}
+	
+	public boolean isNil() {
+		return false;
+	}
 
     public Exp car() throws AccessException {
 		throw new AccessException("attempt to take car of non-cons");

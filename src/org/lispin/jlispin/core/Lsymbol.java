@@ -4,7 +4,7 @@ import org.lispin.jlispin.classes.BuiltinClasses;
 
 public class Lsymbol extends ExpWithEmbeddedClasses {
 	
-	private String _printName;
+	protected String _printName;
 
 	private static int nextgensym = 0;
 	
@@ -16,14 +16,18 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 	public Lsymbol(String newSym, boolean bootstrap) {
 		_printName = newSym;
 	}
+	
     public Lsymbol() {
 		super(BuiltinClasses.SYMBOL);
 		_printName = "GX" + nextgensym;
 		nextgensym++;
 	}
-
+    public boolean isNil() {
+    	return false;
+    }
+    
 	public int hashCode() {
-    	return _printName.hashCode();
+    	return getPrintName().hashCode();
     }
 	
 	public boolean equals(Object compare) {
@@ -33,7 +37,7 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 		return _printName; 
 	}
 	public Object getJavaValue() { 
-		return _printName; 
+		return getPrintName(); 
 	}
 	
 	public boolean isSelfEvaluating() {
@@ -45,11 +49,11 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 	}
 
 	public boolean isMember() {
-		return _printName.startsWith(SymbolTable.DYNAMICSCOPECHAR);
+		return getPrintName().startsWith(SymbolTable.DYNAMICSCOPECHAR);
 	}
 
 	public String toString() {
-		return _printName;
+		return getPrintName();
 	}
 
 }

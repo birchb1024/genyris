@@ -5,7 +5,6 @@ import java.io.StringWriter;
 import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.io.InStream;
@@ -16,12 +15,10 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class BuiltinInterpreterTests extends TestCase {
 	
 	private Interpreter interpreter;
-	private Lsymbol NIL;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		interpreter = new Interpreter();
-		NIL = interpreter.getNil();
 	}
 	
 	void excerciseEval(String exp, String expected) throws Exception {
@@ -31,7 +28,7 @@ public class BuiltinInterpreterTests extends TestCase {
 		Exp result = interpreter.evalInGlobalEnvironment(expression);
 		
 		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out, NIL);
+		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
 		assertEquals(expected, out.getBuffer().toString());	
 	}

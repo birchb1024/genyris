@@ -18,7 +18,7 @@ public class BuiltinClasses {
     public static Lobject STANDARDCLASS;
 
 	private static Lobject mkClass(String name, Lsymbol nil) {
-		return new Lobject(SymbolTable.classname, new Lsymbol(name), nil );
+		return new Lobject(SymbolTable.classname, new Lsymbol(name), nil ); // TODO should tis symbol be interned?
 	}
 	public static void init(Environment env) {
 		Lsymbol NIL = env.getNil();
