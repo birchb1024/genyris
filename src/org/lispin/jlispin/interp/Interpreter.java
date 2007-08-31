@@ -39,6 +39,7 @@ import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.NullWriter;
 import org.lispin.jlispin.io.Parser;
 import org.lispin.jlispin.load.SourceLoader;
+import org.lispin.jlispin.logic.AndFunction;
 import org.lispin.jlispin.logic.OrFunction;
 import org.lispin.jlispin.math.DivideFunction;
 import org.lispin.jlispin.math.GreaterThanFunction;
@@ -107,6 +108,7 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("<"), new EagerProcedure(_globalEnvironment, null, new LessThanFunction(NIL)));
 
 		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction(NIL)));
+        _globalEnvironment.defineVariable(_table.internString("and"), new EagerProcedure(_globalEnvironment, null, new AndFunction(NIL)));
 
 		BuiltinClasses.init(_globalEnvironment);
 

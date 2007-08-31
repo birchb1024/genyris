@@ -11,7 +11,8 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
 	}
 	public ExpWithEmbeddedClasses(Lobject theInbuiltClass) {
 		_classes = new HashSet(1);
-		initClass(theInbuiltClass);
+        if(theInbuiltClass != null)
+            initClass(theInbuiltClass);
 	}
 	public void initClass(Lobject theInbuiltClass) {
 		_classes.add(theInbuiltClass);		

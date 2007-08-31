@@ -1,6 +1,7 @@
 package org.lispin.jlispin.math;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.lispin.jlispin.core.Bignum;
 import org.lispin.jlispin.core.Exp;
@@ -17,7 +18,7 @@ public class DivideFunction extends ApplicableFunction {
 		try {
 			Exp result = arguments[0];
 			for( int i=1; i< arguments.length; i++ ) {
-				result = addAux(result, arguments[i]);
+				result = divAux(result, arguments[i]);
 			}
 			return result;
 		}
@@ -26,8 +27,8 @@ public class DivideFunction extends ApplicableFunction {
 		}
 	}
 
-	private Exp addAux(Exp a, Exp b) {
+	private Exp divAux(Exp a, Exp b) {
 		// TODO make plus work for combiations of int, double and BigDecimal
-		return new Bignum(((BigDecimal) a.getJavaValue()).divide((BigDecimal) b.getJavaValue()));
+		return new Bignum(((BigDecimal) a.getJavaValue()).divide((BigDecimal) b.getJavaValue(), new MathContext(10)));
 	}
 }
