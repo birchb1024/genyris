@@ -10,12 +10,17 @@ import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 
 public class DefineClassFunction extends ApplicableFunction {
 
+	public DefineClassFunction(Interpreter interp) {
+		super(interp);
+	}
+
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
-		Lsymbol NIL = env.getNil();
+
         if( arguments.length < 1) 
             throw new LispinException("Incorrect number of arguments to class.");
         if(! (arguments[0] instanceof Lsymbol)) {
@@ -34,7 +39,7 @@ public class DefineClassFunction extends ApplicableFunction {
         }
         env.defineVariable(klassname, newClass);
         if( arguments.length > 2) {
-        	Exp body = arrayToList(arguments, NIL);
+        	Exp body = arrayToList(arguments);
         	body = body.cdr().cdr();
         	body = new Lcons(klassname, body);
         	return Evaluator.eval(env, body);
@@ -42,8 +47,8 @@ public class DefineClassFunction extends ApplicableFunction {
         return newClass;
     }
     private Exp lookupClasses(Environment env, Exp superklasses) throws LispinException {
-        Exp result = env.getNil();
-        while(superklasses != env.getNil()) {
+        Exp result = NIL;
+        while(superklasses != NIL) {
             result = new Lcons(env.lookupVariableValue(superklasses.car()), result);
             superklasses = superklasses.cdr();
         }

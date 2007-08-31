@@ -10,9 +10,8 @@ public class SymbolTable {
 	// ie use lookup() instead of a static, except in using classes.
 	public static final String DYNAMICSCOPECHAR = "_";
     private Map _table;
-    //public static Lsymbol NIL;
-    private static Lsymbol NIL;
-    public static Lsymbol T;
+    private Lsymbol NIL;
+    
     public static Lsymbol leftParen;
     public static Lsymbol rightParen;
     public static Lsymbol cdr_char;
@@ -64,7 +63,6 @@ public class SymbolTable {
         comma = internString("comma");
         backquote = internString("backquote");
         EOF = internString("EOF");
-        T = internString("t");
         REST = internString("&rest");
         DICT = internString("dict");
         classes = internString(DYNAMICSCOPECHAR + "classes");

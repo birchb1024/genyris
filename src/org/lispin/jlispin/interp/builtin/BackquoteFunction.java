@@ -3,19 +3,19 @@ package org.lispin.jlispin.interp.builtin;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 
 public class BackquoteFunction extends ApplicableFunction {
-	private Lsymbol NIL;
-	public BackquoteFunction(Lsymbol nil) {
-		NIL = nil;
+	public BackquoteFunction(Interpreter interp) {
+		super(interp);
 	}
+
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
 			throws LispinException {
 

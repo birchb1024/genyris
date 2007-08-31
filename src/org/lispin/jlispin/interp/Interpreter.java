@@ -55,6 +55,7 @@ public class Interpreter {
 	SymbolTable _table;
 	Writer _defaultOutput;
 	public NilSymbol NIL;
+	private Lsymbol TRUE;
 	
 	public Interpreter() throws LispinException {
 		NIL = new NilSymbol();
@@ -70,45 +71,47 @@ public class Interpreter {
         // End manual bootstrap
  
         _globalEnvironment.defineVariable(NIL, NIL);
-		_globalEnvironment.defineVariable(SymbolTable.T, SymbolTable.T);
+        
+        TRUE = _table.internString("true");
+		_globalEnvironment.defineVariable(TRUE, TRUE);
 		_globalEnvironment.defineVariable(SymbolTable.EOF, SymbolTable.EOF);
         // TODO all these constructors need to be replaced with a factory and singletons: 
-		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction()));
-		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction()));
-		_globalEnvironment.defineVariable(_table.internString("lambdam"), new LazyProcedure(_globalEnvironment, null, new LambdamFunction()));
-        _globalEnvironment.defineVariable(_table.internString("backquote"), new LazyProcedure(_globalEnvironment, null, new BackquoteFunction(NIL)));
-		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction()));
-		_globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction()));
-		_globalEnvironment.defineVariable(_table.internString("rplaca"), new EagerProcedure(_globalEnvironment, null, new ReplaceCarFunction()));
-		_globalEnvironment.defineVariable(_table.internString("rplacd"), new EagerProcedure(_globalEnvironment, null, new ReplaceCdrFunction()));
-		_globalEnvironment.defineVariable(_table.internString("cons"), new EagerProcedure(_globalEnvironment, null, new ConsFunction()));
-		_globalEnvironment.defineVariable(_table.internString("quote"), new LazyProcedure(_globalEnvironment, null, new QuoteFunction()));
-		_globalEnvironment.defineVariable(_table.internString("set"), new EagerProcedure(_globalEnvironment, null, new SetFunction()));
-		_globalEnvironment.defineVariable(_table.internString("defvar"), new EagerProcedure(_globalEnvironment, null, new DefineFunction()));
-		_globalEnvironment.defineVariable(_table.internString("def"), new LazyProcedure(_globalEnvironment, null, new DefFunction()));
-		_globalEnvironment.defineVariable(_table.internString("defmacro"), new LazyProcedure(_globalEnvironment, null, new DefMacroFunction(NIL)));
-        _globalEnvironment.defineVariable(_table.internString("class"), new LazyProcedure(_globalEnvironment, null, new DefineClassFunction()));
-		_globalEnvironment.defineVariable(_table.internString("cond"), new LazyProcedure(_globalEnvironment, null, new ConditionalFunction()));
-		_globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction(NIL, SymbolTable.T)));
-		_globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction(NIL)));
-		_globalEnvironment.defineVariable(_table.internString("dict"), new LazyProcedure(_globalEnvironment, null, new ObjectFunction()));
-		_globalEnvironment.defineVariable(_table.internString("eval"), new LazyProcedure(_globalEnvironment, null, new EvalFunction()));
-		_globalEnvironment.defineVariable(_table.internString("the"), new EagerProcedure(_globalEnvironment, null, new IdentityFunction()));
-		_globalEnvironment.defineVariable(_table.internString("list"), new EagerProcedure(_globalEnvironment, null, new ListFunction()));
+		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("lambdam"), new LazyProcedure(_globalEnvironment, null, new LambdamFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("backquote"), new LazyProcedure(_globalEnvironment, null, new BackquoteFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("rplaca"), new EagerProcedure(_globalEnvironment, null, new ReplaceCarFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("rplacd"), new EagerProcedure(_globalEnvironment, null, new ReplaceCdrFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("cons"), new EagerProcedure(_globalEnvironment, null, new ConsFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("quote"), new LazyProcedure(_globalEnvironment, null, new QuoteFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("set"), new EagerProcedure(_globalEnvironment, null, new SetFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("defvar"), new EagerProcedure(_globalEnvironment, null, new DefineFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("def"), new LazyProcedure(_globalEnvironment, null, new DefFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("defmacro"), new LazyProcedure(_globalEnvironment, null, new DefMacroFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("class"), new LazyProcedure(_globalEnvironment, null, new DefineClassFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("cond"), new LazyProcedure(_globalEnvironment, null, new ConditionalFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("dict"), new LazyProcedure(_globalEnvironment, null, new ObjectFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("eval"), new LazyProcedure(_globalEnvironment, null, new EvalFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("the"), new EagerProcedure(_globalEnvironment, null, new IdentityFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("list"), new EagerProcedure(_globalEnvironment, null, new ListFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("load"), new EagerProcedure(_globalEnvironment, null, new LoadFunction(this)));
-		_globalEnvironment.defineVariable(_table.internString("tag"), new EagerProcedure(_globalEnvironment, null, new TagFunction()));
-		_globalEnvironment.defineVariable(_table.internString("remove-tag"), new EagerProcedure(_globalEnvironment, null, new RemoveTagFunction()));
+		_globalEnvironment.defineVariable(_table.internString("tag"), new EagerProcedure(_globalEnvironment, null, new TagFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("remove-tag"), new EagerProcedure(_globalEnvironment, null, new RemoveTagFunction(this)));
 		
-		_globalEnvironment.defineVariable(_table.internString("+"), new EagerProcedure(_globalEnvironment, null, new PlusFunction()));
-		_globalEnvironment.defineVariable(_table.internString("-"), new EagerProcedure(_globalEnvironment, null, new MinusFunction()));
-		_globalEnvironment.defineVariable(_table.internString("*"), new EagerProcedure(_globalEnvironment, null, new MultiplyFunction()));
-		_globalEnvironment.defineVariable(_table.internString("/"), new EagerProcedure(_globalEnvironment, null, new DivideFunction()));
-		_globalEnvironment.defineVariable(_table.internString("%"), new EagerProcedure(_globalEnvironment, null, new RemainderFunction()));
-		_globalEnvironment.defineVariable(_table.internString(">"), new EagerProcedure(_globalEnvironment, null, new GreaterThanFunction(NIL)));
-		_globalEnvironment.defineVariable(_table.internString("<"), new EagerProcedure(_globalEnvironment, null, new LessThanFunction(NIL)));
+		_globalEnvironment.defineVariable(_table.internString("+"), new EagerProcedure(_globalEnvironment, null, new PlusFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("-"), new EagerProcedure(_globalEnvironment, null, new MinusFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("*"), new EagerProcedure(_globalEnvironment, null, new MultiplyFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("/"), new EagerProcedure(_globalEnvironment, null, new DivideFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("%"), new EagerProcedure(_globalEnvironment, null, new RemainderFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString(">"), new EagerProcedure(_globalEnvironment, null, new GreaterThanFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("<"), new EagerProcedure(_globalEnvironment, null, new LessThanFunction(this)));
 
-		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction(NIL)));
-        _globalEnvironment.defineVariable(_table.internString("and"), new EagerProcedure(_globalEnvironment, null, new AndFunction(NIL)));
+		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("and"), new EagerProcedure(_globalEnvironment, null, new AndFunction(this)));
 
 		BuiltinClasses.init(_globalEnvironment);
 
@@ -138,5 +141,17 @@ public class Interpreter {
 	}	
 	public Lsymbol getNil() {
 		return NIL;
+	}
+
+	public Exp getTrue() {
+		return TRUE;
+	}
+
+	public Environment getGlobalEnv() {
+		return _globalEnvironment;
+	}
+
+	public SymbolTable getSymbolTable() {
+		return _table;
 	}
 }

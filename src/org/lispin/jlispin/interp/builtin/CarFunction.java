@@ -4,9 +4,14 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 
 public class CarFunction extends ApplicableFunction {
+
+	public CarFunction(Interpreter interp) {
+		super(interp);
+	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
 		if( arguments.length != 1)

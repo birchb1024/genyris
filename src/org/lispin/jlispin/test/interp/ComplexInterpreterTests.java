@@ -48,8 +48,8 @@ public class ComplexInterpreterTests extends TestCase {
 	}
 
 	public void testRecursion() throws Exception {
-		excerciseEval("(defvar 'null (lambda (exp) (cond (exp nil) (t t))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
-		excerciseEval("(defvar 'last (lambda (x) (cond ((null (cdr x)) (car x)) (t (last (cdr x))))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(defvar 'null (lambda (exp) (cond (exp nil) (true true))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
+		excerciseEval("(defvar 'last (lambda (x) (cond ((null (cdr x)) (car x)) (true (last (cdr x))))))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(last '(1 2 3 4))", "4");
 
 	}
@@ -71,7 +71,7 @@ public class ComplexInterpreterTests extends TestCase {
 	}
 	public void testFrame() throws Exception {
 		excerciseEval("(dict (a : 1) (b:2) (c:3))", "(dict (b : 2) (c : 3) (a : 1))");
-		excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "t");
+		excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "true");
 	}
 	
 	public void testEnvCapture() throws Exception {

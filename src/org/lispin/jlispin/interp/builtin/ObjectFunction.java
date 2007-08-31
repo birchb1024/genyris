@@ -6,10 +6,16 @@ import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 
 public class ObjectFunction extends ApplicableFunction {
 	// Create a new dict
+
+	public ObjectFunction(Interpreter interp) {
+		super(interp);
+	}
+
 
 	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env) throws LispinException {
 		Lobject dict = new Lobject(env);

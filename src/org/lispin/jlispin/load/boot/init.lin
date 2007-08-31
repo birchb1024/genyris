@@ -7,5 +7,5 @@ defmacro if (test success-result failure-result)
     backquote
        cond
           ,test ,success-result
-          t ,failure-result
+          true ,failure-result
 

@@ -6,27 +6,13 @@ import junit.framework.TestCase;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
-import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
-import org.lispin.jlispin.interp.LazyProcedure;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
-import org.lispin.jlispin.interp.MacroFunction;
 import org.lispin.jlispin.interp.StandardEnvironment;
-import org.lispin.jlispin.interp.builtin.CarFunction;
-import org.lispin.jlispin.interp.builtin.CdrFunction;
-import org.lispin.jlispin.interp.builtin.ConditionalFunction;
-import org.lispin.jlispin.interp.builtin.ConsFunction;
-import org.lispin.jlispin.interp.builtin.DefineFunction;
-import org.lispin.jlispin.interp.builtin.LambdaFunction;
-import org.lispin.jlispin.interp.builtin.LambdaqFunction;
-import org.lispin.jlispin.interp.builtin.QuoteFunction;
-import org.lispin.jlispin.interp.builtin.ReplaceCarFunction;
-import org.lispin.jlispin.interp.builtin.ReplaceCdrFunction;
-import org.lispin.jlispin.interp.builtin.SetFunction;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Parser;
 import org.lispin.jlispin.io.StringInStream;
@@ -35,12 +21,9 @@ import org.lispin.jlispin.io.UngettableInStream;
 public class EvalApplyTest extends TestCase {
 	
 	public void testLambda1() throws Exception {		
-		NilSymbol NIL = new NilSymbol();
-		Environment env = new StandardEnvironment(NIL);
-		SymbolTable table = new SymbolTable();
-        table.init(NIL);  
-		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
-		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
+		Interpreter interp = new Interpreter(); 
+		Environment env = interp.getGlobalEnv();
+		SymbolTable table = interp.getSymbolTable();
 		InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
 		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
@@ -56,29 +39,13 @@ public class EvalApplyTest extends TestCase {
 	}
 
 	void excerciseEval(String exp, String expected, String exceptionExpected) throws Exception {
-		NilSymbol NIL = new NilSymbol();
-		Environment env = new StandardEnvironment(NIL);
-		SymbolTable table = new SymbolTable();
-        table.init(NIL);
-		env.defineVariable(table.internString("lambda"), new LazyProcedure(env, null, new LambdaFunction()));
-		env.defineVariable(table.internString("lambdaq"), new LazyProcedure(env, null, new LambdaqFunction()));
-		env.defineVariable(table.internString("lambdam"), new LazyProcedure(env, null, new MacroFunction()));
-		env.defineVariable(table.internString("car"), new EagerProcedure(env, null, new CarFunction()));
-		env.defineVariable(table.internString("cdr"), new EagerProcedure(env, null, new CdrFunction()));
-		env.defineVariable(table.internString("rplaca"), new EagerProcedure(env, null, new ReplaceCarFunction()));
-		env.defineVariable(table.internString("rplacd"), new EagerProcedure(env, null, new ReplaceCdrFunction()));
-		env.defineVariable(table.internString("cons"), new EagerProcedure(env, null, new ConsFunction()));
-		env.defineVariable(table.internString("quote"), new LazyProcedure(env, null, new QuoteFunction()));
-		env.defineVariable(table.internString("defvar"), new EagerProcedure(env, null, new DefineFunction()));
-		env.defineVariable(table.internString("set"), new EagerProcedure(env, null, new SetFunction()));
-		env.defineVariable(table.internString("cond"), new LazyProcedure(env, null, new ConditionalFunction()));
-		env.defineVariable(NIL, NIL);
-		env.defineVariable(SymbolTable.T, SymbolTable.T);
+		Interpreter interp = new Interpreter(); 
+		Environment env = interp.getGlobalEnv();
 		Environment env2 = new StandardEnvironment(env);
-		env2.defineVariable(table.internString("alpha"), new Linteger(23));
-		env2.defineVariable(table.internString("bravo"), new Linteger(45));
+		env2.defineVariable(interp.getSymbolTable().internString("alpha"), new Linteger(23));
+		env2.defineVariable(interp.getSymbolTable().internString("bravo"), new Linteger(45));
 		InStream input = new UngettableInStream( new StringInStream(exp));
-		Parser parser = new Parser(table, input);
+		Parser parser = new Parser(interp.getSymbolTable(), input);
 		Exp expression = parser.read();
 
 			try {
@@ -152,7 +119,7 @@ public class EvalApplyTest extends TestCase {
 	
 	public void testCond() throws Exception {		
 		excerciseEval("(cond)", "nil");
-		excerciseEval("(cond (t 2))", "2");
+		excerciseEval("(cond (true 2))", "2");
 		excerciseEval("(cond (nil 2))", "nil");
 		excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2)))", "(1 : 2)");
 		excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2) 44))", "44");

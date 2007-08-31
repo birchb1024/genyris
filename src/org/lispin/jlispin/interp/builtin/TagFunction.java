@@ -6,11 +6,16 @@ import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.interp.UnboundException;
 
 public class TagFunction extends ApplicableFunction {
 	
+	public TagFunction(Interpreter interp) {
+		super(interp);
+	}
+
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment environment) throws LispinException {
 		if( arguments.length != 2)
 			throw new LispinException("Too few arguments to tag: " + arguments.length);

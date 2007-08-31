@@ -10,10 +10,12 @@ import org.lispin.jlispin.core.SymbolTable;
 
 public class ClassicFunction extends ApplicableFunction {
 	
+	public ClassicFunction(Interpreter interp) {
+		super(interp);
+	}
 
 	public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
 
-		Exp NIL = envForBindOperations.getNil();
 		AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
 		Map bindings = new HashMap();
 		if(arguments.length < proc.getNumberOfRequiredArguments()) {
@@ -22,7 +24,7 @@ public class ClassicFunction extends ApplicableFunction {
 		for( int i=0 ; i< arguments.length ; i++ ) {
 			Exp formal = proc.getArgumentOrNIL(i);
 			if( formal == SymbolTable.REST ) {
-				Lcons actuals = assembleListFromRemainingArgs(arguments, i, NIL);
+				Lcons actuals = assembleListFromRemainingArgs(arguments, i);
 				formal = proc.getLastArgumentOrNIL(i+1);
 				if( formal != NIL ) {
 					bindings.put(formal, actuals);
@@ -40,7 +42,7 @@ public class ClassicFunction extends ApplicableFunction {
 		return Evaluator.evalSequence(newEnv, proc.getBody());
 	}
 
-	private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i, Exp NIL) throws LispinException, AccessException {
+	private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i) throws LispinException, AccessException {
 		Lcons actuals = new Lcons(arguments[i], NIL);
 		Lcons tail = actuals;
 		for(int j=i+1; j< arguments.length ; j++ ) {

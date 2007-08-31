@@ -4,7 +4,6 @@ import java.io.Writer;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lstring;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
@@ -14,13 +13,9 @@ import org.lispin.jlispin.io.NullWriter;
 import org.lispin.jlispin.load.SourceLoader;
 
 public class LoadFunction extends ApplicableFunction {
-
-	private Interpreter _interp;
-	private Exp NIL;
 	
 	public LoadFunction(Interpreter interp) {
-		_interp = interp;
-		NIL = _interp.getNil();
+		super(interp);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
@@ -30,7 +25,7 @@ public class LoadFunction extends ApplicableFunction {
 			throw new LispinException("non-string argument passed to load: " + arguments[0].toString());
 		}
 		if( arguments.length > 1 ) { 
-			if( arguments[1] == SymbolTable.T) {
+			if( arguments[1] == TRUE) {
 				out = _interp.getDefaultOutputWriter();
 			}
 		}
@@ -39,6 +34,6 @@ public class LoadFunction extends ApplicableFunction {
 			return NIL;
 		}
 
-		return SymbolTable.T;
+		return TRUE;
 	}
 }
