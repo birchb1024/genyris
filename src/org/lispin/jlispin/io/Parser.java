@@ -10,10 +10,12 @@ public class Parser {
     private Lex _lexer;
     private Exp cursym;
     private Exp NIL;
+    private SymbolTable _symbolTable;
 
     public Parser(SymbolTable table, InStream stream) {
         _lexer = new Lex(stream, table);
         NIL = table.getNil();
+        _symbolTable = table;
     }
 
     public void nextsym() throws LexException {
@@ -23,8 +25,8 @@ public class Parser {
     public Exp read() throws LispinException {
         Exp retval = NIL;
         nextsym();
-        if (cursym.equals(SymbolTable.EOF)) {
-            retval = SymbolTable.EOF;
+        if (cursym.equals(_symbolTable.EOF)) {
+            retval = _symbolTable.EOF;
         } else {
             retval = parseExpression();
         }
@@ -35,16 +37,16 @@ public class Parser {
         Exp tree;
 
         nextsym();
-        if( cursym.equals(SymbolTable.rightParen ) ) {
+        if( cursym.equals(_symbolTable.rightParen ) ) {
           tree = NIL;
         }
-       else if( cursym.equals(SymbolTable.cdr_char) ) {
-           return SymbolTable.cdr_char;
+       else if( cursym.equals(_symbolTable.cdr_char) ) {
+           return _symbolTable.cdr_char;
        }
        else {
           tree = parseExpression();
           Exp restOfList = parseList();
-          if(restOfList == SymbolTable.cdr_char) {
+          if(restOfList == _symbolTable.cdr_char) {
               nextsym();
               restOfList = parseExpression();
               nextsym();
@@ -59,29 +61,29 @@ public class Parser {
 
     public Exp parseExpression() throws LispinException {
         Exp tree = NIL;
-        if (cursym.equals(SymbolTable.EOF)) {
+        if (cursym.equals(_symbolTable.EOF)) {
             throw new ParseException("unexpected End of File");
         }
-        if (cursym.equals(SymbolTable.rightParen)) {
+        if (cursym.equals(_symbolTable.rightParen)) {
             throw new ParseException("unexpected right paren");
         }
-        if (cursym.equals(SymbolTable.leftParen)) {
+        if (cursym.equals(_symbolTable.leftParen)) {
             tree = parseList();
-            if (!cursym.equals(SymbolTable.rightParen)) {
+            if (!cursym.equals(_symbolTable.rightParen)) {
                 throw new ParseException("missing right paren");
             }
-        } else if (cursym == SymbolTable.raw_backquote) {
+        } else if (cursym == _symbolTable.raw_backquote) {
             nextsym();
-            tree = new Lcons(SymbolTable.backquote, new Lcons(parseExpression(), NIL));
-        } else if (cursym == SymbolTable.raw_quote) {
+            tree = new Lcons(_symbolTable.backquote, new Lcons(parseExpression(), NIL));
+        } else if (cursym == _symbolTable.raw_quote) {
             nextsym();
-            tree = new Lcons(SymbolTable.quote, new Lcons(parseExpression(), NIL));
-        } else if (cursym == SymbolTable.raw_comma) {
+            tree = new Lcons(_symbolTable.quote, new Lcons(parseExpression(), NIL));
+        } else if (cursym == _symbolTable.raw_comma) {
             nextsym();
-            tree = new Lcons(SymbolTable.comma, new Lcons(parseExpression(), NIL));
-        } else if (cursym == SymbolTable.raw_comma_at) {
+            tree = new Lcons(_symbolTable.comma, new Lcons(parseExpression(), NIL));
+        } else if (cursym == _symbolTable.raw_comma_at) {
             nextsym();
-            tree = new Lcons(SymbolTable.comma_at, new Lcons(parseExpression(), NIL));
+            tree = new Lcons(_symbolTable.comma_at, new Lcons(parseExpression(), NIL));
         } else {
             tree = cursym;
         }

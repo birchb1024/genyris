@@ -20,4 +20,5 @@ public interface Environment {
 
 	public Lsymbol getNil();
 
+	public Interpreter getInterpreter();
 }

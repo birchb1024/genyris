@@ -5,7 +5,6 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 
 public abstract class AbstractClosure extends Exp implements Closure {
 	
@@ -13,7 +12,7 @@ public abstract class AbstractClosure extends Exp implements Closure {
 	Exp _lambdaExpression;
 	final ApplicableFunction _functionToApply;
 	protected int _numberOfRequiredArguments;
-	Lsymbol NIL;
+	Lsymbol NIL, REST;
 
 	public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
 		_env = environment;
@@ -21,12 +20,13 @@ public abstract class AbstractClosure extends Exp implements Closure {
 		_functionToApply = appl;
 		_numberOfRequiredArguments = -1;
 		NIL = environment.getNil();
+		REST = environment.getInterpreter().getSymbolTable().internString("&rest"); // TOD performance
 	}
 	
 	private int countFormalArguments(Exp exp) throws AccessException {
 		int count = 0;
 		while( exp != NIL ) {
-			if( ((Lcons)exp).car() == SymbolTable.REST ) {
+			if( ((Lcons)exp).car() == REST ) {
 				count += 1;
 				break;
 			}

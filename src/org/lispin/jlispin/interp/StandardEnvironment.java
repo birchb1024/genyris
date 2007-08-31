@@ -7,16 +7,26 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.NilSymbol;
 
+// TODO reak this into a Root environment and a Standard Env....
 public class StandardEnvironment implements Environment {
 	
 	Map _frame; // Exp, Exp
-	Environment _parent;
+	Environment _parent; 
 	protected Lsymbol NIL;
+	private Interpreter _interpreter;
 	
 	public StandardEnvironment(NilSymbol nil) {
 		_parent = null;
 		_frame = new HashMap();
 		NIL = nil;
+		_interpreter = null;
+	}
+
+	public StandardEnvironment(Interpreter interp, NilSymbol nil) {
+		_parent = null;
+		_frame = new HashMap();
+		NIL = nil;
+		_interpreter = interp;
 	}
 
 	public StandardEnvironment(Environment parent) {
@@ -85,6 +95,13 @@ public class StandardEnvironment implements Environment {
 
 	public Lsymbol getNil() {
 		return NIL;
+	}
+
+	public Interpreter getInterpreter() {
+		if( _parent != null )
+			return _parent.getInterpreter();
+		else
+			return _interpreter;
 	}
 
 }

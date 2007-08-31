@@ -6,12 +6,12 @@ import java.util.Map;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.SymbolTable;
 
 public class ClassicFunction extends ApplicableFunction {
-	
+	private Exp REST;
 	public ClassicFunction(Interpreter interp) {
 		super(interp);
+		REST = interp.getSymbolTable().internString("&rest");
 	}
 
 	public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
@@ -23,7 +23,7 @@ public class ClassicFunction extends ApplicableFunction {
 		}
 		for( int i=0 ; i< arguments.length ; i++ ) {
 			Exp formal = proc.getArgumentOrNIL(i);
-			if( formal == SymbolTable.REST ) {
+			if( formal == REST ) {
 				Lcons actuals = assembleListFromRemainingArgs(arguments, i);
 				formal = proc.getLastArgumentOrNIL(i+1);
 				if( formal != NIL ) {

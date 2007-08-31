@@ -6,6 +6,7 @@ import java.util.Map;
 import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.interp.SpecialEnvironment;
 import org.lispin.jlispin.interp.UnboundException;
@@ -244,6 +245,11 @@ public class Lobject extends Exp implements Environment {
 
 	public Lsymbol getNil() {
 		return NIL;
+	}
+
+	public Interpreter getInterpreter() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

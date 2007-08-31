@@ -18,7 +18,7 @@ public class DictTest extends TestCase {
 		super.setUp();
 		_table = new SymbolTable();
         _table.init(new NilSymbol());  
-		_frame = new Lobject(new StandardEnvironment(new NilSymbol()));
+		_frame = new Lobject(new StandardEnvironment(null, new NilSymbol()));
 	}
 	public void test1() throws Exception {
 

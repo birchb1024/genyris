@@ -59,7 +59,7 @@ public class Interpreter {
 	
 	public Interpreter() throws LispinException {
 		NIL = new NilSymbol();
-		_globalEnvironment = new StandardEnvironment(NIL);
+		_globalEnvironment = new StandardEnvironment(this, NIL);
 		BuiltinClasses.SYMBOL = new Lobject(_globalEnvironment);
 		NIL.addClass(BuiltinClasses.SYMBOL);
 		_defaultOutput = new OutputStreamWriter(System.out);
@@ -74,7 +74,7 @@ public class Interpreter {
         
         TRUE = _table.internString("true");
 		_globalEnvironment.defineVariable(TRUE, TRUE);
-		_globalEnvironment.defineVariable(SymbolTable.EOF, SymbolTable.EOF);
+		_globalEnvironment.defineVariable(_table.internString("EOF"), _table.internString("EOF"));
         // TODO all these constructors need to be replaced with a factory and singletons: 
 		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction(this)));

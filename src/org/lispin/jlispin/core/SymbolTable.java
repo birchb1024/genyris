@@ -12,10 +12,10 @@ public class SymbolTable {
     private Map _table;
     private Lsymbol NIL;
     
-    public static Lsymbol leftParen;
-    public static Lsymbol rightParen;
-    public static Lsymbol cdr_char;
-    public static Lsymbol EOF;
+    public Lsymbol leftParen;
+    public Lsymbol rightParen;
+    public Lsymbol cdr_char;
+    public Lsymbol EOF;
     public static Lsymbol closure;
     public static Lsymbol self;
     public static Lsymbol _self;
@@ -23,20 +23,20 @@ public class SymbolTable {
     public static Lsymbol lambdaq;
     public static Lsymbol lambdam;
     public static Lsymbol method;
-    public static Lsymbol quote;
-    public static Lsymbol raw_quote;
-    public static Lsymbol backquote;
-    public static Lsymbol raw_backquote;
-    public static Lsymbol raw_comma_at;
-    public static Lsymbol raw_comma;
-    public static Lsymbol comma;
-    public static Lsymbol comma_at;
-    public static Lsymbol REST;
+    public Lsymbol quote;
+    public Lsymbol raw_quote;
+    public Lsymbol backquote;
+    public Lsymbol raw_backquote;
+    public Lsymbol raw_comma_at;
+    public Lsymbol raw_comma;
+    public Lsymbol comma;
+    public Lsymbol comma_at;
+    public Lsymbol REST;
     public static Lsymbol DICT;
     public static Lsymbol classes;
     public static Lsymbol superclasses;
 	public static Lsymbol classname;
-	public static Lsymbol _validate;
+	// public static Lsymbol _validate;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -69,7 +69,6 @@ public class SymbolTable {
         superclasses = internString(DYNAMICSCOPECHAR + "superclasses");
         classname = internString(DYNAMICSCOPECHAR + "classname"); // Needed by Lsymbol constructor
         _self = internString(DYNAMICSCOPECHAR + "self");
-        _validate = internString(DYNAMICSCOPECHAR + "validate");
     }
 
     public Lsymbol internString(String newSym) {

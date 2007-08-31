@@ -3,7 +3,6 @@ package org.lispin.jlispin.interp.builtin;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
@@ -12,8 +11,12 @@ import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 
 public class BackquoteFunction extends ApplicableFunction {
+	
+	private Exp COMMA, COMMA_AT;
 	public BackquoteFunction(Interpreter interp) {
 		super(interp);
+		COMMA = interp.getSymbolTable().internString("comma");
+		COMMA_AT = interp.getSymbolTable().internString("comma-at");
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
@@ -28,10 +31,10 @@ public class BackquoteFunction extends ApplicableFunction {
         }
         else {
             Lcons list = (Lcons) sexp;
-            if( list.car() == SymbolTable.comma) {
+            if( list.car() == COMMA) {
                 return  Evaluator.eval(env,  list.cdr().car() );
             }
-            else if(list.car().listp() && list.car().car() == SymbolTable.comma_at) {
+            else if(list.car().listp() && list.car().car() == COMMA_AT) {
                 Exp res = Evaluator.eval(env,  list.car().cdr().car());
                 Exp rest = backQuoteAux(env, list.cdr() );
                 return append(res, rest);

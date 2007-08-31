@@ -7,7 +7,6 @@ import java.io.Reader;
 import java.io.Writer;
 
 import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
@@ -41,7 +40,7 @@ public class SourceLoader {
         Exp result = null;
         do {
             expression = parser.read();
-            if (expression.equals(SymbolTable.EOF)) {
+            if (expression.equals(interp.getSymbolTable().internString("EOF"))) {
                 break;
             }
             result = interp.evalInGlobalEnvironment(expression);

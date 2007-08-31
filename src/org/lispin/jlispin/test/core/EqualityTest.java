@@ -52,9 +52,9 @@ public class EqualityTest extends TestCase {
 	}
 	
 	public void testFrame() throws Exception {
-		Lobject f1 = new Lobject(new StandardEnvironment(new NilSymbol()));
+		Lobject f1 = new Lobject(new StandardEnvironment(null, new NilSymbol()));
 		f1.defineVariable(new Linteger(1), new Lstring("foo"));
-		Lobject f2 = new Lobject(new StandardEnvironment(new NilSymbol()));
+		Lobject f2 = new Lobject(new StandardEnvironment(null, new NilSymbol()));
 		f2.defineVariable(new Linteger(1), new Lstring("foo"));
 		assertTrue(f1.equals(f2));
 	}

@@ -36,7 +36,7 @@ public class ClassicReadEvalPrintLoop {
 					System.out.print("\n> ");
 					expression = parser.read();
 					;
-					if (expression.equals(SymbolTable.EOF)) {
+					if (expression.equals(interpreter.getSymbolTable().internString("EOF"))) {
 						System.out.println("Bye..");
 						break;
 					}

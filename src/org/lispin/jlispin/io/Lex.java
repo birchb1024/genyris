@@ -25,11 +25,13 @@ public class Lex {
 	private InStream _input;
 
 	private SymbolTable _symbolTable;
+	private Exp EOF;
 
 	public Lex(InStream inputSource, SymbolTable symbolTable) {
 		_input = inputSource;
 		_symbolTable = symbolTable;
 		NIL = symbolTable.getNil();
+		EOF = symbolTable.internString("EOF");
 	}
 
 	public boolean hasData() throws LexException {
@@ -135,7 +137,7 @@ public class Lex {
 		boolean forever = true;
 		do {
 			if (!_input.hasData()) {
-				return SymbolTable.EOF;
+				return _symbolTable.EOF;
 			}
 			ch = _input.readNext();
 			switch (ch) {
@@ -147,7 +149,7 @@ public class Lex {
 				break;
 			case '-':
 				if (!_input.hasData()) {
-					return SymbolTable.EOF;
+					return EOF;
 				}
 				ch = _input.readNext();
 				if (ch >= '0' && ch <= '9') {
@@ -184,29 +186,29 @@ public class Lex {
 				_input.unGet(ch);
 				return parseNumber();
 			case '(':
-				return SymbolTable.leftParen;
+				return _symbolTable.leftParen;
 			case ')':
-				return SymbolTable.rightParen;
+				return _symbolTable.rightParen;
 			case ':': // TODO DRY
-				return SymbolTable.cdr_char;
+				return _symbolTable.cdr_char;
 			case QUOTECHAR:
-				return SymbolTable.raw_quote;
+				return _symbolTable.raw_quote;
 			case BQUOTECHAR:
-				return SymbolTable.backquote;
+				return _symbolTable.backquote;
 			case COMMACHAR: {
 				if (_input.hasData()) {
 					ch = _input.readNext();
 					if (ch == ATCHAR) {
-						return SymbolTable.raw_comma_at;
+						return _symbolTable.raw_comma_at;
 					}
 					else {
 						_input.unGet(ch);
 						ch = COMMACHAR;
-						return SymbolTable.raw_comma;
+						return _symbolTable.raw_comma;
 					}
 				}
 				else {
-					return SymbolTable.raw_comma;
+					return _symbolTable.raw_comma;
 				}
 
 			}

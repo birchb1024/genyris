@@ -13,7 +13,7 @@ import org.lispin.jlispin.interp.StandardEnvironment;
 public class EnvironmentTest extends TestCase {
 	
 	public void testEnvBasics() throws Exception {		
-		Environment env = new StandardEnvironment(new NilSymbol());
+		Environment env = new StandardEnvironment(null, new NilSymbol());
 		Lsymbol sym = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env.defineVariable(sym, val);
@@ -21,7 +21,7 @@ public class EnvironmentTest extends TestCase {
 	}
 	
 	public void testEnvNested() throws Exception {		
-		Environment env1 = new StandardEnvironment(new NilSymbol());
+		Environment env1 = new StandardEnvironment(null, new NilSymbol());
 		Lsymbol sym = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym, val);
