@@ -2,7 +2,6 @@ package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
@@ -22,7 +21,7 @@ public class LambdamFunction extends ApplicableFunction {
 
 		// TODO - inefficient
 		Exp expression = arrayToList(arguments);
-		expression = new Lcons(SymbolTable.lambdam, expression);
+		expression = new Lcons(_lambdam, expression);
 		return new LazyProcedure(env, expression, new MacroFunction(_interp));
 
 	}

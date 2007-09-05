@@ -3,6 +3,7 @@ package org.lispin.jlispin.interp;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.io.ConvertEofInStream;
@@ -18,12 +19,12 @@ public class Runner {
         InStream input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(stream),
                 false)));
         Parser parser = interp.newParser(input);
-        IndentedFormatter formatter = new IndentedFormatter(output, 3, interp.getNil());
+        IndentedFormatter formatter = new IndentedFormatter(output, 3, interp);
         Exp expression = null;
         Exp result = null;
         do {
             expression = parser.read();
-            if (expression.equals(interp.getSymbolTable().internString("EOF")) ) {
+            if (expression.equals(interp.getSymbolTable().internString(Constants.EOF)) ) {
                 break;
             }
             result = interp.evalInGlobalEnvironment(expression);

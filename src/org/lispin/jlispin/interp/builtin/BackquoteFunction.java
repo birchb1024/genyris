@@ -1,6 +1,7 @@
 package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.core.AccessException;
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.interp.ApplicableFunction;
@@ -15,8 +16,8 @@ public class BackquoteFunction extends ApplicableFunction {
 	private Exp COMMA, COMMA_AT;
 	public BackquoteFunction(Interpreter interp) {
 		super(interp);
-		COMMA = interp.getSymbolTable().internString("comma");
-		COMMA_AT = interp.getSymbolTable().internString("comma-at");
+		COMMA = interp.getSymbolTable().internString(Constants.COMMA);
+		COMMA_AT = interp.getSymbolTable().internString(Constants.COMMA_AT);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

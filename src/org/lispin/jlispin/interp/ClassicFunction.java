@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lispin.jlispin.core.AccessException;
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 
@@ -11,7 +12,7 @@ public class ClassicFunction extends ApplicableFunction {
 	private Exp REST;
 	public ClassicFunction(Interpreter interp) {
 		super(interp);
-		REST = interp.getSymbolTable().internString("&rest");
+		REST = interp.getSymbolTable().internString(Constants.REST);
 	}
 
 	public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 

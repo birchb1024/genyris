@@ -12,9 +12,9 @@ import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 import org.lispin.jlispin.interp.EagerProcedure;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LazyProcedure;
 
 public class IndentedFormatter implements Visitor {
@@ -24,12 +24,14 @@ public class IndentedFormatter implements Visitor {
 	private Writer _output;
 	private int _consDepth;
 	private Lsymbol NIL;
+	private Interpreter _interpreter;
 
-	public IndentedFormatter(Writer out, int indentDepth, Lsymbol nil) {
+	public IndentedFormatter(Writer out, int indentDepth, Interpreter interp) {
 		_output = out;
 		INDENT_DEPTH = indentDepth;
 		_consDepth = 0;
-		NIL = nil;
+		NIL = interp.getNil();
+		_interpreter = interp;
 	}
 	
 	private void printSpaces(int level) throws IOException {
@@ -109,7 +111,7 @@ public class IndentedFormatter implements Visitor {
 	}
 	public void visitLobject(Lobject frame) {
 		try {
-			printLcons(new Lcons(SymbolTable.DICT, frame.getAlist()));
+			printLcons((Lcons)frame.getAlist());
 		} catch (IOException e) {
 			// TODO what to do with these exceptions?
 		}

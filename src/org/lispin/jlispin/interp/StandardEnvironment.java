@@ -3,6 +3,7 @@ package org.lispin.jlispin.interp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.NilSymbol;
@@ -29,32 +30,31 @@ public class StandardEnvironment implements Environment {
 		_frame = new HashMap();
 		NIL = nil;
 		_interpreter = interp;
-		_self = interp.getSymbolTable().internString("self");
-		__self = interp.getSymbolTable().internString("_self");// TODO DRY
-		_classes = interp.getSymbolTable().internString("_classes");
-		_superclasses = interp.getSymbolTable().internString("_superclasses");
-		_classname = interp.getSymbolTable().internString("_classname");
+		
+		_self = interp.getSymbolTable().internString(Constants.SELF);
+		__self = interp.getSymbolTable().internString(Constants._SELF);// TODO DRY
+		_classes = interp.getSymbolTable().internString(Constants.CLASSES);
+		_superclasses = interp.getSymbolTable().internString(Constants.SUPERCLASSES);
+		_classname = interp.getSymbolTable().internString(Constants.CLASSNAME);
 	}
 
+	private void init() {
+		NIL = _parent.getNil();
+		_self = _parent.internString(Constants.SELF);
+		__self = _parent.internString(Constants._SELF);// TODO DRY
+		_classes = _parent.internString(Constants.CLASSES);
+		_superclasses = _parent.internString(Constants.SUPERCLASSES);
+		_classname = _parent.internString(Constants.CLASSNAME);		
+	}
 	public StandardEnvironment(Environment parent) {
 		_parent = parent;
 		_frame = new HashMap();
-		NIL = parent.getNil();
-		_self = parent.internString("self");
-		__self = parent.internString("_self");// TODO DRY
-		_classes = parent.internString("_classes");
-		_superclasses = parent.internString("_superclasses");
-		_classname = parent.internString("_classname");
+		init();
 	}
 	public StandardEnvironment(Environment parent, Map bindings) {
 		_parent = parent;
 		_frame = bindings;
-		NIL = parent.getNil();
-		_self = parent.internString("self");
-		__self = parent.internString("_self"); // TODO DRY
-		_classes = parent.internString("_classes");
-		_superclasses = parent.internString("_superclasses");
-		_classname = parent.internString("_classname");
+		init();
 	}
 
 	public Object getJavaValue() {

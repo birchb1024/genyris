@@ -3,9 +3,9 @@ package org.lispin.jlispin.interp;
 import java.io.PrintWriter;
 import java.io.Writer;
 
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.io.ConvertEofInStream;
 import org.lispin.jlispin.io.InStream;
@@ -28,7 +28,7 @@ public class ClassicReadEvalPrintLoop {
 							new UngettableInStream(new StdioInStream()), true)));
 			Parser parser = interpreter.newParser(input);
 			Writer output = new PrintWriter(System.out);
-			IndentedFormatter formatter = new IndentedFormatter(output, 3, interpreter.getNil());
+			IndentedFormatter formatter = new IndentedFormatter(output, 3, interpreter);
 			System.out.println("\n*** JLispin is listening...");
 			Exp expression = null;
 			do {
@@ -36,7 +36,7 @@ public class ClassicReadEvalPrintLoop {
 					System.out.print("\n> ");
 					expression = parser.read();
 					;
-					if (expression.equals(interpreter.getSymbolTable().internString("EOF"))) {
+					if (expression.equals(interpreter.getSymbolTable().internString(Constants.EOF))) {
 						System.out.println("Bye..");
 						break;
 					}
@@ -49,7 +49,7 @@ public class ClassicReadEvalPrintLoop {
 					Exp klasses = result.getClasses(NIL);
 					while(klasses != NIL){
 						Environment klass = (Environment) klasses.car();
-						output.write(" " + klass.lookupVariableShallow(interpreter.getSymbolTable().internString(SymbolTable.DYNAMICSCOPECHAR + "classname")).toString());
+						output.write(" " + klass.lookupVariableShallow(interpreter.getSymbolTable().internString(Constants.CLASSNAME)).toString());
 						klasses = klasses.cdr();
 					}
 					output.flush();

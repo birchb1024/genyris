@@ -18,22 +18,25 @@ public class Lobject extends Exp implements Environment {
 	private Environment _parent;
 	Exp _self, __self, _classes, _superclasses, _classname;
 	
+	private void init() {
+		_self = _parent.internString("self");
+		__self = _parent.internString(Constants._SELF);
+		_classes = _parent.internString(Constants.CLASSES);
+		_superclasses = _parent.internString(Constants.SUPERCLASSES);
+		_classname = _parent.internString(Constants.CLASSNAME);	
+		NIL = _parent.getNil();
+	}
 	public Lobject(Environment parent) {
 		_dict = new HashMap();
-		NIL = parent.getNil();
 		_parent = parent;
-		_self = parent.internString("self");
-		__self = internString(SymbolTable.DYNAMICSCOPECHAR + "self");
-		_classes = parent.internString(SymbolTable.DYNAMICSCOPECHAR + "classes");
-		_superclasses = parent.internString(SymbolTable.DYNAMICSCOPECHAR + "superclasses");
-		_classname = parent.internString(SymbolTable.DYNAMICSCOPECHAR + "classname");
+		init();
 	}
 	
-	public Lobject(Lsymbol key, Exp value, Lsymbol nil) {
+	public Lobject(Lsymbol key, Exp value, Environment parent) {
 		_dict = new HashMap();
 		_dict.put(key, value);
-		NIL = nil;
-		_parent = null;
+		_parent = parent;
+		init();
 	}
 
 	public int hashCode() {
@@ -73,7 +76,7 @@ public class Lobject extends Exp implements Environment {
             tmp.addClass(BuiltinClasses.PRINTWITHCOLON);
 			result = new Lcons( tmp , result);
 		}
-		return result;
+		return new Lcons(_parent.internString(Constants.DICT), result);
 	}
 
 	public void defineVariable(Exp symbol, Exp valu) {

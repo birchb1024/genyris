@@ -49,7 +49,7 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 	}
 
 	public boolean isMember() {
-		return getPrintName().startsWith(SymbolTable.DYNAMICSCOPECHAR);
+		return getPrintName().startsWith(Constants.DYNAMICSCOPECHAR);
 	}
 
 	public String toString() {

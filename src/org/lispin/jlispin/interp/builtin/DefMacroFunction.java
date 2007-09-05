@@ -2,7 +2,6 @@ package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
@@ -19,7 +18,7 @@ public class DefMacroFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
 			throws LispinException {
-		Exp lambdaExpression = new Lcons(SymbolTable.lambdam, arrayToList(arguments).cdr());
+		Exp lambdaExpression = new Lcons(_lambdam, arrayToList(arguments).cdr());
 		// TODO inefficient
 		LazyProcedure fn = new LazyProcedure(envForBindOperations, lambdaExpression, new MacroFunction(_interp));
 		envForBindOperations.defineVariable(arguments[0], fn);

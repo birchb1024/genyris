@@ -5,6 +5,7 @@ import java.io.Writer;
 
 import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lsymbol;
@@ -67,18 +68,18 @@ public class Interpreter {
         // Begin Circular references between symbols and classnames require manual bootstrap here:
 
         _table.init(NIL);
-        BuiltinClasses.SYMBOL.defineVariable(_table.internString(SymbolTable.DYNAMICSCOPECHAR + "classname"), _table.internString("Symbol"));
+        BuiltinClasses.SYMBOL.defineVariable(_table.internString(Constants.CLASSNAME), _table.internString(Constants.SYMBOL));
         // End manual bootstrap
  
         _globalEnvironment.defineVariable(NIL, NIL);
         
         TRUE = _table.internString("true");
 		_globalEnvironment.defineVariable(TRUE, TRUE);
-		_globalEnvironment.defineVariable(_table.internString("EOF"), _table.internString("EOF"));
+		_globalEnvironment.defineVariable(_table.internString(Constants.EOF), _table.internString(Constants.EOF));
         // TODO all these constructors need to be replaced with a factory and singletons: 
-		_globalEnvironment.defineVariable(_table.internString("lambda"), new LazyProcedure(_globalEnvironment, null, new LambdaFunction(this)));
-		_globalEnvironment.defineVariable(_table.internString("lambdaq"), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction(this)));
-		_globalEnvironment.defineVariable(_table.internString("lambdam"), new LazyProcedure(_globalEnvironment, null, new LambdamFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString(Constants.LAMBDA), new LazyProcedure(_globalEnvironment, null, new LambdaFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString(Constants.LAMBDAQ), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString(Constants.LAMBDAM), new LazyProcedure(_globalEnvironment, null, new LambdamFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("backquote"), new LazyProcedure(_globalEnvironment, null, new BackquoteFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction(this)));

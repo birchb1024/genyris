@@ -2,7 +2,6 @@ package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.ClassicFunction;
 import org.lispin.jlispin.interp.Closure;
@@ -21,7 +20,7 @@ public class LambdaqFunction extends ApplicableFunction {
 			throws LispinException {
 		// TODO Optimise - repack of args inefficient
 		Exp expression = arrayToList(arguments);
-		expression = new Lcons(SymbolTable.lambdaq, expression);
+		expression = new Lcons(_lambdaq, expression);
 		return new LazyProcedure(env, expression, new ClassicFunction(_interp));
 	}
 

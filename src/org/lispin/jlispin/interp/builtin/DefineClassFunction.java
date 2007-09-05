@@ -1,6 +1,7 @@
 package org.lispin.jlispin.interp.builtin;
 
 import org.lispin.jlispin.classes.BuiltinClasses;
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Lobject;
@@ -27,13 +28,13 @@ public class DefineClassFunction extends ApplicableFunction {
         }
         Exp klassname = arguments[0];
         Lobject newClass = new Lobject(env);
-        newClass.defineVariable(env.internString("_classname"), klassname);
-        newClass.defineVariable(env.internString("_classes")
+        newClass.defineVariable(env.internString(Constants.CLASSNAME), klassname);
+        newClass.defineVariable(env.internString(Constants.CLASSES)
                     , new Lcons(BuiltinClasses.STANDARDCLASS , NIL));
         if( arguments.length > 1) {
             Exp superklasses = arguments[1]; 
             if( superklasses != NIL) {
-            	newClass.defineVariable(env.internString("_superclasses"), lookupClasses(env, superklasses));
+            	newClass.defineVariable(env.internString(Constants.SUPERCLASSES), lookupClasses(env, superklasses));
             }
         }
         env.defineVariable(klassname, newClass);

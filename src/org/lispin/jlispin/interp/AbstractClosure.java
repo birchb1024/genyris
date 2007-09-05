@@ -1,6 +1,7 @@
 package org.lispin.jlispin.interp;
 
 import org.lispin.jlispin.core.AccessException;
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Lobject;
@@ -20,7 +21,7 @@ public abstract class AbstractClosure extends Exp implements Closure {
 		_functionToApply = appl;
 		_numberOfRequiredArguments = -1;
 		NIL = environment.getNil();
-		REST = environment.getInterpreter().getSymbolTable().internString("&rest"); // TOD performance
+		REST = environment.getInterpreter().getSymbolTable().internString(Constants.REST); // TOD performance
 	}
 	
 	private int countFormalArguments(Exp exp) throws AccessException {

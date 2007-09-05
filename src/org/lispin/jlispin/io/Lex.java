@@ -3,6 +3,7 @@ package org.lispin.jlispin.io;
 import java.math.BigDecimal;
 
 import org.lispin.jlispin.core.Bignum;
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Ldouble;
 import org.lispin.jlispin.core.Lstring;
@@ -10,12 +11,6 @@ import org.lispin.jlispin.core.SymbolTable;
 
 public class Lex {
 	private Exp NIL;
-	private static final char COMMENTCHAR = ';';
-	private static final char BQUOTECHAR = '`';
-	private static final char QUOTECHAR = '\'';
-	private static final char COMMACHAR = ',';
-	private static final char ATCHAR = '@';
-	private static final char CDRCHAR = ':';
 	private InStream _input;
 
 	private SymbolTable _symbolTable;
@@ -32,10 +27,10 @@ public class Lex {
         raw_backquote = table.internString("`");
         raw_comma_at = table.internString(",@");
         raw_comma = table.internString(",");
-        comma_at = table.internString("comma-at");
-        comma = table.internString("comma");
-        backquote = table.internString("backquote");
-        EOF = table.internString("EOF");
+        comma_at = table.internString(Constants.COMMA_AT);
+        comma = table.internString(Constants.COMMA);
+        backquote = table.internString(Constants.BACKQUOTE);
+        EOF = table.internString(Constants.EOF);
         leftParen = table.internString("leftParen");
         rightParen = table.internString("righParen");
         cdr_char = table.internString("pair-delimiter");
@@ -107,10 +102,10 @@ public class Lex {
 		case '\r':
 		case '(':
 		case ')':
-		case COMMENTCHAR:
-		case BQUOTECHAR:
-		case QUOTECHAR:
-		case CDRCHAR:
+		case Constants.COMMENTCHAR:
+		case Constants.BQUOTECHAR:
+		case Constants.QUOTECHAR:
+		case Constants.CDRCHAR:
 		case '"':
 			return false;
 		default:
@@ -169,7 +164,7 @@ public class Lex {
 					_input.unGet('-');
 					return parseIdent();
 				}
-			case COMMENTCHAR:
+			case Constants.COMMENTCHAR:
 				while (_input.hasData()) {
 					ch = _input.readNext();
 					if (ch == '\n') {
@@ -198,19 +193,19 @@ public class Lex {
 				return rightParen;
 			case ':': // TODO DRY
 				return cdr_char;
-			case QUOTECHAR:
+			case Constants.QUOTECHAR:
 				return raw_quote;
-			case BQUOTECHAR:
+			case Constants.BQUOTECHAR:
 				return backquote;
-			case COMMACHAR: {
+			case Constants.COMMACHAR: {
 				if (_input.hasData()) {
 					ch = _input.readNext();
-					if (ch == ATCHAR) {
+					if (ch == Constants.ATCHAR) {
 						return raw_comma_at;
 					}
 					else {
 						_input.unGet(ch);
-						ch = COMMACHAR;
+						ch = Constants.COMMACHAR;
 						return raw_comma;
 					}
 				}

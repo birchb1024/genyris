@@ -2,6 +2,7 @@ package org.lispin.jlispin.format;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Bignum;
@@ -12,7 +13,6 @@ import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.core.Visitor;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
@@ -30,7 +30,7 @@ public class BasicFormatter implements Visitor {
     
    public void visitLobject(Lobject frame) {
 		try {
-            _output.write(new Lcons(SymbolTable.DICT, frame.getAlist()).toString());
+            _output.write(frame.getAlist().toString());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

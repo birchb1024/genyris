@@ -1,5 +1,6 @@
 package org.lispin.jlispin.interp;
 
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 
@@ -7,11 +8,15 @@ public abstract class ApplicableFunction {
 	
 	protected Interpreter _interp;
 	protected Exp NIL, TRUE;
+	protected Exp _lambda, _lambdam, _lambdaq;
 
 	public ApplicableFunction(Interpreter interp) {
 		_interp = interp;
 		NIL = _interp.getNil();
 		TRUE = _interp.getTrue();
+		_lambda = interp.getSymbolTable().internString(Constants.LAMBDA);
+		_lambdaq = interp.getSymbolTable().internString(Constants.LAMBDAQ);
+		_lambdam = interp.getSymbolTable().internString(Constants.LAMBDAM);
 	}
 
 	public abstract Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException;

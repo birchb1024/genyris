@@ -1,5 +1,6 @@
 package org.lispin.jlispin.interp.builtin;
 
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.interp.ApplicableFunction;
@@ -32,7 +33,7 @@ public class TagFunction extends ApplicableFunction {
 		Exp NIL = environment.getNil();
 		Exp validator = null;
         try {
-        	validator = klass.lookupVariableValue(environment.getInterpreter().getSymbolTable().internString("_validate")); // TODO performance
+        	validator = klass.lookupVariableValue(environment.getInterpreter().getSymbolTable().internString(Constants.VALIDATE)); // TODO performance
         }
     	catch (UnboundException ignore) {     // TODO would be nice to have a boundp()           	
     	}

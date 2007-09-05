@@ -1,11 +1,13 @@
 package org.lispin.jlispin.classes;
 
+import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.interp.Environment;
 
 public class BuiltinClasses {
 
+	// TODO get rid of these statics. 
 	public static Lobject OBJECT;
 	public static Lobject PAIR;;
 	public static Lobject INTEGER;
@@ -16,20 +18,19 @@ public class BuiltinClasses {
     public static Lobject PRINTWITHCOLON;
     public static Lobject STANDARDCLASS;
 
-	private static Lobject mkClass(Lsymbol classname, String name, Lsymbol nil) {
-		return new Lobject(classname, new Lsymbol(name), nil ); 
+	private static Lobject mkClass(Lsymbol classname, String name, Environment env) {
+		return new Lobject(classname, env.internString(name), env ); 
 	}
 	public static void init(Environment env) {
-		Lsymbol NIL = env.getNil();
-		Lsymbol classname = (Lsymbol) env.internString("_classname");
-		PAIR = mkClass(classname, "Pair", NIL);
-		OBJECT = mkClass(classname, "Object", NIL);
-		INTEGER = mkClass(classname, "Integer", NIL);
-		BIGNUM = mkClass(classname, "Bignum", NIL);
-		STRING = mkClass(classname, "String", NIL);
-		DOUBLE = mkClass(classname, "Double", NIL);
-		SYMBOL = mkClass(classname, "Symbol", NIL);
-        PRINTWITHCOLON = mkClass(classname, "PRINTWITHCOLON", NIL);
-        STANDARDCLASS = mkClass(classname, "StandardClass", NIL);	
+		Lsymbol classname = (Lsymbol) env.internString(Constants.CLASSNAME);
+		PAIR = mkClass(classname, "Pair", env);
+		OBJECT = mkClass(classname, "Object", env);
+		INTEGER = mkClass(classname, "Integer", env);
+		BIGNUM = mkClass(classname, "Bignum", env);
+		STRING = mkClass(classname, "String", env);
+		DOUBLE = mkClass(classname, "Double", env);
+		SYMBOL = mkClass(classname, "Symbol", env);
+        PRINTWITHCOLON = mkClass(classname, Constants.PRINTWITHCOLON, env);
+        STANDARDCLASS = mkClass(classname, Constants.STANDARDCLASS, env);	
 	}
 }
