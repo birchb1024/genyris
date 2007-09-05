@@ -15,16 +15,25 @@ import org.lispin.jlispin.interp.UnboundException;
 public class Lobject extends Exp implements Environment {
 	private Map _dict;
 	private Lsymbol NIL;
+	private Environment _parent;
+	Exp _self, __self, _classes, _superclasses, _classname;
 	
 	public Lobject(Environment parent) {
 		_dict = new HashMap();
 		NIL = parent.getNil();
+		_parent = parent;
+		_self = parent.internString("self");
+		__self = internString(SymbolTable.DYNAMICSCOPECHAR + "self");
+		_classes = parent.internString(SymbolTable.DYNAMICSCOPECHAR + "classes");
+		_superclasses = parent.internString(SymbolTable.DYNAMICSCOPECHAR + "superclasses");
+		_classname = parent.internString(SymbolTable.DYNAMICSCOPECHAR + "classname");
 	}
 	
 	public Lobject(Lsymbol key, Exp value, Lsymbol nil) {
 		_dict = new HashMap();
 		_dict.put(key, value);
 		NIL = nil;
+		_parent = null;
 	}
 
 	public int hashCode() {
@@ -72,28 +81,28 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-		if( symbol == SymbolTable._self ) {
+		if( symbol == __self ) {
 			return this;
 		}
 		if( _dict.containsKey(symbol) ) {
 			return (Exp)_dict.get(symbol);
 		}
-		if( _dict.containsKey(SymbolTable.classes) ) {
+		if( _dict.containsKey(_classes) ) {
 			try {
 				return lookupInClasses(symbol);
 			} catch (UnboundException e) {}
 		}
-		if(_dict.containsKey(SymbolTable.superclasses)) {
+		if(_dict.containsKey(_superclasses)) {
 			return lookupInSuperClasses(symbol);				
 		}
 		throw new UnboundException("unbound " + symbol.toString());
 	}
 
 	private Exp lookupInClasses(Exp symbol) throws UnboundException {
-		if (!_dict.containsKey(SymbolTable.classes)) {
+		if (!_dict.containsKey(_classes)) {
 			throw new UnboundException("object has no classes");
 		}
-		Exp classes = (Exp)_dict.get(SymbolTable.classes);
+		Exp classes = (Exp)_dict.get(_classes);
 		while( classes != NIL) {
 			try {
 				Environment klass = (Environment)(classes.car());
@@ -121,10 +130,10 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	private Exp lookupInSuperClasses(Exp symbol) throws UnboundException {
-		if( !_dict.containsKey(SymbolTable.superclasses) ) {
+		if( !_dict.containsKey(_superclasses) ) {
 			throw new UnboundException("object has no superclasses");
 		}
-		Exp superclasses = (Exp)_dict.get(SymbolTable.superclasses);
+		Exp superclasses = (Exp)_dict.get(_superclasses);
 		while( superclasses != NIL) {
 			try {
 				Environment klass = (Environment)(superclasses.car());
@@ -165,30 +174,30 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	public Exp getClasses(Lsymbol NIL) {
-		if( ! _dict.containsKey(SymbolTable.classes) ) {
+		if( ! _dict.containsKey(_classes) ) {
 			return new Lcons(BuiltinClasses.OBJECT, NIL);
 		}
 		else {
-			return (Exp) _dict.get(SymbolTable.classes) ;
+			return (Exp) _dict.get(_classes) ;
 		}
 	}
 
 	public void addClass(Exp klass) {
 		Exp classes = NIL;
-		if( _dict.containsKey(SymbolTable.classes) ) {
-			classes = (Exp)_dict.get(SymbolTable.classes);
+		if( _dict.containsKey(_classes) ) {
+			classes = (Exp)_dict.get(_classes);
 		}
-		_dict.put(SymbolTable.classes, new Lcons (klass, classes));
+		_dict.put(_classes, new Lcons (klass, classes));
 	}
 
 
 	public void removeClass(Exp klass) {
 		Exp classes = NIL;
-		if( _dict.containsKey(SymbolTable.classes) ) {
-			classes = (Exp)_dict.get(SymbolTable.classes);
+		if( _dict.containsKey(_classes) ) {
+			classes = (Exp)_dict.get(_classes);
 		}
 		try {
-			_dict.put(SymbolTable.classes, removeIf (klass, classes));
+			_dict.put(_classes, removeIf (klass, classes));
 		}
 		catch (AccessException e) {
 			// TODO Auto-generated catch block
@@ -209,7 +218,7 @@ public class Lobject extends Exp implements Environment {
 
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
 		Map bindings = new HashMap();
-		bindings.put(SymbolTable.self, this);
+		bindings.put(_self, this);
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this); 
         if(arguments[0].listp()) {
             return Evaluator.evalSequence(newEnv, arguments[0]);
@@ -250,6 +259,10 @@ public class Lobject extends Exp implements Environment {
 	public Interpreter getInterpreter() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Exp internString(String symbolName) {
+		return _parent.internString(symbolName);
 	}
 
 }

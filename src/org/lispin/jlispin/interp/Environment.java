@@ -21,4 +21,6 @@ public interface Environment {
 	public Lsymbol getNil();
 
 	public Interpreter getInterpreter();
+
+	public Exp internString(String symbolName);
 }

@@ -8,12 +8,14 @@ import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class EnvironmentTest extends TestCase {
 	
 	public void testEnvBasics() throws Exception {		
-		Environment env = new StandardEnvironment(null, new NilSymbol());
+		Interpreter interp = new Interpreter();
+		Environment env = new StandardEnvironment(interp, new NilSymbol());
 		Lsymbol sym = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env.defineVariable(sym, val);
@@ -21,7 +23,8 @@ public class EnvironmentTest extends TestCase {
 	}
 	
 	public void testEnvNested() throws Exception {		
-		Environment env1 = new StandardEnvironment(null, new NilSymbol());
+		Interpreter interp = new Interpreter();
+		Environment env1 = new StandardEnvironment(interp, new NilSymbol());
 		Lsymbol sym = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym, val);
@@ -34,8 +37,9 @@ public class EnvironmentTest extends TestCase {
 		assertEquals(val2, env2.lookupVariableValue(sym));		
 	}
 	
-	public void testEnvNestedSets() throws Exception {		
-		Environment env1 = new StandardEnvironment(new NilSymbol());
+	public void testEnvNestedSets() throws Exception {
+		Interpreter interp = new Interpreter();
+		Environment env1 = new StandardEnvironment(interp, new NilSymbol());
 		Lsymbol sym1 = new Lsymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym1, val);

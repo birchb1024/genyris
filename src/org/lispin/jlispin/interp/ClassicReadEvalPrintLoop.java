@@ -49,7 +49,7 @@ public class ClassicReadEvalPrintLoop {
 					Exp klasses = result.getClasses(NIL);
 					while(klasses != NIL){
 						Environment klass = (Environment) klasses.car();
-						output.write(" " + klass.lookupVariableShallow(SymbolTable.classname).toString());
+						output.write(" " + klass.lookupVariableShallow(interpreter.getSymbolTable().internString(SymbolTable.DYNAMICSCOPECHAR + "classname")).toString());
 						klasses = klasses.cdr();
 					}
 					output.flush();

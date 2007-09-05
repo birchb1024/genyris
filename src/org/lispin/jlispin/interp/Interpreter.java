@@ -59,15 +59,15 @@ public class Interpreter {
 	
 	public Interpreter() throws LispinException {
 		NIL = new NilSymbol();
+		_table = new SymbolTable();
 		_globalEnvironment = new StandardEnvironment(this, NIL);
 		BuiltinClasses.SYMBOL = new Lobject(_globalEnvironment);
 		NIL.addClass(BuiltinClasses.SYMBOL);
 		_defaultOutput = new OutputStreamWriter(System.out);
-		_table = new SymbolTable();
         // Begin Circular references between symbols and classnames require manual bootstrap here:
 
         _table.init(NIL);
-        BuiltinClasses.SYMBOL.defineVariable(SymbolTable.classname, _table.internString("Symbol"));
+        BuiltinClasses.SYMBOL.defineVariable(_table.internString(SymbolTable.DYNAMICSCOPECHAR + "classname"), _table.internString("Symbol"));
         // End manual bootstrap
  
         _globalEnvironment.defineVariable(NIL, NIL);

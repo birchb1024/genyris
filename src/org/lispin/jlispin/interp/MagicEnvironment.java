@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 
 public class MagicEnvironment  extends StandardEnvironment {
 	
@@ -16,10 +15,10 @@ public class MagicEnvironment  extends StandardEnvironment {
 	}
 
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
-		if(symbol == SymbolTable.classes) {
+		if(symbol == _classes) {
 			return _it.getClasses(NIL);
 		}
-		else if(symbol == SymbolTable.self) {
+		else if(symbol == _self) {
 			return _it;
 		}
 		throw new UnboundException("unbound symbol " + symbol.toString());
@@ -51,10 +50,10 @@ public class MagicEnvironment  extends StandardEnvironment {
 	
 	public Exp lookupVariableValue(Exp exp) throws UnboundException {
 		Lsymbol symbol = (Lsymbol) exp;
-		if(symbol == SymbolTable.classes) {
+		if(symbol == _classes) {
 			return _it.getClasses(NIL);
 		}
-		else if(symbol == SymbolTable.self || symbol == SymbolTable._self) {
+		else if(symbol == _self || symbol == __self) {
 			return _it;
 		}
 		if(symbol.isMember()) {

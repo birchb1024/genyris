@@ -5,7 +5,6 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;
@@ -28,13 +27,13 @@ public class DefineClassFunction extends ApplicableFunction {
         }
         Exp klassname = arguments[0];
         Lobject newClass = new Lobject(env);
-        newClass.defineVariable(SymbolTable.classname, klassname);
-        newClass.defineVariable(SymbolTable.classes
+        newClass.defineVariable(env.internString("_classname"), klassname);
+        newClass.defineVariable(env.internString("_classes")
                     , new Lcons(BuiltinClasses.STANDARDCLASS , NIL));
         if( arguments.length > 1) {
             Exp superklasses = arguments[1]; 
             if( superklasses != NIL) {
-            	newClass.defineVariable(SymbolTable.superclasses, lookupClasses(env, superklasses));
+            	newClass.defineVariable(env.internString("_superclasses"), lookupClasses(env, superklasses));
             }
         }
         env.defineVariable(klassname, newClass);

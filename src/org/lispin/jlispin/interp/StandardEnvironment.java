@@ -7,13 +7,15 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.NilSymbol;
 
-// TODO reak this into a Root environment and a Standard Env....
+// TODO Break this into a Root environment and a Standard Env....
 public class StandardEnvironment implements Environment {
 	
 	Map _frame; // Exp, Exp
 	Environment _parent; 
 	protected Lsymbol NIL;
+	protected Exp _self, __self, _classes, _superclasses, _classname;
 	private Interpreter _interpreter;
+	
 	
 	public StandardEnvironment(NilSymbol nil) {
 		_parent = null;
@@ -27,17 +29,32 @@ public class StandardEnvironment implements Environment {
 		_frame = new HashMap();
 		NIL = nil;
 		_interpreter = interp;
+		_self = interp.getSymbolTable().internString("self");
+		__self = interp.getSymbolTable().internString("_self");// TODO DRY
+		_classes = interp.getSymbolTable().internString("_classes");
+		_superclasses = interp.getSymbolTable().internString("_superclasses");
+		_classname = interp.getSymbolTable().internString("_classname");
 	}
 
 	public StandardEnvironment(Environment parent) {
 		_parent = parent;
 		_frame = new HashMap();
 		NIL = parent.getNil();
+		_self = parent.internString("self");
+		__self = parent.internString("_self");// TODO DRY
+		_classes = parent.internString("_classes");
+		_superclasses = parent.internString("_superclasses");
+		_classname = parent.internString("_classname");
 	}
 	public StandardEnvironment(Environment parent, Map bindings) {
 		_parent = parent;
 		_frame = bindings;
 		NIL = parent.getNil();
+		_self = parent.internString("self");
+		__self = parent.internString("_self"); // TODO DRY
+		_classes = parent.internString("_classes");
+		_superclasses = parent.internString("_superclasses");
+		_classname = parent.internString("_classname");
 	}
 
 	public Object getJavaValue() {
@@ -102,6 +119,15 @@ public class StandardEnvironment implements Environment {
 			return _parent.getInterpreter();
 		else
 			return _interpreter;
+	}
+
+	public Exp internString(String symbolName) {
+		if(_interpreter == null) {
+			return _parent.internString(symbolName);
+		}
+		else {
+			return _interpreter.getSymbolTable().internString(symbolName);
+		}
 	}
 
 }

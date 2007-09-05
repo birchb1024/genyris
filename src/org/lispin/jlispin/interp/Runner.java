@@ -23,7 +23,7 @@ public class Runner {
         Exp result = null;
         do {
             expression = parser.read();
-            if (expression.equals(interp.getSymbolTable().EOF)) {
+            if (expression.equals(interp.getSymbolTable().internString("EOF")) ) {
                 break;
             }
             result = interp.evalInGlobalEnvironment(expression);

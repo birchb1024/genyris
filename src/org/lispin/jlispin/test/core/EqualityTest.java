@@ -13,6 +13,7 @@ import org.lispin.jlispin.core.Lstring;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class EqualityTest extends TestCase {
@@ -52,9 +53,10 @@ public class EqualityTest extends TestCase {
 	}
 	
 	public void testFrame() throws Exception {
-		Lobject f1 = new Lobject(new StandardEnvironment(null, new NilSymbol()));
+		Interpreter interp = new Interpreter();
+		Lobject f1 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
 		f1.defineVariable(new Linteger(1), new Lstring("foo"));
-		Lobject f2 = new Lobject(new StandardEnvironment(null, new NilSymbol()));
+		Lobject f2 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
 		f2.defineVariable(new Linteger(1), new Lstring("foo"));
 		assertTrue(f1.equals(f2));
 	}

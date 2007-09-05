@@ -11,27 +11,34 @@ import org.lispin.jlispin.core.SymbolTable;
 public class Lex {
 	private Exp NIL;
 	private static final char COMMENTCHAR = ';';
-
 	private static final char BQUOTECHAR = '`';
-
 	private static final char QUOTECHAR = '\'';
-
 	private static final char COMMACHAR = ',';
-
 	private static final char ATCHAR = '@';
-
 	private static final char CDRCHAR = ':';
-
 	private InStream _input;
 
 	private SymbolTable _symbolTable;
-	private Exp EOF;
+    public Exp quote, EOF, raw_quote, raw_backquote, raw_comma_at;
+    public Exp raw_comma, comma_at, comma, backquote;
+    public Exp leftParen, rightParen, cdr_char;
 
-	public Lex(InStream inputSource, SymbolTable symbolTable) {
+	public Lex(InStream inputSource, SymbolTable table) {
 		_input = inputSource;
-		_symbolTable = symbolTable;
-		NIL = symbolTable.getNil();
-		EOF = symbolTable.internString("EOF");
+		_symbolTable = table;
+		NIL = table.getNil();
+        quote = table.internString("quote");
+        raw_quote = table.internString("'");
+        raw_backquote = table.internString("`");
+        raw_comma_at = table.internString(",@");
+        raw_comma = table.internString(",");
+        comma_at = table.internString("comma-at");
+        comma = table.internString("comma");
+        backquote = table.internString("backquote");
+        EOF = table.internString("EOF");
+        leftParen = table.internString("leftParen");
+        rightParen = table.internString("righParen");
+        cdr_char = table.internString("pair-delimiter");
 	}
 
 	public boolean hasData() throws LexException {
@@ -137,7 +144,7 @@ public class Lex {
 		boolean forever = true;
 		do {
 			if (!_input.hasData()) {
-				return _symbolTable.EOF;
+				return EOF;
 			}
 			ch = _input.readNext();
 			switch (ch) {
@@ -186,29 +193,29 @@ public class Lex {
 				_input.unGet(ch);
 				return parseNumber();
 			case '(':
-				return _symbolTable.leftParen;
+				return leftParen;
 			case ')':
-				return _symbolTable.rightParen;
+				return rightParen;
 			case ':': // TODO DRY
-				return _symbolTable.cdr_char;
+				return cdr_char;
 			case QUOTECHAR:
-				return _symbolTable.raw_quote;
+				return raw_quote;
 			case BQUOTECHAR:
-				return _symbolTable.backquote;
+				return backquote;
 			case COMMACHAR: {
 				if (_input.hasData()) {
 					ch = _input.readNext();
 					if (ch == ATCHAR) {
-						return _symbolTable.raw_comma_at;
+						return raw_comma_at;
 					}
 					else {
 						_input.unGet(ch);
 						ch = COMMACHAR;
-						return _symbolTable.raw_comma;
+						return raw_comma;
 					}
 				}
 				else {
-					return _symbolTable.raw_comma;
+					return raw_comma;
 				}
 
 			}

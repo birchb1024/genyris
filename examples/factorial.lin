@@ -1,12 +1,9 @@
 ;
 ;  Factorial function
 ;
-define = equal
-
-def <= (a b) (or (< a b) (= a b))
 
 def factorial (n)
-  if (<= n 1) 1
+  if (< n 2) 1
     * n
       factorial (- n 1)
 
@@ -26,3 +23,5 @@ and
  equal (factorial 15) 	1307674368000
  equal (factorial 20) 	2432902008176640000
  equal (factorial 25) 	15511210043330985984000000
+
+ 

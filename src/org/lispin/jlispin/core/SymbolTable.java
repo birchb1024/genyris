@@ -12,31 +12,13 @@ public class SymbolTable {
     private Map _table;
     private Lsymbol NIL;
     
-    public Lsymbol leftParen;
-    public Lsymbol rightParen;
-    public Lsymbol cdr_char;
-    public Lsymbol EOF;
-    public static Lsymbol closure;
-    public static Lsymbol self;
-    public static Lsymbol _self;
     public static Lsymbol lambda;
     public static Lsymbol lambdaq;
     public static Lsymbol lambdam;
     public static Lsymbol method;
-    public Lsymbol quote;
-    public Lsymbol raw_quote;
-    public Lsymbol backquote;
-    public Lsymbol raw_backquote;
-    public Lsymbol raw_comma_at;
-    public Lsymbol raw_comma;
-    public Lsymbol comma;
-    public Lsymbol comma_at;
     public Lsymbol REST;
     public static Lsymbol DICT;
-    public static Lsymbol classes;
-    public static Lsymbol superclasses;
-	public static Lsymbol classname;
-	// public static Lsymbol _validate;
+	public static Lsymbol _validate;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -45,30 +27,13 @@ public class SymbolTable {
     public void init(Lsymbol nil) {
     	NIL = nil;
         _table.put("nil", NIL);
-        leftParen = internString("leftParen");
-        rightParen = internString("righParen");
-        cdr_char = internString("pair-delimiter");
-        closure = internString("closure");
-        self = internString("self");
         lambda = internString("lambda");
         lambdaq = internString("lambdaq");
         lambdam = internString("lambdam");
         method = internString("method");
-        quote = internString("quote");
-        raw_quote = internString("'");
-        raw_backquote = internString("`");
-        raw_comma_at = internString(",@");
-        raw_comma = internString(",");
-        comma_at = internString("comma-at");
-        comma = internString("comma");
-        backquote = internString("backquote");
-        EOF = internString("EOF");
+        
         REST = internString("&rest");
         DICT = internString("dict");
-        classes = internString(DYNAMICSCOPECHAR + "classes");
-        superclasses = internString(DYNAMICSCOPECHAR + "superclasses");
-        classname = internString(DYNAMICSCOPECHAR + "classname"); // Needed by Lsymbol constructor
-        _self = internString(DYNAMICSCOPECHAR + "self");
     }
 
     public Lsymbol internString(String newSym) {

@@ -6,23 +6,22 @@ import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Linteger;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.NilSymbol;
-import org.lispin.jlispin.core.SymbolTable;
+import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class DictTest extends TestCase {
 	
-	private SymbolTable _table;
 	private Lobject _frame;
+	private Interpreter _interpreter;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		_table = new SymbolTable();
-        _table.init(new NilSymbol());  
-		_frame = new Lobject(new StandardEnvironment(null, new NilSymbol()));
+        _interpreter = new Interpreter();
+		_frame = new Lobject(new StandardEnvironment(_interpreter, new NilSymbol()));
 	}
 	public void test1() throws Exception {
 
-		Exp a = _table.internString("a");
+		Exp a = _interpreter.getSymbolTable().internString("a");
 		assertEquals(false, _frame.hasKey(a));
 		_frame.defineVariable(a, new Linteger(12));
 		assertEquals(true, _frame.hasKey(a));

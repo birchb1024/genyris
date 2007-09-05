@@ -100,7 +100,7 @@ public class ObjectOrientationTests extends TestCase {
 
 		eval("(defvar 'object " + 
 			    "(dict" + 
-			      "(_classes: (cons Class-1 (cons Class-2 nil)))))" );
+			      "(_classes : (cons Class-1 (cons Class-2 nil)))))" );
 		checkEval("(object _log)", "\"Base-2 log\"");
 		checkEval("(object _draw)", "\"Class-2 draw\"");
 		checkEval("(object _print)", "\"Class-1 print\"");
