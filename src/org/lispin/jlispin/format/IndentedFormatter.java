@@ -141,8 +141,8 @@ public class IndentedFormatter implements Visitor {
 
 	private void writeAtom(String str) {
 		try {
-			if( _consDepth == 0 )
-				_output.write("~ ");
+//			if( _consDepth == 0 )
+//				_output.write("~ ");
 			_output.write(str);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
