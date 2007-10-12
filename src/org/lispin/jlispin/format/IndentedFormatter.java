@@ -24,14 +24,14 @@ public class IndentedFormatter implements Visitor {
 	private Writer _output;
 	private int _consDepth;
 	private Lsymbol NIL;
-	private Interpreter _interpreter;
+	//private Interpreter _interpreter;
 
 	public IndentedFormatter(Writer out, int indentDepth, Interpreter interp) {
 		_output = out;
 		INDENT_DEPTH = indentDepth;
 		_consDepth = 0;
 		NIL = interp.getNil();
-		_interpreter = interp;
+		//_interpreter = interp;
 	}
 	
 	private void printSpaces(int level) throws IOException {
