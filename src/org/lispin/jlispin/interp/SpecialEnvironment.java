@@ -14,7 +14,12 @@ public class SpecialEnvironment extends StandardEnvironment {
 		_object = object;
 	}
 	
-	public void defineVariable(Exp symbol, Exp valu) {
+	public void defineVariable(Exp symbol, Exp valu)  throws LispinException 
+    {
+        if(! (symbol instanceof Lsymbol) ) {
+            throw new LispinException("cannot define non-symbol: " + symbol.toString());            
+        }
+
 		Lsymbol sym = (Lsymbol) symbol;
 		if( sym.isMember()) {
 			_object.defineVariable(symbol, valu);

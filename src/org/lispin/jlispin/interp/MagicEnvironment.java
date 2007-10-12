@@ -62,10 +62,15 @@ public class MagicEnvironment  extends StandardEnvironment {
 		return super.lookupVariableValue(symbol);
 	}
 	
-	public void defineVariable(Exp symbol, Exp valu) {
+	public void defineVariable(Exp symbol, Exp valu)  throws LispinException 
+    {
+        if(! (symbol instanceof Lsymbol) ) {
+            throw new LispinException("cannot define non-symbol: " + symbol.toString());            
+        }
+
 		Lsymbol sym = (Lsymbol) symbol;
 		if( sym.isMember()) {
-			; // TODO silent - maybe throw an exception here?
+            throw new LispinException("cannot define non-member: " + symbol.toString());            
 		} else {
 			super.defineVariable(symbol, valu);
 		}
