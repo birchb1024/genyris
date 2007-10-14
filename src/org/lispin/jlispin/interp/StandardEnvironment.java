@@ -92,8 +92,11 @@ public class StandardEnvironment implements Environment {
 		}
 	}
 
-	public void defineVariable(Exp symbol, Exp valu) {
-			_frame.put(symbol, valu);
+	public void defineVariable(Exp symbol, Exp valu) throws LispinException {
+        if(! (symbol instanceof Lsymbol) ) {
+			throw new LispinException("cannot define non-symbol: " + symbol.toString());            
+        }
+        _frame.put(symbol, valu);
 	}
 	
 	

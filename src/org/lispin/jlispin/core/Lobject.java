@@ -79,7 +79,11 @@ public class Lobject extends Exp implements Environment {
 		return new Lcons(_parent.internString(Constants.DICT), result);
 	}
 
-	public void defineVariable(Exp symbol, Exp valu) {
+	public void defineVariable(Exp symbol, Exp valu)  throws LispinException 
+    {
+        if(! (symbol instanceof Lsymbol) ) {
+            throw new LispinException("cannot define non-symbol: " + symbol.toString());            
+        }
 		_dict.put(symbol, valu);		
 	}
 

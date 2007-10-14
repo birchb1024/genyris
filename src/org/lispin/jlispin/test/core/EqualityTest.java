@@ -5,6 +5,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Ldouble;
@@ -54,10 +55,11 @@ public class EqualityTest extends TestCase {
 	
 	public void testFrame() throws Exception {
 		Interpreter interp = new Interpreter();
+        Exp a = new Lsymbol("a");
 		Lobject f1 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
-		f1.defineVariable(new Linteger(1), new Lstring("foo"));
+		f1.defineVariable(a, new Lstring("foo"));
 		Lobject f2 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
-		f2.defineVariable(new Linteger(1), new Lstring("foo"));
+		f2.defineVariable(a, new Lstring("foo"));
 		assertTrue(f1.equals(f2));
 	}
 }

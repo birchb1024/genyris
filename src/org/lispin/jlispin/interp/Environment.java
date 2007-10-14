@@ -12,7 +12,7 @@ public interface Environment {
 
 	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException;
 
-	public void defineVariable(Exp symbol, Exp valu);
+	public void defineVariable(Exp symbol, Exp valu) throws LispinException;
 
 	public String toString();
 
