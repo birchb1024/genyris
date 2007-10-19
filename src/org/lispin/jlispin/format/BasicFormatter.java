@@ -1,5 +1,6 @@
 package org.lispin.jlispin.format;
 
+import genyris.classification.ClassWrapper;
 import java.io.IOException;
 import java.io.Writer;
 
@@ -20,22 +21,27 @@ import org.lispin.jlispin.interp.SpecialEnvironment;
 import org.lispin.jlispin.interp.StandardEnvironment;
 
 public class BasicFormatter implements Visitor {
-	
+
 	private static final String CDRCHAR = ":";
 	private Writer _output;
-	
+
 	public BasicFormatter(Writer out) {
 		_output = out;
 	}
-    
-   public void visitLobject(Lobject frame) {
-		try {
-            _output.write(frame.getAlist().toString());
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+   public void visitLobject(Lobject frame) {
+       if(frame.isTaggedWith(BuiltinClasses.STANDARDCLASS)) {
+           new ClassWrapper(frame).acceptVisitor(this);
+       }
+       else {
+    		try {
+                _output.write(frame.getAlist().toString());
+
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+       }
 	}
 
 	public void visitEagerProc(EagerProcedure proc) {
@@ -55,7 +61,7 @@ public class BasicFormatter implements Visitor {
 			e.printStackTrace();
 		}
 	}
-	
+
 	void writeCdr(Exp cons) {
 		try {
 			if( cons.isNil()) {
@@ -71,7 +77,7 @@ public class BasicFormatter implements Visitor {
 			if( cons.cdr().isNil()) {
 				return;
 			}
-			writeCdr(cons.cdr());					
+			writeCdr(cons.cdr());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,9 +95,9 @@ public class BasicFormatter implements Visitor {
             boolean colon= cons.isTaggedWith(BuiltinClasses.PRINTWITHCOLON);
             if(colon) {
                 _output.write(" : ");
-                cons.cdr().acceptVisitor(this);                
+                cons.cdr().acceptVisitor(this);
             } else {
-                writeCdr(cons.cdr());                
+                writeCdr(cons.cdr());
             }
 			_output.write(")");
 		} catch (IOException e) {
@@ -161,6 +167,15 @@ public class BasicFormatter implements Visitor {
 			e.printStackTrace();
 		}
 	}
+
+    public void visitClassWrapper(ClassWrapper klass) {
+        try {
+            _output.write(klass.toString());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
 

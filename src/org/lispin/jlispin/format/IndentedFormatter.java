@@ -1,5 +1,6 @@
 package org.lispin.jlispin.format;
 
+import genyris.classification.ClassWrapper;
 import java.io.IOException;
 import java.io.Writer;
 
@@ -18,7 +19,7 @@ import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LazyProcedure;
 
 public class IndentedFormatter implements Visitor {
-	
+
 	private static final char CDRCHAR = ':'; // TODO DRY
 	private final int INDENT_DEPTH;
 	private Writer _output;
@@ -33,7 +34,7 @@ public class IndentedFormatter implements Visitor {
 		NIL = interp.getNil();
 		_interpreter = interp;
 	}
-	
+
 	private void printSpaces(int level) throws IOException {
 		for( int i=1;i<level;i++)
 			_output.write("   ");
@@ -59,8 +60,8 @@ public class IndentedFormatter implements Visitor {
 				Lcons headCons = ((Lcons)head);
 				if( headCons.car().listp() ) {
 					Lcons first = ((Lcons)headCons.car());
-					if(countOfRight <= INDENT_DEPTH) { 
-						if(countOfRight > 1) 
+					if(countOfRight <= INDENT_DEPTH) {
+						if(countOfRight > 1)
 							_output.write(' ');
 						else
 							printSpaces(_consDepth);
@@ -83,14 +84,14 @@ public class IndentedFormatter implements Visitor {
 					}
 				}
 				else {
-					if(countOfRight > 1) 
+					if(countOfRight > 1)
 						_output.write(' ');
 					headCons.car().acceptVisitor(this);
 				}
 				head = headCons.cdr();
 			}
 			else {
-				if(countOfRight > 1) 
+				if(countOfRight > 1)
 					_output.write(' ');
 				_output.write(CDRCHAR + " ");
 				head.acceptVisitor(this);
@@ -100,18 +101,11 @@ public class IndentedFormatter implements Visitor {
 		}
 		_consDepth -=1;
 	}
-	
-	
+
+
 	public void visitLcons(Lcons cons) {
 		try {
 			printLcons(cons);
-		} catch (IOException e) {
-			// TODO what to do with these exceptions?
-		}
-	}
-	public void visitLobject(Lobject frame) {
-		try {
-			printLcons((Lcons)frame.getAlist());
 		} catch (IOException e) {
 			// TODO what to do with these exceptions?
 		}
@@ -141,8 +135,8 @@ public class IndentedFormatter implements Visitor {
 
 	private void writeAtom(String str) {
 		try {
-//			if( _consDepth == 0 )
-//				_output.write("~ ");
+			if( _consDepth == 0 )
+				_output.write("~ ");
 			_output.write(str);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -157,6 +151,27 @@ public class IndentedFormatter implements Visitor {
 	public void visitLsymbol(Lsymbol lsym) {
 		writeAtom(lsym);
 	}
+    public void visitLobject(Lobject frame) {
+        if(frame.isTaggedWith(BuiltinClasses.STANDARDCLASS)) {
+            new ClassWrapper(frame).acceptVisitor(this);
+        }
+        else {
+            try {
+                printLcons((Lcons)frame.getAlist());
+            } catch (IOException e) {
+                // TODO what to do with these exceptions?
+            }
+        }
+    }
+
+    public void visitClassWrapper(ClassWrapper klass) {
+        try {
+            _output.write(klass.toString());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
 }

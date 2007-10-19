@@ -1,8 +1,8 @@
 package org.lispin.jlispin.core;
 
 public class Constants {
-	
-	// Lexical marks 
+
+	// Lexical marks
 		public static final char COMMENTCHAR = ';';
 		public static final char BQUOTECHAR = '`';
 		public static final char QUOTECHAR = '\'';
@@ -15,6 +15,7 @@ public class Constants {
 		public static final String CLASSNAME = DYNAMICSCOPECHAR + "classname";
 		public static final String CLASSES = DYNAMICSCOPECHAR + "classes";
 		public static final String SUPERCLASSES = DYNAMICSCOPECHAR + "superclasses";
+        public static final String SUBCLASSES = DYNAMICSCOPECHAR + "subclasses";
 		public static final String SELF = "self";
 		public static final String _SELF = DYNAMICSCOPECHAR + SELF;
 		public static final String VALIDATE = DYNAMICSCOPECHAR + "validate";
@@ -32,5 +33,5 @@ public class Constants {
 		public static final String BACKQUOTE = "backquote";
 
 
-		
+
 }

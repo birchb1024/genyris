@@ -17,13 +17,13 @@ public class Lobject extends Exp implements Environment {
 	private Lsymbol NIL;
 	private Environment _parent;
 	Exp _self, __self, _classes, _superclasses, _classname;
-	
+
 	private void init() {
 		_self = _parent.internString("self");
 		__self = _parent.internString(Constants._SELF);
 		_classes = _parent.internString(Constants.CLASSES);
 		_superclasses = _parent.internString(Constants.SUPERCLASSES);
-		_classname = _parent.internString(Constants.CLASSNAME);	
+		_classname = _parent.internString(Constants.CLASSNAME);
 		NIL = _parent.getNil();
 	}
 	public Lobject(Environment parent) {
@@ -31,7 +31,7 @@ public class Lobject extends Exp implements Environment {
 		_parent = parent;
 		init();
 	}
-	
+
 	public Lobject(Lsymbol key, Exp value, Environment parent) {
 		_dict = new HashMap();
 		_dict.put(key, value);
@@ -39,6 +39,9 @@ public class Lobject extends Exp implements Environment {
 		init();
 	}
 
+    public Environment getParent() {
+        return _parent;
+    }
 	public int hashCode() {
     	return _dict.hashCode();
     }
@@ -46,7 +49,7 @@ public class Lobject extends Exp implements Environment {
 	public boolean equals(Object compare) {
 		if( compare.getClass() != this.getClass())
 			return false;
-		else 
+		else
 			return _dict.equals(((Lobject)compare)._dict);
 	}
 
@@ -57,11 +60,11 @@ public class Lobject extends Exp implements Environment {
 	public void acceptVisitor(Visitor guest) {
 		guest.visitLobject(this);
 	}
-		
+
 	public boolean isSelfEvaluating() {
 		return false;
 	}
-	
+
 	public boolean hasKey(Exp a) {
 		return _dict.containsKey(a);
 	}
@@ -79,12 +82,12 @@ public class Lobject extends Exp implements Environment {
 		return new Lcons(_parent.internString(Constants.DICT), result);
 	}
 
-	public void defineVariable(Exp symbol, Exp valu)  throws LispinException 
+	public void defineVariable(Exp symbol, Exp valu)  throws LispinException
     {
         if(! (symbol instanceof Lsymbol) ) {
-            throw new LispinException("cannot define non-symbol: " + symbol.toString());            
+            throw new LispinException("cannot define non-symbol: " + symbol.toString());
         }
-		_dict.put(symbol, valu);		
+		_dict.put(symbol, valu);
 	}
 
 	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
@@ -100,7 +103,7 @@ public class Lobject extends Exp implements Environment {
 			} catch (UnboundException e) {}
 		}
 		if(_dict.containsKey(_superclasses)) {
-			return lookupInSuperClasses(symbol);				
+			return lookupInSuperClasses(symbol);
 		}
 		throw new UnboundException("unbound " + symbol.toString());
 	}
@@ -175,7 +178,7 @@ public class Lobject extends Exp implements Environment {
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
 		if( _dict.containsKey(symbol) ) {
 			return (Exp)_dict.get(symbol);
-		} else { 
+		} else {
 			throw new UnboundException("dict does not contain key: " + symbol.toString());
 		}
 	}
@@ -209,7 +212,7 @@ public class Lobject extends Exp implements Environment {
 		catch (AccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	private Exp removeIf(Exp exp, Exp list) throws AccessException {
@@ -226,12 +229,12 @@ public class Lobject extends Exp implements Environment {
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
 		Map bindings = new HashMap();
 		bindings.put(_self, this);
-		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this); 
+		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this);
         if(arguments[0].listp()) {
             return Evaluator.evalSequence(newEnv, arguments[0]);
         } else {
             try {
-                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);  
+                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
                 this.addClass(klass);
                 return this;
             }
@@ -239,18 +242,19 @@ public class Lobject extends Exp implements Environment {
                 throw new LispinException("type tag failure: " + arguments[0] + " is not a class");
             }
         }
-        
+
 	}
 
     public boolean isTaggedWith(Lobject klass) {
         Exp classes = getClasses(NIL);
-        while( classes != NIL) {
-            try {
-                if( classes.car() == klass)
-                    return true;
-            } catch (AccessException e) {
-                return false;
+        try {
+            while( classes != NIL) {
+                    if( classes.car() == klass)
+                        return true;
+                classes = classes.cdr();
             }
+        } catch (AccessException e) {
+            return false;
         }
         return false;
     }

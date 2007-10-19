@@ -1,5 +1,6 @@
 package org.lispin.jlispin.core;
 
+import genyris.classification.ClassWrapper;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
 
@@ -21,4 +22,6 @@ public interface Visitor {
 	public void visitLobject(Lobject frame);
 
 	public void visitBignum(Bignum bignum);
+
+    public void visitClassWrapper(ClassWrapper klass);
 }
