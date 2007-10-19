@@ -15,13 +15,14 @@ import org.lispin.jlispin.interp.UnboundException;
 
 public class ClassWrapper extends ExpWithEmbeddedClasses {
     private Lobject _theClass;
-    private Exp     CLASSNAME, SUPERCLASSES;
+    private Exp     CLASSNAME, SUPERCLASSES, SUBCLASSES;
     private Lsymbol NIL;
 
     public ClassWrapper(Lobject toWrap) {
         _theClass = toWrap;
         CLASSNAME = toWrap.getParent().internString(Constants.CLASSNAME);
         SUPERCLASSES = toWrap.getParent().internString(Constants.SUPERCLASSES);
+        SUBCLASSES = toWrap.getParent().internString(Constants.SUBCLASSES);
         NIL = toWrap.getParent().getNil();
     }
 
@@ -46,7 +47,16 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
                 classes = classes.cdr();
             }
             result += ")";
-            result += ">";
+            // TODO DRY
+            Exp subclasses = getSubClasses();
+            result += " (";
+            while (subclasses != NIL) {
+                ClassWrapper klass = new ClassWrapper((Lobject)subclasses.car());
+                result += klass.getClassName();
+                subclasses = subclasses.cdr();
+            }
+            result += ")";
+           result += ">";
         } catch (UnboundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -55,6 +65,14 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private Exp getSubClasses() {
+        try {
+            return _theClass.lookupVariableShallow(SUBCLASSES);
+        } catch (UnboundException e) {
+            return NIL;
+        }
     }
 
     private Exp getSuperClasses() {

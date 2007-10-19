@@ -1,11 +1,8 @@
 package org.lispin.jlispin.interp.builtin;
 
 import genyris.classification.ClassWrapper;
-import org.lispin.jlispin.classes.BuiltinClasses;
-import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
@@ -13,7 +10,6 @@ import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
-import org.lispin.jlispin.interp.UnboundException;
 
 public class DefineClassFunction extends ApplicableFunction {
 

@@ -17,15 +17,16 @@ public class ClassTaggingTests extends TestCase {
 	}
 
     public void testDefineClass() throws Exception {
-        excerciseEval("(class C)", "<class C ()>");
-        excerciseEval("(class C1 (C))" , "<class C1 (C)>");
+        excerciseEval("(class C)", "<class C () ()>");
+        excerciseEval("(class C1 (C))" , "<class C1 (C) ()>");
+        excerciseEval("C" , "<class C () (C1)>");
         }
 
     public void testTagWithColon() throws Exception {
-		excerciseEval("(class Miles)", "<class Miles ()>");
+		excerciseEval("(class Miles)", "<class Miles () ()>");
 		excerciseEval("(define x 45)", "45");
         excerciseEval("(x:Miles)", "45");
-        excerciseEval("(x _classes)", "(<class Miles ()> (dict (_classname : Bignum)))");
+        excerciseEval("(x _classes)", "(<class Miles () ()> (dict (_classname : Bignum)))");
        	}
 
     public void testTagWithTag() throws Exception {
