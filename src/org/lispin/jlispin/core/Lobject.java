@@ -95,6 +95,9 @@ public class Lobject extends Exp implements Environment {
 		if( symbol == __self ) {
 			return this;
 		}
+        if (symbol == _classes) {
+            return getClasses(NIL);
+        }
 		if( _dict.containsKey(symbol) ) {
 			return (Exp)_dict.get(symbol);
 		}
@@ -189,7 +192,7 @@ public class Lobject extends Exp implements Environment {
 			return new Lcons(BuiltinClasses.OBJECT, NIL);
 		}
 		else {
-			return (Exp) _dict.get(_classes) ;
+			return new Lcons(BuiltinClasses.OBJECT,(Exp) _dict.get(_classes)) ;
 		}
 	}
 
