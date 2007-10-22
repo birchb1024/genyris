@@ -101,11 +101,10 @@ public class Lobject extends Exp implements Environment {
 		if( _dict.containsKey(symbol) ) {
 			return (Exp)_dict.get(symbol);
 		}
-		if( _dict.containsKey(_classes) ) {
-			try {
+		try {
 				return lookupInClasses(symbol);
-			} catch (UnboundException e) {}
-		}
+		} catch (UnboundException e) {}
+
 		if(_dict.containsKey(_superclasses)) {
 			return lookupInSuperClasses(symbol);
 		}
@@ -113,10 +112,7 @@ public class Lobject extends Exp implements Environment {
 	}
 
 	private Exp lookupInClasses(Exp symbol) throws UnboundException {
-		if (!_dict.containsKey(_classes)) {
-			throw new UnboundException("object has no classes");
-		}
-		Exp classes = (Exp)_dict.get(_classes);
+		Exp classes = getClasses(NIL);
 		while( classes != NIL) {
 			try {
 				Environment klass = (Environment)(classes.car());
