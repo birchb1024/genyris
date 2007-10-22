@@ -11,7 +11,7 @@ public abstract class Exp implements Classifiable, Closure {
 
 	public abstract Object getJavaValue();
 	public abstract void acceptVisitor(Visitor guest);
-		
+
 	public Exp[] computeArguments(Environment ignored, Exp exp) throws LispinException {
 		Exp[] args = {exp};
 		return args;
@@ -23,11 +23,11 @@ public abstract class Exp implements Classifiable, Closure {
 		}
 		Environment newEnv = new MagicEnvironment(environment, this);
         if(arguments[0].listp()) {
-            return Evaluator.evalSequence(newEnv, arguments[0]);		            
+            return Evaluator.evalSequence(newEnv, arguments[0]);
         }
         else {
             try {
-                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);  
+                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
                 // call validator if it exists
                 TagFunction.validateClassTagging(environment, this, klass);
                 this.addClass(klass);
@@ -38,7 +38,7 @@ public abstract class Exp implements Classifiable, Closure {
             }
         }
 	}
-	
+
 	public boolean isNil() {
 		return false;
 	}
@@ -46,15 +46,15 @@ public abstract class Exp implements Classifiable, Closure {
     public Exp car() throws AccessException {
 		throw new AccessException("attempt to take car of non-cons");
 	}
-	
+
 	public Exp cdr() throws AccessException {
 		throw new AccessException("attempt to take cdr of non-cons");
 	}
-	
+
 	public Exp setCar(Exp exp) throws AccessException {
 		throw new AccessException("attempt to set car of non-cons");
 	}
-	
+
 	public Exp setCdr(Exp exp) throws AccessException {
 		throw new AccessException("attempt to set car of non-cons");
 	}
@@ -70,7 +70,15 @@ public abstract class Exp implements Classifiable, Closure {
 			return this.getJavaValue().equals(((Exp) compare).getJavaValue());
 	}
 
-	public abstract String toString();
+    public boolean deepEquals(Object compare) {
+        if (compare.getClass() != this.getClass())
+            return false;
+        else
+            return this.getJavaValue().equals(((Exp) compare).getJavaValue());
+    }
+
+
+    public abstract String toString();
 
 
 	public boolean listp() {

@@ -32,6 +32,7 @@ public class Constants {
 		public static final String SYMBOL = "Symbol";
 		public static final String BACKQUOTE = "backquote";
 
+        public static final String THING = "Thing";
 
 
 }

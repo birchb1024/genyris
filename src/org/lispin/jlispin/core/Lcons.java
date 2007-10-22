@@ -6,7 +6,7 @@ import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.format.BasicFormatter;
 
 public class Lcons extends ExpWithEmbeddedClasses {
-	
+
 	private  Exp _car;
 	private  Exp _cdr;
 
@@ -25,18 +25,15 @@ public class Lcons extends ExpWithEmbeddedClasses {
 	public void acceptVisitor(Visitor guest) {
 		guest.visitLcons(this);
 	}
-	public int hashCode() {
-    	return (_car.hashCode() + _car.hashCode()%32000);
+
+    public boolean deepEquals(Object compare) {
+        if (compare.getClass() != this.getClass())
+            return false;
+        else
+            return this._car.deepEquals(((Lcons)compare)._car)
+                && this._cdr.deepEquals(((Lcons)compare)._cdr);
     }
 
-	public boolean equals(Object compare) {
-		if( compare.getClass() != this.getClass())
-			return false;
-		else {
-			Lcons comp = (Lcons)compare;
-			return _car.equals(comp.car()) && _cdr.equals(comp.cdr());
-		}
-	}
 
 	public Exp car() {
 		return _car;
@@ -45,7 +42,7 @@ public class Lcons extends ExpWithEmbeddedClasses {
 	public Exp cdr() {
 		return _cdr;
 	}
-	
+
 	public Exp setCar(Exp exp) throws AccessException {
 		this._car = exp;;
 		return this;
@@ -54,12 +51,12 @@ public class Lcons extends ExpWithEmbeddedClasses {
 	public Exp setCdr(Exp exp) throws AccessException {
 		this._cdr = exp;;
 		return this;
-	}	
+	}
 
 	public boolean isSelfEvaluating() {
 		return false;
 	}
-	
+
 	public String toString() {
 		StringWriter out = new StringWriter();
 		acceptVisitor(new BasicFormatter(out));

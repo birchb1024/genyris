@@ -52,7 +52,7 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
             result += " (";
             while (subclasses != NIL) {
                 ClassWrapper klass = new ClassWrapper((Lobject)subclasses.car());
-                result += klass.getClassName();
+                result += klass.getClassName() + ' ';
                 subclasses = subclasses.cdr();
             }
             result += ")";
@@ -75,6 +75,46 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
         }
     }
 
+    public void addSuperClass(Lobject klass) {
+        if ( klass == null )
+            return;
+        try {
+            Exp supers =  _theClass.lookupVariableShallow(SUPERCLASSES);
+            supers = new Lcons(klass, supers);
+            _theClass.setVariableValue(SUPERCLASSES, supers);
+            new ClassWrapper(klass).addSubClass(_theClass);
+            // TODO use a list set adding function to avoid duplicates.
+        } catch (UnboundException e) {
+            try {
+                _theClass.defineVariable(SUPERCLASSES, new Lcons( klass, NIL));
+                new ClassWrapper(klass).addSubClass(_theClass);
+            } catch (LispinException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+
+    }
+
+    public void addSubClass(Lobject klass) {
+        if ( klass == null )
+            return;
+        try {
+            Exp supers =  _theClass.lookupVariableShallow(SUBCLASSES);
+            supers = new Lcons(klass, supers);
+            _theClass.setVariableValue(SUBCLASSES, supers);
+            // TODO use a list set adding function to avoid duplicates.
+        } catch (UnboundException e) {
+            try {
+                _theClass.defineVariable(SUBCLASSES, new Lcons( klass, NIL));
+            } catch (LispinException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+
+    }
+
     private Exp getSuperClasses() {
         try {
             return _theClass.lookupVariableShallow(SUPERCLASSES);
@@ -95,23 +135,23 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
         newClass.defineVariable(env.internString(Constants.CLASSES),
                 new Lcons(BuiltinClasses.STANDARDCLASS, NIL));
         newClass.defineVariable(env.internString(Constants.SUBCLASSES), NIL);
-        if (superklasses != NIL) {
-            if (superklasses != NIL) {
-                newClass.defineVariable(env.internString(Constants.SUPERCLASSES),
-                        lookupClasses(env, superklasses));
-                Exp sklist = superklasses;
-                while (sklist != NIL) {
-                    Lobject sk = (Lobject)(env.lookupVariableValue(sklist.car()));
-                    Exp subklasses = NIL;
-                    try {
-                        subklasses = sk.lookupVariableShallow(env.internString(Constants.SUBCLASSES));
-                    } catch (UnboundException ignore) {
-                        sk.defineVariable(env.internString(Constants.SUBCLASSES), NIL);
-                    }
-                    sk.setVariableValue(env.internString(Constants.SUBCLASSES), new Lcons(newClass,
-                            subklasses));
-                    sklist = sklist.cdr();
+        if ( superklasses == NIL )
+            superklasses = new Lcons(env.internString(Constants.THING), NIL);
+        {
+            newClass.defineVariable(env.internString(Constants.SUPERCLASSES), lookupClasses(env,
+                    superklasses));
+            Exp sklist = superklasses;
+            while (sklist != NIL) {
+                Lobject sk = (Lobject)(env.lookupVariableValue(sklist.car()));
+                Exp subklasses = NIL;
+                try {
+                    subklasses = sk.lookupVariableShallow(env.internString(Constants.SUBCLASSES));
+                } catch (UnboundException ignore) {
+                    sk.defineVariable(env.internString(Constants.SUBCLASSES), NIL);
                 }
+                sk.setVariableValue(env.internString(Constants.SUBCLASSES), new Lcons(newClass,
+                        subklasses));
+                sklist = sklist.cdr();
             }
         }
         env.defineVariable(klassname, newClass);

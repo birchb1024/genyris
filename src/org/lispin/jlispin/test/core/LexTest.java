@@ -4,6 +4,7 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
+import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.Bignum;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Ldouble;
@@ -13,6 +14,8 @@ import org.lispin.jlispin.core.Lsymbol;
 import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
+import org.lispin.jlispin.interp.Interpreter;
+import org.lispin.jlispin.interp.StandardEnvironment;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Lex;
 import org.lispin.jlispin.io.LexException;
@@ -21,26 +24,26 @@ import org.lispin.jlispin.io.StringInStream;
 import org.lispin.jlispin.io.UngettableInStream;
 
 public class LexTest extends TestCase {
-	
+
 	public SymbolTable _table = new SymbolTable();
-	
+
 	private void excerciseNextTokenInt(Exp expected, String toparse) throws LexException {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-		assertEquals(expected, lexer.nextToken());		
+		assertEquals(expected, lexer.nextToken());
 	}
-	
+
 	private void excerciseNextTokenDouble(Exp expected, String toparse) throws LexException {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-		assertEquals(((Double)expected.getJavaValue()).doubleValue(), ((Double)lexer.nextToken().getJavaValue()).doubleValue(), 0.00001);		
+		assertEquals(((Double)expected.getJavaValue()).doubleValue(), ((Double)lexer.nextToken().getJavaValue()).doubleValue(), 0.00001);
 	}
 
 	private void excerciseNextTokenBignum(Exp expected, String toparse) throws LexException {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-		assertEquals(expected.getJavaValue().toString(), lexer.nextToken().getJavaValue().toString());		
+		assertEquals(expected.getJavaValue().toString(), lexer.nextToken().getJavaValue().toString());
 	}
 	private void excerciseNextTokenExp(Exp expected, String toparse) throws LexException {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-		assertEquals(expected.toString(), lexer.nextToken().toString());		
+		assertEquals(expected.toString(), lexer.nextToken().toString());
 	}
 
 	public void testLex1() throws Exception {
@@ -51,7 +54,7 @@ public class LexTest extends TestCase {
 		excerciseNextTokenBignum(new Bignum("-12.34"), "-12.34");
 		excerciseNextTokenDouble(new Ldouble(12.34e5), "12.34e5");
 		excerciseNextTokenDouble(new Ldouble(-12.34e-5), "-12.34e-5");
-		excerciseNextTokenDouble(new Ldouble(-12e-5), "-12.0e-5");		
+		excerciseNextTokenDouble(new Ldouble(-12e-5), "-12.0e-5");
 	}
 
 	public void testLex2() throws Exception {
@@ -92,16 +95,16 @@ public class LexTest extends TestCase {
 		excerciseNextTokenExp(new Lstring("\n\t\f\r\\"), "\"\n\t\f\r\\\\\"");
 		excerciseNextTokenExp(new Lstring("a1-"), "\"\\a\\1\\-\"");
 	}
-	
+
 	public void testCombination1() throws Exception {
 		Lex lexer = new Lex(new UngettableInStream( new StringInStream("int 12 double\n 12.34\r\n -12.34e5 \"string\" ")), _table);
-		assertEquals(new Lsymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());				
-		assertEquals(new Bignum(12), lexer.nextToken());					
-		assertEquals(new Lsymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());					
-		assertEquals(new Bignum("12.34"), lexer.nextToken());					
-		assertEquals(new Ldouble(-12.34e5), lexer.nextToken());	
-		assertEquals(new Lstring("string"), lexer.nextToken());	
-		
+		assertEquals(new Lsymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());
+		assertEquals(new Bignum(12), lexer.nextToken());
+		assertEquals(new Lsymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());
+		assertEquals(new Bignum("12.34"), lexer.nextToken());
+		assertEquals(new Ldouble(-12.34e5), lexer.nextToken());
+		assertEquals(new Lstring("string"), lexer.nextToken());
+
 	}
 
 	private void excerciseListParsing(String toParse) throws Exception {
@@ -111,7 +114,7 @@ public class LexTest extends TestCase {
 		InStream input = new UngettableInStream( new StringInStream(toParse));
 		Parser parser = new Parser(table, input);
 		Exp result = parser.read();
-		
+
 		StringWriter out = new StringWriter();
 		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
@@ -119,30 +122,30 @@ public class LexTest extends TestCase {
 
 	}
 
-	
-	
-	public void testLists1() throws Exception {
-		excerciseListParsing("(1 2 3)"); 
-		excerciseListParsing("(1 (2) 3)"); 
-		excerciseListParsing("(1 (2) 3 (4 (5 (6))))"); 		
 
-		excerciseListParsing("(1 : 2)"); 
-		excerciseListParsing("(1 2 : 3)");	
-		
-		excerciseListParsing("(\"a\" 1.2 30000 foo)"); 
-		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 : 3))"); 
-		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 : 3) (1 (2) 3 (4 (5 (6)))))");		
-		excerciseListParsing("(defun my-func (x) (cons x x))");	
+
+	public void testLists1() throws Exception {
+		excerciseListParsing("(1 2 3)");
+		excerciseListParsing("(1 (2) 3)");
+		excerciseListParsing("(1 (2) 3 (4 (5 (6))))");
+
+		excerciseListParsing("(1 : 2)");
+		excerciseListParsing("(1 2 : 3)");
+
+		excerciseListParsing("(\"a\" 1.2 30000 foo)");
+		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 : 3))");
+		excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 : 3) (1 (2) 3 (4 (5 (6)))))");
+		excerciseListParsing("(defun my-func (x) (cons x x))");
 	}
 
 	private void excerciseSpecialParsing(String toParse, String expected) throws Exception {
-		Lsymbol NIL = new NilSymbol();
-		SymbolTable table = new SymbolTable();
-		table.init(NIL);
+        Interpreter interpreter = new Interpreter();
+        interpreter.init(true);
+
 		InStream input = new UngettableInStream( new StringInStream(toParse));
-		Parser parser = new Parser(table, input);
+		Parser parser = new Parser(interpreter.getSymbolTable(), input);
 		Exp result = parser.read();
-		
+
 		StringWriter out = new StringWriter();
 		BasicFormatter formatter = new BasicFormatter(out);
 		result.acceptVisitor(formatter);
@@ -151,20 +154,20 @@ public class LexTest extends TestCase {
 	}
 
 	public void testSpecialLexQuote() throws Exception {
-		excerciseSpecialParsing("'a", "(quote a)"); 
-		excerciseSpecialParsing("'12.34", "(quote 12.34)"); 
-		excerciseSpecialParsing("'\"str\"", "(quote \"str\")"); 
-		excerciseSpecialParsing("'(1 2)", "(quote (1 2))"); 
-		excerciseSpecialParsing("'(1 : 2)", "(quote (1 : 2))"); 
-        // excerciseSpecialParsing("'(: 2)", "(quote (1 : 2))"); 
-        // excerciseSpecialParsing("'(:)", "(quote (1 : 2))"); 
-        excerciseSpecialParsing(":", "pair-delimiter"); 
-        excerciseSpecialParsing("'(1:2)", "(quote (1 : 2))"); 
-        excerciseSpecialParsing("'(1 :2)", "(quote (1 : 2))"); 
-        excerciseSpecialParsing("'(a:b)", "(quote (a : b))"); 
-        excerciseSpecialParsing("'(a :b)", "(quote (a : b))"); 
-        excerciseSpecialParsing("'(a: b)", "(quote (a : b))"); 
-        excerciseSpecialParsing("'(a: (3))", "(quote (a : (3)))"); 
+		excerciseSpecialParsing("'a", "(quote a)");
+		excerciseSpecialParsing("'12.34", "(quote 12.34)");
+		excerciseSpecialParsing("'\"str\"", "(quote \"str\")");
+		excerciseSpecialParsing("'(1 2)", "(quote (1 2))");
+		excerciseSpecialParsing("'(1 : 2)", "(quote (1 : 2))");
+        // excerciseSpecialParsing("'(: 2)", "(quote (1 : 2))");
+        // excerciseSpecialParsing("'(:)", "(quote (1 : 2))");
+        excerciseSpecialParsing(":", "pair-delimiter");
+        excerciseSpecialParsing("'(1:2)", "(quote (1 : 2))");
+        excerciseSpecialParsing("'(1 :2)", "(quote (1 : 2))");
+        excerciseSpecialParsing("'(a:b)", "(quote (a : b))");
+        excerciseSpecialParsing("'(a :b)", "(quote (a : b))");
+        excerciseSpecialParsing("'(a: b)", "(quote (a : b))");
+        excerciseSpecialParsing("'(a: (3))", "(quote (a : (3)))");
 	}
 
 	public void testSpecialLexBackQuote() throws Exception {
@@ -184,5 +187,5 @@ public class LexTest extends TestCase {
 	public void testSpecialLexCommaAt() throws Exception {
 		excerciseSpecialParsing(",@12", "(comma-at 12)");
 	}
-	
+
 }

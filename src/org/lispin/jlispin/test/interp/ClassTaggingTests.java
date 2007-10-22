@@ -17,22 +17,22 @@ public class ClassTaggingTests extends TestCase {
 	}
 
     public void testDefineClass() throws Exception {
-        excerciseEval("(class C)", "<class C () ()>");
+        excerciseEval("(class C)", "<class C (Thing) ()>");
         excerciseEval("(class C1 (C))" , "<class C1 (C) ()>");
-        excerciseEval("C" , "<class C () (C1)>");
+        excerciseEval("C" , "<class C (Thing) (C1 )>");
         }
 
     public void testTagWithColon() throws Exception {
-		excerciseEval("(class Miles)", "<class Miles () ()>");
+		excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
 		excerciseEval("(define x 45)", "45");
         excerciseEval("(x:Miles)", "45");
-        excerciseEval("(x _classes)", "(<class Miles () ()> (dict (_classname : Bignum)))");
+        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Thing) ()>)");
        	}
 
     public void testTagWithTag() throws Exception {
-        excerciseEval("(define Miles (dict(_classname: 'Miles)))", "(dict (_classname : Miles))");
+        excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag x Miles)", "45");
-        excerciseEval("(x _classes)", "((dict (_classname : Miles)) (dict (_classname : Bignum)))");
+        excerciseEval("(x _classes)", "(<class Bignum (Thing) ()> <class Miles (Thing) ()>)");
         }
 }

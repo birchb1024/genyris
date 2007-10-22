@@ -3,28 +3,28 @@ package org.lispin.jlispin.test.interp;
 import junit.framework.TestCase;
 
 public class ComplexInterpreterTests extends TestCase {
-	
+
 	private TestUtilities interpreter;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		interpreter = new TestUtilities();
 	}
-	
+
 	private void excerciseEval(String exp, String expected) throws Exception {
 		assertEquals(expected, interpreter.eval(exp));
 	}
-	
+
 	public void testExcerciseEval() throws Exception {
 		excerciseEval("(defvar (quote foo) 23)", "23");
-		excerciseEval("foo", "23");		
+		excerciseEval("foo", "23");
 	}
 
 	public void testMacro() throws Exception {
 		excerciseEval("(defvar 'w 99)", "99");
 		excerciseEval("((lambdam () 'w) 45)", "99");
 	}
-	
+
 
 	public void testMacroWithDefmacro() throws Exception {
 		excerciseEval("(defmacro nil! (x) (list 'defvar (list quote x) 0))", "<anonymous macro>");
@@ -65,27 +65,28 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<org.lispin.jlispin.interp.ClassicFunction>");
 		excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
 		excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
-		
+
 		excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<anonymous macro>");
 		excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
 	}
 	public void testFrame() throws Exception {
 		excerciseEval("(dict (a : 1) (b:2) (c:3))", "(dict (b : 2) (c : 3) (a : 1))");
-		excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "true");
+		excerciseEval("(eq (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "nil");
+        excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "true");
 	}
-	
+
 	public void testEnvCapture() throws Exception {
-		excerciseEval("(defvar 'mk-fn  (lambda (x) (defvar 'bal x) (defvar 'fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
+		excerciseEval("(defvar 'mk-fn  (lambda (x) (defvar 'bal x) (defvar 'fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(ff 99)", "(44 : 99)");
 	}
 	public void testEnvCaptureWithDef() throws Exception {
-		excerciseEval("(def mk-fn (x) (defvar 'bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");    
+		excerciseEval("(def mk-fn (x) (defvar 'bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(ff 99)", "(44 : 99)");
 	}
 
-	
+
 	public void testDynamicVariablesWithDef() throws Exception {
 		excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");
 		excerciseEval("(def function-which-uses-dynamic-var () (list _x _x))", "<EagerProc: <org.lispin.jlispin.interp.ClassicFunction>>");

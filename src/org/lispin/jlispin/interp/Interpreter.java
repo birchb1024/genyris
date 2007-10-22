@@ -51,13 +51,13 @@ import org.lispin.jlispin.math.PlusFunction;
 import org.lispin.jlispin.math.RemainderFunction;
 
 public class Interpreter {
-	
+
 	Environment _globalEnvironment;
 	SymbolTable _table;
 	Writer _defaultOutput;
 	public NilSymbol NIL;
 	private Lsymbol TRUE;
-	
+
 	public Interpreter() throws LispinException {
 		NIL = new NilSymbol();
 		_table = new SymbolTable();
@@ -70,13 +70,13 @@ public class Interpreter {
         _table.init(NIL);
         BuiltinClasses.SYMBOL.defineVariable(_table.internString(Constants.CLASSNAME), _table.internString(Constants.SYMBOL));
         // End manual bootstrap
- 
+
         _globalEnvironment.defineVariable(NIL, NIL);
-        
+
         TRUE = _table.internString("true");
 		_globalEnvironment.defineVariable(TRUE, TRUE);
 		_globalEnvironment.defineVariable(_table.internString(Constants.EOF), _table.internString(Constants.EOF));
-        // TODO all these constructors need to be replaced with a factory and singletons: 
+        // TODO all these constructors need to be replaced with a factory and singletons:
 		_globalEnvironment.defineVariable(_table.internString(Constants.LAMBDA), new LazyProcedure(_globalEnvironment, null, new LambdaFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString(Constants.LAMBDAQ), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString(Constants.LAMBDAM), new LazyProcedure(_globalEnvironment, null, new LambdamFunction(this)));
@@ -102,7 +102,7 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("load"), new EagerProcedure(_globalEnvironment, null, new LoadFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("tag"), new EagerProcedure(_globalEnvironment, null, new TagFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("remove-tag"), new EagerProcedure(_globalEnvironment, null, new RemoveTagFunction(this)));
-		
+
 		_globalEnvironment.defineVariable(_table.internString("+"), new EagerProcedure(_globalEnvironment, null, new PlusFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("-"), new EagerProcedure(_globalEnvironment, null, new MinusFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("*"), new EagerProcedure(_globalEnvironment, null, new MultiplyFunction(this)));
@@ -116,19 +116,20 @@ public class Interpreter {
 
 		BuiltinClasses.init(_globalEnvironment);
 
+        _globalEnvironment.defineVariable(_table.internString("StandardClass"), BuiltinClasses.STANDARDCLASS);
+        _globalEnvironment.defineVariable(_table.internString("Thing"), BuiltinClasses.THING);
 		_globalEnvironment.defineVariable(_table.internString("Object"), BuiltinClasses.OBJECT);
 		_globalEnvironment.defineVariable(_table.internString("Pair"), BuiltinClasses.PAIR);
-		_globalEnvironment.defineVariable(_table.internString("Integer"), BuiltinClasses.INTEGER);
-		_globalEnvironment.defineVariable(_table.internString("Double"), BuiltinClasses.DOUBLE);
+		_globalEnvironment.defineVariable(_table.internString("Bignum"), BuiltinClasses.BIGNUM);
 		_globalEnvironment.defineVariable(_table.internString("String"), BuiltinClasses.STRING);
 		_globalEnvironment.defineVariable(_table.internString("Symbol"), BuiltinClasses.SYMBOL);
 
 	}
 
 	public void init(boolean verbose)  throws LispinException {
-		SourceLoader.loadScriptFromClasspath(this, "boot/init.lin", verbose? _defaultOutput: (Writer)new NullWriter());		
+		SourceLoader.loadScriptFromClasspath(this, "boot/init.lin", verbose? _defaultOutput: (Writer)new NullWriter());
 	}
-	
+
 	public Parser newParser(InStream input) {
 		return new Parser(_table, input);
 	}
@@ -139,7 +140,7 @@ public class Interpreter {
 
 	public Writer getDefaultOutputWriter() {
 		return _defaultOutput;
-	}	
+	}
 	public Lsymbol getNil() {
 		return NIL;
 	}

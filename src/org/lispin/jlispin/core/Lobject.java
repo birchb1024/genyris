@@ -13,12 +13,15 @@ import org.lispin.jlispin.interp.UnboundException;
 
 
 public class Lobject extends Exp implements Environment {
+    private static int _counter;
+    private int _hash;
 	private Map _dict;
 	private Lsymbol NIL;
 	private Environment _parent;
 	Exp _self, __self, _classes, _superclasses, _classname;
 
 	private void init() {
+        _hash = _counter++;
 		_self = _parent.internString("self");
 		__self = _parent.internString(Constants._SELF);
 		_classes = _parent.internString(Constants.CLASSES);
@@ -39,19 +42,17 @@ public class Lobject extends Exp implements Environment {
 		init();
 	}
 
+    public int hashCode() {
+        return _hash;
+    }
+
+    public boolean equals(Object compare) {
+        return compare == this;
+    }
+
     public Environment getParent() {
         return _parent;
     }
-	public int hashCode() {
-    	return _dict.hashCode();
-    }
-
-	public boolean equals(Object compare) {
-		if( compare.getClass() != this.getClass())
-			return false;
-		else
-			return _dict.equals(((Lobject)compare)._dict);
-	}
 
 	public Object getJavaValue() {
 		return _dict;
