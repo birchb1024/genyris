@@ -1,11 +1,11 @@
 package org.genyris.core;
 
+import org.genyris.interp.Closure;
+import org.genyris.interp.Environment;
+import org.genyris.interp.Evaluator;
+import org.genyris.interp.LispinException;
+import org.genyris.interp.MagicEnvironment;
 import org.genyris.interp.builtin.TagFunction;
-import org.lispin.jlispin.interp.Closure;
-import org.lispin.jlispin.interp.Environment;
-import org.lispin.jlispin.interp.Evaluator;
-import org.lispin.jlispin.interp.LispinException;
-import org.lispin.jlispin.interp.MagicEnvironment;
 
 public abstract class Exp implements Classifiable, Closure {
 

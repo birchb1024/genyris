@@ -4,7 +4,7 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Constants;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
-import org.lispin.jlispin.interp.Environment;
+import org.genyris.interp.Environment;
 
 public class BuiltinClasses {
 

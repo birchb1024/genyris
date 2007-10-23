@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import org.genyris.classes.BuiltinClasses;
-import org.lispin.jlispin.interp.Environment;
-import org.lispin.jlispin.interp.Evaluator;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.LispinException;
-import org.lispin.jlispin.interp.SpecialEnvironment;
-import org.lispin.jlispin.interp.UnboundException;
+import org.genyris.interp.Environment;
+import org.genyris.interp.Evaluator;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.LispinException;
+import org.genyris.interp.SpecialEnvironment;
+import org.genyris.interp.UnboundException;
 
 
 public class Lobject extends Exp implements Environment {

@@ -9,9 +9,9 @@ import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
-import org.lispin.jlispin.interp.Environment;
-import org.lispin.jlispin.interp.LispinException;
-import org.lispin.jlispin.interp.UnboundException;
+import org.genyris.interp.Environment;
+import org.genyris.interp.LispinException;
+import org.genyris.interp.UnboundException;
 
 public class ClassWrapper extends ExpWithEmbeddedClasses {
     private Lobject _theClass;

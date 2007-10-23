@@ -1,6 +1,6 @@
 package org.genyris.core;
 
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.LispinException;
 
 public class AccessException extends LispinException {
 

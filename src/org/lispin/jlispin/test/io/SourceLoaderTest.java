@@ -5,8 +5,8 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.LispinException;
 import org.lispin.jlispin.load.SourceLoader;
 
 public class SourceLoaderTest extends TestCase {

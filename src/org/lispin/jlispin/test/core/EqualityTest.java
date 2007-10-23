@@ -14,8 +14,8 @@ import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.StandardEnvironment;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.StandardEnvironment;
 
 public class EqualityTest extends TestCase {
 

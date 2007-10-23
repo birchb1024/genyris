@@ -4,8 +4,8 @@ import java.io.StringWriter;
 
 import org.genyris.core.Exp;
 import org.genyris.format.BasicFormatter;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.LispinException;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Parser;
 import org.lispin.jlispin.io.StringInStream;

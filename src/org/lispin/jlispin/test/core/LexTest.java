@@ -11,7 +11,7 @@ import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.format.BasicFormatter;
-import org.lispin.jlispin.interp.Interpreter;
+import org.genyris.interp.Interpreter;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Lex;
 import org.lispin.jlispin.io.LexException;

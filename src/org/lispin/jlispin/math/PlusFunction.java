@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.lispin.jlispin.interp.ApplicableFunction;
-import org.lispin.jlispin.interp.Closure;
-import org.lispin.jlispin.interp.Environment;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.ApplicableFunction;
+import org.genyris.interp.Closure;
+import org.genyris.interp.Environment;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.LispinException;
 
 public class PlusFunction extends ApplicableFunction {
 

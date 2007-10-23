@@ -6,8 +6,8 @@ import org.genyris.core.Exp;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.NilSymbol;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.StandardEnvironment;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.StandardEnvironment;
 
 public class DictTest extends TestCase {
 	

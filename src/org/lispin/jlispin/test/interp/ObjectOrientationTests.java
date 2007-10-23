@@ -1,6 +1,6 @@
 package org.lispin.jlispin.test.interp;
 
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.LispinException;
 
 import junit.framework.TestCase;
 

@@ -1,4 +1,4 @@
-package org.lispin.jlispin.interp;
+package org.genyris.interp;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;

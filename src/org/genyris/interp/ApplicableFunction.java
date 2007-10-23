@@ -1,4 +1,4 @@
-package org.lispin.jlispin.interp;
+package org.genyris.interp;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;

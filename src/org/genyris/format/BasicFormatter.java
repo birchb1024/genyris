@@ -15,10 +15,10 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
-import org.lispin.jlispin.interp.EagerProcedure;
-import org.lispin.jlispin.interp.LazyProcedure;
-import org.lispin.jlispin.interp.SpecialEnvironment;
-import org.lispin.jlispin.interp.StandardEnvironment;
+import org.genyris.interp.EagerProcedure;
+import org.genyris.interp.LazyProcedure;
+import org.genyris.interp.SpecialEnvironment;
+import org.genyris.interp.StandardEnvironment;
 
 public class BasicFormatter implements Visitor {
 

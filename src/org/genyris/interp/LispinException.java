@@ -1,4 +1,4 @@
-package org.lispin.jlispin.interp;
+package org.genyris.interp;
 
 public class LispinException extends Exception {
 

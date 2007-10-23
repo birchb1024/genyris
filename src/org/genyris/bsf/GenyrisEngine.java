@@ -7,9 +7,9 @@ import org.apache.bsf.BSFDeclaredBean;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.util.BSFEngineImpl;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.LispinException;
-import org.lispin.jlispin.interp.Runner;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.LispinException;
+import org.genyris.interp.Runner;
 import org.lispin.jlispin.io.StringInStream;
 
 public class GenyrisEngine extends BSFEngineImpl {

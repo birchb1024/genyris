@@ -1,4 +1,4 @@
-package org.lispin.jlispin.interp;
+package org.genyris.interp;
 
 import java.util.Map;
 import org.genyris.core.Exp;

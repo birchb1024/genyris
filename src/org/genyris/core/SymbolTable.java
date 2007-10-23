@@ -2,7 +2,7 @@ package org.genyris.core;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.LispinException;
 
 public class SymbolTable {
 	

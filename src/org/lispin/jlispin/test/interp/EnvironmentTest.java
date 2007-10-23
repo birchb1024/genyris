@@ -6,10 +6,10 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
-import org.lispin.jlispin.interp.Environment;
-import org.lispin.jlispin.interp.Evaluator;
-import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.StandardEnvironment;
+import org.genyris.interp.Environment;
+import org.genyris.interp.Evaluator;
+import org.genyris.interp.Interpreter;
+import org.genyris.interp.StandardEnvironment;
 
 public class EnvironmentTest extends TestCase {
 	

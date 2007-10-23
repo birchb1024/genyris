@@ -4,7 +4,7 @@ import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.SymbolTable;
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.LispinException;
 
 public class Parser {
     private Lex _lexer;

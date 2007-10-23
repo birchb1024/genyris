@@ -1,6 +1,6 @@
 package org.lispin.jlispin.io;
 
-import org.lispin.jlispin.interp.LispinException;
+import org.genyris.interp.LispinException;
 
 public class LexException extends LispinException {
 

@@ -1,8 +1,8 @@
 package org.genyris.core;
 
 import org.genyris.classification.ClassWrapper;
-import org.lispin.jlispin.interp.EagerProcedure;
-import org.lispin.jlispin.interp.LazyProcedure;
+import org.genyris.interp.EagerProcedure;
+import org.genyris.interp.LazyProcedure;
 
 public interface Visitor {
 	public void visitLcons(Lcons cons);
