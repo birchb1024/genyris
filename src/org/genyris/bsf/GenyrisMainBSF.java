@@ -12,7 +12,7 @@ public class GenyrisMainBSF {
 
 
     public static void main(String[] args) throws IOException {
-        String language = "JLispin";
+        String language = "Genyris";
         String inFileName = args[0];
         try {
             Reader in;
@@ -24,8 +24,8 @@ public class GenyrisMainBSF {
             }
             BSFManager mgr = new BSFManager();
             String[] extensions = {"lin"};
-            BSFManager.registerScriptingEngine("JLispin", GenyrisEngine.class.getName(), extensions);
-            
+            BSFManager.registerScriptingEngine("Genyris", GenyrisEngine.class.getName(), extensions);
+
             Object obj = mgr.eval(language, inFileName, 0, 0, IOUtils.getStringFromReader(in));
             System.out.println(obj);
 

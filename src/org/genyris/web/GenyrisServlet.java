@@ -42,29 +42,29 @@ public final class GenyrisServlet extends HttpServlet {
 
     writer.println("<html>");
     writer.println("<head>");
-    writer.println("<title>JLispin</title>");
+    writer.println("<title>Genyris</title>");
     writer.println("</head>");
     writer.println("<body bgcolor=white><PRE>");
 
         Interpreter _interpreter;
-    
+
         try {
             _interpreter = new Interpreter();
             _interpreter.init(true);
-            
+
             InStream input = new UngettableInStream(new ConvertEofInStream(
                     new IndentStream(
                             new UngettableInStream(new StringInStream("list \"Hello\" \"world\"")), false)));
             Parser parser = _interpreter.newParser(input);
-            Exp expression = parser.read(); 
+            Exp expression = parser.read();
             Exp result = _interpreter.evalInGlobalEnvironment(expression);
-            
+
             IndentedFormatter formatter = new IndentedFormatter(writer, 3, _interpreter);
             result.acceptVisitor(formatter);
         } catch (GenyrisException e) {
             writer.print(e.getStackTrace());
         }
-  
+
 
     writer.println("</PRE></body>");
     writer.println("</html>");

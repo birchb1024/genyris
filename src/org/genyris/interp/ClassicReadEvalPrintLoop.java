@@ -29,7 +29,7 @@ public class ClassicReadEvalPrintLoop {
 			Parser parser = interpreter.newParser(input);
 			Writer output = new PrintWriter(System.out);
 			IndentedFormatter formatter = new IndentedFormatter(output, 3, interpreter);
-			System.out.println("\n*** JLispin is listening...");
+			System.out.println("\n*** Genyris is listening...");
 			Exp expression = null;
 			do {
 				try {
@@ -44,7 +44,7 @@ public class ClassicReadEvalPrintLoop {
 					Exp result = interpreter.evalInGlobalEnvironment(expression);
 
 					result.acceptVisitor(formatter);
-					
+
 					output.write(" ;");
 					Exp klasses = result.getClasses(NIL);
 					while(klasses != NIL){

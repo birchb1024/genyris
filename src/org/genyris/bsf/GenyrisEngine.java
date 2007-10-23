@@ -32,7 +32,7 @@ public class GenyrisEngine extends BSFEngineImpl {
         // // ensure that output and error streams are re-directed correctly
         // interp.setOut(System.out);
         // interp.setErr(System.err);
-        //    
+        //
         // // register the mgr with object name "bsf"
         // interp.set ("bsf", new BSFFunctions (mgr, this));
         //
@@ -86,7 +86,7 @@ public class GenyrisEngine extends BSFEngineImpl {
         // return null;
         // } catch (PyException e) {
         // throw new BSFException (BSFException.REASON_EXECUTION_ERROR,
-        // "exception from JLispin:\n" + e, e);
+        // "exception from Genyris:\n" + e, e);
         // }
         return null;
     }
@@ -106,29 +106,29 @@ public class GenyrisEngine extends BSFEngineImpl {
         // try {
         // /* We wrapper the original script in a function definition, and
         // * evaluate the function. A hack, no question, but it allows
-        // * apply() to pretend to work on JLispin.
+        // * apply() to pretend to work on Genyris.
         // */
         // StringBuffer script = new StringBuffer(byteify(funcBody.toString()));
         // int index = 0;
         // script.insert(0, "def bsf_temp_fn():\n");
-        //         
+        //
         // while (index < script.length()) {
         // if (script.charAt(index) == '\n') {
         // script.insert(index+1, '\t');
         // }
         // index++;
         // }
-        //          
+        //
         // interp.exec (script.toString ());
-        //          
+        //
         // Object result = interp.eval ("bsf_temp_fn()");
-        //          
+        //
         // if (result != null && result instanceof PyJavaInstance)
         // result = ((PyJavaInstance)result).__tojava__(Object.class);
         // return result;
         // } catch (PyException e) {
         // throw new BSFException (BSFException.REASON_EXECUTION_ERROR,
-        // "exception from JLispin:\n" + e, e);
+        // "exception from Genyris:\n" + e, e);
         // }
         return null;
     }
@@ -141,7 +141,7 @@ public class GenyrisEngine extends BSFEngineImpl {
         // interp.exec (byteify(script.toString ()));
         // } catch (PyException e) {
         // throw new BSFException (BSFException.REASON_EXECUTION_ERROR,
-        // "exception from JLispin:\n" + e, e);
+        // "exception from Genyris:\n" + e, e);
         // }
     }
 
@@ -164,7 +164,7 @@ public class GenyrisEngine extends BSFEngineImpl {
         // } catch (PyException e) {
         // interp.resetbuffer();
         // throw new BSFException(BSFException.REASON_EXECUTION_ERROR,
-        // "exception from JLispin:\n" + e, e);
+        // "exception from Genyris:\n" + e, e);
         // }
     }
 
