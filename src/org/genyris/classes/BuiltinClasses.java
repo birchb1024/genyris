@@ -1,4 +1,4 @@
-package org.lispin.jlispin.classes;
+package org.genyris.classes;
 
 import org.genyris.classification.ClassWrapper;
 import org.lispin.jlispin.core.Constants;
