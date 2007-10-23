@@ -1,4 +1,4 @@
-package org.lispin.jlispin.test.format;
+package org.genyris.test.format;
 
 import java.io.StringWriter;
 
