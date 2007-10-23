@@ -1,4 +1,4 @@
-package org.lispin.jlispin.interp.builtin;
+package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.lispin.jlispin.interp.ApplicableFunction;
@@ -7,20 +7,15 @@ import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 
-public class EqualsFunction extends ApplicableFunction {
+public class IdentityFunction extends ApplicableFunction {
 
-	public EqualsFunction(Interpreter interp) {
+	public IdentityFunction(Interpreter interp) {
 		super(interp);
 	}
-
-
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
-		if( arguments.length != 2)
-			throw new LispinException("Too few arguments to EqualsFunction: " + arguments.length);
-		if( arguments[0].deepEquals(arguments[1]) )
-			return TRUE;
-		else
-			return NIL;
+		if( arguments.length != 1)
+			throw new LispinException("Wrong number of arguments to identity function: " + arguments.length);
+		return arguments[0];
 	}
 
 }

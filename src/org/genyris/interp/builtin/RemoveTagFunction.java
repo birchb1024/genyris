@@ -1,4 +1,4 @@
-package org.lispin.jlispin.interp.builtin;
+package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.lispin.jlispin.interp.ApplicableFunction;
