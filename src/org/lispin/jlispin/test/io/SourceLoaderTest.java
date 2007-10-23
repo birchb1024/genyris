@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
-import org.lispin.jlispin.load.SourceLoader;
+import org.genyris.load.SourceLoader;
 
 public class SourceLoaderTest extends TestCase {
 

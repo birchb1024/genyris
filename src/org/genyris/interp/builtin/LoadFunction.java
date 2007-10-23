@@ -10,7 +10,7 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
 import org.genyris.io.NullWriter;
-import org.lispin.jlispin.load.SourceLoader;
+import org.genyris.load.SourceLoader;
 
 public class LoadFunction extends ApplicableFunction {
 	

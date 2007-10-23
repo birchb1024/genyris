@@ -38,7 +38,7 @@ import org.genyris.interp.builtin.TagFunction;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
-import org.lispin.jlispin.load.SourceLoader;
+import org.genyris.load.SourceLoader;
 import org.lispin.jlispin.logic.AndFunction;
 import org.lispin.jlispin.logic.OrFunction;
 import org.lispin.jlispin.math.DivideFunction;
