@@ -5,7 +5,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class RemoveTagFunction extends ApplicableFunction {
 
@@ -13,9 +13,9 @@ public class RemoveTagFunction extends ApplicableFunction {
 		super(interp);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		if( arguments.length != 2)
-			throw new LispinException("Too few arguments to removetag: " + arguments.length);
+			throw new GenyrisException("Too few arguments to removetag: " + arguments.length);
 		Exp object = arguments[0];
 		Exp newClass = arguments[1];
 		object.removeClass(newClass);

@@ -5,7 +5,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class OrFunction extends ApplicableFunction {
 
@@ -14,9 +14,9 @@ public class OrFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
-			throws LispinException {
+			throws GenyrisException {
 		if (arguments.length < 2)
-			throw new LispinException("Too few arguments to or: " + arguments.length);
+			throw new GenyrisException("Too few arguments to or: " + arguments.length);
 
 		for (int i = 0; i < arguments.length; i++) {
 			if (arguments[i] == TRUE) {
@@ -26,7 +26,7 @@ public class OrFunction extends ApplicableFunction {
 				continue;
 			}
 			else {
-				throw new LispinException("or expects t or nil, not: " + arguments[i]);				
+				throw new GenyrisException("or expects t or nil, not: " + arguments[i]);				
 			}
 		}
 		return NIL;

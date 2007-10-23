@@ -5,7 +5,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class AndFunction extends ApplicableFunction {
 
@@ -14,9 +14,9 @@ public class AndFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
-			throws LispinException {
+			throws GenyrisException {
 		if (arguments.length < 2)
-			throw new LispinException("Too few arguments to and: " + arguments.length);
+			throw new GenyrisException("Too few arguments to and: " + arguments.length);
 
 		for (int i = 0; i < arguments.length; i++) {
 			if (arguments[i] == NIL) {

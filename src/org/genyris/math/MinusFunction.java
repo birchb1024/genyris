@@ -8,7 +8,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 // TODO DRY - plus
 public class MinusFunction extends ApplicableFunction {
@@ -17,9 +17,9 @@ public class MinusFunction extends ApplicableFunction {
 		super(interp);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		if( arguments.length < 2)
-			throw new LispinException("Too few arguments to plus: " + arguments.length);
+			throw new GenyrisException("Too few arguments to plus: " + arguments.length);
 		try {
 			Exp result = arguments[0];
 			for( int i=1; i< arguments.length; i++ ) {
@@ -28,7 +28,7 @@ public class MinusFunction extends ApplicableFunction {
 			return result;
 		}
 		catch(RuntimeException e) {
-			throw new LispinException(e.getMessage());
+			throw new GenyrisException(e.getMessage());
 		}
 	}
 

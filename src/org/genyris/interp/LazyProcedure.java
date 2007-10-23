@@ -10,7 +10,7 @@ import org.genyris.core.Visitor;
 public class LazyProcedure extends AbstractClosure {
 	// I DO NOT evaluate my arguments before being applied.
 
-	public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
+	public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
 		super( environment,  expression,  appl);
 	}
 	

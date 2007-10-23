@@ -1,6 +1,6 @@
 package org.genyris.interp;
 
-public class UnboundException extends LispinException {
+public class UnboundException extends GenyrisException {
 
 	/**
 	 * 

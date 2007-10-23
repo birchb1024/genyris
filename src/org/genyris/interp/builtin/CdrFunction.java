@@ -5,7 +5,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class CdrFunction extends ApplicableFunction {
 
@@ -13,9 +13,9 @@ public class CdrFunction extends ApplicableFunction {
 		super(interp);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		if( arguments.length != 1)
-			throw new LispinException("Too many or few arguments to car: " + arguments.length);
+			throw new GenyrisException("Too many or few arguments to car: " + arguments.length);
 		return arguments[0].cdr();
 	}
 

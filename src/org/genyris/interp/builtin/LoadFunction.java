@@ -7,7 +7,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.io.NullWriter;
 import org.genyris.load.SourceLoader;
 
@@ -17,11 +17,11 @@ public class LoadFunction extends ApplicableFunction {
 		super(interp);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		Exp result;
 		Writer out = new NullWriter();
 		if( !( arguments[0] instanceof Lstring) ) {
-			throw new LispinException("non-string argument passed to load: " + arguments[0].toString());
+			throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
 		}
 		if( arguments.length > 1 ) {
 			if( arguments[1] == TRUE) {

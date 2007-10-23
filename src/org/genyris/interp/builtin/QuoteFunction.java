@@ -5,7 +5,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class QuoteFunction extends ApplicableFunction {
 
@@ -14,9 +14,9 @@ public class QuoteFunction extends ApplicableFunction {
 	}
 
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		if( arguments.length > 1)
-			throw new LispinException("Too many arguments to quote: " + arguments.length);
+			throw new GenyrisException("Too many arguments to quote: " + arguments.length);
 		return arguments[0];
 	}
 

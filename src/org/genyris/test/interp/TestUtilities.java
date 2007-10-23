@@ -5,7 +5,7 @@ import java.io.StringWriter;
 import org.genyris.core.Exp;
 import org.genyris.format.BasicFormatter;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.io.InStream;
 import org.genyris.io.Parser;
 import org.genyris.io.StringInStream;
@@ -15,11 +15,11 @@ public class TestUtilities {
 	
 	public Interpreter _interpreter;
 	
-	public TestUtilities() throws LispinException {
+	public TestUtilities() throws GenyrisException {
 		_interpreter = new Interpreter();
 	}
 
-	public String eval(String script) throws LispinException {
+	public String eval(String script) throws GenyrisException {
 		InStream input = new UngettableInStream( new StringInStream(script));
 		Parser parser = _interpreter.newParser(input);
 		Exp expression = parser.read(); 

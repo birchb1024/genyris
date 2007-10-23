@@ -8,7 +8,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class LambdaFunction extends ApplicableFunction {
 
@@ -17,7 +17,7 @@ public class LambdaFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-			throws LispinException {
+			throws GenyrisException {
 
 		Exp expression = arrayToList(arguments); // TODO - inefficient
 		expression = new Lcons(_lambda, expression);

@@ -11,7 +11,7 @@ import org.genyris.format.BasicFormatter;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.interp.StandardEnvironment;
 import org.genyris.io.InStream;
 import org.genyris.io.Parser;
@@ -58,7 +58,7 @@ public class EvalApplyTest extends TestCase {
 				assertEquals(expected, out.getBuffer().toString());
 
 			}
-			catch (LispinException e) {
+			catch (GenyrisException e) {
 				assertEquals(exceptionExpected, e.getMessage());
 			}
 

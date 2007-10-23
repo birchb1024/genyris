@@ -9,7 +9,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class DefineClassFunction extends ApplicableFunction {
 
@@ -17,12 +17,12 @@ public class DefineClassFunction extends ApplicableFunction {
 		super(interp);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 
         if( arguments.length < 1)
-            throw new LispinException("Incorrect number of arguments to class.");
+            throw new GenyrisException("Incorrect number of arguments to class.");
         if(! (arguments[0] instanceof Lsymbol)) {
-            throw new LispinException("class expects a symbols.");
+            throw new GenyrisException("class expects a symbols.");
         }
         Exp klassname = arguments[0];
         Exp superklasses = ( arguments.length > 1 ? arguments[1] : NIL);

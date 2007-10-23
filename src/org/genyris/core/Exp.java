@@ -3,7 +3,7 @@ package org.genyris.core;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.interp.MagicEnvironment;
 import org.genyris.interp.builtin.TagFunction;
 
@@ -12,12 +12,12 @@ public abstract class Exp implements Classifiable, Closure {
 	public abstract Object getJavaValue();
 	public abstract void acceptVisitor(Visitor guest);
 
-	public Exp[] computeArguments(Environment ignored, Exp exp) throws LispinException {
+	public Exp[] computeArguments(Environment ignored, Exp exp) throws GenyrisException {
 		Exp[] args = {exp};
 		return args;
 	}
 
-	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
+	public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
 		if(arguments[0].isNil()) {
 			return this;
 		}
@@ -34,7 +34,7 @@ public abstract class Exp implements Classifiable, Closure {
                 return this;
             }
             catch (ClassCastException e) {
-                throw new LispinException("type tag failure: " + arguments[0] + " is not a class");
+                throw new GenyrisException("type tag failure: " + arguments[0] + " is not a class");
             }
         }
 	}

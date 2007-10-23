@@ -8,7 +8,7 @@ public class Evaluator {
 	
 	// TODO - refactor this to use visitor in Exp and gt rid of if()s
 
-	public static Exp eval(Environment env, Exp expression) throws UnboundException, AccessException, LispinException {
+	public static Exp eval(Environment env, Exp expression) throws UnboundException, AccessException, GenyrisException {
 		Lsymbol NIL = env.getNil();
 		if( expression.isSelfEvaluating()) {
 			return expression; }
@@ -22,14 +22,14 @@ public class Evaluator {
 				return proc.applyFunction(env, arguments );
 			}
 			catch (ClassCastException e) {
-				throw new LispinException("Attempt to call something which is not callable." + expression.toString());
+				throw new GenyrisException("Attempt to call something which is not callable." + expression.toString());
 			}
 		}
 		else 
 			return NIL;
 	}
 
-	public static Exp evalSequence(Environment env, Exp body) throws LispinException {
+	public static Exp evalSequence(Environment env, Exp body) throws GenyrisException {
 		Lsymbol NIL = env.getNil();
 		if(body == NIL) {
 			return NIL;

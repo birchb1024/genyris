@@ -2,7 +2,7 @@ package org.genyris.core;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class SymbolTable {
 	
@@ -32,7 +32,7 @@ public class SymbolTable {
 
     public void intern(Exp newSym) throws Exception {
         if (_table.containsKey(((Lsymbol)newSym).getPrintName())) {
-            throw new LispinException("Can't intern symbol - already exists.");
+            throw new GenyrisException("Can't intern symbol - already exists.");
         } else {
             _table.put(((Lsymbol)newSym).getPrintName(), newSym);
         }

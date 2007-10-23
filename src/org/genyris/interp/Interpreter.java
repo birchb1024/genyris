@@ -57,7 +57,7 @@ public class Interpreter {
 	public NilSymbol NIL;
 	private Lsymbol TRUE;
 
-	public Interpreter() throws LispinException {
+	public Interpreter() throws GenyrisException {
 		NIL = new NilSymbol();
 		_table = new SymbolTable();
 		_globalEnvironment = new StandardEnvironment(this, NIL);
@@ -125,7 +125,7 @@ public class Interpreter {
 
 	}
 
-	public void init(boolean verbose)  throws LispinException {
+	public void init(boolean verbose)  throws GenyrisException {
 		SourceLoader.loadScriptFromClasspath(this, "boot/init.lin", verbose? _defaultOutput: (Writer)new NullWriter());
 	}
 
@@ -133,7 +133,7 @@ public class Interpreter {
 		return new Parser(_table, input);
 	}
 
-	public Exp evalInGlobalEnvironment(Exp expression) throws UnboundException, AccessException, LispinException {
+	public Exp evalInGlobalEnvironment(Exp expression) throws UnboundException, AccessException, GenyrisException {
 		return Evaluator.eval(_globalEnvironment, expression);
 	}
 

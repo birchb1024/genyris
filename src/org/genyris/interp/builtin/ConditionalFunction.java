@@ -6,7 +6,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class ConditionalFunction extends ApplicableFunction {
 
@@ -15,7 +15,7 @@ public class ConditionalFunction extends ApplicableFunction {
 		super(interp);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		for(int i= 0; i < arguments.length; i++) {
 			Exp condition = Evaluator.eval(env, arguments[i].car()); // TODO check if it exists?
 			if( condition != NIL ) {

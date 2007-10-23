@@ -9,7 +9,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class BackquoteFunction extends ApplicableFunction {
 	
@@ -21,12 +21,12 @@ public class BackquoteFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
-			throws LispinException {
+			throws GenyrisException {
 
 		return backQuoteAux(envForBindOperations, arguments[0]);
 	}
 
-    private Exp backQuoteAux(Environment env, Exp sexp) throws LispinException {
+    private Exp backQuoteAux(Environment env, Exp sexp) throws GenyrisException {
         if(sexp == NIL || (!sexp.listp())) {
             return sexp;
         }

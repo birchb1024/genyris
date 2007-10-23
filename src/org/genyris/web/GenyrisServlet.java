@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.genyris.core.Exp;
 import org.genyris.format.IndentedFormatter;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
@@ -61,7 +61,7 @@ public final class GenyrisServlet extends HttpServlet {
             
             IndentedFormatter formatter = new IndentedFormatter(writer, 3, _interpreter);
             result.acceptVisitor(formatter);
-        } catch (LispinException e) {
+        } catch (GenyrisException e) {
             writer.print(e.getStackTrace());
         }
   

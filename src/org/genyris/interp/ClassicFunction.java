@@ -15,12 +15,12 @@ public class ClassicFunction extends ApplicableFunction {
 		REST = interp.getSymbolTable().internString(Constants.REST);
 	}
 
-	public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations) throws LispinException  { 
+	public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  { 
 
 		AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
 		Map bindings = new HashMap();
 		if(arguments.length < proc.getNumberOfRequiredArguments()) {
-			throw new LispinException("Too few arguments supplied to proc: " + proc.getName());
+			throw new GenyrisException("Too few arguments supplied to proc: " + proc.getName());
 		}
 		for( int i=0 ; i< arguments.length ; i++ ) {
 			Exp formal = proc.getArgumentOrNIL(i);
@@ -43,7 +43,7 @@ public class ClassicFunction extends ApplicableFunction {
 		return Evaluator.evalSequence(newEnv, proc.getBody());
 	}
 
-	private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i) throws LispinException, AccessException {
+	private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i) throws GenyrisException, AccessException {
 		Lcons actuals = new Lcons(arguments[i], NIL);
 		Lcons tail = actuals;
 		for(int j=i+1; j< arguments.length ; j++ ) {

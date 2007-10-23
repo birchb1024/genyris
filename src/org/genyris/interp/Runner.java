@@ -15,7 +15,7 @@ import org.genyris.io.UngettableInStream;
 
 public class Runner {
 
-    public static Exp executeScript(Interpreter interp, StringInStream stream, Writer output) throws LispinException {
+    public static Exp executeScript(Interpreter interp, StringInStream stream, Writer output) throws GenyrisException {
         InStream input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(stream),
                 false)));
         Parser parser = interp.newParser(input);

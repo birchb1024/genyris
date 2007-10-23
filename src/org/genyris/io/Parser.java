@@ -4,7 +4,7 @@ import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.SymbolTable;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class Parser {
     private Lex _lexer;
@@ -20,7 +20,7 @@ public class Parser {
         cursym = _lexer.nextToken();
     }
 
-    public Exp read() throws LispinException {
+    public Exp read() throws GenyrisException {
         Exp retval = NIL;
         nextsym();
         if (cursym.equals(_lexer.EOF)) {
@@ -31,7 +31,7 @@ public class Parser {
         return (retval);
     }
 
-    public Exp parseList() throws LispinException {
+    public Exp parseList() throws GenyrisException {
         Exp tree;
 
         nextsym();
@@ -57,7 +57,7 @@ public class Parser {
        return tree ;
     }
 
-    public Exp parseExpression() throws LispinException {
+    public Exp parseExpression() throws GenyrisException {
         Exp tree = NIL;
         if (cursym.equals(_lexer.EOF)) {
             throw new ParseException("unexpected End of File");

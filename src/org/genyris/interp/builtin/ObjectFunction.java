@@ -7,7 +7,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class ObjectFunction extends ApplicableFunction {
 	// Create a new dict
@@ -17,11 +17,11 @@ public class ObjectFunction extends ApplicableFunction {
 	}
 
 
-	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env) throws LispinException {
+	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env) throws GenyrisException {
 		Lobject dict = new Lobject(env);
 		for(int i= 0; i < arguments.length; i++) {
 			if( !arguments[i].listp())
-				throw new LispinException("argument to dict not a list");
+				throw new GenyrisException("argument to dict not a list");
 			dict.defineVariable(arguments[i].car(), Evaluator.eval(env, arguments[i].cdr())); 
 		}
 		return dict;

@@ -7,7 +7,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.interp.MacroFunction;
 
 public class DefMacroFunction extends ApplicableFunction {
@@ -17,7 +17,7 @@ public class DefMacroFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
-			throws LispinException {
+			throws GenyrisException {
 		Exp lambdaExpression = new Lcons(_lambdam, arrayToList(arguments).cdr());
 		// TODO inefficient
 		LazyProcedure fn = new LazyProcedure(envForBindOperations, lambdaExpression, new MacroFunction(_interp));

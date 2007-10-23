@@ -8,7 +8,7 @@ import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.util.BSFEngineImpl;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.interp.Runner;
 import org.genyris.io.StringInStream;
 
@@ -23,7 +23,7 @@ public class GenyrisEngine extends BSFEngineImpl {
         try {
             _interp = new Interpreter();
             _interp.init(true);
-        } catch (LispinException e) {
+        } catch (GenyrisException e) {
             throw new BSFException(e.getMessage());
         };
         // // create an interpreter
@@ -50,7 +50,7 @@ public class GenyrisEngine extends BSFEngineImpl {
         Writer output = new StringWriter();
         try {
             Runner.executeScript(_interp, new StringInStream(script.toString()), output);
-        } catch (LispinException e) {
+        } catch (GenyrisException e) {
             throw new BSFException(e.getMessage());
         }
         return output.toString();

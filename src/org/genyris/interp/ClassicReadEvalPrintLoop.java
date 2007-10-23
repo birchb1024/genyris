@@ -54,7 +54,7 @@ public class ClassicReadEvalPrintLoop {
 					}
 					output.flush();
 				}
-				catch (LispinException e) {
+				catch (GenyrisException e) {
 					System.out.println("*** Error: " + e.getMessage());
 				}
 				catch (Exception e) {
@@ -62,7 +62,7 @@ public class ClassicReadEvalPrintLoop {
 				}
 			} while (true);
 		}
-		catch (LispinException e1) {
+		catch (GenyrisException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.exit(-1);

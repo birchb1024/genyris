@@ -7,7 +7,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class LessThanFunction extends ApplicableFunction {
 
@@ -15,14 +15,14 @@ public class LessThanFunction extends ApplicableFunction {
 		super(interp);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		if( arguments.length != 2)
-			throw new LispinException("Not two arguments to < " + arguments.length);
+			throw new GenyrisException("Not two arguments to < " + arguments.length);
 		try {
 			return ltAux(arguments[0], arguments[1]);
 		}
 		catch(RuntimeException e) {
-			throw new LispinException(e.getMessage());
+			throw new GenyrisException(e.getMessage());
 		}
 	}
 

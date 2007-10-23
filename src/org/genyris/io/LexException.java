@@ -1,8 +1,8 @@
 package org.genyris.io;
 
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
-public class LexException extends LispinException {
+public class LexException extends GenyrisException {
 
 	/**
 	 * 

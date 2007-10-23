@@ -10,7 +10,7 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.interp.Environment;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.interp.UnboundException;
 
 public class ClassWrapper extends ExpWithEmbeddedClasses {
@@ -88,7 +88,7 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
             try {
                 _theClass.defineVariable(SUPERCLASSES, new Lcons( klass, NIL));
                 new ClassWrapper(klass).addSubClass(_theClass);
-            } catch (LispinException e1) {
+            } catch (GenyrisException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
@@ -107,7 +107,7 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
         } catch (UnboundException e) {
             try {
                 _theClass.defineVariable(SUBCLASSES, new Lcons( klass, NIL));
-            } catch (LispinException e1) {
+            } catch (GenyrisException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
@@ -127,7 +127,7 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
         return _theClass.lookupVariableShallow(CLASSNAME).toString();
     }
 
-    public static Lobject makeClass(Environment env, Exp klassname, Exp superklasses) throws LispinException {
+    public static Lobject makeClass(Environment env, Exp klassname, Exp superklasses) throws GenyrisException {
         Exp NIL = env.getNil();
         Lobject newClass = new Lobject(env);
         newClass.addClass(BuiltinClasses.STANDARDCLASS);
@@ -157,7 +157,7 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
         env.defineVariable(klassname, newClass);
         return newClass;
     }
-    private static Exp lookupClasses(Environment env, Exp superklasses) throws LispinException {
+    private static Exp lookupClasses(Environment env, Exp superklasses) throws GenyrisException {
         Exp result = env.getNil();
         while(superklasses != env.getNil()) {
             result = new Lcons(env.lookupVariableValue(superklasses.car()), result);

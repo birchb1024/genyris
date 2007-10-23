@@ -8,7 +8,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 public class LambdaqFunction extends ApplicableFunction {
 
@@ -17,7 +17,7 @@ public class LambdaqFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-			throws LispinException {
+			throws GenyrisException {
 		// TODO Optimise - repack of args inefficient
 		Exp expression = arrayToList(arguments);
 		expression = new Lcons(_lambdaq, expression);

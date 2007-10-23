@@ -15,7 +15,7 @@ public abstract class AbstractClosure extends Exp implements Closure {
 	protected int _numberOfRequiredArguments;
 	Lsymbol NIL, REST;
 
-	public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
+	public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
 		_env = environment;
 		_lambdaExpression = expression;
 		_functionToApply = appl;
@@ -52,9 +52,9 @@ public abstract class AbstractClosure extends Exp implements Closure {
 		return _lambdaExpression.cdr().cdr();
 	}
 	
-	public abstract Exp[] computeArguments(Environment env, Exp exp) throws LispinException;
+	public abstract Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException;
 
-	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
+	public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
 		return _functionToApply.bindAndExecute(this, arguments, environment); // double dispatch
 	}
 

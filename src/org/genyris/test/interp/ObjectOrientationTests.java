@@ -1,6 +1,6 @@
 package org.genyris.test.interp;
 
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 
 import junit.framework.TestCase;
 
@@ -13,24 +13,24 @@ public class ObjectOrientationTests extends TestCase {
 		interpreter = new TestUtilities();
 	}
 
-	private void checkEval(String exp, String expected) throws LispinException {
+	private void checkEval(String exp, String expected) throws GenyrisException {
 		assertEquals(expected, interpreter.eval(exp));
 	}
 
-	private void checkEvalBad(String exp) throws LispinException {
+	private void checkEvalBad(String exp) throws GenyrisException {
 		try {
 			interpreter.eval(exp);
 			fail("expecting exception");
 		}
-		catch (LispinException e) {
+		catch (GenyrisException e) {
 		}
 	}
 
-	private void eval(String script) throws LispinException {
+	private void eval(String script) throws GenyrisException {
 		interpreter.eval(script);
 	}
 
-	public void testExcerciseEval() throws LispinException {
+	public void testExcerciseEval() throws GenyrisException {
 		eval("(defvar '$global 999)");
 		checkEval("$global", "999");
 
@@ -56,7 +56,7 @@ public class ObjectOrientationTests extends TestCase {
 	}
 
 
-	public void testInheritance() throws LispinException {
+	public void testInheritance() throws GenyrisException {
 
 		eval("(defvar 'Standard-Class (dict))");
 

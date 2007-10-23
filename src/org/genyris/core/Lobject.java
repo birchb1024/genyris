@@ -7,7 +7,7 @@ import org.genyris.classes.BuiltinClasses;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.LispinException;
+import org.genyris.interp.GenyrisException;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;
 
@@ -83,10 +83,10 @@ public class Lobject extends Exp implements Environment {
 		return new Lcons(_parent.internString(Constants.DICT), result);
 	}
 
-	public void defineVariable(Exp symbol, Exp valu)  throws LispinException
+	public void defineVariable(Exp symbol, Exp valu)  throws GenyrisException
     {
         if(! (symbol instanceof Lsymbol) ) {
-            throw new LispinException("cannot define non-symbol: " + symbol.toString());
+            throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
 		_dict.put(symbol, valu);
 	}
@@ -226,7 +226,7 @@ public class Lobject extends Exp implements Environment {
 		}
 	}
 
-	public Exp applyFunction(Environment environment, Exp[] arguments) throws LispinException {
+	public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
 		Map bindings = new HashMap();
 		bindings.put(_self, this);
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this);
@@ -239,7 +239,7 @@ public class Lobject extends Exp implements Environment {
                 return this;
             }
             catch (ClassCastException e) {
-                throw new LispinException("type tag failure: " + arguments[0] + " is not a class");
+                throw new GenyrisException("type tag failure: " + arguments[0] + " is not a class");
             }
         }
 

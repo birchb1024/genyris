@@ -7,11 +7,11 @@ import org.genyris.core.Visitor;
 public class EagerProcedure extends AbstractClosure  {
 	// I DO evaluate my arguments before being applied.
 
-	public EagerProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws LispinException {
+	public EagerProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
 		super( environment,  expression,  appl);
 	}
 		
-	public Exp[] computeArguments(Environment env, Exp exp) throws LispinException {
+	public Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException {
 		Lsymbol NIL = env.getNil();
 		int i = 0;
 		Exp[] result = new Exp[exp.length(NIL)];

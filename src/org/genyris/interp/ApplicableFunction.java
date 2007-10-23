@@ -19,7 +19,7 @@ public abstract class ApplicableFunction {
 		_lambdam = interp.getSymbolTable().internString(Constants.LAMBDAM);
 	}
 
-	public abstract Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException;
+	public abstract Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException;
 
 	public String getName() {
 		return this.getClass().getName();
