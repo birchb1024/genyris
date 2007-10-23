@@ -2,7 +2,6 @@ package org.genyris.interp;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
 import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
