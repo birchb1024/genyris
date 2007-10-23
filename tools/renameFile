@@ -1,0 +1,5 @@
+#!/bin/bash
+mv $2 $1
+hg rename $1 $2
+hg commit -m "Renamed $1 to $2."
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+mv src/org/genyris/$1 src/org/lispin/jlispin/$1
+hg rename src/org/lispin/jlispin/$1 src/org/genyris/$1
+hg commit -m "hg rename src/org/lispin/jlispin/$1 src/org/genyris/$1."
+
