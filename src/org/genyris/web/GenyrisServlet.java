@@ -18,7 +18,7 @@ import org.lispin.jlispin.io.StringInStream;
 import org.lispin.jlispin.io.UngettableInStream;
 
 
-public final class JLispinServlet extends HttpServlet {
+public final class GenyrisServlet extends HttpServlet {
 
 
     private static final long serialVersionUID = 1L;
