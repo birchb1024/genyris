@@ -10,7 +10,7 @@ import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
-import org.lispin.jlispin.format.BasicFormatter;
+import org.genyris.format.BasicFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Lex;

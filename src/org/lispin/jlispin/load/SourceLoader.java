@@ -8,7 +8,7 @@ import java.io.Writer;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.lispin.jlispin.format.IndentedFormatter;
+import org.genyris.format.IndentedFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.io.ConvertEofInStream;

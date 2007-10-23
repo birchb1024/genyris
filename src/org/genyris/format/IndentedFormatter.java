@@ -1,4 +1,4 @@
-package org.lispin.jlispin.format;
+package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;

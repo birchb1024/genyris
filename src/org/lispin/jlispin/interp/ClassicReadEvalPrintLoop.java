@@ -6,7 +6,7 @@ import java.io.Writer;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
-import org.lispin.jlispin.format.IndentedFormatter;
+import org.genyris.format.IndentedFormatter;
 import org.lispin.jlispin.io.ConvertEofInStream;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.IndentStream;

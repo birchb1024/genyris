@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import org.genyris.core.Exp;
 import org.genyris.core.Linteger;
 import org.genyris.core.SymbolTable;
-import org.lispin.jlispin.format.BasicFormatter;
+import org.genyris.format.BasicFormatter;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.Interpreter;
