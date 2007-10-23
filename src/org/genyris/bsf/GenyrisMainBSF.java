@@ -1,4 +1,4 @@
-package org.lispin.jlispin.bsf;
+package org.genyris.bsf;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,9 +7,8 @@ import java.io.Reader;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.util.IOUtils;
-import org.genyris.bsf.GenyrisEngine;
 
-public class JLispinMainBSF {
+public class GenyrisMainBSF {
 
 
     public static void main(String[] args) throws IOException {
