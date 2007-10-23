@@ -1,4 +1,4 @@
-package org.lispin.jlispin.io;
+package org.genyris.io;
 
 import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.Exp;

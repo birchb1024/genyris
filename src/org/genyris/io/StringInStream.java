@@ -1,4 +1,4 @@
-package org.lispin.jlispin.io;
+package org.genyris.io;
 
 
 public class StringInStream implements InStream {

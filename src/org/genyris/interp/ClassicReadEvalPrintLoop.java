@@ -7,12 +7,12 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 import org.genyris.format.IndentedFormatter;
-import org.lispin.jlispin.io.ConvertEofInStream;
-import org.lispin.jlispin.io.InStream;
-import org.lispin.jlispin.io.IndentStream;
-import org.lispin.jlispin.io.Parser;
-import org.lispin.jlispin.io.StdioInStream;
-import org.lispin.jlispin.io.UngettableInStream;
+import org.genyris.io.ConvertEofInStream;
+import org.genyris.io.InStream;
+import org.genyris.io.IndentStream;
+import org.genyris.io.Parser;
+import org.genyris.io.StdioInStream;
+import org.genyris.io.UngettableInStream;
 
 public class ClassicReadEvalPrintLoop {
 

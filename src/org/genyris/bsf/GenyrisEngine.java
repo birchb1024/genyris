@@ -10,7 +10,7 @@ import org.apache.bsf.util.BSFEngineImpl;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
 import org.genyris.interp.Runner;
-import org.lispin.jlispin.io.StringInStream;
+import org.genyris.io.StringInStream;
 
 public class GenyrisEngine extends BSFEngineImpl {
     Interpreter _interp;

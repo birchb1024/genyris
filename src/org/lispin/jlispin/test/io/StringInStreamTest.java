@@ -2,7 +2,7 @@ package org.lispin.jlispin.test.io;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.io.StringInStream;
+import org.genyris.io.StringInStream;
 
 public class StringInStreamTest extends TestCase {
 	

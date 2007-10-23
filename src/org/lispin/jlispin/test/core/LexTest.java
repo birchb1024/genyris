@@ -12,12 +12,12 @@ import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.format.BasicFormatter;
 import org.genyris.interp.Interpreter;
-import org.lispin.jlispin.io.InStream;
-import org.lispin.jlispin.io.Lex;
-import org.lispin.jlispin.io.LexException;
-import org.lispin.jlispin.io.Parser;
-import org.lispin.jlispin.io.StringInStream;
-import org.lispin.jlispin.io.UngettableInStream;
+import org.genyris.io.InStream;
+import org.genyris.io.Lex;
+import org.genyris.io.LexException;
+import org.genyris.io.Parser;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
 
 public class LexTest extends TestCase {
 

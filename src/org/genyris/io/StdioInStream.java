@@ -1,4 +1,4 @@
-package org.lispin.jlispin.io;
+package org.genyris.io;
 
 import java.io.IOException;
 

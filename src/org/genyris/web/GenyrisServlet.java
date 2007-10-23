@@ -10,12 +10,12 @@ import org.genyris.core.Exp;
 import org.genyris.format.IndentedFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
-import org.lispin.jlispin.io.ConvertEofInStream;
-import org.lispin.jlispin.io.InStream;
-import org.lispin.jlispin.io.IndentStream;
-import org.lispin.jlispin.io.Parser;
-import org.lispin.jlispin.io.StringInStream;
-import org.lispin.jlispin.io.UngettableInStream;
+import org.genyris.io.ConvertEofInStream;
+import org.genyris.io.InStream;
+import org.genyris.io.IndentStream;
+import org.genyris.io.Parser;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
 
 
 public final class GenyrisServlet extends HttpServlet {

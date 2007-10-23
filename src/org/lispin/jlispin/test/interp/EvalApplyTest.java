@@ -13,10 +13,10 @@ import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
 import org.genyris.interp.StandardEnvironment;
-import org.lispin.jlispin.io.InStream;
-import org.lispin.jlispin.io.Parser;
-import org.lispin.jlispin.io.StringInStream;
-import org.lispin.jlispin.io.UngettableInStream;
+import org.genyris.io.InStream;
+import org.genyris.io.Parser;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
 
 public class EvalApplyTest extends TestCase {
 	

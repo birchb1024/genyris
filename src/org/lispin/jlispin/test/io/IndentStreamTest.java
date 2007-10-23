@@ -2,12 +2,12 @@ package org.lispin.jlispin.test.io;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.io.ConvertEofInStream;
-import org.lispin.jlispin.io.InStream;
-import org.lispin.jlispin.io.IndentStream;
-import org.lispin.jlispin.io.LexException;
-import org.lispin.jlispin.io.StringInStream;
-import org.lispin.jlispin.io.UngettableInStream;
+import org.genyris.io.ConvertEofInStream;
+import org.genyris.io.InStream;
+import org.genyris.io.IndentStream;
+import org.genyris.io.LexException;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
 
 public class IndentStreamTest extends TestCase {
 

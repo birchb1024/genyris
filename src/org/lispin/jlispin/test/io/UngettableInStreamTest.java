@@ -1,8 +1,8 @@
 package org.lispin.jlispin.test.io;
 
-import org.lispin.jlispin.io.LexException;
-import org.lispin.jlispin.io.StringInStream;
-import org.lispin.jlispin.io.UngettableInStream;
+import org.genyris.io.LexException;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
 
 import junit.framework.TestCase;
 

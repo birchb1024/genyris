@@ -3,10 +3,10 @@ package org.lispin.jlispin.test.core;
 import java.math.BigDecimal;
 
 import org.genyris.core.*;
-import org.lispin.jlispin.io.Lex;
-import org.lispin.jlispin.io.LexException;
-import org.lispin.jlispin.io.StringInStream;
-import org.lispin.jlispin.io.UngettableInStream;
+import org.genyris.io.Lex;
+import org.genyris.io.LexException;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
 
 import junit.framework.TestCase;
 
