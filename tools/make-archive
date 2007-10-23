@@ -1,0 +1,10 @@
+#!/bin/bash
+DRIVE=$1
+if ! [[ -d $DRIVE ]]; then echo "Bad drive $DRIVE"; exit; fi;
+FILE=genyris-src-`date +%Y%m%d%k%M`.tgz 
+echo creating $FILE
+cd ~/workspace
+tar zcf ~/archives/$FILE Genyris
+echo copying to $DRIVE
+cp -p ~/archives/$FILE $DRIVE
+echo archive $FILE has `tar ztf $DRIVE/$FILE| wc -l` files
