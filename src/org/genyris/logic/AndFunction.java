@@ -1,4 +1,4 @@
-package org.lispin.jlispin.logic;
+package org.genyris.logic;
 
 import org.genyris.core.Exp;
 import org.genyris.interp.ApplicableFunction;
