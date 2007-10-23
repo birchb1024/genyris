@@ -1,4 +1,4 @@
-package org.lispin.jlispin.math;
+package org.genyris.math;
 
 import java.math.BigDecimal;
 
@@ -10,15 +10,15 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
 
-public class PlusFunction extends ApplicableFunction {
+public class RemainderFunction extends ApplicableFunction {
 
-	public PlusFunction(Interpreter interp) {
+	public RemainderFunction(Interpreter interp) {
 		super(interp);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
 		if( arguments.length < 2)
-			throw new LispinException("Too few arguments to plus: " + arguments.length);
+			throw new LispinException("Too few arguments to %: " + arguments.length);
 		try {
 			Exp result = arguments[0];
 			for( int i=1; i< arguments.length; i++ ) {
@@ -33,6 +33,6 @@ public class PlusFunction extends ApplicableFunction {
 
 	private Exp addAux(Exp a, Exp b) {
 		// TODO make plus work for combiations of int, double and BigDecimal
-		return new Bignum(((BigDecimal) a.getJavaValue()).add((BigDecimal) b.getJavaValue()));
+		return new Bignum(((BigDecimal) a.getJavaValue()).remainder((BigDecimal) b.getJavaValue()));
 	}
 }

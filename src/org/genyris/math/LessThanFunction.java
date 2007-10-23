@@ -1,8 +1,7 @@
-package org.lispin.jlispin.math;
+package org.genyris.math;
 
 import java.math.BigDecimal;
 
-import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -10,29 +9,30 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
 
-public class RemainderFunction extends ApplicableFunction {
+public class LessThanFunction extends ApplicableFunction {
 
-	public RemainderFunction(Interpreter interp) {
+	public LessThanFunction(Interpreter interp) {
 		super(interp);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws LispinException {
-		if( arguments.length < 2)
-			throw new LispinException("Too few arguments to %: " + arguments.length);
+		if( arguments.length != 2)
+			throw new LispinException("Not two arguments to < " + arguments.length);
 		try {
-			Exp result = arguments[0];
-			for( int i=1; i< arguments.length; i++ ) {
-				result = addAux(result, arguments[i]);
-			}
-			return result;
+			return ltAux(arguments[0], arguments[1]);
 		}
 		catch(RuntimeException e) {
 			throw new LispinException(e.getMessage());
 		}
 	}
 
-	private Exp addAux(Exp a, Exp b) {
+	private Exp ltAux(Exp a, Exp b) {
 		// TODO make plus work for combiations of int, double and BigDecimal
-		return new Bignum(((BigDecimal) a.getJavaValue()).remainder((BigDecimal) b.getJavaValue()));
+		if ( ((BigDecimal) a.getJavaValue()).compareTo((BigDecimal) b.getJavaValue()) < 0 ) {
+			return TRUE;
+		}
+		else {
+			return NIL;
+		}
 	}
 }

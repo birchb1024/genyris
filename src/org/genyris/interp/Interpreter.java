@@ -41,13 +41,13 @@ import org.genyris.io.Parser;
 import org.genyris.load.SourceLoader;
 import org.genyris.logic.AndFunction;
 import org.genyris.logic.OrFunction;
-import org.lispin.jlispin.math.DivideFunction;
-import org.lispin.jlispin.math.GreaterThanFunction;
-import org.lispin.jlispin.math.LessThanFunction;
-import org.lispin.jlispin.math.MinusFunction;
-import org.lispin.jlispin.math.MultiplyFunction;
-import org.lispin.jlispin.math.PlusFunction;
-import org.lispin.jlispin.math.RemainderFunction;
+import org.genyris.math.DivideFunction;
+import org.genyris.math.GreaterThanFunction;
+import org.genyris.math.LessThanFunction;
+import org.genyris.math.MinusFunction;
+import org.genyris.math.MultiplyFunction;
+import org.genyris.math.PlusFunction;
+import org.genyris.math.RemainderFunction;
 
 public class Interpreter {
 

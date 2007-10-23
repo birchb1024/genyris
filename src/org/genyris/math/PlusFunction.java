@@ -1,4 +1,4 @@
-package org.lispin.jlispin.math;
+package org.genyris.math;
 
 import java.math.BigDecimal;
 
@@ -10,10 +10,9 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LispinException;
 
-// TODO DRY - plus
-public class MinusFunction extends ApplicableFunction {
+public class PlusFunction extends ApplicableFunction {
 
-	public MinusFunction(Interpreter interp) {
+	public PlusFunction(Interpreter interp) {
 		super(interp);
 	}
 
@@ -34,6 +33,6 @@ public class MinusFunction extends ApplicableFunction {
 
 	private Exp addAux(Exp a, Exp b) {
 		// TODO make plus work for combiations of int, double and BigDecimal
-		return new Bignum(((BigDecimal) a.getJavaValue()).subtract((BigDecimal) b.getJavaValue()));
+		return new Bignum(((BigDecimal) a.getJavaValue()).add((BigDecimal) b.getJavaValue()));
 	}
 }

@@ -1,4 +1,4 @@
-package org.lispin.jlispin.math;
+package org.genyris.math;
 
 import java.math.BigDecimal;
 
