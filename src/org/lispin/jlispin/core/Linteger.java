@@ -1,6 +1,6 @@
 package org.lispin.jlispin.core;
 
-import org.lispin.jlispin.classes.BuiltinClasses;
+import org.genyris.classes.BuiltinClasses;
 
 
 public class Linteger extends ExpWithEmbeddedClasses {

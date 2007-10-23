@@ -1,6 +1,6 @@
-package genyris.classification;
+package org.genyris.classification;
 
-import org.lispin.jlispin.classes.BuiltinClasses;
+import org.genyris.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;

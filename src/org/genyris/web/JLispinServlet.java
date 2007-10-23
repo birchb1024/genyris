@@ -1,4 +1,4 @@
-package org.lispin.jlispin.web;
+package org.genyris.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;

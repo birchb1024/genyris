@@ -1,6 +1,6 @@
 package org.lispin.jlispin.io;
 
-import org.lispin.jlispin.classes.BuiltinClasses;
+import org.genyris.classes.BuiltinClasses;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.SymbolTable;

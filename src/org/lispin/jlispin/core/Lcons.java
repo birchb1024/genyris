@@ -2,7 +2,7 @@ package org.lispin.jlispin.core;
 
 import java.io.StringWriter;
 
-import org.lispin.jlispin.classes.BuiltinClasses;
+import org.genyris.classes.BuiltinClasses;
 import org.lispin.jlispin.format.BasicFormatter;
 
 public class Lcons extends ExpWithEmbeddedClasses {

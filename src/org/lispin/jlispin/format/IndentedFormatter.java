@@ -3,8 +3,8 @@ package org.lispin.jlispin.format;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.genyris.classes.BuiltinClasses;
 import org.genyris.classification.ClassWrapper;
-import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.Bignum;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;

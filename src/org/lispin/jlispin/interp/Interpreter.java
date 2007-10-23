@@ -3,7 +3,7 @@ package org.lispin.jlispin.interp;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import org.lispin.jlispin.classes.BuiltinClasses;
+import org.genyris.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Exp;

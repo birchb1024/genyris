@@ -2,7 +2,7 @@ package org.lispin.jlispin.core;
 
 import java.math.BigDecimal;
 
-import org.lispin.jlispin.classes.BuiltinClasses;
+import org.genyris.classes.BuiltinClasses;
 
 
 public class Bignum extends ExpWithEmbeddedClasses {

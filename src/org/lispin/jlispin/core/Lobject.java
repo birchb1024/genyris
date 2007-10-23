@@ -3,7 +3,7 @@ package org.lispin.jlispin.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.lispin.jlispin.classes.BuiltinClasses;
+import org.genyris.classes.BuiltinClasses;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.Interpreter;
