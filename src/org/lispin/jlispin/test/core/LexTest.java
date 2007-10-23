@@ -1,10 +1,7 @@
 package org.lispin.jlispin.test.core;
 
 import java.io.StringWriter;
-
 import junit.framework.TestCase;
-
-import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.Bignum;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Ldouble;
@@ -15,7 +12,6 @@ import org.lispin.jlispin.core.NilSymbol;
 import org.lispin.jlispin.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.Interpreter;
-import org.lispin.jlispin.interp.StandardEnvironment;
 import org.lispin.jlispin.io.InStream;
 import org.lispin.jlispin.io.Lex;
 import org.lispin.jlispin.io.LexException;
