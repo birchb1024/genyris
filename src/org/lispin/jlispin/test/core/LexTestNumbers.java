@@ -2,7 +2,7 @@ package org.lispin.jlispin.test.core;
 
 import java.math.BigDecimal;
 
-import org.lispin.jlispin.core.*;
+import org.genyris.core.*;
 import org.lispin.jlispin.io.Lex;
 import org.lispin.jlispin.io.LexException;
 import org.lispin.jlispin.io.StringInStream;

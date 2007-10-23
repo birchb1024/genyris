@@ -4,9 +4,9 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.SymbolTable;
+import org.genyris.core.Exp;
+import org.genyris.core.Linteger;
+import org.genyris.core.SymbolTable;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;

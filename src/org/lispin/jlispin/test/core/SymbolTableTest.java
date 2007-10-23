@@ -2,8 +2,8 @@ package org.lispin.jlispin.test.core;
 
 
 
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.SymbolTable;
+import org.genyris.core.Exp;
+import org.genyris.core.SymbolTable;
 
 import junit.framework.TestCase;
 

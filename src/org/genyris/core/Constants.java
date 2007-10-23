@@ -1,4 +1,4 @@
-package org.lispin.jlispin.core;
+package org.genyris.core;
 
 public class Constants {
 

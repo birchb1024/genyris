@@ -2,10 +2,10 @@ package org.lispin.jlispin.test.interp;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.Ldouble;
-import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.NilSymbol;
+import org.genyris.core.Ldouble;
+import org.genyris.core.Linteger;
+import org.genyris.core.Lsymbol;
+import org.genyris.core.NilSymbol;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.Evaluator;
 import org.lispin.jlispin.interp.Interpreter;

@@ -3,10 +3,10 @@ package org.lispin.jlispin.interp;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.NilSymbol;
+import org.genyris.core.Constants;
+import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
+import org.genyris.core.NilSymbol;
 
 // TODO Break this into a Root environment and a Standard Env....
 public class StandardEnvironment implements Environment {

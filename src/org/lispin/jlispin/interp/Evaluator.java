@@ -1,8 +1,8 @@
 package org.lispin.jlispin.interp;
 
-import org.lispin.jlispin.core.AccessException;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lsymbol;
+import org.genyris.core.AccessException;
+import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 
 public class Evaluator {
 	

@@ -4,7 +4,7 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.Exp;
+import org.genyris.core.Exp;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.io.ConvertEofInStream;

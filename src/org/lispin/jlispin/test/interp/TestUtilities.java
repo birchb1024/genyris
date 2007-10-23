@@ -2,7 +2,7 @@ package org.lispin.jlispin.test.interp;
 
 import java.io.StringWriter;
 
-import org.lispin.jlispin.core.Exp;
+import org.genyris.core.Exp;
 import org.lispin.jlispin.format.BasicFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;

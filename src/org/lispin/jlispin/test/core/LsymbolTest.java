@@ -2,7 +2,7 @@ package org.lispin.jlispin.test.core;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.Lsymbol;
+import org.genyris.core.Lsymbol;
 
 public class LsymbolTest extends TestCase {
 	

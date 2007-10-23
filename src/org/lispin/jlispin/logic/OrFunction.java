@@ -1,6 +1,6 @@
 package org.lispin.jlispin.logic;
 
-import org.lispin.jlispin.core.Exp;
+import org.genyris.core.Exp;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;

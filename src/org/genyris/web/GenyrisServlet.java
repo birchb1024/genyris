@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.lispin.jlispin.core.Exp;
+import org.genyris.core.Exp;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;

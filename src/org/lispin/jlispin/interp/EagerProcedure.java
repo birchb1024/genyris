@@ -1,8 +1,8 @@
 package org.lispin.jlispin.interp;
 
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.Visitor;
+import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
+import org.genyris.core.Visitor;
 
 public class EagerProcedure extends AbstractClosure  {
 	// I DO evaluate my arguments before being applied.

@@ -2,12 +2,12 @@ package org.lispin.jlispin.test.core;
 
 import junit.framework.TestCase;
 
-import org.lispin.jlispin.core.AccessException;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.Linteger;
-import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.NilSymbol;
+import org.genyris.core.AccessException;
+import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
+import org.genyris.core.Linteger;
+import org.genyris.core.Lsymbol;
+import org.genyris.core.NilSymbol;
 
 public class CoreTest extends TestCase {
 	private Lsymbol NIL;

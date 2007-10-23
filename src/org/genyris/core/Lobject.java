@@ -1,4 +1,4 @@
-package org.lispin.jlispin.core;
+package org.genyris.core;
 
 import java.util.HashMap;
 import java.util.Iterator;

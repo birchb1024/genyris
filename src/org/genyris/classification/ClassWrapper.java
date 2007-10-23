@@ -1,14 +1,14 @@
 package org.genyris.classification;
 
 import org.genyris.classes.BuiltinClasses;
-import org.lispin.jlispin.core.AccessException;
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.ExpWithEmbeddedClasses;
-import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.Lobject;
-import org.lispin.jlispin.core.Lsymbol;
-import org.lispin.jlispin.core.Visitor;
+import org.genyris.core.AccessException;
+import org.genyris.core.Constants;
+import org.genyris.core.Exp;
+import org.genyris.core.ExpWithEmbeddedClasses;
+import org.genyris.core.Lcons;
+import org.genyris.core.Lobject;
+import org.genyris.core.Lsymbol;
+import org.genyris.core.Visitor;
 import org.lispin.jlispin.interp.Environment;
 import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.interp.UnboundException;

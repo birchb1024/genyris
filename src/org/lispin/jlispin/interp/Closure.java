@@ -1,6 +1,6 @@
 package org.lispin.jlispin.interp;
 
-import org.lispin.jlispin.core.Exp;
+import org.genyris.core.Exp;
 
 public interface Closure {
 

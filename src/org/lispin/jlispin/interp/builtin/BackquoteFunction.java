@@ -1,9 +1,9 @@
 package org.lispin.jlispin.interp.builtin;
 
-import org.lispin.jlispin.core.AccessException;
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lcons;
+import org.genyris.core.AccessException;
+import org.genyris.core.Constants;
+import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
 import org.lispin.jlispin.interp.ApplicableFunction;
 import org.lispin.jlispin.interp.Closure;
 import org.lispin.jlispin.interp.Environment;

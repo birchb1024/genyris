@@ -1,4 +1,4 @@
-package org.lispin.jlispin.core;
+package org.genyris.core;
 
 import org.genyris.classification.ClassWrapper;
 import org.lispin.jlispin.interp.EagerProcedure;

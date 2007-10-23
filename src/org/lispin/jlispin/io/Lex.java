@@ -2,12 +2,12 @@ package org.lispin.jlispin.io;
 
 import java.math.BigDecimal;
 
-import org.lispin.jlispin.core.Bignum;
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Ldouble;
-import org.lispin.jlispin.core.Lstring;
-import org.lispin.jlispin.core.SymbolTable;
+import org.genyris.core.Bignum;
+import org.genyris.core.Constants;
+import org.genyris.core.Exp;
+import org.genyris.core.Ldouble;
+import org.genyris.core.Lstring;
+import org.genyris.core.SymbolTable;
 
 public class Lex {
 	private Exp NIL;

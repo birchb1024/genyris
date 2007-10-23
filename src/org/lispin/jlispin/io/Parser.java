@@ -1,9 +1,9 @@
 package org.lispin.jlispin.io;
 
 import org.genyris.classes.BuiltinClasses;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lcons;
-import org.lispin.jlispin.core.SymbolTable;
+import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
+import org.genyris.core.SymbolTable;
 import org.lispin.jlispin.interp.LispinException;
 
 public class Parser {

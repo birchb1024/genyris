@@ -3,10 +3,10 @@ package org.lispin.jlispin.interp;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lispin.jlispin.core.AccessException;
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Exp;
-import org.lispin.jlispin.core.Lcons;
+import org.genyris.core.AccessException;
+import org.genyris.core.Constants;
+import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
 
 public class ClassicFunction extends ApplicableFunction {
 	private Exp REST;

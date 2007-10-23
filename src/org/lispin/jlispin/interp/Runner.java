@@ -3,8 +3,8 @@ package org.lispin.jlispin.interp;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Exp;
+import org.genyris.core.Constants;
+import org.genyris.core.Exp;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.io.ConvertEofInStream;
 import org.lispin.jlispin.io.InStream;

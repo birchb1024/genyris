@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
 
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Exp;
+import org.genyris.core.Constants;
+import org.genyris.core.Exp;
 import org.lispin.jlispin.format.IndentedFormatter;
 import org.lispin.jlispin.interp.Interpreter;
 import org.lispin.jlispin.interp.LispinException;

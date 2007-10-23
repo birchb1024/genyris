@@ -1,9 +1,9 @@
 package org.genyris.classes;
 
 import org.genyris.classification.ClassWrapper;
-import org.lispin.jlispin.core.Constants;
-import org.lispin.jlispin.core.Lobject;
-import org.lispin.jlispin.core.Lsymbol;
+import org.genyris.core.Constants;
+import org.genyris.core.Lobject;
+import org.genyris.core.Lsymbol;
 import org.lispin.jlispin.interp.Environment;
 
 public class BuiltinClasses {
