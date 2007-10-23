@@ -1,6 +1,6 @@
 package org.lispin.jlispin.interp.builtin;
 
-import genyris.classification.ClassWrapper;
+import org.genyris.classification.ClassWrapper;
 import org.lispin.jlispin.core.Exp;
 import org.lispin.jlispin.core.Lcons;
 import org.lispin.jlispin.core.Lsymbol;

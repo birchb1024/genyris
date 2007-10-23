@@ -1,6 +1,6 @@
 package org.lispin.jlispin.core;
 
-import genyris.classification.ClassWrapper;
+import org.genyris.classification.ClassWrapper;
 import org.lispin.jlispin.interp.EagerProcedure;
 import org.lispin.jlispin.interp.LazyProcedure;
 

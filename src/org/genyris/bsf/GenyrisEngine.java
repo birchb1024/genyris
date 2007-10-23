@@ -1,4 +1,4 @@
-package org.lispin.jlispin.bsf;
+package org.genyris.bsf;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -12,7 +12,7 @@ import org.lispin.jlispin.interp.LispinException;
 import org.lispin.jlispin.interp.Runner;
 import org.lispin.jlispin.io.StringInStream;
 
-public class JLispinEngine extends BSFEngineImpl {
+public class GenyrisEngine extends BSFEngineImpl {
     Interpreter _interp;
 
     /**

@@ -1,9 +1,9 @@
 package org.lispin.jlispin.format;
 
-import genyris.classification.ClassWrapper;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.genyris.classification.ClassWrapper;
 import org.lispin.jlispin.classes.BuiltinClasses;
 import org.lispin.jlispin.core.AccessException;
 import org.lispin.jlispin.core.Bignum;

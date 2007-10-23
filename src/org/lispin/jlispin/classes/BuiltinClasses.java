@@ -1,6 +1,6 @@
 package org.lispin.jlispin.classes;
 
-import genyris.classification.ClassWrapper;
+import org.genyris.classification.ClassWrapper;
 import org.lispin.jlispin.core.Constants;
 import org.lispin.jlispin.core.Lobject;
 import org.lispin.jlispin.core.Lsymbol;
