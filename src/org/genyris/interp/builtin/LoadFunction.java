@@ -1,7 +1,6 @@
 package org.genyris.interp.builtin;
 
 import java.io.Writer;
-
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
 import org.genyris.interp.ApplicableFunction;
@@ -13,7 +12,7 @@ import org.genyris.io.NullWriter;
 import org.genyris.load.SourceLoader;
 
 public class LoadFunction extends ApplicableFunction {
-	
+
 	public LoadFunction(Interpreter interp) {
 		super(interp);
 	}
@@ -24,7 +23,7 @@ public class LoadFunction extends ApplicableFunction {
 		if( !( arguments[0] instanceof Lstring) ) {
 			throw new LispinException("non-string argument passed to load: " + arguments[0].toString());
 		}
-		if( arguments.length > 1 ) { 
+		if( arguments.length > 1 ) {
 			if( arguments[1] == TRUE) {
 				out = _interp.getDefaultOutputWriter();
 			}
