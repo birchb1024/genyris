@@ -1,4 +1,4 @@
-package org.lispin.jlispin.test.core;
+package org.genyris.test.core;
 
 
 
