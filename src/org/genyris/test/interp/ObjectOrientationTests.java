@@ -1,4 +1,4 @@
-package org.lispin.jlispin.test.interp;
+package org.genyris.test.interp;
 
 import org.genyris.interp.LispinException;
 
