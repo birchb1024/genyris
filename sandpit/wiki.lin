@@ -1,0 +1,15 @@
+;;;
+;;;
+;;;
+
+class WikiPageName
+   def _validate() 
+      regex _self etc
+
+class WikiPage ()
+   def _new (name)
+       (dict (_name : name) (_content : nil)) : WikiPage
+   def _render () _content
+
+WikiPage (_new ("start" : wikiPageName))
+ 

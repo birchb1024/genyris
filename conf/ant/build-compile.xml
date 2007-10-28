@@ -1,4 +1,4 @@
-<project name="JLispin-Compile" basedir="../../">
+<project name="Genyris-Compile" basedir="../../">
 
   <macrodef name="macro-compile"
             description="general purpose macro for compiles">
@@ -39,11 +39,11 @@
     <macro-compile srcdir="${test.src.dir}"
                    compiledir="${test.compile.dir}"
                    compileclasspath="test.classpath" />
-	
+
     <copy todir="${test.compile.dir}" includeemptydirs="false">
-		<fileset refid="src.config.files" />
-		<fileset refid="test.config.files" />
-	</copy>
+        <fileset refid="src.config.files" />
+        <fileset refid="test.config.files" />
+    </copy>
   </target>
 
 

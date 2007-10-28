@@ -1,7 +1,18 @@
-class c()
-    def _validate (self) 
-        > self 23
-        
-24:c
+;
+; How the _validate method is called by the tagging operator and tag
+;
 
-22:c 
+class C()
+    def _validate (self)
+        > self 23
+
+; call the validator directly from the class env
+C (_validate 34)   ; => true
+C (_validate 21)   ; => nil
+
+
+; mark the number 24 as a member of class 'C'
+tag 24 C      ; => ~ 24 ; Bignum C
+24 : C        ; => ~ 24 ; Bignum C
+
+22 : C      ; => *** Error: class validator error for object 22

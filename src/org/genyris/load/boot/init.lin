@@ -1,7 +1,6 @@
 ;
 ;
 ;
-"init.lin"
 
 defmacro define (var valu) (backquote (defvar ',var ,valu))
 defvar 'setq define
@@ -14,8 +13,11 @@ defmacro if (test success-result failure-result)
 
 def cadr (x) (car (cdr x))
 def caadr (x) (car (cdr (cdr x)))
+
 define else 'else
 define then 'then
+define do 'do
+
 def null (sexp)
    cond
       sexp nil
@@ -30,3 +32,4 @@ def member (item list)
       else
           member item (cdr list)
 
+"loaded init.lin"
