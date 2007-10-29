@@ -11,6 +11,7 @@ import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.interp.builtin.BackquoteFunction;
+import org.genyris.interp.builtin.BoundFunction;
 import org.genyris.interp.builtin.CarFunction;
 import org.genyris.interp.builtin.CdrFunction;
 import org.genyris.interp.builtin.ConditionalFunction;
@@ -113,7 +114,10 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("and"), new EagerProcedure(_globalEnvironment, null, new AndFunction(this)));
 
-		BuiltinClasses.init(_globalEnvironment);
+        _globalEnvironment.defineVariable(_table.internString("bound?"), new LazyProcedure(_globalEnvironment, null, new BoundFunction(this)));
+
+
+        BuiltinClasses.init(_globalEnvironment);
 
         _globalEnvironment.defineVariable(_table.internString("StandardClass"), BuiltinClasses.STANDARDCLASS);
         _globalEnvironment.defineVariable(_table.internString("Thing"), BuiltinClasses.THING);
