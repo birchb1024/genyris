@@ -1,0 +1,27 @@
+def between (low it high)
+   and
+      < high it
+      > low it
+
+class Person ()
+   def _valid? (obj)
+      obj (bound? _age)
+
+class Kid (Person)
+   def _valid? (obj)
+      and
+         Person (_valid? obj)
+         < (obj _age) 15
+
+class Boomer (Person)
+   def _valid? (obj)
+      and
+         Person (_valid? obj)
+         between 15 (obj _age) 45
+
+class Senior (Person)
+   def _valid? (obj)
+      and
+         Person (_valid? obj)
+         between 46 (obj _age) 60
+
