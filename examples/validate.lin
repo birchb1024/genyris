@@ -1,14 +1,14 @@
 ;
-; How the _validate method is called by the tagging operator and tag
+; How the _valid? method is called by the tagging operator and tag
 ;
 
 class C()
-    def _validate (self)
+    def _valid? (self)
         > self 23
 
 ; call the validator directly from the class env
-C (_validate 34)   ; => true
-C (_validate 21)   ; => nil
+C (_valid? 34)   ; => true
+C (_valid? 21)   ; => nil
 
 
 ; mark the number 24 as a member of class 'C'
