@@ -1,5 +1,6 @@
 package org.genyris.interp;
 
+import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
@@ -9,8 +10,10 @@ public class EagerProcedure extends AbstractClosure  {
 
 	public EagerProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
 		super( environment,  expression,  appl);
+        addClass(BuiltinClasses.EAGERPROCEDURE);
+
 	}
-		
+
 	public Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException {
 		Lsymbol NIL = env.getNil();
 		int i = 0;

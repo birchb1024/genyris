@@ -2,6 +2,7 @@
 
 package org.genyris.interp;
 
+import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.AccessException;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
@@ -12,8 +13,9 @@ public class LazyProcedure extends AbstractClosure {
 
 	public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
 		super( environment,  expression,  appl);
+        addClass(BuiltinClasses.LAZYPROCEDURE);
 	}
-	
+
 	public Exp[] computeArguments(Environment env, Exp exp) throws AccessException {
 		return makeExpArrayFromList(exp, env.getNil());
 	}
@@ -34,7 +36,7 @@ public class LazyProcedure extends AbstractClosure {
 	}
 
 	public String toString() {
-		return "<LazyProc: " + getJavaValue().toString() + ">";
+		return "<LazyProcedure: " + getJavaValue().toString() + ">";
 	}
 
 }

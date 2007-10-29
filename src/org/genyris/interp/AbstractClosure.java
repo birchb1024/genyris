@@ -3,12 +3,12 @@ package org.genyris.interp;
 import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
 
-public abstract class AbstractClosure extends Exp implements Closure {
-	
+public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements Closure {
+
 	Environment _env;
 	Exp _lambdaExpression;
 	final ApplicableFunction _functionToApply;
@@ -23,7 +23,7 @@ public abstract class AbstractClosure extends Exp implements Closure {
 		NIL = environment.getNil();
 		REST = environment.getInterpreter().getSymbolTable().internString(Constants.REST); // TOD performance
 	}
-	
+
 	private int countFormalArguments(Exp exp) throws AccessException {
 		int count = 0;
 		while( exp != NIL ) {
@@ -39,7 +39,7 @@ public abstract class AbstractClosure extends Exp implements Closure {
 
 	public Exp getArgumentOrNIL(int index) throws AccessException {
 		if( getNumberOfRequiredArguments() <= index)
-			return NIL; // ignore extra arguments 
+			return NIL; // ignore extra arguments
 		else
 			return _lambdaExpression.cdr().car().nth(index, NIL);
 	}
@@ -51,7 +51,7 @@ public abstract class AbstractClosure extends Exp implements Closure {
 	public Exp getBody() throws AccessException {
 		return _lambdaExpression.cdr().cdr();
 	}
-	
+
 	public abstract Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException;
 
 	public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
@@ -75,27 +75,9 @@ public abstract class AbstractClosure extends Exp implements Closure {
 
 	public Exp getLastArgumentOrNIL(int i) throws AccessException {
 		Exp args = _lambdaExpression.cdr().car();
-		
+
 		return args.last(NIL);
 
 	}
-    public void addClass(Exp klass) {
-        ; // Noop
-    }
-
-    public Exp getClasses(Lsymbol nil) {
-        // TODO Auto-generated method stub
-        return NIL;
-    }
-
-    public void removeClass(Exp klass) {
-        ; // Noop
-    }
-    public boolean isTaggedWith(Lobject klass) {
-        return false;
-    }
-    public boolean isInstanceOf(Lobject klass) {
-        return false;
-    }
 
 }

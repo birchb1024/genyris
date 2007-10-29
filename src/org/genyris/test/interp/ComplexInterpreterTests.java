@@ -27,14 +27,14 @@ public class ComplexInterpreterTests extends TestCase {
 
 
 	public void testMacroWithDefmacro() throws Exception {
-		excerciseEval("(defmacro nil! (x) (list 'defvar (list quote x) 0))", "<anonymous macro>");
+		excerciseEval("(defmacro nil! (x) (list 'defvar (list quote x) 0))", "<org.genyris.interp.MacroFunction>");
 		excerciseEval("(nil! a)", "0");
 		excerciseEval("a", "0");
 	}
 
 	public void testMacroWithDefmacroDeep() throws Exception {
 		excerciseEval("(def fn (y) (defmacro nil! (x) (list 'defvar (list quote x) y)) nil!)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-		excerciseEval("(defvar 'm (fn 99))", "<anonymous macro>");
+		excerciseEval("(defvar 'm (fn 99))", "<org.genyris.interp.MacroFunction>");
 		excerciseEval("(m w)", "99");
 		excerciseEval("w", "99");
 	}
@@ -66,7 +66,7 @@ public class ComplexInterpreterTests extends TestCase {
 		excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
 		excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 
-		excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<anonymous macro>");
+		excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<org.genyris.interp.MacroFunction>");
 		excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
 	}
 	public void testFrame() throws Exception {

@@ -18,7 +18,12 @@ public class BuiltinClasses {
 	public static Lobject DOUBLE;
 	public static Lobject SYMBOL;
     public static Lobject PRINTWITHCOLON;
+
+    public static Lobject EAGERPROCEDURE;
+    public static Lobject LAZYPROCEDURE;
+
     public static Lobject STANDARDCLASS;
+
 
 	private static Lobject mkClass(Lsymbol classname, String name, Environment env) {
         Lobject newClass = new Lobject(classname, env.internString(name), env );
@@ -39,7 +44,9 @@ public class BuiltinClasses {
 		BIGNUM = mkClass(classname, "Bignum", env);
 		STRING = mkClass(classname, "String", env);
 		DOUBLE = mkClass(classname, "Double", env);
-		SYMBOL = mkClass(classname, "Symbol", env);
+        SYMBOL = mkClass(classname, "Symbol", env);
+        EAGERPROCEDURE = mkClass(classname, "EagerProcedure", env);
+        LAZYPROCEDURE = mkClass(classname, "LazyProcedure", env);
         PRINTWITHCOLON = mkClass(classname, Constants.PRINTWITHCOLON, env);
 	}
 }
