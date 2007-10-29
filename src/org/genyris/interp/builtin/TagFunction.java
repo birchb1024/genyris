@@ -11,8 +11,8 @@ import org.genyris.interp.GenyrisException;
 import org.genyris.interp.UnboundException;
 
 public class TagFunction extends ApplicableFunction {
-	
-	
+
+
 	public TagFunction(Interpreter interp) {
 		super(interp);
 	}
@@ -35,9 +35,9 @@ public class TagFunction extends ApplicableFunction {
         try {
         	validator = klass.lookupVariableValue(environment.getInterpreter().getSymbolTable().internString(Constants.VALIDATE)); // TODO performance
         }
-    	catch (UnboundException ignore) {     // TODO would be nice to have a boundp()           	
+    	catch (UnboundException ignore) {     // TODO would be nice to have a bound?()
     	}
-    	if( validator != null ) {          		
+    	if( validator != null ) {
         	Exp args[] = new Exp[1];
         	args[0] = object;
         	Exp result = validator.applyFunction(environment, args);

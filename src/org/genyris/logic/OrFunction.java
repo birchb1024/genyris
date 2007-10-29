@@ -4,6 +4,7 @@ import org.genyris.core.Exp;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
+import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.GenyrisException;
 
@@ -19,14 +20,13 @@ public class OrFunction extends ApplicableFunction {
 			throw new GenyrisException("Too few arguments to or: " + arguments.length);
 
 		for (int i = 0; i < arguments.length; i++) {
-			if (arguments[i] == TRUE) {
+            Exp result = Evaluator.eval(envForBindOperations, arguments[i]);
+
+			if (result != NIL) {
 				return TRUE;
 			}
-			else if (arguments[i] == NIL) {
-				continue;
-			}
 			else {
-				throw new GenyrisException("or expects t or nil, not: " + arguments[i]);				
+				continue;
 			}
 		}
 		return NIL;

@@ -23,7 +23,7 @@ public class BoundFunction extends ApplicableFunction {
         } catch (UnboundException e) {
             return NIL;
         }
-		return arguments[0];
+		return TRUE;
 	}
 
 }

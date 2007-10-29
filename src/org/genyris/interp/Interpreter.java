@@ -111,8 +111,8 @@ public class Interpreter {
 		_globalEnvironment.defineVariable(_table.internString(">"), new EagerProcedure(_globalEnvironment, null, new GreaterThanFunction(this)));
 		_globalEnvironment.defineVariable(_table.internString("<"), new EagerProcedure(_globalEnvironment, null, new LessThanFunction(this)));
 
-		_globalEnvironment.defineVariable(_table.internString("or"), new EagerProcedure(_globalEnvironment, null, new OrFunction(this)));
-        _globalEnvironment.defineVariable(_table.internString("and"), new EagerProcedure(_globalEnvironment, null, new AndFunction(this)));
+		_globalEnvironment.defineVariable(_table.internString("or"), new LazyProcedure(_globalEnvironment, null, new OrFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("and"), new LazyProcedure(_globalEnvironment, null, new AndFunction(this)));
 
         _globalEnvironment.defineVariable(_table.internString("bound?"), new LazyProcedure(_globalEnvironment, null, new BoundFunction(this)));
 

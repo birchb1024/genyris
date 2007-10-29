@@ -4,6 +4,7 @@ import org.genyris.core.Exp;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
+import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.GenyrisException;
 
@@ -19,7 +20,8 @@ public class AndFunction extends ApplicableFunction {
 			throw new GenyrisException("Too few arguments to and: " + arguments.length);
 
 		for (int i = 0; i < arguments.length; i++) {
-			if (arguments[i] == NIL) {
+            Exp result = Evaluator.eval(envForBindOperations, arguments[i]);
+			if (result == NIL) {
                 return NIL;
 			}
 		}
