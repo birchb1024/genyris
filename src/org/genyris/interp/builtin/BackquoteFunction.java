@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.interp.builtin;
 
 import org.genyris.core.AccessException;
@@ -12,19 +17,19 @@ import org.genyris.interp.Interpreter;
 import org.genyris.interp.GenyrisException;
 
 public class BackquoteFunction extends ApplicableFunction {
-	
-	private Exp COMMA, COMMA_AT;
-	public BackquoteFunction(Interpreter interp) {
-		super(interp);
-		COMMA = interp.getSymbolTable().internString(Constants.COMMA);
-		COMMA_AT = interp.getSymbolTable().internString(Constants.COMMA_AT);
-	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
-			throws GenyrisException {
+    private Exp COMMA, COMMA_AT;
+    public BackquoteFunction(Interpreter interp) {
+        super(interp);
+        COMMA = interp.getSymbolTable().internString(Constants.COMMA);
+        COMMA_AT = interp.getSymbolTable().internString(Constants.COMMA_AT);
+    }
 
-		return backQuoteAux(envForBindOperations, arguments[0]);
-	}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
+            throws GenyrisException {
+
+        return backQuoteAux(envForBindOperations, arguments[0]);
+    }
 
     private Exp backQuoteAux(Environment env, Exp sexp) throws GenyrisException {
         if(sexp == NIL || (!sexp.listp())) {

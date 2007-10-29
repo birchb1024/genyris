@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
@@ -10,14 +15,14 @@ import org.genyris.interp.GenyrisException;
 
 public class ConsFunction extends ApplicableFunction {
 
-	public ConsFunction(Interpreter interp) {
-		super(interp);
-	}
+    public ConsFunction(Interpreter interp) {
+        super(interp);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-		if( arguments.length < 2)
-			throw new GenyrisException("Too few arguments to cons: " + arguments.length);
-		return new Lcons(arguments[0], arguments[1]);
-	}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
+        if( arguments.length < 2)
+            throw new GenyrisException("Too few arguments to cons: " + arguments.length);
+        return new Lcons(arguments[0], arguments[1]);
+    }
 
 }

@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
@@ -12,22 +17,22 @@ import org.genyris.interp.MacroFunction;
 
 public class LambdamFunction extends ApplicableFunction {
 
-	public LambdamFunction(Interpreter interp) {
-		super(interp);
-	}
+    public LambdamFunction(Interpreter interp) {
+        super(interp);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-			throws GenyrisException {
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+            throws GenyrisException {
 
-		// TODO - inefficient
-		Exp expression = arrayToList(arguments);
-		expression = new Lcons(_lambdam, expression);
-		return new LazyProcedure(env, expression, new MacroFunction(_interp));
+        // TODO - inefficient
+        Exp expression = arrayToList(arguments);
+        expression = new Lcons(_lambdam, expression);
+        return new LazyProcedure(env, expression, new MacroFunction(_interp));
 
-	}
+    }
 
-	public Object getJavaValue() {
-		return "<the lambdam builtin function>";
-	}
+    public Object getJavaValue() {
+        return "<the lambdam builtin function>";
+    }
 
 }

@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.core;
 
 import java.io.StringWriter;
@@ -7,24 +12,24 @@ import org.genyris.format.BasicFormatter;
 
 public class Lcons extends ExpWithEmbeddedClasses {
 
-	private  Exp _car;
-	private  Exp _cdr;
+    private  Exp _car;
+    private  Exp _cdr;
 
-	public Lcons(Exp car, Exp cdr) {
-		super(BuiltinClasses.PAIR);
-		_car = car;
-		_cdr = cdr;
-	}
-	public Object getJavaValue() {
-		Exp result[] = new Exp[2];
-		result[0] = _car;
-		result[1] = _cdr;
-		return result;
-	}
+    public Lcons(Exp car, Exp cdr) {
+        super(BuiltinClasses.PAIR);
+        _car = car;
+        _cdr = cdr;
+    }
+    public Object getJavaValue() {
+        Exp result[] = new Exp[2];
+        result[0] = _car;
+        result[1] = _cdr;
+        return result;
+    }
 
-	public void acceptVisitor(Visitor guest) {
-		guest.visitLcons(this);
-	}
+    public void acceptVisitor(Visitor guest) {
+        guest.visitLcons(this);
+    }
 
     public boolean deepEquals(Object compare) {
         if (compare.getClass() != this.getClass())
@@ -35,32 +40,32 @@ public class Lcons extends ExpWithEmbeddedClasses {
     }
 
 
-	public Exp car() {
-		return _car;
-	}
+    public Exp car() {
+        return _car;
+    }
 
-	public Exp cdr() {
-		return _cdr;
-	}
+    public Exp cdr() {
+        return _cdr;
+    }
 
-	public Exp setCar(Exp exp) throws AccessException {
-		this._car = exp;;
-		return this;
-	}
+    public Exp setCar(Exp exp) throws AccessException {
+        this._car = exp;;
+        return this;
+    }
 
-	public Exp setCdr(Exp exp) throws AccessException {
-		this._cdr = exp;;
-		return this;
-	}
+    public Exp setCdr(Exp exp) throws AccessException {
+        this._cdr = exp;;
+        return this;
+    }
 
-	public boolean isSelfEvaluating() {
-		return false;
-	}
+    public boolean isSelfEvaluating() {
+        return false;
+    }
 
-	public String toString() {
-		StringWriter out = new StringWriter();
-		acceptVisitor(new BasicFormatter(out));
-		return out.getBuffer().toString();
-	}
+    public String toString() {
+        StringWriter out = new StringWriter();
+        acceptVisitor(new BasicFormatter(out));
+        return out.getBuffer().toString();
+    }
 
 }

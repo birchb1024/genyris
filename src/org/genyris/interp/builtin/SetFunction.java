@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
@@ -9,13 +14,13 @@ import org.genyris.interp.GenyrisException;
 
 public class SetFunction extends ApplicableFunction {
 
-	public SetFunction(Interpreter interp) {
-		super(interp);
-	}
+    public SetFunction(Interpreter interp) {
+        super(interp);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-		if( arguments.length != 2) throw new GenyrisException("Incorrect number of arguments to set.");
-		env.setVariableValue(arguments[0], arguments[1]);
-		return arguments[1];
-	}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
+        if( arguments.length != 2) throw new GenyrisException("Incorrect number of arguments to set.");
+        env.setVariableValue(arguments[0], arguments[1]);
+        return arguments[1];
+    }
 }

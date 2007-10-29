@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
@@ -9,12 +14,12 @@ import org.genyris.interp.GenyrisException;
 
 public class ListFunction extends ApplicableFunction {
 
-	public ListFunction(Interpreter interp) {
-		super(interp);
-	}
+    public ListFunction(Interpreter interp) {
+        super(interp);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-		return arrayToList(arguments);
-	}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
+        return arrayToList(arguments);
+    }
 
 }

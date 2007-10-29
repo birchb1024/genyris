@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.interp.builtin;
 
 import java.io.Writer;
@@ -13,26 +18,26 @@ import org.genyris.load.SourceLoader;
 
 public class LoadFunction extends ApplicableFunction {
 
-	public LoadFunction(Interpreter interp) {
-		super(interp);
-	}
+    public LoadFunction(Interpreter interp) {
+        super(interp);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-		Exp result;
-		Writer out = new NullWriter();
-		if( !( arguments[0] instanceof Lstring) ) {
-			throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
-		}
-		if( arguments.length > 1 ) {
-			if( arguments[1] == TRUE) {
-				out = _interp.getDefaultOutputWriter();
-			}
-		}
-		result = SourceLoader.loadScriptFromClasspath(_interp, arguments[0].toString(), out);
-		if( result == NIL ) {
-			return NIL;
-		}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
+        Exp result;
+        Writer out = new NullWriter();
+        if( !( arguments[0] instanceof Lstring) ) {
+            throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
+        }
+        if( arguments.length > 1 ) {
+            if( arguments[1] == TRUE) {
+                out = _interp.getDefaultOutputWriter();
+            }
+        }
+        result = SourceLoader.loadScriptFromClasspath(_interp, arguments[0].toString(), out);
+        if( result == NIL ) {
+            return NIL;
+        }
 
-		return TRUE;
-	}
+        return TRUE;
+    }
 }

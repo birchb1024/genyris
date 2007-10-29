@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.load;
 
 import java.io.IOException;
@@ -21,16 +26,16 @@ import org.genyris.io.UngettableInStream;
 public class SourceLoader {
 
 
-	public static Exp loadScriptFromClasspath(Interpreter _interp, String filename, Writer writer) throws GenyrisException {
+    public static Exp loadScriptFromClasspath(Interpreter _interp, String filename, Writer writer) throws GenyrisException {
 
-		InputStream in  = SourceLoader.class.getResourceAsStream(filename);
-		// this use of getResourceAsStream() means paths are relative to this class
-		// unless preceded by a '/'
-		if( in == null ) {
-			throw new GenyrisException("loadScriptFromClasspath: null pointer from getResourceAsStream.");
-		}
-		return executeScript(_interp, new InputStreamReader(in), writer);
-	}
+        InputStream in  = SourceLoader.class.getResourceAsStream(filename);
+        // this use of getResourceAsStream() means paths are relative to this class
+        // unless preceded by a '/'
+        if( in == null ) {
+            throw new GenyrisException("loadScriptFromClasspath: null pointer from getResourceAsStream.");
+        }
+        return executeScript(_interp, new InputStreamReader(in), writer);
+    }
 
     public static Exp executeScript(Interpreter interp, Reader reader, Writer output) throws GenyrisException {
         InStream input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(new ReaderInStream(reader)),
@@ -47,7 +52,7 @@ public class SourceLoader {
             result = interp.evalInGlobalEnvironment(expression);
             result.acceptVisitor(formatter);
             try {
-            	output.write('\n');
+                output.write('\n');
                 output.flush();
             } catch (IOException ignore) {}
         } while (true);

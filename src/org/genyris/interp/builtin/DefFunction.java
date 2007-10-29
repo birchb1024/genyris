@@ -1,3 +1,8 @@
+// Copyright 2008 Peter William Birch <birchb@genyis.org>
+//
+// This software may be used and distributed according to the terms
+// of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+//
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
@@ -12,17 +17,17 @@ import org.genyris.interp.Interpreter;
 
 public class DefFunction extends ApplicableFunction {
 
-	public DefFunction(Interpreter interp) {
-		super(interp);
-	}
+    public DefFunction(Interpreter interp) {
+        super(interp);
+    }
 
 public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
-			throws GenyrisException {
-		Exp lambdaExpression = new Lcons(_lambda, arrayToList(arguments).cdr());
-		// TODO inefficient
-		EagerProcedure fn = new EagerProcedure(envForBindOperations, lambdaExpression, new ClassicFunction(_interp));
-		envForBindOperations.defineVariable(arguments[0], fn);
-		return fn;
-	}
+            throws GenyrisException {
+        Exp lambdaExpression = new Lcons(_lambda, arrayToList(arguments).cdr());
+        // TODO inefficient
+        EagerProcedure fn = new EagerProcedure(envForBindOperations, lambdaExpression, new ClassicFunction(_interp));
+        envForBindOperations.defineVariable(arguments[0], fn);
+        return fn;
+    }
 
 }
