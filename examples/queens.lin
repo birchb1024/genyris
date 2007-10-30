@@ -1,81 +1,61 @@
 ;;;;
 ;;;; Taken from "Lisp" by Winston & Horn 2nd edition
-;;;; Problem 11-9
+;;;; problem 11-9
 ;;;;
 
-;;;;
-;;;;
-;;;;
 setq = equal
-setq NIL nil
-setq COND cond
-setq NULL null?
-setq CONS cons
-setq LIST list
-setq OR or
-setq CAAR caar
-setq CADAR cadar
-setq REVERSE reverse
-setq LENGTH length
-setq CDR cdr
 
-def TERPRI ()
-  print "\n"
-def PRINC (arg)
-  print arg
+def queen (size)
+  queen-aux nil 0 size
 
-def QUEEN (SIZE)
-  QUEEN-AUX NIL 0 SIZE
-
-def QUEEN-AUX (BOARD N SIZE)               ; sTART ON NEXT rOW
-   COND
-      (= N SIZE)
-         BOARD-PRINT (REVERSE BOARD)
+def queen-aux (board n size)               ; start on next row
+   cond
+      (= n size)
+         board-print (reverse board)
       else
-         QUEEN-SUB BOARD N 0 SIZE
+         queen-sub board n 0 size
 
-def QUEEN-SUB (BOARD N M SIZE)
-   COND
-      (= M SIZE)
+def queen-sub (board n m size)
+   cond
+      (= m size)
       else
-         COND
-            (CONFLICT N M BOARD)
+         cond
+            (conflict n m board)
             else
-               QUEEN-AUX (CONS (LIST N M) BOARD) (+ N 1) SIZE
-         QUEEN-SUB BOARD N (+ M 1) SIZE
+               queen-aux (cons (list n m) board) (+ n 1) size
+         queen-sub board n (+ m 1) size
 
-def CONFLICT (cN cM cBOARD)
-   COND
-      (NULL cBOARD) NIL
-      (OR (THREAT cN cM (CAAR cBOARD) (CADAR cBOARD))  (CONFLICT cN cM (CDR cBOARD)))
+def conflict (cn cm cboard)
+   cond
+      (null? cboard) nil
+      (or (threat cn cm (caar cboard) (cadar cboard))  (conflict cn cm (cdr cboard)))
 
-def THREAT (I J A B)
-   OR
-      = I A
-      = J B
-      = (- I J) (- A B)
-      = (+ I J) (+ A B)
+def threat (i j a b)
+   or
+      = i a
+      = j b
+      = (- i j) (- a b)
+      = (+ i j) (+ a b)
 
 
-def BOARD-PRINT (BOARD)
-   BOARD-PRINT-AUX BOARD (LENGTH BOARD)
+def board-print (board)
+   board-print-aux board (length board)
 
-def BOARD-PRINT-AUX (BOARD SIZE)
-   TERPRI
-   COND
-      (NULL BOARD)
+def board-print-aux (board size)
+   print "\n"
+   cond
+      (null? board)
       else
-         BOARD-PRINT-SUB (CADAR BOARD) 0 SIZE
-         BOARD-PRINT-AUX (CDR BOARD) SIZE
+         board-print-sub (cadar board) 0 size
+         board-print-aux (cdr board) size
 
-def BOARD-PRINT-SUB (COLUMN N SIZE)
-   COND
-      (= N SIZE)
+def board-print-sub (column n size)
+   cond
+      (= n size)
       else
-         COND
-            (= COLUMN N)
-               PRINC 'Q
+         cond
+            (= column n)
+               print 'Q
             else
-               PRINC '.
-         ;PRINC " "
-         BOARD-PRINT-SUB COLUMN (+ N 1) SIZE
+               print '.
+         board-print-sub column (+ n 1) size
