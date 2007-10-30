@@ -1,0 +1,81 @@
+;;;;
+;;;; Taken from "Lisp" by Winston & Horn 2nd edition
+;;;; Problem 11-9
+;;;;
+
+;;;;
+;;;;
+;;;;
+setq = equal
+setq NIL nil
+setq COND cond
+setq NULL null?
+setq CONS cons
+setq LIST list
+setq OR or
+setq CAAR caar
+setq CADAR cadar
+setq REVERSE reverse
+setq LENGTH length
+setq CDR cdr
+
+def TERPRI ()
+  print "\n"
+def PRINC (arg)
+  print arg
+
+def QUEEN (SIZE)
+  QUEEN-AUX NIL 0 SIZE
+
+def QUEEN-AUX (BOARD N SIZE)               ; sTART ON NEXT rOW
+   COND
+      (= N SIZE)
+         BOARD-PRINT (REVERSE BOARD)
+      else
+         QUEEN-SUB BOARD N 0 SIZE
+
+def QUEEN-SUB (BOARD N M SIZE)
+   COND
+      (= M SIZE)
+      else
+         COND
+            (CONFLICT N M BOARD)
+            else
+               QUEEN-AUX (CONS (LIST N M) BOARD) (+ N 1) SIZE
+         QUEEN-SUB BOARD N (+ M 1) SIZE
+
+def CONFLICT (cN cM cBOARD)
+   COND
+      (NULL cBOARD) NIL
+      (OR (THREAT cN cM (CAAR cBOARD) (CADAR cBOARD))  (CONFLICT cN cM (CDR cBOARD)))
+
+def THREAT (I J A B)
+   OR
+      = I A
+      = J B
+      = (- I J) (- A B)
+      = (+ I J) (+ A B)
+
+
+def BOARD-PRINT (BOARD)
+   BOARD-PRINT-AUX BOARD (LENGTH BOARD)
+
+def BOARD-PRINT-AUX (BOARD SIZE)
+   TERPRI
+   COND
+      (NULL BOARD)
+      else
+         BOARD-PRINT-SUB (CADAR BOARD) 0 SIZE
+         BOARD-PRINT-AUX (CDR BOARD) SIZE
+
+def BOARD-PRINT-SUB (COLUMN N SIZE)
+   COND
+      (= N SIZE)
+      else
+         COND
+            (= COLUMN N)
+               PRINC 'Q
+            else
+               PRINC '.
+         ;PRINC " "
+         BOARD-PRINT-SUB COLUMN (+ N 1) SIZE

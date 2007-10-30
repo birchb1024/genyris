@@ -15,24 +15,26 @@ defmacro if (test success-result failure-result)
          true ,failure-result
 
 def cadr (x) (car (cdr x))
-def caadr (x) (car (cdr (cdr x)))
+def caadr (x) (car (car (cdr x)))
+def cadar (x) (car (cdr (car x)))
+def caar (x) (car (car x))
 
 define else 'else
 define then 'then
 define do 'do
 
-def null (sexp)
+def null? (sexp)
    cond
       sexp nil
       else true
 
-def member (item list)
+def member? (item list)
    cond
       (null list)
          nil
       (equal (car list) item)
          list
       else
-          member item (cdr list)
+          member? item (cdr list)
 
 "loaded init.lin"

@@ -24,7 +24,12 @@ public class ConditionalFunction extends ApplicableFunction {
         for(int i= 0; i < arguments.length; i++) {
             Exp condition = Evaluator.eval(env, arguments[i].car()); // TODO check if it exists?
             if( condition != NIL ) {
-                return Evaluator.evalSequence(env, arguments[i].cdr()); // TODO check if it exists?
+                if( arguments[i].cdr() == NIL) {
+                    return condition;
+                }
+                else {
+                    return Evaluator.evalSequence(env, arguments[i].cdr()); // TODO check if it exists?
+                }
             }
         }
         return NIL;
