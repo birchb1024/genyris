@@ -1,0 +1,46 @@
+README
+
+You need Java 1.5 JRE to run the Genyris interpreter. Check with your JRE
+version with:
+
+  $ java -version
+
+Start the command-line interpreter with Java:
+
+  $ java -jar genyris-bin.jar
+
+You will see a message follwed by a prompt:
+
+  *** Genyris is listening...
+
+  >
+
+Commands can be typed in, use two carriage returns
+to terminate an indented statement.
+
+Examples of Genyris code are in the
+jar and can be loaded as follows:
+
+     > load "/examples/queens.lin"
+
+     ~ true ; Symbol
+
+     > queen 8
+     "
+     "Q......."
+     "....Q..."
+     ".......Q"
+     ".....Q.."
+     "..Q....."
+     "......Q."
+     ".Q......"
+     "...Q...."
+     ""
+     etc
+
+More examples can be extracted with:
+
+  $ jar -xf genyris-bin.jar
+
+Look in the "examples" folder for files to peruse.
+

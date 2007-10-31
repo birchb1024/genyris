@@ -11,7 +11,9 @@
 </sealing>
 </manifest>
 <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<file path="/Genyris/README"/>
 <folder path="/Genyris/examples"/>
 <javaElement handleIdentifier="=Genyris/src"/>
+<file path="/Genyris/LICENSE"/>
 </selectedElements>
 </jardesc>

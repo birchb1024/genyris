@@ -1,0 +1,86 @@
+Gday, 
+
+This to announce the start of a new project to 
+enhance Lisp-like languages with dispatch on type 
+features. The intent is to provide programmers with
+a way to formally define the grammar of their list
+structures, and to add 'generic' or polymorphic
+functions on lists. The main difference between Genyris and 
+CLOS is that the you get dispatch on type for Plain Old Lists (POLs).
+
+It is also designed to give you ambiguous data types.
+So you can type in a list at the prompt and Genyris will 
+tell you what types it conforms to:
+
+>- (types-of '(2134 . 986))
+(complex point rational vector cons)
+
+
+Here's a familiar example:
+
+	Consider the following code fragment from Paul Graham's implementation of 
+	John McCarthy's LISP:
+
+	(defun eval. (e a)
+	  (cond
+		((atom e) (assoc. e a))
+		((atom (car e))
+		 (cond
+		   ((eq (car e) 'quote) (cadr e))
+		   ((eq (car e) 'atom)  (atom   (eval. (cadr e) a)))
+		   ((eq (car e) 'eq)    (eq     (eval. (cadr e) a)
+										(eval. (caddr e) a)))
+	   ...
+
+	To rewrite this using Genyris, first we need to define some list types:
+
+	(define-type atom symbol)
+
+	(define-type quote-form 'quote thing) ; e.g. '(quote fred ...)
+	(define-type atom-form 'atom thing)   ; e.g. '(atom z)
+	(define-type eq-form 'eq thing)       ; e.g. '(eq x y)
+
+	Then we write individual generic functions for eval. which apply to the identified types:
+
+	(define-generic g-eval. ((atom e) (alist a)) 
+		   (assoc. e a))
+		   
+	(define-generic g-eval. ((atom-form e) (alist a)) 
+		   (atom   (eval. (cadr e) a)))
+		   
+	(define-generic g-eval. ((quote-form e) (alist a)) 
+		   (cadr e))
+		   
+	(define-generic g-eval. ((eq-form e) (alist a)) 
+		   (eq (g-eval. (cadr e) a) (g-eval. (caddr e) a)))
+
+	With source code in this form we can add new evaluation rules to g-eval. without needing
+	to modify existing code. Whereas in the traditional eval. function there is a single 
+	cond expression which must be maintained. We can also over-ride an existing definition 
+	with a more specific data type. The dispatcher will always call the most specific 
+	available function. For example we could add integers to g-eval:
+
+	(define-generic g-eval. ((fixum e) a) e)
+
+There's more features than I can put in this post. An essay describing this approach 
+available on sourceforge here:
+
+ http://prdownloads.sourceforge.net/genyris/GenyrisEssay20040826.pdf?download
+
+Of course I will be ETERNALLY grateful to anyone who troubles themselves to read it. A 
+couple of Lisp people have reviewed it here in Australia (thanks guys) so it isn't
+_too_ ordinary. I'm reasonably confident that someone will point out a way to do this
+in CLOS or Scheme. I looked but couldn't see it. 
+
+You can either clutter up this newsgroup in the traditional c.l.l way
+or you can post criticism, comments to the sourceforge newsgroup here: 
+
+http://sourceforge.net/forum/forum.php?forum_id=396258
+
+On a personal note I have to say how much I have appreciated help from 
+c.l.l.ers in the past. I'm really curious to see what your reaction to this idea will be.
+
+Cheers,
+Bill Birch
+
+
