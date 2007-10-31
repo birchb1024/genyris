@@ -5,9 +5,11 @@
 //
 package org.genyris.interp;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 
+import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
@@ -51,12 +53,7 @@ public class ClassicReadEvalPrintLoop {
                     result.acceptVisitor(formatter);
 
                     output.write(" ;");
-                    Exp klasses = result.getClasses(NIL);
-                    while(klasses != NIL){
-                        Environment klass = (Environment) klasses.car();
-                        output.write(" " + klass.lookupVariableShallow(interpreter.getSymbolTable().internString(Constants.CLASSNAME)).toString());
-                        klasses = klasses.cdr();
-                    }
+                    printClassNames(interpreter, NIL, output, result);
                     output.flush();
                 }
                 catch (GenyrisException e) {
@@ -73,6 +70,15 @@ public class ClassicReadEvalPrintLoop {
             System.exit(-1);
         }
 
+    }
+
+    private static void printClassNames(Interpreter interpreter, Lsymbol NIL, Writer output, Exp result) throws AccessException, IOException, UnboundException {
+        Exp klasses = result.getClasses(NIL);
+        while(klasses != NIL){
+            Environment klass = (Environment) klasses.car();
+            output.write(" " + klass.lookupVariableShallow(interpreter.getSymbolTable().internString(Constants.CLASSNAME)).toString());
+            klasses = klasses.cdr();
+        }
     }
 
 }

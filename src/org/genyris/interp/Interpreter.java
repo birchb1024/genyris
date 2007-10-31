@@ -48,6 +48,7 @@ import org.genyris.interp.builtin.TagFunction;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
+import org.genyris.io.ReadFunction;
 import org.genyris.load.SourceLoader;
 import org.genyris.logic.AndFunction;
 import org.genyris.logic.OrFunction;
@@ -123,6 +124,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("length"), new EagerProcedure(_globalEnvironment, null, new LengthFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("load"), new EagerProcedure(_globalEnvironment, null, new LoadFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("print"), new EagerProcedure(_globalEnvironment, null, new PrintFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("read"), new EagerProcedure(_globalEnvironment, null, new ReadFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("tag"), new EagerProcedure(_globalEnvironment, null, new TagFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("remove-tag"), new EagerProcedure(_globalEnvironment, null, new RemoveTagFunction(this)));
 
