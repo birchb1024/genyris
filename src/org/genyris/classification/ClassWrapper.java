@@ -9,7 +9,6 @@ import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
@@ -18,7 +17,7 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.GenyrisException;
 import org.genyris.interp.UnboundException;
 
-public class ClassWrapper extends ExpWithEmbeddedClasses {
+public class ClassWrapper {
     private Lobject _theClass;
     private Exp     CLASSNAME, SUPERCLASSES, SUBCLASSES;
     private Lsymbol NIL;
@@ -31,13 +30,12 @@ public class ClassWrapper extends ExpWithEmbeddedClasses {
         NIL = toWrap.getParent().getNil();
     }
 
-    public void acceptVisitor(Visitor guest) {
-        guest.visitClassWrapper(this);
+    public Lobject getTheClass() {
+        return _theClass;
     }
 
-    public Object getJavaValue() {
-        // TODO Auto-generated method stub
-        return null;
+    public void acceptVisitor(Visitor guest) {
+        guest.visitClassWrapper(this);
     }
 
     public String toString() {
