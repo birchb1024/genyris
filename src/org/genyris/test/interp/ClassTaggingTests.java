@@ -38,6 +38,6 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag x Miles)", "45");
-        excerciseEval("(x _classes)", "(<class Bignum (Thing) ()> <class Miles (Thing) ()>)");
+        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Thing) ()>)");
         }
 }

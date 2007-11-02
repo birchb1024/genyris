@@ -5,28 +5,40 @@
 //
 package org.genyris.core;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import org.genyris.classification.ClassMROComparator;
+import org.genyris.interp.Environment;
 
 public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable {
-    private  Set _classes;
+    private  ArrayList _classes;
 
     public ExpWithEmbeddedClasses() {
-        _classes = new HashSet(1);
+        _classes = new ArrayList(1);
     }
     public ExpWithEmbeddedClasses(Lobject theInbuiltClass) {
-        _classes = new HashSet(1);
+        _classes = new ArrayList(1);
         if(theInbuiltClass != null)
             initClass(theInbuiltClass);
     }
     public void initClass(Lobject theInbuiltClass) {
         _classes.add(theInbuiltClass);
+        sortClassesinMRO(theInbuiltClass.getParent());
     }
     public abstract Object getJavaValue();
     public abstract void acceptVisitor(Visitor guest);
 
-    public void addClass(Exp klass) {
+    private void sortClassesinMRO(Environment env) {
+        Object[] tmp = _classes.toArray();
+        java.util.Arrays.sort(tmp, new ClassMROComparator(env) );
+        _classes.clear();
+        for(int i=0; i< tmp.length; i++)
+            _classes.add(tmp[i]); // TODO learn some Java
+    }
+
+    public void addClass(Exp k) { // TODO change signature to Lobject
+        Lobject klass = (Lobject) k;
         _classes.add(klass);
+        sortClassesinMRO(klass.getParent());
     }
     public Exp getClasses(Lsymbol NIL) {
         Exp classes = NIL;
@@ -36,8 +48,10 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
         }
         return classes;
     }
-    public void removeClass(Exp klass) {
+    public void removeClass(Exp k) {
+        Lobject klass = (Lobject) k;
         _classes.remove(klass);
+        sortClassesinMRO(klass.getParent());
     }
     public boolean isTaggedWith(Lobject klass) {
         return _classes.contains(klass);
