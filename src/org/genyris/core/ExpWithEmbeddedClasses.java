@@ -21,6 +21,9 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
             initClass(theInbuiltClass);
     }
     public void initClass(Lobject theInbuiltClass) {
+        if(_classes.contains(theInbuiltClass)) {
+            return;
+        }
         _classes.add(theInbuiltClass);
         sortClassesinMRO(theInbuiltClass.getParent());
     }
@@ -36,6 +39,9 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     }
 
     public void addClass(Exp k) { // TODO change signature to Lobject
+        if(_classes.contains(k)) {
+            return;
+        }
         Lobject klass = (Lobject) k;
         _classes.add(klass);
         sortClassesinMRO(klass.getParent());

@@ -9,11 +9,9 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
 public class ClassMROComparator implements Comparator {
-    private Environment _env;
     private Exp NIL, SUPERCLASSES;
 
     public ClassMROComparator(Environment env) {
-        _env = env;
         SUPERCLASSES = env.internString(Constants.SUPERCLASSES);
         NIL = env.getNil();
 
