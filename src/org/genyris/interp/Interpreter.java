@@ -89,14 +89,6 @@ public class Interpreter {
 
         BuiltinClasses.init(_globalEnvironment);
 
-        _globalEnvironment.defineVariable(_table.internString("StandardClass"), BuiltinClasses.STANDARDCLASS);
-        _globalEnvironment.defineVariable(_table.internString("Thing"), BuiltinClasses.THING);
-        _globalEnvironment.defineVariable(_table.internString("Object"), BuiltinClasses.OBJECT);
-        _globalEnvironment.defineVariable(_table.internString("Pair"), BuiltinClasses.PAIR);
-        _globalEnvironment.defineVariable(_table.internString("Bignum"), BuiltinClasses.BIGNUM);
-        _globalEnvironment.defineVariable(_table.internString("String"), BuiltinClasses.STRING);
-        _globalEnvironment.defineVariable(_table.internString("Symbol"), BuiltinClasses.SYMBOL);
-
         // TODO all these constructors need to be replaced with a factory and singletons:
         _globalEnvironment.defineVariable(_table.internString(Constants.LAMBDA), new LazyProcedure(_globalEnvironment, null, new LambdaFunction(this)));
         _globalEnvironment.defineVariable(_table.internString(Constants.LAMBDAQ), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction(this)));

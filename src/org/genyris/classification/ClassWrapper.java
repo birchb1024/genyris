@@ -5,7 +5,6 @@
 //
 package org.genyris.classification;
 
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
@@ -132,11 +131,14 @@ public class ClassWrapper {
 
     public static Lobject makeClass(Environment env, Exp klassname, Exp superklasses) throws GenyrisException {
         Exp NIL = env.getNil();
+        Exp standardClassSymbol = env.internString(Constants.STANDARDCLASS);
+        Exp standardClass = env.lookupVariableValue(standardClassSymbol);
+
         Lobject newClass = new Lobject(env);
-        newClass.addClass(BuiltinClasses.STANDARDCLASS);
+        newClass.addClass(standardClass);
         newClass.defineVariable(env.internString(Constants.CLASSNAME), klassname);
         newClass.defineVariable(env.internString(Constants.CLASSES),
-                new Lcons(BuiltinClasses.STANDARDCLASS, NIL));
+                new Lcons(standardClass, NIL));
         newClass.defineVariable(env.internString(Constants.SUBCLASSES), NIL);
         if ( superklasses == NIL )
             superklasses = new Lcons(env.internString(Constants.THING), NIL);

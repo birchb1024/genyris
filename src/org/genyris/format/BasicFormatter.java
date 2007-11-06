@@ -12,6 +12,7 @@ import org.genyris.classes.BuiltinClasses;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.AccessException;
 import org.genyris.core.Bignum;
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Ldouble;
@@ -24,44 +25,57 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.StandardEnvironment;
+import org.genyris.interp.UnboundException;
 
 public class BasicFormatter implements Visitor {
 
     private static final String CDRCHAR = ":";
+
     private Writer _output;
 
     public BasicFormatter(Writer out) {
         _output = out;
     }
 
-   public void visitLobject(Lobject frame) {
-       if(frame.isTaggedWith(BuiltinClasses.STANDARDCLASS)) {
-           new ClassWrapper(frame).acceptVisitor(this);
-       }
-       else {
-            try {
-                _output.write(frame.getAlist().toString());
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+    public void visitLobject(Lobject frame) {
+        Exp standardClassSymbol = frame.getParent().internString(Constants.STANDARDCLASS);
+        Lobject standardClass;
+        try {
+            standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
+            if (frame.isTaggedWith(standardClass)) {
+                new ClassWrapper(frame).acceptVisitor(this);
+                return;
             }
-       }
+        }
+        catch (UnboundException ignore) {
+        }
+
+        try {
+            _output.write(frame.getAlist().toString());
+
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     public void visitEagerProc(EagerProcedure proc) {
         try {
             _output.write("<EagerProc: " + proc.getJavaValue().toString() + ">");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public void visitLazyProc(LazyProcedure proc){
+    public void visitLazyProc(LazyProcedure proc) {
         try {
             _output.write(proc.getJavaValue().toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -69,61 +83,66 @@ public class BasicFormatter implements Visitor {
 
     void writeCdr(Exp cons) {
         try {
-            if( cons.isNil()) {
+            if (cons.isNil()) {
                 return;
             }
             _output.write(" ");
-            if( !cons.listp() ) {
+            if (!cons.listp()) {
                 _output.write(CDRCHAR + " "); // cdr_char
                 cons.acceptVisitor(this);
                 return;
             }
             cons.car().acceptVisitor(this);
-            if( cons.cdr().isNil()) {
+            if (cons.cdr().isNil()) {
                 return;
             }
             writeCdr(cons.cdr());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (AccessException e) {
+        }
+        catch (AccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-
 
     public void visitLcons(Lcons cons) {
         try {
             _output.write("(");
             cons.car().acceptVisitor(this);
-            boolean colon= cons.isTaggedWith(BuiltinClasses.PRINTWITHCOLON);
-            if(colon) {
+            boolean colon = cons.isTaggedWith(BuiltinClasses.PRINTWITHCOLON);
+            if (colon) {
                 _output.write(" : ");
                 cons.cdr().acceptVisitor(this);
-            } else {
+            }
+            else {
                 writeCdr(cons.cdr());
             }
             _output.write(")");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public void visitLdouble(Ldouble dub){
+    public void visitLdouble(Ldouble dub) {
         try {
             _output.write(dub.getJavaValue().toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public void visitLinteger(Linteger lint)  {
+    public void visitLinteger(Linteger lint) {
         try {
             _output.write(lint.getJavaValue().toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -132,7 +151,8 @@ public class BasicFormatter implements Visitor {
     public void visitBignum(Bignum bignum) {
         try {
             _output.write(bignum.getJavaValue().toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -141,7 +161,8 @@ public class BasicFormatter implements Visitor {
     public void visitLstring(Lstring lst) {
         try {
             _output.write("\"" + lst.getJavaValue().toString() + "\"");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -150,15 +171,18 @@ public class BasicFormatter implements Visitor {
     public void visitLsymbol(Lsymbol lsym) {
         try {
             _output.write(lsym.getJavaValue().toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
     public void visitStandardEnvironment(StandardEnvironment env) {
         try {
-            _output.write( env.getJavaValue().toString() );
-        } catch (IOException e) {
+            _output.write(env.getJavaValue().toString());
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -167,7 +191,8 @@ public class BasicFormatter implements Visitor {
     public void visitSpecialEnvironment(SpecialEnvironment env) {
         try {
             _output.write(env.getJavaValue().toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -176,12 +201,11 @@ public class BasicFormatter implements Visitor {
     public void visitClassWrapper(ClassWrapper klass) {
         try {
             _output.write(klass.toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-
-
 
 }
