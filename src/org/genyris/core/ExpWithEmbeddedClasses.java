@@ -63,7 +63,4 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
         return _classes.contains(klass);
     }
 
-    public boolean isInstanceOf(Lobject klass) {
-        return isTaggedWith(klass); // TODO implement structural or nominative subtyping here
-    }
 }

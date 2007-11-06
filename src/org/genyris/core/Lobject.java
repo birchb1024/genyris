@@ -264,10 +264,6 @@ public class Lobject extends Exp implements Environment {
         return false;
     }
 
-    public boolean isInstanceOf(Lobject klass) {
-        return isTaggedWith(klass); // TODO implent structural or nominativ subtyping here.
-    }
-
     public Lsymbol getNil() {
         return NIL;
     }
