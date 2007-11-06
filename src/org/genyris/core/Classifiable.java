@@ -11,5 +11,6 @@ public interface Classifiable {
     public void addClass(Exp klass);
     public void removeClass(Exp klass);
     public boolean isTaggedWith(Lobject klass);
+    public void setClasses(Exp classList, Exp NIL) throws AccessException;
 
 }

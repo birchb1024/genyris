@@ -8,40 +8,43 @@ package org.genyris.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import org.genyris.classes.BuiltinClasses;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
-import org.genyris.interp.Interpreter;
 import org.genyris.interp.GenyrisException;
+import org.genyris.interp.Interpreter;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;
 
 
-public class Lobject extends Exp implements Environment {
+public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     private static int _counter;
     private int _hash;
     private Map _dict;
     private Lsymbol NIL;
     private Environment _parent;
-    Exp _self, __self, _classes, _superclasses, _classname;
+    Exp _self, __self, CLASSES, SUPERCLASSES, CLASSNAME;
 
     private void init() {
         _hash = _counter++;
         _self = _parent.internString("self");
         __self = _parent.internString(Constants._SELF);
-        _classes = _parent.internString(Constants.CLASSES);
-        _superclasses = _parent.internString(Constants.SUPERCLASSES);
-        _classname = _parent.internString(Constants.CLASSNAME);
+        CLASSES = _parent.internString(Constants.CLASSES);
+        SUPERCLASSES = _parent.internString(Constants.SUPERCLASSES);
+        CLASSNAME = _parent.internString(Constants.CLASSNAME);
         NIL = _parent.getNil();
     }
     public Lobject(Environment parent) {
+        super(BuiltinClasses.OBJECT);
         _dict = new HashMap();
         _parent = parent;
         init();
     }
 
     public Lobject(Lsymbol key, Exp value, Environment parent) {
-        _dict = new HashMap();
+        super(BuiltinClasses.OBJECT);
+       _dict = new HashMap();
         _dict.put(key, value);
         _parent = parent;
         init();
@@ -77,7 +80,9 @@ public class Lobject extends Exp implements Environment {
 
     public Exp getAlist() {
         Iterator iter = _dict.keySet().iterator();
-        Exp result = NIL;
+        Exp classesPair = new Lcons(CLASSES, getClasses(NIL));
+        classesPair.addClass(BuiltinClasses.PRINTWITHCOLON);
+        Exp result = new Lcons(classesPair, NIL);
         while(iter.hasNext()) {
             Exp key = (Exp) iter.next();
             Exp value = (Exp) _dict.get(key);
@@ -93,24 +98,30 @@ public class Lobject extends Exp implements Environment {
         if(! (symbol instanceof Lsymbol) ) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
-        _dict.put(symbol, valu);
+        if (symbol == CLASSES) {
+            setClasses(valu, NIL);
+            return;
+        }
+        else {
+            _dict.put(symbol, valu);
+        }
     }
 
     public Exp lookupVariableValue(Exp symbol) throws UnboundException {
         if( symbol == __self ) {
             return this;
         }
-        if (symbol == _classes) {
+        if (symbol == CLASSES) {
             return getClasses(NIL);
         }
-        if( _dict.containsKey(symbol) ) {
+        else if( _dict.containsKey(symbol) ) {
             return (Exp)_dict.get(symbol);
         }
         try {
                 return lookupInClasses(symbol);
         } catch (UnboundException e) {}
 
-        if(_dict.containsKey(_superclasses)) {
+        if(_dict.containsKey(SUPERCLASSES)) {
             return lookupInSuperClasses(symbol);
         }
         throw new UnboundException("unbound " + symbol.toString());
@@ -145,10 +156,10 @@ public class Lobject extends Exp implements Environment {
     }
 
     private Exp lookupInSuperClasses(Exp symbol) throws UnboundException {
-        if( !_dict.containsKey(_superclasses) ) {
+        if( !_dict.containsKey(SUPERCLASSES) ) {
             throw new UnboundException("object has no superclasses");
         }
-        Exp superclasses = (Exp)_dict.get(_superclasses);
+        Exp superclasses = (Exp)_dict.get(SUPERCLASSES);
         while( superclasses != NIL) {
             try {
                 Environment klass = (Environment)(superclasses.car());
@@ -168,11 +179,20 @@ public class Lobject extends Exp implements Environment {
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        if( _dict.containsKey(symbol)) {
-            _dict.put(symbol, valu);
+        if (symbol == CLASSES) {
+            try {
+                setClasses(valu, NIL);
+            }
+            catch (AccessException ignore) {
+            }
         }
         else {
-            throw new UnboundException("in object, undefined variable: " + ((Lsymbol)symbol).getPrintName()); // TODO downcast
+            if( _dict.containsKey(symbol)) {
+                _dict.put(symbol, valu);
+            }
+            else {
+                throw new UnboundException("in object, undefined variable: " + ((Lsymbol)symbol).getPrintName()); // TODO downcast
+            }
         }
     }
 
@@ -181,55 +201,16 @@ public class Lobject extends Exp implements Environment {
     }
 
     public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
-        if( _dict.containsKey(symbol) ) {
+        if (symbol == CLASSES) {
+            return getClasses(NIL);
+        }
+        else if( _dict.containsKey(symbol) ) {
             return (Exp)_dict.get(symbol);
         } else {
             throw new UnboundException("dict does not contain key: " + symbol.toString());
         }
     }
 
-    public Exp getClasses(Lsymbol NIL) {
-        if( ! _dict.containsKey(_classes) ) {
-            return new Lcons(BuiltinClasses.OBJECT, NIL);
-        }
-        else {
-            return new Lcons(BuiltinClasses.OBJECT,(Exp) _dict.get(_classes)) ;
-        }
-    }
-
-    public void addClass(Exp klass) {
-        Exp classes = NIL;
-        if( _dict.containsKey(_classes) ) {
-            classes = (Exp)_dict.get(_classes);
-        }
-        _dict.put(_classes, new Lcons (klass, classes));
-    }
-
-
-    public void removeClass(Exp klass) {
-        Exp classes = NIL;
-        if( _dict.containsKey(_classes) ) {
-            classes = (Exp)_dict.get(_classes);
-        }
-        try {
-            _dict.put(_classes, removeIf (klass, classes));
-        }
-        catch (AccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private Exp removeIf(Exp exp, Exp list) throws AccessException {
-        if( list == NIL) {
-            return NIL;
-        }
-        if( list == exp) {
-            return removeIf(exp, list.cdr());
-        } else {
-            return new Lcons(list.car(), removeIf(exp, list.cdr()) );
-        }
-    }
 
     public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
         Map bindings = new HashMap();
@@ -248,20 +229,6 @@ public class Lobject extends Exp implements Environment {
             }
         }
 
-    }
-
-    public boolean isTaggedWith(Lobject klass) {
-        Exp classes = getClasses(NIL);
-        try {
-            while( classes != NIL) {
-                    if( classes.car() == klass)
-                        return true;
-                classes = classes.cdr();
-            }
-        } catch (AccessException e) {
-            return false;
-        }
-        return false;
     }
 
     public Lsymbol getNil() {

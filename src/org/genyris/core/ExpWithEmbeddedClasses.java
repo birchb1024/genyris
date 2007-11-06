@@ -46,6 +46,13 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
         _classes.add(klass);
         sortClassesinMRO(klass.getParent());
     }
+    public void setClasses(Exp classList, Exp NIL) throws AccessException {
+        _classes.clear();
+        while(classList != NIL) {
+            _classes.add(classList.car());
+            classList = classList.cdr();
+        }
+    }
     public Exp getClasses(Lsymbol NIL) {
         Exp classes = NIL;
         Object arryOfObjects[] = _classes.toArray();
