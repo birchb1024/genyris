@@ -38,16 +38,20 @@ public class BasicFormatter implements Visitor {
     }
 
     public void visitLobject(Lobject frame) {
-        Exp standardClassSymbol = frame.getParent().internString(Constants.STANDARDCLASS);
+        Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
         Lobject standardClass;
         try {
             standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
-            if (frame.isTaggedWith(standardClass)) {
-                new ClassWrapper(frame).acceptVisitor(this);
-                return;
-            }
         }
-        catch (UnboundException ignore) {
+        catch (UnboundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return;
+        }
+
+        if (frame.isTaggedWith(standardClass)) {
+            new ClassWrapper(frame).acceptVisitor(this);
+            return;
         }
 
         try {

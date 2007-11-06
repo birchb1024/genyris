@@ -16,7 +16,6 @@ import org.genyris.interp.GenyrisException;
 public class BuiltinClasses {
 
     // TODO get rid of these statics.
-    public static Lobject THING;
     public static Lobject OBJECT;
     public static Lobject PAIR;;
     public static Lobject INTEGER;
@@ -24,19 +23,15 @@ public class BuiltinClasses {
     public static Lobject STRING;
     public static Lobject DOUBLE;
     public static Lobject SYMBOL;
+
     public static Lobject PRINTWITHCOLON;
 
-    public static Lobject EAGERPROCEDURE;
-    public static Lobject LAZYPROCEDURE;
-
-//    public static Lobject STANDARDCLASS;
-
-
-    private static Lobject mkClass(Lsymbol classname, String name, Environment env, Exp STANDARDCLASS) throws GenyrisException {
+    private static Lobject mkClass(Lsymbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
         Exp symbolicName = env.internString(name);
         Lobject newClass = new Lobject(classname, symbolicName, env );
         newClass.addClass(STANDARDCLASS);
-        new ClassWrapper(newClass).addSuperClass(THING);
+        if(superClass != null)
+            new ClassWrapper(newClass).addSuperClass(superClass);
         env.defineVariable(symbolicName, newClass);
         return newClass;
     }
@@ -50,16 +45,16 @@ public class BuiltinClasses {
             env.defineVariable(env.internString(Constants.STANDARDCLASS), STANDARDCLASS);
         }
 
-        THING = mkClass(classname, "Thing", env, STANDARDCLASS);
-        PAIR = mkClass(classname, "Pair", env, STANDARDCLASS);
-        OBJECT = mkClass(classname, "Object", env, STANDARDCLASS);
-        INTEGER = mkClass(classname, "Integer", env, STANDARDCLASS);
-        BIGNUM = mkClass(classname, "Bignum", env, STANDARDCLASS);
-        STRING = mkClass(classname, "String", env, STANDARDCLASS);
-        DOUBLE = mkClass(classname, "Double", env, STANDARDCLASS);
-        SYMBOL = mkClass(classname, "Symbol", env, STANDARDCLASS);
-        EAGERPROCEDURE = mkClass(classname, "EagerProcedure", env, STANDARDCLASS);
-        LAZYPROCEDURE = mkClass(classname, "LazyProcedure", env, STANDARDCLASS);
-        PRINTWITHCOLON = mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS);
+        Lobject THING = mkClass(classname, "Thing", env, STANDARDCLASS, null);
+        PAIR = mkClass(classname, "Pair", env, STANDARDCLASS, THING);
+        OBJECT = mkClass(classname, "Object", env, STANDARDCLASS, THING);
+        INTEGER = mkClass(classname, "Integer", env, STANDARDCLASS, THING);
+        BIGNUM = mkClass(classname, "Bignum", env, STANDARDCLASS, THING);
+        STRING = mkClass(classname, "String", env, STANDARDCLASS, THING);
+        DOUBLE = mkClass(classname, "Double", env, STANDARDCLASS, THING);
+        SYMBOL = mkClass(classname, "Symbol", env, STANDARDCLASS, THING);
+        mkClass(classname, "EagerProcedure", env, STANDARDCLASS, THING);
+        mkClass(classname, "LazyProcedure", env, STANDARDCLASS, THING);
+        PRINTWITHCOLON = mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, THING);
     }
 }

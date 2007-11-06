@@ -7,8 +7,8 @@
 
 package org.genyris.interp;
 
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.AccessException;
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
@@ -16,9 +16,11 @@ import org.genyris.core.Visitor;
 public class LazyProcedure extends AbstractClosure {
     // I DO NOT evaluate my arguments before being applied.
 
-    public LazyProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
-        super( environment,  expression,  appl);
-        addClass(BuiltinClasses.LAZYPROCEDURE);
+    public LazyProcedure(Environment env, Exp expression, ApplicableFunction appl) throws GenyrisException {
+        super( env,  expression,  appl);
+        Exp lazyProcSymbol = env.internString(Constants.LAZYPROCEDURE);
+        Exp lazyProcClass = env.lookupVariableValue(lazyProcSymbol);
+        addClass(lazyProcClass);
     }
 
     public Exp[] computeArguments(Environment env, Exp exp) throws AccessException {

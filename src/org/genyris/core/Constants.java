@@ -38,6 +38,7 @@ public class Constants {
         public static final String BACKQUOTE = "backquote";
 
         public static final String THING = "Thing";
+        public static final String LAZYPROCEDURE = "LazyProcedure";
 
 
 }

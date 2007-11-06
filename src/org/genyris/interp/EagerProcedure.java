@@ -5,7 +5,7 @@
 //
 package org.genyris.interp;
 
-import org.genyris.classes.BuiltinClasses;
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
@@ -13,9 +13,11 @@ import org.genyris.core.Visitor;
 public class EagerProcedure extends AbstractClosure  {
     // I DO evaluate my arguments before being applied.
 
-    public EagerProcedure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
-        super( environment,  expression,  appl);
-        addClass(BuiltinClasses.EAGERPROCEDURE);
+    public EagerProcedure(Environment env, Exp expression, ApplicableFunction appl) throws GenyrisException {
+        super( env,  expression,  appl);
+        Exp eagerProcSymbol = env.internString(Constants.LAZYPROCEDURE);
+        Exp lazyProcClass = env.lookupVariableValue(eagerProcSymbol);
+        addClass(lazyProcClass);
 
     }
 
