@@ -19,22 +19,11 @@ import org.genyris.interp.UnboundException;
 
 
 public class Lobject extends ExpWithEmbeddedClasses implements Environment {
-    private static int _counter;
-    private int _hash;
     private Map _dict;
     private Lsymbol NIL;
     private Environment _parent;
     Exp _self, __self, CLASSES, SUPERCLASSES, CLASSNAME;
 
-    private void init() {
-        _hash = _counter++;
-        _self = _parent.internString("self");
-        __self = _parent.internString(Constants._SELF);
-        CLASSES = _parent.internString(Constants.CLASSES);
-        SUPERCLASSES = _parent.internString(Constants.SUPERCLASSES);
-        CLASSNAME = _parent.internString(Constants.CLASSNAME);
-        NIL = _parent.getNil();
-    }
     public Lobject(Environment parent) {
         super(BuiltinClasses.OBJECT);
         _dict = new HashMap();
@@ -50,12 +39,13 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         init();
     }
 
-    public int hashCode() {
-        return _hash;
-    }
-
-    public boolean equals(Object compare) {
-        return compare == this;
+    private void init() {
+        _self = _parent.internString("self");
+        __self = _parent.internString(Constants._SELF);
+        CLASSES = _parent.internString(Constants.CLASSES);
+        SUPERCLASSES = _parent.internString(Constants.SUPERCLASSES);
+        CLASSNAME = _parent.internString(Constants.CLASSNAME);
+        NIL = _parent.getNil();
     }
 
     public Environment getParent() {
