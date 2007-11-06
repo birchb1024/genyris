@@ -12,7 +12,8 @@ import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 
 public class MagicEnvironment  extends StandardEnvironment {
-
+    // This environment encompasses an expression (Exp) which provides
+    // the first place to look for slots.
     private Exp _it;
     public MagicEnvironment(Environment runtime, Exp theObject) {
         super(runtime, new HashMap());
@@ -74,8 +75,12 @@ public class MagicEnvironment  extends StandardEnvironment {
         }
 
         Lsymbol sym = (Lsymbol) symbol;
+        if(symbol == _classes) {
+            _it.setClasses(valu, NIL);
+            return;
+        }
         if( sym.isMember()) {
-            throw new GenyrisException("cannot define non-member: " + symbol.toString());
+            throw new GenyrisException("cannot define member slot: " + symbol.toString());
         } else {
             super.defineVariable(symbol, valu);
         }
@@ -85,7 +90,16 @@ public class MagicEnvironment  extends StandardEnvironment {
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
         Lsymbol sym = (Lsymbol) symbol;
         if( sym.isMember()) {
-            ; // TODO silent - maybe throw an exception here?
+            if(symbol == _classes) {
+                try {
+                    _it.setClasses(valu, NIL);
+                }
+                catch (AccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return;
+            }
         } else {
             super.setVariableValue(symbol, valu);
         }
