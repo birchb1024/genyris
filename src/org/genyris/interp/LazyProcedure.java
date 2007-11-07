@@ -18,9 +18,6 @@ public class LazyProcedure extends AbstractClosure {
 
     public LazyProcedure(Environment env, Exp expression, ApplicableFunction appl) throws GenyrisException {
         super( env,  expression,  appl);
-        Exp lazyProcSymbol = env.internString(Constants.LAZYPROCEDURE);
-        Exp lazyProcClass = env.lookupVariableValue(lazyProcSymbol);
-        addClass(lazyProcClass);
     }
 
     public Exp[] computeArguments(Environment env, Exp exp) throws AccessException {

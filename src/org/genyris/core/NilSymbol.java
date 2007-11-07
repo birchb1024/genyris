@@ -9,7 +9,7 @@ package org.genyris.core;
 public class NilSymbol extends Lsymbol {
 
     public NilSymbol() {
-        _printName = "nil";
+        super(Constants.NIL);
     }
     public boolean isNil() {
         return true;

@@ -16,18 +16,6 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     public ExpWithEmbeddedClasses() {
         _classes = new ArrayList(1);
     }
-//    public ExpWithEmbeddedClasses(Lobject theInbuiltClass) {
-//        _classes = new ArrayList(1);
-//        if(theInbuiltClass != null)
-//            initClass(theInbuiltClass);
-//    }
-//    public void initClass(Lobject theInbuiltClass) {
-//        if(_classes.contains(theInbuiltClass)) {
-//            return;
-//        }
-//        _classes.add(theInbuiltClass);
-//        sortClassesinMRO(theInbuiltClass.getParent());
-//    }
     public abstract Object getJavaValue();
     public abstract void acceptVisitor(Visitor guest);
 

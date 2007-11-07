@@ -5,9 +5,9 @@
 //
 package org.genyris.io;
 
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.LconsWithcolons;
 import org.genyris.core.SymbolTable;
 import org.genyris.interp.GenyrisException;
 
@@ -53,8 +53,7 @@ public class Parser {
               nextsym();
               restOfList = parseExpression();
               nextsym();
-              tree = new Lcons( tree, restOfList);
-              tree.addClass(BuiltinClasses.PRINTWITHCOLON);
+              tree = new LconsWithcolons( tree, restOfList);
               return tree;
           }
           tree = new Lcons( tree, restOfList);

@@ -10,20 +10,10 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 
     protected String _printName;
 
-    private static int nextgensym = 0;
-
     public Lsymbol(String newSym) {
         _printName = newSym;
     }
 
-    public Lsymbol(String newSym, boolean bootstrap) {
-        _printName = newSym;
-    }
-
-    public Lsymbol() {
-        _printName = "G" + nextgensym;
-        nextgensym++;
-    }
     public boolean isNil() {
         return false;
     }
@@ -58,7 +48,7 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
         return getPrintName();
     }
     public String getBuiltinClassName() {
-        return Constants.STRING;
+        return Constants.SYMBOL;
     }
 
 }

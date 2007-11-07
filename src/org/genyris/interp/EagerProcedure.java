@@ -15,10 +15,6 @@ public class EagerProcedure extends AbstractClosure  {
 
     public EagerProcedure(Environment env, Exp expression, ApplicableFunction appl) throws GenyrisException {
         super( env,  expression,  appl);
-        Exp eagerProcSymbol = env.internString(Constants.LAZYPROCEDURE);
-        Exp lazyProcClass = env.lookupVariableValue(eagerProcSymbol);
-        addClass(lazyProcClass);
-
     }
 
     public Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException {

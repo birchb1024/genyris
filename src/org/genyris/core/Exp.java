@@ -87,7 +87,7 @@ public abstract class Exp implements Classifiable, Closure {
 
 
     public boolean listp() {
-        return (this.getClass() == Lcons.class);
+        return (this instanceof Lcons);
     }
 
     public boolean isSelfEvaluating() {

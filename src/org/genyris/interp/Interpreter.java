@@ -73,7 +73,6 @@ public class Interpreter {
         _table = new SymbolTable();
         _globalEnvironment = new StandardEnvironment(this, NIL);
         Lobject SYMBOL = new Lobject(_globalEnvironment);
-        NIL.addClass(SYMBOL);
         _defaultOutput = new OutputStreamWriter(System.out);
         {
             // Circular references between symbols and classnames require manual bootstrap here:

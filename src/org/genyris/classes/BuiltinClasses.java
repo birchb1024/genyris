@@ -15,17 +15,6 @@ import org.genyris.interp.GenyrisException;
 
 public class BuiltinClasses {
 
-    // TODO get rid of these statics.
-//    public static Lobject OBJECT;
-//    public static Lobject PAIR;;
-//    public static Lobject INTEGER;
-//    public static Lobject BIGNUM;
-//    public static Lobject STRING;
-//    public static Lobject DOUBLE;
-//    public static Lobject SYMBOL;
-//
-    public static Lobject PRINTWITHCOLON;
-
     private static Lobject mkClass(Lsymbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
         Exp symbolicName = env.internString(name);
         Lobject newClass = new Lobject(classname, symbolicName, env );
@@ -55,6 +44,6 @@ public class BuiltinClasses {
         mkClass(classname, "Symbol", env, STANDARDCLASS, THING);
         mkClass(classname, "EagerProcedure", env, STANDARDCLASS, THING);
         mkClass(classname, "LazyProcedure", env, STANDARDCLASS, THING);
-        PRINTWITHCOLON = mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, THING);
+        mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, THING);
     }
 }

@@ -7,14 +7,13 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
-
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.AccessException;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
@@ -28,8 +27,6 @@ import org.genyris.interp.StandardEnvironment;
 import org.genyris.interp.UnboundException;
 
 public class BasicFormatter implements Visitor {
-
-    private static final String CDRCHAR = ":";
 
     private Writer _output;
 
@@ -92,7 +89,7 @@ public class BasicFormatter implements Visitor {
             }
             _output.write(" ");
             if (!cons.listp()) {
-                _output.write(CDRCHAR + " "); // cdr_char
+                _output.write(Constants.CDRCHAR + " "); // cdr_char
                 cons.acceptVisitor(this);
                 return;
             }
@@ -116,8 +113,7 @@ public class BasicFormatter implements Visitor {
         try {
             _output.write("(");
             cons.car().acceptVisitor(this);
-            boolean colon = cons.isTaggedWith(BuiltinClasses.PRINTWITHCOLON);
-            if (colon) {
+            if (cons instanceof LconsWithcolons) {
                 _output.write(" : ");
                 cons.cdr().acceptVisitor(this);
             }

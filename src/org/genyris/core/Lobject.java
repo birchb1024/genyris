@@ -66,17 +66,13 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     public Exp getAlist() {
         try {
-            Exp classPrintWithColon;
-            classPrintWithColon = _parent.lookupVariableValue(_parent.internString(Constants.PRINTWITHCOLON));
             Iterator iter = _dict.keySet().iterator();
-            Exp classesPair = new Lcons(CLASSES, getClasses(_parent));
-            classesPair.addClass(classPrintWithColon);
+            Exp classesPair = new LconsWithcolons(CLASSES, getClasses(_parent));
             Exp result = new Lcons(classesPair, NIL);
             while(iter.hasNext()) {
                 Exp key = (Exp) iter.next();
                 Exp value = (Exp) _dict.get(key);
-                Exp tmp = new Lcons(key, value);
-                tmp.addClass(classPrintWithColon);
+                Exp tmp = new LconsWithcolons(key, value);
                 result = new Lcons( tmp , result);
             }
             return new Lcons(_parent.internString(Constants.DICT), result);

@@ -11,8 +11,6 @@ import org.genyris.interp.GenyrisException;
 
 public class SymbolTable {
 
-    // TODO refactor and push these 'optimisations' into the user classes.
-    // ie use lookup() instead of a static, except in using classes.
     private Map _table;
     private Lsymbol NIL;
 

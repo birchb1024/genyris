@@ -7,13 +7,12 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
-
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
@@ -26,8 +25,6 @@ import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
 
 public class IndentedFormatter implements Visitor {
-
-    private static final char CDRCHAR = ':'; // TODO DRY
 
     private final int INDENT_DEPTH;
 
@@ -54,11 +51,10 @@ public class IndentedFormatter implements Visitor {
         _consDepth += 1;
         Exp head = cons;
         int countOfRight = 0;
-        boolean colon = cons.isTaggedWith(BuiltinClasses.PRINTWITHCOLON);
-        if (colon) {
+        if (cons instanceof LconsWithcolons) {
             printSpaces(_consDepth);
             _output.write(cons.car().toString());
-            _output.write(" " + CDRCHAR + " ");
+            _output.write(" " + Constants.CDRCHAR + " ");
             _output.write(cons.cdr().toString());
             _consDepth -= 1;
             return;
@@ -103,7 +99,7 @@ public class IndentedFormatter implements Visitor {
             else {
                 if (countOfRight > 1)
                     _output.write(' ');
-                _output.write(CDRCHAR + " ");
+                _output.write(Constants.CDRCHAR + " ");
                 head.acceptVisitor(this);
                 _consDepth -= 1;
                 return;
