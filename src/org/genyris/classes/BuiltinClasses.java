@@ -16,14 +16,14 @@ import org.genyris.interp.GenyrisException;
 public class BuiltinClasses {
 
     // TODO get rid of these statics.
-    public static Lobject OBJECT;
-    public static Lobject PAIR;;
-    public static Lobject INTEGER;
-    public static Lobject BIGNUM;
-    public static Lobject STRING;
-    public static Lobject DOUBLE;
-    public static Lobject SYMBOL;
-
+//    public static Lobject OBJECT;
+//    public static Lobject PAIR;;
+//    public static Lobject INTEGER;
+//    public static Lobject BIGNUM;
+//    public static Lobject STRING;
+//    public static Lobject DOUBLE;
+//    public static Lobject SYMBOL;
+//
     public static Lobject PRINTWITHCOLON;
 
     private static Lobject mkClass(Lsymbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
@@ -46,13 +46,13 @@ public class BuiltinClasses {
         }
 
         Lobject THING = mkClass(classname, "Thing", env, STANDARDCLASS, null);
-        PAIR = mkClass(classname, "Pair", env, STANDARDCLASS, THING);
-        OBJECT = mkClass(classname, "Object", env, STANDARDCLASS, THING);
-        INTEGER = mkClass(classname, "Integer", env, STANDARDCLASS, THING);
-        BIGNUM = mkClass(classname, "Bignum", env, STANDARDCLASS, THING);
-        STRING = mkClass(classname, "String", env, STANDARDCLASS, THING);
-        DOUBLE = mkClass(classname, "Double", env, STANDARDCLASS, THING);
-        SYMBOL = mkClass(classname, "Symbol", env, STANDARDCLASS, THING);
+        mkClass(classname, "Pair", env, STANDARDCLASS, THING);
+        mkClass(classname, "Object", env, STANDARDCLASS, THING);
+        mkClass(classname, "Integer", env, STANDARDCLASS, THING);
+        mkClass(classname, "Bignum", env, STANDARDCLASS, THING);
+        mkClass(classname, "String", env, STANDARDCLASS, THING);
+        mkClass(classname, "Double", env, STANDARDCLASS, THING);
+        mkClass(classname, "Symbol", env, STANDARDCLASS, THING);
         mkClass(classname, "EagerProcedure", env, STANDARDCLASS, THING);
         mkClass(classname, "LazyProcedure", env, STANDARDCLASS, THING);
         PRINTWITHCOLON = mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, THING);

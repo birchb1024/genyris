@@ -6,8 +6,6 @@
 package org.genyris.core;
 
 import java.io.StringWriter;
-
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.format.BasicFormatter;
 
 public class Lcons extends ExpWithEmbeddedClasses {

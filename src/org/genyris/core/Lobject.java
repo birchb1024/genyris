@@ -8,8 +8,6 @@ package org.genyris.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.GenyrisException;

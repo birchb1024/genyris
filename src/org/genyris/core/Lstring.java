@@ -5,7 +5,6 @@
 //
 package org.genyris.core;
 
-import org.genyris.classes.BuiltinClasses;
 
 public class Lstring extends ExpWithEmbeddedClasses {
 

@@ -7,8 +7,6 @@ package org.genyris.core;
 
 import java.math.BigDecimal;
 
-import org.genyris.classes.BuiltinClasses;
-
 
 public class Bignum extends ExpWithEmbeddedClasses {
     private BigDecimal _value;

@@ -72,14 +72,14 @@ public class Interpreter {
         NIL = new NilSymbol();
         _table = new SymbolTable();
         _globalEnvironment = new StandardEnvironment(this, NIL);
-        BuiltinClasses.SYMBOL = new Lobject(_globalEnvironment);
-        NIL.addClass(BuiltinClasses.SYMBOL);
+        Lobject SYMBOL = new Lobject(_globalEnvironment);
+        NIL.addClass(SYMBOL);
         _defaultOutput = new OutputStreamWriter(System.out);
-        // Begin Circular references between symbols and classnames require manual bootstrap here:
-
-        _table.init(NIL);
-        BuiltinClasses.SYMBOL.defineVariable(_table.internString(Constants.CLASSNAME), _table.internString(Constants.SYMBOL));
-        // End manual bootstrap
+        {
+            // Circular references between symbols and classnames require manual bootstrap here:
+            _table.init(NIL);
+            SYMBOL.defineVariable(_table.internString(Constants.CLASSNAME), _table.internString(Constants.SYMBOL));
+        }
 
         _globalEnvironment.defineVariable(NIL, NIL);
 
