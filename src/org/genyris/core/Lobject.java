@@ -204,6 +204,9 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
 
     public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
+        if(arguments[0].isNil()) {
+            return this;
+        }
         Map bindings = new HashMap();
         bindings.put(_self, this);
         SpecialEnvironment newEnv = new SpecialEnvironment(environment, bindings, this);
