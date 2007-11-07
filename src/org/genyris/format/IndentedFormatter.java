@@ -168,8 +168,8 @@ public class IndentedFormatter implements Visitor {
             standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
             if (frame.isTaggedWith(standardClass)) {
                 new ClassWrapper(frame).acceptVisitor(this);
+                return;
             }
-            return;
         }
         catch (UnboundException ignore) {
         }
