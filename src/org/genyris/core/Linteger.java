@@ -16,7 +16,6 @@ public class Linteger extends ExpWithEmbeddedClasses {
     }
 
     public Linteger(int i) {
-        super(BuiltinClasses.INTEGER);
         _value = i;
     }
 
@@ -26,6 +25,9 @@ public class Linteger extends ExpWithEmbeddedClasses {
 
     public String toString() {
         return getJavaValue().toString();
+    }
+    public String getBuiltinClassName() {
+        return Constants.INTEGER;
     }
 
 }

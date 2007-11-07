@@ -12,7 +12,6 @@ public class Lstring extends ExpWithEmbeddedClasses {
     String _value;
 
     public Lstring(String str) {
-        super(BuiltinClasses.STRING);
         _value = str;
     }
 
@@ -26,6 +25,8 @@ public class Lstring extends ExpWithEmbeddedClasses {
     public void acceptVisitor(Visitor guest) {
         guest.visitLstring(this);
     }
-
+    public String getBuiltinClassName() {
+        return Constants.STRING;
+    }
 
 }

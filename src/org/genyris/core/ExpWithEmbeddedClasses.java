@@ -8,6 +8,7 @@ package org.genyris.core;
 import java.util.ArrayList;
 import org.genyris.classification.ClassMROComparator;
 import org.genyris.interp.Environment;
+import org.genyris.interp.UnboundException;
 
 public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable {
     private  ArrayList _classes;
@@ -15,18 +16,18 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     public ExpWithEmbeddedClasses() {
         _classes = new ArrayList(1);
     }
-    public ExpWithEmbeddedClasses(Lobject theInbuiltClass) {
-        _classes = new ArrayList(1);
-        if(theInbuiltClass != null)
-            initClass(theInbuiltClass);
-    }
-    public void initClass(Lobject theInbuiltClass) {
-        if(_classes.contains(theInbuiltClass)) {
-            return;
-        }
-        _classes.add(theInbuiltClass);
-        sortClassesinMRO(theInbuiltClass.getParent());
-    }
+//    public ExpWithEmbeddedClasses(Lobject theInbuiltClass) {
+//        _classes = new ArrayList(1);
+//        if(theInbuiltClass != null)
+//            initClass(theInbuiltClass);
+//    }
+//    public void initClass(Lobject theInbuiltClass) {
+//        if(_classes.contains(theInbuiltClass)) {
+//            return;
+//        }
+//        _classes.add(theInbuiltClass);
+//        sortClassesinMRO(theInbuiltClass.getParent());
+//    }
     public abstract Object getJavaValue();
     public abstract void acceptVisitor(Visitor guest);
 
@@ -53,8 +54,11 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
             classList = classList.cdr();
         }
     }
-    public Exp getClasses(Lsymbol NIL) {
-        Exp classes = NIL;
+    public Exp getClasses(Environment env) throws UnboundException {
+        Exp NIL = env.getNil();
+        Exp buitinClassSymbol = env.internString(this.getBuiltinClassName());
+        Exp buitinClass = env.lookupVariableValue(buitinClassSymbol);
+        Exp classes = new Lcons (buitinClass, NIL);
         Object arryOfObjects[] = _classes.toArray();
         for(int i=0; i< arryOfObjects.length; i++) {
             classes = new Lcons ((Exp)arryOfObjects[i], classes);

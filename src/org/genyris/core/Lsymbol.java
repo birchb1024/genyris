@@ -14,7 +14,6 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
     private static int nextgensym = 0;
 
     public Lsymbol(String newSym) {
-        super(BuiltinClasses.SYMBOL);
         _printName = newSym;
     }
 
@@ -23,7 +22,6 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
     }
 
     public Lsymbol() {
-        super(BuiltinClasses.SYMBOL);
         _printName = "G" + nextgensym;
         nextgensym++;
     }
@@ -59,6 +57,9 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
 
     public String toString() {
         return getPrintName();
+    }
+    public String getBuiltinClassName() {
+        return Constants.STRING;
     }
 
 }

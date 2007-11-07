@@ -18,21 +18,17 @@ public class Bignum extends ExpWithEmbeddedClasses {
     }
 
     public Bignum(BigDecimal i) {
-        super(BuiltinClasses.BIGNUM);
         _value = i;
     }
 
     public Bignum(int i) {
-        super(BuiltinClasses.BIGNUM);
         _value = new BigDecimal(i);
     }
     public Bignum(double d) {
-        super(BuiltinClasses.BIGNUM);
         _value = new BigDecimal(d);
     }
 
     public Bignum(String string) {
-        super(BuiltinClasses.BIGNUM);
         _value = new BigDecimal(string);
     }
 
@@ -42,6 +38,10 @@ public class Bignum extends ExpWithEmbeddedClasses {
 
     public String toString() {
         return _value.toString();
+    }
+
+    public String getBuiltinClassName() {
+        return Constants.BIGNUM;
     }
 
 }

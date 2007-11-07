@@ -34,11 +34,20 @@ public class Constants {
         public static final String PRINTWITHCOLON = "PRINTWITHCOLON";
         public static final String STANDARDCLASS = "StandardClass";
         public static final String EOF = "EOF";
-        public static final String SYMBOL = "Symbol";
         public static final String BACKQUOTE = "backquote";
 
         public static final String THING = "Thing";
+        public static final String SYMBOL = "Symbol";
         public static final String LAZYPROCEDURE = "LazyProcedure";
+        public static final String EAGERPROCEDURE = "EagerProcedure";
+        public static final String BIGNUM = "Bignum";
+        public static final String PAIR = "Pair";
+        public static final String DOUBLE = "Double";
+        public static final String INTEGER = "Integer";
+        public static final String STRING = "String";
+        public static final String OBJECT = "Object";
+
+
 
 
 }

@@ -16,7 +16,6 @@ public class Lcons extends ExpWithEmbeddedClasses {
     private  Exp _cdr;
 
     public Lcons(Exp car, Exp cdr) {
-        super(BuiltinClasses.PAIR);
         _car = car;
         _cdr = cdr;
     }
@@ -66,6 +65,9 @@ public class Lcons extends ExpWithEmbeddedClasses {
         StringWriter out = new StringWriter();
         acceptVisitor(new BasicFormatter(out));
         return out.getBuffer().toString();
+    }
+    public String getBuiltinClassName() {
+        return Constants.PAIR;
     }
 
 }

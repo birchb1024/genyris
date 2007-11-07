@@ -12,7 +12,6 @@ public class Ldouble extends ExpWithEmbeddedClasses {
     private double _value;
 
     public Ldouble(double d) {
-        super(BuiltinClasses.DOUBLE);
         _value = d;}
 
     public Object getJavaValue() { return new Double(_value); }
@@ -25,5 +24,8 @@ public class Ldouble extends ExpWithEmbeddedClasses {
         return getJavaValue().toString();
     }
 
+    public String getBuiltinClassName() {
+        return Constants.DOUBLE;
+    }
 
 }

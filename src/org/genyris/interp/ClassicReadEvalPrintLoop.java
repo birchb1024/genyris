@@ -73,7 +73,7 @@ public class ClassicReadEvalPrintLoop {
     }
 
     private static void printClassNames(Interpreter interpreter, Lsymbol NIL, Writer output, Exp result) throws AccessException, IOException, UnboundException {
-        Exp klasses = result.getClasses(NIL);
+        Exp klasses = result.getClasses(interpreter.getGlobalEnv());
         while(klasses != NIL){
             Environment klass = (Environment) klasses.car();
             output.write(" " + klass.lookupVariableShallow(interpreter.getSymbolTable().internString(Constants.CLASSNAME)).toString());

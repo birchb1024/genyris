@@ -25,14 +25,12 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     Exp _self, __self, CLASSES, SUPERCLASSES, CLASSNAME;
 
     public Lobject(Environment parent) {
-        super(BuiltinClasses.OBJECT);
         _dict = new HashMap();
         _parent = parent;
         init();
     }
 
     public Lobject(Lsymbol key, Exp value, Environment parent) {
-        super(BuiltinClasses.OBJECT);
        _dict = new HashMap();
         _dict.put(key, value);
         _parent = parent;
@@ -73,7 +71,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             Exp classPrintWithColon;
             classPrintWithColon = _parent.lookupVariableValue(_parent.internString(Constants.PRINTWITHCOLON));
             Iterator iter = _dict.keySet().iterator();
-            Exp classesPair = new Lcons(CLASSES, getClasses(NIL));
+            Exp classesPair = new Lcons(CLASSES, getClasses(_parent));
             classesPair.addClass(classPrintWithColon);
             Exp result = new Lcons(classesPair, NIL);
             while(iter.hasNext()) {
@@ -111,7 +109,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             return this;
         }
         if (symbol == CLASSES) {
-            return getClasses(NIL);
+            return getClasses(_parent);
         }
         else if( _dict.containsKey(symbol) ) {
             return (Exp)_dict.get(symbol);
@@ -127,7 +125,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     }
 
     private Exp lookupInClasses(Exp symbol) throws UnboundException {
-        Exp classes = getClasses(NIL);
+        Exp classes = getClasses(_parent);
         while( classes != NIL) {
             try {
                 Environment klass = (Environment)(classes.car());
@@ -201,7 +199,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
         if (symbol == CLASSES) {
-            return getClasses(NIL);
+            return getClasses(_parent);
         }
         else if( _dict.containsKey(symbol) ) {
             return (Exp)_dict.get(symbol);
@@ -241,6 +239,9 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     public Exp internString(String symbolName) {
         return _parent.internString(symbolName);
+    }
+    public String getBuiltinClassName() {
+        return Constants.OBJECT;
     }
 
 }
