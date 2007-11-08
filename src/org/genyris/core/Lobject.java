@@ -14,6 +14,7 @@ import org.genyris.interp.GenyrisException;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;
+import org.genyris.interp.builtin.TagFunction;
 
 
 public class Lobject extends ExpWithEmbeddedClasses implements Environment {
@@ -215,6 +216,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         } else {
             try {
                 Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
+                TagFunction.validateClassTagging(environment, this, klass);
                 this.addClass(klass);
                 return this;
             }

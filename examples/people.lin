@@ -5,8 +5,8 @@
 ;;
 def between (low it high)
    and
-      < high it
-      > low it
+      < it high
+      > it low
 
 class Person ()
    def _valid? (obj)
