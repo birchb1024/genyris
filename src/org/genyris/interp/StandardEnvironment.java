@@ -19,7 +19,7 @@ public class StandardEnvironment implements Environment {
     Map _frame; // Exp, Exp
     Environment _parent;
     protected Lsymbol NIL;
-    protected Exp _self, __self, _classes, _superclasses, _classname;
+    protected Exp _self, _classes, _superclasses, _classname;
     private Interpreter _interpreter;
 
 
@@ -37,7 +37,6 @@ public class StandardEnvironment implements Environment {
         _interpreter = interp;
 
         _self = interp.getSymbolTable().internString(Constants.SELF);
-        __self = interp.getSymbolTable().internString(Constants._SELF);// TODO DRY
         _classes = interp.getSymbolTable().internString(Constants.CLASSES);
         _superclasses = interp.getSymbolTable().internString(Constants.SUPERCLASSES);
         _classname = interp.getSymbolTable().internString(Constants.CLASSNAME);
@@ -46,7 +45,6 @@ public class StandardEnvironment implements Environment {
     private void init() {
         NIL = _parent.getNil();
         _self = _parent.internString(Constants.SELF);
-        __self = _parent.internString(Constants._SELF);// TODO DRY
         _classes = _parent.internString(Constants.CLASSES);
         _superclasses = _parent.internString(Constants.SUPERCLASSES);
         _classname = _parent.internString(Constants.CLASSNAME);

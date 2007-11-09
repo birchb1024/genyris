@@ -22,7 +22,7 @@ public class Constants {
         public static final String SUPERCLASSES = DYNAMICSCOPECHAR + "superclasses";
         public static final String SUBCLASSES = DYNAMICSCOPECHAR + "subclasses";
         public static final String SELF = "self";
-        public static final String _SELF = DYNAMICSCOPECHAR + SELF;
+//        public static final String _SELF = DYNAMICSCOPECHAR + SELF;
         public static final String VALIDATE = DYNAMICSCOPECHAR + "valid?";
         public static final String LAMBDA = "lambda";
         public static final String LAMBDAQ = "lambdaq";
