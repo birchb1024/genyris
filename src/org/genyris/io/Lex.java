@@ -107,6 +107,7 @@ public class Lex {
         case '\r':
         case '(':
         case ')':
+        case Constants.DYNAMICSCOPECHAR:
         case Constants.COMMENTCHAR:
         case Constants.BQUOTECHAR:
         case Constants.QUOTECHAR:
@@ -123,6 +124,14 @@ public class Lex {
         String collect = "";
         if (!_input.hasData()) {
             throw new LexException("unexpected end of file");
+        }
+        ch = _input.readNext();
+        if(ch == Constants.DYNAMICSCOPECHAR) {
+            // peek at the first characte and allow one _ underscore.
+            collect += ch;
+        }
+        else {
+            _input.unGet(ch);
         }
         while (_input.hasData()) {
             ch = _input.readNext();

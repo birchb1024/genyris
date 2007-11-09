@@ -41,7 +41,7 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
     }
 
     public boolean isMember() {
-        return getPrintName().startsWith(Constants.DYNAMICSCOPECHAR);
+        return getPrintName().charAt(0) == Constants.DYNAMICSCOPECHAR;
     }
 
     public String toString() {
