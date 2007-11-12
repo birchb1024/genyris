@@ -14,6 +14,8 @@ defmacro if (test success-result failure-result)
          ,test ,success-result
          true ,failure-result
 
+define left car
+define right cdr
 def cadr (x) (car (cdr x))
 def caadr (x) (car (car (cdr x)))
 def cadar (x) (car (cdr (car x)))
@@ -36,5 +38,13 @@ def member? (item list)
          list
       else
           member? item (cdr list)
+
+def map-left (some-list some-function)
+   cond
+      some-list
+         cons
+            some-function (left some-list)
+            map-left (right some-list) some-function
+
 
 "loaded init.lin"

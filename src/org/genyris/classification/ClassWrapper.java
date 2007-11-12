@@ -102,10 +102,10 @@ public class ClassWrapper {
         if ( klass == null )
             return;
         try {
-            Exp supers =  _theClass.lookupVariableShallow(SUBCLASSES);
-            supers = new Lcons(klass, supers);
-            _theClass.setVariableValue(SUBCLASSES, supers);
-            // TODO use a list set adding function to avoid duplicates.
+            Exp subs =  _theClass.lookupVariableShallow(SUBCLASSES);
+            subs = new Lcons(klass, subs);
+            _theClass.setVariableValue(SUBCLASSES, subs);
+            // TODO use a list set adding function to avoid duplicate subclasses.
         } catch (UnboundException e) {
             try {
                 _theClass.defineVariable(SUBCLASSES, new Lcons( klass, NIL));

@@ -35,7 +35,7 @@ public class ClassicReadEvalPrintLoop {
                             new UngettableInStream(new StdioInStream()), true)));
             Parser parser = interpreter.newParser(input);
             Writer output = new PrintWriter(System.out);
-            IndentedFormatter formatter = new IndentedFormatter(output, 3, interpreter);
+            IndentedFormatter formatter = new IndentedFormatter(output, 1, interpreter);
             System.out.println("\n*** Genyris is listening...");
             Exp expression = null;
             do {

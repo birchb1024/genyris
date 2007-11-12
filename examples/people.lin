@@ -3,6 +3,8 @@
 ;; This software may be used and distributed according to the terms
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
+load "/classify.lin"
+
 def between (low it high)
    and
       < it high
@@ -18,15 +20,36 @@ class Kid (Person)
          Person (_valid? obj)
          < (obj _age) 15
 
-class Boomer (Person)
-   def _valid? (obj)
-      and
-         Person (_valid? obj)
-         between 15 (obj _age) 45
-
 class Senior (Person)
    def _valid? (obj)
       and
          Person (_valid? obj)
          between 46 (obj _age) 60
 
+class Boomer (Person)
+   def _valid? (obj)
+      and
+         Person (_valid? obj)
+         between 15 (obj _age) 45
+
+class Hippie (Boomer)
+   def _valid? (obj)
+      and
+         Boomer (_valid? obj)
+         obj (bound? _bong)
+
+define noel
+  dict
+     _age: 42
+     _bong: true
+noel
+     def _print ()
+       print
+          "Noel's classes: "
+          map-left (noel_classes)
+             lambda (c)
+                c _classname
+          ~ "\n"
+
+Person (_classify noel)
+noel (_print)

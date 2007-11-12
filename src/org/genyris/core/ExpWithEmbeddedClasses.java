@@ -28,10 +28,10 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     }
 
     public void addClass(Exp k) { // TODO change signature to Lobject
-        if(_classes.contains(k)) {
+        Lobject klass = (Lobject) k;
+        if(_classes.contains(klass)) {
             return;
         }
-        Lobject klass = (Lobject) k;
         _classes.add(klass);
         sortClassesinMRO(klass.getParent());
     }

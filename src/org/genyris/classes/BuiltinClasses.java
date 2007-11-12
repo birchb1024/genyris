@@ -18,6 +18,8 @@ public class BuiltinClasses {
     private static Lobject mkClass(Lsymbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
         Exp symbolicName = env.internString(name);
         Lobject newClass = new Lobject(classname, symbolicName, env );
+        newClass.defineVariable(env.internString(Constants.SUBCLASSES), env.getNil());
+        newClass.defineVariable(env.internString(Constants.SUPERCLASSES), env.getNil());
         newClass.addClass(STANDARDCLASS);
         if(superClass != null)
             new ClassWrapper(newClass).addSuperClass(superClass);
@@ -35,15 +37,17 @@ public class BuiltinClasses {
         }
 
         Lobject THING = mkClass(classname, "Thing", env, STANDARDCLASS, null);
-        mkClass(classname, "Pair", env, STANDARDCLASS, THING);
-        mkClass(classname, "Object", env, STANDARDCLASS, THING);
-        mkClass(classname, "Integer", env, STANDARDCLASS, THING);
-        mkClass(classname, "Bignum", env, STANDARDCLASS, THING);
-        mkClass(classname, "String", env, STANDARDCLASS, THING);
-        mkClass(classname, "Double", env, STANDARDCLASS, THING);
-        mkClass(classname, "Symbol", env, STANDARDCLASS, THING);
-        mkClass(classname, "EagerProcedure", env, STANDARDCLASS, THING);
-        mkClass(classname, "LazyProcedure", env, STANDARDCLASS, THING);
-        mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, THING);
+        Lobject builtin = mkClass(classname, "Builtin", env, STANDARDCLASS, THING);
+        Lobject pair = mkClass(classname, "Pair", env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, pair);
+        mkClass(classname, "Object", env, STANDARDCLASS, builtin);
+        mkClass(classname, "Integer", env, STANDARDCLASS, builtin);
+        mkClass(classname, "Bignum", env, STANDARDCLASS, builtin);
+        mkClass(classname, "String", env, STANDARDCLASS, builtin);
+        mkClass(classname, "Double", env, STANDARDCLASS, builtin);
+        mkClass(classname, "Symbol", env, STANDARDCLASS, builtin);
+        Lobject closure = mkClass(classname, "Closure", env, STANDARDCLASS, builtin);
+        mkClass(classname, "EagerProcedure", env, STANDARDCLASS, closure);
+        mkClass(classname, "LazyProcedure", env, STANDARDCLASS, closure);
     }
 }
