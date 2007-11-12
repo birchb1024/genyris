@@ -51,5 +51,5 @@ noel
                 c _classname
           ~ "\n"
 
-Person (_classify noel)
+Thing (_classify noel)
 noel (_print)
