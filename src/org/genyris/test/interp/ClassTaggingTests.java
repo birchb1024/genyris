@@ -31,13 +31,13 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(x:Miles)", "45");
-        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Thing) ()>)");
+        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
         }
 
     public void testTagWithTag() throws Exception {
         excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag x Miles)", "45");
-        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Thing) ()>)");
+        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
         }
 }

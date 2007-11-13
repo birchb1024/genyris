@@ -75,7 +75,8 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
     }
     public void testFrame() throws Exception {
-        excerciseEval("(dict (a : 1) (b:2) (c:3))", "(dict (b : 2) (c : 3) (a : 1) (_classes : (<class Object (Thing) ()>)))");
+        excerciseEval("(dict (a : 1) (b:2) (c:3))",
+                "(dict (b : 2) (c : 3) (a : 1) (_classes : (<class Object (Builtin) ()>)))");
         excerciseEval("(eq (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "nil");
         excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "true");
     }

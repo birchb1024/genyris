@@ -40,9 +40,9 @@ public class ObjectOrientationTests extends TestCase {
         checkEval("$global", "999");
 
         eval("(defvar 'Standard-Class (dict (_classname : 'Standard-Class)))");
-        checkEval("Standard-Class", "(dict (_classname : Standard-Class) (_classes : (<class Object (Thing) ()>)))");
+        checkEval("Standard-Class", "(dict (_classname : Standard-Class) (_classes : (<class Object (Builtin) ()>)))");
         checkEval("(defvar 'Account (dict (_classes : (list Standard-Class)) (_print : (lambda () (cons $global _balance))) ))",
-                "(dict (_print : <EagerProc: <org.genyris.interp.ClassicFunction>>) (_classes : ((dict (_classname : Standard-Class) (_classes : (<class Object (Thing) ()>))) <class Object (Thing) ()>)))");
+                "(dict (_print : <EagerProc: <org.genyris.interp.ClassicFunction>>) (_classes : ((dict (_classname : Standard-Class) (_classes : (<class Object (Builtin) ()>))) <class Object (Builtin) ()>)))");
 
         checkEval("(Account " +
             "(defvar '_new " +
@@ -53,7 +53,7 @@ public class ObjectOrientationTests extends TestCase {
                     "<EagerProc: <org.genyris.interp.ClassicFunction>>" );
 
         checkEval("(defvar 'bb  (Account (_new 1000)))"
-                ,"(dict (_balance : 1000) (_classes : ((dict (_new : <EagerProc: <org.genyris.interp.ClassicFunction>>) (_print : <EagerProc: <org.genyris.interp.ClassicFunction>>) (_classes : ((dict (_classname : Standard-Class) (_classes : (<class Object (Thing) ()>))) <class Object (Thing) ()>))) <class Object (Thing) ()>)))");
+                ,"(dict (_balance : 1000) (_classes : ((dict (_new : <EagerProc: <org.genyris.interp.ClassicFunction>>) (_print : <EagerProc: <org.genyris.interp.ClassicFunction>>) (_classes : ((dict (_classname : Standard-Class) (_classes : (<class Object (Builtin) ()>))) <class Object (Builtin) ()>))) <class Object (Builtin) ()>)))");
 
         checkEval("(bb(_print))", "(999 : 1000)");
 
@@ -69,7 +69,7 @@ public class ObjectOrientationTests extends TestCase {
             "(dict " +
                 "(_classes: (cons Standard-Class nil)) " +
                 "(_toString: \"Base-1 toString\"))) "
-                , "(dict (_toString : \"Base-1 toString\") (_classes : ((dict (_classes : (<class Object (Thing) ()>))) <class Object (Thing) ()>)))" );
+                , "(dict (_toString : \"Base-1 toString\") (_classes : ((dict (_classes : (<class Object (Builtin) ()>))) <class Object (Builtin) ()>)))" );
 
         checkEval("(Base-1 _toString)", "\"Base-1 toString\"");
 
@@ -77,7 +77,7 @@ public class ObjectOrientationTests extends TestCase {
             "(dict " +
                 "(_classes : (cons Standard-Class nil)) " +
                 "(_log : \"Base-2 log\"))) ",
-                "(dict (_log : \"Base-2 log\") (_classes : ((dict (_classes : (<class Object (Thing) ()>))) <class Object (Thing) ()>)))");
+                "(dict (_log : \"Base-2 log\") (_classes : ((dict (_classes : (<class Object (Builtin) ()>))) <class Object (Builtin) ()>)))");
 
         checkEval("(Base-2 _log)", "\"Base-2 log\"");
 

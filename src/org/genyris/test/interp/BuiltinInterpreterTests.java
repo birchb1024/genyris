@@ -58,9 +58,9 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseEval("(eq var var)", "true");
     }
     public void testDict() throws Exception {
-        excerciseEval("(dict (a : 1) (b : 2))","(dict (b : 2) (a : 1) (_classes : (<class Object (Thing) ()>)))");
-        excerciseEval("(dict (a) (b : 2))", "(dict (b : 2) (a : nil) (_classes : (<class Object (Thing) ()>)))");
-        excerciseEval("(dict (a : '(1)) (b : 2))", "(dict (b : 2) (a : (1)) (_classes : (<class Object (Thing) ()>)))");
+        excerciseEval("(dict (a : 1) (b : 2))","(dict (b : 2) (a : 1) (_classes : (<class Object (Builtin) ()>)))");
+        excerciseEval("(dict (a) (b : 2))", "(dict (b : 2) (a : nil) (_classes : (<class Object (Builtin) ()>)))");
+        excerciseEval("(dict (a : '(1)) (b : 2))", "(dict (b : 2) (a : (1)) (_classes : (<class Object (Builtin) ()>)))");
     }
 
 }
