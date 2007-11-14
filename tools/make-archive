@@ -7,4 +7,5 @@ cd ~/workspace
 tar zcf ~/archives/$FILE Genyris
 echo copying to $DRIVE
 cp -p ~/archives/$FILE $DRIVE
+sync
 echo archive $FILE has `tar ztf $DRIVE/$FILE| wc -l` files
