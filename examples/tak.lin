@@ -7,9 +7,8 @@
 ; The TAK benchmark
 ;
 
-define tak-log nil         ; log tak calls in this list
 def tak (x y z)
-        set 'tak-log (cons (list x y z) tak-log)
+        print (list x y z) "\n"
         cond
            (< y x)
               tak
