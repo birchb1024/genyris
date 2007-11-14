@@ -29,7 +29,7 @@ public class ClassicReadEvalPrintLoop {
         try {
             interpreter = new Interpreter();
             NIL = interpreter.getNil();
-            interpreter.init(true);
+            System.out.println("loaded " + interpreter.init(true));
             InStream input = new UngettableInStream(new ConvertEofInStream(
                     new IndentStream(
                             new UngettableInStream(new StdioInStream()), true)));
@@ -42,7 +42,6 @@ public class ClassicReadEvalPrintLoop {
                 try {
                     System.out.print("\n> ");
                     expression = parser.read();
-                    ;
                     if (expression.equals(interpreter.getSymbolTable().internString(Constants.EOF))) {
                         System.out.println("Bye..");
                         break;

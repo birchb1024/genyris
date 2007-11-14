@@ -13,6 +13,7 @@ import java.io.Writer;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Lstring;
 import org.genyris.format.IndentedFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.GenyrisException;
@@ -28,13 +29,15 @@ public class SourceLoader {
 
     public static Exp loadScriptFromClasspath(Interpreter _interp, String filename, Writer writer) throws GenyrisException {
 
-        InputStream in  = SourceLoader.class.getResourceAsStream(filename);
+        InputStream in  = SourceLoader.class.getClassLoader().getResourceAsStream(filename);
         // this use of getResourceAsStream() means paths are relative to this class
         // unless preceded by a '/'
         if( in == null ) {
             throw new GenyrisException("loadScriptFromClasspath: null pointer from getResourceAsStream.");
         }
-        return executeScript(_interp, new InputStreamReader(in), writer);
+        String url = SourceLoader.class.getClassLoader().getResource(filename).toString();
+        executeScript(_interp, new InputStreamReader(in), writer);
+        return new Lstring(url);
     }
 
     public static Exp executeScript(Interpreter interp, Reader reader, Writer output) throws GenyrisException {

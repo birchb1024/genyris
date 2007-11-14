@@ -34,10 +34,7 @@ public class LoadFunction extends ApplicableFunction {
             }
         }
         result = SourceLoader.loadScriptFromClasspath(_interp, arguments[0].toString(), out);
-        if( result == NIL ) {
-            return NIL;
-        }
 
-        return TRUE;
+        return result;
     }
 }

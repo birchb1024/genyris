@@ -136,8 +136,8 @@ public class Interpreter {
 
     }
 
-    public void init(boolean verbose)  throws GenyrisException {
-        SourceLoader.loadScriptFromClasspath(this, "boot/init.lin", verbose? _defaultOutput: (Writer)new NullWriter());
+    public Exp init(boolean verbose)  throws GenyrisException {
+        return SourceLoader.loadScriptFromClasspath(this, "org/genyris/load/boot/init.lin", verbose? _defaultOutput: (Writer)new NullWriter());
     }
 
     public Parser newParser(InStream input) {
