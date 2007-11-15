@@ -46,6 +46,7 @@ public class Constants {
         public static final String INTEGER = "Integer";
         public static final String STRING = "String";
         public static final String OBJECT = "Object";
+        public static final String JAVAOBJECT = "JavaObject";
 
 
 

@@ -23,6 +23,7 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
+import org.genyris.java.JavaWrapper;
 
 public class IndentedFormatter implements Visitor {
 
@@ -191,6 +192,16 @@ public class IndentedFormatter implements Visitor {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    public void visitLobject(JavaWrapper wrapper) {
+        try {
+            _output.write("<JavaObject: " + wrapper.toString() + ">");
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
 }

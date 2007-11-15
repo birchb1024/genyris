@@ -8,6 +8,7 @@ package org.genyris.core;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
+import org.genyris.java.JavaWrapper;
 
 public interface Visitor {
     public void visitLcons(Lcons cons);
@@ -29,4 +30,6 @@ public interface Visitor {
     public void visitBignum(Bignum bignum);
 
     public void visitClassWrapper(ClassWrapper klass);
+
+    public void visitLobject(JavaWrapper wrapper);
 }

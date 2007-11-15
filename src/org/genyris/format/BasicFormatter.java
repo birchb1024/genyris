@@ -25,6 +25,7 @@ import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.StandardEnvironment;
 import org.genyris.interp.UnboundException;
+import org.genyris.java.JavaWrapper;
 
 public class BasicFormatter implements Visitor {
 
@@ -206,6 +207,17 @@ public class BasicFormatter implements Visitor {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public void visitLobject(JavaWrapper wrapper) {
+        try {
+            _output.write("<JavaObject: " + wrapper.toString() + ">");
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
 }
