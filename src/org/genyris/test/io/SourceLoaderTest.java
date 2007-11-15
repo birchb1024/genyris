@@ -39,6 +39,6 @@ public class SourceLoaderTest extends TestCase {
 		Interpreter interp = new Interpreter();
 		interp.init(true);
 		StringWriter out = new StringWriter();
-		SourceLoader.loadScriptFromClasspath(interp, "boot/init.lin", out);
+		SourceLoader.loadScriptFromClasspath(interp, "org/genyris/load/boot/init.lin", out);
 	}
 }
