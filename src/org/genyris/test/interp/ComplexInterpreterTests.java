@@ -94,15 +94,17 @@ public class ComplexInterpreterTests extends TestCase {
 
 
     public void testDynamicVariablesWithDef() throws Exception {
+        excerciseEval("(defvar 'd (dict))", "(dict (_classes : (<class Object (Builtin) ()>)))");
         excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.genyris.interp.ClassicFunction>>");
         excerciseEval("(def function-which-uses-dynamic-var () (list _x _x))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(function-which-declares-dynamic-var)","(88 88)");
-        excerciseEval("_x","88");
+        excerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
+        excerciseEval("(bound? _x)","nil");
     }
 
     public void testDynamicVariablesWithDef2() throws Exception {
-        excerciseEval("(defvar '_x 11111)", "11111");
-        excerciseEval("(def define-some-global-y (_x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(define-some-global-y 33)", "(11111 : \"global _y\")");
+        excerciseEval("(defvar 'd (dict))", "(dict (_classes : (<class Object (Builtin) ()>)))");
+        excerciseEval("(d (defvar '_x 11111))", "11111");
+        excerciseEval("(def define-some-global-y (x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(d (define-some-global-y 33))", "(11111 : \"global _y\")");
     }
 }

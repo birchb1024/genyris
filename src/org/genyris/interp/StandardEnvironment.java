@@ -99,6 +99,10 @@ public class StandardEnvironment implements Environment {
         if(! (symbol instanceof Lsymbol) ) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
+        Lsymbol sym = (Lsymbol)symbol;
+        if(sym.isMember()) {
+            throw new GenyrisException("cannot define member in standard environments: " + symbol.toString());
+        }
         _frame.put(symbol, valu);
     }
 
