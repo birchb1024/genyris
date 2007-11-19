@@ -15,7 +15,6 @@ import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
-import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.interp.Environment;
