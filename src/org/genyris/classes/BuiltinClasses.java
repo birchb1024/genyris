@@ -47,6 +47,7 @@ public class BuiltinClasses {
         mkClass(classname, "Double", env, STANDARDCLASS, builtin);
         mkClass(classname, "Symbol", env, STANDARDCLASS, builtin);
         mkClass(classname, "JavaObject", env, STANDARDCLASS, builtin);
+        mkClass(classname, "JavaMethod", env, STANDARDCLASS, builtin);
         Lobject closure = mkClass(classname, "Closure", env, STANDARDCLASS, builtin);
         mkClass(classname, "EagerProcedure", env, STANDARDCLASS, closure);
         mkClass(classname, "LazyProcedure", env, STANDARDCLASS, closure);

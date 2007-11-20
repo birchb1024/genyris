@@ -3,6 +3,9 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
+//
+// Warning
+//  This code is a playful spike. Not for use.
 package org.genyris.java;
 
 import java.lang.reflect.Field;
@@ -15,6 +18,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
+import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.interp.Environment;
@@ -27,6 +31,7 @@ import org.genyris.interp.builtin.TagFunction;
 
 
 public class JavaWrapper extends ExpWithEmbeddedClasses implements Environment {
+
     private Object _theJavaObject;
     private Lsymbol NIL;
     private Environment _parent;
@@ -41,6 +46,7 @@ public class JavaWrapper extends ExpWithEmbeddedClasses implements Environment {
         CLASSNAME = _parent.internString(Constants.CLASSNAME);
         NIL = _parent.getNil();
     }
+
 
     public Environment getParent() {
         return _parent;
@@ -64,7 +70,7 @@ public class JavaWrapper extends ExpWithEmbeddedClasses implements Environment {
 
     public void defineVariable(Exp symbol, Exp valu)  throws GenyrisException
     {
-        throw new GenyrisException("Cannot define valiables on Java Objects.");
+        throw new GenyrisException("Cannot define variables on Java Objects.");
     }
 
     public Exp lookupVariableValue(Exp symbol) throws UnboundException {
@@ -76,7 +82,7 @@ public class JavaWrapper extends ExpWithEmbeddedClasses implements Environment {
             Method[] methods = _theJavaObject.getClass().getMethods();
             for(int i=0; i<methods.length; i++) {
                 try {
-                    result = new Lcons(_parent.internString("_" + methods[i].getName()), result);
+                    result = new Lcons(new Lstring(methods[i].getName()), result);
                 } catch (IllegalArgumentException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -102,32 +108,23 @@ public class JavaWrapper extends ExpWithEmbeddedClasses implements Environment {
             result = new Lcons(_parent.internString("<java " + _theJavaObject.getClass().toString() + ">"), result);
             return result;
         }
-        try {
-                return lookupInClasses(symbol);
-        } catch (UnboundException ignore) {}
-        throw new UnboundException("lookupVariableValue not implemeted yet for JavaObject");
-
-    }
-
-    private Exp lookupInClasses(Exp symbol) throws UnboundException {
-        Exp classes = getClasses(_parent);
-        while( classes != NIL) {
-            try {
-                Environment klass = (Environment)(classes.car());
+        else  {
+            Exp result = NIL;
+            Method[] methods = _theJavaObject.getClass().getMethods();
+            for(int i=0; i<methods.length; i++) {
                 try {
-                    return (Exp)klass.lookupInThisClassAndSuperClasses(symbol);
-                } catch (UnboundException e) {
-                    ;
-                } finally {
-                    classes = classes.cdr();
+                    if( methods[i].getName().equals(symbol.toString().substring(1) )) {
+                        return new JavaMethodWrapper(_parent, _theJavaObject, methods[i]);
+                    }
+                } catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
             }
-            catch (AccessException e) {
-                throw new UnboundException("bad classes list in object");
-            }
+            return result;
         }
-        throw new UnboundException("dict does not contain key: " + symbol.toString());
     }
+
 
     public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
         throw new UnboundException("lookupInSuperClasses not implemented for JavaObjects.");

@@ -49,6 +49,7 @@ import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReadFunction;
+import org.genyris.java.JavaClassForName;
 import org.genyris.load.SourceLoader;
 import org.genyris.logic.AndFunction;
 import org.genyris.logic.OrFunction;
@@ -131,6 +132,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("and"), new LazyProcedure(_globalEnvironment, null, new AndFunction(this)));
 
         _globalEnvironment.defineVariable(_table.internString("bound?"), new LazyProcedure(_globalEnvironment, null, new BoundFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("java-class"), new EagerProcedure(_globalEnvironment, null, new JavaClassForName(this)));
 
 
 
