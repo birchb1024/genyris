@@ -1,10 +1,10 @@
 package org.genyris.classification;
 
 import java.util.Comparator;
-import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
+import org.genyris.exception.AccessException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 

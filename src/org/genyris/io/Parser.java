@@ -10,7 +10,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
 import org.genyris.core.SymbolTable;
-import org.genyris.interp.GenyrisException;
+import org.genyris.exception.GenyrisException;
 
 public class Parser {
     private Lex _lexer;

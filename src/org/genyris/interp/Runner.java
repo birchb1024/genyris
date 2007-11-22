@@ -10,6 +10,7 @@ import java.io.Writer;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.exception.GenyrisException;
 import org.genyris.format.IndentedFormatter;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;

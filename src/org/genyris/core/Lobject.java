@@ -8,9 +8,11 @@ package org.genyris.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
-import org.genyris.interp.GenyrisException;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;

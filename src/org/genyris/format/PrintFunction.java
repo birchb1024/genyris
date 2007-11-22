@@ -8,12 +8,13 @@ package org.genyris.format;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+
 import org.genyris.core.Exp;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.GenyrisException;
 
 public class PrintFunction extends ApplicableFunction {
 

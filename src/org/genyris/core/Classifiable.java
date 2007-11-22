@@ -5,6 +5,7 @@
 //
 package org.genyris.core;
 
+import org.genyris.exception.AccessException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 

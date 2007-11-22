@@ -7,7 +7,8 @@ package org.genyris.core;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.genyris.interp.GenyrisException;
+
+import org.genyris.exception.GenyrisException;
 
 public class SymbolTable {
 

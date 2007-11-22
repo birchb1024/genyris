@@ -7,12 +7,12 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.GenyrisException;
 import org.genyris.interp.Interpreter;
 
 public class DefFunction extends ApplicableFunction {

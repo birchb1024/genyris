@@ -7,6 +7,7 @@ package org.genyris.core;
 
 import java.util.ArrayList;
 import org.genyris.classification.ClassMROComparator;
+import org.genyris.exception.AccessException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 

@@ -8,7 +8,8 @@ package org.genyris.test.io;
 import java.io.StringReader;
 import java.io.StringWriter;
 import junit.framework.TestCase;
-import org.genyris.interp.GenyrisException;
+
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
@@ -45,12 +46,12 @@ public class SourceLoaderTest extends TestCase {
         Interpreter interp = new Interpreter();
         interp.init(true);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp, "examples/factorial.lin", out);
+        SourceLoader.loadScriptFromClasspath(interp, "testscripts/factorial.lin", out);
     }
     public void testSourceLoaderLisp() throws GenyrisException {
         Interpreter interp = new Interpreter();
         interp.init(true);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp, "examples/factorial.lsp", out);
+        SourceLoader.loadScriptFromClasspath(interp, "testscripts/factorial.lsp", out);
     }
 }

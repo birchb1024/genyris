@@ -5,15 +5,15 @@
 //
 package org.genyris.classification;
 
-import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
+import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-import org.genyris.interp.GenyrisException;
 import org.genyris.interp.UnboundException;
 
 public class ClassWrapper {

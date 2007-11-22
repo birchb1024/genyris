@@ -3,16 +3,14 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-package org.genyris.interp;
+package org.genyris.exception;
 
-public class GenyrisException extends Exception {
 
-    /**
-    *
-    */
-    private static final long serialVersionUID = 4298604425794698010L;
+public class AccessException extends GenyrisException {
 
-    public GenyrisException(String string) {
+    private static final long serialVersionUID = -796986110956641426L;
+
+    public AccessException(String string) {
         super(string);
     }
 

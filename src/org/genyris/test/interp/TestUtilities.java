@@ -8,9 +8,9 @@ package org.genyris.test.interp;
 import java.io.StringWriter;
 
 import org.genyris.core.Exp;
+import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.GenyrisException;
 import org.genyris.io.InStream;
 import org.genyris.io.Parser;
 import org.genyris.io.StringInStream;

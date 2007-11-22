@@ -7,11 +7,12 @@ package org.genyris.interp;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lsymbol;
+import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 
 public class ClassicFunction extends ApplicableFunction {
     private Exp REST;

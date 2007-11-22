@@ -9,6 +9,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
+import org.genyris.exception.GenyrisException;
 
 public class EagerProcedure extends AbstractClosure  {
     // I DO evaluate my arguments before being applied.

@@ -12,6 +12,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.exception.GenyrisException;
 
 // TODO Break this into a Root environment and a Standard Env....
 public class StandardEnvironment implements Environment {

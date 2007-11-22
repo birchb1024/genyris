@@ -7,9 +7,10 @@ package org.genyris.interp;
 
 import java.util.HashMap;
 
-import org.genyris.core.AccessException;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
+import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 
 public class MagicEnvironment  extends StandardEnvironment {
     // This environment encompasses an expression (Exp) which provides

@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
+import org.genyris.exception.GenyrisException;
 
 public interface Environment {
 

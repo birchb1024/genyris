@@ -8,6 +8,7 @@ package org.genyris.interp;
 import java.util.Map;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
+import org.genyris.exception.GenyrisException;
 
 public class SpecialEnvironment extends StandardEnvironment {
     // This environment merges two into one - a dynamic and a lexical.

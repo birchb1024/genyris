@@ -5,7 +5,7 @@
 //
 package org.genyris.test.interp;
 
-import org.genyris.interp.GenyrisException;
+import org.genyris.exception.GenyrisException;
 
 import junit.framework.TestCase;
 

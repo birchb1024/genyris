@@ -12,8 +12,8 @@ import org.apache.bsf.BSFDeclaredBean;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.util.BSFEngineImpl;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.GenyrisException;
 import org.genyris.interp.Runner;
 import org.genyris.io.StringInStream;
 

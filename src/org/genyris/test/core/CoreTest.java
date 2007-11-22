@@ -7,12 +7,12 @@ package org.genyris.test.core;
 
 import junit.framework.TestCase;
 
-import org.genyris.core.AccessException;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.exception.AccessException;
 
 public class CoreTest extends TestCase {
 	private Lsymbol NIL;

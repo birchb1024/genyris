@@ -10,8 +10,8 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-import org.genyris.interp.GenyrisException;
 
 public class BuiltinClasses {
 

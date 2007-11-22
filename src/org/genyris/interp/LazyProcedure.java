@@ -7,11 +7,12 @@
 
 package org.genyris.interp;
 
-import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
+import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 
 public class LazyProcedure extends AbstractClosure {
     // I DO NOT evaluate my arguments before being applied.

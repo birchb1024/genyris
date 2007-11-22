@@ -5,7 +5,7 @@
 //
 package org.genyris.io;
 
-import org.genyris.interp.GenyrisException;
+import org.genyris.exception.GenyrisException;
 
 public class ParseException extends GenyrisException {
 

@@ -9,13 +9,14 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import org.genyris.classes.BuiltinClasses;
-import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.format.PrintFunction;
 import org.genyris.interp.builtin.BackquoteFunction;
 import org.genyris.interp.builtin.BoundFunction;
@@ -39,6 +40,7 @@ import org.genyris.interp.builtin.ListFunction;
 import org.genyris.interp.builtin.LoadFunction;
 import org.genyris.interp.builtin.ObjectFunction;
 import org.genyris.interp.builtin.QuoteFunction;
+import org.genyris.interp.builtin.RaiseFunction;
 import org.genyris.interp.builtin.RemoveTagFunction;
 import org.genyris.interp.builtin.ReplaceCarFunction;
 import org.genyris.interp.builtin.ReplaceCdrFunction;
@@ -134,6 +136,8 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("and"), new LazyProcedure(_globalEnvironment, null, new AndFunction(this)));
 
         _globalEnvironment.defineVariable(_table.internString("bound?"), new LazyProcedure(_globalEnvironment, null, new BoundFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("raise"), new EagerProcedure(_globalEnvironment, null, new RaiseFunction(this)));
+
         _globalEnvironment.defineVariable(_table.internString("java-class"), new EagerProcedure(_globalEnvironment, null, new JavaClassForName(this)));
 
 

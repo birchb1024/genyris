@@ -5,6 +5,8 @@
 //
 package org.genyris.interp;
 
+import org.genyris.exception.GenyrisException;
+
 public class UnboundException extends GenyrisException {
 
     /**

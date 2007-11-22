@@ -5,12 +5,13 @@
 //
 package org.genyris.interp;
 
-import org.genyris.core.AccessException;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lsymbol;
+import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 
 public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements Closure {
 
