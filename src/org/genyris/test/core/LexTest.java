@@ -123,7 +123,7 @@ public class LexTest extends TestCase {
 
     }
 
-    private void excerciseListParsingLisp(String toParse) throws Exception {
+    private void excerciseListParsingLisp(String toParse, String expected) throws Exception {
         // TODO DRY
         Lsymbol NIL = new NilSymbol();
         SymbolTable table = new SymbolTable();
@@ -135,7 +135,7 @@ public class LexTest extends TestCase {
         StringWriter out = new StringWriter();
         BasicFormatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
-        assertEquals(toParse, out.getBuffer().toString());
+        assertEquals(expected, out.getBuffer().toString());
 
     }
 
@@ -155,17 +155,16 @@ public class LexTest extends TestCase {
     }
 
     public void testListsLisp() throws Exception {
-        excerciseListParsingLisp("(1 2 3)");
-        excerciseListParsingLisp("(1 (2) 3)");
-        excerciseListParsingLisp("(1 (2) 3 (4 (5 (6))))");
 
-        excerciseListParsingLisp("(1 . 2)");
-        excerciseListParsingLisp("(1 2 . 3)");
+        excerciseListParsingLisp("(1 . 2)", "(1 : 2)");
+        excerciseListParsingLisp("(1 2 . 3)", "(1 2 : 3)");
 
-        excerciseListParsingLisp("(\"a\" 1.2 30000 foo)");
-        excerciseListParsingLisp("(\"a\" 1.2 30000 foo (1 2 . 3))");
-        excerciseListParsingLisp("(\"a\" 1.2 30000 foo (1 2 . 3) (1 (2) 3 (4 (5 (6)))))");
-        excerciseListParsingLisp("(defun my-func (x) (cons x x))");
+        excerciseListParsingLisp("(\"a\" 1.2 30000 foo)"
+                               , "(\"a\" 1.2 30000 foo)");
+        excerciseListParsingLisp("(\"a\" 1.2 30000 foo (1 2 . 3))"
+                            , "(\"a\" 1.2 30000 foo (1 2 : 3))");
+        excerciseListParsingLisp("(\"a\" 1.2 30000 foo (1 2 . 3) (1 (2) 3 (4 (5 (6)))))"
+                               , "(\"a\" 1.2 30000 foo (1 2 : 3) (1 (2) 3 (4 (5 (6)))))");
     }
 
     private void excerciseSpecialParsing(String toParse, String expected) throws Exception {

@@ -27,6 +27,26 @@ import org.genyris.io.UngettableInStream;
 public class SourceLoader {
 
 
+    public static Parser parserFactory(String filename, Reader input, Interpreter interp) throws GenyrisException {
+        if(filename.endsWith(".lin")) {
+            InStream is = new UngettableInStream(
+                    new ConvertEofInStream(
+                            new IndentStream(
+                                    new UngettableInStream(
+                                            new ReaderInStream(input)),
+                    false)));
+            return new Parser(interp.getSymbolTable(), is);
+
+        }
+        else if(filename.endsWith(".lsp")) {
+            InStream is = new UngettableInStream(new ReaderInStream(input));
+            return new Parser(interp.getSymbolTable(), is, Constants.LISPCDRCHAR);
+        }
+        else {
+            throw new GenyrisException("unknown file suffix in : " + filename);
+        }
+    }
+
     public static Exp loadScriptFromClasspath(Interpreter _interp, String filename, Writer writer) throws GenyrisException {
 
         InputStream in  = SourceLoader.class.getClassLoader().getResourceAsStream(filename);
@@ -36,14 +56,12 @@ public class SourceLoader {
             throw new GenyrisException("loadScriptFromClasspath: null pointer from getResourceAsStream.");
         }
         String url = SourceLoader.class.getClassLoader().getResource(filename).toString();
-        executeScript(_interp, new InputStreamReader(in), writer);
+        executeScript(filename, _interp, new InputStreamReader(in), writer);
         return new Lstring(url);
     }
 
-    public static Exp executeScript(Interpreter interp, Reader reader, Writer output) throws GenyrisException {
-        InStream input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(new ReaderInStream(reader)),
-                false)));
-        Parser parser = interp.newParser(input);
+    public static Exp executeScript(String filename, Interpreter interp, Reader reader, Writer output) throws GenyrisException {
+        Parser parser = parserFactory(filename, reader, interp);
         IndentedFormatter formatter = new IndentedFormatter(output, 3, interp);
         Exp expression = null;
         Exp result = null;
