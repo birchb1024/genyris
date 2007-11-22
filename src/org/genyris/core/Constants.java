@@ -48,6 +48,7 @@ public class Constants {
         public static final String OBJECT = "Object";
         public static final String JAVAOBJECT = "JavaObject";
         public static final String JAVAMETHOD = "JavaMethod";
+        public static final String VARS = DYNAMICSCOPECHAR + "vars";
 
 
 

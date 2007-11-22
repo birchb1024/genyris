@@ -21,7 +21,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     private Map _dict;
     private Lsymbol NIL;
     private Environment _parent;
-    Exp _self, CLASSES, SUPERCLASSES, CLASSNAME;
+    Exp _self, CLASSES, SUPERCLASSES, CLASSNAME, VARS;
 
     public Lobject(Environment parent) {
         _dict = new HashMap();
@@ -41,6 +41,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         CLASSES = _parent.internString(Constants.CLASSES);
         SUPERCLASSES = _parent.internString(Constants.SUPERCLASSES);
         CLASSNAME = _parent.internString(Constants.CLASSNAME);
+        VARS = _parent.internString(Constants.VARS);
         NIL = _parent.getNil();
     }
 
@@ -105,6 +106,9 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         else if (symbol == CLASSES) {
             return getClasses(_parent);
         }
+        else if( symbol == VARS ) {
+            return getVarsList();
+        }
         else if( _dict.containsKey(symbol) ) {
             return (Exp)_dict.get(symbol);
         }
@@ -116,6 +120,16 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             return lookupInSuperClasses(symbol);
         }
         throw new UnboundException("unbound " + symbol.toString());
+    }
+
+    private Exp getVarsList() {
+        Iterator iter = _dict.keySet().iterator();
+        Exp result = new Lcons(VARS, NIL);
+        while(iter.hasNext()) {
+            Exp key = (Exp) iter.next();
+           result = new Lcons( key , result);
+        }
+        return result;
     }
 
     private Exp lookupInClasses(Exp symbol) throws UnboundException {
