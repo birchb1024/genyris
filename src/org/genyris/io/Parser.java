@@ -5,6 +5,7 @@
 //
 package org.genyris.io;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
@@ -17,7 +18,11 @@ public class Parser {
     private Exp NIL;
 
     public Parser(SymbolTable table, InStream stream) {
-        _lexer = new Lex(stream, table);
+        _lexer = new Lex(stream, table, Constants.CDRCHAR);
+        NIL = table.getNil();
+    }
+    public Parser(SymbolTable table, InStream stream, char cdrCharacter) {
+        _lexer = new Lex(stream, table, cdrCharacter);
         NIL = table.getNil();
     }
 

@@ -14,6 +14,7 @@ public class Constants {
         public static final char COMMACHAR = ',';
         public static final char ATCHAR = '@';
         public static final char CDRCHAR = ':';
+        public static final char LISPCDRCHAR = '.';
         public static final char DYNAMICSCOPECHAR = '_';
     // Language Keywords
         public static final String NIL = "nil";

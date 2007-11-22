@@ -19,11 +19,13 @@ public class Lex {
     private InStream _input;
 
     private SymbolTable _symbolTable;
+    private char _cdrCharacter;
+
     public Exp quote, EOF, raw_quote, raw_backquote, raw_comma_at;
     public Exp raw_comma, comma_at, comma, backquote;
     public Exp leftParen, rightParen, cdr_char;
 
-    public Lex(InStream inputSource, SymbolTable table) {
+    private void init(InStream inputSource, SymbolTable table, char cdrChar) {
         _input = inputSource;
         _symbolTable = table;
         NIL = table.getNil();
@@ -38,7 +40,14 @@ public class Lex {
         EOF = table.internString(Constants.EOF);
         leftParen = table.internString("leftParen");
         rightParen = table.internString("righParen");
+        _cdrCharacter = cdrChar;
         cdr_char = table.internString("pair-delimiter");
+    }
+    public Lex(InStream inputSource, SymbolTable table, char cdrChar) {
+        init(inputSource, table, cdrChar);
+    }
+    public Lex(InStream inputSource, SymbolTable table) {
+        init( inputSource,  table, Constants.CDRCHAR);
     }
 
     public boolean hasData() throws LexException {
@@ -97,25 +106,26 @@ public class Lex {
         }
     }
 
-    // predicate
     private boolean isIdentCharacter(char c) {
-        switch (c) {
-        case '\f':
-        case '\n':
-        case '\t':
-        case ' ':
-        case '\r':
-        case '(':
-        case ')':
-        case Constants.DYNAMICSCOPECHAR:
-        case Constants.COMMENTCHAR:
-        case Constants.BQUOTECHAR:
-        case Constants.QUOTECHAR:
-        case Constants.CDRCHAR:
-        case '"':
+        if(c == _cdrCharacter)
             return false;
-        default:
-            return true;
+
+        switch (c) {
+            case '\f':
+            case '\n':
+            case '\t':
+            case ' ':
+            case '\r':
+            case '(':
+            case ')':
+            case Constants.DYNAMICSCOPECHAR:
+            case Constants.COMMENTCHAR:
+            case Constants.BQUOTECHAR:
+            case Constants.QUOTECHAR:
+            case '"':
+                return false;
+            default:
+                return true;
         }
     }
 
@@ -156,6 +166,9 @@ public class Lex {
                 return EOF;
             }
             ch = _input.readNext();
+            if( ch == this._cdrCharacter )
+                return cdr_char;
+
             switch (ch) {
             case '\f':
             case '\n':
@@ -205,8 +218,6 @@ public class Lex {
                 return leftParen;
             case ')':
                 return rightParen;
-            case ':': // TODO DRY
-                return cdr_char;
             case Constants.QUOTECHAR:
                 return raw_quote;
             case Constants.BQUOTECHAR:
