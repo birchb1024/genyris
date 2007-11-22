@@ -109,7 +109,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("equal"), new EagerProcedure(_globalEnvironment, null, new EqualsFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("dict"), new LazyProcedure(_globalEnvironment, null, new ObjectFunction(this)));
-        _globalEnvironment.defineVariable(_table.internString("eval"), new LazyProcedure(_globalEnvironment, null, new EvalFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("eval"), new EagerProcedure(_globalEnvironment, null, new EvalFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("the"), new EagerProcedure(_globalEnvironment, null, new IdentityFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("list"), new EagerProcedure(_globalEnvironment, null, new ListFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("reverse"), new EagerProcedure(_globalEnvironment, null, new ReverseFunction(this)));
