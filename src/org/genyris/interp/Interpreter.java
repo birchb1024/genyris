@@ -44,6 +44,7 @@ import org.genyris.interp.builtin.ReplaceCarFunction;
 import org.genyris.interp.builtin.ReplaceCdrFunction;
 import org.genyris.interp.builtin.ReverseFunction;
 import org.genyris.interp.builtin.SetFunction;
+import org.genyris.interp.builtin.SymbolValueFunction;
 import org.genyris.interp.builtin.TagFunction;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
@@ -110,6 +111,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("eq"), new EagerProcedure(_globalEnvironment, null, new EqFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("dict"), new LazyProcedure(_globalEnvironment, null, new ObjectFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("eval"), new EagerProcedure(_globalEnvironment, null, new EvalFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("symbol-value"), new EagerProcedure(_globalEnvironment, null, new SymbolValueFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("the"), new EagerProcedure(_globalEnvironment, null, new IdentityFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("list"), new EagerProcedure(_globalEnvironment, null, new ListFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("reverse"), new EagerProcedure(_globalEnvironment, null, new ReverseFunction(this)));
