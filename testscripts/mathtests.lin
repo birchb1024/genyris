@@ -7,11 +7,6 @@
 ;; Test built-in maths functions
 
 test "additions"
-  1
-    given
-       + 1 2 3
-    expect 6
-  2
-    given
-       + 1 2 3 4 5
-    expect 15
+
+    given (+ 1 2 3)     expect 6
+    given (+ 1 2 3 4 5) expect 15
