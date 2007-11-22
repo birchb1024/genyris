@@ -19,9 +19,15 @@ public class InterpretedTests extends TestCase {
         Interpreter interp = new Interpreter();
         interp.init(true);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp, filename, out);
+        SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
     }
     public void testFactorial() throws GenyrisException {
-        useSourceLoader("testscripts/factorial.lin");
+        useSourceLoader("factorial.lin");
+    }
+    public void testTak() throws GenyrisException {
+        useSourceLoader("tak.lin");
+    }
+    public void testMaths() throws GenyrisException {
+        useSourceLoader("mathtests.lin");
     }
 }
