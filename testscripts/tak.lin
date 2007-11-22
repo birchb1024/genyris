@@ -8,7 +8,7 @@
 ;
 
 def tak (x y z)
-        print (list x y z) "\n"
+        ; print (list x y z) "\n"
         cond
            (< y x)
               tak
@@ -16,5 +16,13 @@ def tak (x y z)
                   tak (- y 1) z x
                   tak (- z 1) x y
            else z
-tak 18 12 6
+
+define result (tak 18 12 6)
+
+cond
+ (equal result 7)
+    "Tak passed"
+ else
+    raise
+       list "Tak benchmark test failed." result
 
