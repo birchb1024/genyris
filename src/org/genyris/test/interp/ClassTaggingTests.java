@@ -27,13 +27,6 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("C" , "<class C (Thing) (C1 )>");
         }
 
-    public void testTagWithColon() throws Exception {
-        excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
-        excerciseEval("(define x 45)", "45");
-        excerciseEval("(x:Miles)", "45");
-        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
-        }
-
     public void testTagWithTag() throws Exception {
         excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
         excerciseEval("(define x 45)", "45");

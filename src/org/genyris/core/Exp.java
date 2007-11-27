@@ -35,8 +35,7 @@ public abstract class Exp implements Classifiable, Closure {
             try {
                 Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
                 // call validator if it exists
-                TagFunction.validateClassTagging(environment, this, klass);
-                this.addClass(klass);
+                TagFunction.validateObjectInClass(environment, this, klass);
                 return this;
             }
             catch (ClassCastException e) {

@@ -231,8 +231,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         } else {
             try {
                 Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
-                TagFunction.validateClassTagging(environment, this, klass);
-                this.addClass(klass);
+                TagFunction.validateObjectInClass(environment, this, klass);
                 return this;
             }
             catch (ClassCastException e) {

@@ -29,12 +29,12 @@ public class TagFunction extends ApplicableFunction {
         Lobject klass = (Lobject) arguments[1]; //TODO type check
         // call validator if it exists
         // TODO DRY - repeateed code from exp:applyfunction() !
-        validateClassTagging(environment, object, klass);
+        validateObjectInClass(environment, object, klass);
         object.addClass(klass);
         return object;
     }
 
-    public static void validateClassTagging(Environment environment, Exp object, Lobject klass) throws GenyrisException {
+    public static void validateObjectInClass(Environment environment, Exp object, Lobject klass) throws GenyrisException {
         Exp NIL = environment.getNil();
         Exp validator = null;
         try {
