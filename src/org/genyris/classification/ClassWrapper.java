@@ -58,10 +58,7 @@ public class ClassWrapper {
                 subclasses = subclasses.cdr();
             }
             result += ")";
-           result += ">";
-        } catch (UnboundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            result += ">";
         } catch (AccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -78,43 +75,41 @@ public class ClassWrapper {
     }
 
     public void addSuperClass(Lobject klass) {
-        if ( klass == null )
+        if (klass == null)
             return;
         try {
-            Exp supers =  _theClass.lookupVariableShallow(SUPERCLASSES);
+            Exp supers = _theClass.lookupVariableShallow(SUPERCLASSES);
             supers = new Lcons(klass, supers);
             _theClass.setVariableValue(SUPERCLASSES, supers);
             new ClassWrapper(klass).addSubClass(_theClass);
             // TODO use a list set adding function to avoid duplicates.
         } catch (UnboundException e) {
             try {
-                _theClass.defineVariable(SUPERCLASSES, new Lcons( klass, NIL));
+                _theClass.defineVariable(SUPERCLASSES, new Lcons(klass, NIL));
                 new ClassWrapper(klass).addSubClass(_theClass);
             } catch (GenyrisException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
-
     }
 
     public void addSubClass(Lobject klass) {
-        if ( klass == null )
+        if (klass == null)
             return;
         try {
-            Exp subs =  _theClass.lookupVariableShallow(SUBCLASSES);
+            Exp subs = _theClass.lookupVariableShallow(SUBCLASSES);
             subs = new Lcons(klass, subs);
             _theClass.setVariableValue(SUBCLASSES, subs);
             // TODO use a list set adding function to avoid duplicate subclasses.
         } catch (UnboundException e) {
             try {
-                _theClass.defineVariable(SUBCLASSES, new Lcons( klass, NIL));
+                _theClass.defineVariable(SUBCLASSES, new Lcons(klass, NIL));
             } catch (GenyrisException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
-
     }
 
     private Exp getSuperClasses() {
@@ -125,22 +120,25 @@ public class ClassWrapper {
         }
     }
 
-    private String getClassName() throws UnboundException {
-        return _theClass.lookupVariableShallow(CLASSNAME).toString();
+    public String getClassName() {
+        try {
+            return _theClass.lookupVariableShallow(CLASSNAME).toString();
+        } catch (UnboundException e) {
+            return "anonymous";
+        }
     }
 
-    public static Lobject makeClass(Environment env, Exp klassname, Exp superklasses) throws GenyrisException {
+    public static Lobject makeClass(Environment env, Exp klassname, Exp superklasses)
+            throws GenyrisException {
         Exp NIL = env.getNil();
         Exp standardClassSymbol = env.internString(Constants.STANDARDCLASS);
         Exp standardClass = env.lookupVariableValue(standardClassSymbol);
-
         Lobject newClass = new Lobject(env);
         newClass.addClass(standardClass);
         newClass.defineVariable(env.internString(Constants.CLASSNAME), klassname);
-        newClass.defineVariable(env.internString(Constants.CLASSES),
-                new Lcons(standardClass, NIL));
+        newClass.defineVariable(env.internString(Constants.CLASSES), new Lcons(standardClass, NIL));
         newClass.defineVariable(env.internString(Constants.SUBCLASSES), NIL);
-        if ( superklasses == NIL )
+        if (superklasses == NIL)
             superklasses = new Lcons(env.internString(Constants.THING), NIL);
         {
             newClass.defineVariable(env.internString(Constants.SUPERCLASSES), lookupClasses(env,
@@ -162,12 +160,43 @@ public class ClassWrapper {
         env.defineVariable(klassname, newClass);
         return newClass;
     }
+
     private static Exp lookupClasses(Environment env, Exp superklasses) throws GenyrisException {
         Exp result = env.getNil();
-        while(superklasses != env.getNil()) {
+        while (superklasses != env.getNil()) {
             result = new Lcons(env.lookupVariableValue(superklasses.car()), result);
             superklasses = superklasses.cdr();
         }
         return result;
     }
+
+    public boolean isInstance(Exp object) {
+        Environment env = _theClass.getParent();
+        Exp classes;
+
+        try {
+            classes = object.getClasses(env);
+            while (classes != env.getNil()) {
+                ClassWrapper klass = new ClassWrapper((Lobject)classes.car()); // TODO unsafe downcast
+System.out.println(klass.getClassName());
+                if(classes.car() == _theClass) {
+                    return true;
+                }
+                Exp superclasses = klass.getSuperClasses();
+                // TODO - maybe if ClassWRapper could return an array of ClassWrappers this would be tidy!
+                while (superclasses != env.getNil()) {
+                    ClassWrapper superklass = new ClassWrapper((Lobject)superclasses.car()); // TODO unsafe downcast
+                    superclasses = superclasses.cdr();
+                }
+                classes = classes.cdr();
+            }
+        } catch (UnboundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (AccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
+}

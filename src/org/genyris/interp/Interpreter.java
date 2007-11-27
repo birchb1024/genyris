@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import org.genyris.classes.BuiltinClasses;
+import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
@@ -136,6 +137,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("and"), new LazyProcedure(_globalEnvironment, null, new AndFunction(this)));
 
         _globalEnvironment.defineVariable(_table.internString("bound?"), new LazyProcedure(_globalEnvironment, null, new BoundFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("is-instance?"), new EagerProcedure(_globalEnvironment, null, new IsInstanceFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("raise"), new EagerProcedure(_globalEnvironment, null, new RaiseFunction(this)));
 
         _globalEnvironment.defineVariable(_table.internString("java-class"), new EagerProcedure(_globalEnvironment, null, new JavaClassForName(this)));

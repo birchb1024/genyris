@@ -29,4 +29,5 @@ public interface Environment {
     public Interpreter getInterpreter();
 
     public Exp internString(String symbolName);
+
 }

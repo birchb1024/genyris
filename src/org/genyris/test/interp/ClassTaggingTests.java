@@ -33,4 +33,11 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(tag x Miles)", "45");
         excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
         }
+    public void testIsInstance() throws Exception {
+        excerciseEval("(class A)", "<class A (Thing) ()>");
+        excerciseEval("(class B(A))", "<class B (A) ()>");
+        excerciseEval("(define x 45)", "45");
+        excerciseEval("(tag x B)", "45");
+        excerciseEval("(is-instance? x A)", "true");
+        }
 }
