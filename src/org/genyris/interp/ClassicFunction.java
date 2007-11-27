@@ -10,9 +10,11 @@ import java.util.Map;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.Lobject;
 import org.genyris.core.Lsymbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.builtin.TagFunction;
 
 public class ClassicFunction extends ApplicableFunction {
     private Exp REST;
@@ -39,7 +41,27 @@ public class ClassicFunction extends ApplicableFunction {
                 }
                 break;
             } else if (formal != NIL) {
-                if (!(formal instanceof Lsymbol)) {
+                if(formal instanceof Lcons) {
+                    Exp left = formal.car();
+                    Exp right = formal.cdr();
+                    if(!(left instanceof Lsymbol) ) {
+                        throw new GenyrisException("function argument not a symbol: "
+                                + left.toString());
+                    }
+                    if(!(right instanceof Lsymbol) ) {
+                        throw new GenyrisException("function argument class spec not a symbol: "
+                                + right.toString());
+                    }
+                    Exp klass = proc.getEnv().lookupVariableValue(right); // TODO - move to def for speedup.
+                    try {
+                        TagFunction.validateObjectInClass(envForBindOperations, arguments[i], (Lobject)klass);
+                    }
+                    catch (GenyrisException e) {
+                        throw new GenyrisException("Type mismatch in function call for " + left);
+                    }
+                    bindings.put(left, arguments[i]);
+                }
+                else if (!(formal instanceof Lsymbol)) {
                     throw new GenyrisException("function argument not a symbol: "
                             + formal.toString());
                 } else {
