@@ -49,8 +49,8 @@ public class LexTest extends TestCase {
 
     public void testLex1() throws Exception {
 
-        excerciseNextTokenInt(new Bignum(12), "12");
-        excerciseNextTokenInt(new Bignum(-12), "-12");
+        excerciseNextTokenInt(new Bignum("12"), "12");
+        excerciseNextTokenInt(new Bignum("-12"), "-12");
         excerciseNextTokenBignum(new Bignum("12.34"), "12.34");
         excerciseNextTokenBignum(new Bignum("-12.34"), "-12.34");
         excerciseNextTokenDouble(new Ldouble(12.34e5), "12.34e5");
@@ -60,8 +60,8 @@ public class LexTest extends TestCase {
 
     public void testLex2() throws Exception {
 
-        excerciseNextTokenInt(new Bignum(12), "   12");
-        excerciseNextTokenInt(new Bignum(-12), "\t\t-12");
+        excerciseNextTokenInt(new Bignum("12"), "   12");
+        excerciseNextTokenInt(new Bignum("-12"), "\t\t-12");
         excerciseNextTokenBignum(new Bignum("12.34"), "\n\n12.34");
         excerciseNextTokenBignum(new Bignum("-12.34"), "\r\f -12.34");
 
@@ -100,7 +100,7 @@ public class LexTest extends TestCase {
     public void testCombination1() throws Exception {
         Lex lexer = new Lex(new UngettableInStream( new StringInStream("int 12 double\n 12.34\r\n -12.34e5 \"string\" ")), _table);
         assertEquals(new Lsymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());
-        assertEquals(new Bignum(12), lexer.nextToken());
+        assertEquals(new Bignum("12"), lexer.nextToken());
         assertEquals(new Lsymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());
         assertEquals(new Bignum("12.34"), lexer.nextToken());
         assertEquals(new Ldouble(-12.34e5), lexer.nextToken());

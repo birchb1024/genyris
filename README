@@ -1,6 +1,6 @@
-README
+Genyris README
 
-You need Java 1.5 JRE to run the Genyris interpreter. Check with your JRE
+You need Java 1.4 JRE to run the Genyris interpreter. Check with your JRE
 version with:
 
   $ java -version

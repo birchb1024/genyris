@@ -46,13 +46,13 @@ public class LexTestNumbers extends TestCase {
 	}
 
 	public void testParseDecimalNumber1() throws Exception {
-		assertEquals(new BigDecimal(1), excerciseParseDecimalNumber("1"));
-		assertEquals(new BigDecimal(1), excerciseParseDecimalNumber("01"));
-		assertEquals(new BigDecimal(1000), excerciseParseDecimalNumber("1000"));
-		assertEquals(new BigDecimal(0), excerciseParseDecimalNumber("0"));
-		assertEquals(new BigDecimal(999999), excerciseParseDecimalNumber("999999"));
-		assertEquals(new BigDecimal(999999999), excerciseParseDecimalNumber("999999999"));
-		assertEquals(new BigDecimal(999999999), excerciseParseDecimalNumber("00999999999"));
+		assertEquals(new BigDecimal("1"), excerciseParseDecimalNumber("1"));
+		assertEquals(new BigDecimal("1"), excerciseParseDecimalNumber("01"));
+		assertEquals(new BigDecimal("1000"), excerciseParseDecimalNumber("1000"));
+		assertEquals(new BigDecimal("0"), excerciseParseDecimalNumber("0"));
+		assertEquals(new BigDecimal("999999"), excerciseParseDecimalNumber("999999"));
+		assertEquals(new BigDecimal("999999999"), excerciseParseDecimalNumber("999999999"));
+		assertEquals(new BigDecimal("999999999"), excerciseParseDecimalNumber("00999999999"));
 		}
 
 	public void testParseDecimalFraction1() throws Exception {
