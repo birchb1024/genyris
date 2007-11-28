@@ -46,6 +46,7 @@ public class ClassWrapper {
             while (classes != NIL) {
                 ClassWrapper klass = new ClassWrapper((Lobject)classes.car());
                 result += klass.getClassName();
+                if (classes.cdr() != NIL) result += ' ';
                 classes = classes.cdr();
             }
             result += ")";
@@ -54,7 +55,8 @@ public class ClassWrapper {
             result += " (";
             while (subclasses != NIL) {
                 ClassWrapper klass = new ClassWrapper((Lobject)subclasses.car());
-                result += klass.getClassName() + ' ';
+                result += klass.getClassName();
+                if (subclasses.cdr() != NIL) result += ' ';
                 subclasses = subclasses.cdr();
             }
             result += ")";
@@ -169,6 +171,25 @@ public class ClassWrapper {
         }
         return result;
     }
+    public boolean isSubClass(ClassWrapper klass) throws AccessException {
+        if(klass._theClass == this._theClass) {
+            return true;
+        }
+        Environment env = _theClass.getParent();
+        Exp mysubclasses = getSubClasses();
+                // TODO - maybe if ClassWRapper could return an array of ClassWrappers this would be tidy!
+        while (mysubclasses != env.getNil()) {
+            ClassWrapper mysubklass = new ClassWrapper((Lobject)mysubclasses.car()); // TODO unsafe downcast
+            if(mysubklass._theClass == klass._theClass) {
+                return true;
+            }
+            else if(mysubklass.isSubClass(klass)) {
+                return true;
+            }
+            mysubclasses = mysubclasses.cdr();
+        }
+        return false;
+    }
 
     public boolean isInstance(Exp object) {
         Environment env = _theClass.getParent();
@@ -178,15 +199,11 @@ public class ClassWrapper {
             classes = object.getClasses(env);
             while (classes != env.getNil()) {
                 ClassWrapper klass = new ClassWrapper((Lobject)classes.car()); // TODO unsafe downcast
-System.out.println(klass.getClassName());
                 if(classes.car() == _theClass) {
                     return true;
                 }
-                Exp superclasses = klass.getSuperClasses();
-                // TODO - maybe if ClassWRapper could return an array of ClassWrappers this would be tidy!
-                while (superclasses != env.getNil()) {
-                    ClassWrapper superklass = new ClassWrapper((Lobject)superclasses.car()); // TODO unsafe downcast
-                    superclasses = superclasses.cdr();
+                if( isSubClass(klass) ) {
+                    return true;
                 }
                 classes = classes.cdr();
             }

@@ -24,7 +24,7 @@ public class ClassTaggingTests extends TestCase {
     public void testDefineClass() throws Exception {
         excerciseEval("(class C)", "<class C (Thing) ()>");
         excerciseEval("(class C1 (C))" , "<class C1 (C) ()>");
-        excerciseEval("C" , "<class C (Thing) (C1 )>");
+        excerciseEval("C" , "<class C (Thing) (C1)>");
         }
 
     public void testTagWithTag() throws Exception {
@@ -38,6 +38,46 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class B(A))", "<class B (A) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag x B)", "45");
+        excerciseEval("(is-instance? x Thing)", "true");
+        excerciseEval("(is-instance? x Builtin)", "true");
+        excerciseEval("(is-instance? x Bignum)", "true");
+        excerciseEval("(is-instance? x B)", "true");
         excerciseEval("(is-instance? x A)", "true");
         }
+    public void testIsInstanceMultipleInheritance() throws Exception {
+        excerciseEval("(class A)", "<class A (Thing) ()>");
+        excerciseEval("(class B1(A))", "<class B1 (A) ()>");
+        excerciseEval("(class B2(A))", "<class B2 (A) ()>");
+        excerciseEval("(class B3(A))", "<class B3 (A) ()>");
+        excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
+        excerciseEval("(define x 45)", "45");
+        excerciseEval("(tag x C)", "45");
+        excerciseEval("(is-instance? x Thing)", "true");
+        excerciseEval("(is-instance? x Builtin)", "true");
+        excerciseEval("(is-instance? x Bignum)", "true");
+        excerciseEval("(is-instance? x B1)", "true");
+        excerciseEval("(is-instance? x B2)", "true");
+        excerciseEval("(is-instance? x B3)", "nil");
+        excerciseEval("(is-instance? x C)", "true");
+        }
+    public void testTypeCheckedFunctions() throws Exception {
+        excerciseEval("(class A)", "<class A (Thing) ()>");
+        excerciseEval("(class B1(A))", "<class B1 (A) ()>");
+        excerciseEval("(class B2(A))", "<class B2 (A) ()>");
+        excerciseEval("(class B3(A))", "<class B3 (A) ()>");
+        excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
+        excerciseEval("(define x 45)", "45");
+        excerciseEval("(tag x C)", "45");
+        excerciseEval("(def fn((a:A)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        // excerciseEval("(fn 23)", "exception");
+        excerciseEval("(fn x)", "42");
+
+        excerciseEval("(def fn1((a:Bignum)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fn1 x)", "42");
+        excerciseEval("(def fn2((a:Builtin)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fn2 x)", "42");
+        excerciseEval("(def fn3((a:Thing)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fn3 x)", "42");
+
+    }
 }
