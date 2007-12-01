@@ -1,6 +1,6 @@
-Genyris README
+README
 
-You need Java 1.4 JRE to run the Genyris interpreter. Check with your JRE
+You need Java 1.5 JRE to run the Genyris interpreter. Check with your JRE
 version with:
 
   $ java -version
@@ -21,9 +21,9 @@ to terminate an indented statement.
 Examples of Genyris code are in the
 jar and can be loaded as follows:
 
-     > load "/examples/queens.lin"
+     > load "examples/queens.lin"
 
-     ~ true ; Symbol
+     ~ "jar:file:/home/pathtojar/genyris-bin.jar!/examples/queens.lin" ; String
 
      > queen 8
      "

@@ -28,15 +28,16 @@ public class TagFunction extends ApplicableFunction {
             throw new GenyrisException("Too few arguments to tag: " + arguments.length);
         Exp object = arguments[0];
         Lobject klass = (Lobject) arguments[1]; //TODO type check
-        // call validator if it exists
-        // TODO DRY - repeateed code from exp:applyfunction() !
-        validateObject(environment, object, klass);
+        callValidator(environment, object, klass);
         object.addClass(klass);
         return object;
     }
 
+
+
     // TODO move these into ClassWrapper:
-    public static void validateObject(Environment environment, Exp object, Lobject klassobject) throws GenyrisException {
+    public static void callValidator(Environment environment, Exp object, Lobject klassobject) throws GenyrisException {
+        // TODO DRY
         Exp NIL = environment.getNil();
         Exp validator = null;
         ClassWrapper klass = new ClassWrapper(klassobject);

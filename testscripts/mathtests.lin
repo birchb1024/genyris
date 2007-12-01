@@ -6,7 +6,12 @@
 
 ;; Test built-in maths functions
 
-test "additions"
+test "Integer Additions"
 
+    given (+ 1)         expect 1
+    given (+ 0 0 0)     expect 0
     given (+ 1 2 3)     expect 6
     given (+ 1 2 3 4 5) expect 15
+    given
+        define c 34
+        + c c
