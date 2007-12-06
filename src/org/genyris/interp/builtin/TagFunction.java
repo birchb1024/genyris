@@ -13,6 +13,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
+import org.genyris.interp.GenyrisTypeMismatchException;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
@@ -64,7 +65,7 @@ public class TagFunction extends ApplicableFunction {
         }
         catch (UnboundException ignore) {     // TODO would be nice to have a bound?()
             if (!klass.isInstance(object)) {
-                throw new GenyrisException("class " + klass.getClassName() + " validator error for object " + object);
+                throw new GenyrisTypeMismatchException("class " + klass.getClassName() + " validator error for object " + object);
             }
         }
         if( validator != null ) {

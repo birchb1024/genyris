@@ -35,7 +35,7 @@ public class ClassicFunction extends ApplicableFunction {
             Exp formal = proc.getArgumentOrNIL(i);
             if (formal == REST) {
                 Lcons actuals = assembleListFromRemainingArgs(arguments, i);
-                formal = proc.getLastArgumentOrNIL(i + 1);
+                formal = proc.getLastArgumentOrNIL();
                 if (formal != NIL) {
                     bindings.put(formal, actuals);
                 }
@@ -54,7 +54,7 @@ public class ClassicFunction extends ApplicableFunction {
                     }
                     Exp klass = proc.getEnv().lookupVariableValue(right); // TODO - move to def for speedup.
                     try {
-                        TagFunction.validateObjectInClass(envForBindOperations, arguments[i], (Lobject)klass);
+                        TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (Lobject)klass);
                     }
                     catch (GenyrisException e) {
                         throw new GenyrisException("Type mismatch in function call for " + left);
@@ -77,7 +77,17 @@ public class ClassicFunction extends ApplicableFunction {
         // Use the procedure's frame to get lexical scope
         // and the dynamic environment for the object stuff.
         Environment newEnv = new SpecialEnvironment(proc.getEnv(), bindings, envForBindOperations);
-        return Evaluator.evalSequence(newEnv, proc.getBody());
+        Exp result = Evaluator.evalSequence(newEnv, proc.getBody());
+        Exp returnClass = proc.getReturnClassOrNIL();
+        if(returnClass != NIL) {
+            try {
+                TagFunction.validateObjectInClass(proc.getEnv(), result, (Lobject)returnClass); // TODO unsafe downcast
+            }
+            catch(GenyrisTypeMismatchException e) {
+                throw new GenyrisTypeMismatchException("return type " + e.getMessage());
+            }
+        }
+        return result;
     }
 
     private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i) throws GenyrisException,

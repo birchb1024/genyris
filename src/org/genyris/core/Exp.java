@@ -121,14 +121,5 @@ public abstract class Exp implements Classifiable, Closure {
         throw new AccessException("nth could not find item: " + number);
     }
 
-    public Exp last(Lsymbol NIL) throws AccessException {
-        if (this == NIL)
-            return NIL;
-        Exp tmp = this;
-        while (tmp.cdr() != NIL) {
-            tmp = tmp.cdr();
-        }
-        return tmp.car();
-    }
 
 }

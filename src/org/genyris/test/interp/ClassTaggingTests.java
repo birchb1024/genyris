@@ -5,6 +5,8 @@
 //
 package org.genyris.test.interp;
 
+import org.genyris.exception.GenyrisException;
+
 import junit.framework.TestCase;
 
 public class ClassTaggingTests extends TestCase {
@@ -19,6 +21,15 @@ public class ClassTaggingTests extends TestCase {
 
     private void excerciseEval(String exp, String expected) throws Exception {
         assertEquals(expected, interpreter.eval(exp));
+    }
+
+    private void exceptionEval(String exp, String expected) throws Exception {
+        try {
+            interpreter.eval(exp);
+        }
+        catch (GenyrisException e) {
+            assertEquals(expected, e.getMessage());
+        }
     }
 
     public void testDefineClass() throws Exception {
@@ -69,7 +80,7 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag x C)", "45");
         excerciseEval("(def fn((a:A)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        // excerciseEval("(fn 23)", "exception");
+        exceptionEval("(fn 23)", "Type mismatch in function call for a");
         excerciseEval("(fn x)", "42");
 
         excerciseEval("(def fn1((a:Bignum)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
@@ -78,6 +89,34 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(fn2 x)", "42");
         excerciseEval("(def fn3((a:Thing)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
         excerciseEval("(fn3 x)", "42");
+
+    }
+    public void testTypeCheckedFunctionsWithReturn() throws Exception {
+
+        excerciseEval("(def fn (a : Bignum) a)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fn 42)", "42");
+        exceptionEval("(fn 'x42)", "return type class Bignum validator error for object x42");
+
+        excerciseEval("(class A)", "<class A (Thing) ()>");
+        excerciseEval("(class B1(A))", "<class B1 (A) ()>");
+        excerciseEval("(class B2(A))", "<class B2 (A) ()>");
+        excerciseEval("(class B3(A))", "<class B3 (A) ()>");
+        excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
+        excerciseEval("(define x 45)", "45");
+        excerciseEval("(tag x C)", "45");
+        excerciseEval("(def fn((a:A) : Bignum) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        exceptionEval("(fn 23)", "Type mismatch in function call for a");
+        excerciseEval("(fn x)", "42");
+
+        excerciseEval("(def fn1((a:Bignum) : String) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        exceptionEval("(fn1 x)", "return type class String validator error for object 42");
+        excerciseEval("(def fn2((a:Builtin): Bignum) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fn2 x)", "42");
+        excerciseEval("(def fn3((a:Thing): Builtin) a)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fn3 42)", "42");
+        excerciseEval("(fn3 \"x\")", "\"x\"");
+        excerciseEval("(fn3 'x)", "x");
+        excerciseEval("(fn3 '(3))", "(3)");
 
     }
 }

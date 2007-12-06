@@ -20,6 +20,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
     final ApplicableFunction _functionToApply;
     protected int _numberOfRequiredArguments;
     Lsymbol NIL, REST;
+    Exp _returnClass;
 
     public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
         _env = environment;
@@ -27,12 +28,16 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
         _functionToApply = appl;
         _numberOfRequiredArguments = -1;
         NIL = environment.getNil();
+        _returnClass = null;
         REST = environment.getInterpreter().getSymbolTable().internString(Constants.REST); // TOD performance
     }
 
     private int countFormalArguments(Exp exp) throws AccessException {
         int count = 0;
         while( exp != NIL ) {
+            if(!(exp instanceof Lcons)) { // ignore trailing type specification
+                break;
+            }
             if( ((Lcons)exp).car() == REST ) {
                 count += 1;
                 break;
@@ -79,11 +84,45 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
         return _functionToApply.getName();
     }
 
-    public Exp getLastArgumentOrNIL(int i) throws AccessException {
+    public Exp lastArgument(Exp args) throws AccessException {
+        if (args == NIL)
+            return NIL;
+        Exp tmp = args;
+        while (tmp.cdr() != NIL) {
+            if(!(tmp.cdr() instanceof Lcons)) {
+                break;
+            }
+            tmp = tmp.cdr();
+        }
+        return tmp.car();
+    }
+
+    public Exp getLastArgumentOrNIL() throws AccessException {
         Exp args = _lambdaExpression.cdr().car();
+            // TODO - clean up
+        return lastArgument(args);
 
-        return args.last(NIL);
+    }
 
+    public Exp getReturnClassOrNIL() throws AccessException, UnboundException {
+        if(_returnClass != null) {
+            return _returnClass;
+        }
+        Exp args = _lambdaExpression.cdr().car();
+        Exp returnTypeSymbol = NIL;
+        _returnClass = NIL;
+        if (args != NIL) {
+            Exp tmp = args;
+            while (tmp.cdr() != NIL) { // TODO refactor this loop into constructor for better performance?
+                if(!(tmp.cdr() instanceof Lcons)) {
+                    returnTypeSymbol = tmp.cdr();
+                    _returnClass = _env.lookupVariableValue(returnTypeSymbol);
+                    break;
+                }
+                tmp = tmp.cdr();
+            }
+        }
+        return _returnClass;
     }
 
 }
