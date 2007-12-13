@@ -76,7 +76,7 @@ public class ComplexInterpreterTests extends TestCase {
     }
     public void testFrame() throws Exception {
         excerciseEval("(dict (a : 1) (b:2) (c:3))",
-                "(dict (b : 2) (c : 3) (a : 1) (_classes : (<class Object (Builtin) ()>)))");
+                "(dict (a : 1) (b : 2) (c : 3) (_classes : (<class Object (Builtin) ()>)))");
         excerciseEval("(eq (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "nil");
         excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "true");
     }
