@@ -76,7 +76,7 @@ public class ComplexInterpreterTests extends TestCase {
     }
     public void testFrame() throws Exception {
         excerciseEval("(dict (a : 1) (b:2) (c:3))",
-                "(dict (b : 2) (c : 3) (a : 1) (_classes : (<class Object (Builtin) ()>)))");
+                "(dict (b : 2) (c : 3) (a : 1))");
         excerciseEval("(eq (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "nil");
         excerciseEval("(equal (dict (a : 1) (b : 2) (c : 3)) (dict (a : 1) (b : 2) (c : 3)))", "true");
     }
@@ -94,7 +94,7 @@ public class ComplexInterpreterTests extends TestCase {
 
 
     public void testDynamicVariablesWithDef() throws Exception {
-        excerciseEval("(defvar 'd (dict))", "(dict (_classes : (<class Object (Builtin) ()>)))");
+        excerciseEval("(defvar 'd (dict))", "(dict)");
         excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.genyris.interp.ClassicFunction>>");
         excerciseEval("(def function-which-uses-dynamic-var () (list _x _x))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
         excerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
@@ -102,7 +102,7 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
     public void testDynamicVariablesWithDef2() throws Exception {
-        excerciseEval("(defvar 'd (dict))", "(dict (_classes : (<class Object (Builtin) ()>)))");
+        excerciseEval("(defvar 'd (dict))", "(dict)");
         excerciseEval("(d (defvar '_x 11111))", "11111");
         excerciseEval("(def define-some-global-y (x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
         excerciseEval("(d (define-some-global-y 33))", "(11111 : \"global _y\")");

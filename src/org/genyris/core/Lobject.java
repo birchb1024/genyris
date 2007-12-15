@@ -68,10 +68,11 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     }
 
     public Exp getAlist() {
-        try {
+//        try {
             Iterator iter = _dict.keySet().iterator();
-            Exp classesPair = new LconsWithcolons(CLASSES, getClasses(_parent));
-            Exp result = new Lcons(classesPair, NIL);
+//            Exp classesPair = new LconsWithcolons(CLASSES, getClasses(_parent));
+//            Exp result = new Lcons(classesPair, NIL);
+            Exp result = NIL;
             while(iter.hasNext()) {
                 Exp key = (Exp) iter.next();
                 Exp value = (Exp) _dict.get(key);
@@ -79,12 +80,12 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
                 result = new Lcons( tmp , result);
             }
             return new Lcons(_parent.internString(Constants.DICT), result);
-        }
-        catch (UnboundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return NIL;
+//        }
+//        catch (UnboundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return NIL;
     }
 
     public void defineVariable(Exp symbol, Exp valu)  throws GenyrisException
