@@ -58,7 +58,7 @@ class MyClass (MySuperClass)       ; sub-class it
 
 
 define my-instance                 ; create an instance
-   (dict) : MyClass
+   tag (dict) MyClass
 
 
 my-instance              ; use the instance as an execution environment
