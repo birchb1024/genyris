@@ -81,9 +81,13 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         return new Lcons(_parent.internString(Constants.DICT), result);
     }
 
-    public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if (!(symbol instanceof Lsymbol)) {
-            throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
+    public void defineVariable(Exp exp, Exp valu) throws GenyrisException {
+        if (!(exp instanceof Lsymbol)) {
+            throw new GenyrisException("cannot define non-symbol: " + exp.toString());
+        }
+        Lsymbol symbol = (Lsymbol) exp;
+        if(!symbol.isMember()) {
+            throw new GenyrisException("cannot define non-member: " + symbol.getPrintName());
         }
         if (symbol == CLASSES) {
             setClasses(valu, NIL);
