@@ -19,7 +19,7 @@ class Person ()
       def _getAge () age
       def _setAge (val) (set 'age val)
 
-define p ((dict):Person)
+define p ((dict) : Person)
 
 p (_init)
 p (_getAge)    ; = 25
