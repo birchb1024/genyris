@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd"><MODE>
+    <PROPS>
+        <PROPERTY NAME="commentStart" VALUE="#|"/>
+        <PROPERTY NAME="commentEnd" VALUE="|#"/>
+        <PROPERTY NAME="lineComment" VALUE=";"/>
+        <PROPERTY NAME="noWordSep" VALUE="_:"/>
+    </PROPS>
+    <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE" NO_WORD_SEP="_-+?:*/!">
+        <SPAN TYPE="COMMENT1">
+            <BEGIN>#|</BEGIN>
+            <END>|#</END>
+        </SPAN>
+        <SEQ TYPE="NULL">'(</SEQ>
+        <MARK_FOLLOWING TYPE="LITERAL2">'</MARK_FOLLOWING>
+        <MARK_FOLLOWING TYPE="LITERAL3">_</MARK_FOLLOWING>
+        <EOL_SPAN TYPE="COMMENT1">;</EOL_SPAN>
+        <SPAN TYPE="LITERAL1">
+            <BEGIN>"</BEGIN>
+            <END>"</END>
+        </SPAN>
+        <KEYWORDS>
+            <KEYWORD1>and</KEYWORD1>
+            <KEYWORD1>or</KEYWORD1>
+            <KEYWORD1>do</KEYWORD1>
+            <KEYWORD1>cond</KEYWORD1>
+            <KEYWORD1>cons</KEYWORD1>
+            <KEYWORD1>def</KEYWORD1>
+            <KEYWORD1>define</KEYWORD1>
+            <KEYWORD1>defmacro</KEYWORD1>
+            <KEYWORD1>defvar</KEYWORD1>
+            <KEYWORD1>dict</KEYWORD1>
+            <KEYWORD1>else</KEYWORD1>
+            <KEYWORD1>class</KEYWORD1>
+            <KEYWORD1>if</KEYWORD1>
+            <KEYWORD1>tag</KEYWORD1>
+            <KEYWORD1>lambda</KEYWORD1>
+            <KEYWORD1>lambdaq</KEYWORD1>
+            <KEYWORD1>quote</KEYWORD1>
+            <KEYWORD1>backquote</KEYWORD1>
+            <KEYWORD1>nil</KEYWORD1>
+            <KEYWORD1>list</KEYWORD1>
+            <KEYWORD1>print</KEYWORD1>
+            <KEYWORD3>the</KEYWORD3>
+            
+            <KEYWORD2>self</KEYWORD2>
+            <KEYWORD2>Bignum</KEYWORD2>
+            <KEYWORD2>Pair</KEYWORD2>
+            <KEYWORD2>String</KEYWORD2>
+            <KEYWORD2>Dictionary</KEYWORD2>
+            <KEYWORD2>Symbol</KEYWORD2>
+            <KEYWORD2>Builtin</KEYWORD2>
+            <KEYWORD2>Thing</KEYWORD2>
+            <KEYWORD2>Closure</KEYWORD2>
+            <KEYWORD2>set!</KEYWORD2>
+            <KEYWORD2>car</KEYWORD2>
+            <KEYWORD2>cdr</KEYWORD2>
+            <KEYWORD2>left</KEYWORD2>
+            <KEYWORD2>right</KEYWORD2>
+
+            <KEYWORD3>eq?</KEYWORD3>
+            <KEYWORD3>equal?</KEYWORD3>
+            <KEYWORD3>null?</KEYWORD3>
+            <LITERAL1>true</LITERAL1>
+            <LITERAL2>:</LITERAL2>
+            <LITERAL4>=</LITERAL4>
+
+            </KEYWORDS>
+    </RULES>
+</MODE>

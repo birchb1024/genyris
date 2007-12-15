@@ -45,18 +45,18 @@ public class BuiltinInterpreterTests extends TestCase {
     }
 
     public void testEquality() throws Exception {
-        excerciseEval("(equal 1 1)", "true");
-        excerciseEval("(equal 1.2e4 1.2e4)", "true");
-        excerciseEval("(equal \"foo\" \"foo\")", "true");
-        excerciseEval("(equal 'sym 'sym)", "true");
+        excerciseEval("(equal? 1 1)", "true");
+        excerciseEval("(equal? 1.2e4 1.2e4)", "true");
+        excerciseEval("(equal? \"foo\" \"foo\")", "true");
+        excerciseEval("(equal? 'sym 'sym)", "true");
     }
     public void testEqu() throws Exception {
         excerciseEval("(defvar 'var 23)", "23");
-        excerciseEval("(eq 1 1)", "nil");
-        excerciseEval("(eq 1.2e4 1.2e4)", "nil");
-        excerciseEval("(eq \"foo\" \"foo\")", "nil");
-        excerciseEval("(eq 'sym 'sym)", "true");
-        excerciseEval("(eq var var)", "true");
+        excerciseEval("(eq? 1 1)", "nil");
+        excerciseEval("(eq? 1.2e4 1.2e4)", "nil");
+        excerciseEval("(eq? \"foo\" \"foo\")", "nil");
+        excerciseEval("(eq? 'sym 'sym)", "true");
+        excerciseEval("(eq? var var)", "true");
     }
     public void testDict() throws Exception {
         excerciseEval("(dict (_a : 1) (_b : 2))","(dict (_b : 2) (_a : 1))");

@@ -33,6 +33,6 @@ class Foo ()
     def _publicFunc ()
        list (privateFunc) "called by _publicFunc"
 
-define f ((dict):Foo)
+define f ((dict) : Foo)
 f (privateFunc) ; = error
 f (_publicFunc) ; OK

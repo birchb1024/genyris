@@ -3,7 +3,7 @@
 ;;;; problem 11-9
 ;;;;
 
-setq = equal
+set! = equal
 
 def queen (size)
   queen-aux nil 0 size

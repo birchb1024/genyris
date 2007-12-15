@@ -77,8 +77,8 @@ public class ComplexInterpreterTests extends TestCase {
     public void testFrame() throws Exception {
         excerciseEval("(dict (_a : 1) (_b:2) (_c:3))",
                 "(dict (_c : 3) (_b : 2) (_a : 1))");
-        excerciseEval("(eq (dict (_a : 1) (_b : 2) (_c : 3)) (dict (_a : 1) (_b : 2) (_c : 3)))", "nil");
-        excerciseEval("(equal (dict (_a : 1) (_b : 2) (_c : 3)) (dict (_a : 1) (_b : 2) (_c : 3)))", "true");
+        excerciseEval("(eq? (dict (_a : 1) (_b : 2) (_c : 3)) (dict (_a : 1) (_b : 2) (_c : 3)))", "nil");
+        excerciseEval("(equal? (dict (_a : 1) (_b : 2) (_c : 3)) (dict (_a : 1) (_b : 2) (_c : 3)))", "true");
     }
 
     public void testEnvCapture() throws Exception {
