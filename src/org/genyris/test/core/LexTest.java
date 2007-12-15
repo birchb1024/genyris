@@ -16,6 +16,7 @@ import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.format.BasicFormatter;
+import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.InStream;
 import org.genyris.io.Lex;
@@ -117,7 +118,7 @@ public class LexTest extends TestCase {
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();
-        BasicFormatter formatter = new BasicFormatter(out);
+        Formatter formatter = new BasicFormatter(out, NIL);
         result.acceptVisitor(formatter);
         assertEquals(toParse, out.getBuffer().toString());
 
@@ -133,7 +134,7 @@ public class LexTest extends TestCase {
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();
-        BasicFormatter formatter = new BasicFormatter(out);
+        Formatter formatter = new BasicFormatter(out, NIL);
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
 
@@ -176,7 +177,7 @@ public class LexTest extends TestCase {
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();
-        BasicFormatter formatter = new BasicFormatter(out);
+        Formatter formatter = new BasicFormatter(out, interpreter.getNil());
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
 

@@ -25,7 +25,7 @@ public class SourceLoaderTest extends TestCase {
         StringReader in = new StringReader(input);
         StringWriter out = new StringWriter();
         SourceLoader.executeScript(".lin", interp, in, out);
-        assertEquals(expected, out.toString());
+         assertEquals(expected, out.toString());
 
     }
 

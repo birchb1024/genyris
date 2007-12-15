@@ -17,7 +17,7 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
     private void excerciseEval(String exp, String expected) throws Exception {
-        assertEquals(expected, interpreter.eval(exp));
+        assertEquals(expected,  interpreter.eval(exp));
     }
 
     public void testExcerciseEval() throws Exception {

@@ -15,6 +15,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
+import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.ConvertEofInStream;
@@ -62,7 +63,7 @@ public class SourceLoader {
 
     public static Exp executeScript(String filename, Interpreter interp, Reader reader, Writer output) throws GenyrisException {
         Parser parser = parserFactory(filename, reader, interp);
-        IndentedFormatter formatter = new IndentedFormatter(output, 3, interp);
+        Formatter formatter = new IndentedFormatter(output, 3, interp);
         Exp expression = null;
         Exp result = null;
         do {

@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Exp;
 import org.genyris.format.BasicFormatter;
+import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.InStream;
 import org.genyris.io.Parser;
@@ -33,7 +34,7 @@ public class BuiltinInterpreterTests extends TestCase {
         Exp result = interpreter.evalInGlobalEnvironment(expression);
 
         StringWriter out = new StringWriter();
-        BasicFormatter formatter = new BasicFormatter(out);
+        Formatter formatter = new BasicFormatter(out, interpreter.getNil());
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
     }

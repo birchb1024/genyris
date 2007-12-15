@@ -5,15 +5,13 @@
 //
 package org.genyris.interp;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
-import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
@@ -26,17 +24,15 @@ public class ClassicReadEvalPrintLoop {
 
     public static void main(String[] args) {
         Interpreter interpreter;
-        Lsymbol NIL;
         try {
             interpreter = new Interpreter();
-            NIL = interpreter.getNil();
             System.out.println("loaded " + interpreter.init(true));
             InStream input = new UngettableInStream(new ConvertEofInStream(
                     new IndentStream(
                             new UngettableInStream(new StdioInStream()), true)));
             Parser parser = interpreter.newParser(input);
             Writer output = new PrintWriter(System.out);
-            IndentedFormatter formatter = new IndentedFormatter(output, 1, interpreter);
+            Formatter formatter = new IndentedFormatter(output, 1, interpreter);
             System.out.println("\n*** Genyris is listening...");
             Exp expression = null;
             do {
@@ -53,7 +49,7 @@ public class ClassicReadEvalPrintLoop {
                     result.acceptVisitor(formatter);
 
                     output.write(" ;");
-                    printClassNames(interpreter, NIL, output, result);
+                    formatter.printClassNames(result, interpreter);
                     output.flush();
                 }
                 catch (GenyrisException e) {
@@ -70,15 +66,6 @@ public class ClassicReadEvalPrintLoop {
             System.exit(-1);
         }
 
-    }
-
-    private static void printClassNames(Interpreter interpreter, Lsymbol NIL, Writer output, Exp result) throws AccessException, IOException, UnboundException {
-        Exp klasses = result.getClasses(interpreter.getGlobalEnv());
-        while(klasses != NIL){
-            Environment klass = (Environment) klasses.car();
-            output.write(" " + klass.lookupVariableShallow(interpreter.getSymbolTable().internString(Constants.CLASSNAME)).toString());
-            klasses = klasses.cdr();
-        }
     }
 
 }

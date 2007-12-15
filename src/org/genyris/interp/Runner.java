@@ -11,6 +11,7 @@ import java.io.Writer;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
+import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
@@ -25,7 +26,7 @@ public class Runner {
         InStream input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(stream),
                 false)));
         Parser parser = interp.newParser(input);
-        IndentedFormatter formatter = new IndentedFormatter(output, 3, interp);
+        Formatter formatter = new IndentedFormatter(output, 3, interp);
         Exp expression = null;
         Exp result = null;
         do {
