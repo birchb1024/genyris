@@ -2,9 +2,13 @@
 ;;
 ;; This software may be used and distributed according to the terms
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 ;;;
-;;; Examples of information hiding.
+;;; Examples of encapsulation via information hiding.
 ;;;
 
 ;;
@@ -19,7 +23,7 @@ class Person ()
       def _getAge () age
       def _setAge (val) (set 'age val)
 
-define p ((dict) : Person)
+define p (tag (dict) Person)
 
 p (_init)
 p (_getAge)    ; = 25
@@ -33,6 +37,49 @@ class Foo ()
     def _publicFunc ()
        list (privateFunc) "called by _publicFunc"
 
-define f ((dict) : Foo)
+define f (tag (dict) Foo)
 f (privateFunc) ; = error
 f (_publicFunc) ; OK
+
+Foo
+  print _vars "\n"
+  print self
+  ;;
+;;;
+;;; Examples of encapsulation via information hiding.
+;;;
+
+;;
+;; Example of an object created with private field. 
+;; The "age" slot cannot be seen since it is
+;; within the _init closure. _getAge and _setage capture
+;; the closure. 
+;;
+class Person ()
+  def _init()
+      define age 25
+      def _getAge () age
+      def _setAge (val) (set 'age val)
+
+define p (tag (dict) Person)
+
+p (_init)
+p (_getAge)    ; = 25
+p (_setAge 26) ; = 26
+
+;;
+;; Example of a class with a private method.  
+;; 
+class Foo ()
+    def privateFunc () "I am private. You cannot call me directly"
+    def _publicFunc ()
+       list (privateFunc) "called by _publicFunc"
+
+define f (tag (dict) Foo)
+f (privateFunc) ; = error
+f (_publicFunc) ; OK
+
+Foo
+  print _vars "\n"
+  print self
+  
