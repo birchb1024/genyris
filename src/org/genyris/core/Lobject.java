@@ -62,7 +62,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     }
 
     public boolean isSelfEvaluating() {
-        return false;
+        return true;
     }
 
     public boolean hasKey(Exp a) {
