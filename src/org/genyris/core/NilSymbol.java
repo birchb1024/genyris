@@ -27,4 +27,9 @@ public class NilSymbol extends Lsymbol {
         return getPrintName();
     }
 
+    public boolean isSelfEvaluating() {
+        return true;
+    }
+
+
 }
