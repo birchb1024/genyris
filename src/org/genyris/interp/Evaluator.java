@@ -31,8 +31,9 @@ public class Evaluator {
                 throw new GenyrisException("Attempt to call something which is not callable." + expression.toString());
             }
         }
-        else
-            return NIL;
+        else {
+            throw new GenyrisException("Evaluator does not know how to eval: " + expression.toString());
+        }
     }
 
     public static Exp evalSequence(Environment env, Exp body) throws GenyrisException {
