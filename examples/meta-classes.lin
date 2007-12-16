@@ -52,6 +52,7 @@ class MyMetaClass()
       backquote
          define ,name ,klass
 
+;; Create a new class
 (MyMetaClass_new) Rye(Thing)
    def _dark?() true
 
