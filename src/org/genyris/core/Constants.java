@@ -46,12 +46,12 @@ public class Constants {
         public static final String DOUBLE = "Double";
         public static final String INTEGER = "Integer";
         public static final String STRING = "String";
-        public static final String OBJECT = "Object";
+        public static final String OBJECT = "Dictionary";
         public static final String JAVAOBJECT = "JavaObject";
         public static final String JAVAMETHOD = "JavaMethod";
         public static final String VARS = DYNAMICSCOPECHAR + "vars";
         public static final String TRUE = "true";
-
+        public static final String CLOSURE = "Closure";
 
 
 

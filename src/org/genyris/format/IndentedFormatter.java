@@ -7,6 +7,7 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
@@ -18,28 +19,22 @@ import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
-import org.genyris.core.Visitor;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
-import org.genyris.java.JavaWrapper;
 
-public class IndentedFormatter implements Visitor {
+public class IndentedFormatter extends AbstractFormatter {
 
     private final int INDENT_DEPTH;
-
-    private Writer _output;
-
     private int _consDepth;
-
-    private Lsymbol NIL;
+    private Formatter _basic;
 
     public IndentedFormatter(Writer out, int indentDepth, Interpreter interp) {
-        _output = out;
+        super(out, interp.getNil());
         INDENT_DEPTH = indentDepth;
         _consDepth = 0;
-        NIL = interp.getNil();
+        _basic = new BasicFormatter(out, NIL);
     }
 
     private void printSpaces(int level) throws IOException {
@@ -54,9 +49,9 @@ public class IndentedFormatter implements Visitor {
         int countOfRight = 0;
         if (cons instanceof LconsWithcolons) {
             printSpaces(_consDepth);
-            _output.write(cons.car().toString());
+            cons.car().acceptVisitor(_basic);
             _output.write(" " + Constants.CDRCHAR + " ");
-            _output.write(cons.cdr().toString());
+            cons.cdr().acceptVisitor(_basic);
             _consDepth -= 1;
             return;
         }
@@ -71,7 +66,7 @@ public class IndentedFormatter implements Visitor {
                             _output.write(' ');
                         else
                             printSpaces(_consDepth);
-                        _output.write(headCons.car().toString());
+                        headCons.car().acceptVisitor(_basic);
                         head = headCons.cdr();
                         continue;
                     }
@@ -184,24 +179,5 @@ public class IndentedFormatter implements Visitor {
 
     }
 
-    public void visitClassWrapper(ClassWrapper klass) {
-        try {
-            _output.write(klass.toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    public void visitLobject(JavaWrapper wrapper) {
-        try {
-            _output.write("<JavaObject: " + wrapper.toString() + ">");
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
 
 }

@@ -7,6 +7,7 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
@@ -18,21 +19,16 @@ import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
-import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.SpecialEnvironment;
-import org.genyris.interp.StandardEnvironment;
 import org.genyris.interp.UnboundException;
-import org.genyris.java.JavaWrapper;
 
-public class BasicFormatter implements Visitor {
+public class BasicFormatter extends  AbstractFormatter {
 
-    private Writer _output;
 
-    public BasicFormatter(Writer out) {
-        _output = out;
+    public BasicFormatter(Writer out, Lsymbol nil) {
+        super(out, nil);
     }
 
     public void visitLobject(Lobject frame) {
@@ -51,15 +47,7 @@ public class BasicFormatter implements Visitor {
             new ClassWrapper(frame).acceptVisitor(this);
             return;
         }
-
-        try {
-            _output.write(frame.getAlist().toString());
-
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        frame.getAlist().acceptVisitor(this);
 
     }
 
@@ -179,45 +167,5 @@ public class BasicFormatter implements Visitor {
         }
     }
 
-    public void visitStandardEnvironment(StandardEnvironment env) {
-        try {
-            _output.write(env.getJavaValue().toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void visitSpecialEnvironment(SpecialEnvironment env) {
-        try {
-            _output.write(env.getJavaValue().toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void visitClassWrapper(ClassWrapper klass) {
-        try {
-            _output.write(klass.toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void visitLobject(JavaWrapper wrapper) {
-        try {
-            _output.write("<JavaObject: " + wrapper.toString() + ">");
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
 
 }

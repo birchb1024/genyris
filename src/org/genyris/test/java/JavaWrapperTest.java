@@ -12,6 +12,7 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Exp;
 import org.genyris.format.BasicFormatter;
+import org.genyris.format.Formatter;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.InStream;
@@ -38,7 +39,7 @@ public class JavaWrapperTest extends TestCase {
         Exp result = _interpreter.evalInGlobalEnvironment(expression);
 
         StringWriter out = new StringWriter();
-        BasicFormatter formatter = new BasicFormatter(out);
+        Formatter formatter = new BasicFormatter(out, _interpreter.getNil());
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
     }

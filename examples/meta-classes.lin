@@ -1,0 +1,61 @@
+;;
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;;
+;;;
+;;; Metaclass programming.
+;;;
+
+; Alternative definition of the inbuilt 'class' function
+; does not fix up references in superclasses _subclasses yet..
+
+defmacro myclass (name superclasses &rest body)
+   define klass (dict)
+   klass
+      define _classname name
+      tag self StandardClass
+      define _subclasses nil
+      define _superclasses
+         map-left superclasses symbol-value
+      add-to-subclasses superclasses klass
+      eval body
+   backquote
+      define ,name ,klass
+
+def add-to-subclasses (supers klass)
+   nil  ; not coded
+
+myclass Bread (Thing)
+  def _method1() "Hello1"
+  def _method2() "Hello2"
+
+;;
+;; Example of a meta-class, new classes are made with "_new"
+;;
+class MyMetaClass()
+    defmacro _new (name superclasses &rest body)
+      define klass (dict)
+      klass
+         define _classname name
+         tag self MyMetaClass
+         define _subclasses nil
+         define _superclasses
+            map-left superclasses symbol-value
+         add-to-subclasses superclasses klass
+         eval body
+      backquote
+         define ,name ,klass
+
+;; Create a new class
+(MyMetaClass_new) Rye(Thing)
+   def _dark?() true
+
+
+
+

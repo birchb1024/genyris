@@ -5,10 +5,7 @@
 //
 package org.genyris.core;
 
-import java.io.StringWriter;
-
 import org.genyris.exception.AccessException;
-import org.genyris.format.BasicFormatter;
 
 public class Lcons extends ExpWithEmbeddedClasses {
 
@@ -62,9 +59,7 @@ public class Lcons extends ExpWithEmbeddedClasses {
     }
 
     public String toString() {
-        StringWriter out = new StringWriter();
-        acceptVisitor(new BasicFormatter(out));
-        return out.getBuffer().toString();
+        return "<Lcons>"; // Use a BasicFormatter instead please!
     }
     public String getBuiltinClassName() {
         return Constants.PAIR;

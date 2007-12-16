@@ -20,7 +20,7 @@ def tak (x y z)
 define result (tak 18 12 6)
 
 cond
- (equal result 7)
+ (equal? result 7)
     "Tak passed"
  else
     raise

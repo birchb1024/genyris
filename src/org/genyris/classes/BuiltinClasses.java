@@ -40,16 +40,16 @@ public class BuiltinClasses {
         Lobject builtin = mkClass(classname, "Builtin", env, STANDARDCLASS, THING);
         Lobject pair = mkClass(classname, "Pair", env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, pair);
-        mkClass(classname, "Object", env, STANDARDCLASS, builtin);
-        mkClass(classname, "Integer", env, STANDARDCLASS, builtin);
-        mkClass(classname, "Bignum", env, STANDARDCLASS, builtin);
-        mkClass(classname, "String", env, STANDARDCLASS, builtin);
-        mkClass(classname, "Double", env, STANDARDCLASS, builtin);
-        mkClass(classname, "Symbol", env, STANDARDCLASS, builtin);
-        mkClass(classname, "JavaObject", env, STANDARDCLASS, builtin);
-        mkClass(classname, "JavaMethod", env, STANDARDCLASS, builtin);
-        Lobject closure = mkClass(classname, "Closure", env, STANDARDCLASS, builtin);
-        mkClass(classname, "EagerProcedure", env, STANDARDCLASS, closure);
-        mkClass(classname, "LazyProcedure", env, STANDARDCLASS, closure);
+        mkClass(classname, Constants.OBJECT, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.INTEGER, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.BIGNUM, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.STRING, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.DOUBLE, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.SYMBOL, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.JAVAOBJECT, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.JAVAMETHOD, env, STANDARDCLASS, builtin);
+        Lobject closure = mkClass(classname, Constants.CLOSURE, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.EAGERPROCEDURE, env, STANDARDCLASS, closure);
+        mkClass(classname, Constants.LAZYPROCEDURE, env, STANDARDCLASS, closure);
     }
 }

@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
+import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.InStream;
 import org.genyris.io.Parser;
@@ -17,23 +18,23 @@ import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
 
 public class TestUtilities {
-	
-	public Interpreter _interpreter;
-	
-	public TestUtilities() throws GenyrisException {
-		_interpreter = new Interpreter();
-	}
 
-	public String eval(String script) throws GenyrisException {
-		InStream input = new UngettableInStream( new StringInStream(script));
-		Parser parser = _interpreter.newParser(input);
-		Exp expression = parser.read(); 
-		Exp result = _interpreter.evalInGlobalEnvironment(expression);
-		
-		StringWriter out = new StringWriter();
-		BasicFormatter formatter = new BasicFormatter(out);
-		result.acceptVisitor(formatter);
-		return out.getBuffer().toString();
-	}
+    public Interpreter _interpreter;
+
+    public TestUtilities() throws GenyrisException {
+        _interpreter = new Interpreter();
+    }
+
+    public String eval(String script) throws GenyrisException {
+        InStream input = new UngettableInStream( new StringInStream(script));
+        Parser parser = _interpreter.newParser(input);
+        Exp expression = parser.read();
+        Exp result = _interpreter.evalInGlobalEnvironment(expression);
+
+        StringWriter out = new StringWriter();
+        Formatter formatter = new BasicFormatter(out, _interpreter.getNil());
+        result.acceptVisitor(formatter);
+        return out.getBuffer().toString();
+    }
 
 }

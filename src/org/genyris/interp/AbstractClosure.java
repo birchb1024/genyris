@@ -22,23 +22,26 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
     Lsymbol NIL, REST;
     Exp _returnClass;
 
-    public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl) throws GenyrisException {
+    public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl)
+            throws GenyrisException {
         _env = environment;
         _lambdaExpression = expression;
         _functionToApply = appl;
         _numberOfRequiredArguments = -1;
         NIL = environment.getNil();
         _returnClass = null;
-        REST = environment.getInterpreter().getSymbolTable().internString(Constants.REST); // TOD performance
+        REST = environment.getInterpreter().getSymbolTable().internString(Constants.REST); // TOD
+        // performance
     }
 
     private int countFormalArguments(Exp exp) throws AccessException {
         int count = 0;
-        while( exp != NIL ) {
-            if(!(exp instanceof Lcons)) { // ignore trailing type specification
+        while (exp != NIL) {
+            if (!(exp instanceof Lcons)) { // ignore trailing type
+                // specification
                 break;
             }
-            if( ((Lcons)exp).car() == REST ) {
+            if (((Lcons) exp).car() == REST) {
                 count += 1;
                 break;
             }
@@ -49,10 +52,11 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
     }
 
     public Exp getArgumentOrNIL(int index) throws AccessException {
-        if( getNumberOfRequiredArguments() <= index)
+        if (getNumberOfRequiredArguments() <= index) {
             return NIL; // ignore extra arguments
-        else
+        } else {
             return _lambdaExpression.cdr().car().nth(index, NIL);
+        }
     }
 
     public Object getJavaValue() {
@@ -66,7 +70,8 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
     public abstract Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException;
 
     public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
-        return _functionToApply.bindAndExecute(this, arguments, environment); // double dispatch
+        return _functionToApply.bindAndExecute(this, arguments, environment); // double
+        // dispatch
     }
 
     public Environment getEnv() {
@@ -74,7 +79,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
     }
 
     public int getNumberOfRequiredArguments() throws AccessException {
-        if( _numberOfRequiredArguments < 0 ) {
+        if (_numberOfRequiredArguments < 0) {
             _numberOfRequiredArguments = countFormalArguments(_lambdaExpression.cdr().car());
         }
         return _numberOfRequiredArguments;
@@ -89,7 +94,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
             return NIL;
         Exp tmp = args;
         while (tmp.cdr() != NIL) {
-            if(!(tmp.cdr() instanceof Lcons)) {
+            if (!(tmp.cdr() instanceof Lcons)) {
                 break;
             }
             tmp = tmp.cdr();
@@ -99,13 +104,13 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
 
     public Exp getLastArgumentOrNIL() throws AccessException {
         Exp args = _lambdaExpression.cdr().car();
-            // TODO - clean up
+        // TODO - clean up
         return lastArgument(args);
 
     }
 
     public Exp getReturnClassOrNIL() throws AccessException, UnboundException {
-        if(_returnClass != null) {
+        if (_returnClass != null) {
             return _returnClass;
         }
         Exp args = _lambdaExpression.cdr().car();
@@ -113,8 +118,9 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
         _returnClass = NIL;
         if (args != NIL) {
             Exp tmp = args;
-            while (tmp.cdr() != NIL) { // TODO refactor this loop into constructor for better performance?
-                if(!(tmp.cdr() instanceof Lcons)) {
+            while (tmp.cdr() != NIL) { // TODO refactor this loop into
+                // constructor for better performance?
+                if (!(tmp.cdr() instanceof Lcons)) {
                     returnTypeSymbol = tmp.cdr();
                     _returnClass = _env.lookupVariableValue(returnTypeSymbol);
                     break;

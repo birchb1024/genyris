@@ -14,33 +14,37 @@ public class Evaluator {
 
     // TODO - refactor this to use visitor in Exp and gt rid of if()s
 
-    public static Exp eval(Environment env, Exp expression) throws UnboundException, AccessException, GenyrisException {
-        Lsymbol NIL = env.getNil();
-        if( expression.isSelfEvaluating()) {
-            return expression; }
-        else if( expression.getClass() == Lsymbol.class) {
+    public static Exp eval(Environment env, Exp expression) throws UnboundException,
+            AccessException, GenyrisException {
+        if (expression.isSelfEvaluating()) {
+            return expression;
+        }
+        else if (expression.getClass() == Lsymbol.class) {
             return env.lookupVariableValue(expression);
         }
-        else if( expression.listp() ) {
+        else if (expression.listp()) {
             try {
                 Closure proc = (Closure) eval(env, expression.car());
                 Exp[] arguments = proc.computeArguments(env, expression.cdr());
-                return proc.applyFunction(env, arguments );
+                return proc.applyFunction(env, arguments);
             }
             catch (ClassCastException e) {
-                throw new GenyrisException("Attempt to call something which is not callable." + expression.toString());
+                throw new GenyrisException("Attempt to call something which is not callable."
+                        + expression.toString());
             }
         }
-        else
-            return NIL;
+        else {
+            throw new GenyrisException("Evaluator does not know how to eval: "
+                    + expression.toString());
+        }
     }
 
     public static Exp evalSequence(Environment env, Exp body) throws GenyrisException {
         Lsymbol NIL = env.getNil();
-        if(body == NIL) {
+        if (body == NIL) {
             return NIL;
         }
-        if( body.cdr() == NIL) {
+        if (body.cdr() == NIL) {
             return eval(env, body.car());
         }
         else {
@@ -48,6 +52,5 @@ public class Evaluator {
             return evalSequence(env, body.cdr());
         }
     }
-
 
 }

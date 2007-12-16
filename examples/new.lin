@@ -1,0 +1,51 @@
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;;
+;;;
+;;; Examples of constructors
+;;;
+
+;;
+;;  Simple constructor in a class
+;;
+class Person ()
+   def _new (name date-of-birth)
+      dict
+         _name : name
+         _dob : date-of-birth
+         _classes : (list Person)
+
+
+define jo
+   (Person_new) "Jo" 23
+
+;;
+;;  Derived class calls super-class constructor
+;;
+class Employee (Person)
+   def _new (name date-of-birth salary-number)
+      ((Person_new) name date-of-birth)
+          define _salary-number salary-number
+          define _classes (list Employee)
+          self
+
+define fred
+   (Employee_new) "Fred Smith" 45 123123123
+
+;;
+;; Add to an existing object to make it belong to a new class.
+;;
+class Manager (Employee)
+
+  def _new (employee grade)
+     employee : Employee
+     employee
+        define _managment-grade grade
+     tag employee Manager
+
+; promote fred
+(Manager_new) fred "project mangler"
+
+
