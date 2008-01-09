@@ -1,0 +1,4 @@
+set! httpd-serve
+  lambdaq (request)
+    cons 200
+        cons "text/plain" request
