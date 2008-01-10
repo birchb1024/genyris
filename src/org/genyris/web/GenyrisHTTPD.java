@@ -13,8 +13,9 @@ import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
+import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
-import org.genyris.format.IndentedFormatter;
+import org.genyris.format.HTMLFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
@@ -87,36 +88,41 @@ public class GenyrisHTTPD extends NanoHTTPD {
         request = new Lcons(new Lstring(uri), request);
         request = new Lcons(new Lstring(method), request);
 
-        {
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            Writer output = new PrintWriter(buffer);
-            Formatter formatter = new IndentedFormatter(output, 1, interpreter);
-            // (httpd-serve request)
-            Exp expression = new Lcons(interpreter.getSymbolTable().internString("httpd-serve"),new Lcons(request,NIL));
-            {
-                try {
+        
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        Writer output = new PrintWriter(buffer);
+        // (httpd-serve request)
+        Exp expression = new Lcons(interpreter.getSymbolTable().internString("httpd-serve"),new Lcons(request,NIL));
+      
+        try {
+        	Formatter formatter;
 
-                    Exp result = interpreter.evalInGlobalEnvironment(expression);
-                    String status = result.car().toString();
-                    result = result.cdr();
-                    String mime = result.car().toString();
-                    result = result.cdr();
-                    result.acceptVisitor(formatter);
-                    output.flush();
-
-                    return new Response(status, mime, new ByteArrayInputStream(buffer.toByteArray()));
-
-                }
-                catch (GenyrisException ey) {
-                    System.out.println("*** Error: " + ey.getMessage());
-                    return new Response(HTTP_OK, "text/plain", "*** Error: " + ey.getMessage());
-                }
-                catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            Exp result = interpreter.evalInGlobalEnvironment(expression);
+            String status = result.car().toString();
+            result = result.cdr();
+            String mime = result.car().toString();
+            if(mime.equals("text/html")) { 
+            	 formatter = new HTMLFormatter(output, interpreter.getNil());
             }
+            else {
+            	 formatter = new BasicFormatter(output, interpreter.getNil());            	
+            }
+            result = result.cdr();
+            result.acceptVisitor(formatter);
+            output.flush();
 
-            return new Response();
+            return new Response(status, mime, new ByteArrayInputStream(buffer.toByteArray()));
+
         }
+        catch (GenyrisException ey) {
+            System.out.println("*** Error: " + ey.getMessage());
+            return new Response(HTTP_OK, "text/plain", "*** Error: " + ey.getMessage());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return new Response();
+        
     }
 }

@@ -14,6 +14,11 @@ defmacro if (test success-result failure-result)
          ,test ,success-result
          true ,failure-result
 
+defmacro df (name args &rest body)
+   backquote
+     set! ,name
+       lambdaq ,args ,@body
+
 define left car
 define right cdr
 def cadr (x) (car (cdr x))
