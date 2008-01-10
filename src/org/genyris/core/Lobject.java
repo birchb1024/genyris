@@ -8,6 +8,7 @@ package org.genyris.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -28,13 +29,13 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     Exp _self, CLASSES, SUPERCLASSES, CLASSNAME, VARS;
 
     public Lobject(Environment parent) {
-        _dict = new HashMap();
+        _dict = new TreeMap();
         _parent = parent;
         init();
     }
 
     public Lobject(Lsymbol key, Exp value, Environment parent) {
-        _dict = new HashMap();
+       _dict = new TreeMap();
         _dict.put(key, value);
         _parent = parent;
         init();
