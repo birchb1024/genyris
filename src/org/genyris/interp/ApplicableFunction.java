@@ -8,12 +8,13 @@ package org.genyris.interp;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 
 public abstract class ApplicableFunction {
 
     protected Interpreter _interp;
-    protected Exp NIL, TRUE;
+    protected Lsymbol NIL, TRUE;
     protected Exp _lambda, _lambdam, _lambdaq;
 
     public ApplicableFunction(Interpreter interp) {

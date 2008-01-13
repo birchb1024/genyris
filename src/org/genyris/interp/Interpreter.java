@@ -19,6 +19,7 @@ import org.genyris.core.SymbolTable;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.PrintFunction;
+import org.genyris.interp.builtin.ApplyFunction;
 import org.genyris.interp.builtin.BackquoteFunction;
 import org.genyris.interp.builtin.BoundFunction;
 import org.genyris.interp.builtin.CarFunction;
@@ -114,6 +115,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("eq?"), new EagerProcedure(_globalEnvironment, null, new EqFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("dict"), new LazyProcedure(_globalEnvironment, null, new ObjectFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("eval"), new EagerProcedure(_globalEnvironment, null, new EvalFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("apply"), new EagerProcedure(_globalEnvironment, null, new ApplyFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("symbol-value"), new EagerProcedure(_globalEnvironment, null, new SymbolValueFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("the"), new EagerProcedure(_globalEnvironment, null, new IdentityFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("list"), new EagerProcedure(_globalEnvironment, null, new ListFunction(this)));
@@ -165,7 +167,7 @@ public class Interpreter {
         return NIL;
     }
 
-    public Exp getTrue() {
+    public Lsymbol getTrue() {
         return TRUE;
     }
 
