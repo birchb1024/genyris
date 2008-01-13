@@ -18,52 +18,15 @@
 ;; the closure. 
 ;;
 class Person ()
-  def _init()
-      define age 25
-      def _getAge () age
-      def _setAge (val) (set 'age val)
+   def _new()
+      (tag (dict) self)
+         define age 25
+         def _getAge () age
+         def _setAge (val) (set 'age val)
+         self
 
-define p (tag (dict) Person)
-
-p (_init)
-p (_getAge)    ; = 25
-p (_setAge 26) ; = 26
-
-;;
-;; Example of a class with a private method.  
-;; 
-class Foo ()
-    def privateFunc () "I am private. You cannot call me directly"
-    def _publicFunc ()
-       list (privateFunc) "called by _publicFunc"
-
-define f (tag (dict) Foo)
-f (privateFunc) ; = error
-f (_publicFunc) ; OK
-
-Foo
-  print _vars "\n"
-  print self
-  ;;
-;;;
-;;; Examples of encapsulation via information hiding.
-;;;
-
-;;
-;; Example of an object created with private field. 
-;; The "age" slot cannot be seen since it is
-;; within the _init closure. _getAge and _setage capture
-;; the closure. 
-;;
-class Person ()
-  def _init()
-      define age 25
-      def _getAge () age
-      def _setAge (val) (set 'age val)
-
-define p (tag (dict) Person)
-
-p (_init)
+define p
+   Person(_new)   
 p (_getAge)    ; = 25
 p (_setAge 26) ; = 26
 
