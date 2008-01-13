@@ -26,7 +26,7 @@ public class TagFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment environment) throws GenyrisException {
         if( arguments.length != 2)
-            throw new GenyrisException("Too few arguments to tag: " + arguments.length);
+            throw new GenyrisException("Tag expected 2 args, got: " + arguments.length);
         Exp object = arguments[0];
         Lobject klass = (Lobject) arguments[1]; //TODO type check
         callValidator(environment, object, klass);
