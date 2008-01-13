@@ -47,4 +47,5 @@ def map-left (some-list some-function)
             map-left (right some-list) some-function
 
 
-"loaded init.lin"
+load "org/genyris/load/boot/object.lin"
+
