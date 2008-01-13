@@ -1,0 +1,68 @@
+\documentclass[a4paper,12pt,dvips]{article}
+\usepackage[pdftex]{graphicx}
+%%\usepackage[pdftex,bookmarksnumbered=true]{hyperref} 
+%%\addtolength{\parskip}{0.5\baselineskip}
+\begin{document}
+%%\DeclareGraphicsExtensions{.mps,.pdf,.ps,.eps,.png,.gif,.jpg,.jpeg}
+\author{Bill Birch}
+\title{Genyris Language Tutorial}
+%\date{28 July 2004}
+\maketitle
+\begin{center}
+\Huge DRAFT
+\end{center}
+\begin{abstract}
+This document provides a gentle introduction to programming in the Genyris language. The Genyris language is a derivative of Lisp except its syntax eliminates most parentheses yet retains infix notation. It supports generic programming through macros and lazy procedures. All objects may be used as functions, and are classifiable. It offers a style of object-oriention where all objects can have many classes. 
+
+\end{abstract}
+\tableofcontents
+\pagebreak
+\section{Getting Started}
+Genyris is available as a binary executable java ``jar'' file. You don't need to understand Java to use Genyris. You will need the Java 1.5 JRE or later to run the Genyris interpreter. Check with your JRE
+version with this command:
+
+\begin{verbatim}
+  $ java -version
+\end{verbatim}
+Start the Genyris command-line interpreter with this command:
+
+\begin{verbatim}
+  $ java -jar genyris-bin-nnn-xxxxxxxxx.jar
+\end{verbatim}
+
+You will see some messages followed by a prompt indicating the interpreter is ready for your input:
+
+\begin{verbatim}
+  *** Genyris is listening...
+
+  >
+\end{verbatim}
+
+Commands can now be typed in at the prompt, use two carriage returns to terminate statement. For example to add two numbers type:
+\begin{verbatim}
+> + 42 37
+\end{verbatim}
+\hookleftarrow
+\hookleftarrow
+Genyris responds with the answer and some other information:
+\begin{verbatim}
+~ 79 ; Bignum
+\end{verbatim}
+
+\section{Syntax}
+Before we can start writing programs we must first describe the syntax of the language. 
+\subsection{Numbers}
+\subsection{Strings}
+\subsection{Symbols}
+\subsection{Everything is a list.}
+\section{Functions}
+\subsection{Calling Simple Functions}
+\subsection{Defining Functions}
+
+\begin{thebibliography}{99}
+\bibitem{GenyrisPaper} 
+\emph{List Processing with Latent Polymorphic Types}, Bill Birch, April 3 2005 \begin{verbatim}http://downloads.sourceforge.net/genyris/GenyrisEssay20040826.pdf\end{verbatim}
+\end{thebibliography}
+
+
+\end{document}
