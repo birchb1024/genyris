@@ -49,6 +49,8 @@ class MyMetaClass()
             map-left superclasses symbol-value
          add-to-subclasses superclasses klass
          eval body
+		 def _new()
+		    define _wheat nil
       backquote
          define ,name ,klass
 

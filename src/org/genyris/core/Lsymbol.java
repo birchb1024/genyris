@@ -6,7 +6,7 @@
 package org.genyris.core;
 
 
-public class Lsymbol extends ExpWithEmbeddedClasses {
+public class Lsymbol extends ExpWithEmbeddedClasses implements Comparable {
 
     protected String _printName;
 
@@ -50,5 +50,14 @@ public class Lsymbol extends ExpWithEmbeddedClasses {
     public String getBuiltinClassName() {
         return Constants.SYMBOL;
     }
+
+	public int compareTo(Object arg0) {
+		if(arg0 instanceof Lsymbol) { 
+			return ((Lsymbol) arg0)._printName.compareTo(this._printName);
+//			return this._printName.compareTo(((Lsymbol) arg0)._printName);
+		} else {
+			throw new ClassCastException("Lsymbol compareTo on " + arg0);
+		}
+	}
 
 }
