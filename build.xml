@@ -66,10 +66,11 @@
     </target>
 
     <target name="only-binary-jar">
-        <jar destfile="${dist.dir}/genyris-bin.jar" basedir=".">
+        <jar destfile="${dist.dir}/genyris-bin.jar" duplicate="fail">
             <fileset dir="${src.compile.dir}" includes="**/*.class" />
             <fileset dir="${src.dir}" includes="**/*.lin" />
             <fileset dir="${src.dir}" includes="**/*.properties" />
+            <fileset dir="${basedir}/examples" includes="**/*" />
         </jar>
     </target>
 
