@@ -12,44 +12,43 @@ def between (low it high)
 
 class Person ()
    def _valid? (obj)
-      obj (bound? _age)
+      obj
+         bound? _age
 
 class Kid (Person)
    def _valid? (obj)
-      and
-         Person (_valid? obj)
-         < (obj _age) 15
+      obj
+         and
+            (Person_valid?) self
+            < _age 15
 
 class Senior (Person)
    def _valid? (obj)
-      and
-         Person (_valid? obj)
-         between 46 (obj _age) 60
+      obj
+         and
+            (Person_valid?) self
+            between 46 _age 60
 
 class Boomer (Person)
    def _valid? (obj)
-      and
-         Person (_valid? obj)
-         between 15 (obj _age) 45
+      obj
+         and
+            (Person_valid?) self
+            between 15 _age 45
 
 class Hippie (Boomer)
    def _valid? (obj)
-      and
-         Boomer (_valid? obj)
-         obj (bound? _bong)
+      obj
+         and
+            (Boomer_valid?) self
+            bound? _bong
 
 define noel
   dict
+     _name: "Noel"
      _age: 42
      _bong: true
-noel
-     def _print ()
-       print
-          "Noel's classes: "
-          map-left (noel_classes)
-             lambda (c)
-                c _classname
-          ~ "\n"
 
 Thing (_classify noel)
-noel (_print)
+noel
+
