@@ -4,3 +4,4 @@ syntax: glob
 *log
 *class
 build
+dist

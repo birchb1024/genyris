@@ -1,52 +1,31 @@
-<project name="Genyris" default="" basedir=".">
+<project name="Genyris" default="all" basedir=".">
 
-    <!-- ================================================================== -->
-    <!--                      Build Properties                              -->
-    <!-- ================================================================== -->
-    <import file="conf/ant/build-properties.xml" />
+    <property name="needed.lib.dir" value="needed" />
+    <property name="junit.lib.dir" value="needed" />
+    <property name="build.dir" value="build" />
+    <property name="dist.dir" value="dist" />
+    <property name="src.compile.dir" value="${build.dir}/classes" />
+    <property name="src.dir" value="src" />
 
-    <property name="production.war.file.name" value="${app.name}.war" />
+    <target name="all" depends="only-init, only-compile" description="Build all." />
+    <target name="clean" depends="only-clean" />
 
-    <!-- =================================================================== -->
-    <!-- External targets defined below.  Only targets with no beginning     -->
-    <!-- stroke should be callable at the top level.  Each target below      -->
-    <!-- should contain a single dependency.                                 -->
-    <!-- =================================================================== -->
-    <target name="all" depends="--all" description="Build all." />
-    <target name="src-compile" depends="-clean, -init, -src-compile" />
-    <target name="clean" depends="-clean" />
-    <target name="production-war" depends="-src-compile, -production-war" />
-
-    <!-- =================================================================== -->
-    <!-- All dependencies should be expressed below in targets beginning     -->
-    <!-- with 2 strokes.  Internal targets begin with one stroke and         -->
-    <!-- should not contain any hidden dependencies                          -->
-    <!-- =================================================================== -->
-    <target name="--all" depends="src-compile, --test-compile" />
-    <target name="--test-compile" depends="src-compile, -test-init, -test-compile" />
-
-    <!-- ================================================================== -->
-    <!--                        File sets                                   -->
-    <!-- ================================================================== -->
-    <fileset id="src.config.files" dir="${java.src.dir}">
-        <include name="genyris.properties" />
-    </fileset>
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
         <include name="bsf.jar" />
         <include name="commons-logging-1.1.jar" />
         <include name="servlet-api.jar" />
-     </fileset>
+    </fileset>
 
     <!-- Libraries required in the web classpath. -->
-    <fileset id="web-inf.libs" dir="${lib.dir}">
+    <fileset id="web-inf.libs" dir="${needed.lib.dir}">
         <include name="bsf.jar" />
         <include name="commons-logging-1.1.jar" />
     </fileset>
 
     <!-- Servlet Libraries, release should not include these. -->
-    <fileset id="servlet.libs" dir="${testlib.dir}">
+    <fileset id="servlet.libs" dir="${needed.lib.dir}">
         <include name="servlet-api.jar" />
     </fileset>
 
@@ -58,25 +37,6 @@
     <!-- Classpath for JUnit testing -->
     <fileset id="junit.libs" file="${junit.lib.dir}/junit.jar" />
 
-    <path id="test.common.classpath">
-        <path refid="src.compile.classpath" />
-        <fileset refid="junit.libs" />
-    </path>
-
-    <path id="test.classpath">
-        <path refid="test.common.classpath" />
-        <pathelement location="${src.compile.dir}" />
-        <pathelement location="${test.compile.dir}" />
-    </path>
-
-    <fileset id="unit.test.class.files" dir="${test.compile.dir}" includes="**/*Test.class" />
-
-
-    <fileset id="ear.manifest.file" dir="${ear.dir}/META-INF" includes="application.xml" />
-
-    <filterset id="production.ear.manifest.tokens.filter.common">
-        <filter token="war.name" value="${production.war.file.name}" />
-    </filterset>
 
     <!-- ================================================================== -->
     <!--                        Classpaths                                  -->
@@ -86,85 +46,36 @@
         <fileset refid="web-inf.libs" />
         <fileset refid="servlet.libs" />
         <fileset refid="junit.libs" />
-</path>
+    </path>
 
-    <!-- =================================================================== -->
-    <!-- Imported targets                                                    -->
-    <!-- =================================================================== -->
-    <import file="${ant.conf.dir}/build-compile.xml" />
-    <import file="${ant.conf.dir}/build-test.xml" />
-
-    <!-- =================================================================== -->
-    <!-- Generic targets                                                     -->
-    <!-- =================================================================== -->
-    <target name="-init">
-        <echo message="Project Name: ${ant.project.name}">
-        </echo>
-        <echo message="Label Passed: ${project.title}${project.version}">
-        </echo>
-        <echo message="App Name: ${app.name}">
-        </echo>
-        <echo message="Preparing work directories" />
-        <echo message="Base Dir: ${basedir}" />
+    <target name="only-init">
         <mkdir dir="${build.dir}" />
+        <mkdir dir="${dist.dir}" />
         <mkdir dir="${src.compile.dir}" />
     </target>
 
-    <target name="-clean">
+    <target name="only-clean">
         <delete dir="${build.dir}" />
+        <delete dir="${dist.dir}" />
     </target>
 
-    <target name="--set-development-tag">
-        <property name="production.build" value="false" />
+    <target name="only-compile">
+        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath">
+            <include name="org/**" />
+        </javac>
     </target>
 
-    <target name="--set-distribution-tag">
-        <property name="production.build" value="true" />
+    <target name="only-binary-jar">
+        <jar destfile="${dist.dir}/genyris-bin.jar" basedir=".">
+            <fileset dir="${src.compile.dir}" includes="**/*.class" />
+            <fileset dir="${src.dir}" includes="**/*.lin" />
+            <fileset dir="${src.dir}" includes="**/*.properties" />
+        </jar>
     </target>
 
-
-    <!-- =================================================================== -->
-    <!-- Assemble distribution ZIPs                                          -->
-    <!-- =================================================================== -->
-    <target name="-production-init">
-        <mkdir dir="${dist.dir}" />
-        <mkdir dir="${production.war.dir}" />
+    <target name="binary-jar" description="compile and create jar"
+        depends="only-compile, only-binary-jar">
     </target>
 
-    <macrodef name="copy-war-files">
-        <attribute name="destdir" />
-        <sequential>
-            <copy todir="@{destdir}" includeemptydirs="false">
-                <fileset dir="${web.dir}">
-                    <exclude name="**/web.xml" />
-                    <exclude name="WEB-INF/classes/**/*" />
-                    <exclude name="WEB-INF/jsp/**/*" />
-                </fileset>
-            </copy>
-            <copy todir="@{destdir}" includeemptydirs="false">
-                <fileset dir="${web.dir}">
-                    <include name="WEB-INF/jsp/**/*" />
-                </fileset>
-            </copy>
-            <copy todir="@{destdir}/WEB-INF/classes" includeemptydirs="false">
-                <fileset refid="src.config.files" />
-            </copy>
-            <copy todir="@{destdir}/WEB-INF/classes" includeemptydirs="false">
-                <fileset dir="${src.compile.dir}">
-                    <include name="**/*.class" />
-                </fileset>
-            </copy>
-        </sequential>
-    </macrodef>
-
-    <target name="-production-war">
-        <copy-war-files destdir="${production.war.dir}" />
-
-        <copy overwrite="true" todir="${production.war.dir}/WEB-INF/classes">
-            <fileset refid="product.properties.files" />
-        </copy>
-
-        <war destfile="${production.war.dir}/${production.war.file.name}" basedir="${production.war.dir}" webxml="${web.dir}/WEB-INF/web.xml" />
-    </target>
 
 </project>
