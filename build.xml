@@ -7,9 +7,25 @@
     <property name="src.compile.dir" value="${build.dir}/classes" />
     <property name="src.dir" value="src" />
 
+    <property name="web.dir" value="web/war" />
+    <property name="output.war" value="${dist.dir}/genyris.war" />
+    <property name="output.ear" value="${dist.dir}/genyris.ear" />
+    <property name="ear.project.root" value="web/ear" />
+    <property name="installed.apps.war" value="C:\ibm\WebSphere\profiles\wp_profile\installedApps\w0019\GenyrisEAR.ear\genyris.war" />
+
     <target name="all" depends="only-init, only-compile" description="Build all." />
     <target name="clean" depends="only-clean" />
 
+    <target name="binary-jar" description="compile and create jar"
+        depends="only-compile, only-binary-jar">
+    </target>
+
+	<target name="compile" depends="only-clean, only-init, only-compile" 
+	 	description="Compile the Java"/>
+	<target name="war" depends="compile, only-war"
+		description="Create war file, always compile."/>
+	<target name="ear" depends="war, only-ear"
+		description="Create ear file, compile as needed."/>
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -60,23 +76,65 @@
     </target>
 
     <target name="only-compile">
-        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath">
+        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" 
+        	classpathref="src.compile.classpath"
+       	 	source="1.4"
+        	target="1.4"
+        	verbose="no">
             <include name="org/**" />
         </javac>
     </target>
 
     <target name="only-binary-jar">
-        <jar destfile="${dist.dir}/genyris-bin.jar" duplicate="fail">
-            <fileset dir="${src.compile.dir}" includes="**/*.class" />
+        <jar destfile="${dist.dir}/genyris-bin.jar"  duplicate="fail">
+            <fileset dir="${basedir}" includes="README LICENSE" />
+            <fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
             <fileset dir="${src.dir}" includes="**/*.lin" />
             <fileset dir="${src.dir}" includes="**/*.properties" />
-            <fileset dir="${basedir}/examples" includes="**/*" />
+            <fileset dir="${basedir}" includes="examples/*.lin" />
+            <fileset dir="${basedir}" includes="testscripts/*.lin testscripts/*.lsp" />
+		    <manifest>
+		      <attribute name="Built-By" value="Peter William Birch"/>
+		      <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
+		    </manifest>            
         </jar>
     </target>
 
-    <target name="binary-jar" description="compile and create jar"
-        depends="only-compile, only-binary-jar">
-    </target>
+	
 
+	<target name="only-war">
+		<delete file="${output.war}"/>
+		<copy todir="${web.dir}/WEB-INF/lib">
+			<fileset file="${dist.dir}/genyris-bin.jar" />
+		</copy>
+		<copy todir="${web.dir}/WEB-INF/classes">
+			<fileset dir="${build.dir}/classes">
+				<include name="org/genyris/web/GenyrisServlet.class" />
+			</fileset>
+		</copy>
+		<war destfile="${output.war}" webxml="${web.dir}/WEB-INF/web.xml" manifest="${web.dir}/META-INF/MANIFEST.MF">
+			<zipfileset dir="${web.dir}">
+				<exclude name="**/WEB-INF/**/*" />
+			</zipfileset>
+			<webinf dir="${web.dir}/WEB-INF">
+				<exclude name="**/web.xml" />
+			</webinf>
+		</war>
+	</target>
+	
+	<!-- Generates the ${war.project.name} ear file for deployment -->
+	<target name="only-ear">
+		<delete file="${output.ear}" />
+		<ear appxml="${ear.project.root}/meta-inf/application.xml" destfile="${output.ear}">
+			<fileset file="${output.war}" />
+		</ear>
+	</target>
+	
+	<!-- hot deploy the jsp and class files to make a simple update in the development environment -->
+	<target name="only-hot-deploy-war">
+		<copy todir="${installed.apps.war}" >
+			<fileset dir="${web.dir}" />
+		</copy>
+	</target>
 
 </project>

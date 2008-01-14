@@ -5,3 +5,5 @@ syntax: glob
 *class
 build
 dist
+CVS
+idebuild

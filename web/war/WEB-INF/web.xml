@@ -10,7 +10,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GenyrisServlet</servlet-name>
-        <url-pattern>/genyris</url-pattern>
+        <url-pattern>/genyris/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
