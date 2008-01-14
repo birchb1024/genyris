@@ -11,18 +11,16 @@
     <property name="output.war" value="${dist.dir}/genyris.war" />
     <property name="output.ear" value="${dist.dir}/genyris.ear" />
     <property name="ear.project.root" value="web/ear" />
-    <property name="installed.apps.war" value="C:\ibm\WebSphere\profiles\wp_profile\installedApps\w0019\GenyrisEAR.ear\genyris.war" />
+    <property name="installed.apps.war" value="C:\ibm\WebSphere\profiles\wp_profile\installedApps\w0019\Genyris.ear\genyris.war" />
 
     <target name="all" depends="only-init, only-compile" description="Build all." />
     <target name="clean" depends="only-clean" />
 
-    <target name="binary-jar" description="compile and create jar"
-        depends="only-compile, only-binary-jar">
-    </target>
-
 	<target name="compile" depends="only-clean, only-init, only-compile" 
 	 	description="Compile the Java"/>
-	<target name="war" depends="compile, only-war"
+    <target name="binary-jar" depends="compile, only-binary-jar"
+         description="compile and create jar"/>
+	<target name="war" depends="binary-jar, only-war"
 		description="Create war file, always compile."/>
 	<target name="ear" depends="war, only-ear"
 		description="Create ear file, compile as needed."/>
