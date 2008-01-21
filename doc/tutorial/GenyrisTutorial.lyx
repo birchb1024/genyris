@@ -1,0 +1,902 @@
+#LyX 1.5.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 276
+\begin_document
+\begin_header
+\textclass article
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize default
+\spacing single
+\papersize a4paper
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Genyris Language Tutorial
+\end_layout
+
+\begin_layout Author
+Bill Birch
+\end_layout
+
+\begin_layout Abstract
+This document provides a gentle introduction to programming in the Genyris
+ language.
+ The Genyris language is a derivative of Lisp except its syntax eliminates
+ most parentheses yet retains infix notation.
+ It supports generic programming through macros and lazy procedures.
+ All objects may be used as functions, and are classifiable.
+ It offers a style of object-oriention where all objects can have many classes.
+\end_layout
+
+\begin_layout Standard
+
+\newpage
+
+\end_layout
+
+\begin_layout Section
+Getting Started
+\end_layout
+
+\begin_layout Standard
+Genyris is available as a binary executable Java ``jar'' file.
+ You don't need to understand Java to use Genyris.
+ You will need the Java 1.5 JRE or later to run the Genyris interpreter.
+ Check with your JRE version with this command:
+\end_layout
+
+\begin_layout LyX-Code
+$ java -version
+\end_layout
+
+\begin_layout Standard
+Start the Genyris command-line interpreter with this command: 
+\end_layout
+
+\begin_layout LyX-Code
+$ java -jar genyris-bin-nnn-xxxxxxxxx.jar
+\end_layout
+
+\begin_layout Standard
+You will see some messages followed by a prompt indicating the interpreter
+ is ready for your input:
+\end_layout
+
+\begin_layout LyX-Code
+*** Genyris is listening...
+\end_layout
+
+\begin_layout LyX-Code
+>
+\end_layout
+
+\begin_layout Standard
+Commands can now be typed in at the prompt, use two carriage returns to
+ terminate a statement.
+ For example to add two numbers type:
+\end_layout
+
+\begin_layout LyX-Code
+> + 42 37
+\end_layout
+
+\begin_layout LyX-Code
+CR
+\end_layout
+
+\begin_layout LyX-Code
+CR
+\end_layout
+
+\begin_layout Standard
+Genyris responds with the answer and some information about the result:
+\end_layout
+
+\begin_layout LyX-Code
+~ 79 ; Bignum
+\end_layout
+
+\begin_layout Section
+Syntax
+\end_layout
+
+\begin_layout Standard
+At the command line, Genyris reads lines one-by-one until it reaches the
+ end of an expression.
+ An expression ends when two blank lines are seen.
+ Within a line, tokens are separated by white-space.
+ Genyris recogises the following tokens:
+\end_layout
+
+\begin_layout Itemize
+Comments
+\end_layout
+
+\begin_layout Itemize
+Numbers
+\end_layout
+
+\begin_layout Itemize
+Strings
+\end_layout
+
+\begin_layout Itemize
+Symbols
+\end_layout
+
+\begin_layout Itemize
+Sub-expressions
+\end_layout
+
+\begin_layout Itemize
+List Pairs
+\end_layout
+
+\begin_layout Subsubsection
+Comments
+\end_layout
+
+\begin_layout Standard
+All characters following a semi-colon until the end of the line are ignored
+ by the parser.
+\end_layout
+
+\begin_layout Subsubsection
+Numbers
+\end_layout
+
+\begin_layout Standard
+Numbers can be either integers or floating point with any number of leading
+ or trailing digits.
+ Examples:
+\end_layout
+
+\begin_layout LyX-Code
+-3 23.78 -100.0089
+\end_layout
+
+\begin_layout Subsubsection
+Strings
+\end_layout
+
+\begin_layout Standard
+Strings are delimited by double the single ' and double quote characters
+ ", within a string quotes and special characters are escaped with backslash
+ 
+\backslash
+.
+ For example 
+\family typewriter
+"She said 
+\backslash
+"sea shells
+\backslash
+""
+\family default
+ yields the string:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="1">
+<features>
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+She said "sea shells"
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\newline
+
+\end_layout
+
+\begin_layout Standard
+Other escape sequences are encoded as follows:
+\newline
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="bottom" leftline="true" rightline="true" width="0">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\backslash
+n
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+New Line
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\backslash
+r
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Carriage Return
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\backslash
+f
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Form Feed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Backslash
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\backslash
+t
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Tab
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\backslash
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Quote
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Symbols
+\end_layout
+
+\begin_layout Standard
+Symbols are a group of any printable characters excluding the colon : the
+ comma , the parentheses the tilde ~ and the at character @ .
+ Symbols may start with a single underscore _ character.
+ The following are all valid symbols:
+\end_layout
+
+\begin_layout LyX-Code
+Wednesday-12
+\end_layout
+
+\begin_layout LyX-Code
+_age
+\end_layout
+
+\begin_layout LyX-Code
+*
+\end_layout
+
+\begin_layout LyX-Code
++=
+\end_layout
+
+\begin_layout Subsubsection
+Expressions and Sub-expressions
+\end_layout
+
+\begin_layout Standard
+All Genyris expressions are parsed and stored as lists.
+ A single line is converted into a single list expression.
+ Sub-expressions are denoted in two ways, either by a list within parentheses
+ on a single line, or by an indented line.
+ For example the following line contains two sub-expressions:
+\end_layout
+
+\begin_layout LyX-Code
+Alpha (Beta Charlie) (Delta)
+\end_layout
+
+\begin_layout Standard
+Sub-expressions made using parentheses must remain within a single line,
+ they are not permitted to wrap.
+ Indented lines are deemed to be sub-expressions of the superior, less indented
+ lines above.
+ The above expression can be written in indented form as follows:
+\end_layout
+
+\begin_layout LyX-Code
+Alpha
+\end_layout
+
+\begin_layout LyX-Code
+   Beta Charlie
+\end_layout
+
+\begin_layout LyX-Code
+   Delta
+\end_layout
+
+\begin_layout Standard
+Indentations must line up with previous indentations of the same level as
+ follows:
+\end_layout
+
+\begin_layout LyX-Code
+Alpha
+\end_layout
+
+\begin_layout LyX-Code
+...Beta Charlie
+\end_layout
+
+\begin_layout LyX-Code
+......Delta
+\end_layout
+
+\begin_layout LyX-Code
+...Beta              ; correct indentation
+\end_layout
+
+\begin_layout Standard
+The parser is unable to cope with random indentation levels since it does
+ not know what depth is required.
+ The following example will generate an error:
+\end_layout
+
+\begin_layout LyX-Code
+Alpha
+\end_layout
+
+\begin_layout LyX-Code
+...Beta Charlie
+\end_layout
+
+\begin_layout LyX-Code
+......Delta
+\end_layout
+
+\begin_layout LyX-Code
+.....Beta              ; ERROR
+\end_layout
+
+\begin_layout Subsubsection
+List Pairs
+\end_layout
+
+\begin_layout Standard
+Within Genyris lists are composed of Pairs of references to objects (a.k.a
+ Cons cells).
+ The left and Right halves of a pair can be explicitly written with the
+ colon : character used as an infix operator.
+ For example 
+\end_layout
+
+\begin_layout LyX-Code
+(1 : 2) 
+\end_layout
+
+\begin_layout Standard
+denotes a Pair refering to the numbers 1 and 2.
+ Normal Genyris expressions are also composed of Pairs, hence the expression:
+\end_layout
+
+\begin_layout LyX-Code
+(A B C D)
+\end_layout
+
+\begin_layout Standard
+is shorthand for, and exactly the same as :
+\end_layout
+
+\begin_layout LyX-Code
+(A : (B : (C : (D : nil))))
+\end_layout
+
+\begin_layout Standard
+Lists are terminated with the special symbol 
+\begin_inset Quotes eld
+\end_inset
+
+nil
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Likewise the indented expression below can be expressed a set of Pairs:
+\end_layout
+
+\begin_layout LyX-Code
+Alpha
+\end_layout
+
+\begin_layout LyX-Code
+   Beta
+\end_layout
+
+\begin_layout Standard
+is the same as 
+\end_layout
+
+\begin_layout LyX-Code
+(Alpha : ((Beta : nil) : nil))
+\end_layout
+
+\begin_layout Standard
+Lists do not always have to be terminated with 
+\begin_inset Quotes eld
+\end_inset
+
+nil
+\begin_inset Quotes erd
+\end_inset
+
+ , the colon : operator can be used to squeeze one more reference int the
+ end of the list.
+ For example the folowing two list are identical:
+\end_layout
+
+\begin_layout LyX-Code
+(A B : C) 
+\end_layout
+
+\begin_layout LyX-Code
+(A : ( B : C))
+\end_layout
+
+\begin_layout Subsubsection
+Line Continuation
+\end_layout
+
+\begin_layout Standard
+Sometimes long expressions become unweildy and must be continued on following
+ lines.
+ There are two mechanisms for this.
+ This first and simplest is to use the colon : operator and an indented
+ line as follows:
+\end_layout
+
+\begin_layout LyX-Code
+list 1 2 4 5 : 
+\end_layout
+
+\begin_layout LyX-Code
+   6 7 8
+\end_layout
+
+\begin_layout Standard
+This is equivalent to: 
+\end_layout
+
+\begin_layout LyX-Code
+list 1 2 4 5 : (6 7 8)
+\end_layout
+
+\begin_layout Standard
+which is the same as:
+\end_layout
+
+\begin_layout LyX-Code
+list 1 2 4 5 6 7 8
+\end_layout
+
+\begin_layout Standard
+The parser also has a special line continuation character (the tilde ~)
+ which continues the previous line indentation level at the start of the
+ line under which it is placed.
+ This allows arbitrary continuations such as:
+\end_layout
+
+\begin_layout LyX-Code
+quote
+\end_layout
+
+\begin_layout LyX-Code
+   1 2
+\end_layout
+
+\begin_layout LyX-Code
+      3
+\end_layout
+
+\begin_layout LyX-Code
+      ~ 22 ; Pair
+\end_layout
+
+\begin_layout Standard
+which is the same as:
+\end_layout
+
+\begin_layout Standard
+quote '(1 2 (3) 22)
+\end_layout
+
+\begin_layout Subsubsection
+Quoting Expressions
+\end_layout
+
+\begin_layout Standard
+To prevent the evaluator from eagerly converting values and calling functions,
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+quote
+\begin_inset Quotes erd
+\end_inset
+
+ function is provided.
+ If a single quote character is placed before an expression, the parser
+ converts this into quote expression.
+ The comma and comma-at syntax is also supported as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+input
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+translation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+'w
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(quote w)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+'(1 2 3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(quote (1 2 3)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+,e
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(comma e)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+,@var
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(comma-at var)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Functions
+\end_layout
+
+\begin_layout Standard
+As we have seen, Genyris can execute statements immediately at the command
+ line.
+ The expression:
+\end_layout
+
+\begin_layout LyX-Code
++ 42 37
+\end_layout
+
+\begin_layout Standard
+Yields the addition of the two numbers.
+ Let's explore how this works.
+ The interpreter looks for list expressions where the first token (or expression
+) is a function, the rest of the list constitute the arguments to the function.
+ In this case + is a symbol which when evaluated in the environment yields
+ a function object.
+ The arguments are also evaluated and the results are passed to the function
+ object to be evaluated.
+ Lets have a look at + by getting its value:
+\end_layout
+
+\begin_layout LyX-Code
+> the +
+\end_layout
+
+\begin_layout LyX-Code
+~ <org.genyris.math.PlusFunction> ; EagerProcedure
+\end_layout
+
+\begin_layout Standard
+What happened here? The function 'the' is the identity function which returns
+ the value bound to the symbol +.
+ Since the smbol + is an argument to 'the' its value is the underlying function
+ object.
+ If we were to type simply +, there would be an error since the + function
+ expects arguments.
+ 
+\end_layout
+
+\begin_layout Subsection
+Eager Functions
+\end_layout
+
+\begin_layout Standard
+Most programmers are familiar with eager functions, these evaluate their
+ arguments prior to calling the underlying function.
+ Normal mathematical functions such as + - * anf / are eager functions.
+ Let's experiment with some simple math function calls.
+ All the following evaluate to 12:
+\end_layout
+
+\begin_layout LyX-Code
++ 6 6
+\end_layout
+
+\begin_layout LyX-Code
++ (* 2 3) (+ 2 4)
+\end_layout
+
+\begin_layout LyX-Code
++ 2 2 2 2 2 2
+\end_layout
+
+\begin_layout Standard
+Notice that the + function adds all its arguments.
+ Another function that takes multiple arguments is 'list'.
+ This function constructs a list from it's argiments.
+ Here's an example:
+\end_layout
+
+\begin_layout LyX-Code
+> list (* 34 8) "pears" (/ 34 5) "kilos"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+272 "pears" 6.8 "kilos"; Pair
+\end_layout
+
+\begin_layout Standard
+Note that the interpreter always prints a comment after the result.
+ This is the list of classes the result belongs to.
+ Since 
+\begin_inset Quotes eld
+\end_inset
+
+list
+\begin_inset Quotes erd
+\end_inset
+
+ returns a list, which is composed of Pairs, 
+\begin_inset Quotes eld
+\end_inset
+
+Pair
+\begin_inset Quotes erd
+\end_inset
+
+ is printed.
+ 
+\end_layout
+
+\begin_layout Subsection
+
+\end_layout
+
+\begin_layout Subsection
+Lazy Functions
+\end_layout
+
+\begin_layout Subsection
+Macros
+\end_layout
+
+\end_body
+\end_document
