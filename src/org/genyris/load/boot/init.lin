@@ -6,7 +6,8 @@
 
 
 defmacro define (var valu) (backquote (defvar ',var ,valu))
-defvar 'set! define
+defmacro set! (var valu) (backquote (set ',var ,valu))
+define template backquote
 
 defmacro if (test success-result failure-result)
    backquote
