@@ -45,9 +45,9 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     }
     public Exp getClasses(Environment env) throws UnboundException {
         Exp NIL = env.getNil();
-        Exp buitinClassSymbol = env.internString(this.getBuiltinClassName());
-        Exp buitinClass = env.lookupVariableValue(buitinClassSymbol);
-        Exp classes = new Lcons (buitinClass, NIL);
+        Exp builtinClassSymbol = env.internString(this.getBuiltinClassName());
+        Exp builtinClass = env.lookupVariableValue(builtinClassSymbol);
+        Exp classes = new Lcons (builtinClass, NIL);
         Object arryOfObjects[] = _classes.toArray();
         for(int i=0; i< arryOfObjects.length; i++) {
             classes = new Lcons ((Exp)arryOfObjects[i], classes);

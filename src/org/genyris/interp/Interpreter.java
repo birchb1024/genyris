@@ -98,7 +98,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString(Constants.LAMBDA), new LazyProcedure(_globalEnvironment, null, new LambdaFunction(this)));
         _globalEnvironment.defineVariable(_table.internString(Constants.LAMBDAQ), new LazyProcedure(_globalEnvironment, null, new LambdaqFunction(this)));
         _globalEnvironment.defineVariable(_table.internString(Constants.LAMBDAM), new LazyProcedure(_globalEnvironment, null, new LambdamFunction(this)));
-        _globalEnvironment.defineVariable(_table.internString("backquote"), new LazyProcedure(_globalEnvironment, null, new BackquoteFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString(Constants.TEMPLATE), new LazyProcedure(_globalEnvironment, null, new BackquoteFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("car"), new EagerProcedure(_globalEnvironment, null, new CarFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("cdr"), new EagerProcedure(_globalEnvironment, null, new CdrFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("rplaca"), new EagerProcedure(_globalEnvironment, null, new ReplaceCarFunction(this)));

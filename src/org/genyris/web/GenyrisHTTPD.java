@@ -73,7 +73,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
             headers = new Lcons(new Lcons(new Lstring(value), new Lstring(header.getProperty(value))), headers);
             System.out.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
         }
-        headers = new Lcons(interpreter.getSymbolTable().internString("headers"), headers);
+        headers = new Lcons(new Lstring("headers"), headers);
 
         Exp parameters = NIL;
         e = parms.propertyNames();
@@ -82,7 +82,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
             parameters = new Lcons(new Lcons(new Lstring(value), new Lstring(parms.getProperty(value))), parameters);
             System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
         }
-        parameters = new Lcons(interpreter.getSymbolTable().internString("parameters"), parameters);
+        parameters = new Lcons(new Lstring("parameters"), parameters);
 
         request = new Lcons(parameters, request);
         request = new Lcons(headers, request);
@@ -97,7 +97,8 @@ public class GenyrisHTTPD extends NanoHTTPD {
       
         try {
         	Formatter formatter;
-
+//       	formatter = new IndentedFormatter(output, 1, interpreter);            	
+//       	expression.acceptVisitor(formatter);
             Exp result = interpreter.evalInGlobalEnvironment(expression);
             String status = result.car().toString();
             result = result.cdr();

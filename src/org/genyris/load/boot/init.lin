@@ -5,12 +5,15 @@
 ;;
 
 
-defmacro define (var valu) (backquote (defvar ',var ,valu))
-defmacro set! (var valu) (backquote (set ',var ,valu))
-define template backquote
+defmacro define (var valu) (template (defvar ',var ,valu))
+defmacro df (name args &rest body)
+    template
+        defvar ',name (lambdaq ,args ,@body)
+
+defmacro set! (var valu) (template (set ',var ,valu))
 
 defmacro if (test success-result failure-result)
-   backquote
+   template
       cond
          ,test ,success-result
          true ,failure-result

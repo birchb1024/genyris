@@ -25,7 +25,7 @@ defmacro myclass (name superclasses &rest body)
          map-left superclasses symbol-value
       add-to-subclasses superclasses klass
       eval body
-   backquote
+   template
       define ,name ,klass
 
 def add-to-subclasses (supers klass)
@@ -51,7 +51,7 @@ class MyMetaClass()
          eval body
 		 def _new()
 		    define _wheat nil
-      backquote
+      template
          define ,name ,klass
 
 ;; Create a new class

@@ -201,13 +201,13 @@ public class LexTest extends TestCase {
     }
 
     public void testSpecialLexBackQuote() throws Exception {
-        excerciseSpecialParsing("(`a)", "(backquote a)");
-        excerciseSpecialParsing("(`12.34)", "(backquote 12.34)");
-        excerciseSpecialParsing("(`\"str\")", "(backquote \"str\")");
-        excerciseSpecialParsing("(`(1 2))", "(backquote (1 2))");
-        excerciseSpecialParsing("(`(1 : 2))", "(backquote (1 : 2))");
-        excerciseSpecialParsing("(``(1 : 2))", "(backquote backquote (1 : 2))");
-        excerciseSpecialParsing("(`(1 : 2)`)", "(backquote (1 : 2) backquote)");
+        excerciseSpecialParsing("(`a)", "(template a)");
+        excerciseSpecialParsing("(`12.34)", "(template 12.34)");
+        excerciseSpecialParsing("(`\"str\")", "(template \"str\")");
+        excerciseSpecialParsing("(`(1 2))", "(template (1 2))");
+        excerciseSpecialParsing("(`(1 : 2))", "(template (1 : 2))");
+        excerciseSpecialParsing("(``(1 : 2))", "(template template (1 : 2))");
+        excerciseSpecialParsing("(`(1 : 2)`)", "(template (1 : 2) template)");
     }
 
     public void testSpecialLexComma() throws Exception {

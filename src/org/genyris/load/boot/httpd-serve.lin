@@ -1,36 +1,17 @@
-defmacro page-header (body)
-   backquote
-      quote
-          html()
-             body() (h1() "Welcome")      
-              ,@body
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;;
 
-define tmp
-   page-header
-       div()
-           strong() "A number: " 2323 
-           p()
-            "More more"
-           table((border:1))
-             "yada yada" "yada yada" "yada yada" 
-             tr()
-                 "yada yada" "yada & < > yada" "yada yada" 
-                 td()  "Row"
-                     a((href : "http://google.com")) "Google" 
-           "yada yada" "yada yada" "yada yada" 
-           img 
-             (src : "http://google.com/favicon.ico") (width : 23)
-             "Picture"
-           "yada yada" "yada yada" "yada <> yada"
-           br()
-            
+
 
 df httpd-serve (request)
-   list 200 "text/html" tmp
-
-;set! httpd-serve
-;  lambdaq (request)
-;    list 200 "text/html"
-;        page-header tmp
-
-       
+   print request
+   list 200 "text/plain"
+      template
+          html()
+             body()
+                pre()
+                   ,request
+   
