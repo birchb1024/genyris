@@ -1,0 +1,14 @@
+define file
+  dict
+    _name  : "File Handling Functions"
+    _version : "1.2"
+
+file
+   def _copy(from to) ...
+   def _delete(filename) ...
+   def _zip(file) ...
+
+def archive(filename)
+    (file_copy) filename "/tmp/foo"
+    (file_zip) "/tmp/foo"
+    (file_delete) filename

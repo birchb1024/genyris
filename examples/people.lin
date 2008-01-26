@@ -34,7 +34,7 @@ class Boomer (Person)
       obj
          and
             (Person_valid?) self
-            between 15 _age 45
+            between 45 _age 60
 
 class Hippie (Boomer)
    def _valid? (obj)

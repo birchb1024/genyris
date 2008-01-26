@@ -3,6 +3,7 @@ syntax: glob
 *aux
 *log
 *class
+*orig
 build
 dist
 CVS

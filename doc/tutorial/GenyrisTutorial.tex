@@ -1,68 +1,1551 @@
-\documentclass[a4paper,12pt,dvips]{article}
-\usepackage[pdftex]{graphicx}
-%%\usepackage[pdftex,bookmarksnumbered=true]{hyperref} 
-%%\addtolength{\parskip}{0.5\baselineskip}
+%% LyX 1.5.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[a4paper,english]{article}
+\usepackage[latin9]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{array}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newenvironment{lyxcode}
+{\begin{list}{}{
+\setlength{\rightmargin}{\leftmargin}
+\setlength{\listparindent}{0pt}% needed for AMS classes
+\raggedright
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\normalfont\ttfamily}%
+ \item[]}
+{\end{list}}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+ \setlength{\leftmargin}{\labelwidth}
+ \addtolength{\leftmargin}{\labelsep}
+ \renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+
+\usepackage{babel}
+\makeatother
+
 \begin{document}
-%%\DeclareGraphicsExtensions{.mps,.pdf,.ps,.eps,.png,.gif,.jpg,.jpeg}
-\author{Bill Birch}
+
 \title{Genyris Language Tutorial}
-%\date{28 July 2004}
+
 \maketitle
-\begin{center}
-\Huge DRAFT
-\end{center}
+\noindent \begin{center}
+\textit{\Huge DRAFT}
+\par\end{center}{\Huge \par}
+
+
+\author{Bill Birch}
+
 \begin{abstract}
-This document provides a gentle introduction to programming in the Genyris language. The Genyris language is a derivative of Lisp except its syntax eliminates most parentheses yet retains infix notation. It supports generic programming through macros and lazy procedures. All objects may be used as functions, and are classifiable. It offers a style of object-oriention where all objects can have many classes. 
-
+This document provides a gentle introduction to programming in the
+Genyris language. The Genyris language is a derivative of Lisp except
+its syntax eliminates most parentheses yet retains infix notation.
+It supports generic programming through macros and lazy procedures.
+All objects may be used as functions, and are classifiable. It offers
+a style of object-oriention where all objects can have many classes.
 \end{abstract}
-\tableofcontents
-\pagebreak
+\newpage{}
+
+\tableofcontents{}
+
+
+\paragraph*{Notation used in this paper.}
+
+Within the text progam symbols are \emph{italicised}, larger programs
+are in fixed font. Interactive sessions are show with the \textgreater{}
+prompt of the command-line interpreter.
+
+
 \section{Getting Started}
-Genyris is available as a binary executable java ``jar'' file. You don't need to understand Java to use Genyris. You will need the Java 1.5 JRE or later to run the Genyris interpreter. Check with your JRE
-version with this command:
 
-\begin{verbatim}
-  $ java -version
-\end{verbatim}
-Start the Genyris command-line interpreter with this command:
+Genyris is available as a binary executable Java \emph{jar} file.
+You don't need to understand Java to use Genyris. You will need the
+Java 1.5 JRE or later to run the Genyris interpreter. Java can be
+downloaded from Sun Microsystems. Check with your JRE version with
+this command:
 
-\begin{verbatim}
-  $ java -jar genyris-bin-nnn-xxxxxxxxx.jar
-\end{verbatim}
+\begin{lyxcode}
+\$~java~-version
+\end{lyxcode}
+Start the Genyris command-line interpreter with this command: 
 
-You will see some messages followed by a prompt indicating the interpreter is ready for your input:
+\begin{lyxcode}
+\$~java~-jar~genyris-bin-nnn-xxxxxxxxx.jar
+\end{lyxcode}
+Where \emph{nnn-xxxxxxxxx} is the version number. You will see some
+messages followed by a prompt indicating the interpreter is ready
+for your input:
 
-\begin{verbatim}
-  *** Genyris is listening...
+\begin{lyxcode}
+{*}{*}{*}~Genyris~is~listening...
 
-  >
-\end{verbatim}
+>
+\end{lyxcode}
+Commands can now be typed in at the prompt, use two carriage returns
+to terminate a statement. For example to add two numbers type:
 
-Commands can now be typed in at the prompt, use two carriage returns to terminate statement. For example to add two numbers type:
-\begin{verbatim}
-> + 42 37
-\end{verbatim}
-\hookleftarrow
-\hookleftarrow
-Genyris responds with the answer and some other information:
-\begin{verbatim}
-~ 79 ; Bignum
-\end{verbatim}
+\begin{lyxcode}
+>~+~42~37
+
+CR
+
+CR
+\end{lyxcode}
+Genyris responds with the answer and some information about the result:
+
+\begin{lyxcode}
+\textasciitilde{}~79~;~Bignum
+\end{lyxcode}
 
 \section{Syntax}
-Before we can start writing programs we must first describe the syntax of the language. 
-\subsection{Numbers}
-\subsection{Strings}
-\subsection{Symbols}
-\subsection{Everything is a list.}
+
+The syntax of Genyris is devived from Lispin, which was based on the
+idea that indentation is used to convey program structure. This is
+common with other languages such as Python. However Genyris preserves
+the {}``prefix'' notation of Lisp and Scheme. Here is an example
+of some code defining a function:
+
+\begin{lyxcode}
+def~threat~(i~j~a~b)
+
+~~~or
+
+~~~~~~=~i~a
+
+~~~~~~=~j~b
+
+~~~~~~=~(-~i~j)~(-~a~b)
+
+~~~~~~=~(+~i~j)~(+~a~b)
+\end{lyxcode}
+Instead of curly braces or {}``begin {}``end'' tokens, the indentation
+defines the blocks of code. Genyris reads lines one-by-one until it
+reaches the end of an expression. An expression ends when there is
+no more indentation or on the interactive command-line, when two blank
+lines are seen. Within a line, tokens are separated by white-space.
+Genyris recogises the following tokens:
+
+\begin{itemize}
+\item Comments
+\item Numbers
+\item Strings
+\item Symbols
+\item Sub-expressions
+\item List Pairs
+\end{itemize}
+
+\subsubsection{Comments}
+
+All characters following a semi-colon until the end of the line are
+ignored by the parser%
+\footnote{like Lisp comments%
+}. For example:
+
+\begin{lyxcode}
+;~mark~the~number~24~as~a~member~of~class~'C'
+
+tag~24~C~~~~~~;~=>~\textasciitilde{}~24~;~Bignum~C
+
+24~:~C~~~~~~~~;~=>~\textasciitilde{}~24~;~Bignum
+
+
+\end{lyxcode}
+
+\subsubsection{Numbers}
+
+Numbers can be either integers or floating point with any number of
+leading or trailing digits%
+\footnote{Java \emph{floats} and \emph{doubles} will be added%
+}. Examples:
+
+\begin{lyxcode}
+-3~23.78~-100.0089
+\end{lyxcode}
+
+\subsubsection{Strings}
+
+Strings are delimited by double quote characters \char`\"{}, within
+a string quotes and special characters are escaped with backslash
+\textbackslash{}. For example \texttt{\emph{She said \textbackslash{}\char`\"{}sea
+shells\textbackslash{}\char`\"{}}} yields the string:
+
+\begin{tabular}{|c|}
+\hline 
+She said \char`\"{}sea shells\char`\"{}\tabularnewline
+\hline
+\end{tabular}\\
+
+
+Other escape sequences are encoded as follows:\\
+
+
+\noindent \begin{center}
+\begin{tabular}{|l|l|}
+\hline 
+\textbackslash{}n & New Line\tabularnewline
+\hline 
+\textbackslash{}r & Carriage Return\tabularnewline
+\hline 
+\textbackslash{}f & Form Feed\tabularnewline
+\hline 
+\textbackslash{}\textbackslash{} & Backslash\tabularnewline
+\hline 
+\textbackslash{}t & Tab\tabularnewline
+\hline 
+\textbackslash{}'' & Quote\tabularnewline
+\hline
+\end{tabular}
+\par\end{center}
+
+
+\subsubsection{Symbols}
+
+Symbols are a group of any printable characters with some exceptions.
+Symbols may start with a single underscore \_ but may not contain
+other underscores. The following characters are not valid in symbols:
+
+\noindent \begin{center}
+\begin{tabular}{|c||c|}
+\hline 
+, & comma\tabularnewline
+\hline 
+\_ & underscore\tabularnewline
+\hline 
+: & colon\tabularnewline
+\hline 
+' & single quote\tabularnewline
+\hline 
+\char`\"{} & double quote\tabularnewline
+\hline 
+` & backquote\tabularnewline
+\hline
+\hline 
+@ & at sign\tabularnewline
+\hline
+\end{tabular}
+\par\end{center}
+
+The following are all examples of valid symbols:
+
+\begin{lyxcode}
+Wednesday-12
+
+\_age
+
+{*}global{*}
+
++=
+
+\$\{variable.name\}
+\end{lyxcode}
+
+\subsubsection{Expressions and Sub-expressions}
+
+All Genyris expressions are parsed and stored as linked-lists. A single
+line is converted into a single list. Sub-expressions are denoted
+in two ways, either within parentheses on a single line, or by an
+indented line. For example the following line contains two sub-expressions:
+
+\begin{lyxcode}
+Alpha~(Beta~Charlie)~(Delta)
+\end{lyxcode}
+Sub-expressions made using parentheses must remain within a single
+line, they are not permitted to wrap. Indented lines are deemed to
+be sub-expressions of the superior, less indented lines above. The
+above expression can be written in indented form as follows:
+
+\begin{lyxcode}
+Alpha
+
+~~~Beta~Charlie
+
+~~~Delta
+\end{lyxcode}
+Indentations must line up with previous indentations of the same level
+as follows (spaces indicated with period):
+
+\begin{lyxcode}
+Alpha
+
+...Beta~Charlie
+
+......Delta
+
+...Beta~~~~~~~~~~~~~~;~correct~indentation
+\end{lyxcode}
+The parser is unable to cope with random indentation levels since
+it does not know what depth is required. The following example will
+generate an error:
+
+\begin{lyxcode}
+Alpha
+
+...Beta~Charlie
+
+......Delta
+
+.....Beta~~~~~~~~~~~~~~;~ERROR
+\end{lyxcode}
+
+\subsubsection{List Pairs}
+
+Within Genyris lists are composed of pairs of references to objects%
+\footnote{Lisp Cons cells%
+}. The left and right halves of a pair can be explicitly written with
+the colon : character used as an infix operator. For example 
+
+\begin{lyxcode}
+(1~:~2)~
+\end{lyxcode}
+denotes a \emph{Pair} refering to the numbers 1 and 2. Normal Genyris
+linked-list expressions are also composed of \emph{Pairs}, hence the
+expression:
+
+\begin{lyxcode}
+(A~B~C~D)
+\end{lyxcode}
+is shorthand for, and exactly the same as :
+
+\begin{lyxcode}
+(A~:~(B~:~(C~:~(D~:~nil))))
+\end{lyxcode}
+Lists are terminated with the special symbol \emph{nil}. Likewise
+an indented expression can be expressed a set of Pairs. Consider:
+
+\begin{lyxcode}
+Alpha
+
+~~~Beta
+\end{lyxcode}
+is the same as 
+
+\begin{lyxcode}
+(Alpha~:~((Beta~:~nil)~:~nil))
+\end{lyxcode}
+Lists do not always have to be terminated with \emph{nil} , the colon
+: operator can be used to squeeze one more reference into the end
+of the list. For example the folowing two list has \emph{C} instead
+on \emph{nil}:
+
+\begin{lyxcode}
+(A~B~:~C)~
+\end{lyxcode}
+
+\subsubsection{Quoting and Special Parser Characters}
+
+Lists and atoms can be quoted in Genyris. Quoting prevents execution
+of the quoted expression. A single atom can be quoted within an expression:
+
+\begin{lyxcode}
+~~~~~~list~1~2~'a~3~4~~~~;~evaluates~to:~(1~2~a~3~4)
+\end{lyxcode}
+What actually happens here is when the parser converts sees a single
+quote, it collects the following expression and wraps it within a
+\emph{quote }expression. So \emph{'\textless{}exp\textgreater{} }becomes
+\emph{(quote \textless{}exp\textgreater{}). }Quote characters are
+a shorthand notation. When the \emph{quote} function is evaluated
+it does not evaluate its argument. So the above expression is actually:
+
+\begin{lyxcode}
+~~~~~~list~~1~2~(quote~a)~3~4
+\end{lyxcode}
+Embedded lists can be quoted in which case the embedded list is not
+evaluated:
+
+\begin{lyxcode}
+~~~~~~func~1~2~'(x~y~z)~3~4
+\end{lyxcode}
+If the quote falls at the beginning of the line, only the first element
+is quoted, not the entire line. So:
+
+\begin{lyxcode}
+~~~~~~list~1~2
+
+~~~~~~~~~~'x~y~z
+\end{lyxcode}
+is the same as:
+
+\begin{lyxcode}
+~~~~~~list~1~2~((quote~x)~y~z)
+\end{lyxcode}
+To allow entire sub-lists to be quoted, the quote function needs to
+be used explicitly as in:
+
+\begin{lyxcode}
+~~~~~~list~1~2
+
+~~~~~~~~~quote
+
+~~~~~~~~~~~~x~y~z
+\end{lyxcode}
+which is the same as:
+
+\begin{lyxcode}
+~~~~~~list~1~2~(quote~(x~y~z))
+\end{lyxcode}
+
+\subsubsection{Line Continuation}
+
+Sometimes long expressions become unweildy and must be continued on
+following lines. There are two mechanisms for this. This first and
+simplest is to use the colon : operator and an indented line as follows:
+
+\begin{lyxcode}
+list~1~2~4~5~:~
+
+~~~6~7~8
+\end{lyxcode}
+This is equivalent to: 
+
+\begin{lyxcode}
+list~1~2~4~5~:~(6~7~8)
+\end{lyxcode}
+which is the same as:
+
+\begin{lyxcode}
+list~1~2~4~5~6~7~8
+\end{lyxcode}
+The parser also has a special line continuation character (the tilde
+\textasciitilde{}) which continues the previous line indentation level
+at the start of the line under which it is placed. This allows arbitrary
+continuations such as:
+
+\begin{lyxcode}
+quote
+
+~~~1~2
+
+~~~~~~3
+
+~~~~~~\textasciitilde{}~22~;~Pair
+\end{lyxcode}
+which is the same as:
+
+\begin{lyxcode}
+quote~'(1~2~(3)~22)
+\end{lyxcode}
+
+\subsubsection{More Quote Characters}
+
+Genyris also supports three other special syntactic quotes processed
+like single quotes. They are all used to simplify writing macros with
+the \emph{template }function, but can be used for aything else. These
+are converted by the parser into exprssions as follows:
+
+\noindent \begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+Input Quote Sequence & Translated Expression\tabularnewline
+\hline
+\hline 
+,\textless{}exp\textgreater{} & (comma \textless{}exp\textgreater{})\tabularnewline
+\hline 
+,@\textless{}exp\textgreater{} & (comma-at \textless{}exp\textgreater{})\tabularnewline
+\hline 
+`\textless{}exp\textgreater{} & (template \textless{}exp\textgreater{})\tabularnewline
+\hline
+\end{tabular}
+\par\end{center}
+
+
 \section{Functions}
-\subsection{Calling Simple Functions}
-\subsection{Defining Functions}
 
-\begin{thebibliography}{99}
-\bibitem{GenyrisPaper} 
-\emph{List Processing with Latent Polymorphic Types}, Bill Birch, April 3 2005 \begin{verbatim}http://downloads.sourceforge.net/genyris/GenyrisEssay20040826.pdf\end{verbatim}
-\end{thebibliography}
+As we have seen, Genyris can execute statements immediately at the
+command line. The expression:
 
+\begin{lyxcode}
++~42~37
+\end{lyxcode}
+Yields the addition of the two numbers (77). Let's explore how this
+works. The interpreter looks for list expressions and assumes the
+first token (or sub-expression) is a function. ,The rest of the list
+constitute the arguments to the function. In this case \emph{+} is
+a symbol which when evaluated in the environment yields a function
+object%
+\footnote{or a closure.%
+}. The arguments are also evaluated and the results are passed to the
+function object to be evaluated. Lets have a look at \emph{+} by getting
+its value:
+
+\begin{lyxcode}
+>~the~+
+
+\textasciitilde{}~<org.genyris.math.PlusFunction>~;~EagerProcedure
+\end{lyxcode}
+What happened here? The function \emph{the} is the identity function
+- it returns the value of its argument. Since the symbol + is an argument
+to \emph{the,} its value is the underlying function object. If we
+were to type simply \emph{+} the function would be called instead. 
+
+
+\subsection{Eager Functions}
+
+Most programmers are familiar with eager functions, mathematical functions
+such as + - {*} and / are eager functions. These evaluate their arguments
+prior to calling the underlying function. Let's experiment with some
+simple math function calls. All the following evaluate to 12:
+
+\begin{lyxcode}
++~6~6
+
++~({*}~2~3)~(+~2~4)
+
++~2~2~2~2~2~2
+\end{lyxcode}
+Notice that the + function can have many arguments. Another function
+that takes multiple arguments is \emph{list}. This function constructs
+a list from it's arguments. Here's an example:
+
+\begin{lyxcode}
+>~list~({*}~34~8)~\char`\"{}pears\char`\"{}~(/~34~5)~\char`\"{}kilos\char`\"{}
+
+
+
+272~\char`\"{}pears\char`\"{}~6.8~\char`\"{}kilos\char`\"{};~Pair
+\end{lyxcode}
+Note that the interpreter always prints a comment after the result.
+This is the list of classes the result belongs to. Since \emph{list}
+returns a list, which is composed of Pairs, \emph{Pair} is printed. 
+
+
+\section{Defining Lexical Variables }
+
+In any context you can create new variables with the \emph{defvar
+}or \emph{define} functions. These functions also take an initial
+value for the variable:
+
+\begin{lyxcode}
+define~name~\char`\"{}William\char`\"{}
+
+defvar~'name~\char`\"{}William\char`\"{}
+\end{lyxcode}
+In both cases, the symbol \emph{name} is bound to the value \emph{{}``William''}
+in the current environment. After the variable has been bound, its
+value can be used in any expression in the scope. When the interpreter
+sees a symbol in an argument list it looks for a binding in the current
+environment and all parent environments right up to the global execution
+environment. If you define a variable at the command line, it is bound
+in the global execution environment and hence is available everywhere.
+If you try to access a variable when there is no binding, an \char`\"{}unbound
+variable\char`\"{} error will be reported.
+
+Variable values can be updated with the \emph{set} ot \emph{set!}
+functions, for example:
+
+\begin{lyxcode}
+set~'name~\char`\"{}William~Pitt\char`\"{}
+
+set!~name~\char`\"{}William~Pitt\char`\"{}
+\end{lyxcode}
+A predicate function \emph{bound?} is provided to test whether a symbol
+has a binding in the current environments. It returns the symbol \emph{true}
+if the variable is defined otherwise \emph{nil}. 
+
+
+\section{Defining Functions }
+
+Functions in genyris are defined in the usual way for functional programming
+languages. The \emph{def} function binds a name to a lexical closure
+containing the current environment and the code to be applied in future
+calls. The body of the function is a sequence of expressions to be
+executed in the lexical environment, the last expression's value is
+returned. Here's a definition of the identity function:
+
+\begin{lyxcode}
+def~identity~(arg)~arg
+\end{lyxcode}
+Genyris has two kinds of user-defined functions 'Eager' and 'Lazy'.
+An Eager function evaluates its arguments before it applies them,
+whereas a Lazy' function does not. Traditional functions such as '+'
+and \emph{the} are Eager. The \emph{quote} function is a Lazy procedure
+which returns its single argument un-evaluated.
+
+Here's a more complex function definition:
+
+\begin{lyxcode}
+def~factorial~(n)~
+
+~~~if~(<~n~2)~1~
+
+~~~~~~{*}~n~factorial~(-~n~1)
+\end{lyxcode}
+The 'if' function is lazy, since it executes one of its arguments
+if depending on the value of the first argument. In fact 'if' is a
+Macro, a special kind of lazy function.
+
+
+\section{Anonymous Functions with Lambda and Friends }
+
+Actually the \emph{def} and \emph{defmacro} functions are really macros
+in their own right. They bind a function to a variable name. But what
+if we want a function without the binding? Genyris provides three
+kinds of in-built function objects. The function \emph{lambda} creates
+a user-defined eager procedure object which is a closure at the point
+of definition. For example we can create an anonymous function at
+the command-line:
+
+\begin{lyxcode}
+>~lambda~(x)~({*}~x~x)
+
+
+
+\textasciitilde{}~<org.genyris.interp.ClassicFunction>~;~EagerProcedure~
+\end{lyxcode}
+To actually call it we place it wherever a function is expected, such
+as a parameter to a function, or at the beginning of a list:
+
+\begin{lyxcode}
+>~(lambda~(x)~({*}~x~x))~3
+
+
+
+\textasciitilde{}~9~;~Bignum
+\end{lyxcode}
+Notice the parentheses are required around the expression to trigger
+the execution, the argument 3 is than passed to the resulting closure.
+Functions are 'first class' and can be assigned to variables, which
+how \emph{def} works. The following two expressions are equivalent:
+
+\begin{lyxcode}
+define~square
+
+~~~lambda~(x)~({*}~x~x)~
+
+
+
+def~square~(x)
+
+~~~{*}~x~x~
+\end{lyxcode}
+
+\subsection{Lazy and Anonymous}
+
+To defer evaluation, a lazy function can be defined using the \emph{lambdaq
+or lambdam }%
+\footnote{\emph{for creating macros}%
+} macros. The next example creates an anonymous function which prepends
+its argument (without evaluation) to a list:
+
+\begin{lyxcode}
+>~(lambdaq~(x)~(list~x~\char`\"{}World\char`\"{}))~(+~\char`\"{}Hello\char`\"{})
+
+
+
+(+~\char`\"{}Hello\char`\"{})~\char`\"{}World\char`\"{}~;~Pair
+\end{lyxcode}
+
+\section{Lexical Scoping Captures Environments}
+
+Genyris is \char`\"{}lexically scoped\char`\"{} - when a function
+is defined it remembers the environment in which it was defined and
+re-uses that environment when it executes. This provides a way of
+hiding data and giving functions stateful side effects. The following
+example%
+\footnote{by Abelson \& the Sussman%
+} creates a function which captures the \emph{balance} variable:
+
+\begin{lyxcode}
+def~make-withdraw~(balance)~
+
+~~~lambda~(amount)~
+
+~~~~~~set!~balance~(-~balance~amount)
+
+
+
+define~W1~(make-withdraw~100)
+\end{lyxcode}
+Repeated execution of the function \emph{W1} reduces the value of
+the balance each time. Note that there is no way to directly access
+the \emph{balance} variable.
+
+
+\section{Conditional Execution}
+
+The \emph{cond} function is a lazy function that allows program flow
+to change depending on the outcome of conditional expressions. Here's
+the syntax of \emph{cond}: 
+
+\begin{lyxcode}
+~~~cond
+
+~~~~~~(<condition~1>)
+
+~~~~~~~~~<sequence~1>
+
+~~~~~~(<condition~2>)
+
+~~~~~~~~~<sequence~2>
+
+~~~~~~...
+
+~~~~~~(<condition~N>)
+
+~~~~~~~~~<sequence~N>
+\end{lyxcode}
+Each \textless{}sequence\textgreater{} is evaluated in turn until
+one returns which is not \emph{nil}. The associated \textless{}sequence\textgreater{}
+is evaluated and the last expression value is returned. If there is
+no \textless{}sequence\textgreater{}, the value of the \textless{}condition\textgreater{}
+is returned.  Typically the last \textless{}condition\textgreater{}
+is a non-nil constant which acts as a default. The symbol \emph{else}
+is provided for this purpose. Here's an example: 
+
+\begin{lyxcode}
+~~~cond
+
+~~~~~~(equal?~foo~1)
+
+~~~~~~~~~\char`\"{}One\char`\"{}
+
+~~~~~~(equal?~foo~2)
+
+~~~~~~~~~\char`\"{}Two\char`\"{}
+
+~~~~~~else
+
+~~~~~~~~~\char`\"{}Other\char`\"{}
+
+~~~~
+\end{lyxcode}
+The function \emph{equal?} returns \emph{true} if the two arguments
+are the same otherwise nil. so if the symbol \emph{foo} is bound to
+the value 2 this expression will return \emph{\char`\"{}Two\char`\"{}}. 
+
+
+\section{Defining Macros}
+
+Macros are an advanced kind of lazy function which are very handy
+for extending the syntax of the language and creating DSLs (Domain-Specific
+Languages). It is a lazy function which after the user's function
+evaluation has returned, it re-evaluates the returned expression in
+the environment of the caller. Here's an example:
+
+\begin{lyxcode}
+defmacro~my-if~(test~success-result~failure-result)
+
+~~~template
+
+~~~~~~cond
+
+~~~~~~~~~,test~,success-result
+
+~~~~~~~~~true~,failure-result
+\end{lyxcode}
+This macro uses the \emph{template} function and the \emph{comma}
+to splice the arguments into a formulaic expression. Here's an example
+if its use:
+
+\begin{lyxcode}
+define~test~3~~~~~~~~~~~~~~~~~;~binding~in~the~caller's~environment
+
+my-if~(equal?~test~3)~1~2~~~~~
+\end{lyxcode}
+This returns 1. Notice that the variable \emph{test} is defined in
+the caller's environment used in the condition, not the binding of
+the same name within \emph{my-if}.
+
+
+\section{Everything is Callable}
+
+The evaluator expects the first element of a list to be some kind
+of closure object - something that can be compute its arguments and
+applied them. This is the role of traditional functions such as \emph{+}
+or user-defined functions. In Genyris, \textbf{all} objects are callable,
+even atomic types. For example an integer can be called as a function
+thus:
+
+\begin{lyxcode}
+>~12~(+~33~44)~(-~4~3)
+
+
+
+\textasciitilde{}~1~;~Bignum
+
+
+\end{lyxcode}
+Lets analyse what happened. The integer \emph{12} was called with
+a single argument \emph{(+ 33 44)}. Since \emph{12} is a lazy function
+it did not evaluate its single argument. Rather it treats its arguments
+as a sequence of expressions to be evaluated. So it calculated 333
++ 44 = 77, and then 4 -3 = 1when it reached the last expression it
+returned the value 1. This can be entered in indented form with the
+same result as follows:
+
+\begin{lyxcode}
+12~
+
+~~~+~33~44
+
+~~~-~4~3
+\end{lyxcode}
+If an atom is called with no arguments, it simply returns itself.
+We can say they are {}``self-evaluating''. So at the command line
+typing a number alone returns the number:
+
+\begin{lyxcode}
+>~1024
+
+
+
+\textasciitilde{}~1024~;~Bignum
+\end{lyxcode}
+As well as executing the sequence of expressions, an execution environment
+was created in which the number 12 is bound to the variable \emph{self}.
+The variable can be used as follows:
+
+\begin{lyxcode}
+>~12~(+~self~self)~
+
+
+
+\textasciitilde{}~24~;~Bignum
+\end{lyxcode}
+Here the expression executed results in the number being added to
+itself. The environment can also be used to define local variables
+with the \emph{define} functions:
+
+\begin{lyxcode}
+12
+
+~~define~foo~987
+
+~~+~foo~self
+
+
+
+\textasciitilde{}~999~;~Bignum~~
+\end{lyxcode}
+
+\subsection{Dynamic Variables}
+
+Generally 'dynamic' variables are those which are bound in the environment
+of the caller and hence depend on who is evaluating the expression.
+In Genyris dynamic variables limited to being properties of the current
+called object, and their scope is limited to the current environment.
+The objects have an potentially unlimited lifetime, dynamic variables
+provide a way to bind th same experssion to differnt objects. All
+dynamic variables are prefixed with the underscore \_ character\emph{.}
+The number 12 above has only one dynamic variable \_\emph{classes}.
+It can be accessed as follows:
+
+\begin{lyxcode}
+>~12~\_classes
+
+
+
+<class~Bignum~(Builtin)~()>~;~Pair
+\end{lyxcode}
+Here we see that the\emph{ \_classes} variable is referring to the
+class list of \emph{12. }It as a single class, \emph{Bignum} which
+is printed. This behaviour the default for Genyris objects including
+Bignums, Pairs and Strings.%
+\footnote{This approach will be used in future to access binary-coded member
+functions for atoms.%
+}Consider the following examples:
+
+\begin{lyxcode}
+>~\char`\"{}What~am~I?\char`\"{}~\_classes
+
+
+
+<class~String~(Builtin)~()>~;~Pair
+\end{lyxcode}
+However where symbols are concerned, the evaluator always looks up
+the value before use. So to show this with a symbol we must quote
+it:
+
+\begin{lyxcode}
+>~'a-symbol~\_classes
+
+
+
+<class~Symbol~(Builtin)~()>~;~Pair
+\end{lyxcode}
+Likewise the interpreter assumes a list is a normal function call
+so a quote is needed to see this behaviour: 
+
+\begin{lyxcode}
+>~'(3)~\_classes
+
+
+
+<class~Pair~(Builtin)~(PRINTWITHCOLON)>~;~Pair
+\end{lyxcode}
+
+\section{Dictionaries - Your Garden Variety Objects}
+
+Genyris provides {}``dictionary'' objects which are {}``objects''
+in the normally understood sense for programming languages. Each dictionary
+provides a un-ordered set of dynamic symbols and bindings - called
+{}``slots''.  
+
+A dictionary is created with the \emph{dict} function call, e.g.:
+
+\begin{lyxcode}
+define~pitt
+
+~~dict~
+
+~~~~\_name~~:~\char`\"{}Willam~Pitt\char`\"{}
+
+~~~~\_title~:~\char`\"{}Prime~Minister\char`\"{}
+
+~~~~\_date-of-birth~~~:~\char`\"{}28~May~1759\char`\"{}
+\end{lyxcode}
+Here we have created a \emph{dict} with three slots (accessed by dynamic
+variables) and assigned it to a variable. The \emph{dict} function
+takes a variable number of slot definitions in Pairs, more formally: 
+
+\begin{lyxcode}
+~~dict
+
+~~~~~<dynamic~symbol1>~:~<initial~value1>
+
+~~~~~<dynamic~symbol2>~:~<initial~value2>
+
+~~~~~etc...
+\end{lyxcode}
+If there are no initial values given , the symbol \emph{nil} is used
+as in this example:
+
+\begin{lyxcode}
+>~dict
+
+~~~\_foo
+
+~~~\_bar
+
+
+
+dict
+
+~~~~~~\_bar~:~nil
+
+~~~~~~\_foo~:~nil~;~Dictionary~~~~~~
+\end{lyxcode}
+Having slots is all very well, but we need a way to access them. As
+we have seen objects are callable including dictionaries. So to access
+the above \emph{dict} object we call it and use the dynamic variables
+as follows:
+
+\begin{lyxcode}
+>~pitt~\_name
+
+
+
+\textasciitilde{}~\char`\"{}Willam~Pitt\char`\"{}~;~String
+\end{lyxcode}
+Here the \emph{\_name} dynamid variable is bound to the \emph{\_name}
+slot in the dict. To set the slot value we use the \emph{set!} function:
+
+\begin{lyxcode}
+pitt
+
+~~~set!~\_name~\char`\"{}William~Pitt~The~Younger\char`\"{}
+
+
+\end{lyxcode}
+New slots can be created with \emph{define} since the object acts
+as an environment in its own right:
+
+\begin{lyxcode}
+pitt~
+
+~~~define~\_father~\char`\"{}William~Pitt~the~Elder\char`\"{}
+\end{lyxcode}
+Dictionaries also have a {}``magic'' variable \emph{\_vars} which
+lists all the variables defined in the dictionary. This is handy for
+debugging. For example:
+
+\begin{lyxcode}
+>~pitt~\_vars
+
+
+
+\_date-of-birth~\_name~\_title~\_vars~;~Pair
+\end{lyxcode}
+
+\section{Adding Behaviour to Dictionaries}
+
+Since functions in Genyris are simply bound to variables, and dictionaries
+have them, behaviour can be added to dictionaries. It suffices to
+define a function with a dynamic name in the scope of a dictionary:
+
+\begin{lyxcode}
+define~jeb
+
+~~~dict
+
+~~~~~~\_firstName:~\char`\"{}Joe\char`\"{}~
+
+~~~~~~\_middleName:~\char`\"{}E.\char`\"{}
+
+~~~~~~\_lastName:~\char`\"{}Brown\char`\"{}
+
+
+
+jeb~
+
+~~~def~\_displayName()
+
+~~~~~~~list~\_firstName~\_middleName~\_lastName
+\end{lyxcode}
+Once defined, the function is callable in the context of the \emph{jeb}
+dict:
+
+\begin{lyxcode}
+>~jeb~(\_displayName)
+
+
+
+\char`\"{}Joe\char`\"{}~\char`\"{}E.\char`\"{}~\char`\"{}Brown\char`\"{}~;~Pair
+\end{lyxcode}
+The dict lots are also available anywhere the dict, so a dict can
+be used a mechanism for organisation. Consider the following example
+which show a set of functions organised in a {}``module'' called
+\emph{file}:
+
+\begin{lyxcode}
+;;~File~Handling~Module
+
+define~file
+
+~~dict~
+
+~~~~\_name~~:~\char`\"{}File~Handling~Functions\char`\"{}
+
+~~~~\_version~:~\char`\"{}1.2\char`\"{}
+
+file
+
+~~~def~\_copy(from~to)~...
+
+~~~def~\_delete(filename)~...
+
+~~~def~\_zip(file)~...
+
+
+
+;;~Use~of
+
+def~archive(filename)
+
+~~~~(file\_copy)~filename~\char`\"{}/tmp/foo\char`\"{}
+
+~~~~(file\_zip)~\char`\"{}/tmp/foo\char`\"{}
+
+~~~~(file\_delete)~filename
+
+
+\end{lyxcode}
+Provided the functions in the module don't share variables or state
+this provides some form of organisation. 
+
+While it is handy to be able to add behaviour to objects, it does
+not scale when there are many objects which require the same behaviour.
+For this we need something more complex - Classes and Inheritance.
+
+
+\section{Using Classes to Organise Behaviour}
+
+All Genyris objects, be they atomic (like numbers) or composite (like
+dictionaries) can belong to one or more classes. As such Genyris is
+a fully {}``Object-Oriented'' language. The interpreter looks at
+the classes for functions to execute if the function name is dynamic
+(starts with an underscore). This way you can add behaviour to many
+objects in a single place. Classes are a dictionaries with special
+variables which hold the relationships between classes. The standard
+classes all have the following variables:
+
+\begin{lyxlist}{00.00.0000}
+\item [{\_classes}]         
+\item [{\_vars}]          
+\item [{\_classname}] : an optional symbol to aid debugging
+\item [{\_superclasses}] : a list of parent classes
+\item [{\_subclasses}] : a list of more specific classes
+\end{lyxlist}
+Genyris has a number of built-in classes beginning with \emph{Thing}
+which is the root of the class hierarchy:
+
+\begin{lyxcode}
+Thing
+
+~~~~Builtin
+
+~~~~~~~~~~~~Bignum
+
+~~~~~~~~~~~~String
+
+~~~~~~~~~~~~Symbol
+
+~~~~~~~~~~~~Pair
+
+~~~~~~~~~~~~~~~~PRINTWITHCOLON
+
+~~~~~~~~~~~~Dictionary
+
+~~~~~~~~~~~~Closure
+
+~~~~~~~~~~~~~~~~LazyProcedure
+
+~~~~~~~~~~~~~~~~EagerProcedure
+
+
+\end{lyxcode}
+To add behaviour to a class, we need to add a dynamic variable bound
+to a closure object - in other words we need to define a method. For
+example to add a method to compute the square of a number we can add
+this to the \emph{Bignum} class:
+
+\begin{lyxcode}
+Bignum
+
+~~~def~\_square()~({*}~self~self)
+\end{lyxcode}
+Now all Bignums can compute their own square e.g.:
+
+\begin{lyxcode}
+>~4234389~(\_square)
+
+
+
+\textasciitilde{}~17930050203321~;~Bignum
+
+
+\end{lyxcode}
+Notice that the method uses the \emph{self} variable which is automatically
+bound to the object. We need to call methods in the correct way to
+ensure they refer to the correct object since they are dynamic, not
+lexical variables. So if we tried to say:
+
+\begin{lyxcode}
+>~(4234389\_square)
+\end{lyxcode}
+We would get an error. There is a big difference between \emph{4234389
+(\_square)} and \emph{(4234389\_square)}. In the first case we are
+creating an environment around the Bignum \emph{4234389}, then we
+execute the function bound to the dynamic variable \emph{\_square}
+from Bignum. In the second however, we are getting the Bignum's \emph{\_square}
+function but then applying it in the context of the caller. This is
+most likely not what was intended. In general methods should always
+be called in the first way.
+
+
+\section{Defining Classes }
+
+Classes are relatively complex objects so the language provides an
+in-built macro for creating new classes and binding them. The syntax
+is straight forward - lets define a class for length units:
+
+\begin{lyxcode}
+>~class~Inches()
+
+
+
+<class~Inches~(Thing)~()>~;~StandardClass~Dictionary
+\end{lyxcode}
+This simply creates a class which is a subclass of Thing. By convention
+class names begin with an upper-case character. We can use this class
+to annotate existing objects. For example:
+
+\begin{lyxcode}
+>~tag~12~Inches
+
+
+
+\textasciitilde{}~12~;~Inches~Bignum
+\end{lyxcode}
+The \emph{tag} function adds a class to its argument and returns the
+object. Notice the interpreter prints out the list of classes 12 belongs
+to, including \emph{Inches}. 
+
+So far so good, but a method might be nice. Let's add a method to
+convert to \emph{Meters}. Lets assume an \emph{Inches} object is a
+kind of \emph{Bignum}, and add a method to it:
+
+\begin{lyxcode}
+class~Inches(Bignum)
+
+~~~def~\_toMeters()
+
+~~~~~~{*}~self~0.0254
+\end{lyxcode}
+The second parameter to \emph{class }a list of superclasses. We can
+now define a foot and convert it as follows:
+
+\begin{lyxcode}
+define~a-foot
+
+~~~tag~12~Inches
+
+
+
+>~a-foot~(\_toMeters)
+
+
+
+\textasciitilde{}~0.3048~;~Bignum
+\end{lyxcode}
+This is fine, but we are only returning a \emph{Bignum}. Let's refactor
+to add more classes and tag the return appropriately:
+
+\begin{lyxcode}
+class~Length()
+
+~~~def~\_toMeters()
+
+~~~~~~raise~\char`\"{}Oops~-~you~invoked~an~abstract~class!\char`\"{}
+
+
+
+class~Inches(Length)
+
+~~~def~\_toMeters()
+
+~~~~~~tag~({*}~self~0.0254)~Meters
+
+
+
+class~Meters(Length)
+
+~~~def~\_toMeters()~self
+
+
+\end{lyxcode}
+Here we have defined an abstract base class and two derived classes
+which both have the \_\emph{toMeters} method. Notice the \emph{raise}
+function catches invalid use of the \emph{Length} class. Lets try
+the conversion again:
+
+\begin{lyxcode}
+>~(tag~12~Inches)~(\_toMeters)
+
+
+
+\textasciitilde{}~0.3048~;~Meters~Bignum~
+
+
+\end{lyxcode}
+Here we are using a sub-expression which returns \emph{12} \emph{Inches}
+and this object is the focus of the call to \emph{\_toMeters}. With
+this new class structure in place we can now add a method to add two
+lengths in different units:
+
+\begin{lyxcode}
+Length
+
+~~~def~tag-Meters~(obj)
+
+~~~~~~~tag~obj~Meters
+
+~~~def~\_add(other)
+
+~~~~~~tag-Meters
+
+~~~~~~~~~+~(\_toMeters)
+
+~~~~~~~~~~~~other~(\_toMeters)
+\end{lyxcode}
+This method converts both the current object and the argument to \emph{Meters}
+perfoms the addition and returns the result in \emph{Meters}. There
+is a private method \emph{tag-meters} used by \_\emph{add} to mark
+the result class. Here's how it runs:
+
+\begin{lyxcode}
+define~a-meter
+
+~~~tag~1~Meters
+
+define~a-foot~(tag~12~Inches)
+
+>~a-foot~(\_add~a-meter)
+
+
+
+\textasciitilde{}~1.3048~;~Meters~Bignum
+\end{lyxcode}
+This is quite useful however in the above examplea user of our classes
+could get errors by tagging objects which cannot be added together.
+For example mixing a string into the picture will fail:
+
+\begin{lyxcode}
+(tag~\char`\"{}12\char`\"{}~Inches)~(\_add~(tag~1~Meters))
+\end{lyxcode}
+To provide protection and we need stonger type checking features or
+better ways to classify inputs.
+
+
+\section{Classification and Class Validators}
+
+Genyris is dynamic language, which provides for great flexibility.
+In some circumstances it's nice to implement type checking to ensure
+that the constraints of a program are respected, and errors reported.
+This language takes the opinion that objects are created first, then
+they are classified rather than the classiication being requied prior
+to object construction. A class is more about the external perception
+of objects than the way they are internally constructed. %
+\footnote{We cab say Genyris supports both {}``nominative'' and {}``structural''
+subtypes.%
+} That does not prohibit 'traditional' constructors or object factories,
+we will describe them later.
+
+To help validate what constitutes a valid member of a class, the class
+can provide a \emph{\_valid?} method which, when given an object can
+assess it and return true if it is good. The \emph{tag} function will
+call this if it is provided and fail if required. Again we can add
+this to our base class:
+
+\begin{lyxcode}
+Length
+
+~~~def~\_valid?(obj)
+
+~~~~~~is-instance?~obj~Bignum
+\end{lyxcode}
+This prevents anything except numbers being tagged since the \emph{is-instance?}
+function only returns true if the object is an instance of \emph{Bignum}
+or its subclasses. 
+
+Class validator functions like this can be developed to any complexity
+required. They provide a way to automatically categorise unknown objects
+- an important tool for input validation. The \char`\"{}examples/people.lin\char`\"{}
+file shows an example of this pattern. There an object is defined
+and automatically classified according to the slots and their values
+- the \emph{\_classify} function recusively walks the class hierarchy
+testing the object compliance with validators. Here's an example about
+classification of people into classes based on age and possesions: 
+
+\begin{lyxcode}
+define~noel~
+
+~~dict
+
+~~~~~\_name:~\char`\"{}Noel\char`\"{}
+
+~~~~~\_age:~42
+
+~~~~~\_bong:~true
+
+
+
+>~Thing~(\_classify~noel)
+
+dict
+
+~~~~~~\_age~:~42
+
+~~~~~~\_bong~:~true
+
+~~~~~~\_name~:~\char`\"{}Noel\char`\"{}~;~Hippie~Dictionary
+
+
+\end{lyxcode}
+The class definition for \emph{Boomer} has recognised \emph{noel}.
+Here is that class definition:
+
+\begin{lyxcode}
+class~Boomer~(Person)
+
+~~~def~\_valid?~(obj)
+
+~~~~~~obj
+
+~~~~~~~~~and
+
+~~~~~~~~~~~~(Person\_valid?)~self
+
+~~~~~~~~~~~~between~45~\_age~60
+
+
+\end{lyxcode}
+
+\subsection{Simple Type Checks}
+
+Genyris provides another simple mechanism for ensuring type constraints
+are followed. At any time in a program, if the last element of an
+expression is not nil, but a class, it will check if the result of
+the expression is valid, or is an instance of the class. For example
+this function will always raise an error because 3 is not a subclass
+of \emph{String}:
+
+\begin{lyxcode}
+def~f()
+
+~~~~define~x~3
+
+~~~~x~:~String
+\end{lyxcode}
+If there is a class validator available for the class provided, this
+will be used in preference to the simple {}``nominative'' type check
+of class membership.
+
+
+\subsection{Type-Checked Function Arguments}
+
+When a function is defined, the arguments and return value may be
+annotated with a class, the actual arguments are checked with a validator
+if present. Here's an example where we wrap a sensitive function with
+some type checks:
+
+\begin{lyxcode}
+def~safe-call~(~(a~:~Bignum)~(b~:~Bignum)~:~Bignum~)~
+
+~~~~fragile-function~a~b~~~~
+\end{lyxcode}
+This function only allows Bignums to be passed in or returned. The
+last element of the arguments list specifies the return type.
+
+
+\section{Working With Lists}
+
+Like its forbears Lisp and Scheme, Genyris is inherently a list-processing
+language - its source code is expressed as lists and it has inbuilt
+functions for parsing and manipulating list data. Since programs and
+data are stored in the same form, Genyris is an ideal platform for
+developing DSLs or even new programming languages. Happily, manipulating
+lists is easy. Lists are really a kind of {}``binary tree\char`\"{}.
+Trees are constructed with the \emph{cons} function which accepts
+two arguments for the left and right halves of the \emph{Pair}:
+
+\begin{lyxcode}
+>~cons~\char`\"{}A\char`\"{}~\char`\"{}B\char`\"{}
+
+
+
+\char`\"{}A\char`\"{}~:~\char`\"{}B\char`\"{}~;~Pair
+\end{lyxcode}
+Note the interpreter prints a colon between the left and right halves
+of the Pair. To construct a list, the final right hand element will
+be \emph{nil}:
+
+\begin{lyxcode}
+>~cons~\char`\"{}A\char`\"{}
+
+~~~~cons~\char`\"{}B\char`\"{}
+
+~~~~~~~cons~\char`\"{}C\char`\"{}~nil~
+
+
+
+\char`\"{}A\char`\"{}~\char`\"{}B\char`\"{}~\char`\"{}C\char`\"{}~;~Pair
+\end{lyxcode}
+The printing of trees (by default) assumes that the tree is a kind
+of list, hence you don't see the parentheses in this case. See how
+the interpreter identified the list as a \emph{Pair}, since it only
+has a reference to the first \emph{Pair}?  To help view \emph{Pairs}
+explicitly, a list can be tagged with the PRINTWITHCOLON class, which
+forces the printer to display the full tree structure. The parser
+does this automatically, so Pairs which the user types with a colon
+are printed the same way. For example:
+
+\begin{lyxcode}
+>~'(\char`\"{}A\char`\"{}~:~(\char`\"{}B\char`\"{}~:~(\char`\"{}C\char`\"{}~)))
+
+
+
+\char`\"{}A\char`\"{}~:~(\char`\"{}B\char`\"{}~:~(\char`\"{}C\char`\"{}))~;~PRINTWITHCOLON~
+\end{lyxcode}
+The Left and Right componnts of Pairs can be accessed with the \emph{left}
+and \emph{right} functions e.g.:
+
+\begin{lyxcode}
+>~left~(cons~1~2)
+
+
+
+\textasciitilde{}~1~;~Bignum
+\end{lyxcode}
+
+\section{Traditional Constuctors and Factories}
+
+Whilst the philosophy of Genyris is to classify objects after constuction
+it does not inhibit using traditional constructors in classes. It
+is good practices in any case to prefer 'factory' functions for object
+construction even in traditional languages. Factory functions ar simply
+functions whic construct the appropriate kind of object based on the
+inputs given. A factory/constructor can be as simple as this:
+
+\begin{lyxcode}
+class~Person~()
+
+~~~def~\_new~(name~date-of-birth)
+
+~~~~~~dict
+
+~~~~~~~~~\_name~:~name
+
+~~~~~~~~~\_dob~:~date-of-birth
+
+~~~~~~~~~\_classes~:~(list~Person)
+
+
+
+(Person\_new)~\char`\"{}Jo\char`\"{}~23
+\end{lyxcode}
+A more general approach is to provide a {}``new'' function which
+calls a class-specific {}``init'' function. For example here is
+a class with an \emph{\_init} member which creates slots in a dict
+created by \emph{\_new}:
+
+\begin{lyxcode}
+class~PersonTraditional~(Object)
+
+~~~def~\_init((name:String)~(age:~Bignum))
+
+~~~~~~define~\_name~name
+
+~~~~~~define~\_age~age
+\end{lyxcode}
+Objects are created by calling \emph{\_new}: 
+
+\begin{lyxcode}
+>~PersonTraditional~(\_new~\char`\"{}Abe\char`\"{}~99)
+
+dict
+
+~~~~~~\_age~:~99
+
+~~~~~~\_name~:~\char`\"{}Abe\char`\"{}~;~PersonTraditional~Dictionary
+\end{lyxcode}
+Here is a simple implementation of \emph{\_new} in the base class:
+
+\begin{lyxcode}
+class~Object~(Dictionary)
+
+
+
+~~def~\_new(\&rest~args)
+
+~~~~~~(tag~(dict)~self)
+
+~~~~~~~~~apply~\_init~args
+
+~~~~~~~~~self
+
+~~~
+
+~~~def~\_init(args)~~~~~~;~null~\_init~method
+
+~~~~~~self
+\end{lyxcode}
+This function collects all the input arguments via the \emph{\&rest}
+keyword, it creates an empty \emph{dict}, tags it with the derived
+class and passes the collected arguments to the classes \emph{\_init}
+function. 
+
+\begin{lyxlist}{00.00.0000}
+\item [{END}]~
+\end{lyxlist}
 
 \end{document}
