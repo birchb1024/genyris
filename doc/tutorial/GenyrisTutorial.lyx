@@ -43,17 +43,14 @@
 Genyris Language Tutorial
 \end_layout
 
+\begin_layout Author
+Bill Birch
+\end_layout
+
 \begin_layout Standard
 \noindent
 \align center
-
-\shape italic
-\size giant
-DRAFT
-\end_layout
-
-\begin_layout Author
-Bill Birch
+$Revision$
 \end_layout
 
 \begin_layout Abstract
@@ -3359,6 +3356,10 @@ right
 
 \begin_layout LyX-Code
 ~ 1 ; Bignum
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Section
