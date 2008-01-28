@@ -23,6 +23,10 @@
 \cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
+\branch Future
+\selected 1
+\color #bcb5ad
+\end_branch
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation skip
@@ -47,20 +51,15 @@ Genyris Language Tutorial
 Bill Birch
 \end_layout
 
-\begin_layout Standard
-\noindent
-\align center
-$Revision$
-\end_layout
-
 \begin_layout Abstract
 This document provides a gentle introduction to programming in the Genyris
  language.
- The Genyris language is a derivative of Lisp except its syntax eliminates
- most parentheses yet retains infix notation.
- It supports generic programming through macros and lazy procedures.
+ The Genyris language is a derivative of Lisp with a mostly parenthese-free
+ syntax yet retainig infix notation.
+ It supports generic programming through macros and object-orientation.
  All objects may be used as functions, and are classifiable.
  It offers a style of object-oriention where all objects can have many classes.
+  
 \end_layout
 
 \begin_layout Standard
@@ -78,16 +77,44 @@ This document provides a gentle introduction to programming in the Genyris
 \end_layout
 
 \begin_layout Paragraph*
-Notation used in this paper.
+Conventions used in this tutorial:
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+
+\emph on
+italicised 
+\emph default
+Snippets of Genyris programs
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+
+\family typewriter
+fixed-font
+\family default
+ Larger programs, interactive sessions are show with the 
+\family typewriter
+>
+\family default
+ prompt of the command-line interpreter and the results printed.
 \end_layout
 
 \begin_layout Standard
-Within the text progam symbols are 
-\emph on
-italicised
-\emph default
-, larger programs are in fixed font.
- Interactive sessions are show with the > prompt of the command-line interpreter.
+\begin_inset Note Shaded
+status open
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+Shaded\InsetSpace ~
+text indicates a feature is not yet implemented.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -143,11 +170,7 @@ Commands can now be typed in at the prompt, use two carriage returns to
 \end_layout
 
 \begin_layout LyX-Code
-> + 42 37
-\end_layout
-
-\begin_layout LyX-Code
-CR
+> + 42 37 CR
 \end_layout
 
 \begin_layout LyX-Code
@@ -2840,7 +2863,7 @@ Here we have defined an abstract base class and two derived classes which
 toMeters
 \emph default
  method.
- Notice the 
+ The 
 \emph on
 raise
 \emph default
@@ -2976,24 +2999,164 @@ To provide protection and we need stonger type checking features or better
 \end_layout
 
 \begin_layout Section
-Classification and Class Validators
+Classification and Validation
+\end_layout
+
+\begin_layout Subsection
+Class Validators
 \end_layout
 
 \begin_layout Standard
-Genyris is dynamic language, which provides for great flexibility.
- In some circumstances it's nice to implement type checking to ensure that
- the constraints of a program are respected, and errors reported.
- This language takes the opinion that objects are created first, then they
- are classified rather than the classiication being requied prior to object
- construction.
- A class is more about the external perception of objects than the way they
- are internally constructed.
+To help validate what constitutes a valid member of a class, the class can
+ provide a 
+\emph on
+_valid?
+\emph default
+ method which can assess an object and return 
+\emph on
+true
+\emph default
+ if it is good.
+ The 
+\emph on
+tag
+\emph default
+ function calls 
+\emph on
+_valid?
+\emph default
+ if provided and fails if 
+\emph on
+_valid?
+\emph default
+ returns 
+\emph on
+nil
+\emph default
+.
+ We can add one to our example base class:
+\end_layout
+
+\begin_layout LyX-Code
+Length
+\end_layout
+
+\begin_layout LyX-Code
+   def _valid?(obj)
+\end_layout
+
+\begin_layout LyX-Code
+      is-instance? obj Bignum
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+is-instance?
+\emph default
+ function only returns true if the object is an instance of 
+\emph on
+Bignum
+\emph default
+ or its subclasses.
+ This prevents anything except numbers being tagged.
+ 
+\end_layout
+
+\begin_layout Subsection
+In-Line Type Checks
+\end_layout
+
+\begin_layout Standard
+Genyris provides a simple mechanism for ensuring type constraints are followed.
+ At any time in a program, if the last element of an expression is not 
+\emph on
+nil
+\emph default
+, but a class, it will check if the result of the expression is 
+\emph on
+_valid
+\emph default
+?, or is an instance of the class.
+ For example this function will always raise an error because
+\emph on
+ 3
+\emph default
+ is not a subclass of 
+\emph on
+String
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+def fails()
+\end_layout
+
+\begin_layout LyX-Code
+    define x 3
+\end_layout
+
+\begin_layout LyX-Code
+    x : String
+\end_layout
+
+\begin_layout Standard
+If there is a class validator available for the class provided, this will
+ be used otherwise a simple 
+\begin_inset Quotes eld
+\end_inset
+
+nominative
+\begin_inset Quotes erd
+\end_inset
+
+ type check of class membership based on the object's tagged classes is
+ used.
+\end_layout
+
+\begin_layout Subsection
+Type-Checked Function Arguments
+\end_layout
+
+\begin_layout Standard
+Genyris supports the familiar type annotations found in most statically
+ typed languages.
+ These type checks are purely optional.
+ When a function is defined, the arguments and return value may be annotated
+ with a class.
+ The actual arguments are checked with a validator if present.
+ Here's an example where we wrap a sensitive function with some type checks:
+\end_layout
+
+\begin_layout LyX-Code
+def safe-call ( (a : Bignum) (b : Bignum) : Bignum ) 
+\end_layout
+
+\begin_layout LyX-Code
+    fragile-function a b    
+\end_layout
+
+\begin_layout Standard
+This function only allows Bignums to be passed in or returned.
+ The last element of the arguments list specifies the return type.
+ 
+\end_layout
+
+\begin_layout Subsection
+Automating Classification
+\end_layout
+
+\begin_layout Standard
+This language embodies the opinion that objects are created first, then
+ they are classified - rather than the classification being determined during
+ object construction.
  
 \begin_inset Foot
 status open
 
 \begin_layout Standard
-We cab say Genyris supports both 
+Genyris supports both 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3014,69 +3177,85 @@ structural
 
 \end_inset
 
- That does not prohibit 'traditional' constructors or object factories,
- we will describe them later.
-\end_layout
-
-\begin_layout Standard
-To help validate what constitutes a valid member of a class, the class can
- provide a 
-\emph on
-_valid?
-\emph default
- method which, when given an object can assess it and return true if it
- is good.
- The 
-\emph on
-tag
-\emph default
- function will call this if it is provided and fail if required.
- Again we can add this to our base class:
-\end_layout
-
-\begin_layout LyX-Code
-Length
-\end_layout
-
-\begin_layout LyX-Code
-   def _valid?(obj)
-\end_layout
-
-\begin_layout LyX-Code
-      is-instance? obj Bignum
-\end_layout
-
-\begin_layout Standard
-This prevents anything except numbers being tagged since the 
-\emph on
-is-instance?
-\emph default
- function only returns true if the object is an instance of 
-\emph on
-Bignum
-\emph default
- or its subclasses.
+ (This does not prohibit 'traditional' constructors or object factories,
+ we will describe them later.) Let's explore how the _valid? predicates can
+ be leveraged to automate classification.
  
 \end_layout
 
 \begin_layout Standard
-Class validator functions like this can be developed to any complexity required.
- They provide a way to automatically categorise unknown objects - an important
- tool for input validation.
- The "examples/people.lin" file shows an example of this pattern.
- There an object is defined and automatically classified according to the
- slots and their values - the 
-\emph on
-_classify
-\emph default
- function recusively walks the class hierarchy testing the object compliance
- with validators.
- Here's an example about classification of people into classes based on
- age and possesions: 
+Class validator functions can be developed to any complexity required.
+ For example validators can inspect the 
+\series bold
+values
+\series default
+ of slots and objects rather than just their type.
+ Here's an example:
 \end_layout
 
 \begin_layout LyX-Code
-define noel 
+class EvenNumber()
+\end_layout
+
+\begin_layout LyX-Code
+  def _valid?(x)
+\end_layout
+
+\begin_layout LyX-Code
+      equal? (% x 2) 0
+\end_layout
+
+\begin_layout Standard
+Validators provide a way to automatically categorise unknown objects - an
+ important tool for input validation.
+ The Genyris distribution includes file "examples/classify.lin" which shows
+ this pattern.
+ It defines a 
+\emph on
+_classify
+\emph default
+ function which recusively walks the class hierarchy testing an object's
+ compliance with validators.
+ Here's an example of classification of people into classes based on age
+ and possessions.
+ First we load the source files:
+\end_layout
+
+\begin_layout LyX-Code
+load "examples/people.lin"
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+load
+\emph default
+ function reads an executes the source file from the Java classpath.
+ Genyris source files are stored within the Java 
+\begin_inset Quotes eld
+\end_inset
+
+jar
+\begin_inset Quotes erd
+\end_inset
+
+ file including some initialisation code and a handful of examples.
+\end_layout
+
+\begin_layout Standard
+Next we create an un-classified object, assign it to a variable 
+\emph on
+kevin
+\emph default
+, and call 
+\emph on
+_classify
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+define kevin
 \end_layout
 
 \begin_layout LyX-Code
@@ -3084,15 +3263,11 @@ define noel
 \end_layout
 
 \begin_layout LyX-Code
-     _name: "Noel"
+     _name: "Kevin"
 \end_layout
 
 \begin_layout LyX-Code
-     _age: 42
-\end_layout
-
-\begin_layout LyX-Code
-     _bong: true
+     _age: 49
 \end_layout
 
 \begin_layout LyX-Code
@@ -3100,7 +3275,19 @@ define noel
 \end_layout
 
 \begin_layout LyX-Code
-> Thing (_classify noel)
+Thing (_classify kevin)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> kevin
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout LyX-Code
@@ -3108,15 +3295,11 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-      _age : 42
+      _age : 49
 \end_layout
 
 \begin_layout LyX-Code
-      _bong : true
-\end_layout
-
-\begin_layout LyX-Code
-      _name : "Noel" ; Hippie Dictionary
+      _name : "Kevin" ; Boomer Dictionary
 \end_layout
 
 \begin_layout LyX-Code
@@ -3130,7 +3313,7 @@ Boomer
 \emph default
  has recognised 
 \emph on
-noel
+kevin
 \emph default
 .
  Here is that class definition:
@@ -3145,7 +3328,148 @@ class Boomer (Person)
 \end_layout
 
 \begin_layout LyX-Code
-      obj
+      obj                           ;  1
+\end_layout
+
+\begin_layout LyX-Code
+         and                        ;  2
+\end_layout
+
+\begin_layout LyX-Code
+            (Person_valid?) self    ;  3
+\end_layout
+
+\begin_layout LyX-Code
+            between 45 _age 60      ;  4
+\end_layout
+
+\begin_layout Standard
+Here the 
+\emph on
+obj
+\emph default
+ argument is tested twice, firstly it must be a valid 
+\emph on
+Person
+\emph default
+ and the 
+\emph on
+_age
+\emph default
+ slot must be between 45 and 60.
+ Notes on the above lines:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+obj
+\emph default
+ is called and evaluates the rest of of the function in its context.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+and
+\emph default
+ is a macro that evaluates each sub-expression passed in turn.
+ If one of them is 
+\emph on
+nil
+\emph default
+ execution ceases and 
+\emph on
+nil
+\emph default
+ is returned.
+ This becomes the return value of the function.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The expression 
+\emph on
+(Person_valid?)
+\emph default
+ retrieves the validator for the 
+\emph on
+Person
+\emph default
+ class and applies it to 
+\emph on
+self
+\emph default
+, which is bound to 
+\emph on
+obj
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+between
+\emph default
+ is a utility function
+\emph on
+.
+\end_layout
+
+\begin_layout Subsection
+Defining Interfaces
+\end_layout
+
+\begin_layout Standard
+'Duck' typing in a language is the vernacular expression for 'structural'
+ subtyping i.e.
+ if it looks like a duck and quacks like a duck - then it is a duck.
+ Duck typing relies on a programmers to ensure that objects passed around
+ actually do have the properties and methods expected by the downstream
+ code.
+ If there is a miss-match then eventually an error will result.
+ For example if we could define a 
+\emph on
+_copy
+\emph default
+ function which expects some kind of stream object with 
+\emph on
+_next
+\emph default
+ and 
+\emph on
+_last? 
+\emph default
+methods.
+ There is no need to perform type-checking in the interface since if the
+ methods exits all will be well.
+ Duck typing is perfectly adequate for most programming tasks, however some
+ developers like to formalise the interfaces.
+ 
+\end_layout
+
+\begin_layout Standard
+In Genyris an Interface can be defined by
+\emph on
+ 
+\emph default
+either providing an appropriate validator or by simply tagging objects with
+ their supported interface classes.
+ For example here is a class definition for the above scenario:
+\end_layout
+
+\begin_layout LyX-Code
+class Stream-Interface()
+\end_layout
+
+\begin_layout LyX-Code
+   def _valid?(object)
+\end_layout
+
+\begin_layout LyX-Code
+      object
 \end_layout
 
 \begin_layout LyX-Code
@@ -3153,85 +3477,35 @@ class Boomer (Person)
 \end_layout
 
 \begin_layout LyX-Code
-            (Person_valid?) self
+            bound? _next
 \end_layout
 
 \begin_layout LyX-Code
-            between 45 _age 60
+            is-instance? _next Closure
 \end_layout
 
 \begin_layout LyX-Code
-
+            bound? _last
 \end_layout
 
-\begin_layout Subsection
-Simple Type Checks
+\begin_layout LyX-Code
+            is-instance? _last Closure 
 \end_layout
 
 \begin_layout Standard
-Genyris provides another simple mechanism for ensuring type constraints
- are followed.
- At any time in a program, if the last element of an expression is not nil,
- but a class, it will check if the result of the expression is valid, or
- is an instance of the class.
- For example this function will always raise an error because 3 is not a
- subclass of 
+The validator here checks whether the object has 
 \emph on
-String
+_next
 \emph default
-:
-\end_layout
-
-\begin_layout LyX-Code
-def f()
-\end_layout
-
-\begin_layout LyX-Code
-    define x 3
-\end_layout
-
-\begin_layout LyX-Code
-    x : String
-\end_layout
-
-\begin_layout Standard
-If there is a class validator available for the class provided, this will
- be used in preference to the simple 
-\begin_inset Quotes eld
-\end_inset
-
-nominative
-\begin_inset Quotes erd
-\end_inset
-
- type check of class membership.
-\end_layout
-
-\begin_layout Subsection
-Type-Checked Function Arguments
-\end_layout
-
-\begin_layout Standard
-When a function is defined, the arguments and return value may be annotated
- with a class, the actual arguments are checked with a validator if present.
- Here's an example where we wrap a sensitive function with some type checks:
-\end_layout
-
-\begin_layout LyX-Code
-def safe-call ( (a : Bignum) (b : Bignum) : Bignum ) 
-\end_layout
-
-\begin_layout LyX-Code
-    fragile-function a b    
-\end_layout
-
-\begin_layout Standard
-This function only allows Bignums to be passed in or returned.
- The last element of the arguments list specifies the return type.
+ and 
+\emph on
+_last
+\emph default
+ slots, and whether they are function closures.
 \end_layout
 
 \begin_layout Section
-Working With Lists
+Working With Pairs and Lists
 \end_layout
 
 \begin_layout Standard
@@ -3273,7 +3547,68 @@ Pair
 \begin_layout Standard
 Note the interpreter prints a colon between the left and right halves of
  the Pair.
- To construct a list, the final right hand element will be 
+ The individual elements of a Pair can be accessed with the 
+\emph on
+left
+\emph default
+ and 
+\emph on
+right
+\emph default
+ functions:
+\end_layout
+
+\begin_layout LyX-Code
+> left (cons "A" "B")
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+~ "A" ; String
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Shaded
+status open
+
+\begin_layout Standard
+Alternatively the slot names 
+\emph on
+_left
+\emph default
+ and 
+\emph on
+_right
+\emph default
+ can be used when the list is called:
+\end_layout
+
+\begin_layout LyX-Code
+> define my-pair (cons "A" "B") 
+\end_layout
+
+\begin_layout LyX-Code
+mypair _right
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+~ "B" ; String
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To construct a proper List, the final right hand element will be 
 \emph on
 nil
 \emph default
@@ -3311,7 +3646,15 @@ Pair
 \emph on
 Pair
 \emph default
-?  To help view 
+?  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Shaded
+status open
+
+\begin_layout Standard
+To help view 
 \emph on
 Pairs
 \emph default
@@ -3334,28 +3677,9 @@ Pairs
 "A" : ("B" : ("C")) ; PRINTWITHCOLON 
 \end_layout
 
-\begin_layout Standard
-The Left and Right componnts of Pairs can be accessed with the 
-\emph on
-left
-\emph default
- and 
-\emph on
-right
-\emph default
- functions e.g.:
-\end_layout
+\end_inset
 
-\begin_layout LyX-Code
-> left (cons 1 2)
-\end_layout
 
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 1 ; Bignum
 \end_layout
 
 \begin_layout LyX-Code
@@ -3454,7 +3778,11 @@ class PersonTraditional (Object)
 \end_layout
 
 \begin_layout Standard
-Objects are created by calling 
+
+\emph on
+Objects
+\emph default
+ are created by calling 
 \emph on
 _new
 \emph default
@@ -3498,7 +3826,7 @@ class Object (Dictionary)
 \end_layout
 
 \begin_layout LyX-Code
-      (tag (dict) self)
+      (tag (dict) self)                     
 \end_layout
 
 \begin_layout LyX-Code
@@ -3514,7 +3842,7 @@ class Object (Dictionary)
 \end_layout
 
 \begin_layout LyX-Code
-   def _init(args)      ; null _init method
+  def _init(args)                           ; null _init method
 \end_layout
 
 \begin_layout LyX-Code
@@ -3522,7 +3850,11 @@ class Object (Dictionary)
 \end_layout
 
 \begin_layout Standard
-This function collects all the input arguments via the 
+This 
+\emph on
+_new
+\emph default
+ collects all the input arguments via the 
 \emph on
 &rest
 \emph default
@@ -3536,12 +3868,172 @@ dict
 _init
 \emph default
  function.
+ The default 
+\emph on
+_init
+\emph default
+ function returns the new object un-modofied.
+\end_layout
+
+\begin_layout Section
+Class Libraries
+\end_layout
+
+\begin_layout Standard
+A major goal of the Genyris language is to encourage re-use and generic
+ programming.
+ The language separates the concerns, form and function, allowing developers
+ to of two kinds of class libraries:
+\end_layout
+
+\begin_layout Enumerate
+Taxonomies of class types and validation functions assembled into class
+ hierarchies useful for automatic triage of objects.
+\end_layout
+
+\begin_layout Enumerate
+Executable code libraries containing functions for manipulating objects
+ of known classes and implementing significant functionality.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Shaded
+status open
+
+\begin_layout Subsection
+Standard Class Libraries
+\end_layout
+
+\begin_layout Standard
+Genyris will provide a number of standard libraries for commonly required
+ subject areas.
  
+\end_layout
+
+\begin_layout Subsubsection*
+List Processing Classes
+\end_layout
+
+\begin_layout Standard
+Genyris imports many types and functions inherited from Lisp and Scheme.
+ These include:
 \end_layout
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-END
+List Traditional Lisp/Scheme list processing with functions such as:
+\end_layout
+
+\begin_deeper
+\begin_layout List
+\labelwidthstring 00.00.0000
+
+\emph on
+_length
+\emph default
+ Count number of items in a list.
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+
+\emph on
+_reverse
+\emph default
+ Reverse a list.
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+
+\emph on
+_mapleft 
+\emph default
+Apply a function closure to every element in a list
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+
+\emph on
+_remove
+\emph default
+ Remove elements from a list satisyfing a predicate.
+\end_layout
+
+\end_deeper
+\begin_layout List
+\labelwidthstring 00.00.0000
+Assoc Association Lists
+\end_layout
+
+\begin_layout Subsubsection*
+Input/Output
+\end_layout
+
+\begin_layout Standard
+Classes including:
+\end_layout
+
+\begin_layout Itemize
+File
+\end_layout
+
+\begin_layout Itemize
+Stream
+\end_layout
+
+\begin_layout Itemize
+Socket
+\end_layout
+
+\begin_layout Subsubsection*
+Tabular Data Types
+\end_layout
+
+\begin_layout Standard
+Support for file types commonly occuring in everyday computer use, typically
+ arranged in tables or records:
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+CSV Comma-Separated Value files
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+Recordset SQL Databases
+\end_layout
+
+\begin_layout List
+\labelwidthstring 00.00.0000
+Tables Rectangular tables of atomic types.
+\end_layout
+
+\begin_layout Subsubsection*
+Utility Types
+\end_layout
+
+\begin_layout Itemize
+Date and Time
+\end_layout
+
+\begin_layout Subsubsection*
+Java Integration
+\end_layout
+
+\begin_layout Itemize
+Java Beans
+\end_layout
+
+\begin_layout Itemize
+Java Class execution
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
