@@ -27,14 +27,14 @@ class Senior (Person)
       obj
          and
             (Person_valid?) self
-            between 46 _age 60
+            between 60 _age 120
 
 class Boomer (Person)
    def _valid? (obj)
       obj
          and
             (Person_valid?) self
-            between 15 _age 45
+            between 45 _age 60
 
 class Hippie (Boomer)
    def _valid? (obj)
@@ -46,8 +46,13 @@ class Hippie (Boomer)
 define noel
   dict
      _name: "Noel"
-     _age: 42
+     _age: 49
      _bong: true
+
+define kevin
+  dict
+     _name: "Kevin"
+     _age: 49
 
 Thing (_classify noel)
 noel
