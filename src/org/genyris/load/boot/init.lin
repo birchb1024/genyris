@@ -16,7 +16,7 @@ defmacro if (test success-result failure-result)
    template
       cond
          ,test ,success-result
-         true ,failure-result
+         else ,failure-result
 
 define left car
 define right cdr

@@ -27,6 +27,13 @@
 \selected 1
 \color #bcb5ad
 \end_branch
+\leftmargin 1cm
+\topmargin 1cm
+\rightmargin 1cm
+\bottommargin 1cm
+\headheight 1cm
+\headsep 1cm
+\footskip 1cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation skip
@@ -51,15 +58,21 @@ Genyris Language Tutorial
 Bill Birch
 \end_layout
 
+\begin_layout Standard
+\noindent
+\align center
+birchb@genyris.org
+\end_layout
+
 \begin_layout Abstract
 This document provides a gentle introduction to programming in the Genyris
  language.
- The Genyris language is a derivative of Lisp with a mostly parenthese-free
- syntax yet retainig infix notation.
+ The language is a derivative of Lisp with a mostly parenthesis-free syntax
+ yet retaining infix notation.
  It supports generic programming through macros and object-orientation.
  All objects may be used as functions, and are classifiable.
- It offers a style of object-oriention where all objects can have many classes.
-  
+ It offers a style of object-orientation where all objects have many classes
+ and where classes are assigned to objects after construction.
 \end_layout
 
 \begin_layout Standard
@@ -84,7 +97,7 @@ Conventions used in this tutorial:
 \labelwidthstring 00.00.0000
 
 \emph on
-italicised 
+italicized 
 \emph default
 Snippets of Genyris programs
 \end_layout
@@ -95,25 +108,32 @@ Snippets of Genyris programs
 \family typewriter
 fixed-font
 \family default
- Larger programs, interactive sessions are show with the 
+ Larger programs are in a fixed font.
+ Interactive sessions are show with the 
 \family typewriter
 >
 \family default
- prompt of the command-line interpreter and the results printed.
+ prompt of the command-line interpreter and the results printed underneath.
 \end_layout
-
-\begin_layout Standard
-\begin_inset Note Shaded
-status open
 
 \begin_layout List
 \labelwidthstring 00.00.0000
-Shaded\InsetSpace ~
+\begin_inset Note Greyedout
+status open
+
+\begin_layout Standard
+Grey\InsetSpace ~
 text indicates a feature is not yet implemented.
 \end_layout
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
+
+\newpage
 
 \end_layout
 
@@ -151,7 +171,18 @@ Where
 nnn-xxxxxxxxx
 \emph default
  is the version number.
- You will see some messages followed by a prompt indicating the interpreter
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+This text describes version 272.
+ 
+\end_layout
+
+\end_inset
+
+You will see some messages followed by a prompt indicating the interpreter
  is ready for your input:
 \end_layout
 
@@ -164,21 +195,31 @@ nnn-xxxxxxxxx
 \end_layout
 
 \begin_layout Standard
-Commands can now be typed in at the prompt, use two carriage returns to
- terminate a statement.
+Commands can now be typed at the prompt, use two carriage returns (
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+) to terminate a statement.
  For example to add two numbers type:
 \end_layout
 
 \begin_layout LyX-Code
-> + 42 37 CR
+> + 42 37 
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+
 \end_layout
 
 \begin_layout LyX-Code
-CR
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Genyris responds with the answer and some information about the result:
+Genyris responds with the answer and a comment about the result:
 \end_layout
 
 \begin_layout LyX-Code
@@ -190,9 +231,9 @@ Syntax
 \end_layout
 
 \begin_layout Standard
-The syntax of Genyris is devived from Lispin, which was based on the idea
- that indentation is used to convey program structure.
- This is common with other languages such as Python.
+The syntax of Genyris is based on the idea that indentation is used to convey
+ program structure.
+ This is in common with other languages such as Python.
  However Genyris preserves the 
 \begin_inset Quotes eld
 \end_inset
@@ -231,23 +272,19 @@ def threat (i j a b)
 
 \begin_layout Standard
 Instead of curly braces or 
-\begin_inset Quotes eld
-\end_inset
-
-begin 
-\begin_inset Quotes eld
-\end_inset
-
+\emph on
+begin
+\emph default
+ and 
+\emph on
 end
-\begin_inset Quotes erd
-\end_inset
-
+\emph default
  tokens, the indentation defines the blocks of code.
  Genyris reads lines one-by-one until it reaches the end of an expression.
- An expression ends when there is no more indentation or on the interactive
+ An expression ends when there is no more indentation on the interactive
  command-line, when two blank lines are seen.
  Within a line, tokens are separated by white-space.
- Genyris recogises the following tokens:
+ Genyris recognizes the following tokens:
 \end_layout
 
 \begin_layout Itemize
@@ -274,7 +311,7 @@ Sub-expressions
 List Pairs
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Comments
 \end_layout
 
@@ -295,22 +332,22 @@ like Lisp comments
 \end_layout
 
 \begin_layout LyX-Code
+
+\series bold
 ; mark the number 24 as a member of class 'C'
 \end_layout
 
 \begin_layout LyX-Code
-tag 24 C      ; => ~ 24 ; Bignum C
+tag 24 C      
+\series bold
+; => ~ 24 ; Bignum C
 \end_layout
 
 \begin_layout LyX-Code
-24 : C        ; => ~ 24 ; Bignum
-\end_layout
-
-\begin_layout LyX-Code
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Numbers
 \end_layout
 
@@ -342,7 +379,7 @@ doubles
 -3 23.78 -100.0089
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Strings
 \end_layout
 
@@ -365,6 +402,8 @@ She said
 \end_layout
 
 \begin_layout Standard
+\noindent
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="1" columns="1">
 <features>
@@ -385,14 +424,10 @@ She said "sea shells"
 \end_inset
 
 
-\newline
-
 \end_layout
 
 \begin_layout Standard
 Other escape sequences are encoded as follows:
-\newline
-
 \end_layout
 
 \begin_layout Standard
@@ -401,13 +436,16 @@ Other escape sequences are encoded as follows:
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="2">
 <features>
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="bottom" leftline="true" rightline="true" width="0">
-<row topline="true">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="bottom" width="0">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 
 \backslash
 n
@@ -425,11 +463,14 @@ New Line
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 
 \backslash
 r
@@ -447,11 +488,14 @@ Carriage Return
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 
 \backslash
 f
@@ -469,11 +513,14 @@ Form Feed
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 
 \backslash
 
@@ -493,11 +540,14 @@ Backslash
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 
 \backslash
 t
@@ -515,11 +565,14 @@ Tab
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 
 \backslash
 
@@ -548,12 +601,12 @@ Quote
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Symbols
 \end_layout
 
 \begin_layout Standard
-Symbols are a group of any printable characters with some exceptions.
+Symbols are a group of any printable characters with exceptions.
  Symbols may start with a single underscore _ but may not contain other
  underscores.
  The following characters are not valid in symbols:
@@ -565,13 +618,16 @@ Symbols are a group of any printable characters with some exceptions.
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="2">
 <features>
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<column alignment="center" valignment="middle" leftline="true" rightline="true" width="0">
-<row topline="true">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 ,
 \end_layout
 
@@ -587,11 +643,14 @@ comma
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 _
 \end_layout
 
@@ -607,11 +666,14 @@ underscore
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 :
 \end_layout
 
@@ -627,11 +689,14 @@ colon
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 '
 \end_layout
 
@@ -647,11 +712,14 @@ single quote
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 "
 \end_layout
 
@@ -667,11 +735,14 @@ double quote
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 `
 \end_layout
 
@@ -687,11 +758,14 @@ backquote
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
+
+\family typewriter
+\series bold
 @
 \end_layout
 
@@ -738,7 +812,28 @@ _age
 ${variable.name}
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Standard
+In Genyris symbols are 
+\begin_inset Quotes eld
+\end_inset
+
+interned
+\begin_inset Quotes erd
+\end_inset
+
+ by the parser so that there is only ever one instance of a particular symbol.
+ Symbols are Case Sensitive so for example 
+\emph on
+Kookaburra
+\emph default
+ and 
+\emph on
+kookaburra
+\emph default
+ are different symbols.
+\end_layout
+
+\begin_layout Subsection
 Expressions and Sub-expressions
 \end_layout
 
@@ -776,7 +871,7 @@ Alpha
 
 \begin_layout Standard
 Indentations must line up with previous indentations of the same level as
- follows (spaces indicated with period):
+ follows (spaces indicated with periods):
 \end_layout
 
 \begin_layout LyX-Code
@@ -792,7 +887,11 @@ Alpha
 \end_layout
 
 \begin_layout LyX-Code
-...Beta              ; correct indentation
+...
+\series bold
+Beta
+\series default
+              ; correct indentation
 \end_layout
 
 \begin_layout Standard
@@ -814,11 +913,15 @@ Alpha
 \end_layout
 
 \begin_layout LyX-Code
-.....Beta              ; ERROR
+.....
+\series bold
+Beta
+\series default
+              ; ERROR
 \end_layout
 
-\begin_layout Subsubsection
-List Pairs
+\begin_layout Subsection
+Pairs
 \end_layout
 
 \begin_layout Standard
@@ -833,9 +936,14 @@ Lisp Cons cells
 \end_inset
 
 .
- The left and right halves of a pair can be explicitly written with the
- colon : character used as an infix operator.
- For example 
+ Pairs have two elements, the left and right, which a references to other
+ Genyris objects.
+ The left and right halves of a 
+\emph on
+Pair
+\emph default
+ can be delimited with the colon : character, an infix operator.
+ For example: 
 \end_layout
 
 \begin_layout LyX-Code
@@ -847,10 +955,10 @@ denotes a
 \emph on
 Pair
 \emph default
- refering to the numbers 1 and 2.
- Normal Genyris linked-list expressions are also composed of 
+ referring to the numbers 1 and 2.
+ Genyris expressions are also composed of linked lists of
 \emph on
-Pairs
+ Pairs
 \emph default
 , hence the expression:
 \end_layout
@@ -873,7 +981,11 @@ Lists are terminated with the special symbol
 nil
 \emph default
 .
- Likewise an indented expression can be expressed a set of Pairs.
+ An indented expression can be expressed in terms of 
+\emph on
+Pairs
+\emph default
+.
  Consider:
 \end_layout
 
@@ -886,7 +998,7 @@ Alpha
 \end_layout
 
 \begin_layout Standard
-is the same as 
+This is the same as 
 \end_layout
 
 \begin_layout LyX-Code
@@ -898,13 +1010,13 @@ Lists do not always have to be terminated with
 \emph on
 nil
 \emph default
- , the colon : operator can be used to squeeze one more reference into the
- end of the list.
- For example the folowing two list has 
+ , the colon : operator can be used to squeeze one more object reference
+ into the end of the list.
+ For example the following list has 
 \emph on
 C
 \emph default
- instead on 
+ instead of 
 \emph on
 nil
 \emph default
@@ -915,2596 +1027,7 @@ nil
 (A B : C) 
 \end_layout
 
-\begin_layout Subsubsection
-Quoting and Special Parser Characters
-\end_layout
-
-\begin_layout Standard
-Lists and atoms can be quoted in Genyris.
- Quoting prevents execution of the quoted expression.
- A single atom can be quoted within an expression:
-\end_layout
-
-\begin_layout LyX-Code
-      list 1 2 'a 3 4    ; evaluates to: (1 2 a 3 4)
-\end_layout
-
-\begin_layout Standard
-What actually happens here is when the parser converts sees a single quote,
- it collects the following expression and wraps it within a 
-\emph on
-quote 
-\emph default
-expression.
- So 
-\emph on
-'<exp> 
-\emph default
-becomes 
-\emph on
-(quote <exp>).
- 
-\emph default
-Quote characters are a shorthand notation.
- When the 
-\emph on
-quote
-\emph default
- function is evaluated it does not evaluate its argument.
- So the above expression is actually:
-\end_layout
-
-\begin_layout LyX-Code
-      list  1 2 (quote a) 3 4
-\end_layout
-
-\begin_layout Standard
-Embedded lists can be quoted in which case the embedded list is not evaluated:
-\end_layout
-
-\begin_layout LyX-Code
-      func 1 2 '(x y z) 3 4
-\end_layout
-
-\begin_layout Standard
-If the quote falls at the beginning of the line, only the first element
- is quoted, not the entire line.
- So:
-\end_layout
-
-\begin_layout LyX-Code
-      list 1 2
-\end_layout
-
-\begin_layout LyX-Code
-          'x y z
-\end_layout
-
-\begin_layout Standard
-is the same as:
-\end_layout
-
-\begin_layout LyX-Code
-      list 1 2 ((quote x) y z)
-\end_layout
-
-\begin_layout Standard
-To allow entire sub-lists to be quoted, the quote function needs to be used
- explicitly as in:
-\end_layout
-
-\begin_layout LyX-Code
-      list 1 2
-\end_layout
-
-\begin_layout LyX-Code
-         quote
-\end_layout
-
-\begin_layout LyX-Code
-            x y z
-\end_layout
-
-\begin_layout Standard
-which is the same as:
-\end_layout
-
-\begin_layout LyX-Code
-      list 1 2 (quote (x y z))
-\end_layout
-
-\begin_layout Subsubsection
-Line Continuation
-\end_layout
-
-\begin_layout Standard
-Sometimes long expressions become unweildy and must be continued on following
- lines.
- There are two mechanisms for this.
- This first and simplest is to use the colon : operator and an indented
- line as follows:
-\end_layout
-
-\begin_layout LyX-Code
-list 1 2 4 5 : 
-\end_layout
-
-\begin_layout LyX-Code
-   6 7 8
-\end_layout
-
-\begin_layout Standard
-This is equivalent to: 
-\end_layout
-
-\begin_layout LyX-Code
-list 1 2 4 5 : (6 7 8)
-\end_layout
-
-\begin_layout Standard
-which is the same as:
-\end_layout
-
-\begin_layout LyX-Code
-list 1 2 4 5 6 7 8
-\end_layout
-
-\begin_layout Standard
-The parser also has a special line continuation character (the tilde ~)
- which continues the previous line indentation level at the start of the
- line under which it is placed.
- This allows arbitrary continuations such as:
-\end_layout
-
-\begin_layout LyX-Code
-quote
-\end_layout
-
-\begin_layout LyX-Code
-   1 2
-\end_layout
-
-\begin_layout LyX-Code
-      3
-\end_layout
-
-\begin_layout LyX-Code
-      ~ 22 ; Pair
-\end_layout
-
-\begin_layout Standard
-which is the same as:
-\end_layout
-
-\begin_layout LyX-Code
-quote '(1 2 (3) 22)
-\end_layout
-
-\begin_layout Subsubsection
-More Quote Characters
-\end_layout
-
-\begin_layout Standard
-Genyris also supports three other special syntactic quotes processed like
- single quotes.
- They are all used to simplify writing macros with the 
-\emph on
-template 
-\emph default
-function, but can be used for aything else.
- These are converted by the parser into exprssions as follows:
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Input Quote Sequence
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Translated Expression
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row topline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-,<exp>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-(comma <exp>)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row topline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-,@<exp>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-(comma-at <exp>)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-`<exp>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-(template <exp>)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Functions
-\end_layout
-
-\begin_layout Standard
-As we have seen, Genyris can execute statements immediately at the command
- line.
- The expression:
-\end_layout
-
-\begin_layout LyX-Code
-+ 42 37
-\end_layout
-
-\begin_layout Standard
-Yields the addition of the two numbers (77).
- Let's explore how this works.
- The interpreter looks for list expressions and assumes the first token
- (or sub-expression) is a function.
- ,The rest of the list constitute the arguments to the function.
- In this case 
-\emph on
-+
-\emph default
- is a symbol which when evaluated in the environment yields a function object
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-or a closure.
-\end_layout
-
-\end_inset
-
-.
- The arguments are also evaluated and the results are passed to the function
- object to be evaluated.
- Lets have a look at 
-\emph on
-+
-\emph default
- by getting its value:
-\end_layout
-
-\begin_layout LyX-Code
-> the +
-\end_layout
-
-\begin_layout LyX-Code
-~ <org.genyris.math.PlusFunction> ; EagerProcedure
-\end_layout
-
-\begin_layout Standard
-What happened here? The function 
-\emph on
-the
-\emph default
- is the identity function - it returns the value of its argument.
- Since the symbol + is an argument to 
-\emph on
-the,
-\emph default
- its value is the underlying function object.
- If we were to type simply 
-\emph on
-+
-\emph default
- the function would be called instead.
- 
-\end_layout
-
 \begin_layout Subsection
-Eager Functions
-\end_layout
-
-\begin_layout Standard
-Most programmers are familiar with eager functions, mathematical functions
- such as + - * and / are eager functions.
- These evaluate their arguments prior to calling the underlying function.
- Let's experiment with some simple math function calls.
- All the following evaluate to 12:
-\end_layout
-
-\begin_layout LyX-Code
-+ 6 6
-\end_layout
-
-\begin_layout LyX-Code
-+ (* 2 3) (+ 2 4)
-\end_layout
-
-\begin_layout LyX-Code
-+ 2 2 2 2 2 2
-\end_layout
-
-\begin_layout Standard
-Notice that the + function can have many arguments.
- Another function that takes multiple arguments is 
-\emph on
-list
-\emph default
-.
- This function constructs a list from it's arguments.
- Here's an example:
-\end_layout
-
-\begin_layout LyX-Code
-> list (* 34 8) "pears" (/ 34 5) "kilos"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-272 "pears" 6.8 "kilos"; Pair
-\end_layout
-
-\begin_layout Standard
-Note that the interpreter always prints a comment after the result.
- This is the list of classes the result belongs to.
- Since 
-\emph on
-list
-\emph default
- returns a list, which is composed of Pairs, 
-\emph on
-Pair
-\emph default
- is printed.
- 
-\end_layout
-
-\begin_layout Section
-Defining Lexical Variables 
-\end_layout
-
-\begin_layout Standard
-In any context you can create new variables with the 
-\emph on
-defvar 
-\emph default
-or 
-\emph on
-define
-\emph default
- functions.
- These functions also take an initial value for the variable:
-\end_layout
-
-\begin_layout LyX-Code
-define name "William"
-\end_layout
-
-\begin_layout LyX-Code
-defvar 'name "William"
-\end_layout
-
-\begin_layout Standard
-In both cases, the symbol 
-\emph on
-name
-\emph default
- is bound to the value 
-\emph on
-
-\begin_inset Quotes eld
-\end_inset
-
-William
-\begin_inset Quotes erd
-\end_inset
-
-
-\emph default
- in the current environment.
- After the variable has been bound, its value can be used in any expression
- in the scope.
- When the interpreter sees a symbol in an argument list it looks for a binding
- in the current environment and all parent environments right up to the
- global execution environment.
- If you define a variable at the command line, it is bound in the global
- execution environment and hence is available everywhere.
- If you try to access a variable when there is no binding, an "unbound variable"
- error will be reported.
-\end_layout
-
-\begin_layout Standard
-Variable values can be updated with the 
-\emph on
-set
-\emph default
- ot 
-\emph on
-set!
-\emph default
- functions, for example:
-\end_layout
-
-\begin_layout LyX-Code
-set 'name "William Pitt"
-\end_layout
-
-\begin_layout LyX-Code
-set! name "William Pitt"
-\end_layout
-
-\begin_layout Standard
-A predicate function 
-\emph on
-bound?
-\emph default
- is provided to test whether a symbol has a binding in the current environments.
- It returns the symbol 
-\emph on
-true
-\emph default
- if the variable is defined otherwise 
-\emph on
-nil
-\emph default
-.
- 
-\end_layout
-
-\begin_layout Section
-Defining Functions 
-\end_layout
-
-\begin_layout Standard
-Functions in genyris are defined in the usual way for functional programming
- languages.
- The 
-\emph on
-def
-\emph default
- function binds a name to a lexical closure containing the current environment
- and the code to be applied in future calls.
- The body of the function is a sequence of expressions to be executed in
- the lexical environment, the last expression's value is returned.
- Here's a definition of the identity function:
-\end_layout
-
-\begin_layout LyX-Code
-def identity (arg) arg
-\end_layout
-
-\begin_layout Standard
-Genyris has two kinds of user-defined functions 'Eager' and 'Lazy'.
- An Eager function evaluates its arguments before it applies them, whereas
- a Lazy' function does not.
- Traditional functions such as '+' and 
-\emph on
-the
-\emph default
- are Eager.
- The 
-\emph on
-quote
-\emph default
- function is a Lazy procedure which returns its single argument un-evaluated.
-\end_layout
-
-\begin_layout Standard
-Here's a more complex function definition:
-\end_layout
-
-\begin_layout LyX-Code
-def factorial (n) 
-\end_layout
-
-\begin_layout LyX-Code
-   if (< n 2) 1 
-\end_layout
-
-\begin_layout LyX-Code
-      * n factorial (- n 1)
-\end_layout
-
-\begin_layout Standard
-The 'if' function is lazy, since it executes one of its arguments if depending
- on the value of the first argument.
- In fact 'if' is a Macro, a special kind of lazy function.
-\end_layout
-
-\begin_layout Section
-Anonymous Functions with Lambda and Friends 
-\end_layout
-
-\begin_layout Standard
-Actually the 
-\emph on
-def
-\emph default
- and 
-\emph on
-defmacro
-\emph default
- functions are really macros in their own right.
- They bind a function to a variable name.
- But what if we want a function without the binding? Genyris provides three
- kinds of in-built function objects.
- The function 
-\emph on
-lambda
-\emph default
- creates a user-defined eager procedure object which is a closure at the
- point of definition.
- For example we can create an anonymous function at the command-line:
-\end_layout
-
-\begin_layout LyX-Code
-> lambda (x) (* x x)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ <org.genyris.interp.ClassicFunction> ; EagerProcedure 
-\end_layout
-
-\begin_layout Standard
-To actually call it we place it wherever a function is expected, such as
- a parameter to a function, or at the beginning of a list:
-\end_layout
-
-\begin_layout LyX-Code
-> (lambda (x) (* x x)) 3
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 9 ; Bignum
-\end_layout
-
-\begin_layout Standard
-Notice the parentheses are required around the expression to trigger the
- execution, the argument 3 is than passed to the resulting closure.
- Functions are 'first class' and can be assigned to variables, which how
- 
-\emph on
-def
-\emph default
- works.
- The following two expressions are equivalent:
-\end_layout
-
-\begin_layout LyX-Code
-define square
-\end_layout
-
-\begin_layout LyX-Code
-   lambda (x) (* x x) 
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-def square (x)
-\end_layout
-
-\begin_layout LyX-Code
-   * x x 
-\end_layout
-
-\begin_layout Subsection
-Lazy and Anonymous
-\end_layout
-
-\begin_layout Standard
-To defer evaluation, a lazy function can be defined using the 
-\emph on
-lambdaq or lambdam 
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-
-\emph on
-for creating macros
-\end_layout
-
-\end_inset
-
-
-\emph default
- macros.
- The next example creates an anonymous function which prepends its argument
- (without evaluation) to a list:
-\end_layout
-
-\begin_layout LyX-Code
-> (lambdaq (x) (list x "World")) (+ "Hello")
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-(+ "Hello") "World" ; Pair
-\end_layout
-
-\begin_layout Section
-Lexical Scoping Captures Environments
-\end_layout
-
-\begin_layout Standard
-Genyris is "lexically scoped" - when a function is defined it remembers
- the environment in which it was defined and re-uses that environment when
- it executes.
- This provides a way of hiding data and giving functions stateful side effects.
- The following example
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-by Abelson & the Sussman
-\end_layout
-
-\end_inset
-
- creates a function which captures the 
-\emph on
-balance
-\emph default
- variable:
-\end_layout
-
-\begin_layout LyX-Code
-def make-withdraw (balance) 
-\end_layout
-
-\begin_layout LyX-Code
-   lambda (amount) 
-\end_layout
-
-\begin_layout LyX-Code
-      set! balance (- balance amount)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-define W1 (make-withdraw 100)
-\end_layout
-
-\begin_layout Standard
-Repeated execution of the function 
-\emph on
-W1
-\emph default
- reduces the value of the balance each time.
- Note that there is no way to directly access the 
-\emph on
-balance
-\emph default
- variable.
-\end_layout
-
-\begin_layout Section
-Conditional Execution
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-cond
-\emph default
- function is a lazy function that allows program flow to change depending
- on the outcome of conditional expressions.
- Here's the syntax of 
-\emph on
-cond
-\emph default
-: 
-\end_layout
-
-\begin_layout LyX-Code
-   cond
-\end_layout
-
-\begin_layout LyX-Code
-      (<condition 1>)
-\end_layout
-
-\begin_layout LyX-Code
-         <sequence 1>
-\end_layout
-
-\begin_layout LyX-Code
-      (<condition 2>)
-\end_layout
-
-\begin_layout LyX-Code
-         <sequence 2>
-\end_layout
-
-\begin_layout LyX-Code
-      ...
-\end_layout
-
-\begin_layout LyX-Code
-      (<condition N>)
-\end_layout
-
-\begin_layout LyX-Code
-         <sequence N>
-\end_layout
-
-\begin_layout Standard
-Each <sequence> is evaluated in turn until one returns which is not 
-\emph on
-nil
-\emph default
-.
- The associated <sequence> is evaluated and the last expression value is
- returned.
- If there is no <sequence>, the value of the <condition> is returned.
-  Typically the last <condition> is a non-nil constant which acts as a default.
- The symbol 
-\emph on
-else
-\emph default
- is provided for this purpose.
- Here's an example: 
-\end_layout
-
-\begin_layout LyX-Code
-   cond
-\end_layout
-
-\begin_layout LyX-Code
-      (equal? foo 1)
-\end_layout
-
-\begin_layout LyX-Code
-         "One"
-\end_layout
-
-\begin_layout LyX-Code
-      (equal? foo 2)
-\end_layout
-
-\begin_layout LyX-Code
-         "Two"
-\end_layout
-
-\begin_layout LyX-Code
-      else
-\end_layout
-
-\begin_layout LyX-Code
-         "Other"
-\end_layout
-
-\begin_layout LyX-Code
-    
-\end_layout
-
-\begin_layout Standard
-The function 
-\emph on
-equal?
-\emph default
- returns 
-\emph on
-true
-\emph default
- if the two arguments are the same otherwise nil.
- so if the symbol 
-\emph on
-foo
-\emph default
- is bound to the value 2 this expression will return 
-\emph on
-"Two"
-\emph default
-.
- 
-\end_layout
-
-\begin_layout Section
-Defining Macros
-\end_layout
-
-\begin_layout Standard
-Macros are an advanced kind of lazy function which are very handy for extending
- the syntax of the language and creating DSLs (Domain-Specific Languages).
- It is a lazy function which after the user's function evaluation has returned,
- it re-evaluates the returned expression in the environment of the caller.
- Here's an example:
-\end_layout
-
-\begin_layout LyX-Code
-defmacro my-if (test success-result failure-result)
-\end_layout
-
-\begin_layout LyX-Code
-   template
-\end_layout
-
-\begin_layout LyX-Code
-      cond
-\end_layout
-
-\begin_layout LyX-Code
-         ,test ,success-result
-\end_layout
-
-\begin_layout LyX-Code
-         true ,failure-result
-\end_layout
-
-\begin_layout Standard
-This macro uses the 
-\emph on
-template
-\emph default
- function and the 
-\emph on
-comma
-\emph default
- to splice the arguments into a formulaic expression.
- Here's an example if its use:
-\end_layout
-
-\begin_layout LyX-Code
-define test 3                 ; binding in the caller's environment
-\end_layout
-
-\begin_layout LyX-Code
-my-if (equal? test 3) 1 2     
-\end_layout
-
-\begin_layout Standard
-This returns 1.
- Notice that the variable 
-\emph on
-test
-\emph default
- is defined in the caller's environment used in the condition, not the binding
- of the same name within 
-\emph on
-my-if
-\emph default
-.
-\end_layout
-
-\begin_layout Section
-Everything is Callable
-\end_layout
-
-\begin_layout Standard
-The evaluator expects the first element of a list to be some kind of closure
- object - something that can be compute its arguments and applied them.
- This is the role of traditional functions such as 
-\emph on
-+
-\emph default
- or user-defined functions.
- In Genyris, 
-\series bold
-all
-\series default
- objects are callable, even atomic types.
- For example an integer can be called as a function thus:
-\end_layout
-
-\begin_layout LyX-Code
-> 12 (+ 33 44) (- 4 3)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 1 ; Bignum
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-Lets analyse what happened.
- The integer 
-\emph on
-12
-\emph default
- was called with a single argument 
-\emph on
-(+ 33 44)
-\emph default
-.
- Since 
-\emph on
-12
-\emph default
- is a lazy function it did not evaluate its single argument.
- Rather it treats its arguments as a sequence of expressions to be evaluated.
- So it calculated 333 + 44 = 77, and then 4 -3 = 1when it reached the last
- expression it returned the value 1.
- This can be entered in indented form with the same result as follows:
-\end_layout
-
-\begin_layout LyX-Code
-12 
-\end_layout
-
-\begin_layout LyX-Code
-   + 33 44
-\end_layout
-
-\begin_layout LyX-Code
-   - 4 3
-\end_layout
-
-\begin_layout Standard
-If an atom is called with no arguments, it simply returns itself.
- We can say they are 
-\begin_inset Quotes eld
-\end_inset
-
-self-evaluating
-\begin_inset Quotes erd
-\end_inset
-
-.
- So at the command line typing a number alone returns the number:
-\end_layout
-
-\begin_layout LyX-Code
-> 1024
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 1024 ; Bignum
-\end_layout
-
-\begin_layout Standard
-As well as executing the sequence of expressions, an execution environment
- was created in which the number 12 is bound to the variable 
-\emph on
-self
-\emph default
-.
- The variable can be used as follows:
-\end_layout
-
-\begin_layout LyX-Code
-> 12 (+ self self) 
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 24 ; Bignum
-\end_layout
-
-\begin_layout Standard
-Here the expression executed results in the number being added to itself.
- The environment can also be used to define local variables with the 
-\emph on
-define
-\emph default
- functions:
-\end_layout
-
-\begin_layout LyX-Code
-12
-\end_layout
-
-\begin_layout LyX-Code
-  define foo 987
-\end_layout
-
-\begin_layout LyX-Code
-  + foo self
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 999 ; Bignum  
-\end_layout
-
-\begin_layout Subsection
-Dynamic Variables
-\end_layout
-
-\begin_layout Standard
-Generally 'dynamic' variables are those which are bound in the environment
- of the caller and hence depend on who is evaluating the expression.
- In Genyris dynamic variables limited to being properties of the current
- called object, and their scope is limited to the current environment.
- The objects have an potentially unlimited lifetime, dynamic variables provide
- a way to bind th same experssion to differnt objects.
- All dynamic variables are prefixed with the underscore _ character
-\emph on
-.
-
-\emph default
- The number 12 above has only one dynamic variable _
-\emph on
-classes
-\emph default
-.
- It can be accessed as follows:
-\end_layout
-
-\begin_layout LyX-Code
-> 12 _classes
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-<class Bignum (Builtin) ()> ; Pair
-\end_layout
-
-\begin_layout Standard
-Here we see that the
-\emph on
- _classes
-\emph default
- variable is referring to the class list of 
-\emph on
-12.
- 
-\emph default
-It as a single class, 
-\emph on
-Bignum
-\emph default
- which is printed.
- This behaviour the default for Genyris objects including Bignums, Pairs
- and Strings.
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-This approach will be used in future to access binary-coded member functions
- for atoms.
-\end_layout
-
-\end_inset
-
-Consider the following examples:
-\end_layout
-
-\begin_layout LyX-Code
-> "What am I?" _classes
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-<class String (Builtin) ()> ; Pair
-\end_layout
-
-\begin_layout Standard
-However where symbols are concerned, the evaluator always looks up the value
- before use.
- So to show this with a symbol we must quote it:
-\end_layout
-
-\begin_layout LyX-Code
-> 'a-symbol _classes
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-<class Symbol (Builtin) ()> ; Pair
-\end_layout
-
-\begin_layout Standard
-Likewise the interpreter assumes a list is a normal function call so a quote
- is needed to see this behaviour: 
-\end_layout
-
-\begin_layout LyX-Code
-> '(3) _classes
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-<class Pair (Builtin) (PRINTWITHCOLON)> ; Pair
-\end_layout
-
-\begin_layout Section
-Dictionaries - Your Garden Variety Objects
-\end_layout
-
-\begin_layout Standard
-Genyris provides 
-\begin_inset Quotes eld
-\end_inset
-
-dictionary
-\begin_inset Quotes erd
-\end_inset
-
- objects which are 
-\begin_inset Quotes eld
-\end_inset
-
-objects
-\begin_inset Quotes erd
-\end_inset
-
- in the normally understood sense for programming languages.
- Each dictionary provides a un-ordered set of dynamic symbols and bindings
- - called 
-\begin_inset Quotes eld
-\end_inset
-
-slots
-\begin_inset Quotes erd
-\end_inset
-
-.
-  
-\end_layout
-
-\begin_layout Standard
-A dictionary is created with the 
-\emph on
-dict
-\emph default
- function call, e.g.:
-\end_layout
-
-\begin_layout LyX-Code
-define pitt
-\end_layout
-
-\begin_layout LyX-Code
-  dict 
-\end_layout
-
-\begin_layout LyX-Code
-    _name  : "Willam Pitt"
-\end_layout
-
-\begin_layout LyX-Code
-    _title : "Prime Minister"
-\end_layout
-
-\begin_layout LyX-Code
-    _date-of-birth   : "28 May 1759"
-\end_layout
-
-\begin_layout Standard
-Here we have created a 
-\emph on
-dict
-\emph default
- with three slots (accessed by dynamic variables) and assigned it to a variable.
- The 
-\emph on
-dict
-\emph default
- function takes a variable number of slot definitions in Pairs, more formally:
- 
-\end_layout
-
-\begin_layout LyX-Code
-  dict
-\end_layout
-
-\begin_layout LyX-Code
-     <dynamic symbol1> : <initial value1>
-\end_layout
-
-\begin_layout LyX-Code
-     <dynamic symbol2> : <initial value2>
-\end_layout
-
-\begin_layout LyX-Code
-     etc...
-\end_layout
-
-\begin_layout Standard
-If there are no initial values given , the symbol 
-\emph on
-nil
-\emph default
- is used as in this example:
-\end_layout
-
-\begin_layout LyX-Code
-> dict
-\end_layout
-
-\begin_layout LyX-Code
-   _foo
-\end_layout
-
-\begin_layout LyX-Code
-   _bar
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-dict
-\end_layout
-
-\begin_layout LyX-Code
-      _bar : nil
-\end_layout
-
-\begin_layout LyX-Code
-      _foo : nil ; Dictionary      
-\end_layout
-
-\begin_layout Standard
-Having slots is all very well, but we need a way to access them.
- As we have seen objects are callable including dictionaries.
- So to access the above 
-\emph on
-dict
-\emph default
- object we call it and use the dynamic variables as follows:
-\end_layout
-
-\begin_layout LyX-Code
-> pitt _name
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ "Willam Pitt" ; String
-\end_layout
-
-\begin_layout Standard
-Here the 
-\emph on
-_name
-\emph default
- dynamid variable is bound to the 
-\emph on
-_name
-\emph default
- slot in the dict.
- To set the slot value we use the 
-\emph on
-set!
-\emph default
- function:
-\end_layout
-
-\begin_layout LyX-Code
-pitt
-\end_layout
-
-\begin_layout LyX-Code
-   set! _name "William Pitt The Younger"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-New slots can be created with 
-\emph on
-define
-\emph default
- since the object acts as an environment in its own right:
-\end_layout
-
-\begin_layout LyX-Code
-pitt 
-\end_layout
-
-\begin_layout LyX-Code
-   define _father "William Pitt the Elder"
-\end_layout
-
-\begin_layout Standard
-Dictionaries also have a 
-\begin_inset Quotes eld
-\end_inset
-
-magic
-\begin_inset Quotes erd
-\end_inset
-
- variable 
-\emph on
-_vars
-\emph default
- which lists all the variables defined in the dictionary.
- This is handy for debugging.
- For example:
-\end_layout
-
-\begin_layout LyX-Code
-> pitt _vars
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-_date-of-birth _name _title _vars ; Pair
-\end_layout
-
-\begin_layout Section
-Adding Behaviour to Dictionaries
-\end_layout
-
-\begin_layout Standard
-Since functions in Genyris are simply bound to variables, and dictionaries
- have them, behaviour can be added to dictionaries.
- It suffices to define a function with a dynamic name in the scope of a
- dictionary:
-\end_layout
-
-\begin_layout LyX-Code
-define jeb
-\end_layout
-
-\begin_layout LyX-Code
-   dict
-\end_layout
-
-\begin_layout LyX-Code
-      _firstName: "Joe" 
-\end_layout
-
-\begin_layout LyX-Code
-      _middleName: "E."
-\end_layout
-
-\begin_layout LyX-Code
-      _lastName: "Brown"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-jeb 
-\end_layout
-
-\begin_layout LyX-Code
-   def _displayName()
-\end_layout
-
-\begin_layout LyX-Code
-       list _firstName _middleName _lastName
-\end_layout
-
-\begin_layout Standard
-Once defined, the function is callable in the context of the 
-\emph on
-jeb
-\emph default
- dict:
-\end_layout
-
-\begin_layout LyX-Code
-> jeb (_displayName)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-"Joe" "E." "Brown" ; Pair
-\end_layout
-
-\begin_layout Standard
-The dict lots are also available anywhere the dict, so a dict can be used
- a mechanism for organisation.
- Consider the following example which show a set of functions organised
- in a 
-\begin_inset Quotes eld
-\end_inset
-
-module
-\begin_inset Quotes erd
-\end_inset
-
- called 
-\emph on
-file
-\emph default
-:
-\end_layout
-
-\begin_layout LyX-Code
-;; File Handling Module
-\end_layout
-
-\begin_layout LyX-Code
-define file
-\end_layout
-
-\begin_layout LyX-Code
-  dict 
-\end_layout
-
-\begin_layout LyX-Code
-    _name  : "File Handling Functions"
-\end_layout
-
-\begin_layout LyX-Code
-    _version : "1.2"
-\end_layout
-
-\begin_layout LyX-Code
-file
-\end_layout
-
-\begin_layout LyX-Code
-   def _copy(from to) ...
-\end_layout
-
-\begin_layout LyX-Code
-   def _delete(filename) ...
-\end_layout
-
-\begin_layout LyX-Code
-   def _zip(file) ...
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-;; Use of
-\end_layout
-
-\begin_layout LyX-Code
-def archive(filename)
-\end_layout
-
-\begin_layout LyX-Code
-    (file_copy) filename "/tmp/foo"
-\end_layout
-
-\begin_layout LyX-Code
-    (file_zip) "/tmp/foo"
-\end_layout
-
-\begin_layout LyX-Code
-    (file_delete) filename
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-Provided the functions in the module don't share variables or state this
- provides some form of organisation.
- 
-\end_layout
-
-\begin_layout Standard
-While it is handy to be able to add behaviour to objects, it does not scale
- when there are many objects which require the same behaviour.
- For this we need something more complex - Classes and Inheritance.
-\end_layout
-
-\begin_layout Section
-Using Classes to Organise Behaviour
-\end_layout
-
-\begin_layout Standard
-All Genyris objects, be they atomic (like numbers) or composite (like dictionari
-es) can belong to one or more classes.
- As such Genyris is a fully 
-\begin_inset Quotes eld
-\end_inset
-
-Object-Oriented
-\begin_inset Quotes erd
-\end_inset
-
- language.
- The interpreter looks at the classes for functions to execute if the function
- name is dynamic (starts with an underscore).
- This way you can add behaviour to many objects in a single place.
- Classes are a dictionaries with special variables which hold the relationships
- between classes.
- The standard classes all have the following variables:
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-_classes         
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-_vars          
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-_classname : an optional symbol to aid debugging
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-_superclasses : a list of parent classes
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-_subclasses : a list of more specific classes
-\end_layout
-
-\begin_layout Standard
-Genyris has a number of built-in classes beginning with 
-\emph on
-Thing
-\emph default
- which is the root of the class hierarchy:
-\end_layout
-
-\begin_layout LyX-Code
-Thing
-\end_layout
-
-\begin_layout LyX-Code
-    Builtin
-\end_layout
-
-\begin_layout LyX-Code
-            Bignum
-\end_layout
-
-\begin_layout LyX-Code
-            String
-\end_layout
-
-\begin_layout LyX-Code
-            Symbol
-\end_layout
-
-\begin_layout LyX-Code
-            Pair
-\end_layout
-
-\begin_layout LyX-Code
-                PRINTWITHCOLON
-\end_layout
-
-\begin_layout LyX-Code
-            Dictionary
-\end_layout
-
-\begin_layout LyX-Code
-            Closure
-\end_layout
-
-\begin_layout LyX-Code
-                LazyProcedure
-\end_layout
-
-\begin_layout LyX-Code
-                EagerProcedure
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-To add behaviour to a class, we need to add a dynamic variable bound to
- a closure object - in other words we need to define a method.
- For example to add a method to compute the square of a number we can add
- this to the 
-\emph on
-Bignum
-\emph default
- class:
-\end_layout
-
-\begin_layout LyX-Code
-Bignum
-\end_layout
-
-\begin_layout LyX-Code
-   def _square() (* self self)
-\end_layout
-
-\begin_layout Standard
-Now all Bignums can compute their own square e.g.:
-\end_layout
-
-\begin_layout LyX-Code
-> 4234389 (_square)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 17930050203321 ; Bignum
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-Notice that the method uses the 
-\emph on
-self
-\emph default
- variable which is automatically bound to the object.
- We need to call methods in the correct way to ensure they refer to the
- correct object since they are dynamic, not lexical variables.
- So if we tried to say:
-\end_layout
-
-\begin_layout LyX-Code
-> (4234389_square)
-\end_layout
-
-\begin_layout Standard
-We would get an error.
- There is a big difference between 
-\emph on
-4234389 (_square)
-\emph default
- and 
-\emph on
-(4234389_square)
-\emph default
-.
- In the first case we are creating an environment around the Bignum 
-\emph on
-4234389
-\emph default
-, then we execute the function bound to the dynamic variable 
-\emph on
-_square
-\emph default
- from Bignum.
- In the second however, we are getting the Bignum's 
-\emph on
-_square
-\emph default
- function but then applying it in the context of the caller.
- This is most likely not what was intended.
- In general methods should always be called in the first way.
-\end_layout
-
-\begin_layout Section
-Defining Classes 
-\end_layout
-
-\begin_layout Standard
-Classes are relatively complex objects so the language provides an in-built
- macro for creating new classes and binding them.
- The syntax is straight forward - lets define a class for length units:
-\end_layout
-
-\begin_layout LyX-Code
-> class Inches()
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-<class Inches (Thing) ()> ; StandardClass Dictionary
-\end_layout
-
-\begin_layout Standard
-This simply creates a class which is a subclass of Thing.
- By convention class names begin with an upper-case character.
- We can use this class to annotate existing objects.
- For example:
-\end_layout
-
-\begin_layout LyX-Code
-> tag 12 Inches
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 12 ; Inches Bignum
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-tag
-\emph default
- function adds a class to its argument and returns the object.
- Notice the interpreter prints out the list of classes 12 belongs to, including
- 
-\emph on
-Inches
-\emph default
-.
- 
-\end_layout
-
-\begin_layout Standard
-So far so good, but a method might be nice.
- Let's add a method to convert to 
-\emph on
-Meters
-\emph default
-.
- Lets assume an 
-\emph on
-Inches
-\emph default
- object is a kind of 
-\emph on
-Bignum
-\emph default
-, and add a method to it:
-\end_layout
-
-\begin_layout LyX-Code
-class Inches(Bignum)
-\end_layout
-
-\begin_layout LyX-Code
-   def _toMeters()
-\end_layout
-
-\begin_layout LyX-Code
-      * self 0.0254
-\end_layout
-
-\begin_layout Standard
-The second parameter to 
-\emph on
-class 
-\emph default
-a list of superclasses.
- We can now define a foot and convert it as follows:
-\end_layout
-
-\begin_layout LyX-Code
-define a-foot
-\end_layout
-
-\begin_layout LyX-Code
-   tag 12 Inches
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-> a-foot (_toMeters)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 0.3048 ; Bignum
-\end_layout
-
-\begin_layout Standard
-This is fine, but we are only returning a 
-\emph on
-Bignum
-\emph default
-.
- Let's refactor to add more classes and tag the return appropriately:
-\end_layout
-
-\begin_layout LyX-Code
-class Length()
-\end_layout
-
-\begin_layout LyX-Code
-   def _toMeters()
-\end_layout
-
-\begin_layout LyX-Code
-      raise "Oops - you invoked an abstract class!"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-class Inches(Length)
-\end_layout
-
-\begin_layout LyX-Code
-   def _toMeters()
-\end_layout
-
-\begin_layout LyX-Code
-      tag (* self 0.0254) Meters
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-class Meters(Length)
-\end_layout
-
-\begin_layout LyX-Code
-   def _toMeters() self
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-Here we have defined an abstract base class and two derived classes which
- both have the _
-\emph on
-toMeters
-\emph default
- method.
- The 
-\emph on
-raise
-\emph default
- function catches invalid use of the 
-\emph on
-Length
-\emph default
- class.
- Lets try the conversion again:
-\end_layout
-
-\begin_layout LyX-Code
-> (tag 12 Inches) (_toMeters)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 0.3048 ; Meters Bignum 
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-Here we are using a sub-expression which returns 
-\emph on
-12
-\emph default
- 
-\emph on
-Inches
-\emph default
- and this object is the focus of the call to 
-\emph on
-_toMeters
-\emph default
-.
- With this new class structure in place we can now add a method to add two
- lengths in different units:
-\end_layout
-
-\begin_layout LyX-Code
-Length
-\end_layout
-
-\begin_layout LyX-Code
-   def tag-Meters (obj)
-\end_layout
-
-\begin_layout LyX-Code
-       tag obj Meters
-\end_layout
-
-\begin_layout LyX-Code
-   def _add(other)
-\end_layout
-
-\begin_layout LyX-Code
-      tag-Meters
-\end_layout
-
-\begin_layout LyX-Code
-         + (_toMeters)
-\end_layout
-
-\begin_layout LyX-Code
-            other (_toMeters)
-\end_layout
-
-\begin_layout Standard
-This method converts both the current object and the argument to 
-\emph on
-Meters
-\emph default
- perfoms the addition and returns the result in 
-\emph on
-Meters
-\emph default
-.
- There is a private method 
-\emph on
-tag-meters
-\emph default
- used by _
-\emph on
-add
-\emph default
- to mark the result class.
- Here's how it runs:
-\end_layout
-
-\begin_layout LyX-Code
-define a-meter
-\end_layout
-
-\begin_layout LyX-Code
-   tag 1 Meters
-\end_layout
-
-\begin_layout LyX-Code
-define a-foot (tag 12 Inches)
-\end_layout
-
-\begin_layout LyX-Code
-> a-foot (_add a-meter)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ 1.3048 ; Meters Bignum
-\end_layout
-
-\begin_layout Standard
-This is quite useful however in the above examplea user of our classes could
- get errors by tagging objects which cannot be added together.
- For example mixing a string into the picture will fail:
-\end_layout
-
-\begin_layout LyX-Code
-(tag "12" Inches) (_add (tag 1 Meters))
-\end_layout
-
-\begin_layout Standard
-To provide protection and we need stonger type checking features or better
- ways to classify inputs.
-\end_layout
-
-\begin_layout Section
-Classification and Validation
-\end_layout
-
-\begin_layout Subsection
-Class Validators
-\end_layout
-
-\begin_layout Standard
-To help validate what constitutes a valid member of a class, the class can
- provide a 
-\emph on
-_valid?
-\emph default
- method which can assess an object and return 
-\emph on
-true
-\emph default
- if it is good.
- The 
-\emph on
-tag
-\emph default
- function calls 
-\emph on
-_valid?
-\emph default
- if provided and fails if 
-\emph on
-_valid?
-\emph default
- returns 
-\emph on
-nil
-\emph default
-.
- We can add one to our example base class:
-\end_layout
-
-\begin_layout LyX-Code
-Length
-\end_layout
-
-\begin_layout LyX-Code
-   def _valid?(obj)
-\end_layout
-
-\begin_layout LyX-Code
-      is-instance? obj Bignum
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-is-instance?
-\emph default
- function only returns true if the object is an instance of 
-\emph on
-Bignum
-\emph default
- or its subclasses.
- This prevents anything except numbers being tagged.
- 
-\end_layout
-
-\begin_layout Subsection
-In-Line Type Checks
-\end_layout
-
-\begin_layout Standard
-Genyris provides a simple mechanism for ensuring type constraints are followed.
- At any time in a program, if the last element of an expression is not 
-\emph on
-nil
-\emph default
-, but a class, it will check if the result of the expression is 
-\emph on
-_valid
-\emph default
-?, or is an instance of the class.
- For example this function will always raise an error because
-\emph on
- 3
-\emph default
- is not a subclass of 
-\emph on
-String
-\emph default
-:
-\end_layout
-
-\begin_layout LyX-Code
-def fails()
-\end_layout
-
-\begin_layout LyX-Code
-    define x 3
-\end_layout
-
-\begin_layout LyX-Code
-    x : String
-\end_layout
-
-\begin_layout Standard
-If there is a class validator available for the class provided, this will
- be used otherwise a simple 
-\begin_inset Quotes eld
-\end_inset
-
-nominative
-\begin_inset Quotes erd
-\end_inset
-
- type check of class membership based on the object's tagged classes is
- used.
-\end_layout
-
-\begin_layout Subsection
-Type-Checked Function Arguments
-\end_layout
-
-\begin_layout Standard
-Genyris supports the familiar type annotations found in most statically
- typed languages.
- These type checks are purely optional.
- When a function is defined, the arguments and return value may be annotated
- with a class.
- The actual arguments are checked with a validator if present.
- Here's an example where we wrap a sensitive function with some type checks:
-\end_layout
-
-\begin_layout LyX-Code
-def safe-call ( (a : Bignum) (b : Bignum) : Bignum ) 
-\end_layout
-
-\begin_layout LyX-Code
-    fragile-function a b    
-\end_layout
-
-\begin_layout Standard
-This function only allows Bignums to be passed in or returned.
- The last element of the arguments list specifies the return type.
- 
-\end_layout
-
-\begin_layout Subsection
-Automating Classification
-\end_layout
-
-\begin_layout Standard
-This language embodies the opinion that objects are created first, then
- they are classified - rather than the classification being determined during
- object construction.
- 
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-Genyris supports both 
-\begin_inset Quotes eld
-\end_inset
-
-nominative
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-structural
-\begin_inset Quotes erd
-\end_inset
-
- subtypes.
-\end_layout
-
-\end_inset
-
- (This does not prohibit 'traditional' constructors or object factories,
- we will describe them later.) Let's explore how the _valid? predicates can
- be leveraged to automate classification.
- 
-\end_layout
-
-\begin_layout Standard
-Class validator functions can be developed to any complexity required.
- For example validators can inspect the 
-\series bold
-values
-\series default
- of slots and objects rather than just their type.
- Here's an example:
-\end_layout
-
-\begin_layout LyX-Code
-class EvenNumber()
-\end_layout
-
-\begin_layout LyX-Code
-  def _valid?(x)
-\end_layout
-
-\begin_layout LyX-Code
-      equal? (% x 2) 0
-\end_layout
-
-\begin_layout Standard
-Validators provide a way to automatically categorise unknown objects - an
- important tool for input validation.
- The Genyris distribution includes file "examples/classify.lin" which shows
- this pattern.
- It defines a 
-\emph on
-_classify
-\emph default
- function which recusively walks the class hierarchy testing an object's
- compliance with validators.
- Here's an example of classification of people into classes based on age
- and possessions.
- First we load the source files:
-\end_layout
-
-\begin_layout LyX-Code
-load "examples/people.lin"
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-load
-\emph default
- function reads an executes the source file from the Java classpath.
- Genyris source files are stored within the Java 
-\begin_inset Quotes eld
-\end_inset
-
-jar
-\begin_inset Quotes erd
-\end_inset
-
- file including some initialisation code and a handful of examples.
-\end_layout
-
-\begin_layout Standard
-Next we create an un-classified object, assign it to a variable 
-\emph on
-kevin
-\emph default
-, and call 
-\emph on
-_classify
-\emph default
-:
-\end_layout
-
-\begin_layout LyX-Code
-define kevin
-\end_layout
-
-\begin_layout LyX-Code
-  dict
-\end_layout
-
-\begin_layout LyX-Code
-     _name: "Kevin"
-\end_layout
-
-\begin_layout LyX-Code
-     _age: 49
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-Thing (_classify kevin)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-> kevin
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-dict
-\end_layout
-
-\begin_layout LyX-Code
-      _age : 49
-\end_layout
-
-\begin_layout LyX-Code
-      _name : "Kevin" ; Boomer Dictionary
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-The class definition for 
-\emph on
-Boomer
-\emph default
- has recognised 
-\emph on
-kevin
-\emph default
-.
- Here is that class definition:
-\end_layout
-
-\begin_layout LyX-Code
-class Boomer (Person)
-\end_layout
-
-\begin_layout LyX-Code
-   def _valid? (obj)
-\end_layout
-
-\begin_layout LyX-Code
-      obj                           ;  1
-\end_layout
-
-\begin_layout LyX-Code
-         and                        ;  2
-\end_layout
-
-\begin_layout LyX-Code
-            (Person_valid?) self    ;  3
-\end_layout
-
-\begin_layout LyX-Code
-            between 45 _age 60      ;  4
-\end_layout
-
-\begin_layout Standard
-Here the 
-\emph on
-obj
-\emph default
- argument is tested twice, firstly it must be a valid 
-\emph on
-Person
-\emph default
- and the 
-\emph on
-_age
-\emph default
- slot must be between 45 and 60.
- Notes on the above lines:
-\end_layout
-
-\begin_layout Enumerate
-
-\emph on
-obj
-\emph default
- is called and evaluates the rest of of the function in its context.
-\end_layout
-
-\begin_layout Enumerate
-
-\emph on
-and
-\emph default
- is a macro that evaluates each sub-expression passed in turn.
- If one of them is 
-\emph on
-nil
-\emph default
- execution ceases and 
-\emph on
-nil
-\emph default
- is returned.
- This becomes the return value of the function.
- 
-\end_layout
-
-\begin_layout Enumerate
-The expression 
-\emph on
-(Person_valid?)
-\emph default
- retrieves the validator for the 
-\emph on
-Person
-\emph default
- class and applies it to 
-\emph on
-self
-\emph default
-, which is bound to 
-\emph on
-obj
-\emph default
-.
- 
-\end_layout
-
-\begin_layout Enumerate
-
-\emph on
-between
-\emph default
- is a utility function
-\emph on
-.
-\end_layout
-
-\begin_layout Subsection
-Defining Interfaces
-\end_layout
-
-\begin_layout Standard
-'Duck' typing in a language is the vernacular expression for 'structural'
- subtyping i.e.
- if it looks like a duck and quacks like a duck - then it is a duck.
- Duck typing relies on a programmers to ensure that objects passed around
- actually do have the properties and methods expected by the downstream
- code.
- If there is a miss-match then eventually an error will result.
- For example if we could define a 
-\emph on
-_copy
-\emph default
- function which expects some kind of stream object with 
-\emph on
-_next
-\emph default
- and 
-\emph on
-_last? 
-\emph default
-methods.
- There is no need to perform type-checking in the interface since if the
- methods exits all will be well.
- Duck typing is perfectly adequate for most programming tasks, however some
- developers like to formalise the interfaces.
- 
-\end_layout
-
-\begin_layout Standard
-In Genyris an Interface can be defined by
-\emph on
- 
-\emph default
-either providing an appropriate validator or by simply tagging objects with
- their supported interface classes.
- For example here is a class definition for the above scenario:
-\end_layout
-
-\begin_layout LyX-Code
-class Stream-Interface()
-\end_layout
-
-\begin_layout LyX-Code
-   def _valid?(object)
-\end_layout
-
-\begin_layout LyX-Code
-      object
-\end_layout
-
-\begin_layout LyX-Code
-         and
-\end_layout
-
-\begin_layout LyX-Code
-            bound? _next
-\end_layout
-
-\begin_layout LyX-Code
-            is-instance? _next Closure
-\end_layout
-
-\begin_layout LyX-Code
-            bound? _last
-\end_layout
-
-\begin_layout LyX-Code
-            is-instance? _last Closure 
-\end_layout
-
-\begin_layout Standard
-The validator here checks whether the object has 
-\emph on
-_next
-\emph default
- and 
-\emph on
-_last
-\emph default
- slots, and whether they are function closures.
-\end_layout
-
-\begin_layout Section
 Working With Pairs and Lists
 \end_layout
 
@@ -3571,7 +1094,7 @@ right
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Shaded
+\begin_inset Note Greyedout
 status open
 
 \begin_layout Standard
@@ -3646,11 +1169,11 @@ Pair
 \emph on
 Pair
 \emph default
-?  
+? 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Shaded
+\begin_inset Note Greyedout
 status open
 
 \begin_layout Standard
@@ -3682,21 +1205,2705 @@ Pairs
 
 \end_layout
 
+\begin_layout Subsection
+Quoting and Special Parser Characters
+\end_layout
+
+\begin_layout Standard
+Lists and atoms can be quoted in Genyris.
+ Quoting is used to prevent execution of expressions.
+ A single atom can be quoted within an expression:
+\end_layout
+
 \begin_layout LyX-Code
+      list 1 2 
+\series bold
+'a
+\series default
+ 3 4    ; evaluates to: (1 2 
+\series bold
+a
+\series default
+ 3 4)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+
+\emph on
+list
+\emph default
+ is a function we will cover later.
+ 
+\end_layout
+
+\end_inset
+
+Quote characters are a shorthand notation which saves typing.
+ When the parser sees a single quote, it collects the following expression
+ and wraps it within a 
+\emph on
+quote 
+\emph default
+expression.
+ So 
+\emph on
+'<exp> 
+\emph default
+becomes 
+\emph on
+(quote <exp>).
+ 
+\emph default
+When the 
+\emph on
+quote
+\emph default
+ function is evaluated it does not evaluate its argument.
+ So the above expression is actually:
+\end_layout
+
+\begin_layout LyX-Code
+      list  1 2 
+\series bold
+(quote a)
+\series default
+ 3 4
+\end_layout
+
+\begin_layout Standard
+Embedded lists can be quoted, in which case the embedded list is not evaluated:
+\end_layout
+
+\begin_layout LyX-Code
+      func 1 2 
+\series bold
+'(x y z)
+\series default
+ 3 4
+\end_layout
+
+\begin_layout Standard
+If the quote falls at the beginning of the line, only the first element
+ is quoted, not the entire line.
+ So:
+\end_layout
+
+\begin_layout LyX-Code
+      list 1 2
+\end_layout
+
+\begin_layout LyX-Code
+          
+\series bold
+'x
+\series default
+ y z
+\end_layout
+
+\begin_layout Standard
+is the same as:
+\end_layout
+
+\begin_layout LyX-Code
+      list 1 2 (
+\series bold
+(quote x)
+\series default
+ y z)
+\end_layout
+
+\begin_layout Standard
+To allow entire sub-expressions to be quoted, the quote function needs to
+ be used as in this example:
+\end_layout
+
+\begin_layout LyX-Code
+      list 1 2
+\end_layout
+
+\begin_layout LyX-Code
+         
+\series bold
+quote
+\end_layout
+
+\begin_layout LyX-Code
+            x y z
+\end_layout
+
+\begin_layout Standard
+which is the same as:
+\end_layout
+
+\begin_layout LyX-Code
+      list 1 2 
+\series bold
+(quote (x y z))
+\end_layout
+
+\begin_layout Subsection
+Line Continuation
+\end_layout
+
+\begin_layout Standard
+Sometimes long expressions become unwieldy and must be continued on following
+ lines.
+ There are two mechanisms for this.
+ This first and simplest is to use the colon : operator and an indented
+ line as follows:
+\end_layout
+
+\begin_layout LyX-Code
+list 1 2 4 5 : 
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   6 7 8
+\end_layout
+
+\begin_layout Standard
+This is equivalent to: 
+\end_layout
+
+\begin_layout LyX-Code
+list 1 2 4 5 
+\series bold
+: (6 7 8)
+\end_layout
+
+\begin_layout Standard
+which is the same as:
+\end_layout
+
+\begin_layout LyX-Code
+list 1 2 4 5 
+\series bold
+6 7 8
+\end_layout
+
+\begin_layout Standard
+The parser also has a special line continuation character (the tilde ~)
+ which continues the previous line indentation level at the start of the
+ line under which it is placed.
+ This allows arbitrary continuations such as:
+\end_layout
+
+\begin_layout LyX-Code
+quote
+\end_layout
+
+\begin_layout LyX-Code
+   1 2
+\end_layout
+
+\begin_layout LyX-Code
+      3
+\end_layout
+
+\begin_layout LyX-Code
+      
+\series bold
+~ 22 
+\series default
+; Pair
+\end_layout
+
+\begin_layout Standard
+which is the same as:
+\end_layout
+
+\begin_layout LyX-Code
+quote '(1 2 (3) 
+\series bold
+22
+\series default
+)
+\end_layout
+
+\begin_layout Subsection
+More Quote Characters
+\end_layout
+
+\begin_layout Standard
+Genyris also supports three other special syntactic quotes processed like
+ single quotes.
+ They are all used to simplify writing macros with the 
+\emph on
+template 
+\emph default
+function, but can be used for anything else.
+ These are converted by the parser into expressions as follows:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\series bold
+Input Quote Sequence
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\series bold
+Translated Expression
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+,<exp>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(comma <exp>)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+,@<exp>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(comma-at <exp>)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+`<exp>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(template <exp>)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Greyedout
+status open
+
+\begin_layout Standard
+In a future version you will be able to call the parser in any environment
+ (not just the global one and hence bind the quote symbols to your own values).
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
 \begin_layout Section
-Traditional Constuctors and Factories
+Variables 
 \end_layout
 
 \begin_layout Standard
-Whilst the philosophy of Genyris is to classify objects after constuction
+In any context you can create new variables with the 
+\emph on
+defvar 
+\emph default
+or 
+\emph on
+define
+\emph default
+ functions.
+ These functions also take an initial value for the variable:
+\end_layout
+
+\begin_layout LyX-Code
+define name "William"
+\end_layout
+
+\begin_layout LyX-Code
+defvar 'name "William"
+\end_layout
+
+\begin_layout Standard
+In both examples, the symbol 
+\emph on
+name
+\emph default
+ is bound to the value 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+William
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ in the current environment.
+ After the variable has been bound, its value can be used in any expression
+ in the scope.
+ When the interpreter sees a symbol in an argument list it looks for a binding
+ in the current environment and all parent environments right up to the
+ global execution environment.
+ If you define a variable at the command line, it is bound in the global
+ execution environment and hence is available everywhere.
+ If you try to access a variable when there is no binding, an "unbound variable"
+ error will be reported.
+\end_layout
+
+\begin_layout Standard
+Variable values can be updated with the 
+\emph on
+set
+\emph default
+ or 
+\emph on
+set!
+\emph default
+ functions, for example:
+\end_layout
+
+\begin_layout LyX-Code
+set 'name "William Pitt"
+\end_layout
+
+\begin_layout LyX-Code
+set! name "William Pitt"
+\end_layout
+
+\begin_layout Standard
+A predicate function 
+\emph on
+bound?
+\emph default
+ is provided to test whether a symbol has a binding in the current environments.
+ It returns the symbol 
+\emph on
+true
+\emph default
+ if the variable is defined otherwise 
+\emph on
+nil
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Section
+Functions
+\end_layout
+
+\begin_layout Standard
+As we have seen, Genyris can execute statements immediately at the command
+ line.
+ The expression:
+\end_layout
+
+\begin_layout LyX-Code
++ 42 37
+\end_layout
+
+\begin_layout Standard
+Yields the addition of the two numbers (77).
+ Let's explore how this works.
+ The interpreter looks for list expressions and assumes the first token
+ (or sub-expression) is a function.
+ The rest of the list constitute the arguments to the function.
+ In this case 
+\emph on
++
+\emph default
+ is a symbol which yields a procedure object.
+ The arguments are also evaluated and the results are passed to the procedure
+ to be evaluated.
+ Lets have a look at 
+\emph on
++
+\emph default
+ by getting its value:
+\end_layout
+
+\begin_layout LyX-Code
+> the +
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ <org.genyris.math.PlusFunction> ; EagerProcedure
+\end_layout
+
+\begin_layout Standard
+The function 
+\emph on
+the
+\emph default
+ is the identity function - it simply returns the value of its argument.
+ Since the symbol + is an argument to 
+\emph on
+the,
+\emph default
+ its value is the underlying procedure.
+ A 
+\begin_inset Quotes eld
+\end_inset
+
+Procedure
+\begin_inset Quotes erd
+\end_inset
+
+, or 
+\begin_inset Quotes eld
+\end_inset
+
+Closure
+\begin_inset Quotes erd
+\end_inset
+
+, is an object which keeps a reference to the environment in which it was
+ originally defined and the executable code to be run when called.
+ In addition it knows how its arguments are to be handled before the executable
+ code is run.
+\end_layout
+
+\begin_layout Subsection
+Eager Functions
+\end_layout
+
+\begin_layout Standard
+Programmers are familiar with eager functions the default in most languages.
+ Mathematical functions such as + - * and / are eager functions.
+ These evaluate their arguments prior to applying the underlying procedure.
+ Let's experiment with some simple math function calls.
+ All the following expressions evaluate to 12:
+\end_layout
+
+\begin_layout LyX-Code
++ 6 6
+\end_layout
+
+\begin_layout LyX-Code
++ (* 2 3) (+ 2 4)
+\end_layout
+
+\begin_layout LyX-Code
++ 2 2 2 2 2 2
+\end_layout
+
+\begin_layout Standard
+Notice that the + function can have many arguments.
+ Another function that takes multiple arguments is 
+\emph on
+list
+\emph default
+.
+ This function constructs a list from its arguments.
+ Here's an example:
+\end_layout
+
+\begin_layout LyX-Code
+> list (* 34 8) "pears" (/ 34 5) "kilos"
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+272 "pears" 6.8 "kilos"; Pair
+\end_layout
+
+\begin_layout Standard
+Note that the interpreter always prints a comment after the result.
+ This comment is the list of classes the result belongs to.
+ Since 
+\emph on
+list
+\emph default
+ returns a list, which is composed of Pairs, 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Pair
+\emph default
+ 
+\begin_inset Quotes eld
+\end_inset
+
+is printed.
+ 
+\end_layout
+
+\begin_layout Subsection
+Lazy Functions - Conditional Execution
+\end_layout
+
+\begin_layout Standard
+No language is complete without conditional functions.
+ The 
+\emph on
+cond
+\emph default
+ function is a lazy function that allows program flow to change depending
+ on the outcome of conditional expressions.
+ Here's the syntax of 
+\emph on
+cond
+\emph default
+: 
+\end_layout
+
+\begin_layout LyX-Code
+   cond
+\end_layout
+
+\begin_layout LyX-Code
+      (<condition 1>)
+\end_layout
+
+\begin_layout LyX-Code
+         <sequence 1>
+\end_layout
+
+\begin_layout LyX-Code
+      (<condition 2>)
+\end_layout
+
+\begin_layout LyX-Code
+         <sequence 2>
+\end_layout
+
+\begin_layout LyX-Code
+      ...
+\end_layout
+
+\begin_layout LyX-Code
+      (<condition N>)
+\end_layout
+
+\begin_layout LyX-Code
+         <sequence N>
+\end_layout
+
+\begin_layout Standard
+Each condition is evaluated in turn until one returns which is not 
+\emph on
+nil
+\emph default
+.
+ The associated sequence is evaluated and the value of the last expression
+ in the sequence is returned.
+ If there is no sequence, the value of the condition is returned.
+ Typically the last condition is a non-nil constant and its sequence is
+ the default.
+ The symbol 
+\emph on
+else
+\emph default
+ is provided for this purpose.
+ Here's an example: 
+\end_layout
+
+\begin_layout LyX-Code
+   cond
+\end_layout
+
+\begin_layout LyX-Code
+      (equal? foo 1)
+\end_layout
+
+\begin_layout LyX-Code
+         "One"
+\end_layout
+
+\begin_layout LyX-Code
+      (equal? foo 2)
+\end_layout
+
+\begin_layout LyX-Code
+         "Two"
+\end_layout
+
+\begin_layout LyX-Code
+      else
+\end_layout
+
+\begin_layout LyX-Code
+         "Other"
+\end_layout
+
+\begin_layout LyX-Code
+    
+\end_layout
+
+\begin_layout Standard
+The function 
+\emph on
+equal?
+\emph default
+ returns 
+\emph on
+true
+\emph default
+ if the two arguments are the same otherwise 
+\emph on
+nil
+\emph default
+.
+ so if the symbol 
+\emph on
+foo
+\emph default
+ is bound to the value 2 this expression will return 
+\emph on
+"Two"
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Defining Your Own Functions 
+\end_layout
+
+\begin_layout Standard
+Functions in genyris are defined in the usual way for functional programming
+ languages.
+ The 
+\emph on
+def
+\emph default
+ function binds a name to a lexical closure containing the current environment
+ and the code to be applied in future calls.
+ The body of the function is a sequence of expressions to be executed in
+ the lexical environment, the last expression's value is returned.
+ Here's a definition of the identity function:
+\end_layout
+
+\begin_layout LyX-Code
+def identity (arg) arg
+\end_layout
+
+\begin_layout Standard
+Genyris has two kinds of user-defined functions 'eager' and 'lazy'.
+ An eager function evaluates its arguments before it applies them, whereas
+ a lazy function does not.
+ Traditional functions such as '+' and 
+\emph on
+the
+\emph default
+ are eager.
+ 
+\emph on
+list
+\emph default
+ is an eager function which returns all its arguments in a list.
+ The 
+\emph on
+quote
+\emph default
+ function is a lazy procedure which returns its single argument un-evaluated.
+ 
+\end_layout
+
+\begin_layout Standard
+Here is a more complex function definition:
+\end_layout
+
+\begin_layout LyX-Code
+def factorial (n) 
+\end_layout
+
+\begin_layout LyX-Code
+   if (< n 2) 1 
+\end_layout
+
+\begin_layout LyX-Code
+      * n factorial (- n 1)
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+if
+\emph default
+ function is lazy, since, depending on the value of the first argument,
+ it executes only one of its other two arguments .
+ In fact 
+\emph on
+if
+\emph default
+ is a macro, a special kind of lazy function which we introduce later.
+\end_layout
+
+\begin_layout Subsection
+Anonymous Functions with Lambda and Friends 
+\end_layout
+
+\begin_layout Standard
+Actually the 
+\emph on
+def
+\emph default
+ and 
+\emph on
+defmacro
+\emph default
+ functions are lazy functions.
+ They bind a variable name to procedure compiled from the function body.
+ But what if we want a function without the binding? Genyris provides three
+ kinds of in-built function objects.
+ The function 
+\emph on
+lambda
+\emph default
+ creates a user-defined eager procedure object which is a closure at the
+ point of definition.
+ For example we can create an anonymous function at the command-line:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+lambda
+\series default
+ (x) (* x x)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ <org.genyris.interp.ClassicFunction> ; EagerProcedure 
+\end_layout
+
+\begin_layout Standard
+To actually call it we place it wherever a function is expected, such as
+ a parameter to a function, or at the beginning of a list:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+(lambda (x) (* x x))
+\series default
+ 3
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 9 ; Bignum
+\end_layout
+
+\begin_layout Standard
+Notice the parentheses are required around the expression to trigger the
+ execution.
+ The argument 3 is than passed to the resulting closure.
+ Functions are 'first class' and can be assigned to variables, which is
+ how 
+\emph on
+def
+\emph default
+ works.
+ The following two expressions are equivalent:
+\end_layout
+
+\begin_layout LyX-Code
+define square
+\end_layout
+
+\begin_layout LyX-Code
+   lambda (x) (* x x) 
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+def square (x)
+\end_layout
+
+\begin_layout LyX-Code
+   * x x 
+\end_layout
+
+\begin_layout Subsection
+Lazy and Anonymous Functions
+\end_layout
+
+\begin_layout Standard
+To defer evaluation, a lazy function can be defined using the 
+\emph on
+lambdaq or lambdam 
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+
+\emph on
+for creating macros
+\end_layout
+
+\end_inset
+
+
+\emph default
+ macros.
+ The next example creates an anonymous function which prepends its argument
+ (without evaluation) to a list:
+\end_layout
+
+\begin_layout LyX-Code
+> (
+\series bold
+lambdaq
+\series default
+ (x) (list x "World")) (+ "Hello")
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(+ "Hello") "World" ; Pair
+\end_layout
+
+\begin_layout Subsection
+Type-Checked Function Arguments
+\end_layout
+
+\begin_layout Standard
+Genyris supports the familiar type annotations found in most statically
+ typed languages.
+ These type checks are purely optional.
+ When a function is defined, the arguments and return value may be annotated
+ with a class.
+ The actual arguments are checked with a validator (if present).
+ Here's an example of a sensitive function protected by type checks:
+\end_layout
+
+\begin_layout LyX-Code
+def safe-call ((a : Bignum) (b : Bignum) : Bignum) 
+\end_layout
+
+\begin_layout LyX-Code
+    fragile-function a b    
+\end_layout
+
+\begin_layout Standard
+This function only allows Bignums to be passed in or returned.
+ The last element of the arguments list specifies the return type.
+ If a type check fails an exception is raised.
+\end_layout
+
+\begin_layout Subsection
+In-Line Type Checks
+\end_layout
+
+\begin_layout Standard
+Genyris provides a simpler mechanism for ensuring type constraints are followed.
+ If the last element of an expression list is not 
+\emph on
+nil
+\emph default
+, but a class, it will check if the result of the expression is 
+\emph on
+_valid
+\emph default
+?, or if it is an instance of the class.
+ For example this function will always raise an error because
+\emph on
+ 3
+\emph default
+ is not a subclass of 
+\emph on
+String
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+def fails()
+\end_layout
+
+\begin_layout LyX-Code
+    define x 3
+\end_layout
+
+\begin_layout LyX-Code
+    x : String
+\end_layout
+
+\begin_layout Standard
+If a class validator is provided, this will be used otherwise a simple 
+\begin_inset Quotes eld
+\end_inset
+
+nominative
+\begin_inset Quotes erd
+\end_inset
+
+ type check of class membership based on the object's tagged classes is
+ used.
+ The 
+\emph on
+_valid?
+\emph default
+ method is a stronger check, however nominative checking is sometimes preferred
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+Genyris supports both 
+\begin_inset Quotes eld
+\end_inset
+
+nominative
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+structural
+\begin_inset Quotes erd
+\end_inset
+
+ subtyping
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Defining Macros
+\end_layout
+
+\begin_layout Standard
+Macros are an advanced lazy function which are very handy for extending
+ the syntax of the language and creating DSLs (Domain-Specific Languages).
+ Macros are lazy functions which, after the procedure has returned, it re-evalua
+tes the returned expression in the environment of the caller.
+ Here's an example:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+defmacro
+\series default
+ my-if (test success-result failure-result)
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+template
+\end_layout
+
+\begin_layout LyX-Code
+      cond
+\end_layout
+
+\begin_layout LyX-Code
+         ,test ,success-result
+\end_layout
+
+\begin_layout LyX-Code
+         else ,failure-result
+\end_layout
+
+\begin_layout Standard
+This macro uses the 
+\emph on
+template
+\emph default
+ function and 
+\emph on
+comma
+\emph default
+ to splice the arguments into a formulaic expression.
+ Here's an example if its use:
+\end_layout
+
+\begin_layout LyX-Code
+define test 3                 ; binding in the caller's environment
+\end_layout
+
+\begin_layout LyX-Code
+my-if (equal? test 3) 1 2     
+\end_layout
+
+\begin_layout Standard
+This returns 1.
+ Notice that the variable 
+\emph on
+test
+\emph default
+ is defined in the caller's environment used in the condition, not the binding
+ of the same name within 
+\emph on
+my-if
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Lexical Scoping Captures Environments
+\end_layout
+
+\begin_layout Standard
+Genyris is "lexically scoped" - when a function is defined it remembers
+ the environment in which it was defined and re-uses that environment when
+ it executes.
+ This provides a way of hiding data and giving functions stateful side effects.
+ The following example
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+refer to Abelson and Sussmans' book 
+\begin_inset Quotes eld
+\end_inset
+
+Structure and Interpretation of Computer Programs
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ creates a function which captures the 
+\emph on
+balance
+\emph default
+ variable:
+\end_layout
+
+\begin_layout LyX-Code
+def make-withdraw (balance) 
+\end_layout
+
+\begin_layout LyX-Code
+   lambda (amount) 
+\end_layout
+
+\begin_layout LyX-Code
+      set! balance (- balance amount)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+define W1 (make-withdraw 100)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> W1 25
+\end_layout
+
+\begin_layout LyX-Code
+W1 25
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 75 ; Bignum
+\end_layout
+
+\begin_layout LyX-Code
+~ 50 ; Bignum
+\end_layout
+
+\begin_layout Standard
+Repeated execution of the function 
+\emph on
+W1
+\emph default
+ reduces the value of the balance each time.
+ The sequence of evaluation is as follows:
+\end_layout
+
+\begin_layout Enumerate
+the lazy 
+\emph on
+def
+\emph default
+ expression is executed which results in a procedure object bound to the
+ symbol 
+\emph on
+make-withdraw
+\end_layout
+
+\begin_layout Enumerate
+the argument to the eager 
+\emph on
+define
+\emph default
+ expression is evaluated which results in a call to 
+\emph on
+make-withdraw
+\end_layout
+
+\begin_layout Enumerate
+the eager 
+\emph on
+make-withdraw 
+\emph default
+creates a new environment in which it binds 
+\emph on
+balance
+\emph default
+ to 
+\emph on
+100
+\end_layout
+
+\begin_layout Enumerate
+the body of 
+\emph on
+make-withdraw
+\emph default
+ is evaluated resulting in an procedure object which captures a reference
+ to 
+\emph on
+balance 
+\emph default
+and contains the executable code starting with 
+\emph on
+set!
+\end_layout
+
+\begin_layout Enumerate
+the procedure object is bound to W1
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+W1
+\emph default
+ is called with the argument 25
+\end_layout
+
+\begin_layout Enumerate
+the procedure object bound to 
+\emph on
+W1
+\emph default
+ subtracts 25 from the 
+\emph on
+balance
+\emph default
+ binding in the
+\emph on
+ 
+\emph default
+environment created in step 3
+\end_layout
+
+\begin_layout Standard
+Note that there is no way to directly access the 
+\emph on
+balance
+\emph default
+ variable.
+ 
+\end_layout
+
+\begin_layout Section
+Everything is Callable
+\end_layout
+
+\begin_layout Standard
+The evaluator expects the first element of a list to be some kind of procedure
+ object - something that can compute its arguments and apply them.
+ This is the role of traditional functions such as 
+\emph on
++
+\emph default
+ or user-defined functions.
+ In Genyris, 
+\bar under
+all
+\bar default
+ objects are callable, even atomic types.
+ For example an integer can be called as a function thus:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+12
+\series default
+ (+ 33 44) (- 4 3)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 1 ; Bignum
+\end_layout
+
+\begin_layout Standard
+Lets analyse what happened.
+ The integer 
+\emph on
+12
+\emph default
+ was called with two argument 
+\emph on
+(+ 33 44)
+\emph default
+ and 
+\emph on
+(- 4 3)
+\emph default
+.
+ Since 
+\emph on
+12
+\emph default
+ is a lazy function it did not evaluate its arguments.
+ Rather it treated its arguments as a sequence of expressions to be evaluated
+ in a new environment.
+ So it calculated 333 + 44 = 77, and then 4 -3 = 1.
+ When it reached this last expression it returned the value 1.
+ This expression can be written in indented form with the same result as
+ follows:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+12
+\series default
+ 
+\end_layout
+
+\begin_layout LyX-Code
+   + 33 44
+\end_layout
+
+\begin_layout LyX-Code
+   - 4 3
+\end_layout
+
+\begin_layout Standard
+If an atom is called with no arguments, it simply returns itself.
+ We can say they are 
+\begin_inset Quotes eld
+\end_inset
+
+self-evaluating
+\begin_inset Quotes erd
+\end_inset
+
+.
+ So at the command line typing a number alone returns the number:
+\end_layout
+
+\begin_layout LyX-Code
+> 1024
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+~ 1024 ; Bignum
+\end_layout
+
+\begin_layout Standard
+As well as executing the sequence of expressions, an execution environment
+ was created in which the number 12 is bound to the variable 
+\emph on
+self
+\emph default
+.
+ The variable can be used as follows:
+\end_layout
+
+\begin_layout LyX-Code
+> 12 (+ 
+\series bold
+self self
+\series default
+) 
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 24 ; Bignum
+\end_layout
+
+\begin_layout Standard
+Here the number is added to itself.
+ The environment can also be used to create local bindings with the 
+\emph on
+define
+\emph default
+ functions:
+\end_layout
+
+\begin_layout LyX-Code
+12
+\end_layout
+
+\begin_layout LyX-Code
+  
+\series bold
+define foo 987
+\end_layout
+
+\begin_layout LyX-Code
+  + foo self
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 999 ; Bignum  
+\end_layout
+
+\begin_layout Subsection
+Dynamic Variables
+\end_layout
+
+\begin_layout Standard
+Generally 'dynamic' variables are those which are bound in the environment
+ of the caller and hence depend on who is evaluating the expression.
+ However in Genyris, dynamic variables are limited to being properties of
+ the currently called object, since called objects are part of their environment.
+ In other words when an object is used as a procedure, the environment created
+ to make the call is a merge of the object itself and a normal lexical environme
+nt.
+ All dynamic variables are prefixed with the underscore _ character
+\emph on
+.
+
+\emph default
+ An example will make this clearer:
+\end_layout
+
+\begin_layout Standard
+The number 12 above has only one dynamic variable _
+\emph on
+classes
+\emph default
+.
+ It can be accessed as follows:
+\end_layout
+
+\begin_layout LyX-Code
+> 12 _classes
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+<class Bignum (Builtin) ()> ; Pair
+\end_layout
+
+\begin_layout Standard
+Here we see that the
+\emph on
+ _classes
+\emph default
+ variable is referring to the class list of 
+\emph on
+12.
+ 
+\emph default
+It has a single class, 
+\emph on
+Bignum,
+\emph default
+ which is printed.
+ This behaviour is the same for the other atomic types: Bignums, Pairs and
+ Strings.
+ Consider the following examples:
+\end_layout
+
+\begin_layout LyX-Code
+> "What am I?" _classes
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+<class String (Builtin) ()> ; Pair
+\end_layout
+
+\begin_layout Standard
+However where symbols are concerned, the evaluator always looks up the value
+ before use.
+ So to show this with a symbol we must quote it:
+\end_layout
+
+\begin_layout LyX-Code
+> 'a-symbol _classes
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+<class Symbol (Builtin) ()> ; Pair
+\end_layout
+
+\begin_layout Standard
+Likewise the interpreter assumes a list is a normal function call so a quote
+ is needed to see this behaviour: 
+\end_layout
+
+\begin_layout LyX-Code
+> '(3) _classes
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+<class Pair (Builtin) (PRINTWITHCOLON)> ; Pair
+\end_layout
+
+\begin_layout Standard
+The atomic types (at least today) have only a single dynamic variable, richer
+ examples lie in the compound object types.
+\end_layout
+
+\begin_layout Subsection
+Dictionaries - Your Garden Variety Objects
+\end_layout
+
+\begin_layout Standard
+Genyris provides 
+\begin_inset Quotes eld
+\end_inset
+
+dictionary
+\begin_inset Quotes erd
+\end_inset
+
+ objects which are 
+\begin_inset Quotes eld
+\end_inset
+
+objects
+\begin_inset Quotes erd
+\end_inset
+
+ in the normally understood sense for programming languages.
+ Each dictionary provides a un-ordered set of dynamic symbols and bindings
+ - called 
+\begin_inset Quotes eld
+\end_inset
+
+slots
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+A dictionary is created with the 
+\emph on
+dict
+\emph default
+ function call, e.g.:
+\end_layout
+
+\begin_layout LyX-Code
+define pitt
+\end_layout
+
+\begin_layout LyX-Code
+  
+\series bold
+dict 
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+    _name  : "Willam Pitt"
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+    _title : "Prime Minister"
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+    _date-of-birth   : "28 May 1759"
+\end_layout
+
+\begin_layout Standard
+Here we have created a 
+\emph on
+dict
+\emph default
+ with three slots.
+ The 
+\emph on
+dict
+\emph default
+ function takes a variable number of slot definitions in Pairs, more formally:
+ 
+\end_layout
+
+\begin_layout LyX-Code
+  dict
+\end_layout
+
+\begin_layout LyX-Code
+     <dynamic symbol1> : <initial value1>
+\end_layout
+
+\begin_layout LyX-Code
+     <dynamic symbol2> : <initial value2>
+\end_layout
+
+\begin_layout LyX-Code
+     etc...
+\end_layout
+
+\begin_layout Standard
+If there are no initial values given , the symbol 
+\emph on
+nil
+\emph default
+ is used as the value as in this example:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+dict
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   _foo
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   _bar
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+dict
+\end_layout
+
+\begin_layout LyX-Code
+      _bar : nil
+\end_layout
+
+\begin_layout LyX-Code
+      _foo : nil ; Dictionary      
+\end_layout
+
+\begin_layout Standard
+Having slots is all very well, but we need a way to access them.
+ As we have seen all objects are callable - including dictionaries.
+ So to access the above 
+\emph on
+dict
+\emph default
+ object we call it and use the dynamic variables as follows:
+\end_layout
+
+\begin_layout LyX-Code
+> pitt _name
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ "Willam Pitt" ; String
+\end_layout
+
+\begin_layout Standard
+Here the 
+\emph on
+_name
+\emph default
+ dynamic variable is bound to the 
+\emph on
+_name
+\emph default
+ slot in the dict.
+ To set the slot value we use the 
+\emph on
+set!
+\emph default
+ function:
+\end_layout
+
+\begin_layout LyX-Code
+pitt
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+set! 
+\series default
+_name "William Pitt The Younger"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+New slots can be created with 
+\emph on
+define
+\emph default
+ since the object acts as an environment in its own right.
+ e.g.:
+\end_layout
+
+\begin_layout LyX-Code
+pitt 
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+define
+\series default
+ _father "William Pitt the Elder"
+\end_layout
+
+\begin_layout Standard
+Dictionaries also have a 
+\begin_inset Quotes eld
+\end_inset
+
+magic
+\begin_inset Quotes erd
+\end_inset
+
+ variable 
+\emph on
+_vars
+\emph default
+ which lists all the variables defined in the dictionary.
+ This is handy for debugging.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> pitt 
+\series bold
+_vars
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+_date-of-birth _father _name _title _vars ; Pair
+\end_layout
+
+\begin_layout Subsection
+Adding Behaviour to Dictionaries
+\end_layout
+
+\begin_layout Standard
+Since functions in Genyris are simply bound to variables, and dictionaries
+ have variables, behaviour can be added to dictionaries.
+ It suffices to define a function with a dynamic name in the scope of a
+ dictionary:
+\end_layout
+
+\begin_layout LyX-Code
+define jeb
+\end_layout
+
+\begin_layout LyX-Code
+  
+\series bold
+ dict
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+      _firstName: "Joe" 
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+      _middleName: "E."
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+      _lastName: "Brown"
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+jeb 
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+def _displayName()
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+       list _firstName _middleName _lastName
+\end_layout
+
+\begin_layout Standard
+Once defined, the function is callable in the context of the 
+\emph on
+jeb
+\emph default
+ dict:
+\end_layout
+
+\begin_layout LyX-Code
+> jeb 
+\series bold
+(_displayName)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+"Joe" "E." "Brown" ; Pair
+\end_layout
+
+\begin_layout Standard
+A dict can be used a mechanism for organisation.
+ Consider the following fictional example - a set of functions organised
+ in a 
+\begin_inset Quotes eld
+\end_inset
+
+module
+\begin_inset Quotes erd
+\end_inset
+
+ called 
+\emph on
+file
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+;; File Handling Module
+\end_layout
+
+\begin_layout LyX-Code
+define file
+\end_layout
+
+\begin_layout LyX-Code
+  dict 
+\end_layout
+
+\begin_layout LyX-Code
+    _name  : "File Handling Functions"
+\end_layout
+
+\begin_layout LyX-Code
+    _version : "1.2"
+\end_layout
+
+\begin_layout LyX-Code
+file
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+def _copy(from to) ...
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   def _delete(filename) ...
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   def _zip(file) ...
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+;; Use of the file module
+\end_layout
+
+\begin_layout LyX-Code
+def archive(filename)
+\end_layout
+
+\begin_layout LyX-Code
+    
+\series bold
+(file_copy) filename "/tmp/foo"
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+    (file_zip) "/tmp/foo"
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+    (file_delete) filename
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+Here we define three functions bound to a single dict object.
+ The functions can only be called by referencing the 
+\emph on
+file
+\emph default
+ object.
+ Provided the functions in the module don't share variables or state this
+ provides a form of organisation.
+ While it is handy to be able to add behaviour to objects, it does not scale
+ when there are many objects which require the same behaviour.
+ For this we need something more complex - Classes and Inheritance.
+\end_layout
+
+\begin_layout Section
+Using Classes to Organise Behaviour
+\end_layout
+
+\begin_layout Standard
+All Genyris objects, be they atomic (like numbers) or composite (like dictionari
+es) can belong to one or more classes.
+ As such Genyris is a fully 
+\begin_inset Quotes eld
+\end_inset
+
+Object-Oriented
+\begin_inset Quotes erd
+\end_inset
+
+ language.
+ The interpreter looks at the classes for functions to execute if the function
+ name is dynamic (starts with an underscore).
+ This way you can add behaviour to many objects in a single place.
+ Classes are a dictionaries with special variables which hold the relationships
+ between classes.
+ The standard classes all have the following variables:
+\end_layout
+
+\begin_layout Itemize
+_classes 
+\end_layout
+
+\begin_layout Itemize
+_vars 
+\end_layout
+
+\begin_layout Itemize
+_classname 
+\end_layout
+
+\begin_layout Itemize
+_superclasses
+\end_layout
+
+\begin_layout Itemize
+_subclasses
+\end_layout
+
+\begin_layout Standard
+Genyris has a number of built-in classes beginning with 
+\emph on
+Thing
+\emph default
+, root of the class hierarchy.
+ Here is the builtin class hierarchy:
+\end_layout
+
+\begin_layout LyX-Code
+Thing
+\end_layout
+
+\begin_layout LyX-Code
+    Builtin
+\end_layout
+
+\begin_layout LyX-Code
+            Bignum
+\end_layout
+
+\begin_layout LyX-Code
+            String
+\end_layout
+
+\begin_layout LyX-Code
+            Symbol
+\end_layout
+
+\begin_layout LyX-Code
+            Pair
+\end_layout
+
+\begin_layout LyX-Code
+                PRINTWITHCOLON
+\end_layout
+
+\begin_layout LyX-Code
+            Dictionary
+\end_layout
+
+\begin_layout LyX-Code
+            Closure
+\end_layout
+
+\begin_layout LyX-Code
+                LazyProcedure
+\end_layout
+
+\begin_layout LyX-Code
+                EagerProcedure
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+To add behaviour to a class, we need to add a dynamic variable bound to
+ a closure object - in other words we need to define a method.
+ For example a method to compute the square of a number be added to the
+ 
+\emph on
+Bignum
+\emph default
+ class:
+\end_layout
+
+\begin_layout LyX-Code
+Bignum
+\end_layout
+
+\begin_layout LyX-Code
+   def _square() (* 
+\series bold
+self self
+\series default
+)
+\end_layout
+
+\begin_layout Standard
+Notice that the method uses the 
+\emph on
+self
+\emph default
+ variable which is automatically bound to the object.
+ Now all Bignums can compute their own square e.g.:
+\end_layout
+
+\begin_layout LyX-Code
+> 4234389 (_square)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 17930050203321 ; Bignum
+\end_layout
+
+\begin_layout Standard
+We need to call methods in the correct way to ensure they refer to the right
+ object since they are dynamic, not lexical variables.
+ So if we tried to say:
+\end_layout
+
+\begin_layout LyX-Code
+> (4234389_square)
+\end_layout
+
+\begin_layout Standard
+We would get an error.
+ There is a big difference between 
+\emph on
+4234389 (_square)
+\emph default
+ and 
+\emph on
+(4234389_square)
+\emph default
+.
+ In the first case we are creating an environment around the Bignum 
+\emph on
+4234389
+\emph default
+, then we execute the function bound to the dynamic variable 
+\emph on
+_square
+\emph default
+ from Bignum.
+ In the second however, we are getting the Bignum's 
+\emph on
+_square
+\emph default
+ function but then applying it in the context of the caller.
+ This is most likely not what was intended.
+ In general methods should always be called in the first way as in:
+\end_layout
+
+\begin_layout LyX-Code
+<object> (<method> <arg1> <arg2> ...
+ <argn>)
+\end_layout
+
+\begin_layout Standard
+Or if there are multiple method calls to be made:
+\end_layout
+
+\begin_layout LyX-Code
+<object>
+\end_layout
+
+\begin_layout LyX-Code
+     <method> <arg1> <arg2> ...
+ <argn>
+\end_layout
+
+\begin_layout LyX-Code
+     <method> <arg1> <arg2> ...
+ <argn>
+\end_layout
+
+\begin_layout LyX-Code
+     etc...
+\end_layout
+
+\begin_layout Subsection
+Defining Your Own Classes 
+\end_layout
+
+\begin_layout Standard
+Classes are relatively complex objects so the language provides an in-built
+ macro for creating new classes and binding them.
+ The syntax is straight forward - lets define a class for length units:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+class
+\series default
+ Inches()
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+<class Inches (Thing) ()> ; StandardClass Dictionary
+\end_layout
+
+\begin_layout Standard
+This simply creates a class which is a subclass of
+\emph on
+ Thing
+\emph default
+.
+ By convention class names begin with an upper-case character.
+ We can use this class to annotate existing objects.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+tag
+\series default
+ 12 Inches
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 12 ; Inches Bignum
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+tag
+\emph default
+ function adds a class to its argument and returns the object.
+ Notice the interpreter prints out the list of classes 12 belongs to, including
+ 
+\emph on
+Inches
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+So far so good, now let's add a method to convert to meters.
+ Lets assume an 
+\emph on
+Inches
+\emph default
+ object is a kind of 
+\emph on
+Bignum
+\emph default
+, and add a method to it:
+\end_layout
+
+\begin_layout LyX-Code
+class Inches(
+\series bold
+Bignum
+\series default
+)
+\end_layout
+
+\begin_layout LyX-Code
+   def _toMeters()
+\end_layout
+
+\begin_layout LyX-Code
+      * self 0.0254
+\end_layout
+
+\begin_layout Standard
+The second parameter to 
+\emph on
+class 
+\emph default
+a list of superclasses, in this example, 
+\emph on
+Bignum
+\emph default
+.
+ We can now define a foot and convert it as follows:
+\end_layout
+
+\begin_layout LyX-Code
+define a-foot
+\end_layout
+
+\begin_layout LyX-Code
+   tag 12 Inches
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> a-foot (
+\series bold
+_toMeters
+\series default
+)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 0.3048 ; Bignum
+\end_layout
+
+\begin_layout Standard
+This is fine, but we are only returning a 
+\emph on
+Bignum
+\emph default
+.
+ Let's refactor to add more classes and tag the return appropriately:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+class Length()
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   def _toMeters()
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+      raise "Oops - you invoked an abstract class!"
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+class Inches(
+\series bold
+Length
+\series default
+)
+\end_layout
+
+\begin_layout LyX-Code
+   def _toMeters()
+\end_layout
+
+\begin_layout LyX-Code
+      tag (* self 0.0254) Meters
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+class Meters(Length)
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   def _toMeters() self
+\end_layout
+
+\begin_layout Standard
+Here we have defined an abstract base class and two derived classes which
+ both have the _
+\emph on
+toMeters
+\emph default
+ method.
+ The 
+\emph on
+raise
+\emph default
+ function catches invalid use of the 
+\emph on
+Length
+\emph default
+ class.
+ Lets try the conversion again:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+(tag 12 Inches)
+\series default
+ (_toMeters)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 0.3048 ; 
+\series bold
+Meters
+\series default
+ Bignum 
+\end_layout
+
+\begin_layout Standard
+Here we are using a sub-expression which returns 
+\emph on
+12
+\emph default
+ 
+\emph on
+Inches
+\emph default
+ and this object is the focus of the call to 
+\emph on
+_toMeters
+\emph default
+.
+ With this new class structure in place we can now add a method to add two
+ lengths in different units:
+\end_layout
+
+\begin_layout LyX-Code
+Length
+\end_layout
+
+\begin_layout LyX-Code
+   def tag-Meters (obj)
+\end_layout
+
+\begin_layout LyX-Code
+       tag obj Meters
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+def _add(other)
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+      tag-Meters
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+         + (_toMeters)
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+            other (_toMeters)
+\end_layout
+
+\begin_layout Standard
+This method converts both the current object and the argument to 
+\emph on
+Meters
+\emph default
+ performs the addition and returns the result in 
+\emph on
+Meters
+\emph default
+.
+ There is a private method 
+\emph on
+tag-meters
+\emph default
+ used by _
+\emph on
+add
+\emph default
+ to mark the result.
+ Here's how it runs:
+\end_layout
+
+\begin_layout LyX-Code
+define a-meter
+\end_layout
+
+\begin_layout LyX-Code
+   tag 1 Meters
+\end_layout
+
+\begin_layout LyX-Code
+define a-foot (tag 12 Inches)
+\end_layout
+
+\begin_layout LyX-Code
+> a-foot (_add a-meter)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ 1.3048 ; 
+\series bold
+Meters
+\series default
+ Bignum
+\end_layout
+
+\begin_layout Standard
+This is quite useful however in the above example a user of our classes
+ could get errors by tagging objects which cannot be added together.
+ For example a string will fail:
+\end_layout
+
+\begin_layout LyX-Code
+(tag 
+\series bold
+"12"
+\series default
+ Inches) (_add (tag 1 Meters))          ; Error
+\end_layout
+
+\begin_layout Standard
+To provide protection and we need stronger type checking features or better
+ ways to classify inputs.
+\end_layout
+
+\begin_layout Subsection
+Inheritance and Class Slots
+\end_layout
+
+\begin_layout Standard
+The inheritance mechanism in Genyris works by searching on object's class
+ list for classes which have the dynamic symbol required, it also recursively
+ searches the superclasses of all the classes it finds in the class list.
+ The classes are ordered with those classes deepest in the hierarchy.
+ This order is listed when the classes are printed by the command-line interpret
+er.
+ 
+\end_layout
+
+\begin_layout Standard
+This inheritance of slots is the same regardless of the type of slot (method
+ or data).
+ Hence an object can access information stored in it's class es and superclasses.
+ Here's a simple example where a base class supplies a simple boolean value
+ to an object:
+\end_layout
+
+\begin_layout LyX-Code
+class Orange()
+\end_layout
+
+\begin_layout LyX-Code
+   define _pips 'true
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> (tag "my lunch" Orange) _pips
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ true ; Symbol 
+\end_layout
+
+\begin_layout Subsection
+Class Validators
+\end_layout
+
+\begin_layout Standard
+To help define membership of a class, the class can provide a 
+\emph on
+_valid?
+\emph default
+ method which can assess an object and return 
+\emph on
+true
+\emph default
+ if it is good.
+ The 
+\emph on
+tag
+\emph default
+ function calls 
+\emph on
+_valid?
+\emph default
+ if provided and fails if 
+\emph on
+_valid?
+\emph default
+ returns 
+\emph on
+nil
+\emph default
+.
+ We can add this to our example base class:
+\end_layout
+
+\begin_layout LyX-Code
+Length
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+def _valid?(obj)
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+      is-instance? obj Bignum
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+is-instance?
+\emph default
+ function only returns true if the object is an instance of 
+\emph on
+Bignum
+\emph default
+ or its subclasses.
+ This prevents anything except numbers being tagged.
+ 
+\end_layout
+
+\begin_layout Subsection
+Traditional Constructors and Factories
+\end_layout
+
+\begin_layout Standard
+Whilst the philosophy of Genyris is to classify objects after construction
  it does not inhibit using traditional constructors in classes.
  It is good practices in any case to prefer 'factory' functions for object
  construction even in traditional languages.
- Factory functions ar simply functions whic construct the appropriate kind
- of object based on the inputs given.
+ Factory functions are simply functions which construct the appropriate
+ kind of object based on the inputs given.
  A factory/constructor can be as simple as this:
 \end_layout
 
@@ -3872,7 +4079,469 @@ _init
 \emph on
 _init
 \emph default
- function returns the new object un-modofied.
+ function returns the new object un-modified.
+\end_layout
+
+\begin_layout Subsection
+Automating Classification
+\end_layout
+
+\begin_layout Standard
+This language embodies the opinion that objects are created first, then
+ they are classified - rather than the classification being determined during
+ object construction.
+ (This does not prohibit traditional constructors and object factories,
+ we will describe them later.) Let's explore how the 
+\emph on
+_valid?
+\emph default
+ predicates can be used to automate classification.
+ 
+\end_layout
+
+\begin_layout Standard
+Validator functions can be developed to any complexity required.
+ For example validators can inspect the 
+\bar under
+values
+\bar default
+ of slots and objects rather than just their type.
+ Here's an example which is 
+\emph on
+true
+\emph default
+ for even numbers:
+\end_layout
+
+\begin_layout LyX-Code
+class EvenNumber()
+\end_layout
+
+\begin_layout LyX-Code
+  
+\series bold
+def _valid?(x)
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+      equal? (% x 2) 0
+\end_layout
+
+\begin_layout Standard
+Validators provide a way to automatically categorize unknown objects - an
+ important tool for input validation.
+ The Genyris distribution includes file "examples/classify.lin" which shows
+ this pattern.
+ It defines a 
+\emph on
+_classify
+\emph default
+ function which recursively walks the class hierarchy testing an object's
+ compliance with validators.
+ It is an example of classification of people into classes based on age
+ and possessions.
+ First we load the source files:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+load
+\series default
+ "examples/people.lin"
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+load
+\emph default
+ function reads an executes the source file from the Java classpath.
+ Genyris source files are stored within the Java 
+\begin_inset Quotes eld
+\end_inset
+
+jar
+\begin_inset Quotes erd
+\end_inset
+
+ file including some initialization code and a handful of examples.
+\end_layout
+
+\begin_layout Standard
+Next we create an un-classified object, assign it to a variable 
+\emph on
+kevin
+\emph default
+, and call 
+\emph on
+_classify
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+define kevin
+\end_layout
+
+\begin_layout LyX-Code
+  dict
+\end_layout
+
+\begin_layout LyX-Code
+     _name: "Kevin"
+\end_layout
+
+\begin_layout LyX-Code
+     _age: 49
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+Thing (_classify kevin)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> kevin
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+dict
+\end_layout
+
+\begin_layout LyX-Code
+      _age : 49
+\end_layout
+
+\begin_layout LyX-Code
+      _name : "Kevin" ; Boomer Dictionary
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+The resulting printout shows the class validator for 
+\emph on
+Boomer
+\emph default
+ has recognised 
+\emph on
+kevin
+\emph default
+.
+ Here is the class:
+\end_layout
+
+\begin_layout LyX-Code
+class Boomer (Person)
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+def _valid? (obj)
+\end_layout
+
+\begin_layout LyX-Code
+      
+\series bold
+obj
+\begin_inset Formula $^{\text{1}}$
+\end_inset
+
+  
+\series default
+                        
+\end_layout
+
+\begin_layout LyX-Code
+        
+\series bold
+ and
+\begin_inset Formula $^{\text{2}}$
+\end_inset
+
+     
+\series default
+                   
+\end_layout
+
+\begin_layout LyX-Code
+            
+\series bold
+(Person_valid?)
+\begin_inset Formula $^{\text{3}}$
+\end_inset
+
+ self 
+\series default
+   
+\end_layout
+
+\begin_layout LyX-Code
+           
+\series bold
+ between
+\begin_inset Formula $^{\text{4}}$
+\end_inset
+
+ 45 _age 60   
+\series default
+   
+\end_layout
+
+\begin_layout Standard
+Here the 
+\emph on
+obj
+\emph default
+ argument is tested twice, firstly it must be a valid 
+\emph on
+Person
+\emph default
+ and the 
+\emph on
+_age
+\emph default
+ slot must be between 45 and 60.
+ In detail, referring to the notes on the above lines:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+obj
+\emph default
+ is called and evaluates the rest of of the function in its context.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+and
+\emph default
+ is a macro that evaluates each sub-expression passed in turn.
+ If one of them is 
+\emph on
+nil
+\emph default
+ execution ceases and 
+\emph on
+nil
+\emph default
+ is returned.
+ This becomes the return value of the function.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The expression 
+\emph on
+(Person_valid?)
+\emph default
+ retrieves the validator for the 
+\emph on
+Person
+\emph default
+ class and applies it to 
+\emph on
+self
+\emph default
+, which is bound to 
+\emph on
+obj
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+between
+\emph default
+ is a utility function which checks a range
+\emph on
+.
+\end_layout
+
+\begin_layout Subsection
+Ducks and Interfaces
+\end_layout
+
+\begin_layout Standard
+'Duck' typing in a language is jargon for 'structural' subtyping - 
+\emph on
+If it looks like a duck and quacks like a duck - then it is a duck
+\emph default
+.
+ Duck typing relies on a programmers to ensure that objects passed around
+ actually do have the properties and methods expected by the downstream
+ code.
+ If there is a mis-match then eventually an error will result.
+ For example if we could define a 
+\emph on
+_copy
+\emph default
+ function which expects some kind of stream object with 
+\emph on
+_next
+\emph default
+ and 
+\emph on
+_last? 
+\emph default
+methods.
+ There is no need to perform type-checking in the interface since if the
+ methods exits all will be well.
+ Duck typing is perfectly adequate for most programming tasks, however some
+ developers like to formalize the interfaces.
+ 
+\end_layout
+
+\begin_layout Standard
+In Genyris an Interface can be defined by
+\emph on
+ 
+\emph default
+either providing an appropriate validator or by simply tagging objects with
+ their supported interface classes.
+ For example here is a class validator for the above scenario:
+\end_layout
+
+\begin_layout LyX-Code
+class Stream-Interface()
+\end_layout
+
+\begin_layout LyX-Code
+   def _valid?(object)
+\end_layout
+
+\begin_layout LyX-Code
+      object
+\end_layout
+
+\begin_layout LyX-Code
+         and
+\end_layout
+
+\begin_layout LyX-Code
+            bound? _next
+\end_layout
+
+\begin_layout LyX-Code
+            is-instance? _next Closure
+\end_layout
+
+\begin_layout LyX-Code
+            bound? _last
+\end_layout
+
+\begin_layout LyX-Code
+            is-instance? _last Closure 
+\end_layout
+
+\begin_layout Standard
+The validator here checks whether the object has 
+\emph on
+_next
+\emph default
+ and 
+\emph on
+_last
+\emph default
+ slots, and whether they are function closures.
+ This type of validator could be implemented in a meta-class for the interface
+ since this check can be performed on 
+\bar under
+classes 
+\bar default
+rather than instances.
+ 
+\end_layout
+
+\begin_layout Standard
+A simple nominative approach could be used to designate a non-validating
+ 'semantic' class for the interface and tag the objects which allegedly
+ met the requirements.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+class IStream()
+\end_layout
+
+\begin_layout LyX-Code
+class MyStream(IStream)            ; it's an IStream - honest!
+\end_layout
+
+\begin_layout LyX-Code
+   def method() 
+\end_layout
+
+\begin_layout LyX-Code
+       etc ...
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+tag some-object MyStream
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+def someFunction((input: IStream))
+\end_layout
+
+\begin_layout LyX-Code
+    etc ...
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+some-function some-object
+\end_layout
+
+\begin_layout Standard
+An IStream class is be defined and used to tag objects.
+ The tagger needs to be honest to ensure the interface is actually present
+ in the tagged objects.
+ Users of the objects can type-check based on the base class 
+\emph on
+IStream
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Section
@@ -3897,7 +4566,7 @@ Executable code libraries containing functions for manipulating objects
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Shaded
+\begin_inset Note Greyedout
 status open
 
 \begin_layout Subsection
@@ -3958,7 +4627,7 @@ Apply a function closure to every element in a list
 \emph on
 _remove
 \emph default
- Remove elements from a list satisyfing a predicate.
+ Remove elements from a list satisfying a predicate.
 \end_layout
 
 \end_deeper
@@ -3992,7 +4661,7 @@ Tabular Data Types
 \end_layout
 
 \begin_layout Standard
-Support for file types commonly occuring in everyday computer use, typically
+Support for file types commonly occurring in everyday computer use, typically
  arranged in tables or records:
 \end_layout
 
