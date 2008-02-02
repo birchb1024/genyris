@@ -29,7 +29,7 @@ class Employee (Person)
       ((Person_new) name date-of-birth)
           define _salary-number salary-number
           define _classes (list Employee)
-          self
+          _self
 
 define fred
    (Employee_new) "Fred Smith" 45 123123123

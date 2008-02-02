@@ -25,9 +25,12 @@ def caadr (x) (car (car (cdr x)))
 def cadar (x) (car (cdr (car x)))
 def caar (x) (car (car x))
 
-define else 'else
-define then 'then
-define do 'do
+defmacro do(&rest body)
+   cons 'lambda
+      cons nil
+        cons body nil
+define else do
+define then do
 
 def null? (sexp)
    cond

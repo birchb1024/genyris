@@ -17,10 +17,10 @@
 class BasicPerson ()
 
     def _new (name age)
-      (tag (dict) self)
+      (tag (dict) _self)
         define _name name
         define _age age
-        self
+        _self
 
 ;
 ;  A class which uses the _new in Object, and adds type checking
@@ -42,7 +42,7 @@ class PersonModern ()
       (dict)                             ; create the object
          define _name name               ; add the data
          define _age age
-         self : PersonModern             ; check type now
-         tag self PersonModern           ; ok, so add the class
-         self
+         _self : PersonModern             ; check type now
+         tag _self PersonModern           ; ok, so add the class
+         _self
 

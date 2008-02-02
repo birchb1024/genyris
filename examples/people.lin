@@ -19,28 +19,28 @@ class Kid (Person)
    def _valid? (obj)
       obj
          and
-            (Person_valid?) self
+            (Person_valid?) _self
             < _age 15
 
 class Senior (Person)
    def _valid? (obj)
       obj
          and
-            (Person_valid?) self
+            (Person_valid?) _self
             between 60 _age 120
 
 class Boomer (Person)
    def _valid? (obj)
       obj
          and
-            (Person_valid?) self
+            (Person_valid?) _self
             between 45 _age 60
 
 class Hippie (Boomer)
    def _valid? (obj)
       obj
          and
-            (Boomer_valid?) self
+            (Boomer_valid?) _self
             bound? _bong
 
 define noel

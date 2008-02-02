@@ -12,27 +12,27 @@
 ;;;
 
 ;;
-;; Example of an object created with private field. 
+;; Example of an object created with private field.
 ;; The "age" slot cannot be seen since it is
 ;; within the _init closure. _getAge and _setage capture
-;; the closure. 
+;; the closure.
 ;;
 class Person ()
    def _new()
-      (tag (dict) self)
+      (tag (dict) _self)
          define age 25
          def _getAge () age
          def _setAge (val) (set 'age val)
-         self
+         _self
 
 define p
-   Person(_new)   
+   Person(_new)
 p (_getAge)    ; = 25
 p (_setAge 26) ; = 26
 
 ;;
-;; Example of a class with a private method.  
-;; 
+;; Example of a class with a private method.
+;;
 class Foo ()
     def privateFunc () "I am private. You cannot call me directly"
     def _publicFunc ()
@@ -44,5 +44,4 @@ f (_publicFunc) ; OK
 
 Foo
   print _vars "\n"
-  print self
-  
+  print _self

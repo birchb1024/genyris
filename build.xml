@@ -13,7 +13,7 @@
     <property name="ear.project.root" value="web/ear" />
     <property name="installed.apps.war" value="C:\ibm\WebSphere\profiles\wp_profile\installedApps\w0019\Genyris.ear\genyris.war" />
 
-    <target name="all" depends="only-init, only-compile" description="Build all." />
+    <target name="all" depends="only-init, only-compile, only-war, only-ear, only-binary-jar" description="Build all." />
     <target name="clean" depends="only-clean" />
 
     <target name="compile" depends="only-clean, only-init, only-compile"
@@ -62,6 +62,13 @@
         <fileset refid="servlet.libs" />
         <fileset refid="junit.libs" />
     </path>
+
+    <!-- ================================================================== -->
+    <!--                        Targets                                     -->
+    <!-- ================================================================== -->
+    <target name="debug">
+        <echoproperties />
+    </target>
 
     <target name="only-init">
         <mkdir dir="${build.dir}" />
@@ -125,7 +132,7 @@
     <!-- Generates the ${war.project.name} ear file for deployment -->
     <target name="only-ear">
         <delete file="${output.ear}" />
-        <ear appxml="${ear.project.root}/meta-inf/application.xml" destfile="${output.ear}">
+        <ear appxml="${ear.project.root}/META-INF/application.xml" destfile="${output.ear}">
             <fileset file="${output.war}" />
         </ear>
     </target>

@@ -19,7 +19,7 @@ defmacro myclass (name superclasses &rest body)
    define klass (dict)
    klass
       define _classname name
-      tag self StandardClass
+      tag _self StandardClass
       define _subclasses nil
       define _superclasses
          map-left superclasses symbol-value
@@ -43,14 +43,14 @@ class MyMetaClass()
       define klass (dict)
       klass
          define _classname name
-         tag self MyMetaClass
+         tag _self MyMetaClass
          define _subclasses nil
          define _superclasses
             map-left superclasses symbol-value
          add-to-subclasses superclasses klass
          eval body
-		 def _new()
-		    define _wheat nil
+        def _new()
+            define _wheat nil
       template
          define ,name ,klass
 

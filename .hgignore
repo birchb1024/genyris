@@ -1,6 +1,7 @@
 syntax: glob
 *toc
 *aux
+*backup
 *log
 */build/class
 */idebuild/class
