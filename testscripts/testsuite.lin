@@ -12,6 +12,6 @@ define genyris
          load "examples/queens.lin"
          queens 4
          self-test-runner
-      self
+      _self
 
 (genyris _run-all-tests)

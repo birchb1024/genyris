@@ -26,7 +26,7 @@ public class SpecialEnvironment extends StandardEnvironment {
         }
         Lsymbol sym = (Lsymbol) symbol;
         if (sym == _self) {
-            throw new GenyrisException("cannot re-define self.");
+            throw new GenyrisException("cannot re-define _self.");
         }
         else if (sym.isMember()) {
             _object.defineVariable(symbol, valu);
@@ -49,7 +49,7 @@ public class SpecialEnvironment extends StandardEnvironment {
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
         Lsymbol sym = (Lsymbol) symbol;
         if (sym == _self) {
-            throw new UnboundException("cannot re-define self.");
+            throw new UnboundException("cannot re-define _self.");
         }
         else if (sym.isMember()) {
             _object.setVariableValue(symbol, valu);

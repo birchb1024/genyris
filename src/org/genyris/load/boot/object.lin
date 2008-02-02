@@ -12,10 +12,10 @@ class Object (Dictionary)
    ; generic _new method
    ; expects every class to have an _init method
    def _new(&rest args)
-      (tag (dict) self)
+      (tag (dict) _self)
          apply _init args
-         self
+         _self
 
    ; NOOP _init method
    def _init(args)
-      self
+      _self
