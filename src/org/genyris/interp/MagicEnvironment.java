@@ -29,6 +29,24 @@ public class MagicEnvironment  extends StandardEnvironment {
         else if(symbol == _self) {
             return _it;
         }
+        // TODO - DRY
+        // TODO - move these into the Lcons class as an Environment
+        else if(symbol == _left ) {
+            try {
+                return _it.car();
+            }
+            catch (AccessException e) {
+                throw new UnboundException(e.getMessage());
+            }
+        }
+        else if(symbol == _right ) {
+            try {
+                return _it.cdr();
+            }
+            catch (AccessException e) {
+                throw new UnboundException(e.getMessage());
+            }
+        }
         throw new UnboundException("unbound symbol " + symbol.toString());
     }
 
@@ -60,6 +78,22 @@ public class MagicEnvironment  extends StandardEnvironment {
         Lsymbol symbol = (Lsymbol) exp;
         if(symbol == _classes) {
             return _it.getClasses(_parent);
+        }
+        else if(symbol == _left ) {
+            try {
+                return _it.car();
+            }
+            catch (AccessException e) {
+                throw new UnboundException(e.getMessage());
+            }
+        }
+        else if(symbol == _right ) {
+            try {
+                return _it.cdr();
+            }
+            catch (AccessException e) {
+                throw new UnboundException(e.getMessage());
+            }
         }
         else if(symbol == _self ) {
             return _it;
@@ -101,10 +135,27 @@ public class MagicEnvironment  extends StandardEnvironment {
                     _it.setClasses(valu, NIL);
                 }
                 catch (AccessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    throw new UnboundException(e.getMessage());
                 }
                 return;
+            }
+            // TODO - DRY
+            // TODO - Move into Lcons in an Environment
+            else if(symbol == _left ) {
+                try {
+                    _it.setCar(valu);
+                }
+                catch (AccessException e) {
+                    throw new UnboundException(e.getMessage());
+                }
+            }
+            else if(symbol == _right ) {
+                try {
+                    _it.setCdr(valu);
+                }
+                catch (AccessException e) {
+                    throw new UnboundException(e.getMessage());
+                }
             }
         } else {
             super.setVariableValue(symbol, valu);

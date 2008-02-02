@@ -1147,184 +1147,6 @@ nil
 \end_layout
 
 \begin_layout Subsection
-Working With Pairs and Lists
-\end_layout
-
-\begin_layout Standard
-Like its forbears Lisp and Scheme, Genyris is inherently a list-processing
- language - its source code is expressed as lists and it has inbuilt functions
- for parsing and manipulating list data.
- Since programs and data are stored in the same form, Genyris is an ideal
- platform for developing DSLs or even new programming languages.
- Happily, manipulating lists is easy.
- Lists are really a kind of 
-\begin_inset Quotes eld
-\end_inset
-
-binary tree".
- Trees are constructed with the 
-\emph on
-cons
-\emph default
- function which accepts two arguments for the left and right halves of the
- 
-\emph on
-Pair
-\emph default
-:
-\end_layout
-
-\begin_layout LyX-Code
-> cons "A" "B"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-"A" : "B" ; Pair
-\end_layout
-
-\begin_layout Standard
-Note the interpreter prints a colon between the left and right halves of
- the Pair.
- The individual elements of a Pair can be accessed with the 
-\emph on
-left
-\emph default
- and 
-\emph on
-right
-\emph default
- functions:
-\end_layout
-
-\begin_layout LyX-Code
-> left (cons "A" "B")
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ "A" ; String
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Standard
-Alternatively the slot names 
-\emph on
-_left
-\emph default
- and 
-\emph on
-_right
-\emph default
- can be used when the list is called:
-\end_layout
-
-\begin_layout LyX-Code
-> define my-pair (cons "A" "B") 
-\end_layout
-
-\begin_layout LyX-Code
-mypair _right
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-~ "B" ; String
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-To construct a proper List, the final right hand element will be 
-\emph on
-nil
-\emph default
-:
-\end_layout
-
-\begin_layout LyX-Code
-> cons "A"
-\end_layout
-
-\begin_layout LyX-Code
-    cons "B"
-\end_layout
-
-\begin_layout LyX-Code
-       cons "C" nil 
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-"A" "B" "C" ; Pair
-\end_layout
-
-\begin_layout Standard
-The printing of trees (by default) assumes that the tree is a kind of list,
- hence you don't see the parentheses in this case.
- See how the interpreter identified the list as a 
-\emph on
-Pair
-\emph default
-, since it only has a reference to the first 
-\emph on
-Pair
-\emph default
-? 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Standard
-To help view 
-\emph on
-Pairs
-\emph default
- explicitly, a list can be tagged with the PRINTWITHCOLON class, which forces
- the printer to display the full tree structure.
- The parser does this automatically, so Pairs which the user types with
- a colon are printed the same way.
- For example:
-\end_layout
-
-\begin_layout LyX-Code
-> '("A" : ("B" : ("C" )))
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-"A" : ("B" : ("C")) ; PRINTWITHCOLON 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
 Quoting and Special Parser Characters
 \end_layout
 
@@ -2967,6 +2789,207 @@ Likewise the interpreter assumes a list is a normal function call so a quote
 \begin_layout Standard
 The atomic types (at least today) have only a single dynamic variable, richer
  examples lie in the compound object types.
+\end_layout
+
+\begin_layout Subsection
+Working With Pairs and Lists
+\end_layout
+
+\begin_layout Standard
+Like its forbears Lisp and Scheme, Genyris is inherently a list-processing
+ language - its source code is expressed as lists and it has inbuilt functions
+ for parsing and manipulating list data.
+ Since programs and data are stored in the same form, Genyris is an ideal
+ platform for developing DSLs or even new programming languages.
+ Happily, manipulating lists is easy.
+ Lists are really a kind of 
+\begin_inset Quotes eld
+\end_inset
+
+binary tree".
+ Trees are constructed with the 
+\emph on
+cons
+\emph default
+ function which accepts two arguments for the left and right halves of the
+ 
+\emph on
+Pair
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+cons
+\series default
+ "A" "B"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+"A" : "B" ; Pair
+\end_layout
+
+\begin_layout Standard
+Note the interpreter prints a colon between the left and right halves of
+ the Pair.
+ The individual elements of a Pair can be accessed with the 
+\emph on
+left
+\emph default
+ and 
+\emph on
+right
+\emph default
+ functions:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+left
+\series default
+ (cons "A" "B")
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+~ "A" ; String
+\end_layout
+
+\begin_layout Standard
+Alternatively the slot names 
+\emph on
+_left
+\emph default
+ and 
+\emph on
+_right
+\emph default
+ can be used when the list is called:
+\end_layout
+
+\begin_layout LyX-Code
+> define my-pair (cons "A" "B") 
+\end_layout
+
+\begin_layout LyX-Code
+mypair _
+\series bold
+right
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+~ "B" ; String
+\end_layout
+
+\begin_layout LyX-Code
+> my-pair
+\end_layout
+
+\begin_layout LyX-Code
+   
+\series bold
+set! _left 33
+\end_layout
+
+\begin_layout LyX-Code
+   _self
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+33 : "B" ; Pair
+\end_layout
+
+\begin_layout Standard
+To construct a proper List, the final right hand element will be 
+\emph on
+nil
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+> cons "A"
+\end_layout
+
+\begin_layout LyX-Code
+    cons "B"
+\end_layout
+
+\begin_layout LyX-Code
+       cons "C" nil 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+"A" "B" "C" ; Pair
+\end_layout
+
+\begin_layout Standard
+The printing of trees (by default) assumes that the tree is a kind of list,
+ hence you don't see the parentheses in this case.
+ See how the interpreter identified the list as a 
+\emph on
+Pair
+\emph default
+, since it only has a reference to the first 
+\emph on
+Pair
+\emph default
+? 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Greyedout
+status open
+
+\begin_layout Standard
+To help view 
+\emph on
+Pairs
+\emph default
+ explicitly, a list can be tagged with the PRINTWITHCOLON class, which forces
+ the printer to display the full tree structure.
+ The parser does this automatically, so Pairs which the user types with
+ a colon are printed the same way.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> '("A" : ("B" : ("C" )))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+"A" : ("B" : ("C")) ; PRINTWITHCOLON 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection

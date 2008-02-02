@@ -13,7 +13,7 @@
     <property name="ear.project.root" value="web/ear" />
     <property name="installed.apps.war" value="C:\ibm\WebSphere\profiles\wp_profile\installedApps\w0019\Genyris.ear\genyris.war" />
 
-    <target name="all" depends="only-init, only-compile, only-war, only-ear, only-binary-jar" description="Build all." />
+    <target name="all" depends="only-clean, only-init, only-compile, only-war, only-ear, only-binary-jar" description="Build all." />
     <target name="clean" depends="only-clean" />
 
     <target name="compile" depends="only-clean, only-init, only-compile"

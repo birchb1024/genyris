@@ -21,6 +21,7 @@ public class StandardEnvironment implements Environment {
     Environment _parent;
     protected Lsymbol NIL;
     protected Exp _self, _classes, _superclasses, _classname;
+    protected Exp _left, _right;
     private Interpreter _interpreter;
 
 
@@ -41,6 +42,8 @@ public class StandardEnvironment implements Environment {
         _classes = interp.getSymbolTable().internString(Constants.CLASSES);
         _superclasses = interp.getSymbolTable().internString(Constants.SUPERCLASSES);
         _classname = interp.getSymbolTable().internString(Constants.CLASSNAME);
+        _left = interp.getSymbolTable().internString(Constants.LEFT);
+        _right = interp.getSymbolTable().internString(Constants.RIGHT);
     }
 
     private void init() {
@@ -49,6 +52,8 @@ public class StandardEnvironment implements Environment {
         _classes = _parent.internString(Constants.CLASSES);
         _superclasses = _parent.internString(Constants.SUPERCLASSES);
         _classname = _parent.internString(Constants.CLASSNAME);
+        _left = _parent.internString(Constants.LEFT);
+        _right = _parent.internString(Constants.RIGHT);
     }
     public StandardEnvironment(Environment parent) {
         _parent = parent;

@@ -93,6 +93,16 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
 
+    public void testLeftRight() throws Exception {
+        excerciseEval("(defvar 'p (cons 1 2))", "(1 : 2)");
+        excerciseEval("(p _left)", "1");
+        excerciseEval("(p _right)", "2");
+        excerciseEval("(p (set '_left 99))", "99");
+        excerciseEval("p", "(99 : 2)");
+        excerciseEval("(p (set '_right 98))", "98");
+        excerciseEval("p", "(99 : 98)");
+    }
+
     public void testDynamicVariablesWithDef() throws Exception {
         excerciseEval("(defvar 'd (dict))", "(dict)");
         excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.genyris.interp.ClassicFunction>>");

@@ -52,6 +52,8 @@ public class Constants {
         public static final String VARS = DYNAMICSCOPECHAR + "vars";
         public static final String TRUE = "true";
         public static final String CLOSURE = "Closure";
+        public static final String LEFT = DYNAMICSCOPECHAR + "left";
+        public static final String RIGHT = DYNAMICSCOPECHAR + "right";
 
 
 
