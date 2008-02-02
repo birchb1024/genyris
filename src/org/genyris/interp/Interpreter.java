@@ -55,6 +55,7 @@ import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReadFunction;
 import org.genyris.java.JavaClassForName;
+import org.genyris.load.IncludeFunction;
 import org.genyris.load.SourceLoader;
 import org.genyris.logic.AndFunction;
 import org.genyris.logic.OrFunction;
@@ -65,6 +66,7 @@ import org.genyris.math.MinusFunction;
 import org.genyris.math.MultiplyFunction;
 import org.genyris.math.PlusFunction;
 import org.genyris.math.RemainderFunction;
+import org.genyris.test.JunitRunnerFunction;
 
 public class Interpreter {
 
@@ -122,6 +124,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("reverse"), new EagerProcedure(_globalEnvironment, null, new ReverseFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("length"), new EagerProcedure(_globalEnvironment, null, new LengthFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("load"), new EagerProcedure(_globalEnvironment, null, new LoadFunction(this)));
+        _globalEnvironment.defineVariable(_table.internString("include"), new EagerProcedure(_globalEnvironment, null, new IncludeFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("print"), new EagerProcedure(_globalEnvironment, null, new PrintFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("read"), new EagerProcedure(_globalEnvironment, null, new ReadFunction(this)));
         _globalEnvironment.defineVariable(_table.internString("tag"), new EagerProcedure(_globalEnvironment, null, new TagFunction(this)));
@@ -143,6 +146,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("raise"), new EagerProcedure(_globalEnvironment, null, new RaiseFunction(this)));
 
         _globalEnvironment.defineVariable(_table.internString("java-class"), new EagerProcedure(_globalEnvironment, null, new JavaClassForName(this)));
+        _globalEnvironment.defineVariable(_table.internString("self-test-runner"), new EagerProcedure(_globalEnvironment, null, new JunitRunnerFunction(this)));
 
 
 

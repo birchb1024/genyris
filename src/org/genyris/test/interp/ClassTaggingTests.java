@@ -16,7 +16,7 @@ public class ClassTaggingTests extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         interpreter = new TestUtilities();
-        interpreter._interpreter.init(true);
+        interpreter._interpreter.init(false);
     }
 
     private void excerciseEval(String exp, String expected) throws Exception {

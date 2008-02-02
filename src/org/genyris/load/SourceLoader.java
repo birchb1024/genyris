@@ -5,6 +5,8 @@
 //
 package org.genyris.load;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,19 +29,15 @@ import org.genyris.io.UngettableInStream;
 
 public class SourceLoader {
 
-
-    public static Parser parserFactory(String filename, Reader input, Interpreter interp) throws GenyrisException {
-        if(filename.endsWith(".lin")) {
-            InStream is = new UngettableInStream(
-                    new ConvertEofInStream(
-                            new IndentStream(
-                                    new UngettableInStream(
-                                            new ReaderInStream(input)),
-                    false)));
+    public static Parser parserFactory(String filename, Reader input, Interpreter interp)
+            throws GenyrisException {
+        if (filename.endsWith(".lin")) {
+            InStream is = new UngettableInStream(new ConvertEofInStream(new IndentStream(
+                    new UngettableInStream(new ReaderInStream(input)), false)));
             return new Parser(interp.getSymbolTable(), is);
 
         }
-        else if(filename.endsWith(".lsp")) {
+        else if (filename.endsWith(".lsp")) {
             InStream is = new UngettableInStream(new ReaderInStream(input));
             return new Parser(interp.getSymbolTable(), is, Constants.LISPCDRCHAR);
         }
@@ -48,20 +46,41 @@ public class SourceLoader {
         }
     }
 
-    public static Exp loadScriptFromClasspath(Interpreter _interp, String filename, Writer writer) throws GenyrisException {
+    public static Exp loadScriptFromInputStream(Interpreter _interp, InputStream in,
+            String filename, Writer writer) throws GenyrisException {
 
-        InputStream in  = SourceLoader.class.getClassLoader().getResourceAsStream(filename);
-        // this use of getResourceAsStream() means paths are relative to this class
-        // unless preceded by a '/'
-        if( in == null ) {
-            throw new GenyrisException("loadScriptFromClasspath: null pointer from getResourceAsStream.");
+        if (in == null) {
+            throw new GenyrisException(
+                    "loadScriptFromInputStream: null pointer from getResourceAsStream.");
         }
         String url = SourceLoader.class.getClassLoader().getResource(filename).toString();
         executeScript(filename, _interp, new InputStreamReader(in), writer);
         return new Lstring(url);
     }
 
-    public static Exp executeScript(String filename, Interpreter interp, Reader reader, Writer output) throws GenyrisException {
+    public static Exp loadScriptFromClasspath(Interpreter _interp, String filename, Writer writer)
+            throws GenyrisException {
+
+        InputStream in = SourceLoader.class.getClassLoader().getResourceAsStream(filename);
+        return loadScriptFromInputStream(_interp, in, filename, writer);
+    }
+
+    public static Exp loadScriptFromFile(Interpreter _interp, String filename, Writer writer) throws GenyrisException {
+
+        InputStream in;
+        try {
+            in = new FileInputStream(filename);
+        }
+        catch (FileNotFoundException e) {
+            throw new GenyrisException(
+                    "loadScriptFromFile: " + e.getMessage());
+        }
+        executeScript(filename, _interp, new InputStreamReader(in), writer);
+        return new Lstring(filename);
+    }
+
+    public static Exp executeScript(String filename, Interpreter interp, Reader reader,
+            Writer output) throws GenyrisException {
         Parser parser = parserFactory(filename, reader, interp);
         Formatter formatter = new IndentedFormatter(output, 3, interp);
         Exp expression = null;
@@ -72,14 +91,18 @@ public class SourceLoader {
                 break;
             }
             result = interp.evalInGlobalEnvironment(expression);
+
             result.acceptVisitor(formatter);
+
             try {
                 output.write('\n');
                 output.flush();
-            } catch (IOException ignore) {}
+            }
+            catch (IOException ignore) {
+            }
+
         } while (true);
         return result;
     }
-
 
 }

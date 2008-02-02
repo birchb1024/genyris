@@ -21,7 +21,7 @@ public class SourceLoaderTest extends TestCase {
 
     private void excerciseSourceLoader(String input, String expected) throws GenyrisException {
         Interpreter interp = new Interpreter();
-        interp.init(true);
+        interp.init(false);
         StringReader in = new StringReader(input);
         StringWriter out = new StringWriter();
         SourceLoader.executeScript(".lin", interp, in, out);
@@ -38,19 +38,19 @@ public class SourceLoaderTest extends TestCase {
 
     public void testSourceLoader2() throws GenyrisException {
         Interpreter interp = new Interpreter();
-        interp.init(true);
+        interp.init(false);
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp, "org/genyris/load/boot/init.lin", out);
     }
     public void testSourceLoader3() throws GenyrisException {
         Interpreter interp = new Interpreter();
-        interp.init(true);
+        interp.init(false);
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp, "testscripts/factorial.lin", out);
     }
     public void testSourceLoaderLisp() throws GenyrisException {
         Interpreter interp = new Interpreter();
-        interp.init(true);
+        interp.init(false);
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp, "testscripts/factorial.lsp", out);
     }

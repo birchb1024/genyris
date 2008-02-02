@@ -21,8 +21,8 @@ define result (tak 18 12 6)
 
 cond
  (equal? result 7)
-    "Tak passed"
+    "Tak test passed"
  else
-    raise
-       list "Tak benchmark test failed." result
+    raise "\nTak benchmark test failed."
+
 

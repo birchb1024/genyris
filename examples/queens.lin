@@ -3,9 +3,9 @@
 ;;;; problem 11-9
 ;;;;
 
-set! = equal?
+define = equal?
 
-def queen (size)
+def queens (size)
   queen-aux nil 0 size
 
 def queen-aux (board n size)               ; start on next row

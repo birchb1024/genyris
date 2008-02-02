@@ -141,6 +141,10 @@ text indicates a feature is not yet implemented.
 Getting Started
 \end_layout
 
+\begin_layout Subsection
+Installation
+\end_layout
+
 \begin_layout Standard
 Genyris is available as a binary executable Java 
 \emph on
@@ -171,19 +175,7 @@ Where
 nnn-xxxxxxxxx
 \emph default
  is the version number.
- 
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-This text describes version 272.
- 
-\end_layout
-
-\end_inset
-
-You will see some messages followed by a prompt indicating the interpreter
- is ready for your input:
+ You will see a prompt indicating the interpreter is ready for your input:
 \end_layout
 
 \begin_layout LyX-Code
@@ -224,6 +216,119 @@ Genyris responds with the answer and a comment about the result:
 
 \begin_layout LyX-Code
 ~ 79 ; Bignum
+\end_layout
+
+\begin_layout Standard
+To test the installation run the self test suite with the following command:
+\end_layout
+
+\begin_layout LyX-Code
+> load "testscripts/testsuite.lin"
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All being well, it will print 
+\begin_inset Quotes eld
+\end_inset
+
+OK
+\begin_inset Quotes erd
+\end_inset
+
+ and the number of tests passed.
+\end_layout
+
+\begin_layout Subsection
+Running Examples
+\end_layout
+
+\begin_layout Standard
+The release binary file includes some examples which can be extracted as
+ follows
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+Windows MSDOS prompt.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout LyX-Code
+c:> jar xvf *.jar examples 
+\end_layout
+
+\begin_layout Standard
+This creates a directory called 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+examples
+\emph default
+
+\begin_inset Quotes erd
+\end_inset
+
+ with a number of 
+\begin_inset Quotes eld
+\end_inset
+
+.lin
+\begin_inset Quotes erd
+\end_inset
+
+ files.
+ The files can be edited with your favourite text editor and run with the
+ 
+\emph on
+include
+\emph default
+ function.
+ For example, to load an run the 
+\begin_inset Quotes eld
+\end_inset
+
+Eight Queens
+\begin_inset Quotes erd
+\end_inset
+
+ example do:
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+include "examples/queens.lin"
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+~ "file:/home/birchb/workspace/Genyris/examples/queens.lin" ; String 
+\end_layout
+
+\begin_layout LyX-Code
+> 
+\series bold
+queens 8
 \end_layout
 
 \begin_layout Section

@@ -17,7 +17,7 @@ public class InterpretedTests extends TestCase {
 
     private void useSourceLoader(String filename) throws GenyrisException {
         Interpreter interp = new Interpreter();
-        interp.init(true);
+        interp.init(false);
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
     }

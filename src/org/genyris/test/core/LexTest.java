@@ -170,7 +170,7 @@ public class LexTest extends TestCase {
 
     private void excerciseSpecialParsing(String toParse, String expected) throws Exception {
         Interpreter interpreter = new Interpreter();
-        interpreter.init(true);
+        interpreter.init(false);
 
         InStream input = new UngettableInStream( new StringInStream(toParse));
         Parser parser = new Parser(interpreter.getSymbolTable(), input);

@@ -13,7 +13,6 @@ import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
-import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.format.HTMLFormatter;
 import org.genyris.format.IndentedFormatter;
@@ -42,7 +41,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
         myTcpPort = port;
         try {
             interpreter = new Interpreter();
-            interpreter.init(true);
+            interpreter.init(false);
             NIL = interpreter.getNil();
             Writer output = new PrintWriter(System.out);
             SourceLoader.loadScriptFromClasspath(interpreter, "org/genyris/load/boot/httpd-serve.lin", output);
@@ -89,25 +88,25 @@ public class GenyrisHTTPD extends NanoHTTPD {
         request = new Lcons(new Lstring(uri), request);
         request = new Lcons(new Lstring(method), request);
 
-        
+
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         Writer output = new PrintWriter(buffer);
         // (httpd-serve request)
         Exp expression = new Lcons(interpreter.getSymbolTable().internString("httpd-serve"),new Lcons(request,NIL));
-      
+
         try {
-        	Formatter formatter;
-//       	formatter = new IndentedFormatter(output, 1, interpreter);            	
-//       	expression.acceptVisitor(formatter);
+            Formatter formatter;
+//           formatter = new IndentedFormatter(output, 1, interpreter);
+//           expression.acceptVisitor(formatter);
             Exp result = interpreter.evalInGlobalEnvironment(expression);
             String status = result.car().toString();
             result = result.cdr();
             String mime = result.car().toString();
-            if(mime.equals("text/html")) { 
-            	 formatter = new HTMLFormatter(output, interpreter.getNil());
+            if(mime.equals("text/html")) {
+                formatter = new HTMLFormatter(output, interpreter.getNil());
             }
             else {
-            	 formatter = new IndentedFormatter(output, 1, interpreter);            	
+                formatter = new IndentedFormatter(output, 1, interpreter);
             }
             result = result.cdr();
             result.acceptVisitor(formatter);
@@ -125,6 +124,6 @@ public class GenyrisHTTPD extends NanoHTTPD {
         }
 
         return new Response();
-        
+
     }
 }

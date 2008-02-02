@@ -2,7 +2,8 @@ syntax: glob
 *toc
 *aux
 *log
-*class
+*/build/class
+*/idebuild/class
 *orig
 build
 dist

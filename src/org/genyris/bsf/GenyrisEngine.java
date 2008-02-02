@@ -27,7 +27,7 @@ public class GenyrisEngine extends BSFEngineImpl {
         super.initialize(mgr, lang, declaredBeans);
         try {
             _interp = new Interpreter();
-            _interp.init(true);
+            _interp.init(false);
         } catch (GenyrisException e) {
             throw new BSFException(e.getMessage());
         };

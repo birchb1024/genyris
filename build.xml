@@ -16,20 +16,21 @@
     <target name="all" depends="only-init, only-compile" description="Build all." />
     <target name="clean" depends="only-clean" />
 
-	<target name="compile" depends="only-clean, only-init, only-compile" 
-	 	description="Compile the Java"/>
+    <target name="compile" depends="only-clean, only-init, only-compile"
+        description="Compile the Java"/>
     <target name="binary-jar" depends="compile, only-binary-jar"
          description="compile and create jar"/>
-	<target name="war" depends="binary-jar, only-war"
-		description="Create war file, always compile."/>
-	<target name="ear" depends="war, only-ear"
-		description="Create ear file, compile as needed."/>
+    <target name="war" depends="binary-jar, only-war"
+        description="Create war file, always compile."/>
+    <target name="ear" depends="war, only-ear"
+        description="Create ear file, compile as needed."/>
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
         <include name="bsf.jar" />
         <include name="commons-logging-1.1.jar" />
         <include name="servlet-api.jar" />
+        <include name="junit.jar" />
     </fileset>
 
     <!-- Libraries required in the web classpath. -->
@@ -74,11 +75,11 @@
     </target>
 
     <target name="only-compile">
-        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" 
-        	classpathref="src.compile.classpath"
-       	 	source="1.4"
-        	target="1.4"
-        	verbose="no">
+        <javac srcdir="${src.dir}" destdir="${src.compile.dir}"
+            classpathref="src.compile.classpath"
+                source="1.4"
+            target="1.4"
+            verbose="no">
             <include name="org/**" />
         </javac>
     </target>
@@ -87,52 +88,53 @@
         <jar destfile="${dist.dir}/genyris-bin.jar"  duplicate="fail">
             <fileset dir="${basedir}" includes="README LICENSE" />
             <fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
+            <fileset dir="${needed.lib.dir}" includes="junit/**/*" />
             <fileset dir="${src.dir}" includes="**/*.lin" />
             <fileset dir="${src.dir}" includes="**/*.properties" />
             <fileset dir="${basedir}" includes="examples/*.lin" />
             <fileset dir="${basedir}" includes="testscripts/*.lin testscripts/*.lsp" />
-		    <manifest>
-		      <attribute name="Built-By" value="Peter William Birch"/>
-		      <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
-		    </manifest>            
+            <manifest>
+            <attribute name="Built-By" value="Peter William Birch"/>
+            <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
+            </manifest>
         </jar>
     </target>
 
-	
 
-	<target name="only-war">
-		<delete file="${output.war}"/>
-		<copy todir="${web.dir}/WEB-INF/lib">
-			<fileset file="${dist.dir}/genyris-bin.jar" />
-		</copy>
-		<copy todir="${web.dir}/WEB-INF/classes">
-			<fileset dir="${build.dir}/classes">
-				<include name="org/genyris/web/GenyrisServlet.class" />
-			</fileset>
-		</copy>
-		<war destfile="${output.war}" webxml="${web.dir}/WEB-INF/web.xml" manifest="${web.dir}/META-INF/MANIFEST.MF">
-			<zipfileset dir="${web.dir}">
-				<exclude name="**/WEB-INF/**/*" />
-			</zipfileset>
-			<webinf dir="${web.dir}/WEB-INF">
-				<exclude name="**/web.xml" />
-			</webinf>
-		</war>
-	</target>
-	
-	<!-- Generates the ${war.project.name} ear file for deployment -->
-	<target name="only-ear">
-		<delete file="${output.ear}" />
-		<ear appxml="${ear.project.root}/meta-inf/application.xml" destfile="${output.ear}">
-			<fileset file="${output.war}" />
-		</ear>
-	</target>
-	
-	<!-- hot deploy the jsp and class files to make a simple update in the development environment -->
-	<target name="only-hot-deploy-war">
-		<copy todir="${installed.apps.war}" >
-			<fileset dir="${web.dir}" />
-		</copy>
-	</target>
+
+    <target name="only-war">
+        <delete file="${output.war}"/>
+        <copy todir="${web.dir}/WEB-INF/lib">
+            <fileset file="${dist.dir}/genyris-bin.jar" />
+        </copy>
+        <copy todir="${web.dir}/WEB-INF/classes">
+            <fileset dir="${build.dir}/classes">
+                <include name="org/genyris/web/GenyrisServlet.class" />
+            </fileset>
+        </copy>
+        <war destfile="${output.war}" webxml="${web.dir}/WEB-INF/web.xml" manifest="${web.dir}/META-INF/MANIFEST.MF">
+            <zipfileset dir="${web.dir}">
+                <exclude name="**/WEB-INF/**/*" />
+            </zipfileset>
+            <webinf dir="${web.dir}/WEB-INF">
+                <exclude name="**/web.xml" />
+            </webinf>
+        </war>
+    </target>
+
+    <!-- Generates the ${war.project.name} ear file for deployment -->
+    <target name="only-ear">
+        <delete file="${output.ear}" />
+        <ear appxml="${ear.project.root}/meta-inf/application.xml" destfile="${output.ear}">
+            <fileset file="${output.war}" />
+        </ear>
+    </target>
+
+    <!-- hot deploy the jsp and class files to make a simple update in the development environment -->
+    <target name="only-hot-deploy-war">
+        <copy todir="${installed.apps.war}" >
+            <fileset dir="${web.dir}" />
+        </copy>
+    </target>
 
 </project>

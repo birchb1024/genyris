@@ -26,14 +26,14 @@ public class ClassicReadEvalPrintLoop {
         Interpreter interpreter;
         try {
             interpreter = new Interpreter();
-            System.out.println("loaded " + interpreter.init(true));
+            interpreter.init(false);
             InStream input = new UngettableInStream(new ConvertEofInStream(
                     new IndentStream(
                             new UngettableInStream(new StdioInStream()), true)));
             Parser parser = interpreter.newParser(input);
             Writer output = new PrintWriter(System.out);
             Formatter formatter = new IndentedFormatter(output, 1, interpreter);
-            System.out.println("\n*** Genyris is listening...");
+            System.out.println("*** Genyris is listening...");
             Exp expression = null;
             do {
                 try {
