@@ -69,7 +69,6 @@ This document provides an introduction to programming in the Genyris language.
  The language is a derivative of Lisp with a mostly parenthesis-free syntax
  yet retaining infix notation.
  It supports generic programming through macros and object-orientation.
- All objects may be used as functions, and are classifiable.
  It offers a style of object-orientation where all objects have many classes
  and where classes are assigned to objects after construction.
 \end_layout
@@ -350,8 +349,7 @@ Syntax
 \end_layout
 
 \begin_layout Standard
-The syntax of Genyris is based on the idea that indentation is used to convey
- program structure.
+The syntax of Genyris uses indentation to convey program structure.
  This is in common with other languages such as Python.
  However Genyris preserves the 
 \begin_inset Quotes eld
@@ -400,8 +398,9 @@ end
 \emph default
  tokens, the indentation defines the blocks of code.
  Genyris reads lines one-by-one until it reaches the end of an expression.
- An expression ends when there is no more indentation on the interactive
- command-line, when two blank lines are seen.
+ An expression ends when there are no more indented lines.
+ The interactive command-line ends an expression whenever two blank lines
+ are read.
  Within a line, tokens are separated by white-space.
  Genyris recognizes the following tokens:
 \end_layout
@@ -436,17 +435,7 @@ Comments
 
 \begin_layout Standard
 All characters following a semi-colon until the end of the line are ignored
- by the parser
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-like Lisp comments
-\end_layout
-
-\end_inset
-
-.
+ by the parser.
  For example:
 \end_layout
 
@@ -1055,7 +1044,7 @@ Lisp Cons cells
 \end_inset
 
 .
- Pairs have two elements, the left and right, which a references to other
+ Pairs have two elements, the left and right, which are references to other
  Genyris objects.
  The left and right halves of a 
 \emph on
@@ -1146,6 +1135,24 @@ nil
 (A B : C) 
 \end_layout
 
+\begin_layout Standard
+new pairs can be created explicitly with the cons function.
+ It takes two parameters which become the left and right parts of a new
+ pair.:
+\end_layout
+
+\begin_layout LyX-Code
+> cons 123 456
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+123 : 456 ; Pair
+\end_layout
+
 \begin_layout Subsection
 Quoting and Special Parser Characters
 \end_layout
@@ -1153,7 +1160,22 @@ Quoting and Special Parser Characters
 \begin_layout Standard
 Lists and atoms can be quoted in Genyris.
  Quoting is used to prevent execution of expressions.
- A single atom can be quoted within an expression:
+ A single atom can be quoted within an expression
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+
+\emph on
+list
+\emph default
+ is a function we will cover later.
+ 
+\end_layout
+
+\end_inset
+
+:
 \end_layout
 
 \begin_layout LyX-Code
@@ -1169,21 +1191,7 @@ a
 \end_layout
 
 \begin_layout Standard
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-
-\emph on
-list
-\emph default
- is a function we will cover later.
- 
-\end_layout
-
-\end_inset
-
-Quote characters are a shorthand notation which saves typing.
+Quote characters are a shorthand notation to save typing.
  When the parser sees a single quote, it collects the following expression
  and wraps it within a 
 \emph on
@@ -1258,8 +1266,8 @@ is the same as:
 \end_layout
 
 \begin_layout Standard
-To allow entire sub-expressions to be quoted, the quote function needs to
- be used as in this example:
+To allow entire sub-trees to be quoted, the quote function needs to be used
+ as in this example:
 \end_layout
 
 \begin_layout LyX-Code
@@ -1372,8 +1380,8 @@ More Quote Characters
 \end_layout
 
 \begin_layout Standard
-Genyris also supports three other special syntactic quotes processed like
- single quotes.
+Genyris also supports three other special syntactic quotes similar to single
+ quotes.
  They are all used to simplify writing macros with the 
 \emph on
 template 
@@ -1482,7 +1490,7 @@ Translated Expression
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Greyedout
+\begin_inset Note Comment
 status open
 
 \begin_layout Standard
@@ -1605,8 +1613,8 @@ As we have seen, Genyris can execute statements immediately at the command
 Yields the addition of the two numbers (77).
  Let's explore how this works.
  The interpreter looks for list expressions and assumes the first token
- (or sub-expression) is a function.
- The rest of the list constitute the arguments to the function.
+ (or sub-expression) is a procedure.
+ The rest of the list constitute the arguments to the procedure.
  In this case 
 \emph on
 +
@@ -1671,7 +1679,8 @@ Eager Functions
 \end_layout
 
 \begin_layout Standard
-Programmers are familiar with eager functions the default in most languages.
+Programmers are familiar with eager functions as it is the default in most
+ languages.
  Mathematical functions such as + - * and / are eager functions.
  These evaluate their arguments prior to applying the underlying procedure.
  Let's experiment with some simple math function calls.
@@ -1852,7 +1861,7 @@ true
 nil
 \emph default
 .
- so if the symbol 
+ So if the symbol 
 \emph on
 foo
 \emph default
@@ -1869,7 +1878,7 @@ Defining Your Own Functions
 \end_layout
 
 \begin_layout Standard
-Functions in genyris are defined in the usual way for functional programming
+Functions in Genyris are defined in the usual way for functional programming
  languages.
  The 
 \emph on
@@ -1931,11 +1940,11 @@ if
 \emph default
  function is lazy, since, depending on the value of the first argument,
  it executes only one of its other two arguments .
- In fact 
+ In fact, 
 \emph on
 if
 \emph default
- is a macro, a special kind of lazy function which we introduce later.
+ is a macro - a special kind of lazy function which we introduce later.
 \end_layout
 
 \begin_layout Subsection
@@ -1954,7 +1963,7 @@ defmacro
  functions are lazy functions.
  They bind a variable name to procedure compiled from the function body.
  But what if we want a function without the binding? Genyris provides three
- kinds of in-built function objects.
+ kinds of in-built procedure-building functions.
  The function 
 \emph on
 lambda
@@ -2004,7 +2013,7 @@ To actually call it we place it wherever a function is expected, such as
 \begin_layout Standard
 Notice the parentheses are required around the expression to trigger the
  execution.
- The argument 3 is than passed to the resulting closure.
+ The argument 3 is passed to the resulting closure.
  Functions are 'first class' and can be assigned to variables, which is
  how 
 \emph on
@@ -2034,28 +2043,29 @@ def square (x)
    * x x 
 \end_layout
 
-\begin_layout Subsection
-Lazy and Anonymous Functions
+\begin_layout Subsubsection
+Anonymous Lazy Functions
 \end_layout
 
 \begin_layout Standard
 To defer evaluation, a lazy function can be defined using the 
 \emph on
-lambdaq or lambdam 
-\begin_inset Foot
-status open
-
-\begin_layout Standard
-
-\emph on
-for creating macros
-\end_layout
-
-\end_inset
-
-
+lambdaq or lambdam
 \emph default
  macros.
+ 
+\emph on
+lambdaq
+\emph default
+ is just like 
+\emph on
+lambda
+\emph default
+ except it builds a lazy procedure, 
+\emph on
+lambdam
+\emph default
+ builds anonymous macros.
  The next example creates an anonymous function which prepends its argument
  (without evaluation) to a list:
 \end_layout
@@ -2069,11 +2079,15 @@ lambdaq
 \end_layout
 
 \begin_layout LyX-Code
-
+ 
 \end_layout
 
 \begin_layout LyX-Code
 (+ "Hello") "World" ; Pair
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsection
@@ -2191,11 +2205,58 @@ Defining Macros
 \end_layout
 
 \begin_layout Standard
-Macros are an advanced lazy function which are very handy for extending
- the syntax of the language and creating DSLs (Domain-Specific Languages).
- Macros are lazy functions which, after the procedure has returned, it re-evalua
-tes the returned expression in the environment of the caller.
+Macros are lazy functions which are very handy for extending the syntax
+ of the language and creating DSLs (Domain-Specific Languages).
+ Macros are lazy functions which re-evaluate the returned value in the environme
+nt of the caller.
  Here's an example:
+\end_layout
+
+\begin_layout LyX-Code
+defmacro do(&rest body)
+\end_layout
+
+\begin_layout LyX-Code
+   cons 'lambda
+\end_layout
+
+\begin_layout LyX-Code
+      cons nil
+\end_layout
+
+\begin_layout LyX-Code
+        cons body nil
+\end_layout
+
+\begin_layout Standard
+This macro assembles a lambda expression using the argument list as the
+ body of the function.
+ So when called with:
+\end_layout
+
+\begin_layout LyX-Code
+do
+\end_layout
+
+\begin_layout LyX-Code
+   print "Hello World"
+\end_layout
+
+\begin_layout Standard
+It creates this expression, which is then evaluated: 
+\end_layout
+
+\begin_layout LyX-Code
+lambda ()
+\end_layout
+
+\begin_layout LyX-Code
+   print "Hello World"
+\end_layout
+
+\begin_layout Standard
+Here is a more complex example - definition of a control flow function:
+ 
 \end_layout
 
 \begin_layout LyX-Code
@@ -2387,7 +2448,7 @@ the body of
 \emph on
 make-withdraw
 \emph default
- is evaluated resulting in an procedure object which captures a reference
+ is evaluated resulting in another procedure object which captures a reference
  to 
 \emph on
 balance 
@@ -2439,8 +2500,9 @@ Everything is Callable
 \end_layout
 
 \begin_layout Standard
-The evaluator expects the first element of a list to be some kind of procedure
- object - something that can compute its arguments and apply them.
+The Genyris evaluator expects the first element of a list to be some kind
+ of procedure object - something that can compute its arguments and apply
+ them.
  This is the role of traditional functions such as 
 \emph on
 +
@@ -2685,8 +2747,8 @@ Dynamic Variables
 \begin_layout Standard
 Generally 'dynamic' variables are those which are bound in the environment
  of the caller and hence depend on who is evaluating the expression.
- However in Genyris, dynamic variables are limited to being properties of
- the currently called object, since called objects are part of their environment.
+ In Genyris dynamic variables are limited to being properties of the currently
+ called object, and called objects are part of their environment.
  In other words when an object is used as a procedure, the environment created
  to make the call is a merge of the object itself and a normal lexical environme
 nt.
@@ -2699,16 +2761,20 @@ nt.
 \end_layout
 
 \begin_layout Standard
-The number 12 above has only one dynamic variable _
+The number 12 above has two dynamic variables, 
+\emph on
+_self
+\emph default
+ and _
 \emph on
 classes
 \emph default
 .
- It can be accessed as follows:
+ They can be accessed as follows:
 \end_layout
 
 \begin_layout LyX-Code
-> 12 _classes
+12    cons _self _classes
 \end_layout
 
 \begin_layout LyX-Code
@@ -2716,7 +2782,7 @@ classes
 \end_layout
 
 \begin_layout LyX-Code
-<class Bignum (Builtin) ()> ; Pair
+12 <class Bignum (Builtin) ()> ; Pair 
 \end_layout
 
 \begin_layout Standard
@@ -2802,7 +2868,7 @@ Like its forbears Lisp and Scheme, Genyris is inherently a list-processing
  Since programs and data are stored in the same form, Genyris is an ideal
  platform for developing DSLs or even new programming languages.
  Happily, manipulating lists is easy.
- Lists are really a kind of 
+ Lists are a kind of 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2960,10 +3026,6 @@ Pair
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Standard
 To help view 
 \emph on
 Pairs
@@ -2985,11 +3047,6 @@ Pairs
 
 \begin_layout LyX-Code
 "A" : ("B" : ("C")) ; PRINTWITHCOLON 
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -3024,11 +3081,7 @@ slots
 \end_inset
 
 .
- 
-\end_layout
-
-\begin_layout Standard
-A dictionary is created with the 
+ A dictionary is created with the 
 \emph on
 dict
 \emph default
@@ -3425,8 +3478,6 @@ Here we define three functions bound to a single dict object.
 file
 \emph default
  object.
- Provided the functions in the module don't share variables or state this
- provides a form of organisation.
  While it is handy to be able to add behaviour to objects, it does not scale
  when there are many objects which require the same behaviour.
  For this we need something more complex - Classes and Inheritance.
@@ -3451,7 +3502,7 @@ Object-Oriented
  The interpreter looks at the classes for functions to execute if the function
  name is dynamic (starts with an underscore).
  This way you can add behaviour to many objects in a single place.
- Classes are a dictionaries with special variables which hold the relationships
+ Classes are dictionaries with special variables which hold the relationships
  between classes.
  The standard classes all have the following variables:
 \end_layout
@@ -3650,7 +3701,7 @@ Defining Your Own Classes
 \begin_layout Standard
 Classes are relatively complex objects so the language provides an in-built
  macro for creating new classes and binding them.
- The syntax is straight forward - lets define a class for length units:
+ The syntax is straight forward - let's define a class for length units:
 \end_layout
 
 \begin_layout LyX-Code
@@ -3701,9 +3752,9 @@ The
 \emph on
 tag
 \emph default
- function adds a class to its argument and returns the object.
- Notice the interpreter prints out the list of classes 12 belongs to, including
- 
+ function adds a class to an object's list of classes and returns it.
+ Notice the interpreter prints out the list of classes 12 belongs to, now
+ including 
 \emph on
 Inches
 \emph default
@@ -3745,7 +3796,7 @@ The second parameter to
 \emph on
 class 
 \emph default
-a list of superclasses, in this example, 
+a list of superclasses, in this example, just 
 \emph on
 Bignum
 \emph default
@@ -3898,7 +3949,7 @@ _toMeters
 \emph default
 .
  With this new class structure in place we can now add a method to add two
- lengths in different units:
+ lengths in any units:
 \end_layout
 
 \begin_layout LyX-Code
@@ -3940,7 +3991,7 @@ def _add(other)
 \begin_layout Standard
 This method converts both the current object and the argument to 
 \emph on
-Meters
+Meters,
 \emph default
  performs the addition and returns the result in 
 \emph on
@@ -3988,8 +4039,8 @@ Meters
 \end_layout
 
 \begin_layout Standard
-This is quite useful however in the above example a user of our classes
- could get errors by tagging objects which cannot be added together.
+This is useful however in the above example a user of our classes could
+ get errors by tagging objects which cannot be added together.
  For example a string will fail:
 \end_layout
 
@@ -4002,8 +4053,7 @@ This is quite useful however in the above example a user of our classes
 \end_layout
 
 \begin_layout Standard
-To provide protection and we need stronger type checking features or better
- ways to classify inputs.
+To provide protection and we use type checking features class validators.
 \end_layout
 
 \begin_layout Subsection
@@ -4011,19 +4061,28 @@ Inheritance and Class Slots
 \end_layout
 
 \begin_layout Standard
-The inheritance mechanism in Genyris works by searching on object's class
+The inheritance mechanism in Genyris works by searching on object's classes
  list for classes which have the dynamic symbol required, it also recursively
- searches the superclasses of all the classes it finds in the class list.
- The classes are ordered with those classes deepest in the hierarchy.
- This order is listed when the classes are printed by the command-line interpret
-er.
+ searches the superclasses of all the classes it finds in the classes list.
+ The classes are ordered with those classes deepest in the hierarchy first.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+This order is listed when the classes are printed by the command-line interprete
+r.
+\end_layout
+
+\end_inset
+
  
 \end_layout
 
 \begin_layout Standard
 This inheritance of slots is the same regardless of the type of slot (method
  or data).
- Hence an object can access information stored in it's class es and superclasses.
+ Hence an object can access information stored in it's classes and superclasses.
  Here's a simple example where a base class supplies a simple boolean value
  to an object:
 \end_layout
@@ -4061,11 +4120,12 @@ To help define membership of a class, the class can provide a
 \emph on
 _valid?
 \emph default
- method which can assess an object and return 
+ predicate method.
+ This can assess an object and return 
 \emph on
 true
 \emph default
- if it is good.
+ if it is a valid member of the class.
  The 
 \emph on
 tag
@@ -4074,7 +4134,7 @@ tag
 \emph on
 _valid?
 \emph default
- if provided and fails if 
+ if provided and fails when 
 \emph on
 _valid?
 \emph default
@@ -4083,7 +4143,7 @@ _valid?
 nil
 \emph default
 .
- We can add this to our example base class:
+ We can add a validator to our example base class:
 \end_layout
 
 \begin_layout LyX-Code
@@ -4121,10 +4181,10 @@ Traditional Constructors and Factories
 \end_layout
 
 \begin_layout Standard
-Whilst the philosophy of Genyris is to classify objects after construction
+While the philosophy of Genyris is to classify objects after construction,
  it does not inhibit using traditional constructors in classes.
- It is good practices in any case to prefer 'factory' functions for object
- construction even in traditional languages.
+ It is good practice to prefer 'factory' functions for object construction
+ even in traditional languages.
  Factory functions are simply functions which construct the appropriate
  kind of object based on the inputs given.
  A factory/constructor can be as simple as this:
@@ -4313,8 +4373,7 @@ Automating Classification
 This language embodies the opinion that objects are created first, then
  they are classified - rather than the classification being determined during
  object construction.
- (This does not prohibit traditional constructors and object factories,
- we will describe them later.) Let's explore how the 
+ Let's explore how the 
 \emph on
 _valid?
 \emph default
@@ -4355,7 +4414,10 @@ def _valid?(x)
 \begin_layout Standard
 Validators provide a way to automatically categorize unknown objects - an
  important tool for input validation.
- The Genyris distribution includes file "examples/classify.lin" which shows
+\end_layout
+
+\begin_layout Standard
+The Genyris distribution includes file "examples/classify.lin" which shows
  this pattern.
  It defines a 
 \emph on
@@ -4563,7 +4625,7 @@ and
  is a macro that evaluates each sub-expression passed in turn.
  If one of them is 
 \emph on
-nil
+nil,
 \emph default
  execution ceases and 
 \emph on
@@ -4593,6 +4655,12 @@ obj
 \emph default
 .
  
+\emph on
+(Person_valid?) 
+\emph default
+checks for a slot called
+\emph on
+ _age.
 \end_layout
 
 \begin_layout Enumerate
@@ -4640,7 +4708,7 @@ methods.
 \end_layout
 
 \begin_layout Standard
-In Genyris an Interface can be defined by
+In Genyris an Interface could be defined by
 \emph on
  
 \emph default
@@ -4752,7 +4820,7 @@ some-function some-object
 \end_layout
 
 \begin_layout Standard
-An IStream class is be defined and used to tag objects.
+An IStream class is defined and used to tag objects.
  The tagger needs to be honest to ensure the interface is actually present
  in the tagged objects.
  Users of the objects can type-check based on the base class 
@@ -4784,8 +4852,8 @@ Taxonomies of class types and validation functions assembled into class
 \end_layout
 
 \begin_layout Enumerate
-Executable code libraries containing functions for manipulating objects
- of known classes and implementing significant functionality.
+Traditional executable code libraries containing functions for manipulating
+ objects of known classes and implementing significant functionality.
 \end_layout
 
 \begin_layout Standard

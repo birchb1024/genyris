@@ -17,12 +17,37 @@ def tak (x y z)
                   tak (- z 1) x y
            else z
 
+
 define result (tak 18 12 6)
 
 cond
  (equal? result 7)
     "Tak test passed"
  else
-    raise "\nTak benchmark test failed."
+    raise "\nTak test failed."
 
+;
+; Anonymous version
+;
+define tak-maker
+   lambda ()
+      def tak (x y z)
+        cond
+           (< y x)
+              tak
+                  tak (- x 1) y z
+                  tak (- y 1) z x
+                  tak (- z 1) x y
+           else z
+      the tak
+
+
+define anon-result 
+   (tak-maker) 18 12 6
+
+cond
+ (equal? anon-result 7)
+    "Anon Tak test passed"
+ else
+    raise "\nAnon Tak test failed."
 
