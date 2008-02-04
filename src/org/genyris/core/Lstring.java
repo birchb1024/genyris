@@ -52,4 +52,8 @@ public class Lstring extends ExpWithEmbeddedClasses {
 		return new Lstring(this._value.concat(str._value));
 	}
 
+	public Exp match(Lsymbol nil, Lsymbol true1, Lstring regex) {
+		return (_value.matches(regex._value)? true1 : nil);
+	}
+
 }

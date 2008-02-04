@@ -69,6 +69,7 @@ import org.genyris.math.RemainderFunction;
 import org.genyris.test.JunitRunnerFunction;
 import org.genyris.string.AbstractMethod;
 import org.genyris.string.ConcatMethod;
+import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
 
 public class Interpreter {
@@ -153,6 +154,7 @@ public class Interpreter {
         
         bindMethod("String", Constants.SPLIT, new SplitMethod(this));
         bindMethod("String", Constants.CONCAT, new ConcatMethod(this));
+        bindMethod("String", Constants.MATCH, new MatchMethod(this));
 
     }
 

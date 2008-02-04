@@ -38,6 +38,9 @@ public class StringTests extends TestCase {
 		checkEval("(\"1    2 \t3  4 5\"(_split \"[ \\t]+\"))", "(\"1\" \"2\" \"3\" \"4\" \"5\")");
 
 		checkEvalBad("((String_split) \"A\" \"B\")");
+
+		checkEval("(\"http://www.genyris.org/path/index.html\"(_split \"http://\"))", "(\"\" \"www.genyris.org/path/index.html\")");
+
 	}
 
 	public void testStringConcat() throws GenyrisException {
@@ -46,4 +49,14 @@ public class StringTests extends TestCase {
 		checkEval("(\"A\"(_+ \"B\"))", "\"AB\"");
 		checkEval("(\"A\"(_+ \"B\" \"C\"))", "\"ABC\"");
 	}
+	public void testStringMatch() throws GenyrisException {
+		checkEval("(\"abc\"(_match \"a.c\"))", "true");
+		checkEval("(\"abc\"(_match \"a.d\"))", "nil");
+		checkEval("(\"\"(_match \"\"))", "true");
+		checkEvalBad("(3(_match \"\"))");
+		checkEvalBad("(\"A\"(_match))");
+		checkEvalBad("(\"A\"(_match 34))");
+		checkEval("(\"http://www.genyris.org/path/index.html\"(_match \"http://[^/]+/.*\"))", "true");
+	}
+
 }
