@@ -53,6 +53,8 @@ public class Constants {
         public static final String TRUE = "true";
         public static final String CLOSURE = "Closure";
 
+        public static final String SPLIT = DYNAMICSCOPECHAR + "split";
+        public static final String CONCAT = DYNAMICSCOPECHAR + "+";
 
 
 }

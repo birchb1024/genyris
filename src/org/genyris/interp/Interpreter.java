@@ -65,6 +65,9 @@ import org.genyris.math.MinusFunction;
 import org.genyris.math.MultiplyFunction;
 import org.genyris.math.PlusFunction;
 import org.genyris.math.RemainderFunction;
+import org.genyris.string.AbstractMethod;
+import org.genyris.string.ConcatMethod;
+import org.genyris.string.SplitMethod;
 
 public class Interpreter {
 
@@ -143,10 +146,16 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString("raise"), new EagerProcedure(_globalEnvironment, null, new RaiseFunction(this)));
 
         _globalEnvironment.defineVariable(_table.internString("java-class"), new EagerProcedure(_globalEnvironment, null, new JavaClassForName(this)));
-
-
+        
+        bindMethod("String", Constants.SPLIT, new SplitMethod(this));
+        bindMethod("String", Constants.CONCAT, new ConcatMethod(this));
 
     }
+
+	private void bindMethod(String className, String methodName, AbstractMethod method) throws UnboundException, GenyrisException {
+		Lobject stringClass = (Lobject)_globalEnvironment.lookupVariableValue( _table.internString(className));
+        stringClass.defineVariable(_table.internString(methodName), new EagerProcedure(stringClass, null, method));
+	}
 
     public Exp init(boolean verbose)  throws GenyrisException {
         return SourceLoader.loadScriptFromClasspath(this, "org/genyris/load/boot/init.lin", verbose? _defaultOutput: (Writer)new NullWriter());

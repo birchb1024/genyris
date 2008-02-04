@@ -253,8 +253,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     }
 
     public Interpreter getInterpreter() {
-        // TODO Auto-generated method stub
-        return null;
+        return _parent.getInterpreter();
     }
 
     public Exp internString(String symbolName) {
