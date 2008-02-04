@@ -91,6 +91,21 @@
         </javac>
     </target>
 
+	<target name="archive" depends="binary-jar, ear">
+	    <input message="Destination directory for archive?" addproperty="archive.dest"/>
+	    <tstamp/>
+	    
+		<jar destfile="${archive.dest}/genyris-archive-${DSTAMP}${TSTAMP}.jar" 
+				duplicate="fail"
+				defaultexcludes="no">
+			<fileset dir="${basedir}" includes="*" />
+			<fileset dir="${basedir}" includes="*/**/*">
+				  <exclude name="idebuild/**/*"/>
+				  <exclude name="build/**/*"/>
+			</fileset>
+		</jar>
+	</target>
+
     <target name="only-binary-jar">
         <jar destfile="${dist.dir}/genyris-bin.jar"  duplicate="fail">
             <fileset dir="${basedir}" includes="README LICENSE" />

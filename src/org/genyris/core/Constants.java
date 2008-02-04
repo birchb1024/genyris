@@ -55,6 +55,8 @@ public class Constants {
         public static final String LEFT = DYNAMICSCOPECHAR + "left";
         public static final String RIGHT = DYNAMICSCOPECHAR + "right";
 
+        public static final String SPLIT = DYNAMICSCOPECHAR + "split";
+        public static final String CONCAT = DYNAMICSCOPECHAR + "+";
 
 
 }
