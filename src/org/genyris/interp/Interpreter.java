@@ -67,7 +67,6 @@ import org.genyris.math.MultiplyFunction;
 import org.genyris.math.PlusFunction;
 import org.genyris.math.RemainderFunction;
 import org.genyris.test.JunitRunnerFunction;
-import org.genyris.string.AbstractMethod;
 import org.genyris.string.ConcatMethod;
 import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
