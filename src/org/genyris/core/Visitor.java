@@ -32,4 +32,6 @@ public interface Visitor {
     public void visitClassWrapper(ClassWrapper klass);
 
     public void visitLobject(JavaWrapper wrapper);
+
+    public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp);
 }

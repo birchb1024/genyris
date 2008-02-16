@@ -7,11 +7,11 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
-
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
@@ -25,11 +25,8 @@ import org.genyris.interp.UnboundException;
 
 public class HTMLFormatter extends AbstractFormatter {
 
-	private int _depth;
-
 	public HTMLFormatter(Writer out, Lsymbol nil) {
 		super(out, nil);
-		_depth = 0;
 	}
 
 	private void emit(String s) throws IOException{
@@ -81,17 +78,13 @@ public class HTMLFormatter extends AbstractFormatter {
 				Lsymbol tag = (Lsymbol) cons.car();
 				Exp attributes = cons.cdr().car();
 				Exp body = cons.cdr().cdr();
-				indent();
 				_output.write("<" + tag.getPrintName());
 				writeAttributes(attributes);
 				if (body == NIL) {
 					_output.write("/>");
 				} else {
 					_output.write(">");
-					_depth++;
 					body.acceptVisitor(this);
-					_depth--;
-					indent();
 					_output.write("</" + tag.getPrintName() + ">");
 				}
 			} else {
@@ -109,11 +102,18 @@ public class HTMLFormatter extends AbstractFormatter {
 		}
 	}
 
-	private void writeAttributes(Exp attributes) throws IOException,
-			AccessException {
+	private void writeAttributes(Exp attributes) throws IOException, AccessException {
 		if (attributes != NIL) {
 			_output.write(" ");
 			while (attributes != NIL) {
+                if(!(attributes instanceof Lcons)) {
+                    _output.write("*** error bad HTML attribute.");
+                    return;
+                }
+                if(!(attributes.car() instanceof Lcons)) {
+                    _output.write("*** error bad HTML attribute.");
+                    return;
+                }
 				_output.write(attributes.car().car().toString());
 				_output.write("=\"");
 				_output.write(attributes.car().cdr().toString());
@@ -170,17 +170,6 @@ public class HTMLFormatter extends AbstractFormatter {
 		}
 	}
 
-	private void indent() {
-		try {
-			_output.write("\n");
-			for (int i = 0; i < _depth; i++)
-				_output.write(" ");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public static String HTMLEntityEncode(String s) {
 		StringBuffer buf = new StringBuffer();
 		int len = (s == null ? -1 : s.length());
@@ -203,4 +192,13 @@ public class HTMLFormatter extends AbstractFormatter {
 		}
 		return buf.toString();
 	}
+
+    public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) {
+        try {
+            emit(exp.getJavaValue().toString());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

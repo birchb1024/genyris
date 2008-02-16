@@ -51,5 +51,7 @@ public class BuiltinClasses {
         Lobject closure = mkClass(classname, Constants.CLOSURE, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.EAGERPROCEDURE, env, STANDARDCLASS, closure);
         mkClass(classname, Constants.LAZYPROCEDURE, env, STANDARDCLASS, closure);
+        mkClass(classname, Constants.FILE, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.WRITER, env, STANDARDCLASS, builtin);
     }
 }

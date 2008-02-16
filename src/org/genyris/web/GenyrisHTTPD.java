@@ -23,12 +23,13 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     Interpreter interpreter;
     Exp NIL;
+    Exp HttpRequestClazz, AlistClazz;
 
     public static void main(String[] args) {
         int port = 8080;
 
         try {
-            new GenyrisHTTPD(port);
+            new GenyrisHTTPD(port, args);
         }
         catch (IOException ioe) {
             System.err.println("Couldn't start server:\n" + ioe);
@@ -37,7 +38,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     }
 
-    public GenyrisHTTPD(int port) throws IOException {
+    public GenyrisHTTPD(int port, String[] args) throws IOException {
         myTcpPort = port;
         try {
             interpreter = new Interpreter();
@@ -45,6 +46,11 @@ public class GenyrisHTTPD extends NanoHTTPD {
             NIL = interpreter.getNil();
             Writer output = new PrintWriter(System.out);
             SourceLoader.loadScriptFromClasspath(interpreter, "org/genyris/load/boot/httpd-serve.lin", output);
+            if(args.length > 1) {
+                SourceLoader.loadScriptFromFile(interpreter, args[0], output);
+            }
+            HttpRequestClazz = interpreter.getGlobalEnv().lookupVariableValue(interpreter.getSymbolTable().internString("HttpRequest"));
+            AlistClazz = interpreter.getGlobalEnv().lookupVariableValue(interpreter.getSymbolTable().internString("Alist"));
         }
         catch (GenyrisException e) {
             e.printStackTrace();
@@ -72,7 +78,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
             headers = new Lcons(new Lcons(new Lstring(value), new Lstring(header.getProperty(value))), headers);
             System.out.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
         }
-        headers = new Lcons(new Lstring("headers"), headers);
+        headers.addClass(this.AlistClazz);
 
         Exp parameters = NIL;
         e = parms.propertyNames();
@@ -81,19 +87,19 @@ public class GenyrisHTTPD extends NanoHTTPD {
             parameters = new Lcons(new Lcons(new Lstring(value), new Lstring(parms.getProperty(value))), parameters);
             System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
         }
-        parameters = new Lcons(new Lstring("parameters"), parameters);
+        parameters.addClass(this.AlistClazz);
 
         request = new Lcons(parameters, request);
         request = new Lcons(headers, request);
         request = new Lcons(new Lstring(uri), request);
         request = new Lcons(new Lstring(method), request);
-
+        request.addClass(HttpRequestClazz);
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         Writer output = new PrintWriter(buffer);
         // (httpd-serve request)
         Exp expression = new Lcons(interpreter.getSymbolTable().internString("httpd-serve"),new Lcons(request,NIL));
-
+       
         try {
             Formatter formatter;
 //           formatter = new IndentedFormatter(output, 1, interpreter);

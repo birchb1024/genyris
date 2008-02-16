@@ -1,0 +1,13 @@
+define fi
+   File(_new "C:\\foo.txt")
+define out 	
+   fi (_open 'write)
+out (_format "Hello\n")
+out (_format "World\n")
+out
+  _format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" :
+      "GONZO\n" :
+       "ALONZO\n" :
+        33
+out (_close)
+

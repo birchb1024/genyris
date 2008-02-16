@@ -34,6 +34,7 @@ public class IndentStream implements InStreamEOF {
     int _tabsToGo;
 
     int _lineLevel;
+    int _lineNumber;
 
     int _currentLevel; // current indent level (of previous line) -1 means
 
@@ -59,6 +60,7 @@ public class IndentStream implements InStreamEOF {
         _parseState = LEADING_WHITE_SPACE;
         _maxTab = 1;
         _interactive = interactiveMode;
+        _lineNumber = 0;
     }
 
     public void unGet(char x) throws LexException {
@@ -66,6 +68,7 @@ public class IndentStream implements InStreamEOF {
     }
 
     void startLine() {
+        _lineNumber++;
         _lineLevel = 0;
         _parseState = LEADING_WHITE_SPACE;
         _numberOfLeadingSpaces = 0;
@@ -142,7 +145,7 @@ public class IndentStream implements InStreamEOF {
                     break;
                 }
                 else if (ch == '\t') {
-                    throw new LexException("illegal tab character before statement");
+                    throw new LexException("illegal tab character before statement at line " + Integer.toString(this._lineNumber));
                 }
                 else if (ch == '~') {
                     // Continuation line so pretend indentation is aligned

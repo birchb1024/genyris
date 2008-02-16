@@ -7,7 +7,6 @@ package org.genyris.interp;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
 import org.genyris.classes.BuiltinClasses;
 import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
@@ -54,6 +53,9 @@ import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReadFunction;
+import org.genyris.io.file.Gfile;
+import org.genyris.io.writerstream.WriterStream.CloseMethod;
+import org.genyris.io.writerstream.WriterStream.FormatMethod;
 import org.genyris.java.JavaClassForName;
 import org.genyris.load.IncludeFunction;
 import org.genyris.load.SourceLoader;
@@ -66,10 +68,10 @@ import org.genyris.math.MinusFunction;
 import org.genyris.math.MultiplyFunction;
 import org.genyris.math.PlusFunction;
 import org.genyris.math.RemainderFunction;
-import org.genyris.test.JunitRunnerFunction;
 import org.genyris.string.ConcatMethod;
 import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
+import org.genyris.test.JunitRunnerFunction;
 
 public class Interpreter {
 
@@ -155,6 +157,10 @@ public class Interpreter {
         bindMethod("String", Constants.CONCAT, new ConcatMethod(this));
         bindMethod("String", Constants.MATCH, new MatchMethod(this));
 
+        bindMethod("File", "_new", new Gfile.NewFileMethod(this));
+        bindMethod("File", "_open", new Gfile.FileOpenMethod(this));
+        bindMethod("Writer", "_format", new FormatMethod(this));
+        bindMethod("Writer", "_close", new CloseMethod(this));
     }
 
 	private void bindMethod(String className, String methodName, AbstractMethod method) throws UnboundException, GenyrisException {

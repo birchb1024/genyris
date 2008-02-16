@@ -12,6 +12,7 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Ldouble;
@@ -177,6 +178,10 @@ public class IndentedFormatter extends AbstractFormatter {
             // TODO what to do with these exceptions?
         }
 
+    }
+
+    public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) {
+        writeAtom(exp.getJavaValue().toString());
     }
 
 

@@ -91,7 +91,7 @@
         </javac>
     </target>
 
-	<target name="archive" depends="binary-jar, ear">
+	<target name="archive">
 	    <input message="Destination directory for archive?" addproperty="archive.dest"/>
 	    <tstamp/>
 	    

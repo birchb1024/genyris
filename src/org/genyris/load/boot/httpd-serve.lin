@@ -3,14 +3,26 @@
 ;; This software may be used and distributed according to the terms
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
-
+class HttpRequest()
+    def _method() (left _self)
+    def _path() (left (right _self))
+    def _headers() (left (right (right _self)))
+    def _parameters() (left (right (right (right _self))))
+    def _render ()
+       print (_headers)
+       print (_parameters)
+       template
+          div()
+             p((style: "strong")) ,(_method) ,(_path) 
+             div() ,(_headers(_render)) ; ,(_parameters(_render))
+             
 
 df httpd-serve (request)
    print request
-   list 200 "text/plain"
+   read
+   list 200 "text/html"
       template
           html()
              body()
-                pre()
-                   ,request
+                ,(request (_render))
    

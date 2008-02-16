@@ -12,6 +12,7 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Ldouble;
@@ -149,6 +150,8 @@ public class BasicFormatter extends  AbstractFormatter {
 
     public void visitLstring(Lstring lst) {
         try {
+            // TODO - look for escaped \ chars and output them in Display mode
+            //        ie print out the \n etc
             _output.write("\"" + lst.getJavaValue().toString() + "\"");
         }
         catch (IOException e) {
@@ -160,6 +163,16 @@ public class BasicFormatter extends  AbstractFormatter {
     public void visitLsymbol(Lsymbol lsym) {
         try {
             _output.write(lsym.getJavaValue().toString());
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) {
+        try {
+            _output.write("[Exp: " + exp.getJavaValue().toString() + "]");
         }
         catch (IOException e) {
             // TODO Auto-generated catch block

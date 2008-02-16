@@ -58,6 +58,8 @@ public class Constants {
         public static final String SPLIT = DYNAMICSCOPECHAR + "split";
         public static final String CONCAT = DYNAMICSCOPECHAR + "+";
         public static final String MATCH = DYNAMICSCOPECHAR + "match";
+        public static final String FILE = "File";
+        public static final String WRITER = "Writer";
 
 
 }
