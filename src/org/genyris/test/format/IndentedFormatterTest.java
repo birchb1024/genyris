@@ -82,4 +82,9 @@ public class IndentedFormatterTest extends TestCase {
         excerciseFormatter("(xxx (a : 1) (b: 2))", "xxx (a : 1) (b : 2)", 3);
         excerciseFormatter("(xxx (a : (1)))", "xxx (a : (1))", 3);
     }
+    public void test10() throws Exception {
+        excerciseFormatter("(a w (k (3 4)))", "a w\n   k\n      3 4", 1);
+        excerciseFormatter("(a w ((1 2) (3 4)))", "a w\n   (1 2)\n      3 4", 1);
+    }
+
 }

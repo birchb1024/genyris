@@ -65,8 +65,8 @@ public class IndentedFormatter extends AbstractFormatter {
                     if (countOfRight <= INDENT_DEPTH) {
                         if (countOfRight > 1)
                             _output.write(' ');
-                        else
-                            printSpaces(_consDepth);
+//                        else
+//                            printSpaces(_consDepth);
                         headCons.car().acceptVisitor(_basic);
                         head = headCons.cdr();
                         continue;
