@@ -60,6 +60,7 @@ public class Constants {
         public static final String MATCH = DYNAMICSCOPECHAR + "match";
         public static final String FILE = "File";
         public static final String WRITER = "Writer";
+        public static final String SYSTEM = "System";
 
 
 }
