@@ -9,20 +9,20 @@ class HttpRequest()
     def _headers() (left (right (right _self)))
     def _parameters() (left (right (right (right _self))))
     def _render ()
-       print (_headers)
-       print (_parameters)
        template
           div()
-             p((style: "strong")) ,(_method) ,(_path) 
-             div() ,(_headers(_render)) ; ,(_parameters(_render))
-             
+             strong()
+                p() "Method:" ,(_method)
+                p() "Path:" ,(_path)
+             div() "Headers:" ,((_headers)(_render))
+             div() "Parameters:" ,((_parameters)(_render))
+
 
 df httpd-serve (request)
    print request
-   read
    list 200 "text/html"
       template
           html()
+             head()
              body()
                 ,(request (_render))
-   

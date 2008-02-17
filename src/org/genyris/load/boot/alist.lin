@@ -11,17 +11,19 @@ class Alist()
 
    def _render()
       template
-          table()
-             ,(renderRows _self)
+          table ((border:1) (cellpadding:0))
+             ,@(renderRows _self)
+
+   def renderRow(apair)
+      template
+          tr()
+              td() ,(left apair)
+              td() ,(right apair)
 
    def renderRows(alist)
-       print (left alist)
        cond
           (null? alist) nil
           else
              cons
-                template       
-                    tr()
-                       td() ,(left (left alist))
-                       td() ,(right (left alist))
-                renderRows (right alist)
+                renderRow (alist_left)
+                renderRows (alist_right)
