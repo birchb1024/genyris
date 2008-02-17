@@ -17,7 +17,7 @@
 class BasicPerson ()
 
     def _new (name age)
-      (tag (dict) _self)
+      (tag _self (dict))
         define _name name
         define _age age
         _self
@@ -43,6 +43,6 @@ class PersonModern ()
          define _name name               ; add the data
          define _age age
          _self : PersonModern             ; check type now
-         tag _self PersonModern           ; ok, so add the class
+         tag PersonModern _self           ; ok, so add the class
          _self
 

@@ -41,14 +41,14 @@ public class ClassTaggingTests extends TestCase {
     public void testTagWithTag() throws Exception {
         excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
         excerciseEval("(define x 45)", "45");
-        excerciseEval("(tag x Miles)", "45");
+        excerciseEval("(tag Miles x)", "45");
         excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
         }
     public void testIsInstance() throws Exception {
         excerciseEval("(class A)", "<class A (Thing) ()>");
         excerciseEval("(class B(A))", "<class B (A) ()>");
         excerciseEval("(define x 45)", "45");
-        excerciseEval("(tag x B)", "45");
+        excerciseEval("(tag B x)", "45");
         excerciseEval("(is-instance? x Thing)", "true");
         excerciseEval("(is-instance? x Builtin)", "true");
         excerciseEval("(is-instance? x Bignum)", "true");
@@ -62,7 +62,7 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class B3(A))", "<class B3 (A) ()>");
         excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
         excerciseEval("(define x 45)", "45");
-        excerciseEval("(tag x C)", "45");
+        excerciseEval("(tag C x)", "45");
         excerciseEval("(is-instance? x Thing)", "true");
         excerciseEval("(is-instance? x Builtin)", "true");
         excerciseEval("(is-instance? x Bignum)", "true");
@@ -78,7 +78,7 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class B3(A))", "<class B3 (A) ()>");
         excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
         excerciseEval("(define x 45)", "45");
-        excerciseEval("(tag x C)", "45");
+        excerciseEval("(tag C x)", "45");
         excerciseEval("(def fn((a:A)) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
         exceptionEval("(fn 23)", "Type mismatch in function call for a");
         excerciseEval("(fn x)", "42");
@@ -103,7 +103,7 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class B3(A))", "<class B3 (A) ()>");
         excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
         excerciseEval("(define x 45)", "45");
-        excerciseEval("(tag x C)", "45");
+        excerciseEval("(tag C x)", "45");
         excerciseEval("(def fn((a:A) : Bignum) 42)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
         exceptionEval("(fn 23)", "Type mismatch in function call for a");
         excerciseEval("(fn x)", "42");

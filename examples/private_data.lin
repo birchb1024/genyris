@@ -19,11 +19,12 @@
 ;;
 class Person ()
    def _new()
-      (tag (dict) _self)
-         define age 25
-         def _getAge () age
-         def _setAge (val) (set 'age val)
-         _self
+      tag _self
+         (dict)
+            define age 25
+            def _getAge () age
+            def _setAge (val) (set 'age val)
+            _self
 
 define p
    Person(_new)
@@ -38,7 +39,7 @@ class Foo ()
     def _publicFunc ()
        list (privateFunc) "called by _publicFunc"
 
-define f (tag (dict) Foo)
+define f (tag Foo (dict))
 f (privateFunc) ; = error
 f (_publicFunc) ; OK
 

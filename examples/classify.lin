@@ -30,7 +30,7 @@ StandardClass
         (all-nil? subclass-results)  ; no subclasses were valid so check this class
            cond
               (and (bound? _valid?) (_valid? thing))        ; yep - valid so tag the object
-                 tag thing _self
+                 tag _self thing
                  true
               else
                  nil

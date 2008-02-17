@@ -14,7 +14,7 @@ defmacro myclass (name superclasses &rest body)
    define klass (dict)
    klass
       define _classname name
-      tag _self StandardClass
+      tag StandardClass _self
       define _subclasses nil
       define _superclasses
          map-left superclasses symbol-value

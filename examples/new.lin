@@ -43,7 +43,7 @@ class Manager (Employee)
      employee : Employee
      employee
         define _managment-grade grade
-     tag employee Manager
+     tag Manager employee
 
 ; promote fred
 (Manager_new) fred "project mangler"

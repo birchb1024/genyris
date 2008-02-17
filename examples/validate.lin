@@ -7,7 +7,7 @@
 ; How the _valid? method is called by the tagging operator and tag
 ;
 
-class C()
+class C ()
     def _valid? (obj)
         > obj 23
 
@@ -17,7 +17,7 @@ C (_valid? 21)   ; => nil
 
 
 ; mark the number 24 as a member of class 'C'
-tag 24 C      ; => ~ 24 ; Bignum C
+tag C 24      ; => ~ 24 ; Bignum C
 24 : C        ; => ~ 24 ; Bignum
 
 22 : C      ; => *** Error: class validator error for object 22
