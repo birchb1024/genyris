@@ -7,7 +7,6 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
-
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;

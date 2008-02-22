@@ -46,11 +46,11 @@ public class GenyrisHTTPD extends NanoHTTPD {
             NIL = interpreter.getNil();
             Writer output = new PrintWriter(System.out);
             SourceLoader.loadScriptFromClasspath(interpreter, "org/genyris/load/boot/httpd-serve.lin", output);
-            if(args.length > 1) {
+            if(args.length > 0) {
                 SourceLoader.loadScriptFromFile(interpreter, args[0], output);
             }
-            HttpRequestClazz = interpreter.getGlobalEnv().lookupVariableValue(interpreter.getSymbolTable().internString("HttpRequest"));
-            AlistClazz = interpreter.getGlobalEnv().lookupVariableValue(interpreter.getSymbolTable().internString("Alist"));
+            HttpRequestClazz = interpreter.lookupGlobalFromString("HttpRequest");
+            AlistClazz = interpreter.lookupGlobalFromString("Alist");
         }
         catch (GenyrisException e) {
             e.printStackTrace();

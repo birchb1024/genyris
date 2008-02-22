@@ -55,6 +55,12 @@ public class SourceLoader {
         }
         String url = SourceLoader.class.getClassLoader().getResource(filename).toString();
         executeScript(filename, _interp, new InputStreamReader(in), writer);
+        try {
+            in.close();
+        }
+        catch (IOException e) {
+            throw new GenyrisException("loadScriptFromInputStream: " + e.getMessage());
+        }
         return new Lstring(url);
     }
 
@@ -76,6 +82,12 @@ public class SourceLoader {
                     "loadScriptFromFile: " + e.getMessage());
         }
         executeScript(filename, _interp, new InputStreamReader(in), writer);
+        try { // TODO - DRY
+            in.close();
+        }
+        catch (IOException e) {
+            throw new GenyrisException("loadScriptFromFile: " + e.getMessage());
+        }
         return new Lstring(filename);
     }
 

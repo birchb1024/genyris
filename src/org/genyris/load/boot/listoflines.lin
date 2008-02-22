@@ -1,0 +1,30 @@
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;;
+
+;
+;  An ordered list of strings
+;
+ListOfLines
+
+   def _render()
+      template
+          pre()
+             ,@(renderLines _self)
+
+   def renderLine(aLine)
+      template
+          ,aLine (br())
+
+   def renderLines(lines)
+       cond
+          (null? lines) nil
+          else
+             cons
+                renderLine (lines_left)
+                renderLines (lines_right)
+
+var x
+   tag ListOfLines '("1" "2" "3")

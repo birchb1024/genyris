@@ -27,3 +27,17 @@ class Alist()
              cons
                 renderRow (alist_left)
                 renderRows (alist_right)
+   
+   def _lookup(key)
+      lookup key _self
+
+   def lookup(key list)
+      cond
+          (null? list) 
+             nil
+          (equal? key ((list_left)_left))
+             (list_left)_right
+          else
+              lookup key (list_right)
+             
+          

@@ -1,0 +1,65 @@
+print "Loading UsbLamp.lin"
+
+class UsbLamp ()
+   var exePath "C:\\workspace\\DevEnvironment\\scripts\\usblamp\\USBDOSAP.EXE"
+   var operations
+      tag Alist
+         quote
+            ("allflashoff"    : "10 20 7 0")
+               "alldark"      : "10 12 0 7"
+               "allon"        : "10 12 7 0"
+               "blueflash"    : "10 20 0 4"
+               "blueflashoff" : "10 20 4 0"
+               "blueoff"      : "10 12 0 4"
+               "blueon"       : "10 12 4 0"
+               "greenflash"   : "10 20 0 1"
+               "greenflashoff": "10 20 1 0"
+               "greenoff"     : "10 12 0 1"
+               "greenon"      : "10 12 1 0"
+               "redflash"     : "10 20 0 2"
+               "redflashoff"  : "10 20 2 0"
+               "redoff"       : "10 12 0 2"
+               "redon"        : "10 12 2 0"
+               "alloff"       : "meta"       
+        
+   def call-lamp(codes)
+      System
+         apply _exec
+            cons exePath (codes(_split))
+
+   def _change((op : String))
+       var codes (operations (_lookup op))
+       cond
+          (equal? op "alloff")
+             _change "allflashoff"
+             _change "alldark"
+          (null? codes) 
+             raise "UsbLamp sent bad op-code."  
+          else
+             call-lamp codes
+               
+               
+df httpd-serve (request)
+   print request
+   var params (request(_getParameters))
+   var operation (params (_lookup "op"))
+   cond
+     (null? operation)
+        set! operation "dir"
+   var listing
+      (UsbLamp (_change operation))
+         _render
+   list 200 "text/html"
+      template
+          html()
+             head()
+             body()
+                pre() ,operation
+                hr() 
+                ,listing
+                form()
+                   input((name:"op") (value: ,operation))
+                   input((type:"submit"))
+                      
+
+   

@@ -61,6 +61,8 @@ public class Constants {
         public static final String FILE = "File";
         public static final String WRITER = "Writer";
         public static final String SYSTEM = "System";
+        public static final String EXEC = "exec";
+        public static final String LISTOFLINES = "ListOfLines";
 
 
 }

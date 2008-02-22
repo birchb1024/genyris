@@ -6,5 +6,5 @@
 	<classpathentry kind="lib" path="needed/servlet-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="needed/junit.jar"/>
-	<classpathentry kind="output" path="idebuild"/>
+	<classpathentry kind="output" path="build"/>
 </classpath>

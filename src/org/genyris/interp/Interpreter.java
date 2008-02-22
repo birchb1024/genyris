@@ -71,6 +71,7 @@ import org.genyris.math.RemainderFunction;
 import org.genyris.string.ConcatMethod;
 import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
+import org.genyris.system.ExecMethod;
 import org.genyris.test.JunitRunnerFunction;
 
 public class Interpreter {
@@ -161,6 +162,7 @@ public class Interpreter {
         bindMethod("File", "_open", new Gfile.FileOpenMethod(this));
         bindMethod("Writer", "_format", new FormatMethod(this));
         bindMethod("Writer", "_close", new CloseMethod(this));
+        bindMethod("System", "_exec", new ExecMethod(this));
     }
 
 	private void bindMethod(String className, String methodName, AbstractMethod method) throws UnboundException, GenyrisException {
@@ -197,5 +199,9 @@ public class Interpreter {
 
     public SymbolTable getSymbolTable() {
         return _table;
+    }
+    
+    public Exp lookupGlobalFromString(String var) throws UnboundException {
+        return _globalEnvironment.lookupVariableValue(_table.internString(var));
     }
 }
