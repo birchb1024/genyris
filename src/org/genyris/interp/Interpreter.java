@@ -57,6 +57,7 @@ import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReadFunction;
+import org.genyris.io.StringFormatStream;
 import org.genyris.io.file.Gfile;
 import org.genyris.io.parser.StreamParser;
 import org.genyris.io.readerstream.ReaderStream;
@@ -168,6 +169,7 @@ public class Interpreter {
         bindMethod("Parser", "_new", StreamParser.NewMethod.class);
         bindMethod("Parser", "_read", StreamParser.ReadMethod.class);
         bindMethod("Parser", "_close", StreamParser.CloseMethod.class);
+        bindMethod("StringFormatStream", "_new", StringFormatStream.NewMethod.class);
         bindMethod("System", "_exec", ExecMethod.class);
     }
 

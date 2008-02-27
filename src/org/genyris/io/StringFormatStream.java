@@ -5,25 +5,24 @@
 //
 package org.genyris.io;
 
+import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Closure;
+import org.genyris.interp.Environment;
+import org.genyris.interp.Interpreter;
+import org.genyris.io.parser.StreamParser.AbstractParserMethod;
+import org.genyris.io.readerstream.ReaderStream;
 
 public class StringFormatStream implements InStreamEOF {
-
     private static final int IN_A_STRING = 0;
-
-    private static final int STARTING = 1;
-
-    private static final int ENDING = 2;
-
-    private static final int ESCAPE = 3;
-
-    private static final int IN_LISP = 4;
-
-    InStream _instream;
-
-    int _parseState;
-
-    char _escaped;
+    private static final int STARTING    = 1;
+    private static final int ENDING      = 2;
+    private static final int ESCAPE      = 3;
+    private static final int IN_LISP     = 4;
+    InStream                 _instream;
+    int                      _parseState;
+    char                     _escaped;
 
     public StringFormatStream(InStream in) {
         _instream = in;
@@ -31,74 +30,79 @@ public class StringFormatStream implements InStreamEOF {
     }
 
     public int getChar() throws LexException {
-
         char ch = '@';
-
         switch (_parseState) {
-
-        case IN_A_STRING:
-            if (!_instream.hasData()) {
-                _parseState = ENDING;
-                return '"';
-            }
-            ch = _instream.readNext();
-            if (ch == '\\') {
-                _parseState = ESCAPE;
-                _escaped = '\\';
-                return '\\';
-            }
-            else if (ch == '"') {
-                _parseState = ESCAPE;
-                _escaped = '"';
-                return '\\';
-            }
-            else if (ch == '#') {
+            case IN_A_STRING :
+                if (!_instream.hasData()) {
+                    _parseState = ENDING;
+                    return '"';
+                }
+                ch = _instream.readNext();
+                if (ch == '\\') {
+                    _parseState = ESCAPE;
+                    _escaped = '\\';
+                    return '\\';
+                } else if (ch == '"') {
+                    _parseState = ESCAPE;
+                    _escaped = '"';
+                    return '\\';
+                } else if (ch == '#') {
+                    if (!_instream.hasData()) {
+                        _parseState = ENDING;
+                        return ch;
+                    }
+                    char ch2 = _instream.readNext();
+                    if (ch2 == '{') {
+                        _parseState = IN_LISP;
+                        return '"'; // end current string
+                    } else {
+                        _instream.unGet(ch2); // parse this char again
+                        return '#';
+                    }
+                } else {
+                    return ch;
+                }
+            case IN_LISP :
                 if (!_instream.hasData()) {
                     _parseState = ENDING;
                     return ch;
                 }
-                char ch2 = _instream.readNext();
-                if (ch2 == '{') {
-                    _parseState = IN_LISP;
-                    return '"'; // end current string
+                ch = _instream.readNext();
+                if (ch == '}') {
+                    _parseState = IN_A_STRING;
+                    return '"'; // start new string
+                } else {
+                    return ch;
                 }
-                else {
-                    _instream.unGet(ch2); // parse this char again
-                    return '#';
-                }
-            }
-            else {
-                return ch;
-            }
-
-        case IN_LISP:
-            if (!_instream.hasData()) {
-                _parseState = ENDING;
-                return ch;
-            }
-            ch = _instream.readNext();
-            if (ch == '}') {
+            case STARTING :
                 _parseState = IN_A_STRING;
-                return '"'; // start new string
-            } else {
+                ch = '"';
                 return ch;
-            }
-
-        case STARTING:
-            _parseState = IN_A_STRING;
-            ch = '"';
-            return ch;
-
-        case ENDING: // End
-            return EOF;
-
-        case ESCAPE: // escape
-            _parseState = IN_A_STRING;
-            return _escaped;
-
+            case ENDING : // End
+                return EOF;
+            case ESCAPE : // escape
+                _parseState = IN_A_STRING;
+                return _escaped;
         }
         return EOF;
     }
 
-    public void close() throws GenyrisException {}
+    public void close() throws GenyrisException {
+    }
+    
+    public static class NewMethod extends AbstractParserMethod {
+        public NewMethod(Interpreter interp, Lsymbol name) {
+            super(interp, name);
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            if (!(arguments[0] instanceof ReaderStream)) {
+                throw new GenyrisException("Bad arg to _new method of StringFormatStream");
+            } else {
+                ReaderStream input = (ReaderStream)arguments[0];
+                return new ReaderStream(new StringFormatStream(input.getInStream()));
+            }
+        }
+    }
 }

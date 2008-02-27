@@ -17,7 +17,9 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
+import org.genyris.io.InStreamEOF;
 import org.genyris.io.ReaderInStream;
 
 public class ReaderStream extends ExpWithEmbeddedClasses {
@@ -25,6 +27,14 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
 
     public Object getJavaValue() {
         return _input;
+    }
+
+    public ReaderStream(InStream reader) {
+        _input = reader;
+    }
+
+    public ReaderStream(InStreamEOF readerEOF) {
+        _input = new ConvertEofInStream(readerEOF);
     }
 
     public ReaderStream(InputStreamReader reader) {

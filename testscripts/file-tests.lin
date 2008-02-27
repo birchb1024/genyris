@@ -40,7 +40,22 @@ def parse-file()
      not
         equal? EOF
            set! exp (parser(_read))
-     write exp "\n"
+     print exp
+     display "\n"
   parser(_close)
    
+
+def parse-sfs-file()
+  var fi (File(_new "C:\\foo.sfs"))
+  var in (fi (_open 'read))
+  var sfs (StringFormatStream(_new in))
+  var parser (Parser(_new sfs))
+  var exp nil
+  while
+     not
+        equal? EOF
+           set! exp parser(_read)
+     write exp
+     display "\n"
+  parser(_close)
    
