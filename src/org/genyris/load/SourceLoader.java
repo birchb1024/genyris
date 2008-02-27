@@ -103,14 +103,11 @@ public class SourceLoader {
                 break;
             }
             result = interp.evalInGlobalEnvironment(expression);
-
             result.acceptVisitor(formatter);
-
             try {
                 output.write('\n');
                 output.flush();
-            }
-            catch (IOException ignore) {
+            } catch (IOException ignore) {
             }
 
         } while (true);

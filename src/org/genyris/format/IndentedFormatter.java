@@ -20,6 +20,7 @@ import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
+import org.genyris.core.NilSymbol;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
@@ -32,10 +33,10 @@ public class IndentedFormatter extends AbstractFormatter {
     private Formatter _basic;
 
     public IndentedFormatter(Writer out, int indentDepth, Interpreter interp) {
-        super(out, interp.getNil());
+        super(out);
         INDENT_DEPTH = indentDepth;
         _consDepth = 0;
-        _basic = new BasicFormatter(out, NIL);
+        _basic = new BasicFormatter(out);
     }
 
     private void printSpaces(int level) throws IOException {
@@ -56,7 +57,7 @@ public class IndentedFormatter extends AbstractFormatter {
             _consDepth -= 1;
             return;
         }
-        while (head != NIL) {
+        while ( !(head instanceof NilSymbol)) {
             countOfRight += 1;
             if (head.listp()) {
                 Lcons headCons = ((Lcons) head);

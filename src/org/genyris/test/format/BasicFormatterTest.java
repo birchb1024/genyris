@@ -26,7 +26,7 @@ public class BasicFormatterTest extends TestCase {
         Parser parser = interpreter.newParser(input);
         Exp expression = parser.read();
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, interpreter.getNil());
+        Formatter formatter = new BasicFormatter(out);
 
         expression.acceptVisitor(formatter);
 

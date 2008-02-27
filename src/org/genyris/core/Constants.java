@@ -63,6 +63,9 @@ public class Constants {
         public static final String SYSTEM = "System";
         public static final String EXEC = "exec";
         public static final String LISTOFLINES = "ListOfLines";
+        public static final String READER = "Reader";
+        public static final String INDENTEDPARSER = "Parser";
+        public static final String PARENTHESISPARSER = "ParenthesisParser";
 
 
 }

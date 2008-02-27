@@ -15,17 +15,16 @@ import org.genyris.exception.GenyrisException;
 public class Parser {
     private Lex _lexer;
     private Exp cursym;
-    private Exp NIL;
+    private Exp NIL, GLOBAL_EOF;
 
     public Parser(SymbolTable table, InStream stream) {
-        _lexer = new Lex(stream, table, Constants.CDRCHAR);
-        NIL = table.getNil();
+        this(table, stream, Constants.CDRCHAR);
     }
     public Parser(SymbolTable table, InStream stream, char cdrCharacter) {
         _lexer = new Lex(stream, table, cdrCharacter);
         NIL = table.getNil();
+        GLOBAL_EOF = table.internString("EOF");
     }
-
     public void nextsym() throws LexException {
         cursym = _lexer.nextToken();
     }
@@ -34,7 +33,7 @@ public class Parser {
         Exp retval = NIL;
         nextsym();
         if (cursym.equals(_lexer.EOF)) {
-            retval = _lexer.EOF;
+            retval = GLOBAL_EOF;
         } else {
             retval = parseExpression();
         }

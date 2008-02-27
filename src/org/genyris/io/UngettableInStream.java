@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import org.genyris.exception.GenyrisException;
+
 
 public class UngettableInStream implements InStream {
 
@@ -52,6 +54,10 @@ public class UngettableInStream implements InStream {
                 _readPointer++;
                 _ungetChars[_readPointer] = x;
             }
+        }
+
+        public void close() throws GenyrisException {
+            _input.close();
         }
 }
 

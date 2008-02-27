@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import org.genyris.exception.GenyrisException;
+
 
 
 public interface InStream {
@@ -12,5 +14,6 @@ public interface InStream {
     void unGet(char x) throws LexException;
     char readNext();
     public boolean hasData() throws LexException;
+    public void close() throws GenyrisException;
 
 }

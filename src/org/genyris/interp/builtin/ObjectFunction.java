@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -15,11 +16,11 @@ import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class ObjectFunction extends ApplicableFunction {
-    // Create a new dict
-
-    public ObjectFunction(Interpreter interp) {
-        super(interp);
+    public ObjectFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
+
+    // Create a new dict
 
 
     public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env) throws GenyrisException {

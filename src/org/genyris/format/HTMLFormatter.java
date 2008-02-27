@@ -18,6 +18,7 @@ import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
+import org.genyris.core.NilSymbol;
 import org.genyris.exception.AccessException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
@@ -26,7 +27,7 @@ import org.genyris.interp.UnboundException;
 public class HTMLFormatter extends AbstractFormatter {
 
     public HTMLFormatter(Writer out, Lsymbol nil) {
-        super(out, nil);
+        super(out);
     }
 
     private void emit(String s) throws IOException{
@@ -76,11 +77,11 @@ public class HTMLFormatter extends AbstractFormatter {
         try {
             if (cons.car() instanceof Lsymbol) {
                 Lsymbol tag = (Lsymbol) cons.car();
-                Exp attributes = NIL;
-                Exp body = NIL;
-                if(cons.cdr() == NIL) {
+                Exp attributes = new NilSymbol();
+                Exp body = new NilSymbol();
+                if(cons.cdr() instanceof NilSymbol) {
                     // no attributes or body
-                    ;
+                    body = attributes = cons.cdr();
                 } else {
                     if(cons.cdr().listp()) {
                         attributes = cons.cdr().car();
@@ -93,7 +94,7 @@ public class HTMLFormatter extends AbstractFormatter {
                 }
                 _output.write("<" + tag.getPrintName());
                 writeAttributes(attributes);
-                if (body == NIL) {
+                if (attributes instanceof NilSymbol) {
                     _output.write("/>");
                 } else {
                     _output.write(">");
@@ -102,7 +103,7 @@ public class HTMLFormatter extends AbstractFormatter {
                 }
             } else {
                 cons.car().acceptVisitor(this);
-                if (cons.cdr() != NIL) {
+                if ( !(cons.cdr() instanceof NilSymbol)) {
                     cons.cdr().acceptVisitor(this);
                 }
             }
@@ -116,9 +117,9 @@ public class HTMLFormatter extends AbstractFormatter {
     }
 
     private void writeAttributes(Exp attributes) throws IOException, AccessException {
-        if (attributes != NIL) {
+        if (!(attributes instanceof NilSymbol)) {
             _output.write(" ");
-            while (attributes != NIL) {
+            while ( !(attributes instanceof NilSymbol)) {
                 if(!(attributes instanceof Lcons)) {
                     _output.write("*** error bad HTML attribute: ");
                     _output.write(attributes.toString());
@@ -133,7 +134,7 @@ public class HTMLFormatter extends AbstractFormatter {
                 _output.write("=\"");
                 _output.write(attributes.car().cdr().toString());
                 _output.write("\"");
-                if (attributes.cdr() != NIL)
+                if (!(attributes.cdr() instanceof NilSymbol))
                     _output.write(" ");
                 attributes = attributes.cdr();
             }

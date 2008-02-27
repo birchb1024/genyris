@@ -32,7 +32,7 @@ public class TestUtilities {
         Exp result = _interpreter.evalInGlobalEnvironment(expression);
 
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, _interpreter.getNil());
+        Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
         return out.getBuffer().toString();
     }

@@ -8,6 +8,7 @@ package org.genyris.string;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -15,11 +16,11 @@ import org.genyris.interp.Interpreter;
 
 public class MatchMethod extends AbstractStringMethod {
 
-	public MatchMethod(Interpreter interp) {
-		super(interp);
-	}
+	public MatchMethod(Interpreter interp, Lsymbol name) {
+        super(interp, name);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 			throws GenyrisException {
 		if(arguments.length > 0) {
 			if(!(arguments[0] instanceof Lstring)) {

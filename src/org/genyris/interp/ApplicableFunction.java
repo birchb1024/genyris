@@ -12,31 +12,37 @@ import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 
 public abstract class ApplicableFunction {
-
     protected Interpreter _interp;
-    protected Lsymbol NIL, TRUE;
-    protected Exp _lambda, _lambdam, _lambdaq;
+    protected Lsymbol     NIL, TRUE;
+    protected Exp         _lambda, _lambdam, _lambdaq;
+    protected Lsymbol     _name;
 
-    public ApplicableFunction(Interpreter interp) {
+    public ApplicableFunction(Interpreter interp, Lsymbol name) {
         _interp = interp;
         NIL = _interp.getNil();
         TRUE = _interp.getTrue();
+        _name = name;
         _lambda = interp.getSymbolTable().internString(Constants.LAMBDA);
         _lambdaq = interp.getSymbolTable().internString(Constants.LAMBDAQ);
         _lambdam = interp.getSymbolTable().internString(Constants.LAMBDAM);
     }
 
-    public abstract Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException;
+    public abstract Exp bindAndExecute(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException;
 
     public String getName() {
-        return this.getClass().getName();
+        if (_name == NIL) {
+            return this.getClass().getName();
+        } else {
+            return _name.toString();
+        }
     }
 
     protected Exp arrayToList(Exp[] array) {
         Exp expression = NIL;
-        for(int i=array.length-1; i >= 0 ; i--) {
-            expression = new Lcons( array[i], expression);
+        for (int i = array.length - 1; i >= 0; i--) {
+            expression = new Lcons(array[i], expression);
         }
-    return expression;
+        return expression;
     }
 }

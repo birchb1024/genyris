@@ -8,6 +8,7 @@ package org.genyris.io;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
+import org.genyris.exception.GenyrisException;
 
 
 public class ReaderInStream implements InStream {
@@ -48,6 +49,16 @@ public class ReaderInStream implements InStream {
         }
         else {
             return true;
+        }
+    }
+
+
+    public void close() throws GenyrisException {
+        try {
+            _reader.close();
+        }
+        catch (IOException e) {
+           throw new GenyrisException(e.getMessage());
         }
     }
 

@@ -45,18 +45,24 @@ public class StringFormatStreamTest extends TestCase {
         excerciseSFS("12343567890", "\"12343567890\"");
     }
     public void testSFStream5() throws LexException {
-        excerciseSFS("<%%>", "\"\"\"\"");
+        excerciseSFS("#{}", "\"\"\"\"");
     }
     public void testSFStream6() throws LexException {
-        excerciseSFS("<%alpha%>", "\"\"alpha\"\"");
+        excerciseSFS("#{alpha}", "\"\"alpha\"\"");
     }
     public void testSFStream7() throws LexException {
-        excerciseSFS("one<%alpha%>two", "\"one\"alpha\"two\"");
+        excerciseSFS("one#{alpha}two", "\"one\"alpha\"two\"");
     }
 
     public void testSFStream8() throws LexException {
-        excerciseSFS("on\"e<%alpha%>two", "\"on\\\"e\"alpha\"two\"");
+        excerciseSFS("on\"e#{alpha}two", "\"on\\\"e\"alpha\"two\"");
     }
 
+    public void testSFStreamReal() throws LexException {
+        excerciseSFS("<img src=\"#{image-url-var}\">", "\"<img src=\\\"\"image-url-var\"\\\">\"");
+    }
+    public void testSFStreamMultiple() throws LexException {
+        excerciseSFS("12#{3}435#{6}78#{9}0", "\"12\"3\"435\"6\"78\"9\"0\"");
+    }
 
 }

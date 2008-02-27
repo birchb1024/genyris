@@ -10,6 +10,7 @@ import java.math.MathContext;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -18,8 +19,8 @@ import org.genyris.interp.Interpreter;
 
 public class DivideFunction extends ApplicableFunction {
 
-    public DivideFunction(Interpreter interp) {
-        super(interp);
+    public DivideFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

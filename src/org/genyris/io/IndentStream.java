@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import org.genyris.exception.GenyrisException;
+
 public class IndentStream implements InStreamEOF {
 
     private static final int LEADING_WHITE_SPACE = 0;
@@ -356,5 +358,9 @@ public class IndentStream implements InStreamEOF {
             // nothing matching, so it's an error
             throw new LexException("invalid indentation not matching previous indentation");
         }
+    }
+
+    public void close() throws GenyrisException {
+        _instream.close();  
     }
 }

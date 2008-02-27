@@ -39,7 +39,7 @@ public class JavaWrapperTest extends TestCase {
         Exp result = _interpreter.evalInGlobalEnvironment(expression);
 
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, _interpreter.getNil());
+        Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
     }

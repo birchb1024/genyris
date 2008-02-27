@@ -35,7 +35,7 @@ public class EvalApplyTest extends TestCase {
         Exp expression = parser.read();
         Exp result = Evaluator.eval(env, expression);
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, interp.getNil());
+        Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
         assertEquals("(23 : 23)", out.getBuffer().toString());
     }
@@ -59,7 +59,7 @@ public class EvalApplyTest extends TestCase {
                 result = Evaluator.eval(env2, expression);
 
                 StringWriter out = new StringWriter();
-                Formatter formatter = new BasicFormatter(out, interp.getNil());
+                Formatter formatter = new BasicFormatter(out);
                 result.acceptVisitor(formatter);
                 assertEquals(expected, out.getBuffer().toString());
 

@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import org.genyris.exception.GenyrisException;
+
 
 public class StringInStream implements InStream {
 
@@ -28,5 +30,7 @@ public class StringInStream implements InStream {
         throw new LexException("StringInStream: unGet not supported!");
 
     }
+
+    public void close() throws GenyrisException {}
 
 }

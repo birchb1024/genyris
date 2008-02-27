@@ -18,8 +18,8 @@ import org.genyris.interp.Interpreter;
 
 public class DefineClassFunction extends ApplicableFunction {
 
-    public DefineClassFunction(Interpreter interp) {
-        super(interp);
+    public DefineClassFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

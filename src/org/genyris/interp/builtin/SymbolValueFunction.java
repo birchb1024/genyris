@@ -14,17 +14,17 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class SymbolValueFunction extends ApplicableFunction {
-
-    public SymbolValueFunction(Interpreter interp) {
-        super(interp);
+    public SymbolValueFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 1)
+
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
+            throws GenyrisException {
+        if (arguments.length != 1)
             throw new GenyrisException("symbol-value expects one argument.");
-        if(! (arguments[0] instanceof Lsymbol) ) {
+        if (!(arguments[0] instanceof Lsymbol)) {
             throw new GenyrisException("symbol-value expects a symbol.");
         }
-        return envForBindOperations.lookupVariableValue((Lsymbol) arguments[0]);
+        return envForBindOperations.lookupVariableValue((Lsymbol)arguments[0]);
     }
-
 }

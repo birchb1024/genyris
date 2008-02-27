@@ -28,8 +28,8 @@ import org.genyris.interp.UnboundException;
 public class BasicFormatter extends  AbstractFormatter {
 
 
-    public BasicFormatter(Writer out, Lsymbol nil) {
-        super(out, nil);
+    public BasicFormatter(Writer out) {
+        super(out);
     }
 
     public void visitLobject(Lobject frame) {

@@ -8,11 +8,10 @@ package org.genyris.format;
 import java.io.IOException;
 import java.io.Writer;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 
 public class DisplayFormatter extends BasicFormatter {
-    public DisplayFormatter(Writer out, Lsymbol nil) {
-        super(out, nil);
+    public DisplayFormatter(Writer out) {
+        super(out);
     }
 
     public void visitLstring(Lstring lst) {

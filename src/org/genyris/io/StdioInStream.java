@@ -6,6 +6,7 @@
 package org.genyris.io;
 
 import java.io.IOException;
+import org.genyris.exception.GenyrisException;
 
 
 public class StdioInStream implements InStream {
@@ -47,5 +48,7 @@ public class StdioInStream implements InStream {
             return true;
         }
     }
+
+    public void close() throws GenyrisException {}
 
 }

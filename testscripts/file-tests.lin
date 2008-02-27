@@ -11,3 +11,35 @@ out
         33
 out (_close)
 
+define fi
+   File(_new "C:\\foo.txt")
+define in 	
+   fi (_open 'read)
+print (in(_read))
+
+in(_close)
+
+def dump()
+  var fi (File(_new "C:\\foo.txt"))
+  var in (fi (_open 'read))
+  var ch nil
+  var count 0
+  while (in(_hasData))
+     set! count (+ count 1)
+     print (in(_read)) '-
+  in(_close)
+  print "\n" count
+   
+def parse-file()
+  var fi (File(_new "C:\\foo.lin"))
+  var in (fi (_open 'read))
+  var parser (Parser(_new in))
+  var exp nil
+  while
+     not
+        equals? 'EOF
+           set! exp (parser(_read))
+     print exp
+  parser(_close)
+   
+   

@@ -18,6 +18,7 @@ import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
+import org.genyris.core.NilSymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.interp.EagerProcedure;
@@ -32,11 +33,9 @@ import org.genyris.java.JavaWrapper;
 public abstract class AbstractFormatter implements Visitor, Formatter {
 
     protected Writer _output;
-    protected Lsymbol NIL;
 
-    public AbstractFormatter(Writer out, Lsymbol nil) {
+    public AbstractFormatter(Writer out) {
         _output = out;
-        NIL = nil;
     }
 
     public abstract void visitLobject(Lobject frame);
@@ -92,7 +91,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
     }
     public void printClassNames(Exp result, Interpreter interp) throws AccessException, IOException, UnboundException {
         Exp klasses = result.getClasses(interp.getGlobalEnv());
-        while(klasses != NIL){
+        while(!(klasses instanceof NilSymbol)){
             Environment klass = (Environment) klasses.car();
             _output.write(" " + klass.lookupVariableShallow(interp.getSymbolTable().internString(Constants.CLASSNAME)).toString());
             klasses = klasses.cdr();

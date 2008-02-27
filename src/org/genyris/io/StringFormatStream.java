@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import org.genyris.exception.GenyrisException;
+
 public class StringFormatStream implements InStreamEOF {
 
     private static final int IN_A_STRING = 0;
@@ -50,19 +52,19 @@ public class StringFormatStream implements InStreamEOF {
                 _escaped = '"';
                 return '\\';
             }
-            else if (ch == '<') {
+            else if (ch == '#') {
                 if (!_instream.hasData()) {
                     _parseState = ENDING;
                     return ch;
                 }
                 char ch2 = _instream.readNext();
-                if (ch2 == '%') {
+                if (ch2 == '{') {
                     _parseState = IN_LISP;
                     return '"'; // end current string
                 }
                 else {
                     _instream.unGet(ch2); // parse this char again
-                    return '<';
+                    return '#';
                 }
             }
             else {
@@ -75,22 +77,10 @@ public class StringFormatStream implements InStreamEOF {
                 return ch;
             }
             ch = _instream.readNext();
-            if (ch == '%') {
-                if (!_instream.hasData()) {
-                    _parseState = ENDING;
-                    return ch;
-                }
-                char ch2 = _instream.readNext();
-                if (ch2 == '>') {
-                    _parseState = IN_A_STRING;
-                    return '"'; // start new string
-                }
-                else {
-                    _instream.unGet(ch2); // parse this char again
-                    return '%';
-                }
-            }
-            else {
+            if (ch == '}') {
+                _parseState = IN_A_STRING;
+                return '"'; // start new string
+            } else {
                 return ch;
             }
 
@@ -109,4 +99,6 @@ public class StringFormatStream implements InStreamEOF {
         }
         return EOF;
     }
+
+    public void close() throws GenyrisException {}
 }

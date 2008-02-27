@@ -6,6 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -14,8 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class SetFunction extends ApplicableFunction {
 
-    public SetFunction(Interpreter interp) {
-        super(interp);
+    public SetFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

@@ -13,6 +13,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lstring;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -23,8 +24,8 @@ import org.genyris.interp.UnboundException;
 public class ExecMethod extends AbstractMethod {
     
     private Exp ListOfLinesClazz; 
-    public ExecMethod(Interpreter interp) throws UnboundException {
-        super(interp);
+    public ExecMethod(Interpreter interp, Lsymbol name) throws UnboundException {
+        super(interp, name);
         ListOfLinesClazz = interp.lookupGlobalFromString(Constants.LISTOFLINES);
     }
 

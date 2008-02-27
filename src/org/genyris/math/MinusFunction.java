@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -18,8 +19,9 @@ import org.genyris.interp.Interpreter;
 // TODO DRY - plus
 public class MinusFunction extends ApplicableFunction {
 
-    public MinusFunction(Interpreter interp) {
-        super(interp);
+
+    public MinusFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

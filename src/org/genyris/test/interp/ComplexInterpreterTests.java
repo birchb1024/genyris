@@ -38,7 +38,7 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
     public void testMacroWithDefmacroDeep() throws Exception {
-        excerciseEval("(def fn (y) (defmacro nil! (x) (list 'defvar (list quote x) y)) nil!)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(def fn (y) (defmacro nil! (x) (list 'defvar (list quote x) y)) nil!)", "<EagerProc: <fn>>");
         excerciseEval("(defvar 'm (fn 99))", "<org.genyris.interp.MacroFunction>");
         excerciseEval("(m w)", "99");
         excerciseEval("w", "99");
@@ -46,8 +46,8 @@ public class ComplexInterpreterTests extends TestCase {
 
     public void testMacroWithDefmacroDeep2() throws Exception {
         excerciseEval("(defvar 'y 7777)", "7777");
-        excerciseEval("(def fn () (defmacro mac (x) (list 'defvar (list quote x) y)) mac)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(def fun (y) (defvar 'm (fn)) m)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(def fn () (defmacro mac (x) (list 'defvar (list quote x) y)) mac)", "<EagerProc: <fn>>");
+        excerciseEval("(def fun (y) (defvar 'm (fn)) m)", "<EagerProc: <fun>>");
         excerciseEval("((fun 5555) w)", "7777");
         excerciseEval("w", "7777");
     }
@@ -87,8 +87,8 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(ff 99)", "(44 : 99)");
     }
     public void testEnvCaptureWithDef() throws Exception {
-        excerciseEval("(def mk-fn (x) (defvar 'bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(def mk-fn (x) (defvar 'bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <mk-fn>>");
+        excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <fn>>");
         excerciseEval("(ff 99)", "(44 : 99)");
     }
 
@@ -105,8 +105,8 @@ public class ComplexInterpreterTests extends TestCase {
 
     public void testDynamicVariablesWithDef() throws Exception {
         excerciseEval("(defvar 'd (dict))", "(dict)");
-        excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(def function-which-uses-dynamic-var () (list _x _x))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
+        excerciseEval("(def function-which-uses-dynamic-var () (list _x _x))", "<EagerProc: <function-which-uses-dynamic-var>>");
         excerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
         excerciseEval("(bound? _x)","nil");
     }
@@ -114,7 +114,7 @@ public class ComplexInterpreterTests extends TestCase {
     public void testDynamicVariablesWithDef2() throws Exception {
         excerciseEval("(defvar 'd (dict))", "(dict)");
         excerciseEval("(d (defvar '_x 11111))", "11111");
-        excerciseEval("(def define-some-global-y (x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(def define-some-global-y (x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <define-some-global-y>>");
         excerciseEval("(d (define-some-global-y 33))", "(11111 : \"global _y\")");
     }
 }

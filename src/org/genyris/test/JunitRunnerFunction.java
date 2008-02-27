@@ -6,6 +6,7 @@
 package org.genyris.test;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -14,9 +15,10 @@ import org.genyris.interp.Interpreter;
 
 public class JunitRunnerFunction extends ApplicableFunction {
 
-        public JunitRunnerFunction(Interpreter interp) {
-            super(interp);
-        }
+        public JunitRunnerFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
+     }
+
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
             junit.textui.TestRunner.run(org.genyris.test.AllTestSuite.makeSuite());
             return NIL;

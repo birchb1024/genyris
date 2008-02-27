@@ -20,10 +20,13 @@ public class ClassicFunction extends ApplicableFunction {
     private Exp REST;
 
     public ClassicFunction(Interpreter interp) {
-        super(interp);
-        REST = interp.getSymbolTable().internString(Constants.REST);
+        this(interp.NIL, interp);
     }
 
+    public ClassicFunction(Lsymbol name, Interpreter interp) {
+        super(interp, name);
+        REST = interp.getSymbolTable().internString(Constants.REST);
+    }
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
         AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation

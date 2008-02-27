@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -17,8 +18,8 @@ import org.genyris.interp.MacroFunction;
 
 public class DefMacroFunction extends ApplicableFunction {
 
-    public DefMacroFunction(Interpreter interp) {
-        super(interp);
+    public DefMacroFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

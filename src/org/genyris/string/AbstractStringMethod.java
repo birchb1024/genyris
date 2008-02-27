@@ -6,6 +6,7 @@
 package org.genyris.string;
 
 import org.genyris.core.Lstring;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Environment;
@@ -13,11 +14,12 @@ import org.genyris.interp.Interpreter;
 
 public abstract class AbstractStringMethod extends AbstractMethod {
 
-	public AbstractStringMethod(Interpreter interp) {
-		super(interp);
-	}
 
-	protected Lstring getSelfString(Environment env) throws GenyrisException {
+	public AbstractStringMethod(Interpreter interp, Lsymbol name) {
+        super(interp, name);
+    }
+
+    protected Lstring getSelfString(Environment env) throws GenyrisException {
 		getSelf(env);
 		if (!(_self instanceof Lstring)) {
 			throw new GenyrisException("Non-String passed to String_split.");

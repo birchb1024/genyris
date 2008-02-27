@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
@@ -17,8 +18,8 @@ import org.genyris.interp.Interpreter;
 
 public class LambdaFunction extends ApplicableFunction {
 
-    public LambdaFunction(Interpreter interp) {
-        super(interp);
+    public LambdaFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -31,7 +32,7 @@ public class LambdaFunction extends ApplicableFunction {
     }
 
     public Object getJavaValue() {
-        return "<the lambda builtin function>";
+        return _name.toString();
     }
 
 }

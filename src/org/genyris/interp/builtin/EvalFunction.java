@@ -6,6 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -15,9 +16,10 @@ import org.genyris.interp.Interpreter;
 
 public class EvalFunction extends ApplicableFunction {
 
-    public EvalFunction(Interpreter interp) {
-        super(interp);
+    public EvalFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
+
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
         if( arguments.length > 1)
             throw new GenyrisException("Too many arguments to eval: " + arguments.length);

@@ -16,8 +16,8 @@ import org.genyris.interp.Interpreter;
 
 public class ApplyFunction extends ApplicableFunction {
 
-    public ApplyFunction(Interpreter interp) {
-        super(interp);
+    public ApplyFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
         if( arguments.length != 2)

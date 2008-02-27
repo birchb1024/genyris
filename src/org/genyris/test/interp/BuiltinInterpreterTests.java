@@ -34,7 +34,7 @@ public class BuiltinInterpreterTests extends TestCase {
         Exp result = interpreter.evalInGlobalEnvironment(expression);
 
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, interpreter.getNil());
+        Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
     }

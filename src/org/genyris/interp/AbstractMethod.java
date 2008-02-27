@@ -7,14 +7,16 @@ package org.genyris.interp;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 
 public abstract class AbstractMethod extends ApplicableFunction {
 
-	protected Exp _self;
-	
-    public AbstractMethod(Interpreter interp) {
-        super(interp);
+	public AbstractMethod(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
+
+    protected Exp _self;
+	
     protected void getSelf(Environment env) throws UnboundException {
     	_self = env.lookupVariableValue(_interp.getSymbolTable().internString(Constants.SELF));
     }

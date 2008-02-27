@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import org.genyris.exception.GenyrisException;
+
 
 public class ConvertEofInStream implements InStream {
 
@@ -37,6 +39,9 @@ public class ConvertEofInStream implements InStream {
             _haveSavedByte = true;
             return _nextByte != InStreamEOF.EOF;
         }
+    }
+    public void close() throws GenyrisException {
+        _input.close();
     }
 
 }

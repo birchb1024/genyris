@@ -7,6 +7,7 @@ package org.genyris.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +55,14 @@ public final class GenyrisServlet extends HttpServlet {
 
         Interpreter _interpreter = null;
         Object interpattr = request.getSession().getAttribute("interpreter");
+        Enumeration headerIter = request.getHeaderNames();
+        while (headerIter.hasMoreElements() ) {
+            Object header = headerIter.nextElement();
+        }
+        Enumeration paramIter = request.getAttributeNames();
+        while (paramIter.hasMoreElements() ) {
+            Object header = paramIter.nextElement();
+        }
         if (interpattr == null) {
             try {
                 _interpreter = new Interpreter();

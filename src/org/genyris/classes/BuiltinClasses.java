@@ -52,8 +52,11 @@ public class BuiltinClasses {
         mkClass(classname, Constants.EAGERPROCEDURE, env, STANDARDCLASS, closure);
         mkClass(classname, Constants.LAZYPROCEDURE, env, STANDARDCLASS, closure);
         mkClass(classname, Constants.FILE, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.READER, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.WRITER, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.SYSTEM, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.LISTOFLINES, env, STANDARDCLASS, pair);
+        mkClass(classname, Constants.INDENTEDPARSER, env, STANDARDCLASS, pair);
+        mkClass(classname, Constants.PARENTHESISPARSER, env, STANDARDCLASS, pair);
     }
 }

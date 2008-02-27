@@ -11,6 +11,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lstring;
+import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
@@ -68,7 +69,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
                     if (argCounter > args.length) {
                         break;
                     }
-                    Formatter formatter = new DisplayFormatter(_value, env.getNil());
+                    Formatter formatter = new DisplayFormatter(_value);
                     args[argCounter++].acceptVisitor(formatter);
                 } else if (format.charAt(i) == '~' && format.charAt(i + 1) == 's') {
                     // write - TODO DRY
@@ -76,7 +77,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
                     if (argCounter > args.length) {
                         break;
                     }
-                    Formatter formatter = new BasicFormatter(_value, env.getNil());
+                    Formatter formatter = new BasicFormatter(_value);
                     args[argCounter++].acceptVisitor(formatter);
                 } else if (format.charAt(i) == '~' && format.charAt(i + 1) == '%') {
                     i++;
@@ -95,8 +96,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         return env.getNil();
     }
     public static abstract class AbstractWriterMethod extends AbstractMethod {
-        public AbstractWriterMethod(Interpreter interp) {
-            super(interp);
+
+        public AbstractWriterMethod(Interpreter interp, Lsymbol name) {
+            super(interp, name);
         }
 
         protected WriterStream getSelfWriter(Environment env) throws GenyrisException {
@@ -109,8 +111,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         }
     }
     public static class FormatMethod extends AbstractWriterMethod {
-        public FormatMethod(Interpreter interp) {
-            super(interp);
+
+        public FormatMethod(Interpreter interp, Lsymbol name) {
+            super(interp, name);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -126,8 +129,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         }
     }
     public static class CloseMethod extends AbstractWriterMethod {
-        public CloseMethod(Interpreter interp) {
-            super(interp);
+
+        public CloseMethod(Interpreter interp, Lsymbol name) {
+            super(interp, name);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

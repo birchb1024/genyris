@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -17,9 +18,9 @@ import org.genyris.interp.MacroFunction;
 
 public class LambdamFunction extends ApplicableFunction {
 
-    public LambdamFunction(Interpreter interp) {
-        super(interp);
-    }
+    public LambdamFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
+     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {

@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
@@ -17,15 +18,17 @@ import org.genyris.interp.Interpreter;
 
 public class DefFunction extends ApplicableFunction {
 
-    public DefFunction(Interpreter interp) {
-        super(interp);
+
+public DefFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
     }
 
 public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
+        // TODO check argument types.
         Exp lambdaExpression = new Lcons(_lambda, arrayToList(arguments).cdr());
         // TODO inefficient
-        EagerProcedure fn = new EagerProcedure(envForBindOperations, lambdaExpression, new ClassicFunction(_interp));
+        EagerProcedure fn = new EagerProcedure(envForBindOperations, lambdaExpression, new ClassicFunction((Lsymbol)arguments[0], _interp));
         envForBindOperations.defineVariable(arguments[0], fn);
         return fn;
     }

@@ -118,7 +118,7 @@ public class LexTest extends TestCase {
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, NIL);
+        Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
         assertEquals(toParse, out.getBuffer().toString());
 
@@ -134,7 +134,7 @@ public class LexTest extends TestCase {
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, NIL);
+        Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
 
@@ -177,7 +177,7 @@ public class LexTest extends TestCase {
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out, interpreter.getNil());
+        Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
         assertEquals(expected, out.getBuffer().toString());
 

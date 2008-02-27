@@ -8,6 +8,7 @@ package org.genyris.math;
 import java.math.BigDecimal;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -16,10 +17,10 @@ import org.genyris.interp.Interpreter;
 
 public class GreaterThanFunction extends ApplicableFunction {
 
-    public GreaterThanFunction(Interpreter interp) {
-        super(interp);
-    }
 
+    public GreaterThanFunction(Interpreter interp, Lsymbol name) {
+        super(interp, name);
+    }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
         if( arguments.length != 2)
