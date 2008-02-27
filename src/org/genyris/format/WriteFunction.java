@@ -17,17 +17,17 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
-public class PrintFunction extends ApplicableFunction {
+public class WriteFunction extends ApplicableFunction {
 
 
-    public PrintFunction(Interpreter interp, Lsymbol name) {
+    public WriteFunction(Interpreter interp, Lsymbol name) {
         super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 
         Writer output = new PrintWriter(System.out);
-        Formatter formatter = new IndentedFormatter(output, 2, _interp);
+        Formatter formatter = new BasicFormatter(output);
         for (int i=0; i< arguments.length; i++) {
             arguments[i].acceptVisitor(formatter);
             try {

@@ -136,14 +136,10 @@ public class IndentedFormatter extends AbstractFormatter {
     }
 
     private void writeAtom(Exp exp) {
-        writeAtom(exp.getJavaValue().toString());
-    }
-
-    private void writeAtom(String str) {
         try {
             if (_consDepth == 0)
                 _output.write("~ ");
-            _output.write(str);
+            exp.acceptVisitor(_basic);
         }
         catch (IOException e) {
             // TODO Auto-generated catch block
@@ -152,7 +148,7 @@ public class IndentedFormatter extends AbstractFormatter {
     }
 
     public void visitLstring(Lstring lst) {
-        writeAtom("\"" + lst.getJavaValue().toString() + "\"");
+        writeAtom(lst);
     }
 
     public void visitLsymbol(Lsymbol lsym) {
@@ -182,7 +178,7 @@ public class IndentedFormatter extends AbstractFormatter {
     }
 
     public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) {
-        writeAtom(exp.getJavaValue().toString());
+        writeAtom(exp);
     }
 
 

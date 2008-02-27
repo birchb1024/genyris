@@ -30,6 +30,7 @@ def dump()
   in(_close)
   print "\n" count
    
+
 def parse-file()
   var fi (File(_new "C:\\foo.lin"))
   var in (fi (_open 'read))
@@ -37,9 +38,9 @@ def parse-file()
   var exp nil
   while
      not
-        equals? 'EOF
+        equal? EOF
            set! exp (parser(_read))
-     print exp
+     write exp "\n"
   parser(_close)
    
    

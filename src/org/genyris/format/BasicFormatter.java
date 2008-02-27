@@ -150,9 +150,20 @@ public class BasicFormatter extends  AbstractFormatter {
 
     public void visitLstring(Lstring lst) {
         try {
-            // TODO - look for escaped \ chars and output them in Display mode
-            //        ie print out the \n etc
-            _output.write("\"" + lst.getJavaValue().toString() + "\"");
+            _output.write("\"");
+            StringBuffer str = new StringBuffer (lst.getJavaValue().toString());
+            for(int i=0; i< str.length(); i++) {
+                char ch = str.charAt(i);
+                if( ch == '\n') { // TODO move this into a table in Lex.
+                    _output.write("\\n");
+                } else if( ch == '\t') {
+                    _output.write("\\t");
+                }
+                else 
+                    _output.write(ch);
+            }
+             _output.write("\"");
+
         }
         catch (IOException e) {
             // TODO Auto-generated catch block
