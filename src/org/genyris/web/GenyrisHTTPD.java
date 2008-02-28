@@ -69,14 +69,14 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     public Response serve(String uri, String method, Properties header, Properties parms) {
         Exp request = NIL;
-        System.out.println(method + " '" + uri + "' ");
+        // System.out.println(method + " '" + uri + "' ");
 
         Exp headers = NIL;
         Enumeration e = header.propertyNames();
         while (e.hasMoreElements()) {
             String value = (String) e.nextElement();
             headers = new Lcons(new Lcons(new Lstring(value), new Lstring(header.getProperty(value))), headers);
-            System.out.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
+         //   System.out.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
         }
         headers.addClass(this.AlistClazz);
 
@@ -85,7 +85,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
         while (e.hasMoreElements()) {
             String value = (String) e.nextElement();
             parameters = new Lcons(new Lcons(new Lstring(value), new Lstring(parms.getProperty(value))), parameters);
-            System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
+         //   System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
         }
         parameters.addClass(this.AlistClazz);
 

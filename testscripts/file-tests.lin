@@ -49,7 +49,7 @@ def parse-sfs-file()
   var fi (File(_new "C:\\foo.sfs"))
   var in (fi (_open 'read))
   var sfs (StringFormatStream(_new in))
-  var parser (Parser(_new sfs))
+  var parser (ParenthesisParser(_new sfs))
   var exp nil
   while
      not

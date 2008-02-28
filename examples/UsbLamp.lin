@@ -20,7 +20,8 @@ class UsbLamp ()
                "redflashoff"  : "10 20 2 0"
                "redoff"       : "10 12 0 2"
                "redon"        : "10 12 2 0"
-               "alloff"       : "meta"       
+               "alloff"       : "meta"
+               "beep"         : "meta"
         
    def call-lamp(codes)
       System
@@ -30,6 +31,9 @@ class UsbLamp ()
    def _change((op : String))
        var codes (operations (_lookup op))
        cond
+          (equal? op "beep")
+             display "^G^G^G^G^G"
+             tag Alist '(("Beep": "Beep"))
           (equal? op "alloff")
              _change "allflashoff"
              _change "alldark"
@@ -40,7 +44,7 @@ class UsbLamp ()
                
                
 df httpd-serve (request)
-   print request
+   ; print request
    var params (request(_getParameters))
    var operation (params (_lookup "op"))
    cond

@@ -24,18 +24,16 @@ import org.genyris.io.readerstream.ReaderStream;
 
 public class StreamParser extends ExpWithEmbeddedClasses {
     private InStream _input;
-    private Parser _parser;
+    private Parser   _parser;
 
     public Object getJavaValue() {
         return _input;
     }
 
     public StreamParser(Interpreter interp, ReaderStream reader) {
-        _input = new UngettableInStream(new ConvertEofInStream(
-               new IndentStream(
-                        new UngettableInStream(reader.getInStream()), true)));
-       _parser = interp.newParser(_input);
-
+        _input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(reader.getInStream()),
+                true)));
+        _parser = interp.newParser(_input);
     }
 
     public void acceptVisitor(Visitor guest) {
@@ -53,9 +51,7 @@ public class StreamParser extends ExpWithEmbeddedClasses {
     public void close() throws GenyrisException {
         _input.close();
     }
-
     public static abstract class AbstractParserMethod extends AbstractMethod {
-
         public AbstractParserMethod(Interpreter interp, Lsymbol name) {
             super(interp, name);
         }
@@ -70,7 +66,6 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         }
     }
     public static class ReadMethod extends AbstractParserMethod {
-
         public ReadMethod(Interpreter interp, Lsymbol name) {
             super(interp, name);
         }
@@ -79,11 +74,9 @@ public class StreamParser extends ExpWithEmbeddedClasses {
                 throws GenyrisException {
             StreamParser self = getSelfParser(env);
             return self._parser.read();
-            
         }
     }
     public static class CloseMethod extends AbstractParserMethod {
-
         public CloseMethod(Interpreter interp, Lsymbol name) {
             super(interp, name);
         }
@@ -95,20 +88,17 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         }
     }
     public static class NewMethod extends AbstractParserMethod {
-    
         public NewMethod(Interpreter interp, Lsymbol name) {
             super(interp, name);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            if(!(arguments[0] instanceof ReaderStream) ) {
+            if (!(arguments[0] instanceof ReaderStream)) {
                 throw new GenyrisException("Bad arg to _new method of Parser");
             } else {
                 return new StreamParser(_interp, (ReaderStream)arguments[0]);
             }
-            
         }
     }
-
 }

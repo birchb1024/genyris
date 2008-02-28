@@ -6,6 +6,7 @@
 package org.genyris.interp;
 
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -61,7 +62,9 @@ import org.genyris.io.StringFormatStream;
 import org.genyris.io.file.Gfile;
 import org.genyris.io.parser.StreamParser;
 import org.genyris.io.readerstream.ReaderStream;
+import org.genyris.io.writerstream.WriterStream;
 import org.genyris.io.writerstream.WriterStream.CloseMethod;
+import org.genyris.io.writerstream.WriterStream.FlushMethod;
 import org.genyris.io.writerstream.WriterStream.FormatMethod;
 import org.genyris.java.JavaClassForName;
 import org.genyris.load.IncludeFunction;
@@ -163,6 +166,7 @@ public class Interpreter {
         bindMethod("File", "_static-open", Gfile.FileOpenMethod.class);
         bindMethod("Writer", "_format", FormatMethod.class);
         bindMethod("Writer", "_close", CloseMethod.class);
+        bindMethod("Writer", "_flush", FlushMethod.class);
         bindMethod("Reader", "_hasData", ReaderStream.HasDataMethod.class);
         bindMethod("Reader", "_read", ReaderStream.ReadMethod.class);
         bindMethod("Reader", "_close", ReaderStream.CloseMethod.class);
@@ -171,6 +175,10 @@ public class Interpreter {
         bindMethod("Parser", "_close", StreamParser.CloseMethod.class);
         bindMethod("StringFormatStream", "_new", StringFormatStream.NewMethod.class);
         bindMethod("System", "_exec", ExecMethod.class);
+        
+        _globalEnvironment.defineVariable(_table.internString("stdout"),
+                new WriterStream(new PrintWriter(System.out)));
+
     }
 
     private void bindEagerProcedure(String name, Class class1) throws GenyrisException {

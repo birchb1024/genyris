@@ -42,7 +42,7 @@ def board-print (board)
    board-print-aux board (length board)
 
 def board-print-aux (board size)
-   print "\n"
+   display "\n"
    cond
       (null? board)
       else
@@ -55,7 +55,7 @@ def board-print-sub (column n size)
       else
          cond
             (= column n)
-               print 'Q
+               display 'Q
             else
-               print '.
+               display '.
          board-print-sub column (+ n 1) size

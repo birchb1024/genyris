@@ -140,5 +140,26 @@ public class WriterStream extends ExpWithEmbeddedClasses {
             return NIL;
         }
     }
+    public static class FlushMethod extends AbstractWriterMethod {
+
+        public FlushMethod(Interpreter interp, Lsymbol name) {
+            super(interp, name);
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+                getSelfWriter(env).flush();
+                return NIL;
+        }
+    }
+    public Exp flush() throws GenyrisException {
+        try {
+            _value.flush();
+        }
+        catch (IOException e) {
+            throw new GenyrisException(e.getMessage());
+        }
+        return null;
+    }
 
 }
