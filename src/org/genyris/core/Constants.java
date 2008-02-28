@@ -67,6 +67,7 @@ public class Constants {
         public static final String INDENTEDPARSER = "Parser";
         public static final String PARENTHESISPARSER = "ParenthesisParser";
         public static final String STRINGFORMATSTREAM = "StringFormatStream";
+        public static final String STDOUT = "stdout";
 
 
 }

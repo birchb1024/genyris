@@ -22,6 +22,7 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class WriterStream extends ExpWithEmbeddedClasses {
     private Writer _value;
@@ -120,9 +121,16 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         }
     }
     public static class FormatMethod extends AbstractWriterMethod {
+        private Exp STDOUT;
 
         public FormatMethod(Interpreter interp, Lsymbol name) {
             super(interp, name);
+            try {
+                STDOUT = interp.lookupGlobalFromString(Constants.STDOUT);
+            }
+            catch (UnboundException e) {
+                STDOUT = null;
+            }
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -131,7 +139,17 @@ public class WriterStream extends ExpWithEmbeddedClasses {
                 if (!(arguments[0] instanceof Lstring)) {
                     throw new GenyrisException("Non string passed to FormatMethod");
                 }
-                return getSelfWriter(env).format((Lstring)arguments[0], arguments, env);
+                WriterStream self = getSelfWriter(env);
+                Exp retval = self.format((Lstring)arguments[0], arguments, env);
+                if(self == STDOUT) {
+                    try {
+                        self._value.flush();
+                    }
+                    catch (IOException e) {
+                        throw new GenyrisException(e.getMessage());
+                    }
+                }
+                return retval;
             } else {
                 throw new GenyrisException("Missing argument to FormatMethod");
             }

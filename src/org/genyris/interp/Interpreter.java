@@ -109,6 +109,8 @@ public class Interpreter {
         _globalEnvironment.defineVariable(TRUE, TRUE);
         _globalEnvironment.defineVariable(_table.internString(Constants.EOF),
                 _table.internString(Constants.EOF));
+        _globalEnvironment.defineVariable(_table.internString(Constants.STDOUT),
+                new WriterStream(new PrintWriter(System.out)));
         BuiltinClasses.init(_globalEnvironment);
         bindEagerProcedure("is-instance?", IsInstanceFunction.class);
         bindLazyProcedure(Constants.LAMBDA, LambdaFunction.class);
@@ -176,8 +178,6 @@ public class Interpreter {
         bindMethod("StringFormatStream", "_new", StringFormatStream.NewMethod.class);
         bindMethod("System", "_exec", ExecMethod.class);
         
-        _globalEnvironment.defineVariable(_table.internString("stdout"),
-                new WriterStream(new PrintWriter(System.out)));
 
     }
 
