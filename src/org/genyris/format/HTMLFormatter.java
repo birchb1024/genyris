@@ -94,7 +94,7 @@ public class HTMLFormatter extends AbstractFormatter {
                 }
                 _output.write("<" + tag.getPrintName());
                 writeAttributes(attributes);
-                if (attributes instanceof NilSymbol) {
+                if (body instanceof NilSymbol) {
                     _output.write("/>");
                 } else {
                     _output.write(">");

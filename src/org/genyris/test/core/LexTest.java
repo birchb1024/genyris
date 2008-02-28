@@ -95,7 +95,7 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
         excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
         excerciseNextTokenExp(new Lstring("\n\t\f\r\\"), "\"\n\t\f\r\\\\\"");
-        excerciseNextTokenExp(new Lstring("a1-"), "\"\\a\\1\\-\"");
+        excerciseNextTokenExp(new Lstring("s1-"), "\"\\s\\1\\-\"");
     }
 
     public void testCombination1() throws Exception {

@@ -32,11 +32,12 @@ class UsbLamp ()
        var codes (operations (_lookup op))
        cond
           (equal? op "beep")
-             display "^G^G^G^G^G"
+             display "\a \n \a \n \a \n \a"
              tag Alist '(("Beep": "Beep"))
           (equal? op "alloff")
              _change "allflashoff"
              _change "alldark"
+             _change "beep"
           (null? codes) 
              raise "UsbLamp sent bad op-code."  
           else
@@ -53,7 +54,8 @@ df httpd-serve (request)
    var listing
       (UsbLamp (_change operation))
          _render
-   list 200 "text/html"
+   var result
+    list 200 "text/html"
       template
           html()
              head()
@@ -64,6 +66,8 @@ df httpd-serve (request)
                 form()
                    input((name:"op") (value: ,operation))
                    input((type:"submit"))
+   stdout(_format "--------------~%~x----------------~%" result)
+   result  
                       
 
    
