@@ -17,6 +17,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.DisplayFormatter;
 import org.genyris.format.Formatter;
+import org.genyris.format.HTMLFormatter;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -78,6 +79,14 @@ public class WriterStream extends ExpWithEmbeddedClasses {
                         break;
                     }
                     Formatter formatter = new BasicFormatter(_value);
+                    args[argCounter++].acceptVisitor(formatter);
+                } else if (format.charAt(i) == '~' && format.charAt(i + 1) == 'x') {
+                    // write - TODO DRY
+                    i++;
+                    if (argCounter > args.length) {
+                        break;
+                    }
+                    Formatter formatter = new HTMLFormatter(_value);
                     args[argCounter++].acceptVisitor(formatter);
                 } else if (format.charAt(i) == '~' && format.charAt(i + 1) == '%') {
                     i++;

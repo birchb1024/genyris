@@ -109,7 +109,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
             result = result.cdr();
             String mime = result.car().toString();
             if(mime.equals("text/html")) {
-                formatter = new HTMLFormatter(output, interpreter.getNil());
+                formatter = new HTMLFormatter(output);
             }
             else {
                 formatter = new IndentedFormatter(output, 1, interpreter);

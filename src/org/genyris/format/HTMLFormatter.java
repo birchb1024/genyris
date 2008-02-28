@@ -26,7 +26,7 @@ import org.genyris.interp.UnboundException;
 
 public class HTMLFormatter extends AbstractFormatter {
 
-    public HTMLFormatter(Writer out, Lsymbol nil) {
+    public HTMLFormatter(Writer out) {
         super(out);
     }
 
