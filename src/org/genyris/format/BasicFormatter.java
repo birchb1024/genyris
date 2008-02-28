@@ -156,8 +156,12 @@ public class BasicFormatter extends  AbstractFormatter {
                 char ch = str.charAt(i);
                 if( ch == '\n') { // TODO move this into a table in Lex.
                     _output.write("\\n");
-                } else if( ch == '\t') {
+                } else if( ch == '"') {
+                    _output.write("\\\"");
+                }else if( ch == '\t') {
                     _output.write("\\t");
+                } else if( ch == '\r') {
+                    _output.write("\\r");
                 }
                 else 
                     _output.write(ch);

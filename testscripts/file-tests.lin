@@ -26,21 +26,21 @@ def dump()
   var count 0
   while (in(_hasData))
      set! count (+ count 1)
-     print (in(_read)) '-
+     write (in(_read)) '-
   in(_close)
   print "\n" count
    
 
 def parse-file()
-  var fi (File(_new "C:\\foo.lin"))
+  var fi (File(_new "C:\\foo.lsp"))
   var in (fi (_open 'read))
-  var parser (Parser(_new in))
+  var parser (ParenParser(_new in))
   var exp nil
   while
      not
         equal? EOF
            set! exp (parser(_read))
-     print exp
+     write exp
      display "\n"
   parser(_close)
    
@@ -49,13 +49,27 @@ def parse-sfs-file()
   var fi (File(_new "C:\\foo.sfs"))
   var in (fi (_open 'read))
   var sfs (StringFormatStream(_new in))
-  var parser (ParenthesisParser(_new sfs))
+  var parser (ParenParser(_new sfs))
   var exp nil
   while
      not
         equal? EOF
-           set! exp parser(_read)
+           set! exp (parser(_read))
      write exp
      display "\n"
+  parser(_close)
+
+
+def eval-sfs-file()
+  var fi (File(_new "C:\\foo.sfs"))
+  var in (fi (_open 'read))
+  var sfs (StringFormatStream(_new in))
+  var parser (ParenParser(_new sfs))
+  var exp nil
+  while
+     not
+        equal? EOF
+           set! exp (eval (parser(_read)))
+     display exp
   parser(_close)
    

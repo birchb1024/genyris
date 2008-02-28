@@ -58,6 +58,7 @@ import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReadFunction;
+import org.genyris.io.StdioInStream;
 import org.genyris.io.StringFormatStream;
 import org.genyris.io.file.Gfile;
 import org.genyris.io.parser.StreamParser;
@@ -111,6 +112,8 @@ public class Interpreter {
                 _table.internString(Constants.EOF));
         _globalEnvironment.defineVariable(_table.internString(Constants.STDOUT),
                 new WriterStream(new PrintWriter(System.out)));
+        _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
+                new ReaderStream(new StdioInStream()));
         BuiltinClasses.init(_globalEnvironment);
         bindEagerProcedure("is-instance?", IsInstanceFunction.class);
         bindLazyProcedure(Constants.LAMBDA, LambdaFunction.class);
@@ -166,15 +169,15 @@ public class Interpreter {
         bindMethod("String", Constants.CONCAT, ConcatMethod.class);
         bindMethod("String", Constants.MATCH, MatchMethod.class);
         bindMethod("File", "_static-open", Gfile.FileOpenMethod.class);
-        bindMethod("Writer", "_format", FormatMethod.class);
-        bindMethod("Writer", "_close", CloseMethod.class);
-        bindMethod("Writer", "_flush", FlushMethod.class);
-        bindMethod("Reader", "_hasData", ReaderStream.HasDataMethod.class);
-        bindMethod("Reader", "_read", ReaderStream.ReadMethod.class);
-        bindMethod("Reader", "_close", ReaderStream.CloseMethod.class);
-        bindMethod("Parser", "_new", StreamParser.NewMethod.class);
-        bindMethod("Parser", "_read", StreamParser.ReadMethod.class);
-        bindMethod("Parser", "_close", StreamParser.CloseMethod.class);
+        bindMethod(Constants.WRITER, "_format", FormatMethod.class);
+        bindMethod(Constants.WRITER, "_close", CloseMethod.class);
+        bindMethod(Constants.WRITER, "_flush", FlushMethod.class);
+        bindMethod(Constants.READER, "_hasData", ReaderStream.HasDataMethod.class);
+        bindMethod(Constants.READER, "_read", ReaderStream.ReadMethod.class);
+        bindMethod(Constants.READER, "_close", ReaderStream.CloseMethod.class);
+        bindMethod(Constants.PARENPARSER, "_new", StreamParser.NewMethod.class);
+        bindMethod(Constants.PARENPARSER, "_read", StreamParser.ReadMethod.class);
+        bindMethod(Constants.PARENPARSER, "_close", StreamParser.CloseMethod.class);
         bindMethod("StringFormatStream", "_new", StringFormatStream.NewMethod.class);
         bindMethod("System", "_exec", ExecMethod.class);
         

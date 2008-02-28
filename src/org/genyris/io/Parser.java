@@ -67,6 +67,9 @@ public class Parser {
 
     public Exp parseExpression() throws GenyrisException {
         Exp tree = NIL;
+        if (cursym.equals(_lexer.cdr_char)) {
+            throw new ParseException("unexpected colon");
+        }
         if (cursym.equals(_lexer.EOF)) {
             throw new ParseException("unexpected End of File");
         }

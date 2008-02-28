@@ -15,9 +15,7 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
-import org.genyris.io.IndentStream;
 import org.genyris.io.Parser;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
@@ -31,8 +29,7 @@ public class StreamParser extends ExpWithEmbeddedClasses {
     }
 
     public StreamParser(Interpreter interp, ReaderStream reader) {
-        _input = new UngettableInStream(new ConvertEofInStream(new IndentStream(new UngettableInStream(reader.getInStream()),
-                true)));
+        _input = new UngettableInStream(reader.getInStream());
         _parser = interp.newParser(_input);
     }
 
@@ -41,11 +38,11 @@ public class StreamParser extends ExpWithEmbeddedClasses {
     }
 
     public String toString() {
-        return _input.toString();
+        return "<StreamParser>";
     }
 
     public String getBuiltinClassName() {
-        return Constants.INDENTEDPARSER;
+        return Constants.PARENPARSER;
     }
 
     public void close() throws GenyrisException {
