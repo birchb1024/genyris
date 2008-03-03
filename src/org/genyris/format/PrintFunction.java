@@ -31,6 +31,7 @@ public class PrintFunction extends ApplicableFunction {
         for (int i=0; i< arguments.length; i++) {
             arguments[i].acceptVisitor(formatter);
             try {
+                output.write('\n');
                 output.flush();
             } catch (IOException e) {
                  throw new GenyrisException( e.getMessage());

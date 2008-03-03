@@ -274,6 +274,9 @@ public class Lex {
                         throw new LexException("unexpected end of file");
                     char ch2 = _input.readNext();
                     switch (ch2) {
+                    case 'n':
+                        ch = '\n';
+                        break;
                     case 'a':
                         ch = '\u0007';
                         break;

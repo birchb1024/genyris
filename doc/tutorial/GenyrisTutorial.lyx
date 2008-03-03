@@ -446,7 +446,7 @@ All characters following a semi-colon until the end of the line are ignored
 \end_layout
 
 \begin_layout LyX-Code
-tag 24 C      
+tag C 24     
 \series bold
 ; => ~ 24 ; Bignum C
 \end_layout
@@ -542,7 +542,7 @@ Other escape sequences are encoded as follows:
 \noindent
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="2">
+<lyxtabular version="3" rows="7" columns="2">
 <features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="bottom" width="0">
@@ -697,6 +697,30 @@ Tab
 
 \begin_layout Standard
 Quote
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\series bold
+
+\backslash
+a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Bell
 \end_layout
 
 \end_inset
@@ -960,7 +984,7 @@ Alpha (Beta Charlie) (Delta)
 \begin_layout Standard
 Sub-expressions made using parentheses must remain within a single line,
  they are not permitted to wrap.
- Indented lines are deemed to be sub-expressions of the superior, less indented
+ Indented lines are deemed to be sub-expressions of the superior, less indented,
  lines above.
  The above expression can be written in indented form as follows:
 \end_layout
@@ -1136,9 +1160,8 @@ nil
 \end_layout
 
 \begin_layout Standard
-new pairs can be created explicitly with the cons function.
- It takes two parameters which become the left and right parts of a new
- pair.:
+New pairs can be created explicitly with the cons function which takes two
+ parameters - the left and right parts of a new pair.:
 \end_layout
 
 \begin_layout LyX-Code
@@ -1192,7 +1215,7 @@ a
 
 \begin_layout Standard
 Quote characters are a shorthand notation to save typing.
- When the parser sees a single quote, it collects the following expression
+ When the parser sees a single quote, it collects the expression following
  and wraps it within a 
 \emph on
 quote 
@@ -1508,7 +1531,7 @@ Variables
 \end_layout
 
 \begin_layout Standard
-In any context you can create new variables with the 
+New variables are created with the 
 \emph on
 defvar 
 \emph default
@@ -1548,7 +1571,27 @@ William
  in the current environment.
  After the variable has been bound, its value can be used in any expression
  in the scope.
- When the interpreter sees a symbol in an argument list it looks for a binding
+ The 
+\emph on
+define 
+\emph default
+function has an alias 
+\emph on
+var
+\emph default
+ which is quicker to type:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+var
+\series default
+ name "William"
+\end_layout
+
+\begin_layout Standard
+When the interpreter sees a symbol in an argument list it looks for a binding
  in the current environment and all parent environments right up to the
  global execution environment.
  If you define a variable at the command line, it is bound in the global
@@ -1679,10 +1722,9 @@ Eager Functions
 \end_layout
 
 \begin_layout Standard
-Programmers are familiar with eager functions as it is the default in most
- languages.
- Mathematical functions such as + - * and / are eager functions.
+Eager functions are the default in most programming languages.
  These evaluate their arguments prior to applying the underlying procedure.
+ Mathematical functions such as + - * and / are eager functions.
  Let's experiment with some simple math function calls.
  All the following expressions evaluate to 12:
 \end_layout
@@ -1747,6 +1789,18 @@ is printed.
 
 \begin_layout Subsection
 Lazy Functions - Conditional Execution
+\end_layout
+
+\begin_layout Standard
+In contrast to Eger functions, Lazy functions do not evaluate their arguments.
+ In other words, the interpreter passes the 
+\series bold
+source code
+\series default
+ of their arguments to the function.
+ This allows the function to defer evalution or even exclude evaluation
+ altogether, as is the case in conditional (flow control) constructs.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2207,8 +2261,7 @@ Defining Macros
 \begin_layout Standard
 Macros are lazy functions which are very handy for extending the syntax
  of the language and creating DSLs (Domain-Specific Languages).
- Macros are lazy functions which re-evaluate the returned value in the environme
-nt of the caller.
+ Macros also re-evaluate the returned value in the environment of the caller.
  Here's an example:
 \end_layout
 
@@ -2231,6 +2284,16 @@ defmacro do(&rest body)
 \begin_layout Standard
 This macro assembles a lambda expression using the argument list as the
  body of the function.
+ The keyword 
+\emph on
+&rest
+\emph default
+ tells the interpreter to collate the values of all remaining arguments
+ into the single variable 
+\emph on
+body
+\emph default
+.
  So when called with:
 \end_layout
 
@@ -2420,13 +2483,21 @@ make-withdraw
 \end_layout
 
 \begin_layout Enumerate
-the argument to the eager 
+the 
+\emph on
+balance
+\emph default
+ argument to the eager 
 \emph on
 define
 \emph default
- expression is evaluated which results in a call to 
+ expression is evaluated and 
 \emph on
-make-withdraw
+make-withdraw 
+\emph default
+is called
+\emph on
+.
 \end_layout
 
 \begin_layout Enumerate
@@ -2676,9 +2747,7 @@ define my-do 'my-do
 \end_layout
 
 \begin_layout Standard
-Now whenever w
-\family typewriter
-henever we call 
+Now whenever we call 
 \emph on
 my-do
 \emph default
@@ -2734,10 +2803,6 @@ _self
 \emph default
  is not affected.
  
-\end_layout
-
-\begin_layout LyX-Code
-
 \end_layout
 
 \begin_layout Subsection
@@ -2932,7 +2997,7 @@ left
 \end_layout
 
 \begin_layout Standard
-Alternatively the slot names 
+Alternatively the dynamic variables 
 \emph on
 _left
 \emph default
@@ -2944,7 +3009,7 @@ _right
 \end_layout
 
 \begin_layout LyX-Code
-> define my-pair (cons "A" "B") 
+> var my-pair (cons "A" "B") 
 \end_layout
 
 \begin_layout LyX-Code
@@ -3612,7 +3677,7 @@ Notice that the method uses the
 \emph on
 _self
 \emph default
- variable which is automatically bound to the object.
+ variable which will be automatically bound to an object.
  Now all Bignums can compute their own square e.g.:
 \end_layout
 
@@ -3736,7 +3801,7 @@ This simply creates a class which is a subclass of
 \series bold
 tag
 \series default
- 12 Inches
+ Inches 12
 \end_layout
 
 \begin_layout LyX-Code
@@ -3809,7 +3874,7 @@ define a-foot
 \end_layout
 
 \begin_layout LyX-Code
-   tag 12 Inches
+   tag Inches 12
 \end_layout
 
 \begin_layout LyX-Code
@@ -3838,7 +3903,11 @@ This is fine, but we are only returning a
 Bignum
 \emph default
 .
- Let's refactor to add more classes and tag the return appropriately:
+ Let's refactor to add a 
+\emph on
+Meters
+\emph default
+ class and tag the return appropriately:
 \end_layout
 
 \begin_layout LyX-Code
@@ -3876,7 +3945,7 @@ Length
 \end_layout
 
 \begin_layout LyX-Code
-      tag (* _self 0.0254) Meters
+      tag Meters (* _self 0.0254) 
 \end_layout
 
 \begin_layout LyX-Code
@@ -3917,7 +3986,7 @@ Length
 \begin_layout LyX-Code
 > 
 \series bold
-(tag 12 Inches)
+(tag Inches 12)
 \series default
  (_toMeters)
 \end_layout
@@ -3957,14 +4026,6 @@ Length
 \end_layout
 
 \begin_layout LyX-Code
-   def tag-Meters (obj)
-\end_layout
-
-\begin_layout LyX-Code
-       tag obj Meters
-\end_layout
-
-\begin_layout LyX-Code
    
 \series bold
 def _add(other)
@@ -3973,7 +4034,7 @@ def _add(other)
 \begin_layout LyX-Code
 
 \series bold
-      tag-Meters
+      tag Meters
 \end_layout
 
 \begin_layout LyX-Code
@@ -3998,15 +4059,6 @@ Meters,
 Meters
 \emph default
 .
- There is a private method 
-\emph on
-tag-meters
-\emph default
- used by _
-\emph on
-add
-\emph default
- to mark the result.
  Here's how it runs:
 \end_layout
 
@@ -4015,11 +4067,11 @@ define a-meter
 \end_layout
 
 \begin_layout LyX-Code
-   tag 1 Meters
+   tag Meters 1
 \end_layout
 
 \begin_layout LyX-Code
-define a-foot (tag 12 Inches)
+define a-foot (tag Inches 12)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4047,9 +4099,9 @@ This is useful however in the above example a user of our classes could
 \begin_layout LyX-Code
 (tag 
 \series bold
-"12"
+Inches "12"
 \series default
- Inches) (_add (tag 1 Meters))          ; Error
+) (_add (tag Meters 1))          ; Error
 \end_layout
 
 \begin_layout Standard
@@ -4100,7 +4152,7 @@ class Orange()
 \end_layout
 
 \begin_layout LyX-Code
-> (tag "my lunch" Orange) _pips
+> (tag Orange "my lunch") _pips
 \end_layout
 
 \begin_layout LyX-Code
@@ -4316,7 +4368,7 @@ class Object (Dictionary)
 \end_layout
 
 \begin_layout LyX-Code
-      (tag (dict) _self)                     
+      (tag _self (dict))                     
 \end_layout
 
 \begin_layout LyX-Code
@@ -4796,7 +4848,7 @@ class MyStream(IStream)            ; it's an IStream - honest!
 \end_layout
 
 \begin_layout LyX-Code
-tag some-object MyStream
+tag MyStream some-object 
 \end_layout
 
 \begin_layout LyX-Code
@@ -4831,19 +4883,19 @@ IStream
  
 \end_layout
 
-\begin_layout LyX-Code
-
-\end_layout
-
 \begin_layout Section
-Class Libraries
+Builtin Class Libraries
 \end_layout
 
 \begin_layout Standard
 A major goal of the Genyris language is to encourage re-use and generic
  programming.
  The language separates the concerns, form and function, allowing developers
- to of two kinds of class libraries:
+ to of three kinds of class libraries:
+\end_layout
+
+\begin_layout Enumerate
+Built-in class libraries
 \end_layout
 
 \begin_layout Enumerate
@@ -4854,6 +4906,212 @@ Taxonomies of class types and validation functions assembled into class
 \begin_layout Enumerate
 Traditional executable code libraries containing functions for manipulating
  objects of known classes and implementing significant functionality.
+\end_layout
+
+\begin_layout Subsection
+Input and Output
+\end_layout
+
+\begin_layout Subsubsection
+Global Output Functions
+\end_layout
+
+\begin_layout Paragraph
+print<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream as if typed
+ in by a user in indented format.
+ - strings are quoted, escape characters are output.
+ Arguments on the output are seperated by a newline.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+print '(1 "w
+\backslash
+n" (x y))
+\end_layout
+
+\begin_layout LyX-Code
+  
+\end_layout
+
+\begin_layout LyX-Code
+1 "w
+\backslash
+n"
+\end_layout
+
+\begin_layout LyX-Code
+   x y  
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Paragraph
+write<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream without parenthesis
+ syntax.
+ - strings are quoted, escape characters are output.
+ Arguments are output sequentially without space padding.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+write '(1 2 (e) "w")
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(1 2 (e) "w")
+\end_layout
+
+\begin_layout Paragraph
+display<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream without syntax.
+ - strings are not quoted, escape characters are not output.
+ Arguments are output sequentially without padding.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+display '(1 "w
+\backslash
+n" (x y))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(1 w
+\end_layout
+
+\begin_layout LyX-Code
+ (x y))
+\end_layout
+
+\begin_layout Subsubsection
+Global Input Functions
+\end_layout
+
+\begin_layout Paragraph
+read
+\end_layout
+
+\begin_layout Subsubsection
+Class Writer
+\end_layout
+
+\begin_layout Standard
+A class which accepts a stream of characters.
+\end_layout
+
+\begin_layout Paragraph
+Methods
+\end_layout
+
+\begin_layout Description
+_close() Closes the current output stream.
+\end_layout
+
+\begin_layout Description
+_flush() Forces all buffered output to be written to the device.
+\end_layout
+
+\begin_layout Description
+_format(<format-string><arg1>...<argn>) Outputs the args as dictated by the
+ format-string.
+ The format string is a normal string with the special format sequences.
+ Each format sequence must be matched by a corresponding argument to format,
+ used in order.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+~a Outputs the argument without syntax - strings are unquoted, escape characters
+ are not output
+\end_layout
+
+\begin_layout Description
+~s Outputs the argument using if entered by a user - strings are quoted,
+ escape characters are not output
+\end_layout
+
+\begin_layout Description
+~x Outputs the argument as XML using an XmlWriter
+\end_layout
+
+\begin_layout Description
+~% Outputs a linefeed
+\end_layout
+
+\begin_layout Description
+~~ Outputs a tilde character
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+stdout(_format "~s ~a ~x ~%" "Hello" "World" '(img ((width: 23))))
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+"Hello" World <img width="23"/>
+\end_layout
+
+\begin_layout Paragraph
+Globals
+\end_layout
+
+\begin_layout Description
+stdout A global variable which holds a 
+\emph on
+Writer
+\emph default
+ pointing the current Standard output device, typically the console.
+\end_layout
+
+\begin_layout Subsubsection
+Class Reader
+\end_layout
+
+\begin_layout Paragraph
+Globals
+\end_layout
+
+\begin_layout Description
+stdin A global variable which holds a 
+\emph on
+Reader
+\emph default
+ pointing the current Standard Input device, typically the console.
+\end_layout
+
+\begin_layout Description
+
 \end_layout
 
 \begin_layout Standard
