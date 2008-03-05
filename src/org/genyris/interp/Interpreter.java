@@ -63,6 +63,7 @@ import org.genyris.io.StringFormatStream;
 import org.genyris.io.file.Gfile;
 import org.genyris.io.parser.StreamParser;
 import org.genyris.io.readerstream.ReaderStream;
+import org.genyris.io.sound.Sound.PlayMethod;
 import org.genyris.io.writerstream.WriterStream;
 import org.genyris.io.writerstream.WriterStream.CloseMethod;
 import org.genyris.io.writerstream.WriterStream.FlushMethod;
@@ -180,6 +181,7 @@ public class Interpreter {
         bindMethod(Constants.PARENPARSER, "_close", StreamParser.CloseMethod.class);
         bindMethod("StringFormatStream", "_new", StringFormatStream.NewMethod.class);
         bindMethod("System", "_exec", ExecMethod.class);
+        bindMethod("Sound", "_play", PlayMethod.class);
         
 
     }

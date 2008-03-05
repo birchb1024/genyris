@@ -277,6 +277,9 @@ public class Lex {
                     case 'a':
                         ch = '\u0007';
                         break;
+                    case 'n':
+                        ch = '\n';
+                        break;
                     case 'r':
                         ch = '\r';
                         break;

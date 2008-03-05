@@ -56,8 +56,9 @@ public class BuiltinClasses {
         mkClass(classname, Constants.WRITER, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.SYSTEM, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.LISTOFLINES, env, STANDARDCLASS, pair);
-        mkClass(classname, Constants.INDENTEDPARSER, env, STANDARDCLASS, pair);
-        mkClass(classname, Constants.PARENPARSER, env, STANDARDCLASS, pair);
-        mkClass(classname, Constants.STRINGFORMATSTREAM, env, STANDARDCLASS, pair);
+        mkClass(classname, Constants.INDENTEDPARSER, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.PARENPARSER, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.STRINGFORMATSTREAM, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.SOUND, env, STANDARDCLASS, builtin);
     }
 }

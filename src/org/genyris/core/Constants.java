@@ -69,6 +69,7 @@ public class Constants {
         public static final String STDOUT = "stdout";
         public static final String PARENPARSER = "ParenParser";
         public static final String STDIN = "stdin";
+        public static final String SOUND = "Sound";
 
 
 }

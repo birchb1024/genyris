@@ -1,4 +1,4 @@
-print "Loading UsbLamp.lin"
+display "\nLoading UsbLamp.lin"
 
 class UsbLamp ()
    var exePath "C:\\workspace\\DevEnvironment\\scripts\\usblamp\\USBDOSAP.EXE"
@@ -21,7 +21,6 @@ class UsbLamp ()
                "redoff"       : "10 12 0 2"
                "redon"        : "10 12 2 0"
                "alloff"       : "meta"
-               "beep"         : "meta"
         
    def call-lamp(codes)
       System
@@ -31,42 +30,69 @@ class UsbLamp ()
    def _change((op : String))
        var codes (operations (_lookup op))
        cond
-          (equal? op "beep")
-             display "\a \n \a \n \a \n \a"
-             tag Alist '(("Beep": "Beep"))
           (equal? op "alloff")
              _change "allflashoff"
              _change "alldark"
-             _change "beep"
           (null? codes) 
              raise "UsbLamp sent bad op-code."  
           else
              call-lamp codes
+      
+class BuildNotification()
+    define mediaStore "c:\\WINNT\\Media\\"
+    
+    def play(soundfile-name)
+        Sound(_play (mediaStore (_+ soundfile-name)))
+        the soundfile-name
+    
+    def beep()
+        display "\a \a"
+        
+    def _alertUsers(reason)
+        cond
+          (equal? reason "build-start")
+              play "notify.wav"
+              UsbLamp (_change "alloff")
+              UsbLamp (_change "blueflash")
+          (equal? reason "build-ok")
+              UsbLamp (_change "redoff")
+              UsbLamp (_change "redflashoff")
+              UsbLamp (_change "greenon")
+          (equal? reason "build-failed")
+              play "Ringin.wav"
+              UsbLamp (_change "alloff")
+              UsbLamp (_change "redflash")
+              play "Ringin.wav"
+              play "Ringin.wav"
+          (equal? reason "build-complete")
+              beep
+              UsbLamp (_change "blueflashoff")
+              UsbLamp (_change "greenon")
+          (equal? reason "deploy-start")
+              beep
+              UsbLamp (_change "greenoff")
+              UsbLamp (_change "greenflash")
+          (equal? reason "deploy-complete")
+              play "tada.wav"
+              UsbLamp (_change "greenflashoff")
+              UsbLamp (_change "greenon")
                
                
 df httpd-serve (request)
    ; print request
    var params (request(_getParameters))
    var operation (params (_lookup "op"))
-   cond
-     (null? operation)
-        set! operation "dir"
-   var listing
-      (UsbLamp (_change operation))
-         _render
+   BuildNotification(_alertUsers operation)
    var result
     list 200 "text/html"
       template
           html()
              head()
              body()
-                pre() ,operation
-                hr() 
-                ,listing
                 form()
                    input((name:"op") (value: ,operation))
                    input((type:"submit"))
-   stdout(_format "--------------~%~x----------------~%" result)
+   stdout(_format "~a~%" operation)
    result  
                       
 
