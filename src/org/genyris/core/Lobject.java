@@ -24,30 +24,43 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     private Lsymbol NIL;
 
-    private Environment _parent;
+    protected Environment _parent;
 
     Exp _self, CLASSES, SUPERCLASSES, CLASSNAME, VARS;
+
+    public Lobject() {
+        _dict = new TreeMap();
+        _parent = null;
+    }
 
     public Lobject(Environment parent) {
         _dict = new TreeMap();
         _parent = parent;
-        init();
+        init(_parent);
     }
 
     public Lobject(Lsymbol key, Exp value, Environment parent) {
        _dict = new TreeMap();
         _dict.put(key, value);
         _parent = parent;
-        init();
+        init(_parent);
     }
 
-    private void init() {
-        _self = _parent.internString(Constants.SELF);
-        CLASSES = _parent.internString(Constants.CLASSES);
-        SUPERCLASSES = _parent.internString(Constants.SUPERCLASSES);
-        CLASSNAME = _parent.internString(Constants.CLASSNAME);
-        VARS = _parent.internString(Constants.VARS);
-        NIL = _parent.getNil();
+    protected void initFromTable(SymbolTable table) throws GenyrisException {
+        _self = table.lookupString(Constants.SELF);
+        CLASSES = table.lookupString(Constants.CLASSES);
+        SUPERCLASSES = table.lookupString(Constants.SUPERCLASSES);
+        CLASSNAME = table.lookupString(Constants.CLASSNAME);
+        VARS = table.lookupString(Constants.VARS);
+        NIL = table.lookupString(Constants.NIL);
+    }
+    protected void init(Environment env) {
+        _self = env.internString(Constants.SELF);
+        CLASSES = env.internString(Constants.CLASSES);
+        SUPERCLASSES = env.internString(Constants.SUPERCLASSES);
+        CLASSNAME = env.internString(Constants.CLASSNAME);
+        VARS = env.internString(Constants.VARS);
+        NIL = env.getNil();
     }
 
     public Environment getParent() {

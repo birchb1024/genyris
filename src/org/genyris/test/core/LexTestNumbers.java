@@ -8,6 +8,7 @@ package org.genyris.test.core;
 import java.math.BigDecimal;
 
 import org.genyris.core.*;
+import org.genyris.exception.GenyrisException;
 import org.genyris.io.Lex;
 import org.genyris.io.LexException;
 import org.genyris.io.StringInStream;
@@ -17,8 +18,17 @@ import junit.framework.TestCase;
 
 public class LexTestNumbers extends TestCase {
 	
-	public SymbolTable _table = new SymbolTable();
+	public SymbolTable _table = new SymbolTable(null);
 	
+    public void setUp() {
+        try {
+            _table.init(null);
+        }
+        catch (GenyrisException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 	private BigDecimal excerciseParseDecimalNumber(String input) throws LexException
 	{
 		return new Lex(new UngettableInStream( new StringInStream(input)), _table).parseDecimalNumber();

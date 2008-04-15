@@ -41,7 +41,7 @@ public class EqualityTest extends TestCase {
         assertFalse(new Lcons(new Lstring("hello"), new Lstring("no way")).deepEquals(new Lcons(new Lstring("hello"), new Linteger(12))));
     }
     public void testSymbol() throws Exception {
-        SymbolTable sym = new SymbolTable();
+        SymbolTable sym = new SymbolTable(null);
         sym.init(new NilSymbol());
         assertFalse(new Lsymbol("hello1").equals(new Lsymbol("hello2")));
         assertFalse(new Lsymbol("hello").equals(new Lsymbol("hello")));

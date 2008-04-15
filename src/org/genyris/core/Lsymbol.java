@@ -5,8 +5,11 @@
 //
 package org.genyris.core;
 
+import org.genyris.interp.Environment;
 
-public class Lsymbol extends ExpWithEmbeddedClasses implements Comparable {
+
+//public class Lsymbol extends ExpWithEmbeddedClasses implements Comparable {
+public class Lsymbol extends Lobject implements Comparable {
 
     protected String _printName;
 
@@ -14,6 +17,10 @@ public class Lsymbol extends ExpWithEmbeddedClasses implements Comparable {
         _printName = newSym;
     }
 
+    public void init(Environment env) {
+        _parent = env;
+        super.init(env);
+    }
     public boolean isNil() {
         return false;
     }
@@ -59,5 +66,9 @@ public class Lsymbol extends ExpWithEmbeddedClasses implements Comparable {
 			throw new ClassCastException("Lsymbol compareTo on " + arg0);
 		}
 	}
+
+    public void setParent(Environment env) {
+        _parent = env;    
+    }
 
 }

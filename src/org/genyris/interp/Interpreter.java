@@ -88,7 +88,7 @@ import org.genyris.system.ExecMethod;
 import org.genyris.test.JunitRunnerFunction;
 
 public class Interpreter {
-    Environment      _globalEnvironment;
+    StandardEnvironment      _globalEnvironment;
     SymbolTable      _table;
     Writer           _defaultOutput;
     public NilSymbol NIL;
@@ -96,13 +96,13 @@ public class Interpreter {
 
     public Interpreter() throws GenyrisException {
         NIL = new NilSymbol();
-        _table = new SymbolTable();
+        _table = new SymbolTable(this);
+        _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this, NIL);
         Lobject SYMBOL = new Lobject(_globalEnvironment);
         _defaultOutput = new OutputStreamWriter(System.out);
         {
             // Circular references between symbols and classnames require manual bootstrap here:
-            _table.init(NIL);
             SYMBOL.defineVariable(_table.internString(Constants.CLASSNAME),
                     _table.internString(Constants.SYMBOL));
         }

@@ -15,6 +15,7 @@ import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
@@ -27,23 +28,37 @@ import org.genyris.io.UngettableInStream;
 
 public class LexTest extends TestCase {
 
-    public SymbolTable _table = new SymbolTable();
+    public SymbolTable _table = new SymbolTable(null);
+    
+    public void setUp() {
+        try {
+            _table.init(null);
+        }
+        catch (GenyrisException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-    private void excerciseNextTokenInt(Exp expected, String toparse) throws LexException {
+    private void excerciseNextTokenInt(Exp expected, String toparse) throws GenyrisException {
+        _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
         assertEquals(expected, lexer.nextToken());
     }
 
-    private void excerciseNextTokenDouble(Exp expected, String toparse) throws LexException {
+    private void excerciseNextTokenDouble(Exp expected, String toparse) throws GenyrisException {
+        _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
         assertEquals(((Double)expected.getJavaValue()).doubleValue(), ((Double)lexer.nextToken().getJavaValue()).doubleValue(), 0.00001);
     }
 
-    private void excerciseNextTokenBignum(Exp expected, String toparse) throws LexException {
+    private void excerciseNextTokenBignum(Exp expected, String toparse) throws GenyrisException {
+        _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
         assertEquals(expected.getJavaValue().toString(), lexer.nextToken().getJavaValue().toString());
     }
-    private void excerciseNextTokenExp(Exp expected, String toparse) throws LexException {
+    private void excerciseNextTokenExp(Exp expected, String toparse) throws GenyrisException {
+        _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
         assertEquals(expected.toString(), lexer.nextToken().toString());
     }
@@ -111,7 +126,7 @@ public class LexTest extends TestCase {
 
     private void excerciseListParsing(String toParse) throws Exception {
         Lsymbol NIL = new NilSymbol();
-        SymbolTable table = new SymbolTable();
+        SymbolTable table = new SymbolTable(null);
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));
         Parser parser = new Parser(table, input);
@@ -127,7 +142,7 @@ public class LexTest extends TestCase {
     private void excerciseListParsingLisp(String toParse, String expected) throws Exception {
         // TODO DRY
         Lsymbol NIL = new NilSymbol();
-        SymbolTable table = new SymbolTable();
+        SymbolTable table = new SymbolTable(null);
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));
         Parser parser = new Parser(table, input, '.');
