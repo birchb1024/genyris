@@ -91,7 +91,8 @@
         </javac>
     </target>
 
-	<target name="archive" depends="binary-jar, ear">
+	<target name="archive" depends="binary-jar, ear"
+		description="Make a backup">
 	    <input message="Destination directory for archive?" addproperty="archive.dest"/>
 	    <tstamp/>
 	    

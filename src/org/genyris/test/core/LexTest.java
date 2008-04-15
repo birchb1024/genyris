@@ -21,7 +21,6 @@ import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.InStream;
 import org.genyris.io.Lex;
-import org.genyris.io.LexException;
 import org.genyris.io.Parser;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
