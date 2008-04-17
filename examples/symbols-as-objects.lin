@@ -1,0 +1,24 @@
+;;;
+;;; The Secret Life of Symbols 
+;;;
+; Symbols can execute code:
+'y
+   print _self (+ 2 3)
+   
+; Symbols are also dictionarys:
+'x (var _pronunciation "ex")
+print ('x _pronunciation)
+
+; Symbols can have methods
+'cond
+   def _apropos()
+      display "cond is a builtin normally bound with the cond function, blah blah\n"
+
+; Symbols can have classes:
+class Keyword()
+   var _syntaxHightlightColor "Red"
+tag Keyword 'if
+print ('if _syntaxHightlightColor)
+
+
+
