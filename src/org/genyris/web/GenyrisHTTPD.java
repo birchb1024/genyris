@@ -27,9 +27,16 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     public static void main(String[] args) {
         int port = 8080;
+        if(args.length == 0) {
+            System.err.println("Missing filename.\n");
+            System.exit(-1);
+        }
+        else if(args.length > 1) {
+            port = Integer.parseInt(args[1]);
+        }
 
         try {
-            new GenyrisHTTPD(port, args);
+            new GenyrisHTTPD(port, args[0]);
         }
         catch (IOException ioe) {
             System.err.println("Couldn't start server:\n" + ioe);
@@ -38,7 +45,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     }
 
-    public GenyrisHTTPD(int port, String[] args) throws IOException {
+    public GenyrisHTTPD(int port, String filename) throws IOException {
         myTcpPort = port;
         try {
             interpreter = new Interpreter();
@@ -46,9 +53,8 @@ public class GenyrisHTTPD extends NanoHTTPD {
             NIL = interpreter.getNil();
             Writer output = new PrintWriter(System.out);
             SourceLoader.loadScriptFromClasspath(interpreter, "org/genyris/load/boot/httpd-serve.lin", output);
-            if(args.length > 0) {
-                SourceLoader.loadScriptFromFile(interpreter, args[0], output);
-            }
+            SourceLoader.loadScriptFromFile(interpreter, filename, output);
+            
             HttpRequestClazz = interpreter.lookupGlobalFromString("HttpRequest");
             AlistClazz = interpreter.lookupGlobalFromString("Alist");
         }
