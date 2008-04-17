@@ -92,6 +92,14 @@ public class HTMLFormatter extends AbstractFormatter {
                         body = cons.cdr();
                     }
                 }
+                if(tag.getPrintName().equals("verbatim")) {
+                    while(!body.isNil()) {
+                        DisplayFormatter formatter = new DisplayFormatter(_output);
+                        body.car().acceptVisitor(formatter);
+                        body = body.cdr();
+                    }
+                    return;
+                }
                 _output.write("<" + tag.getPrintName());
                 writeAttributes(attributes);
                 if (body instanceof NilSymbol) {
