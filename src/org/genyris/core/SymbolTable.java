@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class SymbolTable {
@@ -16,10 +17,14 @@ public class SymbolTable {
     private Map _table;
     private Lsymbol NIL;
     private Interpreter _interp;
+    private Environment _globalEnv;
 
     public SymbolTable(Interpreter interp) {
         _table = new HashMap();
         _interp = interp;
+        if(_interp != null ) {
+            _globalEnv = _interp.getGlobalEnv();
+        }
     }
 
     public void init(Lsymbol nil) throws GenyrisException {
@@ -52,7 +57,7 @@ public class SymbolTable {
             Lsymbol sym = new Lsymbol(newSym);
             try {
                 sym.initFromTable(this);
-                sym.setParent(_interp.getGlobalEnv());
+                sym.setParent(_globalEnv);
             }
             catch (GenyrisException e) {
                 // TODO Auto-generated catch block
