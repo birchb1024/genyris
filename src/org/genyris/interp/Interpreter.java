@@ -80,6 +80,7 @@ import org.genyris.math.LessThanFunction;
 import org.genyris.math.MinusFunction;
 import org.genyris.math.MultiplyFunction;
 import org.genyris.math.PlusFunction;
+import org.genyris.math.PowerFunction;
 import org.genyris.math.RemainderFunction;
 import org.genyris.string.ConcatMethod;
 import org.genyris.string.MatchMethod;
@@ -159,6 +160,7 @@ public class Interpreter {
         bindEagerProcedure("%", RemainderFunction.class);
         bindEagerProcedure(">", GreaterThanFunction.class);
         bindEagerProcedure("<", LessThanFunction.class);
+        bindEagerProcedure("power", PowerFunction.class);
         bindLazyProcedure("or", OrFunction.class);
         bindLazyProcedure("and", AndFunction.class);
         bindEagerProcedure("not", NotFunction.class);
