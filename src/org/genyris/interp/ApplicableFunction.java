@@ -22,9 +22,9 @@ public abstract class ApplicableFunction {
         NIL = _interp.getNil();
         TRUE = _interp.getTrue();
         _name = name;
-        _lambda = interp.getSymbolTable().internString(Constants.LAMBDA);
-        _lambdaq = interp.getSymbolTable().internString(Constants.LAMBDAQ);
-        _lambdam = interp.getSymbolTable().internString(Constants.LAMBDAM);
+        _lambda = interp.getSymbolTable().internPlainString(Constants.LAMBDA);
+        _lambdaq = interp.getSymbolTable().internPlainString(Constants.LAMBDAQ);
+        _lambdam = interp.getSymbolTable().internPlainString(Constants.LAMBDAM);
     }
 
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments,

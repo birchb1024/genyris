@@ -15,7 +15,7 @@ public class SpecialEnvironment extends StandardEnvironment {
 
     private Environment _object;
 
-    public SpecialEnvironment(Environment runtime, Map bindings, Environment object) {
+    public SpecialEnvironment(Environment runtime, Map bindings, Environment object) throws GenyrisException {
         super(runtime, bindings);
         _object = object;
     }

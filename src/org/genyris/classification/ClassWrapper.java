@@ -23,9 +23,9 @@ public class ClassWrapper {
 
     public ClassWrapper(Lobject toWrap) {
         _theClass = toWrap;
-        CLASSNAME = toWrap.getParent().internString(Constants.CLASSNAME);
-        SUPERCLASSES = toWrap.getParent().internString(Constants.SUPERCLASSES);
-        SUBCLASSES = toWrap.getParent().internString(Constants.SUBCLASSES);
+        CLASSNAME = toWrap.getParent().internPlainString(Constants.CLASSNAME);
+        SUPERCLASSES = toWrap.getParent().internPlainString(Constants.SUPERCLASSES);
+        SUBCLASSES = toWrap.getParent().internPlainString(Constants.SUBCLASSES);
         NIL = toWrap.getParent().getNil();
     }
 
@@ -207,9 +207,6 @@ public class ClassWrapper {
                 }
                 classes = classes.cdr();
             }
-        } catch (UnboundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (AccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

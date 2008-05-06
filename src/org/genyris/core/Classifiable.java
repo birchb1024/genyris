@@ -7,11 +7,10 @@ package org.genyris.core;
 
 import org.genyris.exception.AccessException;
 import org.genyris.interp.Environment;
-import org.genyris.interp.UnboundException;
 
 public interface Classifiable {
 
-    public Exp getClasses(Environment env) throws UnboundException ;
+    public Exp getClasses(Environment env);
     public void addClass(Exp klass);
     public void removeClass(Exp klass);
     public boolean isTaggedWith(Lobject klass);

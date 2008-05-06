@@ -12,7 +12,7 @@ public class ClassMROComparator implements Comparator {
     private Exp NIL, SUPERCLASSES;
 
     public ClassMROComparator(Environment env) {
-        SUPERCLASSES = env.internString(Constants.SUPERCLASSES);
+        SUPERCLASSES = env.internPlainString(Constants.SUPERCLASSES);
         NIL = env.getNil();
 
     }

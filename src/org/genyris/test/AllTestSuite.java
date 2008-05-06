@@ -16,7 +16,6 @@ import org.genyris.test.io.IndentStreamTest;
 import org.genyris.test.io.SourceLoaderTest;
 import org.genyris.test.io.StringInStreamTest;
 import org.genyris.test.io.UngettableInStreamTest;
-import org.genyris.test.java.JavaWrapperTest;
 
 public class AllTestSuite {
 
@@ -47,8 +46,6 @@ public class AllTestSuite {
         suite.addTestSuite(SourceLoaderTest.class);
         suite.addTestSuite(StringInStreamTest.class);
         suite.addTestSuite(UngettableInStreamTest.class);
-
-        suite.addTestSuite(JavaWrapperTest.class);
 
 
         return suite;

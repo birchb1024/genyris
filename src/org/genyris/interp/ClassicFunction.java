@@ -25,7 +25,7 @@ public class ClassicFunction extends ApplicableFunction {
 
     public ClassicFunction(Lsymbol name, Interpreter interp) {
         super(interp, name);
-        REST = interp.getSymbolTable().internString(Constants.REST);
+        REST = interp.getSymbolTable().internPlainString(Constants.REST);
     }
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {

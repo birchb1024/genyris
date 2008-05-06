@@ -68,7 +68,6 @@ import org.genyris.io.writerstream.WriterStream;
 import org.genyris.io.writerstream.WriterStream.CloseMethod;
 import org.genyris.io.writerstream.WriterStream.FlushMethod;
 import org.genyris.io.writerstream.WriterStream.FormatMethod;
-import org.genyris.java.JavaClassForName;
 import org.genyris.load.IncludeFunction;
 import org.genyris.load.SourceLoader;
 import org.genyris.logic.AndFunction;
@@ -166,7 +165,6 @@ public class Interpreter {
         bindEagerProcedure("not", NotFunction.class);
         bindLazyProcedure("bound?", BoundFunction.class);
         bindEagerProcedure("raise", RaiseFunction.class);
-        bindEagerProcedure("java-class", JavaClassForName.class);
         bindEagerProcedure("self-test-runner", JunitRunnerFunction.class);
         bindMethod("String", Constants.SPLIT, SplitMethod.class);
         bindMethod("String", Constants.CONCAT, ConcatMethod.class);
@@ -278,7 +276,7 @@ public class Interpreter {
         return _table;
     }
 
-    public Exp lookupGlobalFromString(String var) throws UnboundException {
+    public Exp lookupGlobalFromString(String var) throws GenyrisException {
         return _globalEnvironment.lookupVariableValue(_table.internString(var));
     }
 }

@@ -20,6 +20,7 @@ import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
@@ -34,7 +35,7 @@ public class HTMLFormatter extends AbstractFormatter {
         _output.write(HTMLEntityEncode(s));
     }
     public void visitLobject(Lobject frame) {
-        Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
+        Exp standardClassSymbol = frame.internPlainString(Constants.STANDARDCLASS);
         Lobject standardClass;
         try {
             standardClass = (Lobject) frame.getParent().lookupVariableValue(
@@ -42,6 +43,11 @@ public class HTMLFormatter extends AbstractFormatter {
         } catch (UnboundException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
+            return;
+        }
+        catch (GenyrisException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
             return;
         }
 

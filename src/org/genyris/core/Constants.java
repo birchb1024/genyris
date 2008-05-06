@@ -70,6 +70,7 @@ public class Constants {
         public static final String PARENPARSER = "ParenParser";
         public static final String STDIN = "stdin";
         public static final String SOUND = "Sound";
+        public static final String PREFIX = "@prefix";
 
 
 }

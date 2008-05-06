@@ -109,7 +109,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
 
     }
 
-    public Exp getReturnClassOrNIL() throws AccessException, UnboundException {
+    public Exp getReturnClassOrNIL() throws GenyrisException {
         if (_returnClass != null) {
             return _returnClass;
         }

@@ -8,6 +8,7 @@ package org.genyris.interp;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lsymbol;
+import org.genyris.exception.GenyrisException;
 
 public abstract class AbstractMethod extends ApplicableFunction {
 
@@ -17,8 +18,8 @@ public abstract class AbstractMethod extends ApplicableFunction {
 
     protected Exp _self;
 	
-    protected void getSelf(Environment env) throws UnboundException {
-    	_self = env.lookupVariableValue(_interp.getSymbolTable().internString(Constants.SELF));
+    protected void getSelf(Environment env) throws GenyrisException {
+    	_self = env.lookupVariableValue(_interp.getSymbolTable().internPlainString(Constants.SELF));
     }
 
 }

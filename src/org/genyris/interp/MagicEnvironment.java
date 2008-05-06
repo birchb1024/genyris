@@ -17,7 +17,7 @@ public class MagicEnvironment  extends StandardEnvironment {
     // the first place to look for slots.
     // TODO - rename this class, perhaps.
     private Exp _it;
-    public MagicEnvironment(Environment runtime, Exp theObject) {
+    public MagicEnvironment(Environment runtime, Exp theObject) throws GenyrisException {
         super(runtime, new HashMap());
         _it = theObject;
     }

@@ -47,19 +47,19 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     }
 
     protected void initFromTable(SymbolTable table) throws GenyrisException {
-        _self = table.lookupString(Constants.SELF);
-        CLASSES = table.lookupString(Constants.CLASSES);
-        SUPERCLASSES = table.lookupString(Constants.SUPERCLASSES);
-        CLASSNAME = table.lookupString(Constants.CLASSNAME);
-        VARS = table.lookupString(Constants.VARS);
-        NIL = table.lookupString(Constants.NIL);
+        _self = table.lookupPlainString(Constants.SELF);
+        CLASSES = table.lookupPlainString(Constants.CLASSES);
+        SUPERCLASSES = table.lookupPlainString(Constants.SUPERCLASSES);
+        CLASSNAME = table.lookupPlainString(Constants.CLASSNAME);
+        VARS = table.lookupPlainString(Constants.VARS);
+        NIL = table.lookupPlainString(Constants.NIL);
     }
     protected void init(Environment env) {
-        _self = env.internString(Constants.SELF);
-        CLASSES = env.internString(Constants.CLASSES);
-        SUPERCLASSES = env.internString(Constants.SUPERCLASSES);
-        CLASSNAME = env.internString(Constants.CLASSNAME);
-        VARS = env.internString(Constants.VARS);
+        _self = env.internPlainString(Constants.SELF);
+        CLASSES = env.internPlainString(Constants.CLASSES);
+        SUPERCLASSES = env.internPlainString(Constants.SUPERCLASSES);
+        CLASSNAME = env.internPlainString(Constants.CLASSNAME);
+        VARS = env.internPlainString(Constants.VARS);
         NIL = env.getNil();
     }
 
@@ -92,7 +92,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             Exp tmp = new LconsWithcolons(key, value);
             result = new Lcons(tmp, result);
         }
-        return new Lcons(_parent.internString(Constants.DICT), result);
+        return new Lcons(_parent.internPlainString(Constants.DICT), result);
     }
 
     public void defineVariable(Exp exp, Exp valu) throws GenyrisException {
@@ -269,12 +269,16 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         return _parent.getInterpreter();
     }
 
-    public Exp internString(String symbolName) {
+    public Exp internString(String symbolName) throws GenyrisException {
         return _parent.internString(symbolName);
     }
 
     public String getBuiltinClassName() {
         return Constants.OBJECT;
+    }
+
+    public Exp internPlainString(String dict) {
+        return _parent.internPlainString(dict);
     }
 
 }

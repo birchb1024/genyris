@@ -38,15 +38,15 @@ public class StandardEnvironment implements Environment {
         NIL = nil;
         _interpreter = interp;
 
-        _self = interp.getSymbolTable().internString(Constants.SELF);
-        _classes = interp.getSymbolTable().internString(Constants.CLASSES);
-        _superclasses = interp.getSymbolTable().internString(Constants.SUPERCLASSES);
-        _classname = interp.getSymbolTable().internString(Constants.CLASSNAME);
-        _left = interp.getSymbolTable().internString(Constants.LEFT);
-        _right = interp.getSymbolTable().internString(Constants.RIGHT);
+        _self = interp.getSymbolTable().internPlainString(Constants.SELF);
+        _classes = interp.getSymbolTable().internPlainString(Constants.CLASSES);
+        _superclasses = interp.getSymbolTable().internPlainString(Constants.SUPERCLASSES);
+        _classname = interp.getSymbolTable().internPlainString(Constants.CLASSNAME);
+        _left = interp.getSymbolTable().internPlainString(Constants.LEFT);
+        _right = interp.getSymbolTable().internPlainString(Constants.RIGHT);
     }
 
-    private void init() {
+    private void init() throws GenyrisException {
         NIL = _parent.getNil();
         _self = _parent.internString(Constants.SELF);
         _classes = _parent.internString(Constants.CLASSES);
@@ -55,12 +55,12 @@ public class StandardEnvironment implements Environment {
         _left = _parent.internString(Constants.LEFT);
         _right = _parent.internString(Constants.RIGHT);
     }
-    public StandardEnvironment(Environment parent) {
+    public StandardEnvironment(Environment parent) throws GenyrisException {
         _parent = parent;
         _frame = new HashMap();
         init();
     }
-    public StandardEnvironment(Environment parent, Map bindings) {
+    public StandardEnvironment(Environment parent, Map bindings) throws GenyrisException {
         _parent = parent;
         _frame = bindings;
         init();
@@ -137,7 +137,15 @@ public class StandardEnvironment implements Environment {
             return _interpreter;
     }
 
-    public Exp internString(String symbolName) {
+    public Exp internPlainString(String symbolName) {
+        if(_interpreter == null) {
+            return _parent.internPlainString(symbolName);
+        }
+        else {
+            return _interpreter.getSymbolTable().internPlainString(symbolName);
+        }
+    }
+    public Exp internString(String symbolName) throws GenyrisException {
         if(_interpreter == null) {
             return _parent.internString(symbolName);
         }

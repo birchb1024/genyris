@@ -8,6 +8,7 @@ package org.genyris.core;
 import java.util.ArrayList;
 import org.genyris.classification.ClassMROComparator;
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
@@ -43,10 +44,18 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
             classList = classList.cdr();
         }
     }
-    public Exp getClasses(Environment env) throws UnboundException {
+    public Exp getClasses(Environment env) {
         Exp NIL = env.getNil();
-        Exp builtinClassSymbol = env.internString(this.getBuiltinClassName());
-        Exp builtinClass = env.lookupVariableValue(builtinClassSymbol);
+        Exp builtinClassSymbol = env.internPlainString(this.getBuiltinClassName());
+        Exp builtinClass;
+        try {
+            builtinClass = env.lookupVariableValue(builtinClassSymbol);
+        }
+        catch (UnboundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return NIL;
+        }
         Exp classes = new Lcons (builtinClass, NIL);
         Object arryOfObjects[] = _classes.toArray();
         for(int i=0; i< arryOfObjects.length; i++) {

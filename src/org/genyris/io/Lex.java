@@ -14,6 +14,7 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.exception.GenyrisException;
 
 public class Lex {
     private Exp NIL;
@@ -30,19 +31,19 @@ public class Lex {
         _input = inputSource;
         _symbolTable = table;
         NIL = table.getNil();
-        quote = table.internString("quote");
-        raw_quote = table.internString("'");
-        raw_backquote = table.internString("`");
-        raw_comma_at = table.internString(",@");
-        raw_comma = table.internString(",");
-        comma_at = table.internString(Constants.COMMA_AT);
-        comma = table.internString(Constants.COMMA);
-        backquote = table.internString(Constants.TEMPLATE);
+        quote = table.internPlainString("quote");
+        raw_quote = table.internPlainString("'");
+        raw_backquote = table.internPlainString("`");
+        raw_comma_at = table.internPlainString(",@");
+        raw_comma = table.internPlainString(",");
+        comma_at = table.internPlainString(Constants.COMMA_AT);
+        comma = table.internPlainString(Constants.COMMA);
+        backquote = table.internPlainString(Constants.TEMPLATE);
         EOF = new Lsymbol(Constants.EOF);
-        leftParen = table.internString("leftParen");
-        rightParen = table.internString("righParen");
+        leftParen = table.internPlainString("leftParen");
+        rightParen = table.internPlainString("righParen");
         _cdrCharacter = cdrChar;
-        cdr_char = table.internString("pair-delimiter");
+        cdr_char = table.internPlainString("pair-delimiter");
     }
     public Lex(InStream inputSource, SymbolTable table, char cdrChar) {
         init(inputSource, table, cdrChar);
@@ -130,7 +131,7 @@ public class Lex {
         }
     }
 
-    public Exp parseIdent() throws LexException {
+    public Exp parseIdent() throws GenyrisException {
         char ch;
         String collect = "";
         if (!_input.hasData()) {
@@ -159,7 +160,7 @@ public class Lex {
         return _symbolTable.internString(collect);
     }
 
-    public Exp nextToken() throws LexException {
+    public Exp nextToken() throws GenyrisException {
         char ch;
         boolean forever = true;
         do {
@@ -307,5 +308,10 @@ public class Lex {
             }
         }
         return new Lstring(collect);
+    }
+    public void addprefix(String prefix, String uri) throws GenyrisException {
+        _symbolTable.addprefix(prefix, uri);
+        System.out.println("Found prefix " + prefix + " -> " + uri);
+        
     }
 }

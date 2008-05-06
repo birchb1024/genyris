@@ -13,6 +13,7 @@ import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
@@ -46,6 +47,6 @@ public interface Formatter extends Visitor {
 
     public abstract void visitClassWrapper(ClassWrapper klass);
 
-    public abstract void printClassNames(Exp item, Interpreter interp)  throws AccessException, IOException, UnboundException ;
+    public abstract void printClassNames(Exp item, Interpreter interp)  throws AccessException, IOException, UnboundException, GenyrisException ;
 
 }

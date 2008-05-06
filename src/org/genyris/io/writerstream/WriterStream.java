@@ -128,7 +128,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
             try {
                 STDOUT = interp.lookupGlobalFromString(Constants.STDOUT);
             }
-            catch (UnboundException e) {
+            catch (GenyrisException e) {
                 STDOUT = null;
             }
         }

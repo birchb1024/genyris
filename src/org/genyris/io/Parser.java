@@ -9,27 +9,34 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
+import org.genyris.core.Lstring;
+import org.genyris.core.Lsymbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
 public class Parser {
     private Lex _lexer;
     private Exp cursym;
     private Exp NIL, GLOBAL_EOF;
+    private Exp _prefix;
 
     public Parser(SymbolTable table, InStream stream) {
         this(table, stream, Constants.CDRCHAR);
     }
+
     public Parser(SymbolTable table, InStream stream, char cdrCharacter) {
         _lexer = new Lex(stream, table, cdrCharacter);
         NIL = table.getNil();
-        GLOBAL_EOF = table.internString("EOF");
+        GLOBAL_EOF = table.internPlainString("EOF");
+        _prefix = table.internPlainString(Constants.PREFIX);
     }
-    public void nextsym() throws LexException {
+
+    public void nextsym() throws GenyrisException {
         cursym = _lexer.nextToken();
     }
 
-    public Exp read() throws GenyrisException {
+    private Exp readAux() throws GenyrisException {
         Exp retval = NIL;
         nextsym();
         if (cursym.equals(_lexer.EOF)) {
@@ -40,29 +47,62 @@ public class Parser {
         return (retval);
     }
 
+    public Exp read() throws GenyrisException {
+        Exp input = readAux();
+        while (processOrder(input)) {
+            input = readAux();
+        }
+        return input;
+    }
+
+    private boolean processOrder(Exp input) throws GenyrisException {
+        // process parser orders
+        try {
+            if (!input.listp()) {
+                return false;
+            }
+            if (input.car() != _prefix) {
+                return false;
+            }
+            Exp arg0 = input.cdr().car();
+            if(input.cdr().cdr() != NIL) { 
+                Lstring arg1 = (Lstring)input.cdr().cdr().car();
+                _lexer.addprefix(((Lsymbol)arg0).getPrintName(), arg1.toString());
+            }
+            else {
+                // Use empty string as prefix
+                _lexer.addprefix("", arg0.toString());                
+            }
+        }
+        catch (AccessException e) {
+            return false;
+        }
+        catch (ClassCastException e) {
+            return false;
+        }
+        return true;
+    }
+
     public Exp parseList() throws GenyrisException {
         Exp tree;
-
         nextsym();
-        if( cursym.equals(_lexer.rightParen ) ) {
-          tree = NIL;
+        if (cursym.equals(_lexer.rightParen)) {
+            tree = NIL;
+        } else if (cursym.equals(_lexer.cdr_char)) {
+            return _lexer.cdr_char;
+        } else {
+            tree = parseExpression();
+            Exp restOfList = parseList();
+            if (restOfList == _lexer.cdr_char) {
+                nextsym();
+                restOfList = parseExpression();
+                nextsym();
+                tree = new LconsWithcolons(tree, restOfList);
+                return tree;
+            }
+            tree = new Lcons(tree, restOfList);
         }
-       else if( cursym.equals(_lexer.cdr_char) ) {
-           return _lexer.cdr_char;
-       }
-       else {
-          tree = parseExpression();
-          Exp restOfList = parseList();
-          if(restOfList == _lexer.cdr_char) {
-              nextsym();
-              restOfList = parseExpression();
-              nextsym();
-              tree = new LconsWithcolons( tree, restOfList);
-              return tree;
-          }
-          tree = new Lcons( tree, restOfList);
-       }
-       return tree ;
+        return tree;
     }
 
     public Exp parseExpression() throws GenyrisException {

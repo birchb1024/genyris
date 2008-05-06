@@ -21,6 +21,7 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
@@ -156,9 +157,9 @@ public class IndentedFormatter extends AbstractFormatter {
     }
 
     public void visitLobject(Lobject frame) {
-        Exp standardClassSymbol = frame.getParent().internString(Constants.STANDARDCLASS);
-        Lobject standardClass;
         try {
+            Exp standardClassSymbol = frame.getParent().internString(Constants.STANDARDCLASS);
+            Lobject standardClass;
             standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
             if (frame.isTaggedWith(standardClass)) {
                 new ClassWrapper(frame).acceptVisitor(this);
@@ -166,6 +167,10 @@ public class IndentedFormatter extends AbstractFormatter {
             }
         }
         catch (UnboundException ignore) {
+        }
+        catch (GenyrisException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
 
         try {

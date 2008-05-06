@@ -7,22 +7,22 @@ package org.genyris.core;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class SymbolTable {
-
-    private Map _table;
-    private Lsymbol NIL;
+    private Map         _table;
+    private Lsymbol     NIL;
     private Interpreter _interp;
     private Environment _globalEnv;
+    private Map         _prefixes;
 
     public SymbolTable(Interpreter interp) {
         _table = new HashMap();
+        _prefixes = new HashMap();
         _interp = interp;
-        if(_interp != null ) {
+        if (_interp != null) {
             _globalEnv = _interp.getGlobalEnv();
         }
     }
@@ -42,7 +42,12 @@ public class SymbolTable {
         ((Lsymbol)_table.get(Constants.VARS)).initFromTable(this);
     }
 
-    public Lsymbol lookupString(String newSym) throws GenyrisException {
+    public Lsymbol lookupString(String news) throws GenyrisException {
+        String newSym = getCannonicalSymbol(news);
+        return lookupPlainString(newSym);
+    }
+
+    public Lsymbol lookupPlainString(String newSym) throws GenyrisException {
         if (_table.containsKey(newSym)) {
             return (Lsymbol)_table.get(newSym);
         } else {
@@ -50,7 +55,12 @@ public class SymbolTable {
         }
     }
 
-    public Lsymbol internString(String newSym) {
+    public Lsymbol internString(String news) throws GenyrisException {
+        String newSym = getCannonicalSymbol(news);
+        return internPlainString(newSym);
+    }
+
+    public Lsymbol internPlainString(String newSym) {
         if (_table.containsKey(newSym)) {
             return (Lsymbol)_table.get(newSym);
         } else {
@@ -79,5 +89,45 @@ public class SymbolTable {
 
     public Exp getNil() {
         return NIL;
+    }
+
+    public void addprefix(String prefix, String uri) throws GenyrisException {
+        if (_prefixes.containsKey(prefix)) {
+            throw new GenyrisException("duplicate prefix in parse: " + prefix);
+        } else {
+            _prefixes.put(prefix, uri);
+        }
+    }
+
+    private static boolean hasPrefix(String symbol) {
+        return symbol.contains(".");
+    }
+
+    private static String getPrefix(String symbol) {
+        return symbol.substring(0, symbol.indexOf("."));
+    }
+
+    private static String getSuffix(String symbol) {
+        return symbol.substring(symbol.indexOf(".") + 1);
+    }
+
+    private String getCannonicalSymbol(String news) throws GenyrisException {
+        String prefix;
+        if (!hasPrefix(news) ) {
+            if(_prefixes.containsKey("")) {
+                return _prefixes.get("") + news;
+            }
+            else {
+                return news;
+            }
+        }
+        else {
+            prefix = getPrefix(news);
+            if (!_prefixes.containsKey(prefix)) {
+                throw new GenyrisException("Unknown prefix: " + prefix);
+            } else {
+                return _prefixes.get(prefix) + getSuffix(news);
+            }
+        }
     }
 }

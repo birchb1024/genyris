@@ -24,7 +24,7 @@ import org.genyris.interp.UnboundException;
 public class ExecMethod extends AbstractMethod {
     
     private Exp ListOfLinesClazz; 
-    public ExecMethod(Interpreter interp, Lsymbol name) throws UnboundException {
+    public ExecMethod(Interpreter interp, Lsymbol name) throws GenyrisException {
         super(interp, name);
         ListOfLinesClazz = interp.lookupGlobalFromString(Constants.LISTOFLINES);
     }
