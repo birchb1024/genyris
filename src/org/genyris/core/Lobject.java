@@ -100,7 +100,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             throw new GenyrisException("cannot define non-symbol: " + exp.toString());
         }
         Lsymbol symbol = (Lsymbol) exp;
-        if(!symbol.isMember()) {
+        if(!symbol.isMember()) { // TODO Members should be a subclass of Symbol.
             throw new GenyrisException("cannot define non-member: " + symbol.getPrintName());
         }
         if (symbol == CLASSES) {

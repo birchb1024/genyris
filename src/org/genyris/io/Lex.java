@@ -311,7 +311,6 @@ public class Lex {
     }
     public void addprefix(String prefix, String uri) throws GenyrisException {
         _symbolTable.addprefix(prefix, uri);
-        System.out.println("Found prefix " + prefix + " -> " + uri);
         
     }
 }

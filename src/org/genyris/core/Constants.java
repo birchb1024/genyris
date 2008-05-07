@@ -5,6 +5,7 @@
 //
 package org.genyris.core;
 
+
 public class Constants {
 
     // Lexical marks
@@ -71,6 +72,7 @@ public class Constants {
         public static final String STDIN = "stdin";
         public static final String SOUND = "Sound";
         public static final String PREFIX = "@prefix";
+        public static final String RESOURCE = DYNAMICSCOPECHAR + "resource";
 
 
 }

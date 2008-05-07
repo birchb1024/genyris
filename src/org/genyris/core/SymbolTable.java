@@ -10,10 +10,12 @@ import java.util.Map;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.StandardEnvironment;
 
 public class SymbolTable {
     private Map         _table;
     private Lsymbol     NIL;
+    private Lsymbol     _resource;
     private Interpreter _interp;
     private Environment _globalEnv;
     private Map         _prefixes;
@@ -35,11 +37,13 @@ public class SymbolTable {
         _table.put(Constants.SUPERCLASSES, new Lsymbol(Constants.SUPERCLASSES));
         _table.put(Constants.CLASSNAME, new Lsymbol(Constants.CLASSNAME));
         _table.put(Constants.VARS, new Lsymbol(Constants.VARS));
+        _resource = new Lsymbol(Constants.RESOURCE);
+        _table.put(Constants.RESOURCE, _resource);
         ((Lsymbol)_table.get(Constants.SELF)).initFromTable(this);
         ((Lsymbol)_table.get(Constants.CLASSES)).initFromTable(this);
         ((Lsymbol)_table.get(Constants.SUPERCLASSES)).initFromTable(this);
         ((Lsymbol)_table.get(Constants.CLASSNAME)).initFromTable(this);
-        ((Lsymbol)_table.get(Constants.VARS)).initFromTable(this);
+        ((Lsymbol)_table.get(Constants.RESOURCE)).initFromTable(this);
     }
 
     public Lsymbol lookupString(String news) throws GenyrisException {
@@ -74,6 +78,16 @@ public class SymbolTable {
                 e.printStackTrace();
                 System.exit(-1);
             }
+            Lsymbol canonicalSymbol = sym; 
+            if(newSym.startsWith("_")) {
+                canonicalSymbol = internPlainString(newSym.substring(1));
+            }
+            try {
+                sym.defineVariable(_resource, canonicalSymbol);
+            }
+            catch (GenyrisException e) {
+                throw new RuntimeException("Internal error - internPlainString unable to define _resource in a symbol.");
+            }
             _table.put(newSym, sym);
             return sym;
         }
@@ -92,6 +106,9 @@ public class SymbolTable {
     }
 
     public void addprefix(String prefix, String uri) throws GenyrisException {
+        if(prefix.startsWith("_")) {
+            throw new GenyrisException("cannot start a prefix with underscore in parse: " + prefix);            
+        }
         if (_prefixes.containsKey(prefix)) {
             throw new GenyrisException("duplicate prefix in parse: " + prefix);
         } else {
@@ -113,21 +130,26 @@ public class SymbolTable {
 
     private String getCannonicalSymbol(String news) throws GenyrisException {
         String prefix;
-        if (!hasPrefix(news) ) {
-            if(_prefixes.containsKey("")) {
-                return _prefixes.get("") + news;
-            }
-            else {
-                return news;
-            }
+        String underscore = "";
+        if(news.startsWith("_")) { // TODO need a Constant for "_"
+            underscore = "_";
+            news = news.substring(1);
+        }
+        if(news.equals(".") || !hasPrefix(news) ) {
+            return underscore + news;
         }
         else {
             prefix = getPrefix(news);
             if (!_prefixes.containsKey(prefix)) {
                 throw new GenyrisException("Unknown prefix: " + prefix);
             } else {
-                return _prefixes.get(prefix) + getSuffix(news);
+                return underscore + _prefixes.get(prefix) + getSuffix(news);
             }
         }
+    }
+
+    public void initEnvironment(Environment environment) {
+        this._globalEnv = environment;
+        
     }
 }
