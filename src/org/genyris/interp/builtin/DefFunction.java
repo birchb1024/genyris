@@ -28,7 +28,7 @@ public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindO
         // TODO check argument types.
         Exp lambdaExpression = new Lcons(_lambda, arrayToList(arguments).cdr());
         // TODO inefficient
-        EagerProcedure fn = new EagerProcedure(envForBindOperations, lambdaExpression, new ClassicFunction((Lsymbol)arguments[0], _interp));
+        EagerProcedure fn = new EagerProcedure(envForBindOperations, lambdaExpression, new ClassicFunction(arguments[0], _interp));
         envForBindOperations.defineVariable(arguments[0], fn);
         return fn;
     }

@@ -121,7 +121,7 @@ public class Lex {
             case '\r':
             case '(':
             case ')':
-            case Constants.DYNAMICSCOPECHAR:
+            case Constants.DYNAMICSCOPECHAR2:
             case Constants.COMMENTCHAR:
             case Constants.BQUOTECHAR:
             case Constants.QUOTECHAR:
@@ -138,14 +138,14 @@ public class Lex {
         if (!_input.hasData()) {
             throw new LexException("unexpected end of file");
         }
-        ch = _input.readNext();
-        if(ch == Constants.DYNAMICSCOPECHAR) {
-            // peek at the first characte and allow one _ underscore.
-            collect += ch;
-        }
-        else {
-            _input.unGet(ch);
-        }
+//        ch = _input.readNext();
+//        if(ch == Constants.DYNAMICSCOPECHAR) {
+//            // peek at the first characte and allow one _ underscore.
+//            collect += ch;
+//        }
+//        else {
+//            _input.unGet(ch);
+//        }
         while (_input.hasData()) {
             ch = _input.readNext();
             if (isIdentCharacter(ch)) {
@@ -314,6 +314,6 @@ public class Lex {
     }
     public void addprefix(String prefix, String uri) throws GenyrisException {
         _symbolTable.addprefix(prefix, uri);
-        
+
     }
 }

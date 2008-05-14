@@ -105,7 +105,7 @@ public class Interpreter {
         _defaultOutput = new OutputStreamWriter(System.out);
         {
             // Circular references between symbols and classnames require manual bootstrap here:
-            SYMBOL.defineVariable(_table.internString(Constants.CLASSNAME),
+            SYMBOL.defineVariableRaw(_table.internString(Constants.CLASSNAME),
                     _table.internString(Constants.SYMBOL));
         }
         _globalEnvironment.defineVariable(NIL, NIL);
@@ -172,20 +172,20 @@ public class Interpreter {
         bindMethod("String", Constants.SPLIT, SplitMethod.class);
         bindMethod("String", Constants.CONCAT, ConcatMethod.class);
         bindMethod("String", Constants.MATCH, MatchMethod.class);
-        bindMethod("File", "_static-open", Gfile.FileOpenMethod.class);
-        bindMethod(Constants.WRITER, "_format", FormatMethod.class);
-        bindMethod(Constants.WRITER, "_close", CloseMethod.class);
-        bindMethod(Constants.WRITER, "_flush", FlushMethod.class);
-        bindMethod(Constants.READER, "_hasData", ReaderStream.HasDataMethod.class);
-        bindMethod(Constants.READER, "_read", ReaderStream.ReadMethod.class);
-        bindMethod(Constants.READER, "_close", ReaderStream.CloseMethod.class);
-        bindMethod(Constants.PARENPARSER, "_new", StreamParser.NewMethod.class);
-        bindMethod(Constants.PARENPARSER, "_read", StreamParser.ReadMethod.class);
-        bindMethod(Constants.PARENPARSER, "_close", StreamParser.CloseMethod.class);
-        bindMethod("StringFormatStream", "_new", StringFormatStream.NewMethod.class);
-        bindMethod("System", "_exec", ExecMethod.class);
-        bindMethod("Sound", "_play", PlayMethod.class);
-        
+        bindMethod("File", "static-open", Gfile.FileOpenMethod.class);
+        bindMethod(Constants.WRITER, "format", FormatMethod.class);
+        bindMethod(Constants.WRITER, "close", CloseMethod.class);
+        bindMethod(Constants.WRITER, "flush", FlushMethod.class);
+        bindMethod(Constants.READER, "hasData", ReaderStream.HasDataMethod.class);
+        bindMethod(Constants.READER, "read", ReaderStream.ReadMethod.class);
+        bindMethod(Constants.READER, "close", ReaderStream.CloseMethod.class);
+        bindMethod(Constants.PARENPARSER, "new", StreamParser.NewMethod.class);
+        bindMethod(Constants.PARENPARSER, "read", StreamParser.ReadMethod.class);
+        bindMethod(Constants.PARENPARSER, "close", StreamParser.CloseMethod.class);
+        bindMethod("StringFormatStream", "new", StringFormatStream.NewMethod.class);
+        bindMethod("System", "exec", ExecMethod.class);
+        bindMethod("Sound", "play", PlayMethod.class);
+
 
     }
 
@@ -241,8 +241,38 @@ public class Interpreter {
     private void bindMethod(String className, String methodName, Class class1)
             throws UnboundException, GenyrisException {
         Lobject stringClass = (Lobject)_globalEnvironment.lookupVariableValue(_table.internString(className));
-        // stringClass.defineVariable(, new EagerProcedure(stringClass, null, method));
-        bindProcedure((Environment)stringClass, true, methodName, class1);
+        //
+        // Method uses reflection to locate and call the constructor.
+        //
+        Lsymbol nameSymbol = _table.internString(methodName);
+        Class[] paramTypes = new Class[]{Interpreter.class, Lsymbol.class};
+        try {
+            Constructor ctor = class1.getConstructor(paramTypes);
+            Object[] args = new Object[]{this, nameSymbol};
+            Object proc = ctor.newInstance(args);
+            stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(stringClass,
+                        null,
+                        (ApplicableFunction)proc));
+
+        } // TODO DRY
+        catch (InvocationTargetException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        catch (SecurityException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        catch (NoSuchMethodException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        catch (InstantiationException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public Exp init(boolean verbose) throws GenyrisException {

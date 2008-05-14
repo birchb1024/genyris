@@ -137,13 +137,13 @@ public class ClassWrapper {
         Exp standardClass = env.lookupVariableValue(standardClassSymbol);
         Lobject newClass = new Lobject(env);
         newClass.addClass(standardClass);
-        newClass.defineVariable(env.internString(Constants.CLASSNAME), klassname);
-        newClass.defineVariable(env.internString(Constants.CLASSES), new Lcons(standardClass, NIL));
-        newClass.defineVariable(env.internString(Constants.SUBCLASSES), NIL);
+        newClass.defineVariableRaw(env.internString(Constants.CLASSNAME), klassname);
+        newClass.defineVariableRaw(env.internString(Constants.CLASSES), new Lcons(standardClass, NIL));
+        newClass.defineVariableRaw(env.internString(Constants.SUBCLASSES), NIL);
         if (superklasses == NIL)
             superklasses = new Lcons(env.internString(Constants.THING), NIL);
         {
-            newClass.defineVariable(env.internString(Constants.SUPERCLASSES), lookupClasses(env,
+            newClass.defineVariableRaw(env.internString(Constants.SUPERCLASSES), lookupClasses(env,
                     superklasses));
             Exp sklist = superklasses;
             while (sklist != NIL) {

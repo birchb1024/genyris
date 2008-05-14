@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import java.util.Map;
 import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
 import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 
@@ -23,7 +24,7 @@ public class SpecialEnvironment extends StandardEnvironment {
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
         if(symbol.listp()) {
             if(symbol.car() == _dynamic) {
-                _object.defineVariable(symbol.cdr().car(), valu);
+                _object.defineVariable(symbol, valu);
                 return;
             }
         }
@@ -33,19 +34,20 @@ public class SpecialEnvironment extends StandardEnvironment {
         Lsymbol sym = (Lsymbol) symbol;
         if (sym == _self) {
             throw new GenyrisException("cannot re-define _self.");
-        }
-        else if (sym.isMember()) {
-            _object.defineVariable(symbol, valu);
-        }
-        else {
+        } else {
             super.defineVariable(symbol, valu);
         }
     }
 
     public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-        Lsymbol sym = (Lsymbol) symbol;
-        if (sym == _self || sym.isMember()) {
-            return _object.lookupVariableValue(symbol);
+        if(symbol.listp()) {
+            Lcons tmp = (Lcons)symbol;
+            if(tmp.car() == _dynamic) {
+                tmp = (Lcons)tmp.cdr(); // TODO unsafe downcast
+                return _object.lookupVariableValue(tmp.car());
+            } else {
+                throw new UnboundException("cannot set to a bad place" + symbol.toString());
+            }
         }
         else {
             return super.lookupVariableValue(symbol);
@@ -53,11 +55,22 @@ public class SpecialEnvironment extends StandardEnvironment {
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
+        boolean isMember = false;
+        if(symbol.listp()) {
+            Lcons tmp = (Lcons)symbol;
+            if(tmp.car() == _dynamic) {
+                tmp = (Lcons)tmp.cdr(); // TODO unsafe downcast
+                symbol = tmp.car();
+                isMember = true;
+            } else {
+                throw new UnboundException("cannot set to a bad place" + symbol.toString());
+            }
+        }
         Lsymbol sym = (Lsymbol) symbol;
         if (sym == _self) {
             throw new UnboundException("cannot re-define _self.");
         }
-        else if (sym.isMember()) {
+        else if (isMember) {
             _object.setVariableValue(symbol, valu);
         }
         else {
@@ -73,7 +86,10 @@ public class SpecialEnvironment extends StandardEnvironment {
         return this;
     }
     public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
-        return _object.lookupVariableValue(symbol);
+        return _object.lookupDynamicVariableValue(symbol);
+    }
+    public Exp getSelf() throws UnboundException {
+        return _object.getSelf();
     }
 
 }

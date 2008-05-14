@@ -25,6 +25,6 @@ public class DynamicSymbolValueFunction extends ApplicableFunction {
         if (!(arguments[0] instanceof Lsymbol)) {
             throw new GenyrisException("symbol-value expects a symbol.");
         }
-        return envForBindOperations.lookupDynamicVariableValue((Lsymbol)arguments[0]);
+        return envForBindOperations.lookupDynamicVariableValue(arguments[0]);
     }
 }

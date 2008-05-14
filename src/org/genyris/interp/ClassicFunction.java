@@ -23,7 +23,7 @@ public class ClassicFunction extends ApplicableFunction {
         this(interp.NIL, interp);
     }
 
-    public ClassicFunction(Lsymbol name, Interpreter interp) {
+    public ClassicFunction(Exp name, Interpreter interp) {
         super(interp, name);
         REST = interp.getSymbolTable().internPlainString(Constants.REST);
     }
@@ -68,11 +68,6 @@ public class ClassicFunction extends ApplicableFunction {
                     throw new GenyrisException("function argument not a symbol: "
                             + formal.toString());
                 } else {
-                    Lsymbol sym = (Lsymbol)formal;
-                    if (sym.isMember()) {
-                        throw new GenyrisException("cannot define member in function arguments: "
-                                + sym.toString());
-                    }
                     bindings.put(formal, arguments[i]);
                 }
             }

@@ -8,30 +8,32 @@ package org.genyris.interp;
 import java.util.HashMap;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
 import org.genyris.core.Lsymbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
-public class MagicEnvironment  extends StandardEnvironment {
+public class MagicEnvironment extends StandardEnvironment {
     // This environment encompasses an expression (Exp) which provides
     // the first place to look for slots.
     // TODO - rename this class, perhaps.
     private Exp _it;
+
     public MagicEnvironment(Environment runtime, Exp theObject) throws GenyrisException {
         super(runtime, new HashMap());
         _it = theObject;
     }
 
     public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
-        if(symbol == _classes) {
+        if (symbol == _classes) {
             return _it.getClasses(_parent);
         }
-        else if(symbol == _self) {
+        else if (symbol == _self) {
             return _it;
         }
         // TODO - DRY
         // TODO - move these into the Lcons class as an Environment
-        else if(symbol == _left ) {
+        else if (symbol == _left) {
             try {
                 return _it.car();
             }
@@ -39,7 +41,7 @@ public class MagicEnvironment  extends StandardEnvironment {
                 throw new UnboundException(e.getMessage());
             }
         }
-        else if(symbol == _right ) {
+        else if (symbol == _right) {
             try {
                 return _it.cdr();
             }
@@ -56,14 +58,16 @@ public class MagicEnvironment  extends StandardEnvironment {
 
     private Exp lookupInClasses(Exp symbol) throws UnboundException {
         Exp classes = _it.getClasses(_parent);
-        while( classes != NIL) {
+        while (classes != NIL) {
             try {
-                Environment klass = (Environment)(classes.car());
+                Environment klass = (Environment) (classes.car());
                 try {
-                    return (Exp)klass.lookupInThisClassAndSuperClasses(symbol);
-                } catch (UnboundException e) {
+                    return (Exp) klass.lookupInThisClassAndSuperClasses(symbol);
+                }
+                catch (UnboundException e) {
                     ;
-                } finally {
+                }
+                finally {
                     classes = classes.cdr();
                 }
             }
@@ -75,67 +79,73 @@ public class MagicEnvironment  extends StandardEnvironment {
     }
 
     public Exp lookupVariableValue(Exp exp) throws UnboundException {
+        Exp sym = exp;
+        boolean isMember = false;
+        if (exp.listp()) {
+            Lcons tmp = (Lcons) exp;
+            if (tmp.car() == _dynamic) {
+                tmp = (Lcons) tmp.cdr(); // TODO unsafe downcast
+                sym = tmp.car();
+                isMember = true;
+            }
+            else {
+                throw new UnboundException("cannot set to a bad place" + exp.toString());
+            }
+        }
         Lsymbol symbol = (Lsymbol) exp;
-        if(symbol == _classes) {
-            return _it.getClasses(_parent);
-        }
-        else if(symbol == _left ) {
-            try {
-                return _it.car();
-            }
-            catch (AccessException e) {
-                throw new UnboundException(e.getMessage());
-            }
-        }
-        else if(symbol == _right ) {
-            try {
-                return _it.cdr();
-            }
-            catch (AccessException e) {
-                throw new UnboundException(e.getMessage());
-            }
-        }
-        else if(symbol == _self ) {
-            return _it;
-        }
-        else if(symbol.isMember()) {
-            return lookupInClasses(symbol);
+        if (isMember) {
+            return lookupDynamicVariableValue(sym);
         }
         else
             return super.lookupVariableValue(symbol);
     }
 
-    public void defineVariable(Exp symbol, Exp valu)  throws GenyrisException
-    {
-        if(symbol.listp()) {
-            if(symbol.car() == _dynamic) {
-                throw new GenyrisException("cannot define member slot: " + symbol.toString());
+    public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
+        Exp sym = symbol;
+        boolean isMember = false;
+        if (symbol.listp()) {
+            Lcons tmp = (Lcons) symbol;
+            if (tmp.car() == _dynamic) {
+                tmp = (Lcons) tmp.cdr(); // TODO unsafe downcast
+                sym = tmp.car();
+                isMember = true;
+            }
+            else {
+                throw new UnboundException("cannot set to a bad place" + symbol.toString());
             }
         }
-        if(! (symbol instanceof Lsymbol) ) {
+        if (!(sym instanceof Lsymbol)) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
 
-        Lsymbol sym = (Lsymbol) symbol;
-        if(symbol == _classes) {
+        if (isMember && sym == _classes) {
             _it.setClasses(valu, NIL);
             return;
         }
-        else if(symbol == _self ) {
+        else if (isMember && sym == _self) {
             throw new GenyrisException("cannot re-define self.");
         }
-        else if( sym.isMember()) {
-            throw new GenyrisException("cannot define member slot: " + symbol.toString());
-        } else {
+        else {
             super.defineVariable(symbol, valu);
         }
     }
 
-
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        Lsymbol sym = (Lsymbol) symbol;
-        if( sym.isMember()) {
-            if(symbol == _classes) {
+        boolean isMember = false;
+        Exp sym = symbol;
+        if (symbol.listp()) {
+            Lcons tmp = (Lcons) symbol;
+            if (tmp.car() == _dynamic) {
+                tmp = (Lcons) tmp.cdr(); // TODO unsafe downcast
+                sym = tmp.car();
+                isMember = true;
+            }
+            else {
+                throw new UnboundException("cannot set to a bad place" + symbol.toString());
+            }
+        }
+        if (isMember) {
+            if (sym == _classes) {
                 try {
                     _it.setClasses(valu, NIL);
                 }
@@ -146,7 +156,7 @@ public class MagicEnvironment  extends StandardEnvironment {
             }
             // TODO - DRY
             // TODO - Move into Lcons in an Environment
-            else if(symbol == _left ) {
+            else if (sym == _left) {
                 try {
                     _it.setCar(valu);
                 }
@@ -154,7 +164,7 @@ public class MagicEnvironment  extends StandardEnvironment {
                     throw new UnboundException(e.getMessage());
                 }
             }
-            else if(symbol == _right ) {
+            else if (sym == _right) {
                 try {
                     _it.setCdr(valu);
                 }
@@ -162,12 +172,43 @@ public class MagicEnvironment  extends StandardEnvironment {
                     throw new UnboundException(e.getMessage());
                 }
             }
-        } else {
+        }
+        else {
             super.setVariableValue(symbol, valu);
         }
     }
-    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
-        return lookupVariableValue(symbol);
+
+    public Exp lookupDynamicVariableValue(Exp sym) throws UnboundException {
+
+        if (sym == _classes) {
+            return _it.getClasses(_parent);
+        }
+        else if (sym == _left) {
+            try {
+                return _it.car();
+            }
+            catch (AccessException e) {
+                throw new UnboundException(e.getMessage());
+            }
+        }
+        else if (sym == _right) {
+            try {
+                return _it.cdr();
+            }
+            catch (AccessException e) {
+                throw new UnboundException(e.getMessage());
+            }
+        }
+        else if (sym == _self) {
+            return _it;
+        }
+        else {
+            return lookupInClasses(sym);
+        }
+
+    }
+    public Exp getSelf() throws UnboundException {
+        return _it;
     }
 
 }

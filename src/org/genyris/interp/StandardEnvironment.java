@@ -92,6 +92,9 @@ public class StandardEnvironment implements Environment {
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
+        if(! (symbol instanceof Lsymbol) ) {
+            throw new UnboundException("cannot set non-symbol: " + symbol.toString());
+        }
         if( _frame.containsKey(symbol) ) {
             _frame.put(symbol, valu);
         }
@@ -106,10 +109,6 @@ public class StandardEnvironment implements Environment {
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
         if(! (symbol instanceof Lsymbol) ) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
-        }
-        Lsymbol sym = (Lsymbol)symbol;
-        if(sym.isMember()) {
-            throw new GenyrisException("cannot define member in standard environments: " + symbol.toString());
         }
         _frame.put(symbol, valu);
     }
@@ -158,6 +157,10 @@ public class StandardEnvironment implements Environment {
 
     public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
         throw new UnboundException("no dynamic variables in standard environments: " + symbol.toString());
+    }
+
+    public Exp getSelf() throws UnboundException {
+        throw new UnboundException("no dynamic variable self in standard environments.");
     }
 
 }

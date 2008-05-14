@@ -15,9 +15,9 @@ public abstract class ApplicableFunction {
     protected Interpreter _interp;
     protected Lsymbol     NIL, TRUE;
     protected Exp         _lambda, _lambdam, _lambdaq;
-    protected Lsymbol     _name;
+    protected Exp     _name;
 
-    public ApplicableFunction(Interpreter interp, Lsymbol name) {
+    public ApplicableFunction(Interpreter interp, Exp name) {
         _interp = interp;
         NIL = _interp.getNil();
         TRUE = _interp.getTrue();

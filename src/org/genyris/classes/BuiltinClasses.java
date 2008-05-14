@@ -18,8 +18,8 @@ public class BuiltinClasses {
     private static Lobject mkClass(Lsymbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
         Exp symbolicName = env.internString(name);
         Lobject newClass = new Lobject(classname, symbolicName, env );
-        newClass.defineVariable(env.internString(Constants.SUBCLASSES), env.getNil());
-        newClass.defineVariable(env.internString(Constants.SUPERCLASSES), env.getNil());
+        newClass.defineVariableRaw(env.internString(Constants.SUBCLASSES), env.getNil());
+        newClass.defineVariableRaw(env.internString(Constants.SUPERCLASSES), env.getNil());
         newClass.addClass(STANDARDCLASS);
         if(superClass != null)
             new ClassWrapper(newClass).addSuperClass(superClass);

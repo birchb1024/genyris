@@ -36,13 +36,13 @@ public class ObjectOrientationTests extends TestCase {
     }
 
     public void testExcerciseEval() throws GenyrisException {
-        eval("(defvar 'global 999)");
-        checkEval("global", "999");
+        eval("(defvar '$global 999)");
+        checkEval("$global", "999");
 
         eval("(defvar 'Standard-Class (dict (_classname : 'Standard-Class)))");
-        checkEval("Standard-Class", "(dict (_classname : Standard-Class))");
+        checkEval("Standard-Class", "(dict (classname : Standard-Class))");
         checkEval("(defvar 'Account (dict (_classes : (list Standard-Class)) (_print : (lambda () (cons $global _balance))) ))",
-                "(dict (_print : <EagerProc: <org.genyris.interp.ClassicFunction>>))");
+                "(dict (print : <EagerProc: <org.genyris.interp.ClassicFunction>>))");
 
         checkEval("(Account " +
             "(defvar '_new " +
@@ -53,7 +53,7 @@ public class ObjectOrientationTests extends TestCase {
                     "<EagerProc: <org.genyris.interp.ClassicFunction>>" );
 
         checkEval("(defvar 'bb  (Account (_new 1000)))"
-                ,"(dict (_balance : 1000))");
+                ,"(dict (balance : 1000))");
 
         checkEval("(bb(_print))", "(999 : 1000)");
 
@@ -69,7 +69,7 @@ public class ObjectOrientationTests extends TestCase {
             "(dict " +
                 "(_classes: (cons Standard-Class nil)) " +
                 "(_toString: \"Base-1 toString\"))) "
-                , "(dict (_toString : \"Base-1 toString\"))" );
+                , "(dict (toString : \"Base-1 toString\"))" );
 
         checkEval("(Base-1 _toString)", "\"Base-1 toString\"");
 
@@ -77,7 +77,7 @@ public class ObjectOrientationTests extends TestCase {
             "(dict " +
                 "(_classes : (cons Standard-Class nil)) " +
                 "(_log : \"Base-2 log\"))) ",
-                "(dict (_log : \"Base-2 log\"))");
+                "(dict (log : \"Base-2 log\"))");
 
         checkEval("(Base-2 _log)", "\"Base-2 log\"");
 

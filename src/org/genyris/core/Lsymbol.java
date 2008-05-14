@@ -47,10 +47,6 @@ public class Lsymbol extends Lobject implements Comparable {
         guest.visitLsymbol(this);
     }
 
-    public boolean isMember() {
-        return getPrintName().charAt(0) == Constants.DYNAMICSCOPECHAR;
-    }
-
     public String toString() {
         return getPrintName();
     }
@@ -58,17 +54,17 @@ public class Lsymbol extends Lobject implements Comparable {
         return Constants.SYMBOL;
     }
 
-	public int compareTo(Object arg0) {
-		if(arg0 instanceof Lsymbol) { 
-			return ((Lsymbol) arg0)._printName.compareTo(this._printName);
-//			return this._printName.compareTo(((Lsymbol) arg0)._printName);
-		} else {
-			throw new ClassCastException("Lsymbol compareTo on " + arg0);
-		}
-	}
+    public int compareTo(Object arg0) {
+        if(arg0 instanceof Lsymbol) {
+            return ((Lsymbol) arg0)._printName.compareTo(this._printName);
+//            return this._printName.compareTo(((Lsymbol) arg0)._printName);
+        } else {
+            throw new ClassCastException("Lsymbol compareTo on " + arg0);
+        }
+    }
 
     public void setParent(Environment env) {
-        _parent = env;    
+        _parent = env;
     }
 
 }

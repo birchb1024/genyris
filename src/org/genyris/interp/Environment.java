@@ -14,8 +14,6 @@ public interface Environment {
     // TODO reconsider exception - maybe return "unbound" symbol?
     public Exp lookupVariableValue(Exp symbol) throws UnboundException;
 
-    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException;
-
     public Exp lookupVariableShallow(Exp symbol) throws UnboundException;
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException;
@@ -33,5 +31,9 @@ public interface Environment {
     public Exp internString(String symbolName) throws GenyrisException;
 
     public Exp internPlainString(String dict);
+
+    public Exp lookupDynamicVariableValue(Exp exp) throws UnboundException;
+
+    public Exp getSelf() throws UnboundException;
 
 }

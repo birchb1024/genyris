@@ -15,7 +15,6 @@ dict
 
 'dc.Title _vars
 'dc.Title _rdf.Type
-'dc.Title _resource
 
 def rdf.makeDocument(rdf.Title rdf.Publisher) 23
 
@@ -30,7 +29,7 @@ tag my.Person "Pat"
 @prefix ex2 "http://www.w3.org/TR/rdf-syntax-grammar"
 quote
  ex2.
-  dc.title "RDF/XML Syntax Specification (Revised)" 
-  ex.editor 
+  dc.title "RDF/XML Syntax Specification (Revised)"
+  ex.editor
     ex.fullname "Dave Beckett"
     ex.homePage "http://purl.org/net/dajobe/"

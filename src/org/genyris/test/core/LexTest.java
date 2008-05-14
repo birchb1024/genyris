@@ -28,7 +28,7 @@ import org.genyris.io.UngettableInStream;
 public class LexTest extends TestCase {
 
     public SymbolTable _table = new SymbolTable(null);
-    
+
     public void setUp() {
         try {
             _table.init(null);
@@ -88,7 +88,7 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new Lsymbol("foo*bar"), "foo\\*bar");
         excerciseNextTokenExp(new Lsymbol("quux"), "\n\nquux");
         excerciseNextTokenExp(new Lsymbol("|123|"), "  \t|123|");
-        excerciseNextTokenExp(new Lsymbol("_x"), "  \t _x");
+        excerciseNextTokenExp(new Lsymbol("dynamic-symbol-value"), "  \t _x");
 
     }
     public void testLexIdentMinus() throws Exception {
