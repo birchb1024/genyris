@@ -33,6 +33,7 @@ import org.genyris.interp.builtin.DefFunction;
 import org.genyris.interp.builtin.DefMacroFunction;
 import org.genyris.interp.builtin.DefineClassFunction;
 import org.genyris.interp.builtin.DefineFunction;
+import org.genyris.interp.builtin.DynamicSymbolValueFunction;
 import org.genyris.interp.builtin.EqFunction;
 import org.genyris.interp.builtin.EqualsFunction;
 import org.genyris.interp.builtin.EvalFunction;
@@ -141,6 +142,7 @@ public class Interpreter {
         bindEagerProcedure("eval", EvalFunction.class);
         bindEagerProcedure("apply", ApplyFunction.class);
         bindEagerProcedure("symbol-value", SymbolValueFunction.class);
+        bindLazyProcedure("dynamic-symbol-value", DynamicSymbolValueFunction.class);
         bindEagerProcedure("the", IdentityFunction.class);
         bindEagerProcedure("list", ListFunction.class);
         bindEagerProcedure("reverse", ReverseFunction.class);

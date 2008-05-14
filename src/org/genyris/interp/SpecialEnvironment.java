@@ -21,7 +21,13 @@ public class SpecialEnvironment extends StandardEnvironment {
     }
 
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if (!(symbol instanceof Lsymbol)) {
+        if(symbol.listp()) {
+            if(symbol.car() == _dynamic) {
+                _object.defineVariable(symbol.cdr().car(), valu);
+                return;
+            }
+        }
+        else if (!(symbol instanceof Lsymbol)) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
         Lsymbol sym = (Lsymbol) symbol;
@@ -65,6 +71,9 @@ public class SpecialEnvironment extends StandardEnvironment {
 
     public Object getJavaValue() {
         return this;
+    }
+    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
+        return _object.lookupVariableValue(symbol);
     }
 
 }

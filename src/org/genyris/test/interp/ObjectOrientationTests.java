@@ -36,8 +36,8 @@ public class ObjectOrientationTests extends TestCase {
     }
 
     public void testExcerciseEval() throws GenyrisException {
-        eval("(defvar '$global 999)");
-        checkEval("$global", "999");
+        eval("(defvar 'global 999)");
+        checkEval("global", "999");
 
         eval("(defvar 'Standard-Class (dict (_classname : 'Standard-Class)))");
         checkEval("Standard-Class", "(dict (_classname : Standard-Class))");

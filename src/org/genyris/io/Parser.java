@@ -133,6 +133,9 @@ public class Parser {
         } else if (cursym == _lexer.raw_comma_at) {
             nextsym();
             tree = new Lcons(_lexer.comma_at, new Lcons(parseExpression(), NIL));
+        } else if (cursym == _lexer.raw_dynamic) {
+            nextsym();
+            tree = new Lcons(_lexer.raw_dynamic, new Lcons(parseExpression(), NIL));
         } else {
             tree = cursym;
         }

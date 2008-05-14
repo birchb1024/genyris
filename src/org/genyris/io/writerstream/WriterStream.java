@@ -22,7 +22,6 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.UnboundException;
 
 public class WriterStream extends ExpWithEmbeddedClasses {
     private Writer _value;

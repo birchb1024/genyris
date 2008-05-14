@@ -7,7 +7,6 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
-
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
@@ -20,7 +19,6 @@ import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Visitor;
-import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
@@ -28,7 +26,6 @@ import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.StandardEnvironment;
-import org.genyris.interp.UnboundException;
 
 public abstract class AbstractFormatter implements Visitor, Formatter {
 

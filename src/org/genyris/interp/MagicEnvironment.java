@@ -107,6 +107,11 @@ public class MagicEnvironment  extends StandardEnvironment {
 
     public void defineVariable(Exp symbol, Exp valu)  throws GenyrisException
     {
+        if(symbol.listp()) {
+            if(symbol.car() == _dynamic) {
+                throw new GenyrisException("cannot define member slot: " + symbol.toString());
+            }
+        }
         if(! (symbol instanceof Lsymbol) ) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
@@ -160,6 +165,9 @@ public class MagicEnvironment  extends StandardEnvironment {
         } else {
             super.setVariableValue(symbol, valu);
         }
+    }
+    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
+        return lookupVariableValue(symbol);
     }
 
 }

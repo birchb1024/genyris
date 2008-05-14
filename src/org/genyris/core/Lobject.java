@@ -26,7 +26,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     protected Environment _parent;
 
-    Exp _self, CLASSES, SUPERCLASSES, CLASSNAME, VARS;
+    Exp _self, CLASSES, SUPERCLASSES, CLASSNAME, VARS, _dynamic;
 
     public Lobject() {
         _dict = new TreeMap();
@@ -53,6 +53,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         CLASSNAME = table.lookupPlainString(Constants.CLASSNAME);
         VARS = table.lookupPlainString(Constants.VARS);
         NIL = table.lookupPlainString(Constants.NIL);
+        _dynamic = table.lookupPlainString(Constants.DYNAMIC_SYMBOL);
     }
     protected void init(Environment env) {
         _self = env.internPlainString(Constants.SELF);
@@ -60,6 +61,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         SUPERCLASSES = env.internPlainString(Constants.SUPERCLASSES);
         CLASSNAME = env.internPlainString(Constants.CLASSNAME);
         VARS = env.internPlainString(Constants.VARS);
+        _dynamic = env.internPlainString(Constants.DYNAMIC_SYMBOL);
         NIL = env.getNil();
     }
 
@@ -96,13 +98,19 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     }
 
     public void defineVariable(Exp exp, Exp valu) throws GenyrisException {
-        if (!(exp instanceof Lsymbol)) {
+        if(exp.listp()) {
+            if(exp.car() == _dynamic) {
+                defineVariable(exp.cdr().car(), valu);
+                return;
+            }
+        }
+        else if (!(exp instanceof Lsymbol)) {
             throw new GenyrisException("cannot define non-symbol: " + exp.toString());
         }
         Lsymbol symbol = (Lsymbol) exp;
-        if(!symbol.isMember()) { // TODO Members should be a subclass of Symbol.
-            throw new GenyrisException("cannot define non-member: " + symbol.getPrintName());
-        }
+//        if(!symbol.isMember()) { // TODO Members should be a subclass of Symbol.
+//            throw new GenyrisException("cannot define non-member: " + symbol.getPrintName());
+//        }
         if (symbol == CLASSES) {
             setClasses(valu, NIL);
             return;
@@ -279,6 +287,10 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     public Exp internPlainString(String dict) {
         return _parent.internPlainString(dict);
+    }
+
+    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
+        return lookupDynamicVariableValue(symbol);
     }
 
 }

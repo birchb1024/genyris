@@ -21,7 +21,7 @@ public class StandardEnvironment implements Environment {
     Environment _parent;
     protected Lsymbol NIL;
     protected Exp _self, _classes, _superclasses, _classname;
-    protected Exp _left, _right;
+    protected Exp _left, _right, _dynamic;
     private Interpreter _interpreter;
 
 
@@ -44,6 +44,7 @@ public class StandardEnvironment implements Environment {
         _classname = interp.getSymbolTable().internPlainString(Constants.CLASSNAME);
         _left = interp.getSymbolTable().internPlainString(Constants.LEFT);
         _right = interp.getSymbolTable().internPlainString(Constants.RIGHT);
+        _dynamic = interp.getSymbolTable().internPlainString(Constants.DYNAMIC_SYMBOL);
     }
 
     private void init() throws GenyrisException {
@@ -54,6 +55,7 @@ public class StandardEnvironment implements Environment {
         _classname = _parent.internString(Constants.CLASSNAME);
         _left = _parent.internString(Constants.LEFT);
         _right = _parent.internString(Constants.RIGHT);
+        _dynamic = _parent.internString(Constants.DYNAMIC_SYMBOL);
     }
     public StandardEnvironment(Environment parent) throws GenyrisException {
         _parent = parent;
@@ -152,6 +154,10 @@ public class StandardEnvironment implements Environment {
         else {
             return _interpreter.getSymbolTable().internString(symbolName);
         }
+    }
+
+    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
+        throw new UnboundException("no dynamic variables in standard environments: " + symbol.toString());
     }
 
 }

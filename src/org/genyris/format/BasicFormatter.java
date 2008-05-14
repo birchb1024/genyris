@@ -7,7 +7,6 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
-
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
@@ -21,7 +20,6 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
 import org.genyris.exception.AccessException;
-import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
@@ -42,11 +40,6 @@ public class BasicFormatter extends  AbstractFormatter {
         catch (UnboundException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
-            return;
-        }
-        catch (GenyrisException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
             return;
         }
 

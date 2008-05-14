@@ -23,7 +23,7 @@ public class Lex {
     private SymbolTable _symbolTable;
     private char _cdrCharacter;
 
-    public Exp quote, EOF, raw_quote, raw_backquote, raw_comma_at;
+    public Exp quote, EOF, raw_quote, raw_dynamic, raw_backquote, raw_comma_at;
     public Exp raw_comma, comma_at, comma, backquote;
     public Exp leftParen, rightParen, cdr_char;
 
@@ -36,6 +36,7 @@ public class Lex {
         raw_backquote = table.internPlainString("`");
         raw_comma_at = table.internPlainString(",@");
         raw_comma = table.internPlainString(",");
+        raw_dynamic = table.internPlainString(Constants.DYNAMIC_SYMBOL);
         comma_at = table.internPlainString(Constants.COMMA_AT);
         comma = table.internPlainString(Constants.COMMA);
         backquote = table.internPlainString(Constants.TEMPLATE);
@@ -220,6 +221,8 @@ public class Lex {
                 return leftParen;
             case ')':
                 return rightParen;
+            case Constants.DYNAMICSCOPECHAR2:
+                return raw_dynamic;
             case Constants.QUOTECHAR:
                 return raw_quote;
             case Constants.BQUOTECHAR:

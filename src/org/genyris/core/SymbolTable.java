@@ -10,7 +10,6 @@ import java.util.Map;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.StandardEnvironment;
 
 public class SymbolTable {
     private Map         _table;
@@ -37,6 +36,7 @@ public class SymbolTable {
         _table.put(Constants.SUPERCLASSES, new Lsymbol(Constants.SUPERCLASSES));
         _table.put(Constants.CLASSNAME, new Lsymbol(Constants.CLASSNAME));
         _table.put(Constants.VARS, new Lsymbol(Constants.VARS));
+        _table.put(Constants.DYNAMIC_SYMBOL, new Lsymbol(Constants.DYNAMIC_SYMBOL));
         _resource = new Lsymbol(Constants.RESOURCE);
         _table.put(Constants.RESOURCE, _resource);
         ((Lsymbol)_table.get(Constants.SELF)).initFromTable(this);
@@ -44,6 +44,7 @@ public class SymbolTable {
         ((Lsymbol)_table.get(Constants.SUPERCLASSES)).initFromTable(this);
         ((Lsymbol)_table.get(Constants.CLASSNAME)).initFromTable(this);
         ((Lsymbol)_table.get(Constants.RESOURCE)).initFromTable(this);
+        ((Lsymbol)_table.get(Constants.DYNAMIC_SYMBOL)).initFromTable(this);
     }
 
     public Lsymbol lookupString(String news) throws GenyrisException {
@@ -110,7 +111,9 @@ public class SymbolTable {
             throw new GenyrisException("cannot start a prefix with underscore in parse: " + prefix);            
         }
         if (_prefixes.containsKey(prefix)) {
-            throw new GenyrisException("duplicate prefix in parse: " + prefix);
+            if(!_prefixes.get(prefix).equals(uri)) {
+                throw new GenyrisException("conflicting prefix in parse: " + prefix + " " + uri);
+            }
         } else {
             _prefixes.put(prefix, uri);
         }
