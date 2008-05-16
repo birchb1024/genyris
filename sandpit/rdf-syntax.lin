@@ -6,15 +6,15 @@
 @prefix dc "http://purl.org/dc/elements/1.1/"
 
 dict
-   _rdf.about    : "http-//en.wikipedia.org/wiki/Tony-Benn"
-   _dc.Title     : "Tony Benn"
-   _dc.Publisher : "Wikipedia"
+   !rdf.about    : "http-//en.wikipedia.org/wiki/Tony-Benn"
+   !dc.Title     : "Tony Benn"
+   !dc.Publisher : "Wikipedia"
 
 'dc.Title
-   var _rdf.Type 'rdf.Property
+   var !rdf.Type 'rdf.Property
 
-'dc.Title _vars
-'dc.Title _rdf.Type
+'dc.Title !vars
+'dc.Title !rdf.Type
 
 def rdf.makeDocument(rdf.Title rdf.Publisher) 23
 

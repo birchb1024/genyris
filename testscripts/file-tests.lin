@@ -1,75 +1,75 @@
 define fi
-   File(_new "C:\\foo.txt")
+   File(!new "C:\\foo.txt")
 define out 	
-   fi (_open 'write)
-out (_format "Hello\n")
-out (_format "World\n")
+   fi (!open 'write)
+out (!format "Hello\n")
+out (!format "World\n")
 out
-  _format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" :
+  !format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" :
       "GONZO\n" :
        "ALONZO\n" :
         33
-out (_close)
+out (!close)
 
 define fi
-   File(_new "C:\\foo.txt")
+   File(!new "C:\\foo.txt")
 define in 	
-   fi (_open 'read)
-print (in(_read))
+   fi (!open 'read)
+print (in(!read))
 
-in(_close)
+in(!close)
 
 def dump()
-  var fi (File(_new "C:\\foo.txt"))
-  var in (fi (_open 'read))
+  var fi (File(!new "C:\\foo.txt"))
+  var in (fi (!open 'read))
   var ch nil
   var count 0
-  while (in(_hasData))
-     set! count (+ count 1)
-     write (in(_read)) '-
-  in(_close)
+  while (in(!hasData))
+     set^ count (+ count 1)
+     write (in(!read)) '-
+  in(!close)
   print "\n" count
    
 
 def parse-file()
-  var fi (File(_new "C:\\foo.lsp"))
-  var in (fi (_open 'read))
-  var parser (ParenParser(_new in))
+  var fi (File(!new "C:\\foo.lsp"))
+  var in (fi (!open 'read))
+  var parser (ParenParser(!new in))
   var exp nil
   while
      not
         equal? EOF
-           set! exp (parser(_read))
+           set^ exp (parser(!read))
      write exp
      display "\n"
-  parser(_close)
+  parser(!close)
    
 
 def parse-sfs-file()
-  var fi (File(_new "C:\\foo.sfs"))
-  var in (fi (_open 'read))
-  var sfs (StringFormatStream(_new in))
-  var parser (ParenParser(_new sfs))
+  var fi (File(!new "C:\\foo.sfs"))
+  var in (fi (!open 'read))
+  var sfs (StringFormatStream(!new in))
+  var parser (ParenParser(!new sfs))
   var exp nil
   while
      not
         equal? EOF
-           set! exp (parser(_read))
+           set^ exp (parser(!read))
      write exp
      display "\n"
-  parser(_close)
+  parser(!close)
 
 
 def eval-sfs-file()
-  var fi (File(_new "C:\\foo.sfs"))
-  var in (fi (_open 'read))
-  var sfs (StringFormatStream(_new in))
-  var parser (ParenParser(_new sfs))
+  var fi (File(!new "C:\\foo.sfs"))
+  var in (fi (!open 'read))
+  var sfs (StringFormatStream(!new in))
+  var parser (ParenParser(!new sfs))
   var exp nil
   while
      not
         equal? EOF
-           set! exp (eval (parser(_read)))
+           set^ exp (eval (parser(!read)))
      display exp
-  parser(_close)
+  parser(!close)
    

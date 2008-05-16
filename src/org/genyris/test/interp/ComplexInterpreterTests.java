@@ -32,13 +32,13 @@ public class ComplexInterpreterTests extends TestCase {
 
 
     public void testMacroWithDefmacro() throws Exception {
-        excerciseEval("(defmacro nil! (x) (list 'defvar (list quote x) 0))", "<org.genyris.interp.MacroFunction>");
-        excerciseEval("(nil! a)", "0");
+        excerciseEval("(defmacro nil^ (x) (list 'defvar (list quote x) 0))", "<org.genyris.interp.MacroFunction>");
+        excerciseEval("(nil^ a)", "0");
         excerciseEval("a", "0");
     }
 
     public void testMacroWithDefmacroDeep() throws Exception {
-        excerciseEval("(def fn (y) (defmacro nil! (x) (list 'defvar (list quote x) y)) nil!)", "<EagerProc: <fn>>");
+        excerciseEval("(def fn (y) (defmacro nil^ (x) (list 'defvar (list quote x) y)) nil^)", "<EagerProc: <fn>>");
         excerciseEval("(defvar 'm (fn 99))", "<org.genyris.interp.MacroFunction>");
         excerciseEval("(m w)", "99");
         excerciseEval("w", "99");
@@ -75,10 +75,10 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
     }
     public void testFrame() throws Exception {
-        excerciseEval("(dict (_a : 1) (_b:2) (_c:3))",
+        excerciseEval("(dict (!a : 1) (!b:2) (!c:3))",
                 "(dict (a : 1) (b : 2) (c : 3))");
-        excerciseEval("(eq? (dict (_a : 1) (_b : 2) (_c : 3)) (dict (_a : 1) (_b : 2) (_c : 3)))", "nil");
-        excerciseEval("(equal? (dict (_a : 1) (_b : 2) (_c : 3)) (dict (_a : 1) (_b : 2) (_c : 3)))", "true");
+        excerciseEval("(eq? (dict (!a : 1) (!b : 2) (!c : 3)) (dict (!a : 1) (!b : 2) (!c : 3)))", "nil");
+        excerciseEval("(equal? (dict (!a : 1) (!b : 2) (!c : 3)) (dict (!a : 1) (!b : 2) (!c : 3)))", "true");
     }
 
     public void testEnvCapture() throws Exception {
@@ -95,26 +95,26 @@ public class ComplexInterpreterTests extends TestCase {
 
     public void testLeftRight() throws Exception {
         excerciseEval("(defvar 'p (cons 1 2))", "(1 : 2)");
-        excerciseEval("(p _left)", "1");
-        excerciseEval("(p _right)", "2");
-        excerciseEval("(p (set '_left 99))", "99");
+        excerciseEval("(p !left)", "1");
+        excerciseEval("(p !right)", "2");
+        excerciseEval("(p (set '!left 99))", "99");
         excerciseEval("p", "(99 : 2)");
-        excerciseEval("(p (set '_right 98))", "98");
+        excerciseEval("(p (set '!right 98))", "98");
         excerciseEval("p", "(99 : 98)");
     }
 
     public void testDynamicVariablesWithDef() throws Exception {
         excerciseEval("(defvar 'd (dict))", "(dict)");
-        excerciseEval("(def function-which-declares-dynamic-var () (defvar '_x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
-        excerciseEval("(def function-which-uses-dynamic-var () (list _x _x))", "<EagerProc: <function-which-uses-dynamic-var>>");
+        excerciseEval("(def function-which-declares-dynamic-var () (defvar '!x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
+        excerciseEval("(def function-which-uses-dynamic-var () (list !x !x))", "<EagerProc: <function-which-uses-dynamic-var>>");
         excerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
-        excerciseEval("(bound? _x)","nil");
+        excerciseEval("(bound? !x)","nil");
     }
 
     public void testDynamicVariablesWithDef2() throws Exception {
         excerciseEval("(defvar 'd (dict))", "(dict)");
-        excerciseEval("(d (defvar '_x 11111))", "11111");
-        excerciseEval("(def define-some-global-y (x) (defvar '_y \"global _y\") (cons _x _y))", "<EagerProc: <define-some-global-y>>");
-        excerciseEval("(d (define-some-global-y 33))", "(11111 : \"global _y\")");
+        excerciseEval("(d (defvar '!x 11111))", "11111");
+        excerciseEval("(def define-some-global-y (x) (defvar '!y \"global !y\") (cons !x !y))", "<EagerProc: <define-some-global-y>>");
+        excerciseEval("(d (define-some-global-y 33))", "(11111 : \"global !y\")");
     }
 }

@@ -8,8 +8,8 @@
 ;  Add simple methods to the builtin File class
 ;
 File
-    def _new((filename : String))
-        tag File (dict (_filename: filename))
+    def !new((filename : String))
+        tag File (dict (!filename: filename))
     
-    def _open((mode : Symbol))
-       _static-open _filename mode 
+    def !open((mode : Symbol))
+       !static-open !filename mode 

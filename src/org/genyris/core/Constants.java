@@ -72,7 +72,7 @@ public class Constants {
         public static final String STDIN = "stdin";
         public static final String SOUND = "Sound";
         public static final String PREFIX = "@prefix";
-        public static final char DYNAMICSCOPECHAR2 = '_';
+        public static final char DYNAMICSCOPECHAR2 = '!';
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";
 
 

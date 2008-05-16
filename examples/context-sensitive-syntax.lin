@@ -31,14 +31,14 @@ define context (dict)
 
 context
   ; define a macro in the environment of this object
-  defmacro _if (test success-result failure-result)
+  defmacro !if (test success-result failure-result)
     template
        cond
           ,test (list ,success-result "OK")
           true (list ,failure-result "Fail")
 
 context
-    _if nil "A" "B"            ; call the macro.
+    !if nil "A" "B"            ; call the macro.
 
 ; => "B" "Fail" ; Pair
 
@@ -47,7 +47,7 @@ context
 ; Now a macro belonging to a class.
 ;
 class MySuperClass ()
-  defmacro _if (test success-result failure-result)
+  defmacro !if (test success-result failure-result)
     template
        cond
           ,test (list ,success-result "my-OK")
@@ -62,7 +62,7 @@ define my-instance                 ; create an instance
 
 
 my-instance              ; use the instance as an execution environment
-   _if nil "A" "B"
+   !if nil "A" "B"
 
 ; => "B" "my-Fail" ; Pair
 

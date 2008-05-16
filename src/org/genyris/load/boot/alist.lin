@@ -9,10 +9,10 @@
 ;
 class Alist()
 
-   def _render()
+   def !render()
       template
           table ((border:1) (cellpadding:0))
-             ,@(renderRows _self)
+             ,@(renderRows !self)
 
    def renderRow(apair)
       template
@@ -25,19 +25,19 @@ class Alist()
           (null? alist) nil
           else
              cons
-                renderRow (alist_left)
-                renderRows (alist_right)
+                renderRow (alist!left)
+                renderRows (alist!right)
    
-   def _lookup(key)
-      lookup key _self
+   def !lookup(key)
+      lookup key !self
 
    def lookup(key list)
       cond
           (null? list) 
              nil
-          (equal? key ((list_left)_left))
-             (list_left)_right
+          (equal? key ((list!left)!left))
+             (list!left)!right
           else
-              lookup key (list_right)
+              lookup key (list!right)
              
           

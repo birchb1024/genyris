@@ -4,19 +4,19 @@
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 class HttpRequest()
-    def _getMethod() (left _self)
-    def _getPath() (left (right _self))
-    def _getHeaders() (left (right (right _self)))
-    def _getParameters() (left (right (right (right _self))))
-    def _render ()
+    def !getMethod() (left !self)
+    def !getPath() (left (right !self))
+    def !getHeaders() (left (right (right !self)))
+    def !getParameters() (left (right (right (right !self))))
+    def !render ()
        template
           div()
              strong()
-                p() "Method:" ,(_getMethod)
-                p() "Path:" ,(_getPath)
+                p() "Method:" ,(!getMethod)
+                p() "Path:" ,(!getPath)
              hr()
-             div() "Headers:" ,((_getHeaders)(_render))
-             div() "Parameters:" ,((_getParameters)(_render))
+             div() "Headers:" ,((!getHeaders)(!render))
+             div() "Parameters:" ,((!getParameters)(!render))
 
 
 df httpd-serve (request)
@@ -26,6 +26,6 @@ df httpd-serve (request)
           html()
              head()
              body()
-                ,(request (_render))
+                ,(request (!render))
 
                 

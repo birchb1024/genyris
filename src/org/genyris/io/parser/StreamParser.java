@@ -92,7 +92,7 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
             if (!(arguments[0] instanceof ReaderStream)) {
-                throw new GenyrisException("Bad arg to _new method of Parser");
+                throw new GenyrisException("Bad arg to new method of Parser");
             } else {
                 return new StreamParser(_interp, (ReaderStream)arguments[0]);
             }

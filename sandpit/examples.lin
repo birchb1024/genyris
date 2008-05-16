@@ -30,19 +30,19 @@ do
 ;;;
 ;;; Wrap an object (views) with different perspectives. 
 ;;;
-class Complex () ; expects _self to be a wrapped pair ((N:N))
-    def _toString()
-        list "real: " (car (car _self)) "imaginary: " (cdr (car _self))
+class Complex () ; expects !self to be a wrapped pair ((N:N))
+    def !toString()
+        list "real: " (car (car !self)) "imaginary: " (cdr (car !self))
 
 class Point ()
-    def _toString()
-        list "x: " (car (car _self)) "y: " (cdr (car _self))
+    def !toString()
+        list "x: " (car (car !self)) "y: " (cdr (car !self))
 
 define model '(12:13)
 define math-view ((list model):Complex)
 define plot-view ((list model):Point)
-math-view (_toString)
-plot-view (_toString)
+math-view (!toString)
+plot-view (!toString)
 
 
    

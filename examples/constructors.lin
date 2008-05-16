@@ -16,33 +16,33 @@
 ;
 class BasicPerson ()
 
-    def _new (name age)
-      (tag _self (dict))
-        define _name name
-        define _age age
-        _self
+    def !new (name age)
+      (tag !self (dict))
+        define !name name
+        define !age age
+        !self
 
 ;
-;  A class which uses the _new in Object, and adds type checking
+;  A class which uses the !new in Object, and adds type checking
 ;
 class PersonTraditional (Object)
 
-   def _init((name:String) (age: Bignum))
-      define _name name
-      define _age age
+   def !init((name:String) (age: Bignum))
+      define !name name
+      define !age age
 
 
 class PersonModern ()
 
-   def _valid?()
-      _name : String
-      _age : Bignum
+   def !valid?()
+      !name : String
+      !age : Bignum
 
-   def _new(name age)
+   def !new(name age)
       (dict)                             ; create the object
-         define _name name               ; add the data
-         define _age age
-         _self : PersonModern             ; check type now
-         tag PersonModern _self           ; ok, so add the class
-         _self
+         define !name name               ; add the data
+         define !age age
+         !self : PersonModern             ; check type now
+         tag PersonModern !self           ; ok, so add the class
+         !self
 

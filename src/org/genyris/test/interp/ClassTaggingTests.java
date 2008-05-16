@@ -42,7 +42,7 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag Miles x)", "45");
-        excerciseEval("(x _classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
+        excerciseEval("(x !classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
         }
     public void testIsInstance() throws Exception {
         excerciseEval("(class A)", "<class A (Thing) ()>");

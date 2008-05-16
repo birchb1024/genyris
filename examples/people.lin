@@ -11,49 +11,49 @@ def between (low it high)
       > it low
 
 class Person ()
-   def _valid? (obj)
+   def !valid? (obj)
       obj
-         bound? _age
+         bound? !age
 
 class Kid (Person)
-   def _valid? (obj)
+   def !valid? (obj)
       obj
          and
-            (Person_valid?) _self
-            < _age 15
+            (Person!valid?) !self
+            < !age 15
 
 class Senior (Person)
-   def _valid? (obj)
+   def !valid? (obj)
       obj
          and
-            (Person_valid?) _self
-            between 60 _age 120
+            (Person!valid?) !self
+            between 60 !age 120
 
 class Boomer (Person)
-   def _valid? (obj)
+   def !valid? (obj)
       obj
          and
-            (Person_valid?) _self
-            between 45 _age 60
+            (Person!valid?) !self
+            between 45 !age 60
 
 class Hippie (Boomer)
-   def _valid? (obj)
+   def !valid? (obj)
       obj
          and
-            (Boomer_valid?) _self
-            bound? _bong
+            (Boomer!valid?) !self
+            bound? !bong
 
 define noel
   dict
-     _name: "Noel"
-     _age: 49
-     _bong: true
+     !name: "Noel"
+     !age: 49
+     !bong: true
 
 define kevin
   dict
-     _name: "Kevin"
-     _age: 49
+     !name: "Kevin"
+     !age: 49
 
-Thing (_classify noel)
+Thing (!classify noel)
 noel
 

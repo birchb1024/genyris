@@ -21,16 +21,16 @@ StandardClass
   ;
   ; returns true if a valid class was found, nil otherwise
   ;
-  def _classify(thing)
+  def !classify(thing)
      define subclass-results         ; first analyse sub-classes for matches
-        map-left _subclasses
+        map-left !subclasses
            lambda (klass)
-              klass (_classify thing)
+              klass (!classify thing)
      cond
         (all-nil? subclass-results)  ; no subclasses were valid so check this class
            cond
-              (and (bound? _valid?) (_valid? thing))        ; yep - valid so tag the object
-                 tag _self thing
+              (and (bound? !valid?) (!valid? thing))        ; yep - valid so tag the object
+                 tag !self thing
                  true
               else
                  nil

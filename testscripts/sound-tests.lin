@@ -1,1 +1,1 @@
-Sound(_play "c:\\workspace\\Genyris\\testscripts\\welcome.wav")
+Sound(!play "c:\\workspace\\Genyris\\testscripts\\welcome.wav")

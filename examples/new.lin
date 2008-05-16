@@ -11,41 +11,41 @@
 ;;  Simple constructor in a class
 ;;
 class Person ()
-   def _new (name date-of-birth)
+   def !new (name date-of-birth)
       dict
-         _name : name
-         _dob : date-of-birth
-         _classes : (list Person)
+         !name : name
+         !dob : date-of-birth
+         !classes : (list Person)
 
 
 define jo
-   (Person_new) "Jo" 23
+   (Person!new) "Jo" 23
 
 ;;
 ;;  Derived class calls super-class constructor
 ;;
 class Employee (Person)
-   def _new (name date-of-birth salary-number)
-      ((Person_new) name date-of-birth)
-          define _salary-number salary-number
-          define _classes (list Employee)
-          _self
+   def !new (name date-of-birth salary-number)
+      ((Person!new) name date-of-birth)
+          define !salary-number salary-number
+          define !classes (list Employee)
+          !self
 
 define fred
-   (Employee_new) "Fred Smith" 45 123123123
+   (Employee!new) "Fred Smith" 45 123123123
 
 ;;
 ;; Add to an existing object to make it belong to a new class.
 ;;
 class Manager (Employee)
 
-  def _new (employee grade)
+  def !new (employee grade)
      employee : Employee
      employee
-        define _managment-grade grade
+        define !managment-grade grade
      tag Manager employee
 
 ; promote fred
-(Manager_new) fred "project mangler"
+(Manager!new) fred "project mangler"
 
 

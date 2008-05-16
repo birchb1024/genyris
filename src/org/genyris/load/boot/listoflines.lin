@@ -9,10 +9,10 @@
 ;
 ListOfLines
 
-   def _render()
+   def !render()
       template
           pre()
-             ,@(renderLines _self)
+             ,@(renderLines !self)
 
    def renderLine(aLine)
       template
@@ -23,8 +23,8 @@ ListOfLines
           (null? lines) nil
           else
              cons
-                renderLine (lines_left)
-                renderLines (lines_right)
+                renderLine (lines!left)
+                renderLines (lines!right)
 
-var x
-   tag ListOfLines '("1" "2" "3")
+; var x
+;   tag ListOfLines '("1" "2" "3")

@@ -1,10 +1,10 @@
 @prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix rdfs "http://www.w3.org/2000/01/rdf-schema#"
 'rdf.Resource
-  var _rdfs.isDefinedBy "http://www.w3.org/2000/01/rdf-schema#"
-  var _rdfs.label "Resource"
-  var _rdfs.comment "The class resource, everything."
+  var !rdfs.isDefinedBy "http://www.w3.org/2000/01/rdf-schema#"
+  var !rdfs.label "Resource"
+  var !rdfs.comment "The class resource, everything."
 
 'rdf.class
-   var _rdfs.comment "The class of classes."
-   var _rdfs.subClassof 'rdfs.Resource
+   var !rdfs.comment "The class of classes."
+   var !rdfs.subClassof 'rdfs.Resource

@@ -3,12 +3,12 @@
 ;;;
 
 class WikiPageName
-   def _valid?()
-      regex _self etc
+   def !valid?()
+      regex !self etc
 
 class WikiPage ()
-   def _new (name)
-       (dict (_name : name) (_content : nil)) : WikiPage
-   def _render () _content
+   def !new (name)
+       (dict (!name : name) (!content : nil)) : WikiPage
+   def !render () !content
 
-WikiPage (_new ("start" : wikiPageName))
+WikiPage (!new ("start" : wikiPageName))

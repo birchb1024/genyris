@@ -1,10 +1,10 @@
 class URL()
-   def _valid?(str)
-      str (_match "http://[^/]+/.*")
-   def _getProtocol()
-      left(_split ":")
-   def _getServer()
+   def !valid?(str)
+      str (!match "http://[^/]+/.*")
+   def !getProtocol()
+      left(!split ":")
+   def !getServer()
       left
         right
-          right(_split "/")
+          right(!split "/")
       

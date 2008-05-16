@@ -77,7 +77,7 @@ public class JavaWrapper extends ExpWithEmbeddedClasses implements Environment {
         if( symbol == _self ) {
             return this;
         }
-        else if (symbol == _parent.internString("_methods")) {
+        else if (symbol == _parent.internString("!methods")) {
             Exp result = NIL;
             Method[] methods = _theJavaObject.getClass().getMethods();
             for(int i=0; i<methods.length; i++) {
@@ -90,12 +90,12 @@ public class JavaWrapper extends ExpWithEmbeddedClasses implements Environment {
             }
             return result;
         }
-        else if (symbol == _parent.internString("_fields")) {
+        else if (symbol == _parent.internString("!fields")) {
             Exp result = NIL;
             Field[] fields = _theJavaObject.getClass().getFields();
             for(int i=0; i<fields.length; i++) {
                 try {
-                    result = new Lcons(_parent.internString("_" + fields[i].getName()), result);
+                    result = new Lcons(_parent.internString("!" + fields[i].getName()), result);
                 } catch (IllegalArgumentException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

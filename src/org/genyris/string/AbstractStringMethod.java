@@ -22,7 +22,7 @@ public abstract class AbstractStringMethod extends AbstractMethod {
     protected Lstring getSelfString(Environment env) throws GenyrisException {
 		getSelf(env);
 		if (!(_self instanceof Lstring)) {
-			throw new GenyrisException("Non-String passed to String_split.");
+			throw new GenyrisException("Non-String passed to String!split.");
 		} else {
 			Lstring theString = (Lstring) _self;
 			return theString;

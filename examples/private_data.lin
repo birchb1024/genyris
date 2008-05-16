@@ -14,35 +14,35 @@
 ;;
 ;; Example of an object created with private field.
 ;; The "age" slot cannot be seen since it is
-;; within the _init closure. _getAge and _setage capture
+;; within the !init closure. !getAge and !setage capture
 ;; the closure.
 ;;
 class Person ()
-   def _new()
-      tag _self
+   def !new()
+      tag !self
          (dict)
             define age 25
-            def _getAge () age
-            def _setAge (val) (set 'age val)
-            _self
+            def !getAge () age
+            def !setAge (val) (set 'age val)
+            !self
 
 define p
-   Person(_new)
-p (_getAge)    ; = 25
-p (_setAge 26) ; = 26
+   Person(!new)
+p (!getAge)    ; = 25
+p (!setAge 26) ; = 26
 
 ;;
 ;; Example of a class with a private method.
 ;;
 class Foo ()
     def privateFunc () "I am private. You cannot call me directly"
-    def _publicFunc ()
-       list (privateFunc) "called by _publicFunc"
+    def !publicFunc ()
+       list (privateFunc) "called by !publicFunc"
 
 define f (tag Foo (dict))
 f (privateFunc) ; = error
-f (_publicFunc) ; OK
+f (!publicFunc) ; OK
 
 Foo
-  print _vars "\n"
-  print _self
+  print !vars "\n"
+  print !self

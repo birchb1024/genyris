@@ -94,8 +94,8 @@ public class SymbolTable {
     }
 
     public void addprefix(String prefix, String uri) throws GenyrisException {
-        if(prefix.startsWith("_")) {
-            throw new GenyrisException("cannot start a prefix with underscore in parse: " + prefix);
+        if(prefix.startsWith(String.valueOf(Constants.DYNAMICSCOPECHAR2))) {
+            throw new GenyrisException("cannot start a prefix with ! in parse: " + prefix);
         }
         if (_prefixes.containsKey(prefix)) {
             if(!_prefixes.get(prefix).equals(uri)) {

@@ -8,10 +8,10 @@
 ;
 define genyris
    (dict)
-      def _run-all-tests()
+      def !run-all-tests()
          load "examples/queens.lin"
          queens 4
          self-test-runner
-      _self
+      !self
 
-(genyris _run-all-tests)
+(genyris !run-all-tests)

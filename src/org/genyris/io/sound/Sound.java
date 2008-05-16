@@ -139,12 +139,12 @@ public class Sound {
                 throws GenyrisException {
             if (arguments.length == 1) {
                 if (!(arguments[0] instanceof Lstring)) {
-                    throw new GenyrisException("Non-string filename passed to Sound_Play");
+                    throw new GenyrisException("Non-string filename passed to Sound!Play");
                 }
                 play((Lstring)arguments[0]);
                 return NIL;
             } else {
-                throw new GenyrisException("Missing argument to Sound_play");
+                throw new GenyrisException("Missing argument to Sound!play");
             }
         }
     }

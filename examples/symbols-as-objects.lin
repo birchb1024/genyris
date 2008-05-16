@@ -3,23 +3,23 @@
 ;;;
 ; Symbols can execute code:
 'y
-   print _self (+ 2 3)
+   print !self (+ 2 3)
    
 ; Symbols are also dictionarys:
-'x (var _pronunciation "ex")
-print ('x _pronunciation)
-'x _vars
+'x (var !pronunciation "ex")
+print ('x !pronunciation)
+'x !vars
 ; Symbols can have methods
 'cond
-   def _apropos()
+   def !apropos()
       display "cond is normally bound with the cond function, blah blah\n"
 
 ; Symbols can have classes:
 
 class Keyword()
-   var _syntaxHightlightColor "Red"
+   var !syntaxHightlightColor "Red"
 tag Keyword 'if
-print ('if _syntaxHightlightColor)
+print ('if !syntaxHightlightColor)
 
 
 
