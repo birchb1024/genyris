@@ -57,9 +57,8 @@ public class Lsymbol extends Lobject implements Comparable {
     public int compareTo(Object arg0) {
         if(arg0 instanceof Lsymbol) {
             return ((Lsymbol) arg0)._printName.compareTo(this._printName);
-//            return this._printName.compareTo(((Lsymbol) arg0)._printName);
         } else {
-            throw new ClassCastException("Lsymbol compareTo on " + arg0);
+            return -999999;
         }
     }
 

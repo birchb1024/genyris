@@ -9,7 +9,7 @@ import java.util.regex.PatternSyntaxException;
 import org.genyris.exception.GenyrisException;
 
 
-public class Lstring extends ExpWithEmbeddedClasses {
+public class Lstring extends ExpWithEmbeddedClasses implements Comparable {
 
     String _value;
 
@@ -52,5 +52,13 @@ public class Lstring extends ExpWithEmbeddedClasses {
 	public Exp match(Lsymbol nil, Lsymbol true1, Lstring regex) {
 		return (_value.matches(regex._value)? true1 : nil);
 	}
+
+    public int compareTo(Object arg0) {
+        if(arg0 instanceof Lstring) {
+            return ((Lstring) arg0)._value.compareTo(this._value);
+        } else {
+            return -999999;
+        }
+    }
 
 }

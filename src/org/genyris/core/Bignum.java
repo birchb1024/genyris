@@ -8,7 +8,7 @@ package org.genyris.core;
 import java.math.BigDecimal;
 
 
-public class Bignum extends ExpWithEmbeddedClasses {
+public class Bignum extends ExpWithEmbeddedClasses implements Comparable {
     private BigDecimal _value;
 
     public Object getJavaValue() {
@@ -41,5 +41,14 @@ public class Bignum extends ExpWithEmbeddedClasses {
     public String getBuiltinClassName() {
         return Constants.BIGNUM;
     }
+
+    public int compareTo(Object arg0) {
+        if(arg0 instanceof Bignum) {
+            return ((Bignum) arg0)._value.compareTo(this._value);
+        } else {
+            return -999999;
+        }
+    }
+
 
 }
