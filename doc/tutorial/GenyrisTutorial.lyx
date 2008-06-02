@@ -1,4 +1,4 @@
-#LyX 1.5.1 created this file. For more info see http://www.lyx.org/
+#LyX 1.5.3 created this file. For more info see http://www.lyx.org/
 \lyxformat 276
 \begin_document
 \begin_header
@@ -429,6 +429,10 @@ Sub-expressions
 List Pairs
 \end_layout
 
+\begin_layout Itemize
+Parser macros and directives
+\end_layout
+
 \begin_layout Subsection
 Comments
 \end_layout
@@ -738,10 +742,7 @@ Symbols
 \end_layout
 
 \begin_layout Standard
-Symbols are a group of any printable characters with exceptions.
- Symbols may start with a single underscore _ but may not contain other
- underscores.
- The following characters are not valid in symbols:
+Symbols are a group of any printable characters with the following exceptions:
 \end_layout
 
 \begin_layout Standard
@@ -780,10 +781,7 @@ comma
 \begin_inset Text
 
 \begin_layout Standard
-
-\family typewriter
-\series bold
-_
+!
 \end_layout
 
 \end_inset
@@ -792,7 +790,7 @@ _
 \begin_inset Text
 
 \begin_layout Standard
-underscore
+exclamation
 \end_layout
 
 \end_inset
@@ -1607,7 +1605,7 @@ set
 \emph default
  or 
 \emph on
-set!
+set^
 \emph default
  functions, for example:
 \end_layout
@@ -1617,7 +1615,7 @@ set 'name "William Pitt"
 \end_layout
 
 \begin_layout LyX-Code
-set! name "William Pitt"
+set^ name "William Pitt"
 \end_layout
 
 \begin_layout Standard
@@ -2184,7 +2182,7 @@ nil
 \emph default
 , but a class, it will check if the result of the expression is 
 \emph on
-_valid
+!valid
 \emph default
 ?, or if it is an instance of the class.
  For example this function will always raise an error because
@@ -2223,7 +2221,7 @@ nominative
  used.
  The 
 \emph on
-_valid?
+!valid?
 \emph default
  method is a stronger check, however nominative checking is sometimes preferred
 \begin_inset Foot
@@ -2260,7 +2258,7 @@ Defining Macros
 
 \begin_layout Standard
 Macros are lazy functions which are very handy for extending the syntax
- of the language and creating DSLs (Domain-Specific Languages).
+ of the language or creating DSLs (Domain-Specific Languages).
  Macros also re-evaluate the returned value in the environment of the caller.
  Here's an example:
 \end_layout
@@ -2427,7 +2425,7 @@ def make-withdraw (balance)
 \end_layout
 
 \begin_layout LyX-Code
-      set! balance (- balance amount)
+      set^ balance (- balance amount)
 \end_layout
 
 \begin_layout LyX-Code
@@ -2526,7 +2524,7 @@ balance
 \emph default
 and contains the executable code starting with 
 \emph on
-set!
+set^
 \end_layout
 
 \begin_layout Enumerate
@@ -2649,15 +2647,6 @@ Lets analyse what happened.
 
 \begin_layout Standard
 If an atom is called with no arguments, it simply returns itself.
- We can say they are 
-\begin_inset Quotes eld
-\end_inset
-
-self-evaluating
-\begin_inset Quotes erd
-\end_inset
-
-.
  So at the command line typing a number alone returns the number:
 \end_layout
 
@@ -2677,7 +2666,7 @@ self-evaluating
 As well as executing the sequence of expressions, an execution environment
  was created in which the number 12 is a bound to the dynamic variable 
 \emph on
-_self
+self
 \emph default
 .
  The variable can be used as follows:
@@ -2686,7 +2675,7 @@ _self
 \begin_layout LyX-Code
 > 12 (+ 
 \series bold
-_self _self
+!self !self
 \series default
 ) 
 \end_layout
@@ -2719,7 +2708,7 @@ define foo 987
 \end_layout
 
 \begin_layout LyX-Code
-  + foo _self
+  + foo !self
 \end_layout
 
 \begin_layout LyX-Code
@@ -2775,13 +2764,13 @@ def my-function()
 \end_layout
 
 \begin_layout LyX-Code
-      print _self
+      print !self
 \end_layout
 
 \begin_layout Standard
 However within the context the do block of 
 \emph on
-_self 
+!self 
 \emph default
 is bound to 
 \emph on
@@ -2799,7 +2788,7 @@ my-do
 .
  A better way to add new syntax is to create a macro, since 
 \emph on
-_self
+!self
 \emph default
  is not affected.
  
@@ -2817,29 +2806,30 @@ Generally 'dynamic' variables are those which are bound in the environment
  In other words when an object is used as a procedure, the environment created
  to make the call is a merge of the object itself and a normal lexical environme
 nt.
- All dynamic variables are prefixed with the underscore _ character
-\emph on
-.
-
-\emph default
+ When prefixed with the underscore ! character, the binding for the symbol
+ is looked up in the dynamic context.
  An example will make this clearer:
 \end_layout
 
 \begin_layout Standard
 The number 12 above has two dynamic variables, 
 \emph on
-_self
+!self
 \emph default
- and _
+ and 
 \emph on
-classes
+!classes
 \emph default
 .
  They can be accessed as follows:
 \end_layout
 
 \begin_layout LyX-Code
-12    cons _self _classes
+12
+\end_layout
+
+\begin_layout LyX-Code
+  cons !self !classes
 \end_layout
 
 \begin_layout LyX-Code
@@ -2853,7 +2843,7 @@ classes
 \begin_layout Standard
 Here we see that the
 \emph on
- _classes
+ !classes
 \emph default
  variable is referring to the class list of 
 \emph on
@@ -2871,7 +2861,7 @@ Bignum,
 \end_layout
 
 \begin_layout LyX-Code
-> "What am I?" _classes
+> "What am I?" !classes
 \end_layout
 
 \begin_layout LyX-Code
@@ -2889,7 +2879,7 @@ However where symbols are concerned, the evaluator always looks up the value
 \end_layout
 
 \begin_layout LyX-Code
-> 'a-symbol _classes
+> 'a-symbol !classes
 \end_layout
 
 \begin_layout LyX-Code
@@ -2897,7 +2887,7 @@ However where symbols are concerned, the evaluator always looks up the value
 \end_layout
 
 \begin_layout LyX-Code
-<class Symbol (Builtin) ()> ; Pair
+<class Symbol (Dictionary) ()> ; Pair
 \end_layout
 
 \begin_layout Standard
@@ -2906,7 +2896,7 @@ Likewise the interpreter assumes a list is a normal function call so a quote
 \end_layout
 
 \begin_layout LyX-Code
-> '(3) _classes
+> '(3) !classes
 \end_layout
 
 \begin_layout LyX-Code
@@ -2918,8 +2908,8 @@ Likewise the interpreter assumes a list is a normal function call so a quote
 \end_layout
 
 \begin_layout Standard
-The atomic types (at least today) have only a single dynamic variable, richer
- examples lie in the compound object types.
+Most atomic types have only a single dynamic variable, richer examples lie
+ in the compound object types.
 \end_layout
 
 \begin_layout Subsection
@@ -2999,11 +2989,11 @@ left
 \begin_layout Standard
 Alternatively the dynamic variables 
 \emph on
-_left
+!left
 \emph default
  and 
 \emph on
-_right
+!right
 \emph default
  can be used when the list is called:
 \end_layout
@@ -3013,7 +3003,7 @@ _right
 \end_layout
 
 \begin_layout LyX-Code
-mypair _
+mypair !
 \series bold
 right
 \end_layout
@@ -3033,11 +3023,11 @@ right
 \begin_layout LyX-Code
    
 \series bold
-set! _left 33
+set^ !left 33
 \end_layout
 
 \begin_layout LyX-Code
-   _self
+   !self
 \end_layout
 
 \begin_layout LyX-Code
@@ -3166,19 +3156,19 @@ dict
 \begin_layout LyX-Code
 
 \series bold
-    _name  : "Willam Pitt"
+    !name  : "Willam Pitt"
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-    _title : "Prime Minister"
+    !title : "Prime Minister"
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-    _date-of-birth   : "28 May 1759"
+    !date-of-birth   : "28 May 1759"
 \end_layout
 
 \begin_layout Standard
@@ -3228,13 +3218,13 @@ dict
 \begin_layout LyX-Code
 
 \series bold
-   _foo
+   !foo
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-   _bar
+   !bar
 \end_layout
 
 \begin_layout LyX-Code
@@ -3246,11 +3236,11 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-      _bar : nil
+      !bar : nil
 \end_layout
 
 \begin_layout LyX-Code
-      _foo : nil ; Dictionary      
+      !foo : nil ; Dictionary      
 \end_layout
 
 \begin_layout Standard
@@ -3264,7 +3254,7 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-> pitt _name
+> pitt !name
 \end_layout
 
 \begin_layout LyX-Code
@@ -3278,16 +3268,16 @@ dict
 \begin_layout Standard
 Here the 
 \emph on
-_name
+!name
 \emph default
  dynamic variable is bound to the 
 \emph on
-_name
+!name
 \emph default
  slot in the dict.
  To set the slot value we use the 
 \emph on
-set!
+set^
 \emph default
  function:
 \end_layout
@@ -3299,9 +3289,9 @@ pitt
 \begin_layout LyX-Code
    
 \series bold
-set! 
+set^ 
 \series default
-_name "William Pitt The Younger"
+!name "William Pitt The Younger"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3326,7 +3316,7 @@ pitt
 \series bold
 define
 \series default
- _father "William Pitt the Elder"
+ !father "William Pitt the Elder"
 \end_layout
 
 \begin_layout Standard
@@ -3340,7 +3330,7 @@ magic
 
  variable 
 \emph on
-_vars
+!vars
 \emph default
  which lists all the variables defined in the dictionary.
  This is handy for debugging.
@@ -3350,7 +3340,7 @@ _vars
 \begin_layout LyX-Code
 > pitt 
 \series bold
-_vars
+!vars
 \end_layout
 
 \begin_layout LyX-Code
@@ -3358,7 +3348,7 @@ _vars
 \end_layout
 
 \begin_layout LyX-Code
-_date-of-birth _father _name _title _vars ; Pair
+!date-of-birth !father !name !title !vars ; Pair
 \end_layout
 
 \begin_layout Subsection
@@ -3385,19 +3375,19 @@ define jeb
 \begin_layout LyX-Code
 
 \series bold
-      _firstName: "Joe" 
+      !firstName: "Joe" 
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-      _middleName: "E."
+      !middleName: "E."
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-      _lastName: "Brown"
+      !lastName: "Brown"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3411,13 +3401,13 @@ jeb
 \begin_layout LyX-Code
    
 \series bold
-def _displayName()
+def !displayName()
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-       list _firstName _middleName _lastName
+       list !firstName !middleName !lastName
 \end_layout
 
 \begin_layout Standard
@@ -3431,7 +3421,7 @@ jeb
 \begin_layout LyX-Code
 > jeb 
 \series bold
-(_displayName)
+(!displayName)
 \end_layout
 
 \begin_layout LyX-Code
@@ -3473,11 +3463,11 @@ define file
 \end_layout
 
 \begin_layout LyX-Code
-    _name  : "File Handling Functions"
+    !name  : "File Handling Functions"
 \end_layout
 
 \begin_layout LyX-Code
-    _version : "1.2"
+    !version : "1.2"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3487,19 +3477,19 @@ file
 \begin_layout LyX-Code
    
 \series bold
-def _copy(from to) ...
+def !copy(from to) ...
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-   def _delete(filename) ...
+   def !delete(filename) ...
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-   def _zip(file) ...
+   def !zip(file) ...
 \end_layout
 
 \begin_layout LyX-Code
@@ -3517,19 +3507,19 @@ def archive(filename)
 \begin_layout LyX-Code
     
 \series bold
-(file_copy) filename "/tmp/foo"
+(file!copy) filename "/tmp/foo"
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-    (file_zip) "/tmp/foo"
+    (file!zip) "/tmp/foo"
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-    (file_delete) filename
+    (file!delete) filename
 \end_layout
 
 \begin_layout LyX-Code
@@ -3546,6 +3536,127 @@ file
  While it is handy to be able to add behaviour to objects, it does not scale
  when there are many objects which require the same behaviour.
  For this we need something more complex - Classes and Inheritance.
+\end_layout
+
+\begin_layout Section
+Using Namespaces
+\end_layout
+
+\begin_layout Standard
+A way to prevent name clashes between modules is to use symbol prefixes
+ to defne 'namespaces' for symbols.
+ A namespace can be defined with a Parser Directive 
+\begin_inset Quotes eld
+\end_inset
+
+@prefix
+\begin_inset Quotes erd
+\end_inset
+
+ as follows
+\end_layout
+
+\begin_layout LyX-Code
+@prefix magic "http://my.org/2008/spells/"
+\end_layout
+
+\begin_layout Standard
+Here the expression starting with 
+\emph on
+@prefi
+\emph default
+x is consumed by the parser, and any subsequent symbols it sees starting
+ with the prefix 
+\emph on
+magic
+\emph default
+.
+ are replaced with 
+\emph on
+http://my.org/2008/spells/
+\emph default
+.
+ Hence the true name of 
+\emph on
+magic.accio
+\emph default
+ is 
+\emph on
+http://my.org/2008/spells/accio
+\emph default
+.
+ We can print the full name of the symbol by quoting it:
+\end_layout
+
+\begin_layout LyX-Code
+> @prefix magic "http://my.org/2008/spells/"
+\end_layout
+
+\begin_layout LyX-Code
+'magic.accio
+\end_layout
+
+\begin_layout LyX-Code
+~ http://my.org/2008/spells/accio ; Symbol
+\end_layout
+
+\begin_layout Standard
+Here is the previous example re-worked using a namespace:
+\end_layout
+
+\begin_layout LyX-Code
+;; File Handling Module (using prefixes)
+\end_layout
+
+\begin_layout LyX-Code
+@prefix file "genyris:/files/"
+\end_layout
+
+\begin_layout LyX-Code
+def file.copy(from to) ...
+\end_layout
+
+\begin_layout LyX-Code
+def file.delete(filename) ...
+\end_layout
+
+\begin_layout LyX-Code
+def file.zip(file) ...
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+;; Use of the file module
+\end_layout
+
+\begin_layout LyX-Code
+@prefix file "genyris:/files/"
+\end_layout
+
+\begin_layout LyX-Code
+def archive(filename)
+\end_layout
+
+\begin_layout LyX-Code
+    file.copy filename "/tmp/foo"
+\end_layout
+
+\begin_layout LyX-Code
+    file.zip "/tmp/foo"
+\end_layout
+
+\begin_layout LyX-Code
+    file.delete filename
+\end_layout
+
+\begin_layout Standard
+Prefixes apply to all symbols seen by the parser in the current parse, and
+ can be used in a variety of ways (for example) to define global properties
+ or Interfaces.
+  
 \end_layout
 
 \begin_layout Section
@@ -3573,23 +3684,23 @@ Object-Oriented
 \end_layout
 
 \begin_layout Itemize
-_classes 
+!classes 
 \end_layout
 
 \begin_layout Itemize
-_vars 
+!vars 
 \end_layout
 
 \begin_layout Itemize
-_classname 
+!classname 
 \end_layout
 
 \begin_layout Itemize
-_superclasses
+!superclasses
 \end_layout
 
 \begin_layout Itemize
-_subclasses
+!subclasses
 \end_layout
 
 \begin_layout Standard
@@ -3665,9 +3776,9 @@ Bignum
 \end_layout
 
 \begin_layout LyX-Code
-   def _square() (* 
+   def !square() (* 
 \series bold
-_self _self
+!self !self
 \series default
 )
 \end_layout
@@ -3675,14 +3786,14 @@ _self _self
 \begin_layout Standard
 Notice that the method uses the 
 \emph on
-_self
+!self
 \emph default
  variable which will be automatically bound to an object.
  Now all Bignums can compute their own square e.g.:
 \end_layout
 
 \begin_layout LyX-Code
-> 4234389 (_square)
+> 4234389 (!square)
 \end_layout
 
 \begin_layout LyX-Code
@@ -3700,18 +3811,18 @@ We need to call methods in the correct way to ensure they refer to the right
 \end_layout
 
 \begin_layout LyX-Code
-> (4234389_square)
+> (4234389!square)
 \end_layout
 
 \begin_layout Standard
 We would get an error.
  There is a big difference between 
 \emph on
-4234389 (_square)
+4234389 (!square)
 \emph default
  and 
 \emph on
-(4234389_square)
+(4234389!square)
 \emph default
 .
  In the first case we are creating an environment around the Bignum 
@@ -3720,12 +3831,12 @@ We would get an error.
 \emph default
 , then we execute the function bound to the dynamic variable 
 \emph on
-_square
+!square
 \emph default
  from Bignum.
  In the second however, we are getting the Bignum's 
 \emph on
-_square
+!square
 \emph default
  function but then applying it in the context of the caller.
  This is most likely not what was intended.
@@ -3849,11 +3960,11 @@ Bignum
 \end_layout
 
 \begin_layout LyX-Code
-   def _toMeters()
+   def !toMeters()
 \end_layout
 
 \begin_layout LyX-Code
-      * _self 0.0254
+      * !self 0.0254
 \end_layout
 
 \begin_layout Standard
@@ -3884,7 +3995,7 @@ define a-foot
 \begin_layout LyX-Code
 > a-foot (
 \series bold
-_toMeters
+!toMeters
 \series default
 )
 \end_layout
@@ -3919,7 +4030,7 @@ class Length()
 \begin_layout LyX-Code
 
 \series bold
-   def _toMeters()
+   def !toMeters()
 \end_layout
 
 \begin_layout LyX-Code
@@ -3941,11 +4052,11 @@ Length
 \end_layout
 
 \begin_layout LyX-Code
-   def _toMeters()
+   def !toMeters()
 \end_layout
 
 \begin_layout LyX-Code
-      tag Meters (* _self 0.0254) 
+      tag Meters (* !self 0.0254) 
 \end_layout
 
 \begin_layout LyX-Code
@@ -3961,12 +4072,12 @@ class Meters(Length)
 \begin_layout LyX-Code
 
 \series bold
-   def _toMeters() _self
+   def !toMeters() !self
 \end_layout
 
 \begin_layout Standard
 Here we have defined an abstract base class and two derived classes which
- both have the _
+ both have the !
 \emph on
 toMeters
 \emph default
@@ -3988,7 +4099,7 @@ Length
 \series bold
 (tag Inches 12)
 \series default
- (_toMeters)
+ (!toMeters)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4014,7 +4125,7 @@ Inches
 \emph default
  and this object is the focus of the call to 
 \emph on
-_toMeters
+!toMeters
 \emph default
 .
  With this new class structure in place we can now add a method to add two
@@ -4028,7 +4139,7 @@ Length
 \begin_layout LyX-Code
    
 \series bold
-def _add(other)
+def !add(other)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4040,13 +4151,13 @@ def _add(other)
 \begin_layout LyX-Code
 
 \series bold
-         + (_toMeters)
+         + (!toMeters)
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-            other (_toMeters)
+            other (!toMeters)
 \end_layout
 
 \begin_layout Standard
@@ -4075,7 +4186,7 @@ define a-foot (tag Inches 12)
 \end_layout
 
 \begin_layout LyX-Code
-> a-foot (_add a-meter)
+> a-foot (!add a-meter)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4101,7 +4212,7 @@ This is useful however in the above example a user of our classes could
 \series bold
 Inches "12"
 \series default
-) (_add (tag Meters 1))          ; Error
+) (!add (tag Meters 1))          ; Error
 \end_layout
 
 \begin_layout Standard
@@ -4144,7 +4255,7 @@ class Orange()
 \end_layout
 
 \begin_layout LyX-Code
-   define _pips 'true
+   define !pips 'true
 \end_layout
 
 \begin_layout LyX-Code
@@ -4152,7 +4263,7 @@ class Orange()
 \end_layout
 
 \begin_layout LyX-Code
-> (tag Orange "my lunch") _pips
+> (tag Orange "my lunch") !pips
 \end_layout
 
 \begin_layout LyX-Code
@@ -4170,7 +4281,7 @@ Class Validators
 \begin_layout Standard
 To help define membership of a class, the class can provide a 
 \emph on
-_valid?
+!valid?
 \emph default
  predicate method.
  This can assess an object and return 
@@ -4184,11 +4295,11 @@ tag
 \emph default
  function calls 
 \emph on
-_valid?
+!valid?
 \emph default
  if provided and fails when 
 \emph on
-_valid?
+!valid?
 \emph default
  returns 
 \emph on
@@ -4205,7 +4316,7 @@ Length
 \begin_layout LyX-Code
    
 \series bold
-def _valid?(obj)
+def !valid?(obj)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4247,7 +4358,7 @@ class Person ()
 \end_layout
 
 \begin_layout LyX-Code
-   def _new (name date-of-birth)
+   def !new (name date-of-birth)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4255,15 +4366,15 @@ class Person ()
 \end_layout
 
 \begin_layout LyX-Code
-         _name : name
+         !name : name
 \end_layout
 
 \begin_layout LyX-Code
-         _dob : date-of-birth
+         !dob : date-of-birth
 \end_layout
 
 \begin_layout LyX-Code
-         _classes : (list Person)
+         !classes : (list Person)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4271,7 +4382,7 @@ class Person ()
 \end_layout
 
 \begin_layout LyX-Code
-(Person_new) "Jo" 23
+(Person!new) "Jo" 23
 \end_layout
 
 \begin_layout Standard
@@ -4294,11 +4405,11 @@ init
  function.
  For example here is a class with an 
 \emph on
-_init
+!init
 \emph default
  member which creates slots in a dict created by 
 \emph on
-_new
+!new
 \emph default
 :
 \end_layout
@@ -4308,15 +4419,15 @@ class PersonTraditional (Object)
 \end_layout
 
 \begin_layout LyX-Code
-   def _init((name:String) (age: Bignum))
+   def !init((name:String) (age: Bignum))
 \end_layout
 
 \begin_layout LyX-Code
-      define _name name
+      define !name name
 \end_layout
 
 \begin_layout LyX-Code
-      define _age age
+      define !age age
 \end_layout
 
 \begin_layout Standard
@@ -4326,13 +4437,13 @@ Objects
 \emph default
  are created by calling 
 \emph on
-_new
+!new
 \emph default
 : 
 \end_layout
 
 \begin_layout LyX-Code
-> PersonTraditional (_new "Abe" 99)
+> PersonTraditional (!new "Abe" 99)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4340,17 +4451,17 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-      _age : 99
+      !age : 99
 \end_layout
 
 \begin_layout LyX-Code
-      _name : "Abe" ; PersonTraditional Dictionary
+      !name : "Abe" ; PersonTraditional Dictionary
 \end_layout
 
 \begin_layout Standard
 Here is a simple implementation of 
 \emph on
-_new
+!new
 \emph default
  in the base class:
 \end_layout
@@ -4364,19 +4475,19 @@ class Object (Dictionary)
 \end_layout
 
 \begin_layout LyX-Code
-  def _new(&rest args)
+  def !new(&rest args)
 \end_layout
 
 \begin_layout LyX-Code
-      (tag _self (dict))                     
+      (tag !self (dict))                     
 \end_layout
 
 \begin_layout LyX-Code
-         apply _init args
+         apply !init args
 \end_layout
 
 \begin_layout LyX-Code
-         _self
+         !self
 \end_layout
 
 \begin_layout LyX-Code
@@ -4384,17 +4495,17 @@ class Object (Dictionary)
 \end_layout
 
 \begin_layout LyX-Code
-  def _init(args)                           ; null _init method
+  def !init(args)                           ; null !init method
 \end_layout
 
 \begin_layout LyX-Code
-      _self
+      !self
 \end_layout
 
 \begin_layout Standard
 This 
 \emph on
-_new
+!new
 \emph default
  collects all the input arguments via the 
 \emph on
@@ -4407,12 +4518,12 @@ dict
 , tags it with the derived class and passes the collected arguments to the
  classes 
 \emph on
-_init
+!init
 \emph default
  function.
  The default 
 \emph on
-_init
+!init
 \emph default
  function returns the new object un-modified.
 \end_layout
@@ -4427,7 +4538,7 @@ This language embodies the opinion that objects are created first, then
  object construction.
  Let's explore how the 
 \emph on
-_valid?
+!valid?
 \emph default
  predicates can be used to automate classification.
  
@@ -4454,7 +4565,7 @@ class EvenNumber()
 \begin_layout LyX-Code
   
 \series bold
-def _valid?(x)
+def !valid?(x)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4473,7 +4584,7 @@ The Genyris distribution includes file "examples/classify.lin" which shows
  this pattern.
  It defines a 
 \emph on
-_classify
+!classify
 \emph default
  function which recursively walks the class hierarchy testing an object's
  compliance with validators.
@@ -4514,7 +4625,7 @@ kevin
 \emph default
 , and call 
 \emph on
-_classify
+!classify
 \emph default
 :
 \end_layout
@@ -4528,11 +4639,11 @@ define kevin
 \end_layout
 
 \begin_layout LyX-Code
-     _name: "Kevin"
+     !name: "Kevin"
 \end_layout
 
 \begin_layout LyX-Code
-     _age: 49
+     !age: 49
 \end_layout
 
 \begin_layout LyX-Code
@@ -4542,7 +4653,7 @@ define kevin
 \begin_layout LyX-Code
 
 \series bold
-Thing (_classify kevin)
+Thing (!classify kevin)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4562,11 +4673,11 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-      _age : 49
+      !age : 49
 \end_layout
 
 \begin_layout LyX-Code
-      _name : "Kevin" ; Boomer Dictionary
+      !name : "Kevin" ; Boomer Dictionary
 \end_layout
 
 \begin_layout LyX-Code
@@ -4593,7 +4704,7 @@ class Boomer (Person)
 \begin_layout LyX-Code
    
 \series bold
-def _valid? (obj)
+def !valid? (obj)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4623,11 +4734,11 @@ obj
 \begin_layout LyX-Code
             
 \series bold
-(Person_valid?)
+(Person!valid?)
 \begin_inset Formula $^{\text{3}}$
 \end_inset
 
- _self 
+ !self 
 \series default
    
 \end_layout
@@ -4639,7 +4750,7 @@ obj
 \begin_inset Formula $^{\text{4}}$
 \end_inset
 
- 45 _age 60   
+ 45 !age 60   
 \series default
    
 \end_layout
@@ -4655,7 +4766,7 @@ Person
 \emph default
  and the 
 \emph on
-_age
+!age
 \emph default
  slot must be between 45 and 60.
  In detail, referring to the notes on the above lines:
@@ -4691,7 +4802,7 @@ nil
 \begin_layout Enumerate
 The expression 
 \emph on
-(Person_valid?)
+(Person!valid?)
 \emph default
  retrieves the validator for the 
 \emph on
@@ -4699,7 +4810,7 @@ Person
 \emph default
  class and applies it to 
 \emph on
-_self
+!self
 \emph default
 , which is bound to 
 \emph on
@@ -4708,11 +4819,11 @@ obj
 .
  
 \emph on
-(Person_valid?) 
+(Person!valid?) 
 \emph default
 checks for a slot called
 \emph on
- _age.
+ !age.
 \end_layout
 
 \begin_layout Enumerate
@@ -4741,15 +4852,15 @@ If it looks like a duck and quacks like a duck - then it is a duck
  If there is a mis-match then eventually an error will result.
  For example if we could define a 
 \emph on
-_copy
+!copy
 \emph default
  function which expects some kind of stream object with 
 \emph on
-_next
+!next
 \emph default
  and 
 \emph on
-_last? 
+!last? 
 \emph default
 methods.
  There is no need to perform type-checking in the interface since if the
@@ -4774,7 +4885,7 @@ class Stream-Interface()
 \end_layout
 
 \begin_layout LyX-Code
-   def _valid?(object)
+   def !valid?(object)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4786,29 +4897,29 @@ class Stream-Interface()
 \end_layout
 
 \begin_layout LyX-Code
-            bound? _next
+            bound? !next
 \end_layout
 
 \begin_layout LyX-Code
-            is-instance? _next Closure
+            is-instance? !next Closure
 \end_layout
 
 \begin_layout LyX-Code
-            bound? _last
+            bound? !last
 \end_layout
 
 \begin_layout LyX-Code
-            is-instance? _last Closure 
+            is-instance? !last Closure 
 \end_layout
 
 \begin_layout Standard
 The validator here checks whether the object has 
 \emph on
-_next
+!next
 \emph default
  and 
 \emph on
-_last
+!last
 \emph default
  slots, and whether they are function closures.
  This type of validator could be implemented in a meta-class for the interface
@@ -4828,15 +4939,43 @@ A simple nominative approach could be used to designate a non-validating
 \end_layout
 
 \begin_layout LyX-Code
-class IStream()
+@prefix streams "http://myproject.org/inteterfaces/2008/streams/"
 \end_layout
 
 \begin_layout LyX-Code
-class MyStream(IStream)            ; it's an IStream - honest!
+class streams.IStream()
 \end_layout
 
 \begin_layout LyX-Code
-   def method() 
+'streams.method
+\end_layout
+
+\begin_layout LyX-Code
+   var !dc.Description "A stream method"
+\end_layout
+
+\begin_layout LyX-Code
+   var !rdf.Type 'genyris.Method
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+; Usage in another file
+\end_layout
+
+\begin_layout LyX-Code
+@prefix streams "http://myproject.org/inteterfaces/2008/streams/"
+\end_layout
+
+\begin_layout LyX-Code
+class MyStream(streams.IStream)            ; it's an streams.IStream - honest!
+\end_layout
+
+\begin_layout LyX-Code
+   def !streams.method() 
 \end_layout
 
 \begin_layout LyX-Code
@@ -4856,7 +4995,7 @@ tag MyStream some-object
 \end_layout
 
 \begin_layout LyX-Code
-def someFunction((input: IStream))
+def someFunction((input: streams.IStream))
 \end_layout
 
 \begin_layout LyX-Code
@@ -4872,15 +5011,105 @@ some-function some-object
 \end_layout
 
 \begin_layout Standard
-An IStream class is defined and used to tag objects.
- The tagger needs to be honest to ensure the interface is actually present
- in the tagged objects.
+An IStream class is defined and the base symbols declares meta-data describing
+ the interface, possibly including RDF ranges and domains.
+ A user then tags an object with a derived class, the tagger needs to be
+ honest to ensure the interface is actually present in the tagged objects.
  Users of the objects can type-check based on the base class 
 \emph on
-IStream
+streams.IStream
 \emph default
 .
- 
+\end_layout
+
+\begin_layout Section
+Semantics and The Secret Life of Symbols
+\end_layout
+
+\begin_layout Standard
+As you my have deduced by now, symbols in Genyris are also Dictionaries
+ and can hence have associated bound slots.
+ For example our 
+\emph on
+file
+\emph default
+ module might contain the symbol 
+\emph on
+genyris:/files/ 
+\emph default
+(aka 
+\emph on
+file.
+\emph default
+) with some attached meta-data :
+\end_layout
+
+\begin_layout LyX-Code
+@prefix file "genyris:/files/"
+\end_layout
+
+\begin_layout LyX-Code
+'file.
+\end_layout
+
+\begin_layout LyX-Code
+    var !name    "File Handling Functions"
+\end_layout
+
+\begin_layout LyX-Code
+    var !version "1.2"
+\end_layout
+
+\begin_layout Standard
+The symbol's slots can be accessed as usual:
+\end_layout
+
+\begin_layout LyX-Code
+display ('file.!version)
+\end_layout
+
+\begin_layout Standard
+Because symbols have slots, and slots can have prefixes, we can use symbols
+ to define the semantics of programs.
+ The additional meta-data required for semantics are added to the symbols.
+ Properties (in the RDF use of the term) can be defined.
+ Here is a fragment of code which creates a Dictionary containing facts
+ about a Wikipedia article:
+\end_layout
+
+\begin_layout LyX-Code
+@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+\end_layout
+
+\begin_layout LyX-Code
+@prefix dc "http://purl.org/dc/elements/1.1/"
+\end_layout
+
+\begin_layout LyX-Code
+dict
+\end_layout
+
+\begin_layout LyX-Code
+   !rdf.about    : "http-//en.wikipedia.org/wiki/Tony-Benn"
+\end_layout
+
+\begin_layout LyX-Code
+   !dc.Title     : "Tony Benn"
+\end_layout
+
+\begin_layout LyX-Code
+   !dc.Publisher : "Wikipedia"
+\end_layout
+
+\begin_layout Standard
+Note that the properties of the dictionary are defined by globally published
+ RDF URIs.
+ Here we are invoking the Dublin Core meta-data and the RDF definitions.
+ This allows the programmer to unambiguiously identify the properties of
+ an object.
+ By using the meta-data (such as Domain and Range) associated with symbol
+ properties the programmer can write software to make deductions about the
+ correctness of the program data, or other higher-level goals.
 \end_layout
 
 \begin_layout Section
@@ -5026,15 +5255,15 @@ Methods
 \end_layout
 
 \begin_layout Description
-_close() Closes the current output stream.
+!close() Closes the current output stream.
 \end_layout
 
 \begin_layout Description
-_flush() Forces all buffered output to be written to the device.
+!flush() Forces all buffered output to be written to the device.
 \end_layout
 
 \begin_layout Description
-_format(<format-string><arg1>...<argn>) Outputs the args as dictated by the
+!format(<format-string><arg1>...<argn>) Outputs the args as dictated by the
  format-string.
  The format string is a normal string with the special format sequences.
  Each format sequence must be matched by a corresponding argument to format,
@@ -5071,7 +5300,7 @@ Example:
 
 \end_deeper
 \begin_layout LyX-Code
-stdout(_format "~s ~a ~x ~%" "Hello" "World" '(img ((width: 23))))
+stdout(!format "~s ~a ~x ~%" "Hello" "World" '(img ((width: 23))))
 \end_layout
 
 \begin_layout LyX-Code
@@ -5110,10 +5339,6 @@ Reader
  pointing the current Standard Input device, typically the console.
 \end_layout
 
-\begin_layout Description
-
-\end_layout
-
 \begin_layout Standard
 \begin_inset Note Greyedout
 status open
@@ -5147,7 +5372,7 @@ List Traditional Lisp/Scheme list processing with functions such as:
 \labelwidthstring 00.00.0000
 
 \emph on
-_length
+!length
 \emph default
  Count number of items in a list.
 \end_layout
@@ -5156,7 +5381,7 @@ _length
 \labelwidthstring 00.00.0000
 
 \emph on
-_reverse
+!reverse
 \emph default
  Reverse a list.
 \end_layout
@@ -5165,7 +5390,7 @@ _reverse
 \labelwidthstring 00.00.0000
 
 \emph on
-_mapleft 
+!mapleft 
 \emph default
 Apply a function closure to every element in a list
 \end_layout
@@ -5174,7 +5399,7 @@ Apply a function closure to every element in a list
 \labelwidthstring 00.00.0000
 
 \emph on
-_remove
+!remove
 \emph default
  Remove elements from a list satisfying a predicate.
 \end_layout
