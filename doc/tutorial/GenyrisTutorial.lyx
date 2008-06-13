@@ -4582,24 +4582,17 @@ Validators provide a way to automatically categorize unknown objects - an
 \begin_layout Standard
 The Genyris distribution includes file "examples/classify.lin" which shows
  this pattern.
- It defines a 
+ It defines a simple 
 \emph on
-!classify
+classify
 \emph default
  function which recursively walks the class hierarchy testing an object's
  compliance with validators.
  It is an example of classification of people into classes based on age
  and possessions.
- First we load the source files:
-\end_layout
-
-\begin_layout LyX-Code
-
-\series bold
-load
-\series default
- "examples/people.lin"
-\end_layout
+ First we load the source files 
+\begin_inset Foot
+status open
 
 \begin_layout Standard
 The 
@@ -4618,6 +4611,19 @@ jar
  file including some initialization code and a handful of examples.
 \end_layout
 
+\end_inset
+
+:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+load
+\series default
+ "examples/people.lin"
+\end_layout
+
 \begin_layout Standard
 Next we create an un-classified object, assign it to a variable 
 \emph on
@@ -4625,9 +4631,9 @@ kevin
 \emph default
 , and call 
 \emph on
-!classify
+classify
 \emph default
-:
+, and disply the object:
 \end_layout
 
 \begin_layout LyX-Code
@@ -4653,7 +4659,7 @@ define kevin
 \begin_layout LyX-Code
 
 \series bold
-Thing (!classify kevin)
+> classify Person kevin
 \end_layout
 
 \begin_layout LyX-Code
@@ -4685,16 +4691,36 @@ dict
 \end_layout
 
 \begin_layout Standard
-The resulting printout shows the class validator for 
-\emph on
-Boomer
-\emph default
- has recognised 
+The resulting printout shows the classifyer has recognised 
 \emph on
 kevin
 \emph default
+ as a 
+\emph on
+Boomer
+\emph default
 .
- Here is the class:
+ Here are the classes:
+\end_layout
+
+\begin_layout LyX-Code
+class Person ()
+\end_layout
+
+\begin_layout LyX-Code
+   def !valid? (obj)
+\end_layout
+
+\begin_layout LyX-Code
+      obj
+\end_layout
+
+\begin_layout LyX-Code
+         bound? !age
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout LyX-Code
@@ -4710,11 +4736,7 @@ def !valid? (obj)
 \begin_layout LyX-Code
       
 \series bold
-obj
-\begin_inset Formula $^{\text{1}}$
-\end_inset
-
-  
+obj  
 \series default
                         
 \end_layout
@@ -4722,118 +4744,33 @@ obj
 \begin_layout LyX-Code
         
 \series bold
- and
-\begin_inset Formula $^{\text{2}}$
-\end_inset
-
-     
-\series default
-                   
-\end_layout
-
-\begin_layout LyX-Code
-            
-\series bold
-(Person!valid?)
-\begin_inset Formula $^{\text{3}}$
-\end_inset
-
- !self 
-\series default
-   
-\end_layout
-
-\begin_layout LyX-Code
-           
-\series bold
- between
-\begin_inset Formula $^{\text{4}}$
-\end_inset
-
- 45 !age 60   
+ between 45 !age 60   
 \series default
    
 \end_layout
 
 \begin_layout Standard
-Here the 
-\emph on
-obj
-\emph default
- argument is tested twice, firstly it must be a valid 
+To be a valid 
 \emph on
 Person
 \emph default
- and the 
+ kevin must have an the 
 \emph on
 !age
 \emph default
- slot must be between 45 and 60.
- In detail, referring to the notes on the above lines:
-\end_layout
-
-\begin_layout Enumerate
-
+ property, and to be a Boomer it's value must be between 45 and 60.
+ The 
 \emph on
-obj
+classify
 \emph default
- is called and evaluates the rest of of the function in its context.
-\end_layout
-
-\begin_layout Enumerate
-
-\emph on
-and
-\emph default
- is a macro that evaluates each sub-expression passed in turn.
- If one of them is 
-\emph on
-nil,
-\emph default
- execution ceases and 
-\emph on
-nil
-\emph default
- is returned.
- This becomes the return value of the function.
+ function only calls the derived class's validator if object is in the base
+ class.
  
 \end_layout
 
-\begin_layout Enumerate
-The expression 
-\emph on
-(Person!valid?)
-\emph default
- retrieves the validator for the 
-\emph on
-Person
-\emph default
- class and applies it to 
-\emph on
-!self
-\emph default
-, which is bound to 
-\emph on
-obj
-\emph default
-.
- 
-\emph on
-(Person!valid?) 
-\emph default
-checks for a slot called
-\emph on
- !age.
-\end_layout
-
-\begin_layout Enumerate
-
-\emph on
-between
-\emph default
- is a utility function which checks a range
-\emph on
-.
+\begin_layout Standard
+This technique can be used to categorise a program's inputs or validate
+ output data, and even re-validate previously classified objects.
 \end_layout
 
 \begin_layout Subsection

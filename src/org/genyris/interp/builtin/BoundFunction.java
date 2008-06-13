@@ -12,19 +12,19 @@ import org.genyris.interp.UnboundException;
 public class BoundFunction extends ApplicableFunction {
 
 
-	public BoundFunction(Interpreter interp, Lsymbol name) {
+    public BoundFunction(Interpreter interp, Lsymbol name) {
         super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {
-		if( arguments.length > 1)
-			throw new GenyrisException("Too many arguments to bound?: " + arguments.length);
+        if( arguments.length > 1)
+            throw new GenyrisException("Too many arguments to bound?: " + arguments.length);
         try {
             envForBindOperations.lookupVariableValue(arguments[0]);
         } catch (UnboundException e) {
             return NIL;
         }
-		return TRUE;
-	}
+        return TRUE;
+    }
 
 }
