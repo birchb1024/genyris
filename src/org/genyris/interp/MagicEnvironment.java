@@ -89,10 +89,10 @@ public class MagicEnvironment extends StandardEnvironment {
                 isMember = true;
             }
             else {
-                throw new UnboundException("cannot set to a bad place" + exp.toString());
+                throw new UnboundException("bad dynamic: " + exp.toString());
             }
         }
-        Lsymbol symbol = (Lsymbol) exp;
+        Lsymbol symbol = (Lsymbol) sym;
         if (isMember) {
             return lookupDynamicVariableValue(sym);
         }
