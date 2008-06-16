@@ -33,8 +33,7 @@ class Alist()
 
    def lookup(key list)
       cond
-          (null? list) 
-             nil
+          (null? list) nil
           (equal? key ((list!left)!left))
              (list!left)!right
           else
