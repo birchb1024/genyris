@@ -100,12 +100,8 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
 
-//        if (!(exp instanceof Lsymbol)) {
-//            throw new GenyrisException("cannot define non-symbol: " + exp.toString());
-//        }
-//        Lsymbol sym = (Lsymbol) exp;
-        if(valu == null) {
-            throw new GenyrisException("null!");
+        if (!(exp instanceof Lsymbol)) {
+            throw new GenyrisException("cannot define non-symbol: " + exp.toString());
         }
         Exp sym = exp;
         if (sym == CLASSES) {
