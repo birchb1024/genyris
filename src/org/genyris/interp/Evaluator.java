@@ -23,15 +23,14 @@ public class Evaluator {
             return env.lookupVariableValue(expression);
         }
         else if (expression.listp()) {
-            try {
-                Closure proc = (Closure) eval(env, expression.car());
-                Exp[] arguments = proc.computeArguments(env, expression.cdr());
-                return proc.applyFunction(env, arguments);
-            }
-            catch (ClassCastException e) {
-                throw new GenyrisException("Attempt to call something which is not callable."
+            Exp tmp = eval(env, expression.car());
+            if(!(tmp instanceof Closure)) {
+                throw new GenyrisException("Attempt to call something which is not a Closure: "
                         + expression.toString());
             }
+            Closure proc = (Closure) tmp;
+            Exp[] arguments = proc.computeArguments(env, expression.cdr());
+            return proc.applyFunction(env, arguments);
         }
         else {
             throw new GenyrisException("Evaluator does not know how to eval: "

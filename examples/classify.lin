@@ -4,36 +4,23 @@
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 
-def all-nil? (x)
-   ; predicate returns true if all elements in the list are nil
+; Function to automatically tag an object with classes
+; starting with the current class.
+; Only tags the most specific derived classes.
+;
+; returns true if a valid class was found, nil otherwise
+;
+def classify(klass thing)
    cond
-      (null? x) true
-      (null? (left x))
-          all-nil? (right x)
-      else
-          nil
-
-StandardClass
-
-  ; Method to automatically tag an object with classes
-  ; starting with the current class.
-  ; Only tags the most specific derived classes.
-  ;
-  ; returns true if a valid class was found, nil otherwise
-  ;
-  def !classify(thing)
-     define subclass-results         ; first analyse sub-classes for matches
-        map-left !subclasses
-           lambda (klass)
-              klass (!classify thing)
-     cond
-        (all-nil? subclass-results)  ; no subclasses were valid so check this class
-           cond
-              (and (bound? !valid?) (!valid? thing))        ; yep - valid so tag the object
-                 tag !self thing
-                 true
-              else
-                 nil
-        else
-           true
+     (klass (and (bound? !valid?) (!valid? thing))) ; is the thing a member of this class?
+        define subclass-results nil                    ; analyse sub-classes for matches
+        map-left (klass!subclasses)
+           lambda (subklass)
+              set^ subclass-results
+                or subclass-results
+                   classify subklass thing
+        cond
+           (null? subclass-results)              ; no subclasses were valid so tag with this class
+               tag klass thing
+        true
 

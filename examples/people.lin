@@ -18,30 +18,22 @@ class Person ()
 class Kid (Person)
    def !valid? (obj)
       obj
-         and
-            (Person!valid?) !self
-            < !age 15
+         < !age 15
 
 class Senior (Person)
    def !valid? (obj)
       obj
-         and
-            (Person!valid?) !self
-            between 60 !age 120
+         between 60 !age 120
 
 class Boomer (Person)
    def !valid? (obj)
       obj
-         and
-            (Person!valid?) !self
-            between 45 !age 60
+         between 45 !age 60
 
 class Hippie (Boomer)
    def !valid? (obj)
       obj
-         and
-            (Boomer!valid?) !self
-            bound? !bong
+         bound? !bong
 
 define noel
   dict
@@ -54,6 +46,5 @@ define kevin
      !name: "Kevin"
      !age: 49
 
-Thing (!classify noel)
-noel
-
+classify Person noel
+classify Person kevin

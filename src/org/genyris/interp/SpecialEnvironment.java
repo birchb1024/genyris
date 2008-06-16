@@ -79,7 +79,7 @@ public class SpecialEnvironment extends StandardEnvironment {
     }
 
     public String toString() {
-        return "<SpecialEnvironment>";
+        return "<SpecialEnvironment on: " + _object.toString() + ">";
     }
 
     public Object getJavaValue() {
