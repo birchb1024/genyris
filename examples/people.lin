@@ -48,3 +48,8 @@ define kevin
 
 classify Person noel
 classify Person kevin
+
+assert
+  and
+    is-instance? noel Hippie
+    is-instance? kevin Boomer

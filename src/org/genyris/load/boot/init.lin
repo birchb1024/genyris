@@ -54,6 +54,7 @@ def map-left (some-list some-function)
             some-function (left some-list)
             map-left (right some-list) some-function
 
+load "org/genyris/load/boot/assert.lin"
 load "org/genyris/load/boot/alist.lin"
 load "org/genyris/load/boot/object.lin"
 load "org/genyris/load/boot/listoflines.lin"

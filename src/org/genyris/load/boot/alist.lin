@@ -5,38 +5,12 @@
 ;;
 
 ;
-;  An association list
+;  Asserts
 ;
-class Alist()
-
-   def !render()
-      template
-          table ((border:1) (cellpadding:0))
-             ,@(renderRows !self)
-
-   def renderRow(apair)
-      template
-          tr()
-              td() ,(left apair)
-              td() ,(right apair)
-
-   def renderRows(alist)
-       cond
-          (null? alist) nil
-          else
-             cons
-                renderRow (alist!left)
-                renderRows (alist!right)
-   
-   def !lookup(key)
-      lookup key !self
-
-   def lookup(key list)
-      cond
-          (null? list) nil
-          (equal? key ((list!left)!left))
-             (list!left)!right
-          else
-              lookup key (list!right)
-             
-          
+@prefix g "http://www.geyris.org/rdf#"
+defmacro assert (expression)
+  template
+     cond
+        (null? ,expression)
+            raise (list "assert failed on expression: " ',expression)
+                    
