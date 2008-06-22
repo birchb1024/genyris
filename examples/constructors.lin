@@ -22,6 +22,11 @@ class BasicPerson ()
         define !age age
         !self
 
+assert
+   and
+     is-instance? (BasicPerson (!new "w" 2)) BasicPerson
+     equal? 2
+       (BasicPerson (!new "w" 2))!age
 ;
 ;  A class which uses the !new in Object, and adds type checking
 ;
@@ -34,9 +39,9 @@ class PersonTraditional (Object)
 
 class PersonModern ()
 
-   def !valid?()
-      !name : String
-      !age : Bignum
+   def !valid?(obj)
+      (obj!name) : String
+      (obj!age) : Bignum
 
    def !new(name age)
       (dict)                             ; create the object

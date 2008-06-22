@@ -8,11 +8,10 @@
 ;  A base class for traditional construction activities
 ;
 class Object (Dictionary)
-
    ; generic !new method
    ; expects every class to have an !init method
    def !new(&rest args)
-      (tag (dict) !self)
+      (tag !self (dict))
          apply !init args
          !self
 

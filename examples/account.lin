@@ -1,0 +1,8 @@
+def make-withdraw (balance)
+   lambda (amount)
+      setq balance (- balance amount)
+
+define W1 (make-withdraw 100)
+
+W1 25
+W1 25
