@@ -1,6 +1,6 @@
 define fi
    File(!new "C:\\foo.txt")
-define out 	
+define out
    fi (!open 'write)
 out (!format "Hello\n")
 out (!format "World\n")
@@ -13,7 +13,7 @@ out (!close)
 
 define fi
    File(!new "C:\\foo.txt")
-define in 	
+define in
    fi (!open 'read)
 print (in(!read))
 
@@ -25,11 +25,11 @@ def dump()
   var ch nil
   var count 0
   while (in(!hasData))
-     set^ count (+ count 1)
+     setq count (+ count 1)
      write (in(!read)) '-
   in(!close)
   print "\n" count
-   
+
 
 def parse-file()
   var fi (File(!new "C:\\foo.lsp"))
@@ -39,11 +39,11 @@ def parse-file()
   while
      not
         equal? EOF
-           set^ exp (parser(!read))
+           setq exp (parser(!read))
      write exp
      display "\n"
   parser(!close)
-   
+
 
 def parse-sfs-file()
   var fi (File(!new "C:\\foo.sfs"))
@@ -54,7 +54,7 @@ def parse-sfs-file()
   while
      not
         equal? EOF
-           set^ exp (parser(!read))
+           setq exp (parser(!read))
      write exp
      display "\n"
   parser(!close)
@@ -69,7 +69,6 @@ def eval-sfs-file()
   while
      not
         equal? EOF
-           set^ exp (eval (parser(!read)))
+           setq exp (eval (parser(!read)))
      display exp
   parser(!close)
-   

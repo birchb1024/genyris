@@ -11,7 +11,7 @@ defmacro df (name args &rest body)
     template
         defvar ',name (lambdaq ,args ,@body)
 
-defmacro set^ (var valu) (template (set ',var ,valu))
+defmacro setq (var valu) (template (set ',var ,valu))
 
 defmacro if (test success-result failure-result)
    template
@@ -26,10 +26,9 @@ def caadr (x) (car (car (cdr x)))
 def cadar (x) (car (cdr (car x)))
 def caar (x) (car (car x))
 
-defmacro do(&rest body)
-   cons 'lambda
-      cons nil
-        cons body nil
+defmacro do (&rest expression)
+   expression
+
 define else do
 define then do
 

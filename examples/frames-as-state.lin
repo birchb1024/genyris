@@ -8,7 +8,7 @@
 
 def make-withdraw (balance)
    lambda (amount)
-      set^ balance (- balance amount)
+      setq balance (- balance amount)
       balance
 
 define W1 (make-withdraw 100)

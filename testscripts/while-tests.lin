@@ -3,4 +3,4 @@ while (> x 0)
 var x 3
 while (> x 0)
    print x
-   set^ x (- x 1) 
+   setq x (- x 1)
