@@ -115,21 +115,6 @@ fixed-font
  prompt of the command-line interpreter and the results printed underneath.
 \end_layout
 
-\begin_layout List
-\labelwidthstring 00.00.0000
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Standard
-Grey\InsetSpace ~
-text indicates a feature is not yet implemented.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Standard
 
 \newpage
@@ -153,7 +138,7 @@ jar
  You don't need to understand Java to use Genyris.
  You will need the Java 1.5 JRE or later to run the Genyris interpreter.
  Java can be downloaded from Sun Microsystems.
- Check with your JRE version with this command:
+ Check your JRE version with this command:
 \end_layout
 
 \begin_layout LyX-Code
@@ -953,7 +938,7 @@ interned
 \end_inset
 
  by the parser so that there is only ever one instance of a particular symbol.
- Symbols are Case Sensitive so for example 
+ Symbols are case sensitive so for example 
 \emph on
 Kookaburra
 \emph default
@@ -3411,11 +3396,11 @@ file
  object.
  While it is handy to be able to add behaviour to objects, it does not scale
  when there are many objects which require the same behaviour.
- For this we need Namspaces or Classes.
+ For this we need namespaces or classes.
 \end_layout
 
 \begin_layout Section
-Using Namespaces
+Namespaces
 \end_layout
 
 \begin_layout Standard
@@ -3552,7 +3537,7 @@ Object-Oriented
 
  language.
  The interpreter looks at the classes for functions to execute if the function
- name is dynamic (starts with an underscore).
+ name is dynamic (starts with a !).
  This way you can add behaviour to many objects in a single place.
  Classes are dictionaries with special variables which hold the relationships
  between classes.
@@ -4097,7 +4082,7 @@ Inches "12"
 \end_layout
 
 \begin_layout Standard
-To provide protection and we use type checking features class validators.
+To provide protection and we use type checking features and class validators.
 \end_layout
 
 \begin_layout Subsection
@@ -4505,7 +4490,7 @@ This
 dict
 \emph default
 , tags it with the derived class and passes the collected arguments to the
- classes 
+ class's 
 \emph on
 !init
 \emph default
@@ -4614,7 +4599,7 @@ load
 \end_layout
 
 \begin_layout Standard
-This creates an un-classified object, assign it to a variable 
+This creates an un-classified object, assigns it to a variable 
 \emph on
 kevin
 \emph default
@@ -4860,12 +4845,6 @@ The validator here checks whether the object has
 !last
 \emph default
  properties, and whether they are procedure objects.
- This type of validator could be implemented in a meta-class for the interface
- since this check can be performed on 
-\bar under
-classes 
-\bar default
-rather than instances.
  
 \end_layout
 
@@ -5286,146 +5265,6 @@ Reader
 
 \begin_layout Standard
 (To be completed)
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Greyedout
-status open
-
-\begin_layout Subsection
-Standard Class Libraries
-\end_layout
-
-\begin_layout Standard
-Genyris will provide a number of standard libraries for commonly required
- subject areas.
- 
-\end_layout
-
-\begin_layout Subsubsection*
-List Processing Classes
-\end_layout
-
-\begin_layout Standard
-Genyris imports many types and functions inherited from Lisp and Scheme.
- These include:
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-List Traditional Lisp/Scheme list processing with functions such as:
-\end_layout
-
-\begin_deeper
-\begin_layout List
-\labelwidthstring 00.00.0000
-
-\emph on
-!length
-\emph default
- Count number of items in a list.
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-
-\emph on
-!reverse
-\emph default
- Reverse a list.
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-
-\emph on
-!mapleft 
-\emph default
-Apply a function closure to every element in a list
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-
-\emph on
-!remove
-\emph default
- Remove elements from a list satisfying a predicate.
-\end_layout
-
-\end_deeper
-\begin_layout List
-\labelwidthstring 00.00.0000
-Assoc Association Lists
-\end_layout
-
-\begin_layout Subsubsection*
-Input/Output
-\end_layout
-
-\begin_layout Standard
-Classes including:
-\end_layout
-
-\begin_layout Itemize
-File
-\end_layout
-
-\begin_layout Itemize
-Stream
-\end_layout
-
-\begin_layout Itemize
-Socket
-\end_layout
-
-\begin_layout Subsubsection*
-Tabular Data Types
-\end_layout
-
-\begin_layout Standard
-Support for file types commonly occurring in everyday computer use, typically
- arranged in tables or records:
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-CSV Comma-Separated Value files
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-Recordset SQL Databases
-\end_layout
-
-\begin_layout List
-\labelwidthstring 00.00.0000
-Tables Rectangular tables of atomic types.
-\end_layout
-
-\begin_layout Subsubsection*
-Utility Types
-\end_layout
-
-\begin_layout Itemize
-Date and Time
-\end_layout
-
-\begin_layout Subsubsection*
-Java Integration
-\end_layout
-
-\begin_layout Itemize
-Java Beans
-\end_layout
-
-\begin_layout Itemize
-Java Class execution
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \end_body
