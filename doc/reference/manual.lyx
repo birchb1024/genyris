@@ -1,0 +1,412 @@
+#LyX 1.5.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 276
+\begin_document
+\begin_header
+\textclass article
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize default
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Genyris Reference Manual
+\end_layout
+
+\begin_layout Author
+Peter William Birch
+\end_layout
+
+\begin_layout Abstract
+Reference for the Genyris language.
+\end_layout
+
+\begin_layout Section
+Function and Class Reference
+\end_layout
+
+\begin_layout Standard
+A goal of the Genyris language is to encourage re-use and generic programming.
+ The language separates the concerns, form and function, allowing developers
+ to of three kinds of class libraries:
+\end_layout
+
+\begin_layout Enumerate
+Built-in class libraries
+\end_layout
+
+\begin_layout Enumerate
+Taxonomies of class types and validation functions assembled into class
+ hierarchies useful for automatic triage of objects.
+\end_layout
+
+\begin_layout Enumerate
+Traditional executable code libraries containing functions for manipulating
+ objects of known classes and implementing significant functionality.
+\end_layout
+
+\begin_layout Standard
+This manual provides detailed descriptions of individual functions and classes
+ provided with the language.
+ 
+\end_layout
+
+\begin_layout Section
+Logical Functions
+\end_layout
+
+\begin_layout Subsection
+\begin_inset LatexCommand index
+name "and"
+
+\end_inset
+
+and
+\end_layout
+
+\begin_layout Subsection
+\begin_inset LatexCommand index
+name "or"
+
+\end_inset
+
+or
+\end_layout
+
+\begin_layout Section
+Mathematical Functions
+\end_layout
+
+\begin_layout Subsection
++ 
+\begin_inset LatexCommand index
+name "+"
+
+\end_inset
+
+<bigdecimal>...
+\end_layout
+
+\begin_layout LyX-Code
+Computes the addition of its arguments.
+ Expects BigDecimal argments.
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+Returns: 
+\end_layout
+
+\begin_layout LyX-Code
+A
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Section
+Input and Output
+\end_layout
+
+\begin_layout Subsubsection
+Global Output Functions
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset LatexCommand index
+name "print"
+
+\end_inset
+
+print<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream as if typed
+ in by a user in indented format.
+ - strings are quoted, escape characters are output.
+ Arguments on the output are seperated by a newline.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+print '(1 "w
+\backslash
+n" (x y))
+\end_layout
+
+\begin_layout LyX-Code
+  
+\end_layout
+
+\begin_layout LyX-Code
+1 "w
+\backslash
+n"
+\end_layout
+
+\begin_layout LyX-Code
+   x y  
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset LatexCommand index
+name "write"
+
+\end_inset
+
+write<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream without parenthesis
+ syntax.
+ - strings are quoted, escape characters are output.
+ Arguments are output sequentially without space padding.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+write '(1 2 (e) "w")
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(1 2 (e) "w")
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset LatexCommand index
+name "display"
+
+\end_inset
+
+display<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream without syntax.
+ - strings are not quoted, escape characters are not output.
+ Arguments are output sequentially without padding.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+display '(1 "w
+\backslash
+n" (x y))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(1 w
+\end_layout
+
+\begin_layout LyX-Code
+ (x y))
+\end_layout
+
+\begin_layout Subsubsection
+Global Input Functions
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset LatexCommand index
+name "read"
+
+\end_inset
+
+read
+\end_layout
+
+\begin_layout Standard
+Reads an expression from the standard input.
+\end_layout
+
+\begin_layout Subsubsection
+Class 
+\begin_inset LatexCommand index
+name "Writer"
+
+\end_inset
+
+Writer
+\end_layout
+
+\begin_layout Standard
+A class which accepts a stream of characters.
+\end_layout
+
+\begin_layout Paragraph
+Methods
+\end_layout
+
+\begin_layout Description
+!
+\begin_inset LatexCommand index
+name "close"
+
+\end_inset
+
+close() Closes the current output stream.
+\end_layout
+
+\begin_layout Description
+!
+\begin_inset LatexCommand index
+name "flush"
+
+\end_inset
+
+flush() Forces all buffered output to be written to the device.
+\end_layout
+
+\begin_layout Description
+!
+\begin_inset LatexCommand index
+name "format"
+
+\end_inset
+
+format <format-string><arg1>...<argn> Outputs the args as dictated by the format-st
+ring.
+ The format string is a normal string with the special format sequences.
+ Each format sequence must be matched by a corresponding argument to format,
+ used in order.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+~a Outputs the argument without syntax - strings are unquoted, escape characters
+ are not output
+\end_layout
+
+\begin_layout Description
+~s Outputs the argument using if entered by a user - strings are quoted,
+ escape characters are not output
+\end_layout
+
+\begin_layout Description
+~x Outputs the argument as XML using an XmlWriter
+\end_layout
+
+\begin_layout Description
+~% Outputs a linefeed
+\end_layout
+
+\begin_layout Description
+~~ Outputs a tilde character
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+stdout(!format "~s ~a ~x ~%" "Hello" "World" '(img ((width: 23))))
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+"Hello" World <img width="23"/>
+\end_layout
+
+\begin_layout Paragraph
+Global Variables
+\end_layout
+
+\begin_layout Description
+\begin_inset LatexCommand index
+name "stdout"
+
+\end_inset
+
+stdout A global variable which holds a 
+\emph on
+Writer
+\emph default
+ pointing the current Standard output device, typically the console.
+\end_layout
+
+\begin_layout Subsubsection
+Class Reader
+\end_layout
+
+\begin_layout Paragraph
+Globals
+\end_layout
+
+\begin_layout Description
+\begin_inset LatexCommand index
+name "stdin"
+
+\end_inset
+
+stdin A global variable which holds a 
+\emph on
+Reader
+\emph default
+ pointing the current Standard Input device, typically the console.
+\end_layout
+
+\begin_layout Standard
+(To be completed)
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset LatexCommand printindex
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

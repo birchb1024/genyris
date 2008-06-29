@@ -52,6 +52,7 @@ import org.genyris.interp.builtin.ReplaceCarFunction;
 import org.genyris.interp.builtin.ReplaceCdrFunction;
 import org.genyris.interp.builtin.ReverseFunction;
 import org.genyris.interp.builtin.SetFunction;
+import org.genyris.interp.builtin.SymListFunction;
 import org.genyris.interp.builtin.SymbolValueFunction;
 import org.genyris.interp.builtin.TagFunction;
 import org.genyris.interp.builtin.WhileFunction;
@@ -169,6 +170,9 @@ public class Interpreter {
         bindLazyProcedure("bound?", BoundFunction.class);
         bindEagerProcedure("raise", RaiseFunction.class);
         bindEagerProcedure("self-test-runner", JunitRunnerFunction.class);
+        bindEagerProcedure("symlist", SymListFunction.class);
+
+
         bindMethod("String", Constants.SPLIT, SplitMethod.class);
         bindMethod("String", Constants.CONCAT, ConcatMethod.class);
         bindMethod("String", Constants.MATCH, MatchMethod.class);

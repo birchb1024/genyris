@@ -51,7 +51,7 @@ public class Lcons extends ExpWithEmbeddedClasses {
         return this;
     }
 
-    public Exp setCdr(Exp exp) throws AccessException {
+    public Exp setCdr(Exp exp) {
         this._cdr = exp;;
         return this;
     }
@@ -64,7 +64,7 @@ public class Lcons extends ExpWithEmbeddedClasses {
         StringWriter buffer = new StringWriter();
         BasicFormatter formatter = new BasicFormatter(buffer);
         this.acceptVisitor(formatter);
-        return buffer.toString(); 
+        return buffer.toString();
     }
     public String getBuiltinClassName() {
         return Constants.PAIR;

@@ -6,7 +6,10 @@
 package org.genyris.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
@@ -19,7 +22,7 @@ public class SymbolTable {
     private Map         _prefixes;
 
     public SymbolTable(Interpreter interp) {
-        _table = new HashMap();
+        _table = new TreeMap();
         _prefixes = new HashMap();
         _interp = interp;
         if (_interp != null) {
@@ -136,5 +139,19 @@ public class SymbolTable {
     public void initEnvironment(Environment environment) {
         this._globalEnv = environment;
 
+    }
+
+    public Exp getSymbolsList() {
+        Lcons head, tail;
+        Iterator iter = _table.values().iterator();
+        Exp key = (Exp)iter.next(); // Safe to assume symbol table is never empty
+        head = tail = new Lcons(key,NIL);
+        while(iter.hasNext()) {
+            key = (Exp)iter.next();
+            Lcons newItem = new Lcons(key,NIL);
+            tail.setCdr(newItem);
+            tail = newItem;
+        }
+        return head;
     }
 }
