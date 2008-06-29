@@ -19,12 +19,6 @@ defmacro if (test success-result failure-result)
          ,test ,success-result
          else ,failure-result
 
-define left car
-define right cdr
-def cadr (x) (car (cdr x))
-def caadr (x) (car (car (cdr x)))
-def cadar (x) (car (cdr (car x)))
-def caar (x) (car (car x))
 
 defmacro do (&rest expression)
    expression
@@ -37,23 +31,9 @@ def null? (sexp)
       sexp nil
       else true
 
-def member? (item list)
-   cond
-      (null list)
-         nil
-      (equal (car list) item)
-         list
-      else
-          member? item (cdr list)
-
-def map-left (some-list some-function)
-   cond
-      some-list
-         cons
-            some-function (left some-list)
-            map-left (right some-list) some-function
 
 load "org/genyris/load/boot/assert.lin"
+load "org/genyris/load/boot/pair.lin"
 load "org/genyris/load/boot/alist.lin"
 load "org/genyris/load/boot/object.lin"
 load "org/genyris/load/boot/listoflines.lin"
