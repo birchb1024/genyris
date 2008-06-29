@@ -101,6 +101,15 @@ name "or"
 or
 \end_layout
 
+\begin_layout Subsection
+\begin_inset LatexCommand index
+name "null?"
+
+\end_inset
+
+null?
+\end_layout
+
 \begin_layout Section
 Mathematical Functions
 \end_layout
