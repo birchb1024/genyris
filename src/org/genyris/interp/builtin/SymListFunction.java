@@ -22,4 +22,5 @@ public class SymListFunction extends ApplicableFunction {
             throws GenyrisException {
         return _interp.getSymbolTable().getSymbolsList();
     }
+
 }
