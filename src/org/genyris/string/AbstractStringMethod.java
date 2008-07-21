@@ -15,17 +15,17 @@ import org.genyris.interp.Interpreter;
 public abstract class AbstractStringMethod extends AbstractMethod {
 
 
-	public AbstractStringMethod(Interpreter interp, Lsymbol name) {
+    public AbstractStringMethod(Interpreter interp, Lsymbol name) {
         super(interp, name);
     }
 
     protected Lstring getSelfString(Environment env) throws GenyrisException {
-		getSelf(env);
-		if (!(_self instanceof Lstring)) {
-			throw new GenyrisException("Non-String passed to String!split.");
-		} else {
-			Lstring theString = (Lstring) _self;
-			return theString;
-		}
-	}
+        getSelf(env);
+        if (!(_self instanceof Lstring)) {
+            throw new GenyrisException("Non-String passed to getSelfString: " + _self.toString());
+        } else {
+            Lstring theString = (Lstring) _self;
+            return theString;
+        }
+    }
 }
