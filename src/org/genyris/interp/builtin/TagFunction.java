@@ -20,6 +20,8 @@ import org.genyris.interp.UnboundException;
 
 public class TagFunction extends ApplicableFunction {
 
+    // TODO - This is really a method so refactor to use method class structure.
+
     public TagFunction(Interpreter interp, Lsymbol name) {
         super(interp, name);
     }
@@ -31,7 +33,7 @@ public class TagFunction extends ApplicableFunction {
             throw new GenyrisException("Tag expected 2 args, got: " + arguments.length);
         Exp object = arguments[1];
         Lobject klass = (Lobject) arguments[0]; //TODO type check
-        callValidator(environment, object, klass);
+        callValidator(klass, object, klass); // use the class itself as the env for validation so it can access class params etc.
         object.addClass(klass);
         return object;
     }
