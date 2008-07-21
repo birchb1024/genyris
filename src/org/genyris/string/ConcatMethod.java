@@ -17,19 +17,19 @@ import org.genyris.interp.Interpreter;
 public class ConcatMethod extends AbstractStringMethod {
 
 
-	public ConcatMethod(Interpreter interp, Lsymbol name) {
+    public ConcatMethod(Interpreter interp, Lsymbol name) {
         super(interp, name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-			throws GenyrisException {
-		Lstring result = getSelfString(env);
-		for(int i=0;i<arguments.length; i++) {
-			if(!(arguments[i] instanceof Lstring)) {
-				throw new GenyrisException("Non-string passed to " + Constants.CONCAT);
-			}
-			result = result.concat((Lstring)arguments[i]);
-		}
-		return result;
-	}
+            throws GenyrisException {
+        Lstring result = getSelfString(env);
+        for(int i=0;i<arguments.length; i++) {
+            if(!(arguments[i] instanceof Lstring)) {
+                throw new GenyrisException("Non-string passed to " + Constants.CONCAT + ": " + arguments[i].toString());
+            }
+            result = result.concat((Lstring)arguments[i]);
+        }
+        return result;
+    }
 }
