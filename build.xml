@@ -6,6 +6,7 @@
     <property name="dist.dir" value="dist" />
     <property name="src.compile.dir" value="${build.dir}/classes" />
     <property name="src.dir" value="src" />
+    <property name="version.dir" value="${build.dir}/version" />
 
     <property name="web.dir" value="web/war" />
     <property name="output.war" value="${dist.dir}/genyris.war" />
@@ -18,7 +19,7 @@
 
     <target name="compile" depends="only-clean, only-init, only-compile"
         description="Compile the Java"/>
-    <target name="binary-jar" depends="compile, only-binary-jar"
+    <target name="binary-jar" depends="compile, only-hg-version, only-binary-jar"
          description="compile and create jar"/>
     <target name="war" depends="binary-jar, only-war"
         description="Create war file, always compile."/>
@@ -70,8 +71,27 @@
         <echoproperties />
     </target>
 
+    <target name="only-hg-version">
+     <exec executable="hg" outputproperty="hg.tip">
+            <arg value="tip"/>
+            <arg value="--template"/>
+            <arg value="{rev}-{node|short}"/>
+        </exec>
+     <exec executable="hg" outputproperty="hg.tip.date">
+            <arg value="tip"/>
+            <arg value="--template"/>
+            <arg value="{date|date}"/>
+        </exec>
+<echo file="${version.dir}/tip.lin" append="false">
+@prefix v "http://prefix.genyris.org/lang/version#"
+defvar 'v.tip "${hg.tip}"
+defvar 'v.tipdate "${hg.tip.date}"
+</echo>
+    <echo>${hg.tip}</echo>
+    </target>
     <target name="only-init">
         <mkdir dir="${build.dir}" />
+        <mkdir dir="${version.dir}" />
         <mkdir dir="${dist.dir}" />
         <mkdir dir="${src.compile.dir}" />
     </target>
@@ -109,8 +129,9 @@
 
 
     <target name="only-binary-jar">
-        <jar destfile="${dist.dir}/genyris-bin.jar"  duplicate="fail">
-            <fileset dir="${basedir}" includes="README LICENSE tip.txt" />
+        <jar destfile="${dist.dir}/genyris-bin-${hg.tip}.jar"  duplicate="fail">
+            <fileset dir="${basedir}" includes="README LICENSE" />
+            <fileset dir="${build.dir}" includes="version/**/*" />
             <fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
             <fileset dir="${needed.lib.dir}" includes="junit/**/*" />
             <fileset dir="${src.dir}" includes="**/*.lin" />

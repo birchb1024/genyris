@@ -43,6 +43,4 @@ Pair
        template
           loop-left !self (lambda (,(left args)) ,@body)
 
-(symlist)
-   !each (x)
-       (stdout (!format "~a~%" x))
+

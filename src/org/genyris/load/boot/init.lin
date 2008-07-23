@@ -3,7 +3,8 @@
 ;; This software may be used and distributed according to the terms
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
-
+load "version/tip.lin"
+@prefix v "http://prefix.genyris.org/lang/version#"
 ; Some aliases
 @prefix g "http://prefix.genyris.org/lang/syntax#"
 class g.Keyword(Symbol)
@@ -43,4 +44,6 @@ load "org/genyris/load/boot/alist.lin"
 load "org/genyris/load/boot/object.lin"
 load "org/genyris/load/boot/listoflines.lin"
 load "org/genyris/load/boot/file.lin"
+load "org/genyris/load/boot/util.lin"
+u.format "Version: ~a~%Date: ~a~%" v.tip v.tipdate
 

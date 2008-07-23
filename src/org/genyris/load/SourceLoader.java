@@ -51,7 +51,7 @@ public class SourceLoader {
 
         if (in == null) {
             throw new GenyrisException(
-                    "loadScriptFromInputStream: null pointer from getResourceAsStream.");
+              "loadScriptFromInputStream: null pointer from getResourceAsStream on file:" + filename);
         }
         String url = SourceLoader.class.getClassLoader().getResource(filename).toString();
         executeScript(filename, _interp, new InputStreamReader(in), writer);
