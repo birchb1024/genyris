@@ -9,11 +9,6 @@
 ;
 class Alist()
 
-   def !render()
-      template
-          table ((border:1) (cellpadding:0))
-             ,@(renderRows !self)
-
    def renderRow(apair)
       template
           tr()
@@ -27,9 +22,6 @@ class Alist()
              cons
                 renderRow (alist!left)
                 renderRows (alist!right)
-   
-   def !lookup(key)
-      lookup key !self
 
    def lookup(key list)
       cond
@@ -38,5 +30,25 @@ class Alist()
              (list!left)!right
           else
               lookup key (list!right)
-             
-          
+
+   def mapKeys(alist)
+      cond
+        alist
+          cons
+             left(left alist)
+             mapKeys (right alist)
+
+   def !lookup(key)
+      lookup key !self
+
+   def !getKeys()
+      mapKeys(!self)
+
+   def !hasKey(key)
+      member? key (!getKeys)
+
+   def !render()
+      template
+          table ((border:1) (cellpadding:0))
+             ,@(renderRows !self)
+

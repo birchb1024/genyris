@@ -4,8 +4,13 @@
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 
+; Some aliases
+@prefix g "http://prefix.genyris.org/lang/syntax#"
+class g.Keyword(Symbol)
+tag g.Keyword 'function
 
 defmacro define (var valu) (template (defvar ',var ,valu))
+define function lambda
 define var define
 defmacro df (name args &rest body)
     template

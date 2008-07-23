@@ -36,7 +36,7 @@ public class DefineClassFunction extends ApplicableFunction {
             Exp body = arrayToList(arguments);
             body = body.cdr().cdr();
             body = new Lcons(klassname, body);
-            return Evaluator.eval(env, body);
+            Evaluator.eval(env, body);
         }
         return newClass;
     }
