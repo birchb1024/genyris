@@ -32,7 +32,7 @@ def loop-left (some-list some-function)
 
 def member? (item list)
    cond
-      (null? list)
+      (null? list) nil
       (equal? (left list) item) list
       else
           member? item (right list)
