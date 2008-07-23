@@ -88,6 +88,9 @@ defvar 'v.tip "${hg.tip}"
 defvar 'v.tipdate "${hg.tip.date}"
 </echo>
     <echo>${hg.tip}</echo>
+     <exec executable="hg" output="${version.dir}/hglog.txt">
+            <arg value="log"/>
+        </exec>
     </target>
     <target name="only-init">
         <mkdir dir="${build.dir}" />
