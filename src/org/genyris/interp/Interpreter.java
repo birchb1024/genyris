@@ -86,6 +86,7 @@ import org.genyris.math.RemainderFunction;
 import org.genyris.string.ConcatMethod;
 import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
+import org.genyris.string.LengthMethod;
 import org.genyris.system.ExecMethod;
 import org.genyris.test.JunitRunnerFunction;
 
@@ -176,6 +177,7 @@ public class Interpreter {
         bindMethod("String", Constants.SPLIT, SplitMethod.class);
         bindMethod("String", Constants.CONCAT, ConcatMethod.class);
         bindMethod("String", Constants.MATCH, MatchMethod.class);
+        bindMethod("String", Constants.LENGTH, LengthMethod.class);
         bindMethod("File", "static-open", Gfile.FileOpenMethod.class);
         bindMethod(Constants.WRITER, "format", FormatMethod.class);
         bindMethod(Constants.WRITER, "close", CloseMethod.class);

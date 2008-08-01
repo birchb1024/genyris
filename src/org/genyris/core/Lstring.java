@@ -7,6 +7,7 @@ package org.genyris.core;
 
 import java.util.regex.PatternSyntaxException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.core.Bignum;
 
 
 public class Lstring extends ExpWithEmbeddedClasses {
@@ -31,26 +32,30 @@ public class Lstring extends ExpWithEmbeddedClasses {
         return Constants.STRING;
     }
 
-	public Exp split(Exp NIL, Lstring regex) throws GenyrisException {
-		Exp result = NIL;
-		try {
-			String[] splitted = _value.split(regex._value);
-			for(int i=splitted.length-1; i>=0; i--) {
-				result = new Lcons(new Lstring(splitted[i]), result);
-			}
-		}
-		catch(PatternSyntaxException e) {
-			throw new GenyrisException(e.getMessage());
-		}		
-		return result;
-	}
+  public Exp split(Exp NIL, Lstring regex) throws GenyrisException {
+    Exp result = NIL;
+    try {
+      String[] splitted = _value.split(regex._value);
+      for(int i=splitted.length-1; i>=0; i--) {
+        result = new Lcons(new Lstring(splitted[i]), result);
+      }
+    }
+    catch(PatternSyntaxException e) {
+      throw new GenyrisException(e.getMessage());
+    }
+    return result;
+  }
 
-	public Lstring concat(Lstring str) {
-		return new Lstring(this._value.concat(str._value));
-	}
+  public Lstring concat(Lstring str) {
+    return new Lstring(this._value.concat(str._value));
+  }
 
-	public Exp match(Lsymbol nil, Lsymbol true1, Lstring regex) {
-		return (_value.matches(regex._value)? true1 : nil);
-	}
+  public Exp match(Lsymbol nil, Lsymbol true1, Lstring regex) {
+    return (_value.matches(regex._value)? true1 : nil);
+  }
+
+  public Exp length() {
+    return (new Bignum(_value.length()));
+  }
 
 }
