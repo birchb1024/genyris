@@ -13,7 +13,7 @@
         </SPAN>
         <SEQ TYPE="NULL">'(</SEQ>
         <MARK_FOLLOWING TYPE="LITERAL2">'</MARK_FOLLOWING>
-        <MARK_FOLLOWING TYPE="LITERAL3">_</MARK_FOLLOWING>
+        <MARK_FOLLOWING TYPE="LITERAL3">!</MARK_FOLLOWING>
         <EOL_SPAN TYPE="COMMENT1">;</EOL_SPAN>
         <SPAN TYPE="LITERAL1">
             <BEGIN>"</BEGIN>
@@ -29,6 +29,7 @@
             <KEYWORD1>define</KEYWORD1>
             <KEYWORD1>defmacro</KEYWORD1>
             <KEYWORD1>defvar</KEYWORD1>
+            <KEYWORD1>rest</KEYWORD1>
             <KEYWORD1>dict</KEYWORD1>
             <KEYWORD1>else</KEYWORD1>
             <KEYWORD1>class</KEYWORD1>
@@ -38,7 +39,6 @@
             <KEYWORD1>lambdaq</KEYWORD1>
             <KEYWORD1>quote</KEYWORD1>
             <KEYWORD1>template</KEYWORD1>
-            <KEYWORD1>nil</KEYWORD1>
             <KEYWORD1>list</KEYWORD1>
             <KEYWORD1>print</KEYWORD1>
             <KEYWORD1>the</KEYWORD1>
@@ -52,6 +52,8 @@
             <KEYWORD1>left</KEYWORD1>
             <KEYWORD1>right</KEYWORD1>
             <KEYWORD1>eval</KEYWORD1>
+            <KEYWORD1>var</KEYWORD1>
+            <KEYWORD1>apply</KEYWORD1>
             
             <KEYWORD2>Bignum</KEYWORD2>
             <KEYWORD2>Pair</KEYWORD2>
@@ -62,18 +64,23 @@
             <KEYWORD2>Thing</KEYWORD2>
             <KEYWORD2>Closure</KEYWORD2>
             <KEYWORD2>StandardClass</KEYWORD2>
+            <KEYWORD2>System</KEYWORD2>
 
-            <KEYWORD3>eq?</KEYWORD3>
+            <KEYWORD3>load</KEYWORD3>
+            <KEYWORD3>display</KEYWORD3>
+             <KEYWORD3>eq?</KEYWORD3>
             <KEYWORD3>equal?</KEYWORD3>
             <KEYWORD3>null?</KEYWORD3>
-
-            <KEYWORD3>_vars</KEYWORD3>
-            <KEYWORD3>_classes</KEYWORD3>
-            <KEYWORD3>_superclasses</KEYWORD3>
-            <KEYWORD3>_subclasses</KEYWORD3>
-            <KEYWORD3>_classname</KEYWORD3>
+            <KEYWORD3>Alist</KEYWORD3>
+            
+            <KEYWORD3>!vars</KEYWORD3>
+            <KEYWORD3>!classes</KEYWORD3>
+            <KEYWORD3>!superclasses</KEYWORD3>
+            <KEYWORD3>!subclasses</KEYWORD3>
+            <KEYWORD3>!classname</KEYWORD3>
             
             <LITERAL1>true</LITERAL1>
+            <LITERAL1>nil</LITERAL1>
             <LITERAL2>:</LITERAL2>
             <LITERAL4>=</LITERAL4>
 
