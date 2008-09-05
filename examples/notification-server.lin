@@ -1,0 +1,220 @@
+load "examples/classify.lin"
+display "Loading UsbLamp.lin\n"
+var log '()
+
+class UsbLamp()
+   var exePath "C:\\workspace\\usblamp\\USBDOSAP.EXE"
+   var operations
+      tag Alist
+         quote
+            ("allflashoff"    : "10 20 7 0")
+               "alldark"      : "10 12 0 7"
+               "allon"        : "10 12 7 0"
+               "blueflash"    : "10 20 0 4"
+               "blueflashoff" : "10 20 4 0"
+               "blueoff"      : "10 12 0 4"
+               "blueon"       : "10 12 4 0"
+               "greenflash"   : "10 20 0 1"
+               "greenflashoff": "10 20 1 0"
+               "greenoff"     : "10 12 0 1"
+               "greenon"      : "10 12 1 0"
+               "redflash"     : "10 20 0 2"
+               "redflashoff"  : "10 20 2 0"
+               "redoff"       : "10 12 0 2"
+               "redon"        : "10 12 2 0"
+               "alloff"       : "meta"
+
+   def !isValidOperation?(code)
+      member? code
+        operations(!getKeys)
+
+   def !getOperationCodeList()
+      operations(!getKeys)
+
+   def call-lamp(codes)
+      System
+         apply !exec
+            cons exePath (codes(!split))
+
+   def change((op : String))
+       var codes (operations (!lookup op))
+       cond
+         (equal? op "alloff")
+             change "allflashoff"
+             change "alldark"
+         (null? codes)
+             "no-op" ;raise "UsbLamp sent bad op-code."
+         else
+             call-lamp codes
+   def !changes(list-of-strings)
+      cond
+        (left list-of-strings)
+            map-left list-of-strings change
+
+class Noises()
+    define mediaStore "c:\\WINNT\\Media\\"
+
+    def !play(soundfile-name)
+       cond
+         (null? soundfile-name)
+         (equal? "beep" soundfile-name)
+               display "\a \a"
+         else
+            Sound(!play (mediaStore (!+ soundfile-name)))
+            the soundfile-name
+
+class StringMessage(String)
+   def !valid?(str)
+      is-instance? str String
+   def !render-log-line() !self
+   def !update-lamp()
+   def !play-sounds()
+   def !custom-action(context)
+   def !log(context)
+     (context!addToLog) !self !style-exp
+   def !style(str)
+      define !style-exp str
+   !style "background: white;border 1px;"
+
+class NullMessage(StringMessage)
+  def !valid?(str)
+     equal? str ""
+  def !log(context)
+    
+class UsbMessage(StringMessage)
+  def !valid?(str)
+     (UsbLamp!isValidOperation?) str
+  def !update-lamp()
+    (UsbLamp!changes) (list !self)
+
+class Message(StringMessage)
+
+   def !valid?(str)
+      cond
+        ((UsbMessage!valid?) str) nil ; Message and UsbMessage mutually exclusive
+        else
+          (function(pat) (str (!match pat))) !pattern-exp
+
+   def !pattern (str)
+      var !pattern-exp str
+
+   def !lights (&rest light-codes)
+      var !light-exp light-codes
+
+   def !sounds (&rest sound-files)
+      var !sound-exp sound-files
+
+   !pattern ".+"
+   !lights nil
+   !sounds "Windows XP Print complete.wav"
+
+   def !update-lamp()
+     (UsbLamp!changes) !light-exp
+
+   def !play-sounds()
+      cond
+        !sound-exp
+          (Noises!play) (left !sound-exp)
+
+
+class Reset(Message)
+   !pattern ".*reset-log.*"
+   def !custom-action(context)
+      context(!reset-log)
+
+class BuildMessage(Message)
+   !pattern ".*build-.*"
+   !style "background:lightblue;"
+
+class DeployMessage(Message)
+   !pattern ".*deploy-.*"
+
+class BuildStartMessage(BuildMessage)
+   !pattern ".*build-start.*"
+   !lights "alloff" "blueflash"
+   !sounds "notify.wav"
+
+class BuildOK(BuildMessage)
+   !pattern ".*build-ok.*"
+   !lights "redoff" "redflashoff" "blueon"
+   !sounds nil
+   def !log(context)
+     (context!addToLogIfNew) !self "background:lightblue;"
+
+class BuildFailed(BuildMessage)
+   !pattern ".*build-failed.*"
+   !lights "alloff" "redon"
+   !sounds "Ringin.wav"
+   !style "background:red;"
+
+class BuildComplete(BuildMessage)
+   !pattern ".*build-complete.*"
+   !lights "blueflashoff" "bluenon"
+   !style "background:lightblue;"
+
+class DeployStart(DeployMessage)
+   !pattern ".*deploy-start.*"
+   !lights "alloff" "greenon"
+   !style "background:lightgreen;"
+
+class DeployComplete(DeployMessage)
+   !pattern ".*deploy-complete.*"
+   !lights "alloff" "blueon"
+   !sounds "tada.wav"
+   !style "background:lightblue;"
+
+
+class BuildNotification()
+  ; singleton
+  var log nil
+  var lastmessage nil
+  def !getLog() log
+  def !reset-log()
+      setq log nil
+
+  def addToLog(message style)
+    setq lastmessage message
+    setq log (cons (template (tr() (td() ,(u.getLocalTime)) (td((style:,style)) ,message))) log)
+
+  def !addToLog(message style)
+    addToLog message style
+
+  def !addToLogIfNew(message style)
+    cond
+      (not(equal? message lastmessage))
+         addToLog message style
+         
+  def !alertUsers(operation)
+    classify StringMessage operation
+    u.format "operation => ~a~%" operation
+    u.format "operation types: ~a~%" (operation!classes)
+    operation
+          !log BuildNotification
+          !update-lamp
+          !play-sounds
+          !custom-action BuildNotification
+
+
+df httpd-serve (request)
+   var params (request(!getParameters))
+   var operation ""
+   cond
+     params
+        setq operation (params (!lookup "op"))
+        BuildNotification(!alertUsers operation)
+   var result
+    list 200 "text/html"
+      template
+          html()
+             head()
+               title() "Lamp Server"
+             body()
+                form()
+                   input((name:"op") (size:"100") (value: ,operation)) ""
+                   verbatim() "&nbsp;&nbsp;&nbsp;"
+                   input((type:"submit") (value:"Go"))
+                table()
+                    ,(BuildNotification(!getLog))
+   result
+
+
