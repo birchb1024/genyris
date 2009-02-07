@@ -27,6 +27,9 @@ public class InterpretedTests extends TestCase {
     public void testTak() throws GenyrisException {
         useSourceLoader("tak.lin");
     }
+    public void testDefects() throws GenyrisException {
+        useSourceLoader("defects.lin");
+    }
     public void testMaths() throws GenyrisException {
        //  useSourceLoader("mathtests.lin");
     }

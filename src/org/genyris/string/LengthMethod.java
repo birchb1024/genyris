@@ -5,7 +5,6 @@
 //
 package org.genyris.string;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;

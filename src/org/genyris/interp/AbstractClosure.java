@@ -37,12 +37,11 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
     private int countFormalArguments(Exp exp) throws AccessException {
         int count = 0;
         while (exp != NIL) {
-            if (!(exp instanceof Lcons)) { // ignore trailing type
-                // specification
+            if (!(exp instanceof Lcons)) { // ignore trailing type specification
                 break;
             }
             if (((Lcons) exp).car() == REST) {
-                count += 1;
+                // count += 1;
                 break;
             }
             count += 1;
@@ -51,11 +50,12 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
         return count;
     }
 
-    public Exp getArgumentOrNIL(int index) throws AccessException {
-        if (getNumberOfRequiredArguments() <= index) {
-            return NIL; // ignore extra arguments
-        } else {
+    public Exp getArgumentOrNIL(int index) throws GenyrisException  {
+        try {
             return _lambdaExpression.cdr().car().nth(index, NIL);
+        }
+        catch( AccessException e) {
+            throw new GenyrisException("Additional argument to function " + _lambdaExpression);
         }
     }
 

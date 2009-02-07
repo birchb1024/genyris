@@ -16,9 +16,9 @@ class ClassVariableTester (Object)
       list class_count !instance_count
 
 var c1
-  ClassVariableTester(!new nil)
+  ClassVariableTester(!new)
 var c2
-  ClassVariableTester(!new nil)
+  ClassVariableTester(!new)
 assert
     equal? (c1(!increment)) '(1 1)
 assert

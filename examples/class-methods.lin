@@ -11,7 +11,7 @@ assert
         ClassMethodTester(!class-method)
         "hello from the class method\n"
 define instance
-    ClassMethodTester(!new nil)
+    ClassMethodTester(!new)
 assert
     equal?
         instance(!class-method)

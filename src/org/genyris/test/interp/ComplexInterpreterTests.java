@@ -27,7 +27,7 @@ public class ComplexInterpreterTests extends TestCase {
 
     public void testMacro() throws Exception {
         excerciseEval("(defvar 'w 99)", "99");
-        excerciseEval("((lambdam () 'w) 45)", "99");
+        excerciseEval("((lambdam (x) 'w) 45)", "99");
     }
 
 

@@ -93,12 +93,12 @@ public class EvalApplyTest extends TestCase {
         }
 
     public void testLambdaArguments() throws Exception {
-        excerciseEval("((lambda () (cons 44 44)) 23)", "(44 : 44)");
+        excerciseEval("((lambda () (cons 44 44)))", "(44 : 44)");
         excerciseEval("((lambda (x y) (cons x x)) 23)", "(23 : 23)", "Too few arguments supplied to proc: org.genyris.interp.ClassicFunction");
     }
 
     public void testLambda2() throws Exception {
-        excerciseEval("((lambda () (cons 44 44)) 23)", "(44 : 44)");
+        excerciseEval("((lambda () (cons 44 44)))", "(44 : 44)");
         excerciseEval("((lambda (x) (cons x x)) 23)", "(23 : 23)");
         excerciseEval("((lambda (x y) (cons x y)) 5 nil)", "(5)");
         excerciseEval("((lambda (x y) (quote x)) 23 45)", "x");

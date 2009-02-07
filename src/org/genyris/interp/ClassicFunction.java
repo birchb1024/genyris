@@ -29,19 +29,26 @@ public class ClassicFunction extends ApplicableFunction {
     }
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
+        // TODO clean it up what a right royal mess
         AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
         Map bindings = new HashMap();
         if (arguments.length < proc.getNumberOfRequiredArguments()) {
             throw new GenyrisException("Too few arguments supplied to proc: " + proc.getName());
         }
-        for (int i = 0; i < arguments.length; i++) {
-            Exp formal = proc.getArgumentOrNIL(i);
+        int i = 0;
+        Exp formals = proc._lambdaExpression.cdr().car();
+        while(formals != NIL) {
+            if(!(formals instanceof Lcons)) {
+                break; // skip the return class
+            }
+            Exp formal = formals.car();
             if (formal == REST) {
-                Lcons actuals = assembleListFromRemainingArgs(arguments, i);
-                formal = proc.getLastArgumentOrNIL();
+                Exp actuals = assembleListFromRemainingArgs(arguments, i);
+                formal = formals.cdr().car();
                 if (formal != NIL) {
                     bindings.put(formal, actuals);
                 }
+                i++;
                 break;
             } else if (formal != NIL) {
                 if(formal instanceof Lcons) {
@@ -71,7 +78,10 @@ public class ClassicFunction extends ApplicableFunction {
                     bindings.put(formal, arguments[i]);
                 }
             }
+            formals = formals.cdr();
+            i++;
         }
+
         // Use the procedure's frame to get lexical scope
         // and the dynamic environment for the object stuff.
         Environment newEnv = new SpecialEnvironment(proc.getEnv(), bindings, envForBindOperations);
@@ -88,8 +98,11 @@ public class ClassicFunction extends ApplicableFunction {
         return result;
     }
 
-    private Lcons assembleListFromRemainingArgs(Exp[] arguments, int i) throws GenyrisException,
+    private Exp assembleListFromRemainingArgs(Exp[] arguments, int i) throws GenyrisException,
             AccessException {
+        if(arguments.length <= i) {
+            return NIL;
+        }
         Lcons actuals = new Lcons(arguments[i], NIL);
         Lcons tail = actuals;
         for (int j = i + 1; j < arguments.length; j++) {
