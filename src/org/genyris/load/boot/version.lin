@@ -1,0 +1,4 @@
+
+@prefix v "http://prefix.genyris.org/lang/version#"
+defvar 'v.tip "???"
+defvar 'v.tipdate "???"
