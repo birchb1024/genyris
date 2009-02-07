@@ -56,17 +56,18 @@ public class SpecialEnvironment extends StandardEnvironment {
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
         boolean isMember = false;
+        Exp symbolatom = null;
         if(symbol.listp()) {
             Lcons tmp = (Lcons)symbol;
             if(tmp.car() == _dynamic) {
                 tmp = (Lcons)tmp.cdr(); // TODO unsafe downcast
-                symbol = tmp.car();
+                symbolatom = tmp.car();
                 isMember = true;
             } else {
                 throw new UnboundException("cannot set to a bad place" + symbol.toString());
             }
         }
-        Lsymbol sym = (Lsymbol) symbol;
+        Lsymbol sym = (Lsymbol) symbolatom;
         if (sym == _self) {
             throw new UnboundException("cannot re-define !self.");
         }

@@ -215,8 +215,25 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         throw new UnboundException("dict does not contain key: " + symbol.toString());
     }
 
+    private Lsymbol realSymbol(Exp dynamicOrReal) throws UnboundException {
+        if(dynamicOrReal.listp()) {
+            Lcons tmp = (Lcons)dynamicOrReal;
+            if(tmp.car() == _dynamic) {
+                tmp = (Lcons)tmp.cdr(); // TODO unsafe downcast
+                return (Lsymbol) tmp.car();
+            } else {
+                throw new UnboundException("Bad dynamic symbol: " + dynamicOrReal.toString());
+            }
+        } else if(dynamicOrReal instanceof Lsymbol) {
+            return (Lsymbol) dynamicOrReal;
+        }
+        else {
+            throw new UnboundException("Bad symbol: " + dynamicOrReal.toString());
+        }
+    }
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        if (symbol == CLASSES) {
+        Lsymbol sym = realSymbol(symbol);
+        if (sym == CLASSES) {
             try {
                 setClasses(valu, NIL);
             }
@@ -224,12 +241,11 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             }
         }
         else {
-            if (_dict.containsKey(symbol)) {
-                _dict.put(symbol, valu);
+            if (_dict.containsKey(sym)) {
+                _dict.put(sym, valu);
             }
             else {
-                throw new UnboundException("in object, undefined variable: "
-                        + ((Lsymbol) symbol).getPrintName()); // TODO downcast
+                throw new UnboundException("in object, undefined variable: " + symbol); // TODO downcast
             }
         }
     }
