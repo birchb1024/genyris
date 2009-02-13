@@ -46,7 +46,7 @@ def parse-file()
 
 
 def parse-sfs-file()
-  var fi (File(!new "C:\\foo.sfs"))
+  var fi (File(!new "testscripts/test.sfs"))
   var in (fi (!open 'read))
   var sfs (StringFormatStream(!new in))
   var parser (ParenParser(!new sfs))
