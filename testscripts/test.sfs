@@ -1,0 +1,5 @@
+Hello World #{
+(+ 1 2 3 4 5)
+} --
+#{"A string"}
+<a href="#{(+ 4 5)}">A link</a>

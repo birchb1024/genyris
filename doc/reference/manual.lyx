@@ -5039,7 +5039,7 @@ classes in the genyris-bin jar so the main class can be specified explicitly
 \end_layout
 
 \begin_layout Subsubsection
-Using Genyris standard input and output as a command-line interpreter.
+Using Genyris standard IO command-line interpreter.
 \end_layout
 
 \begin_layout Standard
@@ -5089,6 +5089,24 @@ TODO: Pass the command line aguments to the interpreter and use to load
 \begin_layout Standard
 The session is terminated when the interpreter read and End-Of-File from
  the standard input (^D on UNIX or ^Z on Windows).
+\end_layout
+
+\begin_layout Paragraph
+The top level
+\end_layout
+
+\begin_layout Standard
+Genyris commands can be typed at the prompt, using two carriage returns
+ (
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+) to terminate a statement.
+ The CLI reads the next indented expression, evaluates it in the global
+ environment and prints the result.
+ It also appends a comment consisting of the names of the classes of the
+ result.
+ This allows the user to verify the correct classes have been returned.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5146,34 +5164,204 @@ Regardless of the enclosing main class, the interpreter boot sequence is
 \begin_inset Quotes eld
 \end_inset
 
+
+\emph on
 org/genyris/load/boot/init.lin
+\emph default
+
 \begin_inset Quotes erd
 \end_inset
 
- in the Java classpath.
+ in the Java classpath and executes it.
  This file is provided in the genyris-bin jar file and contains a Genyris
  bootstrap which in loads other source files also provided within the jar
  file.
+ This is equivalent to executing :
 \end_layout
 
-\begin_layout Subsection
-The top level
-\end_layout
+\begin_layout LyX-Code
 
-\begin_layout Subsection
-class comments
+\series bold
+load
+\series default
+ "org/genyris/load/boot/init.lin"
 \end_layout
 
 \begin_layout Section
-Source Files
+Loading Source Files
+\end_layout
+
+\begin_layout Standard
+Functions are provided to allow files of source code to be read and executed.
+ The parser to be used is automatically selected based on the fule suffix.
+ The following suffixes and parsers are supported:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+suffix
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Parser Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Syntax
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+lin
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Parser
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Genyris indented syntax
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+lsp
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+ParenParser
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Free format LISP Syntax with parentheses in place of indentation.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
+load 
+\emph on
+<java resource name>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
 load
+\emph default
+ function reads and executes a source file from the Java classpath.
+ Some source files are stored within the distributed binary Java 
+\begin_inset Quotes eld
+\end_inset
+
+jar
+\begin_inset Quotes erd
+\end_inset
+
+ file including some initialization code and a handful of examples.
+ The 
+\emph on
+<java resource name>
+\emph default
+ parameter is a full path to the file.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+load
+\series default
+ "examples/people.lin"
 \end_layout
 
 \begin_layout Subsection
+include 
+\emph on
+<path to filename>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
 include
+\emph default
+ function reads and executes files of scripts, the <path to filename> parameter
+ refers to a normal operating system file path.
+ Examples:
+\end_layout
+
+\begin_layout LyX-Code
+include "examples/people.lin"   ; relative path
+\end_layout
+
+\begin_layout LyX-Code
+include "c:/workspace/genyris/examples/queens.lin""   ; absolute path - Windows
+\end_layout
+
+\begin_layout Standard
+The return value is a string with the actual file path loaded.
+ If the file cannot be found an exception is raised.
 \end_layout
 
 \begin_layout Section
