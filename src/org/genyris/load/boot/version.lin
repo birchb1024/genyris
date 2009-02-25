@@ -1,4 +1,4 @@
 
 @prefix v "http://prefix.genyris.org/lang/version#"
-defvar 'v.tip "359-3f771fa528fe"
-defvar 'v.tipdate "Fri Feb 13 17:29:19 2009 +1100"
+defvar 'v.tip "???"
+defvar 'v.tipdate "???"

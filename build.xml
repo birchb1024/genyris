@@ -17,7 +17,7 @@
     <target name="all" depends="only-clean, only-init, only-hg-version, only-compile, only-war, only-ear, only-binary-jar" description="Build all." />
     <target name="clean" depends="only-clean" />
 
-    <target name="compile" depends="only-clean, only-init, only-compile"
+    <target name="compile" depends="only-clean, only-hg-version, only-init, only-compile"
         description="Compile the Java"/>
     <target name="binary-jar" depends="compile, only-binary-jar"
          description="compile and create jar"/>
