@@ -53,7 +53,7 @@ birchb@genyris.org
 \end_layout
 
 \begin_layout Abstract
-This document is the usemanual for the Genyris scripting language.
+This document is the user manual for the Genyris scripting language.
 \end_layout
 
 \begin_layout Standard
@@ -112,17 +112,51 @@ Getting Started
 \end_layout
 
 \begin_layout Subsection*
+Getting Genyris
+\end_layout
+
+\begin_layout Standard
+Genyris can be downloaded from the sourceforge project 
+\begin_inset Quotes eld
+\end_inset
+
+Download
+\begin_inset Quotes erd
+\end_inset
+
+ pages as a binary release.
+ The project is hosted here: 
+\emph on
+http://sourceforge.net/projects/genyris/.
+\end_layout
+
+\begin_layout Subsection*
 Installation
 \end_layout
 
 \begin_layout Standard
-Genyris is available as a binary executable Java 
+Genyris is available as a 
 \emph on
-jar
+ZIP
 \emph default
  file.
+ This file needs to be unpacked into an empty directory such as 
+\begin_inset Quotes eld
+\end_inset
+
+genyris
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This becomes the home directory for Genyris.
+ 
+\end_layout
+
+\begin_layout Standard
+Genyris is developed in Java hence needs a Java runtime.
  You don't need to understand Java to use Genyris.
- You will need the Java 1.5 JRE or later to run the Genyris interpreter.
+ However you will need the Java 1.5 JRE or later to run the Genyris interpreter.
  Java can be downloaded from Sun Microsystems.
  Check your JRE version with this command:
 \end_layout
@@ -134,13 +168,14 @@ java -version
 \end_layout
 
 \begin_layout Standard
-Start the Genyris command-line interpreter with this command: 
+First change directory to the genyris home, then you can start the Genyris
+ command-line interpreter with this command: 
 \end_layout
 
 \begin_layout LyX-Code
 $ 
 \series bold
-java -jar genyris-bin-nnn-xxxxxxxxx.jar
+java -jar dist/genyris-bin-nnn-xxxxxxxxx.jar
 \end_layout
 
 \begin_layout Standard
@@ -158,6 +193,16 @@ nnn-xxxxxxxxx
 
 \begin_layout LyX-Code
 >
+\end_layout
+
+\begin_layout Standard
+Refer to section 
+\begin_inset LatexCommand eqref
+reference "sec:Running-Genyris"
+
+\end_inset
+
+ for details on how to simplify running Genyris using PATH settings.
 \end_layout
 
 \begin_layout Subsection*
@@ -212,7 +257,7 @@ To test the installation run the self test suite with the following command:
 \begin_layout LyX-Code
 > 
 \series bold
-load "testscripts/testsuite.lin"
+self-test-runner
 \begin_inset Formula $\hookleftarrow$
 \end_inset
 
@@ -245,40 +290,11 @@ Running Examples
 \end_layout
 
 \begin_layout Standard
-The release binary file includes some examples which can be extracted as
- follows:
-\end_layout
-
-\begin_layout LyX-Code
-$ 
-\series bold
-jar xvf *.jar examples
-\series default
- 
-\end_layout
-
-\begin_layout Standard
-This creates a directory called 
+The release binary file includes some examples in the 
 \emph on
-
-\begin_inset Quotes eld
-\end_inset
-
 examples
 \emph default
-
-\begin_inset Quotes erd
-\end_inset
-
- with a number of 
-\begin_inset Quotes eld
-\end_inset
-
-.lin
-\begin_inset Quotes erd
-\end_inset
-
- files.
+ folder.
  The files can be edited with your favourite text editor and run with the
  
 \emph on
@@ -5015,10 +5031,93 @@ Reference
 
 \begin_layout Section
 Running Genyris
+\begin_inset LatexCommand label
+name "sec:Running-Genyris"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
-Command Line options
+Simplified Launching via the Path
+\end_layout
+
+\begin_layout Standard
+The distribution includes shell and batch files for simplified launching,
+ both which require a change to the user's environment.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Unix
+\end_layout
+
+\begin_layout Standard
+Add an environment variable called 
+\emph on
+GENYRIS_HOME
+\emph default
+ which contains the path of the unpacked release.
+ Modify your 
+\emph on
+PATH
+\emph default
+ environment variable to include 
+\emph on
+$GENYRIS_HOME/bin
+\emph default
+.
+ The interpreter can then be launched from the shell with either 
+\emph on
+genyris
+\emph default
+ or 
+\emph on
+genyris-httpd <filename> <port>
+\emph default
+ for the web server
+\emph on
+.
+\end_layout
+
+\begin_layout Subsubsection
+Windows
+\end_layout
+
+\begin_layout Standard
+On Windows the arrangement is similar.
+ Add an environment variable called 
+\emph on
+GENYRIS_HOME
+\emph default
+.
+ Modify the 
+\emph on
+PATH
+\emph default
+ environment variable to include 
+\emph on
+%GENYRIS_HOME%
+\backslash
+bin:
+\emph default
+ (from the GUI Start > Control Panel > System > Advanced > Environment Variables
+ > New).
+ Now the interpreter can then be launched from the command prompt with either
+ 
+\emph on
+genyris
+\emph default
+ or 
+\emph on
+genyris-httpd <filename> <port>
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Command line options
 \end_layout
 
 \begin_layout Standard
@@ -5122,6 +5221,18 @@ $ java -cp genyris-bin.jar org.genyris.web.GenyrisHTTPD examples/www-demo.lin
 \end_layout
 
 \begin_layout Standard
+The additional parameters are:
+\end_layout
+
+\begin_layout Itemize
+filename Genyris code to load.
+\end_layout
+
+\begin_layout Itemize
+port number
+\end_layout
+
+\begin_layout Standard
 The URL for the browser would be 
 \emph on
 http://localhost:8080/
@@ -5129,82 +5240,6 @@ http://localhost:8080/
 .
  The server is terminated by killing the process, or by coding an explicit
  exit function within the web application.
-\end_layout
-
-\begin_layout Subsection
-Simplified Launching via the Path
-\end_layout
-
-\begin_layout Standard
-The distribution includes shell and batch files for simplified launching,
- both which require a change to the user's environment.
- 
-\end_layout
-
-\begin_layout Subsubsection
-Unix
-\end_layout
-
-\begin_layout Standard
-Add an environment variable called 
-\emph on
-GENYRIS_HOME
-\emph default
- which contains the path of the unpacked release.
- Modify your 
-\emph on
-PATH
-\emph default
- environment variable to include 
-\emph on
-$GENYRIS_HOME/bin
-\emph default
-.
- The interpreter can then be launched from the shell with either 
-\emph on
-genyris
-\emph default
- or 
-\emph on
-genyris-httpd <filename> <port>
-\emph default
- for the web server
-\emph on
-.
-\end_layout
-
-\begin_layout Subsubsection
-Windows
-\end_layout
-
-\begin_layout Standard
-On Windows, add an environment variable called 
-\emph on
-GENYRIS_HOME
-\emph default
- which contains the path of the unpacked release.
- Modify the 
-\emph on
-PATH
-\emph default
- environment variable to include 
-\emph on
-%GENYRIS_HOME%
-\backslash
-bin:
-\emph default
- (from the GUI Start > Control Panel > System > Advanced > Environment Variables
- > New).
- The interpreter can then be launched from the command prompt with either
- 
-\emph on
-genyris
-\emph default
- or 
-\emph on
-genyris-httpd <filename> <port>
-\emph default
-.
 \end_layout
 
 \begin_layout Subsection

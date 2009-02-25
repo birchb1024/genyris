@@ -30,6 +30,12 @@ You will see a message followed by a prompt:
 Commands can be typed in, use two carriage returns
 to terminate an indented statement.
 
+To test the installation run the self test suite with the following command:
+
+> self-test-runner
+
+All being well, it will print ``OK'' and the number of tests passed.
+
 Examples of Genyris code are in the examples
 folder and can be loaded as follows:
 
