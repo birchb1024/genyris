@@ -5069,25 +5069,7 @@ $ java -cp genyris-bin.jar org.genyris.interp.ClassicReadEvalprintLoop
 
 \begin_layout Standard
 In both cases all subsequent shell command line arguments are ignored.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Marginal
-status open
-
-\begin_layout Standard
-TODO: Pass the command line aguments to the interpreter and use to load
- an initial file.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The session is terminated when the interpreter read and End-Of-File from
+ The session is terminated when the interpreter read and End-Of-File from
  the standard input (^D on UNIX or ^Z on Windows).
 \end_layout
 
@@ -5145,12 +5127,84 @@ The URL for the browser would be
 http://localhost:8080/
 \emph default
 .
- 
+ The server is terminated by killing the process, or by coding an explicit
+ exit function within the web application.
+\end_layout
+
+\begin_layout Subsection
+Simplified Launching via the Path
 \end_layout
 
 \begin_layout Standard
-The server is terminated by killing the process, or by coding an explicit
- exit function within the web application.
+The distribution includes shell and batch files for simplified launching,
+ both which require a change to the user's environment.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Unix
+\end_layout
+
+\begin_layout Standard
+Add an environment variable called 
+\emph on
+GENYRIS_HOME
+\emph default
+ which contains the path of the unpacked release.
+ Modify your 
+\emph on
+PATH
+\emph default
+ environment variable to include 
+\emph on
+$GENYRIS_HOME/bin
+\emph default
+.
+ The interpreter can then be launched from the shell with either 
+\emph on
+genyris
+\emph default
+ or 
+\emph on
+genyris-httpd <filename> <port>
+\emph default
+ for the web server
+\emph on
+.
+\end_layout
+
+\begin_layout Subsubsection
+Windows
+\end_layout
+
+\begin_layout Standard
+On Windows, add an environment variable called 
+\emph on
+GENYRIS_HOME
+\emph default
+ which contains the path of the unpacked release.
+ Modify the 
+\emph on
+PATH
+\emph default
+ environment variable to include 
+\emph on
+%GENYRIS_HOME%
+\backslash
+bin:
+\emph default
+ (from the GUI Start > Control Panel > System > Advanced > Environment Variables
+ > New).
+ The interpreter can then be launched from the command prompt with either
+ 
+\emph on
+genyris
+\emph default
+ or 
+\emph on
+genyris-httpd <filename> <port>
+\emph default
+.
 \end_layout
 
 \begin_layout Subsection
