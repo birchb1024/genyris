@@ -4,6 +4,7 @@
     <property name="junit.lib.dir" value="needed" />
     <property name="build.dir" value="build" />
     <property name="dist.dir" value="dist" />
+    <property name="rel.dir" value="rel" />
     <property name="src.compile.dir" value="${build.dir}/classes" />
     <property name="src.dir" value="src" />
     <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
@@ -19,6 +20,8 @@
 
     <target name="compile" depends="only-clean, only-hg-version, only-init, only-compile"
         description="Compile the Java"/>
+    <target name="binary-release" depends="compile, only-binary-jar, only-binary-release"
+         description="compile and create jar"/>
     <target name="binary-jar" depends="compile, only-binary-jar"
          description="compile and create jar"/>
     <target name="war" depends="binary-jar, only-war"
@@ -92,17 +95,20 @@ defvar 'v.tipdate "${hg.tip.date}"
             <arg value="log"/>
         </exec>
     </target>
+	
     <target name="only-init">
         <mkdir dir="${build.dir}" />
         <mkdir dir="${version.dir}" />
         <mkdir dir="${dist.dir}" />
+        <mkdir dir="${rel.dir}" />
         <mkdir dir="${src.compile.dir}" />
     </target>
 
     <target name="only-clean">
         <delete dir="${build.dir}" />
         <delete dir="${dist.dir}" />
-    </target>
+        <delete dir="${rel.dir}" />
+     </target>
 
     <target name="only-compile">
         <javac srcdir="${src.dir}" destdir="${src.compile.dir}"
@@ -114,7 +120,23 @@ defvar 'v.tipdate "${hg.tip.date}"
         </javac>
     </target>
 
-    <target name="archive" depends="binary-jar, ear"
+    <target name="only-binary-release" depends="binary-jar, ear"
+        description="Make a binary release">
+        <tstamp/>
+
+        <zip destfile="rel/genyris-binary-${hg.tip}.zip"
+                duplicate="fail"
+                defaultexcludes="no">
+            <fileset dir="${basedir}">
+                <include name="dist/**/*"/>
+                <include name="bin/**/*"/>
+                <include name="doc/**/*pdf"/>
+                <include name="examples/**/*"/>
+            </fileset>
+        </zip>
+    </target>
+
+	<target name="archive" depends="binary-jar, ear"
         description="Make a backup">
         <input message="Destination directory for archive?" addproperty="archive.dest"/>
         <tstamp/>
@@ -139,7 +161,6 @@ defvar 'v.tipdate "${hg.tip.date}"
             <fileset dir="${needed.lib.dir}" includes="junit/**/*" />
             <fileset dir="${src.dir}" includes="**/*.lin" />
             <fileset dir="${src.dir}" includes="**/*.properties" />
-            <fileset dir="${basedir}" includes="examples/*.lin" />
             <fileset dir="${basedir}" includes="testscripts/*.lin testscripts/*.lsp" />
             <manifest>
             <attribute name="Built-By" value="Peter William Birch"/>
