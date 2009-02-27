@@ -47,13 +47,13 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     }
 
     protected void initFromTable(SymbolTable table) throws GenyrisException {
-        _self = table.lookupPlainString(Constants.SELF);
-        CLASSES = table.lookupPlainString(Constants.CLASSES);
-        SUPERCLASSES = table.lookupPlainString(Constants.SUPERCLASSES);
-        CLASSNAME = table.lookupPlainString(Constants.CLASSNAME);
-        VARS = table.lookupPlainString(Constants.VARS);
-        NIL = table.lookupPlainString(Constants.NIL);
-        _dynamic = table.lookupPlainString(Constants.DYNAMIC_SYMBOL);
+        _self = table.lookupString(Constants.SELF);
+        CLASSES = table.lookupString(Constants.CLASSES);
+        SUPERCLASSES = table.lookupString(Constants.SUPERCLASSES);
+        CLASSNAME = table.lookupString(Constants.CLASSNAME);
+        VARS = table.lookupString(Constants.VARS);
+        NIL = table.lookupString(Constants.NIL);
+        _dynamic = table.lookupString(Constants.DYNAMIC_SYMBOL);
     }
 
     protected void init(Environment env) {

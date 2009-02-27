@@ -19,6 +19,7 @@ import org.genyris.exception.GenyrisException;
 public class Lex {
     private Exp NIL;
     private InStream _input;
+    private PrefixMapper _mapper;
 
     private SymbolTable _symbolTable;
     private char _cdrCharacter;
@@ -28,6 +29,7 @@ public class Lex {
     public Exp leftParen, rightParen, cdr_char;
 
     private void init(InStream inputSource, SymbolTable table, char cdrChar) {
+        _mapper = new PrefixMapper();
         _input = inputSource;
         _symbolTable = table;
         NIL = table.getNil();
@@ -313,7 +315,7 @@ public class Lex {
         return new Lstring(collect);
     }
     public void addprefix(String prefix, String uri) throws GenyrisException {
-        _symbolTable._prefixes.addprefix(prefix, uri);
+        _mapper.addprefix(prefix, uri);
 
     }
 }

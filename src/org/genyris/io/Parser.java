@@ -71,7 +71,7 @@ public class Parser {
             }
             else {
                 // Use empty string as prefix
-                _lexer.addprefix("", arg0.toString());                
+            	_lexer.addprefix("", arg0.toString());                
             }
         }
         catch (AccessException e) {

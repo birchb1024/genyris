@@ -12,18 +12,15 @@ import java.util.TreeMap;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.io.PrefixMapper;
 
 public class SymbolTable {
     private Map         _table;
     private Lsymbol     NIL;
     private Interpreter _interp;
     private Environment _globalEnv;
-    public PrefixMapper _prefixes; //TODO public temporarily
 
     public SymbolTable(Interpreter interp) {
         _table = new TreeMap();
-        _prefixes = new PrefixMapper();
         _interp = interp;
         if (_interp != null) {
             _globalEnv = _interp.getGlobalEnv();
@@ -47,12 +44,7 @@ public class SymbolTable {
         ((Lsymbol)_table.get(Constants.DYNAMIC_SYMBOL)).initFromTable(this);
     }
 
-    public Lsymbol lookupString(String news) throws GenyrisException {
-        String newSym = this._prefixes.getCannonicalSymbol(news);
-        return lookupPlainString(newSym);
-    }
-
-    public Lsymbol lookupPlainString(String newSym) throws GenyrisException {
+    public Lsymbol lookupString(String newSym) throws GenyrisException {
         if (_table.containsKey(newSym)) {
             return (Lsymbol)_table.get(newSym);
         } else {
@@ -61,8 +53,7 @@ public class SymbolTable {
     }
 
     public Lsymbol internString(String news) throws GenyrisException {
-        String newSym = this._prefixes.getCannonicalSymbol(news);
-        return internPlainString(newSym);
+        return internPlainString(news);
     }
 
     public Lsymbol internPlainString(String newSym) {

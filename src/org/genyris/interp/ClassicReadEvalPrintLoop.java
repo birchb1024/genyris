@@ -42,7 +42,7 @@ public class ClassicReadEvalPrintLoop {
             Writer output = new PrintWriter(System.out);
             Formatter formatter = new IndentedFormatter(output, 1, _interpreter);
             Exp EOF = _interpreter.getSymbolTable().internString(Constants.EOF);
-            Exp ARGS = _interpreter.getSymbolTable().internString("sys." + Constants.ARGS);
+            Exp ARGS = _interpreter.getSymbolTable().internString(Constants.GENYRIS + "sys#" + Constants.ARGS);
             Exp argsAlist = makeArgList(args);
             this._interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
             System.out.println("*** Genyris is listening...");
