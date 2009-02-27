@@ -1,2 +1,0 @@
-#!/usr/bin/sh
-java -cp $GENYRIS_HOME/dist/genyris-bin*.jar org.genyris.web.GenyrisHTTPD $*
