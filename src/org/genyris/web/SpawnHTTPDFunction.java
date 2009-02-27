@@ -19,18 +19,19 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class SpawnHTTPDFunction extends ApplicableFunction {
-
+	
 	public SpawnHTTPDFunction(Interpreter interp, Lsymbol name) {
 		super(interp, name);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		if (arguments.length != 1)
-			throw new GenyrisException("Too many or few arguments to car: "
+		if (arguments.length != 2)
+			throw new GenyrisException("Too many or few arguments to " + getName()
 					+ arguments.length);
+		// TODO: unsafe downcasts
 		int port = ((BigDecimal)arguments[0].getJavaValue()).intValue();
-		String filename = "examples/www-demo.lin";
+		String filename = (String)arguments[1].getJavaValue();
 		GenyrisHTTPD httpd1 = new GenyrisHTTPD(port, filename);
 		try {
 			Thread t = httpd1.run();
