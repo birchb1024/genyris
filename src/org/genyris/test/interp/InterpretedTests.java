@@ -21,6 +21,9 @@ public class InterpretedTests extends TestCase {
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
     }
+    public void testMath() throws GenyrisException {
+        useSourceLoader("mathtests.lin");
+    }
     public void testFactorial() throws GenyrisException {
         useSourceLoader("factorial.lin");
     }

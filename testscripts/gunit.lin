@@ -1,0 +1,28 @@
+@prefix t "http//www.genyris.org/lib/gunit#"
+
+df t.test (id &rest cases)
+   var passed-count 0
+   var number-of-tests 0
+   var result true
+   while cases
+       setq number-of-tests (+ 1 number-of-tests)
+       setq result
+            and (eval (left cases)) result
+       setq cases (right cases)
+       cond
+          result
+            setq passed-count (+ passed-count 1)
+   u.format "Tests ~a ~a/~a passed~%" id passed-count number-of-tests
+   result
+    
+defmacro t.given (expression keyword result)
+    var actual (eval expression)
+    template
+      cond
+        (equal? ,actual ,result)
+            ; u.format "   Passed: ~a~%" ',expression
+            true
+        else
+            u.format "  Condition ~a failed. ~%     given   ~a~%     expected: ~a ~%     got: ~a~%" id ',expression ',result ,actual
+            nil
+            
