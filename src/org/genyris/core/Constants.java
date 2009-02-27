@@ -75,6 +75,8 @@ public class Constants {
         public static final String PREFIX = "@prefix";
         public static final char DYNAMICSCOPECHAR2 = '!';
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";
+        public static final String GENYRIS = "http://www.genyris.org/lang/";
+        public static final String ARGS = "argv";
 
 
 }

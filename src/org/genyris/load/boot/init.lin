@@ -4,6 +4,7 @@
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 @prefix g "http://prefix.genyris.org/lang/syntax#"
+@prefix s "http://prefix.genyris.org/lang/system#"
 
 class g.Keyword(Symbol)
 tag g.Keyword 'function
