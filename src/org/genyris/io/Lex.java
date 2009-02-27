@@ -313,7 +313,7 @@ public class Lex {
         return new Lstring(collect);
     }
     public void addprefix(String prefix, String uri) throws GenyrisException {
-        _symbolTable.addprefix(prefix, uri);
+        _symbolTable._prefixes.addprefix(prefix, uri);
 
     }
 }

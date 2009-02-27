@@ -24,9 +24,9 @@ public class InterpretedTests extends TestCase {
     public void testMath() throws GenyrisException {
         useSourceLoader("mathtests.lin");
     }
-    public void testWeb() throws GenyrisException {
-        useSourceLoader("web-tests.lin");
-    }
+//    public void testWeb() throws GenyrisException {
+//        useSourceLoader("web-tests.lin");
+//    }
     public void testFactorial() throws GenyrisException {
         useSourceLoader("factorial.lin");
     }

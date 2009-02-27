@@ -125,8 +125,8 @@ public class Interpreter {
                 new ReaderStream(new StdioInStream()));
         BuiltinClasses.init(_globalEnvironment);
         
-        getSymbolTable().addprefix("sys", Constants.ARGS + "system#");
-        getSymbolTable().addprefix("web", Constants.ARGS + "web#");
+        getSymbolTable()._prefixes.addprefix("sys", Constants.ARGS + "system#");
+        getSymbolTable()._prefixes.addprefix("web", Constants.ARGS + "web#");
         
         bindEagerProcedure("is-instance?", IsInstanceFunction.class);
         bindLazyProcedure(Constants.LAMBDA, LambdaFunction.class);

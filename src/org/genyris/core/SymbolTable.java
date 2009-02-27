@@ -5,7 +5,6 @@
 //
 package org.genyris.core;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,17 +12,18 @@ import java.util.TreeMap;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.io.PrefixMapper;
 
 public class SymbolTable {
     private Map         _table;
     private Lsymbol     NIL;
     private Interpreter _interp;
     private Environment _globalEnv;
-    private Map         _prefixes;
+    public PrefixMapper _prefixes; //TODO public temporarily
 
     public SymbolTable(Interpreter interp) {
         _table = new TreeMap();
-        _prefixes = new HashMap();
+        _prefixes = new PrefixMapper();
         _interp = interp;
         if (_interp != null) {
             _globalEnv = _interp.getGlobalEnv();
@@ -48,7 +48,7 @@ public class SymbolTable {
     }
 
     public Lsymbol lookupString(String news) throws GenyrisException {
-        String newSym = getCannonicalSymbol(news);
+        String newSym = this._prefixes.getCannonicalSymbol(news);
         return lookupPlainString(newSym);
     }
 
@@ -61,7 +61,7 @@ public class SymbolTable {
     }
 
     public Lsymbol internString(String news) throws GenyrisException {
-        String newSym = getCannonicalSymbol(news);
+        String newSym = this._prefixes.getCannonicalSymbol(news);
         return internPlainString(newSym);
     }
 
@@ -96,45 +96,6 @@ public class SymbolTable {
         return NIL;
     }
 
-    public void addprefix(String prefix, String uri) throws GenyrisException {
-        if(prefix.startsWith(String.valueOf(Constants.DYNAMICSCOPECHAR2))) {
-            throw new GenyrisException("cannot start a prefix with ! in parse: " + prefix);
-        }
-        if (_prefixes.containsKey(prefix)) {
-            if(!_prefixes.get(prefix).equals(uri)) {
-                throw new GenyrisException("conflicting prefix in parse: " + prefix + " " + uri);
-            }
-        } else {
-            _prefixes.put(prefix, uri);
-        }
-    }
-
-    private static boolean hasPrefix(String symbol) {
-        return symbol.contains(".");
-    }
-
-    private static String getPrefix(String symbol) {
-        return symbol.substring(0, symbol.indexOf("."));
-    }
-
-    private static String getSuffix(String symbol) {
-        return symbol.substring(symbol.indexOf(".") + 1);
-    }
-
-    private String getCannonicalSymbol(String news) throws GenyrisException {
-        String prefix;
-        if(news.equals(".") || !hasPrefix(news) ) {
-            return news;
-        }
-        else {
-            prefix = getPrefix(news);
-            if (!_prefixes.containsKey(prefix)) {
-                throw new GenyrisException("Unknown prefix: " + prefix);
-            } else {
-                return _prefixes.get(prefix) + getSuffix(news);
-            }
-        }
-    }
 
     public void initEnvironment(Environment environment) {
         this._globalEnv = environment;
