@@ -25,27 +25,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
     Exp NIL;
     Exp HttpRequestClazz, AlistClazz;
 
-    public static void main(String[] args) {
-        int port = 8080;
-        if(args.length == 0) {
-            System.err.println("Missing filename.\n");
-            System.exit(-1);
-        }
-        else if(args.length > 1) {
-            port = Integer.parseInt(args[1]);
-        }
-
-        try {
-            new GenyrisHTTPD(port, args[0]);
-        }
-        catch (IOException ioe) {
-            System.err.println("Couldn't start server:\n" + ioe);
-            System.exit(-1);
-        }
-
-    }
-
-    public GenyrisHTTPD(int port, String filename) throws IOException {
+    public GenyrisHTTPD(int port, String filename) {
         myTcpPort = port;
         try {
             interpreter = new Interpreter();
@@ -60,17 +40,25 @@ public class GenyrisHTTPD extends NanoHTTPD {
         }
         catch (GenyrisException e) {
             e.printStackTrace();
-            System.exit(-1);
         }
-
-        final ServerSocket ss = new ServerSocket(myTcpPort);
-        try {
-            while (true)
-                new HTTPSession(ss.accept());
-        }
-        catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
+    }
+    
+    public Thread run()  throws IOException {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                	final ServerSocket ss = new ServerSocket(myTcpPort);
+                    while (true)
+                        new HTTPSession(ss.accept());
+                }
+                catch (IOException ioe) {
+                    System.out.println("Port " + myTcpPort + " " + ioe.getMessage());
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
+        return t;
     }
 
     public Response serve(String uri, String method, Properties header, Properties parms) {

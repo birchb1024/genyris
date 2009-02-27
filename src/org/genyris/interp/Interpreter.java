@@ -89,6 +89,7 @@ import org.genyris.string.SplitMethod;
 import org.genyris.string.LengthMethod;
 import org.genyris.system.ExecMethod;
 import org.genyris.test.JunitRunnerFunction;
+import org.genyris.web.SpawnHTTPDFunction;
 
 public class Interpreter {
     StandardEnvironment      _globalEnvironment;
@@ -121,6 +122,10 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
                 new ReaderStream(new StdioInStream()));
         BuiltinClasses.init(_globalEnvironment);
+        
+        getSymbolTable().addprefix("sys", Constants.ARGS + "system#");
+        getSymbolTable().addprefix("web", Constants.ARGS + "web#");
+        
         bindEagerProcedure("is-instance?", IsInstanceFunction.class);
         bindLazyProcedure(Constants.LAMBDA, LambdaFunction.class);
         bindLazyProcedure(Constants.LAMBDAQ, LambdaqFunction.class);
@@ -174,6 +179,7 @@ public class Interpreter {
         bindEagerProcedure("self-test-runner", JunitRunnerFunction.class);
         bindEagerProcedure("symlist", SymListFunction.class);
 
+        bindEagerProcedure("web.serve", SpawnHTTPDFunction.class);
 
         bindMethod("String", Constants.SPLIT, SplitMethod.class);
         bindMethod("String", Constants.CONCAT, ConcatMethod.class);

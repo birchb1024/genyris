@@ -11,7 +11,6 @@ import java.io.Writer;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
@@ -43,7 +42,6 @@ public class ClassicReadEvalPrintLoop {
             Writer output = new PrintWriter(System.out);
             Formatter formatter = new IndentedFormatter(output, 1, _interpreter);
             Exp EOF = _interpreter.getSymbolTable().internString(Constants.EOF);
-            _interpreter.getSymbolTable().addprefix("sys", Constants.ARGS + "system#");
             Exp ARGS = _interpreter.getSymbolTable().internString("sys." + Constants.ARGS);
             Exp argsAlist = makeArgList(args);
             this._interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
