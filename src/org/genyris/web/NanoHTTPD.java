@@ -244,9 +244,9 @@ public class NanoHTTPD {
     class HTTPSession implements Runnable {
         public HTTPSession(Socket s) {
             mySocket = s;
-            Thread t = new Thread(this);
-            t.setDaemon(true);
-            t.start();
+//            Thread t = new Thread(this);
+//            t.setDaemon(true);
+//            t.start();
         }
 
         public void run() {

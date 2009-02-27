@@ -13,9 +13,9 @@ import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
+import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.format.HTMLFormatter;
-import org.genyris.format.IndentedFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
@@ -44,16 +44,25 @@ public class GenyrisHTTPD extends NanoHTTPD {
 	public Thread run() throws IOException {
 		Thread t = new Thread(new Runnable() {
 			public void run() {
+				ServerSocket ss = null;
 				try {
-					final ServerSocket ss = new ServerSocket(myTcpPort);
-					while (true)
-						new HTTPSession(ss.accept());
+					ss = new ServerSocket(myTcpPort);
+					while (true) {
+						HTTPSession session = new HTTPSession(ss.accept());
+						session.run();
+					}
 				} catch (IOException ioe) {
-					System.out.println("Port " + myTcpPort + " "
-							+ ioe.getMessage());
+					System.out.println("GenyrisHTTPD: Port " + myTcpPort + " " + ioe.getMessage());
+				} finally {
+					try {
+						if(ss!=null) 
+							ss.close();
+					} catch (IOException e) {}
 				}
+			
 			}
 		});
+		t.setName("GenyrisHTTPD-" + myTcpPort);
 		t.setDaemon(true);
 		t.start();
 		return t;
@@ -109,7 +118,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			if (mime.equals("text/html")) {
 				formatter = new HTMLFormatter(output);
 			} else {
-				formatter = new IndentedFormatter(output, 1, interpreter);
+				formatter = new BasicFormatter(output);
 			}
 			result = result.cdr();
 			result.acceptVisitor(formatter);

@@ -89,6 +89,8 @@ import org.genyris.string.SplitMethod;
 import org.genyris.string.LengthMethod;
 import org.genyris.system.ExecMethod;
 import org.genyris.test.JunitRunnerFunction;
+import org.genyris.web.HTTPgetFunction;
+import org.genyris.web.KillHTTPDFunction;
 import org.genyris.web.SpawnHTTPDFunction;
 
 public class Interpreter {
@@ -180,7 +182,9 @@ public class Interpreter {
         bindEagerProcedure("symlist", SymListFunction.class);
 
         bindEagerProcedure("web.serve", SpawnHTTPDFunction.class);
-
+        bindEagerProcedure("web.kill", KillHTTPDFunction.class);
+        bindEagerProcedure("web.get", HTTPgetFunction.class);
+              
         bindMethod("String", Constants.SPLIT, SplitMethod.class);
         bindMethod("String", Constants.CONCAT, ConcatMethod.class);
         bindMethod("String", Constants.MATCH, MatchMethod.class);

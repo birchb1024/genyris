@@ -1,0 +1,24 @@
+
+include "testscripts/gunit.lin"
+
+def readPage(url)
+    var wstream (web.get url)
+    var count 0
+    while (wstream(!hasData))
+         setq count (+ count 1)
+         write (wstream(!read)) '-
+    wstream(!close)
+    u.format "~%Read ~a bytes~%" count
+    count
+
+
+t.test "Web Server"
+    t.test "Spawn and Kill"
+        web.serve 7777 "testscripts/www-text.lin"
+        t.given (web.kill 7) expect "Interrupted ReaderThread"
+        
+    t.test "Spawn and HTTP Get"
+        web.serve 7778 "testscripts/www-text.lin"
+        t.given (readPage "http://localhost:7777/") expect 15
+        web.kill 8
+            

@@ -6,6 +6,8 @@
 package org.genyris.io.readerstream;
 
 import java.io.InputStreamReader;
+import java.io.Reader;
+
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
@@ -37,7 +39,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
         _input = new ConvertEofInStream(readerEOF);
     }
 
-    public ReaderStream(InputStreamReader reader) {
+    public ReaderStream(Reader reader) {
         _input = new ReaderInStream(reader);
     }
 
