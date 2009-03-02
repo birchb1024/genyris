@@ -1,0 +1,6 @@
+@prefix myprefix "nested-prefix#"
+var myprefix.foo 1
+assert
+    equal? (intern "nested-prefix#foo") 'myprefix.foo
+assert
+   equal? myprefix.foo 1

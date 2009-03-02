@@ -5,6 +5,7 @@
 ;;
 @prefix g "http://prefix.genyris.org/lang/syntax#"
 @prefix s "http://prefix.genyris.org/lang/system#"
+@prefix u "http://prefix.genyris.org/lang/utilities#"
 
 class g.Keyword(Symbol)
 tag g.Keyword 'function

@@ -36,7 +36,10 @@ public class InterpretedTests extends TestCase {
     public void testDefects() throws GenyrisException {
         useSourceLoader("defects.lin");
     }
-    public void testMaths() throws GenyrisException {
-       //  useSourceLoader("mathtests.lin");
+    public void testIntern() throws GenyrisException {
+        useSourceLoader("intern-tests.lin");
+   }
+    public void testPrefix() throws GenyrisException {
+         useSourceLoader("prefix-tests.lin");
     }
 }

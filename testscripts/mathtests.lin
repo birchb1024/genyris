@@ -5,6 +5,7 @@
 ;;
 load "testscripts/gunit.lin"
 @prefix t "http//www.genyris.org/lib/gunit#"
+@prefix u "http://prefix.genyris.org/lang/utilities#"
 
 ;; Test built-in maths functions
 

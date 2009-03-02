@@ -1,4 +1,5 @@
 @prefix t "http//www.genyris.org/lib/gunit#"
+@prefix u "http://prefix.genyris.org/lang/utilities#"
 
 df t.test (id &rest cases)
    var passed-count 0

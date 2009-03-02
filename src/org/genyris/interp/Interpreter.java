@@ -38,6 +38,7 @@ import org.genyris.interp.builtin.EqFunction;
 import org.genyris.interp.builtin.EqualsFunction;
 import org.genyris.interp.builtin.EvalFunction;
 import org.genyris.interp.builtin.IdentityFunction;
+import org.genyris.interp.builtin.InternFunction;
 import org.genyris.interp.builtin.LambdaFunction;
 import org.genyris.interp.builtin.LambdamFunction;
 import org.genyris.interp.builtin.LambdaqFunction;
@@ -177,6 +178,7 @@ public class Interpreter {
         bindEagerProcedure("raise", RaiseFunction.class);
         bindEagerProcedure("self-test-runner", JunitRunnerFunction.class);
         bindEagerProcedure("symlist", SymListFunction.class);
+        bindEagerProcedure("intern", InternFunction.class);
 
         bindEagerProcedure("web.serve", SpawnHTTPDFunction.class);
         bindEagerProcedure("web.kill", KillHTTPDFunction.class);

@@ -1,0 +1,18 @@
+;
+;
+;
+load "testscripts/gunit.lin"
+@prefix t "http//www.genyris.org/lib/gunit#"
+@prefix myprefix "level-0#"
+var myprefix.foo 0
+
+
+@prefix p1 "P1#"
+t.test "prefixes"
+
+    t.test "basic prefixes"
+        t.given '(intern "P1#foo") expect 'p1.foo
+
+    t.test "nested prefixes"
+        load "testscripts/prefix-test-nested.lin"
+        t.given myprefix.foo expect 0

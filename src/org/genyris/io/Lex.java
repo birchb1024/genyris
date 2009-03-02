@@ -140,14 +140,6 @@ public class Lex {
         if (!_input.hasData()) {
             throw new LexException("unexpected end of file");
         }
-//        ch = _input.readNext();
-//        if(ch == Constants.DYNAMICSCOPECHAR) {
-//            // peek at the first characte and allow one _ underscore.
-//            collect += ch;
-//        }
-//        else {
-//            _input.unGet(ch);
-//        }
         while (_input.hasData()) {
             ch = _input.readNext();
             if (isIdentCharacter(ch)) {
@@ -160,7 +152,7 @@ public class Lex {
                 break;
             }
         }
-        return _symbolTable.internString(collect);
+        return _symbolTable.internString(_mapper.getCannonicalSymbol(collect));
     }
 
     public Exp nextToken() throws GenyrisException {
