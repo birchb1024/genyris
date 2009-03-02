@@ -9,7 +9,7 @@
 ;
 ListOfLines
 
-   def !render()
+   def !toHTML()
       template
           pre()
              ,@(renderLines !self)

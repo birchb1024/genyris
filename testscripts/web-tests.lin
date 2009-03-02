@@ -1,3 +1,6 @@
+@prefix u   "http://www.genyris.org/lang/utilities#"
+@prefix t   "http://www.genyris.org/lib/gunit#"
+@prefix web "http://www.genyris.org/lang/web#"
 
 include "testscripts/gunit.lin"
 
@@ -16,9 +19,9 @@ t.test "Web Server"
     t.test "Spawn and Kill"
         web.serve 7777 "testscripts/www-text.lin"
         t.given (web.kill 7) expect "Interrupted ReaderThread"
-        
+
     t.test "Spawn and HTTP Get"
         web.serve 7778 "testscripts/www-text.lin"
         t.given (readPage "http://localhost:7777/") expect 15
         web.kill 8
-            
+

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.genyris.core.Bignum;
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
@@ -18,30 +19,30 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class SpawnHTTPDFunction extends ApplicableFunction {
-	
-	public static String getStaticName() {return "web.serve";};
-	public static boolean isEager() {return true;};
-	
-	public SpawnHTTPDFunction(Interpreter interp) {
-		super(interp);
-	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
-		if (arguments.length != 2)
-			throw new GenyrisException("Too many or few arguments to " + getStaticName()
-					+ arguments.length);
-		// TODO: unsafe downcast
-		int port = ((BigDecimal)arguments[0].getJavaValue()).intValue();
-		String filename = (String)arguments[1].getJavaValue();
-		GenyrisHTTPD httpd1 = new GenyrisHTTPD(port, filename);
-		try {
-			Thread t = httpd1.run();
-			return new Bignum(t.getId());
-		} catch (IOException e) {
-			return new Lstring(e.getMessage());
-		}
+    public static String getStaticName() {return Constants.WEB + "serve";};
+    public static boolean isEager() {return true;};
 
-	}
+    public SpawnHTTPDFunction(Interpreter interp) {
+        super(interp);
+    }
+
+    public Exp bindAndExecute(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException {
+        if (arguments.length != 2)
+            throw new GenyrisException("Too many or few arguments to " + getStaticName()
+                    + arguments.length);
+        // TODO: unsafe downcast
+        int port = ((BigDecimal)arguments[0].getJavaValue()).intValue();
+        String filename = (String)arguments[1].getJavaValue();
+        GenyrisHTTPD httpd1 = new GenyrisHTTPD(port, filename);
+        try {
+            Thread t = httpd1.run();
+            return new Bignum(t.getId());
+        } catch (IOException e) {
+            return new Lstring(e.getMessage());
+        }
+
+    }
 
 }

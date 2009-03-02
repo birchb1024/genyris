@@ -1,4 +1,4 @@
-@prefix u "http://prefix.genyris.org/lang/utilities#"
+@prefix u "http://www.genyris.org/lang/utilities#"
 def u.format(&rest args)
    stdout
       apply !format args

@@ -77,6 +77,7 @@ public class Constants {
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";
         public static final String GENYRIS = "http://www.genyris.org/lang/";
         public static final String ARGS = "argv";
+        public static final String WEB = GENYRIS + "web#";
 
 
 }

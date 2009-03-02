@@ -117,6 +117,18 @@ public class Interpreter {
             SYMBOL.defineVariableRaw(_table.internString(Constants.CLASSNAME),
                     _table.internString(Constants.SYMBOL));
         }
+        defineConstantSymbols();
+
+        BuiltinClasses.init(_globalEnvironment);
+
+        bindAllGlobalFunctions();
+
+        bindAllBuiltinMethods();
+
+
+    }
+
+    private void defineConstantSymbols() throws GenyrisException {
         _globalEnvironment.defineVariable(NIL, NIL);
         TRUE = _table.internString("true");
         _globalEnvironment.defineVariable(TRUE, TRUE);
@@ -126,7 +138,30 @@ public class Interpreter {
                 new WriterStream(new PrintWriter(System.out)));
         _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
                 new ReaderStream(new StdioInStream()));
-        BuiltinClasses.init(_globalEnvironment);
+    }
+
+    private void bindAllBuiltinMethods() throws UnboundException, GenyrisException {
+        bindMethod("String", SplitMethod.class);
+        bindMethod("String", ConcatMethod.class);
+        bindMethod("String", MatchMethod.class);
+        bindMethod("String", LengthMethod.class);
+        bindMethod("File", Gfile.FileOpenMethod.class);
+        bindMethod(Constants.WRITER, FormatMethod.class);
+        bindMethod(Constants.WRITER, CloseMethod.class);
+        bindMethod(Constants.WRITER, FlushMethod.class);
+        bindMethod(Constants.READER, ReaderStream.HasDataMethod.class);
+        bindMethod(Constants.READER, ReaderStream.ReadMethod.class);
+        bindMethod(Constants.READER, ReaderStream.CloseMethod.class);
+        bindMethod(Constants.PARENPARSER, StreamParser.NewMethod.class);
+        bindMethod(Constants.PARENPARSER, StreamParser.ReadMethod.class);
+        bindMethod(Constants.PARENPARSER, StreamParser.CloseMethod.class);
+        bindMethod("StringFormatStream", StringFormatStream.NewMethod.class);
+        bindMethod("System", ExecMethod.class);
+        bindMethod("Sound", PlayMethod.class);
+    }
+
+    private void bindAllGlobalFunctions() throws GenyrisException {
+        // TODO? Use reflection to loop over these classes
 
         bindGlobalProcedure(IsInstanceFunction.class);
         bindGlobalProcedure(LambdaFunction.class);
@@ -186,29 +221,9 @@ public class Interpreter {
         bindGlobalProcedure(SpawnHTTPDFunction.class);
         bindGlobalProcedure(KillHTTPDFunction.class);
         bindGlobalProcedure(HTTPgetFunction.class);
-
-        bindMethod("String", SplitMethod.class);
-        bindMethod("String", ConcatMethod.class);
-        bindMethod("String", MatchMethod.class);
-        bindMethod("String", LengthMethod.class);
-        bindMethod("File", Gfile.FileOpenMethod.class);
-        bindMethod(Constants.WRITER, FormatMethod.class);
-        bindMethod(Constants.WRITER, CloseMethod.class);
-        bindMethod(Constants.WRITER, FlushMethod.class);
-        bindMethod(Constants.READER, ReaderStream.HasDataMethod.class);
-        bindMethod(Constants.READER, ReaderStream.ReadMethod.class);
-        bindMethod(Constants.READER, ReaderStream.CloseMethod.class);
-        bindMethod(Constants.PARENPARSER, StreamParser.NewMethod.class);
-        bindMethod(Constants.PARENPARSER, StreamParser.ReadMethod.class);
-        bindMethod(Constants.PARENPARSER, StreamParser.CloseMethod.class);
-        bindMethod("StringFormatStream", StringFormatStream.NewMethod.class);
-        bindMethod("System", ExecMethod.class);
-        bindMethod("Sound", PlayMethod.class);
-
-
     }
 
-    private void bindGlobalProcedure(Class class1) throws GenyrisException {
+    public void bindGlobalProcedure(Class class1) throws GenyrisException {
         bindProcedure(_globalEnvironment, class1);
     }
 

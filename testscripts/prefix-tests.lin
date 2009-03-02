@@ -2,7 +2,7 @@
 ;
 ;
 load "testscripts/gunit.lin"
-@prefix t "http//www.genyris.org/lib/gunit#"
+@prefix t "http://www.genyris.org/lib/gunit#"
 @prefix myprefix "level-0#"
 var myprefix.foo 0
 

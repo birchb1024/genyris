@@ -1,5 +1,5 @@
-@prefix t "http//www.genyris.org/lib/gunit#"
-@prefix u "http://prefix.genyris.org/lang/utilities#"
+@prefix t "http://www.genyris.org/lib/gunit#"
+@prefix u "http://www.genyris.org/lang/utilities#"
 
 df t.test (id &rest cases)
    var passed-count 0
@@ -15,7 +15,7 @@ df t.test (id &rest cases)
             setq passed-count (+ passed-count 1)
    u.format "Tests ~a ~a/~a passed~%" id passed-count number-of-tests
    result
-    
+
 defmacro t.given (expression keyword result)
     var actual (eval expression)
     template
@@ -26,4 +26,4 @@ defmacro t.given (expression keyword result)
         else
             u.format "  Condition ~a failed. ~%     given   ~a~%     expected: ~a ~%     got: ~a~%" id ',expression ',result ,actual
             nil
-            
+

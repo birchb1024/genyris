@@ -47,7 +47,7 @@ class Alist()
    def !hasKey(key)
       member? key (!getKeys)
 
-   def !render()
+   def !toHTML()
       template
           table ((border:1) (cellpadding:0))
              ,@(renderRows !self)

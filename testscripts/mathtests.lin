@@ -4,8 +4,8 @@
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 load "testscripts/gunit.lin"
-@prefix t "http//www.genyris.org/lib/gunit#"
-@prefix u "http://prefix.genyris.org/lang/utilities#"
+@prefix t "http://www.genyris.org/lib/gunit#"
+@prefix u "http://www.genyris.org/lang/utilities#"
 
 ;; Test built-in maths functions
 
@@ -17,7 +17,7 @@ var overall-result
         t.given (+ 1 2 3)     expect 6
         t.given (+ 1 2 3 4 5) expect 15
         t.given (+ 42)        expect 42
-    
+
     t.test "Subtraction"
         t.given (- 0 1)       expect -1
         t.given (- 3 2 1)     expect 0

@@ -3,9 +3,9 @@
 ;; This software may be used and distributed according to the terms
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
-@prefix g "http://prefix.genyris.org/lang/syntax#"
-@prefix s "http://prefix.genyris.org/lang/system#"
-@prefix u "http://prefix.genyris.org/lang/utilities#"
+@prefix g "http://www.genyris.org/lang/syntax#"
+@prefix s "http://www.genyris.org/lang/system#"
+@prefix u "http://www.genyris.org/lang/utilities#"
 
 class g.Keyword(Symbol)
 tag g.Keyword 'function
@@ -47,6 +47,6 @@ load "org/genyris/load/boot/file.lin"
 load "org/genyris/load/boot/util.lin"
 load "org/genyris/load/boot/version.lin"
 
-@prefix v "http://prefix.genyris.org/lang/version#"
+@prefix v "http://www.genyris.org/lang/version#"
 u.format "Version: ~a~%Date: ~a~%" v.tip v.tipdate
 

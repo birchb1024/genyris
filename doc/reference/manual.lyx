@@ -1,4 +1,4 @@
-#LyX 1.5.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.5.3 created this file. For more info see http://www.lyx.org/
 \lyxformat 276
 \begin_document
 \begin_header
@@ -5068,17 +5068,15 @@ PATH
 $GENYRIS_HOME/bin
 \emph default
 .
- The interpreter can then be launched from the shell with either 
+ The interpreter can then be launched from the shell with 
+\end_layout
+
+\begin_layout LyX-Code
+
 \emph on
-genyris
+$ genyri
 \emph default
- or 
-\emph on
-genyris-httpd <filename> <port>
-\emph default
- for the web server
-\emph on
-.
+s
 \end_layout
 
 \begin_layout Subsubsection
@@ -5104,16 +5102,11 @@ bin:
 \emph default
  (from the GUI Start > Control Panel > System > Advanced > Environment Variables
  > New).
- Now the interpreter can then be launched from the command prompt with either
- 
+ Now the interpreter can then be launched from the command prompt with 
 \emph on
-genyris
+genyri
 \emph default
- or 
-\emph on
-genyris-httpd <filename> <port>
-\emph default
-.
+s.
 \end_layout
 
 \begin_layout Subsection
@@ -5190,56 +5183,8 @@ Genyris commands can be typed at the prompt, using two carriage returns
  This allows the user to verify the correct classes have been returned.
 \end_layout
 
-\begin_layout Subsubsection
-As a Web Server
-\end_layout
-
 \begin_layout Standard
-The alternative main class 
-\emph on
-org.genyris.web.GenyrisHTTPD 
-\emph default
-provides a a single-threaded HTTP server.
- The server also takes two command-line parameters after the class name:
-\end_layout
 
-\begin_layout Itemize
-the path of a enyris source file to load and run
-\end_layout
-
-\begin_layout Itemize
-the TCP/IP port number on whicch the server will listen for requests.
-\end_layout
-
-\begin_layout Standard
-For example to load a notification server run the following command: 
-\end_layout
-
-\begin_layout LyX-Code
-$ java -cp genyris-bin.jar org.genyris.web.GenyrisHTTPD examples/www-demo.lin
- 8080
-\end_layout
-
-\begin_layout Standard
-The additional parameters are:
-\end_layout
-
-\begin_layout Itemize
-filename Genyris code to load.
-\end_layout
-
-\begin_layout Itemize
-port number
-\end_layout
-
-\begin_layout Standard
-The URL for the browser would be 
-\emph on
-http://localhost:8080/
-\emph default
-.
- The server is terminated by killing the process, or by coding an explicit
- exit function within the web application.
 \end_layout
 
 \begin_layout Subsection
@@ -5274,6 +5219,172 @@ org/genyris/load/boot/init.lin
 load
 \series default
  "org/genyris/load/boot/init.lin"
+\end_layout
+
+\begin_layout Subsection
+Running Multiple Interpreters in the Same Process
+\end_layout
+
+\begin_layout Subsection
+Running Web Servers
+\end_layout
+
+\begin_layout Standard
+Genyris can run multiple a single-threaded HTTP servers which can be run
+ in their own threads in the background.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Starting a web server
+\end_layout
+
+\begin_layout Standard
+The server can be started with the serve function:
+\end_layout
+
+\begin_layout LyX-Code
+@prefix web "http://www.genyris.org/lang/web#"
+\end_layout
+
+\begin_layout LyX-Code
+web.serve <port> <path to source file>
+\end_layout
+
+\begin_layout Standard
+The server function takes two parameters:
+\end_layout
+
+\begin_layout Itemize
+the path of a Genyris source file to load and run
+\end_layout
+
+\begin_layout Itemize
+the TCP/IP port number on whicch the server will listen for requests.
+\end_layout
+
+\begin_layout Standard
+The return value is the unique ID of the thread for the web server.
+ Many web servers can be started in the same JVM, each server is allocated
+ a unique interpreter instance, there is no sharing between interpreters.
+\end_layout
+
+\begin_layout Standard
+The URL for the browser would be 
+\emph on
+http://localhost:8080/
+\emph default
+.
+ The server is terminated by killing the thread, or by coding an explicit
+ exit function within the web application.
+\end_layout
+
+\begin_layout Paragraph
+Example
+\end_layout
+
+\begin_layout LyX-Code
+@prefix web "http://www.genyris.org/lang/web#"
+\end_layout
+
+\begin_layout LyX-Code
+web.serve 777 "examples/www-demo.lin"
+\end_layout
+
+\begin_layout Subsubsection
+Stopping a web server
+\end_layout
+
+\begin_layout Standard
+The server's thread can be stoped with the kill function:
+\end_layout
+
+\begin_layout LyX-Code
+@prefix web "http://www.genyris.org/lang/web#"
+\end_layout
+
+\begin_layout LyX-Code
+web.kill <id>
+\end_layout
+
+\begin_layout Standard
+The function takes one parameters:
+\end_layout
+
+\begin_layout Itemize
+the unique id of the thread as returned from
+\emph on
+ web.serve
+\end_layout
+
+\begin_layout Itemize
+the TCP/IP port number on whicch the server will listen for requests.
+\end_layout
+
+\begin_layout Subsubsection
+Processing Web Requests
+\end_layout
+
+\begin_layout Standard
+The web server expects to fnd a function called 
+\emph on
+httpd-serve 
+\emph default
+which it calls for each web GET or POST request.
+ The request from the remote client is passed to the function as a single
+ parameter.
+ The return from the function all must contain the response to be sent to
+ the browser.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Example
+\end_layout
+
+\begin_layout LyX-Code
+df httpd-serve (request)
+\end_layout
+
+\begin_layout LyX-Code
+   list 200 "text/plain" "Hello World"
+\end_layout
+
+\begin_layout Paragraph
+HttpRequest class
+\end_layout
+
+\begin_layout Standard
+The request parameter is an object of class HttpRequest.
+ The class has the following methods which return components of the request:
+\end_layout
+
+\begin_layout Description
+!getMethod() GET or POST
+\end_layout
+
+\begin_layout Description
+!getPath() Path component of the UL
+\end_layout
+
+\begin_layout Description
+!getHeaders() an AList containing the headers
+\end_layout
+
+\begin_layout Description
+!getParameters() an aList containing GET or POST parameters
+\end_layout
+
+\begin_layout Description
+!toHTML() a method returning an HTML list structure in %x format.
+\end_layout
+
+\begin_layout Paragraph
+Http Responses in HTML list structures
+\end_layout
+
+\begin_layout Standard
+The response .....
 \end_layout
 
 \begin_layout Section
@@ -6520,18 +6631,6 @@ symlist
 
 \begin_layout Subsection
 self-test-runner
-\end_layout
-
-\begin_layout Section
-Embedded Web Server
-\end_layout
-
-\begin_layout Subsubsection
-HttpRequest
-\end_layout
-
-\begin_layout Subsubsection
-httpd-serve
 \end_layout
 
 \begin_layout Section

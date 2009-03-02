@@ -4,10 +4,10 @@
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 load "testscripts/gunit.lin"
-@prefix t "http//www.genyris.org/lib/gunit#"
-@prefix u "http://prefix.genyris.org/lang/utilities#"
+@prefix t "http://www.genyris.org/lib/gunit#"
+@prefix u "http://www.genyris.org/lang/utilities#"
 
-;; Test built-in interning 
+;; Test built-in interning
 @prefix p "P"
 
 var overall-result
