@@ -127,13 +127,13 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
                 new ReaderStream(new StdioInStream()));
         BuiltinClasses.init(_globalEnvironment);
-                
+
         bindGlobalProcedure(IsInstanceFunction.class);
         bindGlobalProcedure(LambdaFunction.class);
         bindGlobalProcedure(LambdaqFunction.class);
         bindGlobalProcedure(LambdamFunction.class);
         bindGlobalProcedure(BackquoteFunction.class);
-        
+
         bindGlobalProcedure(CarFunction.class);
         bindGlobalProcedure(CdrFunction.class);
         bindGlobalProcedure(ReplaceCarFunction.class);
@@ -186,7 +186,7 @@ public class Interpreter {
         bindGlobalProcedure(SpawnHTTPDFunction.class);
         bindGlobalProcedure(KillHTTPDFunction.class);
         bindGlobalProcedure(HTTPgetFunction.class);
-              
+
         bindMethod("String", SplitMethod.class);
         bindMethod("String", ConcatMethod.class);
         bindMethod("String", MatchMethod.class);
@@ -221,9 +221,9 @@ public class Interpreter {
         try {
             Constructor ctor = class1.getConstructor(paramTypes);
             Method getNameMethod = class1.getMethod("getStaticName", (Class[])null);
-            String staticName = (String)getNameMethod.invoke((Object[])null);
+            String staticName = (String)getNameMethod.invoke(null,(Object[])null);
             Method isEagerMethod = class1.getMethod("isEager", (Class[])null);
-            boolean isEager = ((Boolean)isEagerMethod.invoke((Object[])null)).booleanValue();
+            boolean isEager = ((Boolean)isEagerMethod.invoke(null,(Object[])null)).booleanValue();
             Lsymbol  nameSymbol = _table.internString(staticName);
             Object[] args = new Object[]{this};
             Object proc = ctor.newInstance(args);
@@ -266,7 +266,7 @@ public class Interpreter {
         Class[] paramTypes = new Class[]{Interpreter.class};
         try {
             Method getNameMethod = class1.getMethod("getStaticName", (Class[])null);
-            String staticName = (String)getNameMethod.invoke((Object[])null);
+            String staticName = (String)getNameMethod.invoke(null,(Object[])null);
             Lsymbol nameSymbol = _table.internString(staticName);
             Constructor ctor = class1.getConstructor(paramTypes);
             Object[] args = new Object[]{this};

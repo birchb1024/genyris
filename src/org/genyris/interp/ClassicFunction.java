@@ -22,7 +22,8 @@ public class ClassicFunction extends ApplicableFunction {
 
     public ClassicFunction(Interpreter interp) {
         super(interp);
-        _name = this.getClass().getName();    	
+        _name = this.getClass().getName();
+        REST = interp.getSymbolTable().internPlainString(Constants.REST);
     }
 
     public ClassicFunction(Exp name, Interpreter interp) {

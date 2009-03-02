@@ -57,11 +57,11 @@ public final class GenyrisServlet extends HttpServlet {
         Object interpattr = request.getSession().getAttribute("interpreter");
         Enumeration headerIter = request.getHeaderNames();
         while (headerIter.hasMoreElements() ) {
-            Object header = headerIter.nextElement();
+            headerIter.nextElement();
         }
         Enumeration paramIter = request.getAttributeNames();
         while (paramIter.hasMoreElements() ) {
-            Object header = paramIter.nextElement();
+            paramIter.nextElement();
         }
         if (interpattr == null) {
             try {

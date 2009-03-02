@@ -67,11 +67,15 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
     public void testRestArgs() throws Exception {
+        excerciseEval("(defvar 'fn (lambda (x &rest body) (list x body)))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fn 1 2 3 4 5 6)", "(1 (2 3 4 5 6))");
+        excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
         excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <org.genyris.interp.ClassicFunction>>");
         excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
         excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 
-        excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<org.genyris.interp.MacroFunction>");
+        excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<LazyProcedure: <org.genyris.interp.MacroFunction>>");
         excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
     }
     public void testFrame() throws Exception {
