@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.genyris.classes.BuiltinClasses;
 import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
@@ -126,105 +128,106 @@ public class Interpreter {
                 new ReaderStream(new StdioInStream()));
         BuiltinClasses.init(_globalEnvironment);
                 
-        bindEagerProcedure("is-instance?", IsInstanceFunction.class);
-        bindLazyProcedure(Constants.LAMBDA, LambdaFunction.class);
-        bindLazyProcedure(Constants.LAMBDAQ, LambdaqFunction.class);
-        bindLazyProcedure(Constants.LAMBDAM, LambdamFunction.class);
-        bindLazyProcedure(Constants.TEMPLATE, BackquoteFunction.class);
-        bindEagerProcedure("car", CarFunction.class);
-        bindEagerProcedure("cdr", CdrFunction.class);
-        bindEagerProcedure("rplaca", ReplaceCarFunction.class);
-        bindEagerProcedure("rplacd", ReplaceCdrFunction.class);
-        bindEagerProcedure("cons", ConsFunction.class);
-        bindLazyProcedure("quote", QuoteFunction.class);
-        bindEagerProcedure("set", SetFunction.class);
-        bindEagerProcedure("defvar", DefineFunction.class);
-        bindLazyProcedure("def", DefFunction.class);
-        bindLazyProcedure("defmacro", DefMacroFunction.class);
-        bindLazyProcedure("class", DefineClassFunction.class);
-        bindLazyProcedure("cond", ConditionalFunction.class);
-        bindLazyProcedure("while", WhileFunction.class);
-        bindEagerProcedure("equal?", EqualsFunction.class);
-        bindEagerProcedure("eq?", EqFunction.class);
-        bindLazyProcedure("dict", ObjectFunction.class);
-        bindEagerProcedure("eval", EvalFunction.class);
-        bindEagerProcedure("apply", ApplyFunction.class);
-        bindEagerProcedure("symbol-value", SymbolValueFunction.class);
-        bindLazyProcedure("dynamic-symbol-value", DynamicSymbolValueFunction.class);
-        bindEagerProcedure("the", IdentityFunction.class);
-        bindEagerProcedure("list", ListFunction.class);
-        bindEagerProcedure("reverse", ReverseFunction.class);
-        bindEagerProcedure("length", LengthFunction.class);
-        bindEagerProcedure("load", LoadFunction.class);
-        bindEagerProcedure("include", IncludeFunction.class);
-        bindEagerProcedure("print", PrintFunction.class);
-        bindEagerProcedure("display", DisplayFunction.class);
-        bindEagerProcedure("write", WriteFunction.class);
-        bindEagerProcedure("read", ReadFunction.class);
-        bindEagerProcedure("tag", TagFunction.class);
-        bindEagerProcedure("remove-tag", RemoveTagFunction.class);
-        bindEagerProcedure("+", PlusFunction.class);
-        bindEagerProcedure("-", MinusFunction.class);
-        bindEagerProcedure("*", MultiplyFunction.class);
-        bindEagerProcedure("/", DivideFunction.class);
-        bindEagerProcedure("%", RemainderFunction.class);
-        bindEagerProcedure(">", GreaterThanFunction.class);
-        bindEagerProcedure("<", LessThanFunction.class);
-        bindEagerProcedure("power", PowerFunction.class);
-        bindLazyProcedure("or", OrFunction.class);
-        bindLazyProcedure("and", AndFunction.class);
-        bindEagerProcedure("not", NotFunction.class);
-        bindLazyProcedure("bound?", BoundFunction.class);
-        bindEagerProcedure("raise", RaiseFunction.class);
-        bindEagerProcedure("self-test-runner", JunitRunnerFunction.class);
-        bindEagerProcedure("symlist", SymListFunction.class);
-        bindEagerProcedure("intern", InternFunction.class);
+        bindGlobalProcedure(IsInstanceFunction.class);
+        bindGlobalProcedure(LambdaFunction.class);
+        bindGlobalProcedure(LambdaqFunction.class);
+        bindGlobalProcedure(LambdamFunction.class);
+        bindGlobalProcedure(BackquoteFunction.class);
+        
+        bindGlobalProcedure(CarFunction.class);
+        bindGlobalProcedure(CdrFunction.class);
+        bindGlobalProcedure(ReplaceCarFunction.class);
+        bindGlobalProcedure(ReplaceCdrFunction.class);
+        bindGlobalProcedure(ConsFunction.class);
+        bindGlobalProcedure(QuoteFunction.class);
+        bindGlobalProcedure(SetFunction.class);
+        bindGlobalProcedure(DefineFunction.class);
+        bindGlobalProcedure(DefFunction.class);
+        bindGlobalProcedure(DefMacroFunction.class);
+        bindGlobalProcedure(DefineClassFunction.class);
+        bindGlobalProcedure(ConditionalFunction.class);
+        bindGlobalProcedure(WhileFunction.class);
+        bindGlobalProcedure(EqualsFunction.class);
+        bindGlobalProcedure(EqFunction.class);
+        bindGlobalProcedure(ObjectFunction.class);
+        bindGlobalProcedure(EvalFunction.class);
+        bindGlobalProcedure(ApplyFunction.class);
+        bindGlobalProcedure(SymbolValueFunction.class);
+        bindGlobalProcedure(DynamicSymbolValueFunction.class);
+        bindGlobalProcedure(IdentityFunction.class);
+        bindGlobalProcedure(ListFunction.class);
+        bindGlobalProcedure(ReverseFunction.class);
+        bindGlobalProcedure(LengthFunction.class);
+        bindGlobalProcedure(LoadFunction.class);
+        bindGlobalProcedure(IncludeFunction.class);
+        bindGlobalProcedure(PrintFunction.class);
+        bindGlobalProcedure(DisplayFunction.class);
+        bindGlobalProcedure(WriteFunction.class);
+        bindGlobalProcedure(ReadFunction.class);
+        bindGlobalProcedure(TagFunction.class);
+        bindGlobalProcedure(RemoveTagFunction.class);
+        bindGlobalProcedure(PlusFunction.class);
+        bindGlobalProcedure(MinusFunction.class);
+        bindGlobalProcedure(MultiplyFunction.class);
+        bindGlobalProcedure(DivideFunction.class);
+        bindGlobalProcedure(RemainderFunction.class);
+        bindGlobalProcedure(GreaterThanFunction.class);
+        bindGlobalProcedure(LessThanFunction.class);
+        bindGlobalProcedure(PowerFunction.class);
+        bindGlobalProcedure(OrFunction.class);
+        bindGlobalProcedure(AndFunction.class);
+        bindGlobalProcedure(NotFunction.class);
+        bindGlobalProcedure(BoundFunction.class);
+        bindGlobalProcedure(RaiseFunction.class);
+        bindGlobalProcedure(JunitRunnerFunction.class);
+        bindGlobalProcedure(SymListFunction.class);
+        bindGlobalProcedure(InternFunction.class);
 
-        bindEagerProcedure("web.serve", SpawnHTTPDFunction.class);
-        bindEagerProcedure("web.kill", KillHTTPDFunction.class);
-        bindEagerProcedure("web.get", HTTPgetFunction.class);
+        bindGlobalProcedure(SpawnHTTPDFunction.class);
+        bindGlobalProcedure(KillHTTPDFunction.class);
+        bindGlobalProcedure(HTTPgetFunction.class);
               
-        bindMethod("String", Constants.SPLIT, SplitMethod.class);
-        bindMethod("String", Constants.CONCAT, ConcatMethod.class);
-        bindMethod("String", Constants.MATCH, MatchMethod.class);
-        bindMethod("String", Constants.LENGTH, LengthMethod.class);
-        bindMethod("File", "static-open", Gfile.FileOpenMethod.class);
-        bindMethod(Constants.WRITER, "format", FormatMethod.class);
-        bindMethod(Constants.WRITER, "close", CloseMethod.class);
-        bindMethod(Constants.WRITER, "flush", FlushMethod.class);
-        bindMethod(Constants.READER, "hasData", ReaderStream.HasDataMethod.class);
-        bindMethod(Constants.READER, "read", ReaderStream.ReadMethod.class);
-        bindMethod(Constants.READER, "close", ReaderStream.CloseMethod.class);
-        bindMethod(Constants.PARENPARSER, "new", StreamParser.NewMethod.class);
-        bindMethod(Constants.PARENPARSER, "read", StreamParser.ReadMethod.class);
-        bindMethod(Constants.PARENPARSER, "close", StreamParser.CloseMethod.class);
-        bindMethod("StringFormatStream", "new", StringFormatStream.NewMethod.class);
-        bindMethod("System", "exec", ExecMethod.class);
-        bindMethod("Sound", "play", PlayMethod.class);
+        bindMethod("String", SplitMethod.class);
+        bindMethod("String", ConcatMethod.class);
+        bindMethod("String", MatchMethod.class);
+        bindMethod("String", LengthMethod.class);
+        bindMethod("File", Gfile.FileOpenMethod.class);
+        bindMethod(Constants.WRITER, FormatMethod.class);
+        bindMethod(Constants.WRITER, CloseMethod.class);
+        bindMethod(Constants.WRITER, FlushMethod.class);
+        bindMethod(Constants.READER, ReaderStream.HasDataMethod.class);
+        bindMethod(Constants.READER, ReaderStream.ReadMethod.class);
+        bindMethod(Constants.READER, ReaderStream.CloseMethod.class);
+        bindMethod(Constants.PARENPARSER, StreamParser.NewMethod.class);
+        bindMethod(Constants.PARENPARSER, StreamParser.ReadMethod.class);
+        bindMethod(Constants.PARENPARSER, StreamParser.CloseMethod.class);
+        bindMethod("StringFormatStream", StringFormatStream.NewMethod.class);
+        bindMethod("System", ExecMethod.class);
+        bindMethod("Sound", PlayMethod.class);
 
 
     }
 
-    private void bindEagerProcedure(String name, Class class1) throws GenyrisException {
-        bindProcedure(_globalEnvironment, true, name, class1);
+    private void bindGlobalProcedure(Class class1) throws GenyrisException {
+        bindProcedure(_globalEnvironment, class1);
     }
 
-    private void bindLazyProcedure(String name, Class class1) throws GenyrisException {
-        bindProcedure(_globalEnvironment, false, name, class1);
-    }
-
-    private void bindProcedure(Environment env, boolean type, String name, Class class1)
+    private void bindProcedure(Environment env, Class class1)
             throws GenyrisException {
         //
         // Method uses reflection to locate and call the constructor.
         //
-        Lsymbol nameSymbol = _table.internString(name);
-        Class[] paramTypes = new Class[]{Interpreter.class, Lsymbol.class};
+        Class[] paramTypes = new Class[]{Interpreter.class};
         try {
             Constructor ctor = class1.getConstructor(paramTypes);
-            Object[] args = new Object[]{this, nameSymbol};
+            Method getNameMethod = class1.getMethod("getStaticName", (Class[])null);
+            String staticName = (String)getNameMethod.invoke((Object[])null);
+            Method isEagerMethod = class1.getMethod("isEager", (Class[])null);
+            boolean isEager = ((Boolean)isEagerMethod.invoke((Object[])null)).booleanValue();
+            Lsymbol  nameSymbol = _table.internString(staticName);
+            Object[] args = new Object[]{this};
             Object proc = ctor.newInstance(args);
-            if (type) {
+            if (isEager) {
                 env.defineVariable(nameSymbol, new EagerProcedure(env,
                         null,
                         (ApplicableFunction)proc));
@@ -254,17 +257,19 @@ public class Interpreter {
         }
     }
 
-    private void bindMethod(String className, String methodName, Class class1)
+    private void bindMethod(String className, Class class1)
             throws UnboundException, GenyrisException {
         Lobject stringClass = (Lobject)_globalEnvironment.lookupVariableValue(_table.internString(className));
         //
         // Method uses reflection to locate and call the constructor.
         //
-        Lsymbol nameSymbol = _table.internString(methodName);
-        Class[] paramTypes = new Class[]{Interpreter.class, Lsymbol.class};
+        Class[] paramTypes = new Class[]{Interpreter.class};
         try {
+            Method getNameMethod = class1.getMethod("getStaticName", (Class[])null);
+            String staticName = (String)getNameMethod.invoke((Object[])null);
+            Lsymbol nameSymbol = _table.internString(staticName);
             Constructor ctor = class1.getConstructor(paramTypes);
-            Object[] args = new Object[]{this, nameSymbol};
+            Object[] args = new Object[]{this};
             Object proc = ctor.newInstance(args);
             stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(stringClass,
                         null,

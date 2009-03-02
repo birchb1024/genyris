@@ -10,16 +10,21 @@ import java.math.MathContext;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.interp.Interpreter;
 
 public class PowerFunction extends AbstractMathFunction {
 
-    public PowerFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name, 2);
+	public static String getStaticName() {return "power";};
+	public static boolean isEager() {return true;};
+	
+    public PowerFunction(Interpreter interp) {
+        super(interp,2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).pow(((BigDecimal) b.getJavaValue()).intValueExact(), new MathContext(100000)));
     }
+	public String getName() {
+		return getStaticName();
+	}
 }

@@ -7,15 +7,16 @@ package org.genyris.io.sound;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -131,8 +132,9 @@ public class Sound {
         line.close();
     }
     public static class PlayMethod extends AbstractMethod {
-        public PlayMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "play";};
+        public PlayMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

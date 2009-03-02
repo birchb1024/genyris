@@ -32,14 +32,14 @@ public class ComplexInterpreterTests extends TestCase {
 
 
     public void testMacroWithDefmacro() throws Exception {
-        excerciseEval("(defmacro nil^ (x) (list 'defvar (list quote x) 0))", "<org.genyris.interp.MacroFunction>");
+        excerciseEval("(defmacro nil^ (x) (list 'defvar (list quote x) 0))", "<LazyProcedure: <nil^>>");
         excerciseEval("(nil^ a)", "0");
         excerciseEval("a", "0");
     }
 
     public void testMacroWithDefmacroDeep() throws Exception {
         excerciseEval("(def fn (y) (defmacro nil^ (x) (list 'defvar (list quote x) y)) nil^)", "<EagerProc: <fn>>");
-        excerciseEval("(defvar 'm (fn 99))", "<org.genyris.interp.MacroFunction>");
+        excerciseEval("(defvar 'm (fn 99))", "<LazyProcedure: <nil^>>");
         excerciseEval("(m w)", "99");
         excerciseEval("w", "99");
     }
@@ -67,7 +67,7 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
     public void testRestArgs() throws Exception {
-        excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<org.genyris.interp.ClassicFunction>");
+        excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <org.genyris.interp.ClassicFunction>>");
         excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
         excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 

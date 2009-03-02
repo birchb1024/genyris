@@ -7,11 +7,11 @@ package org.genyris.io.writerstream;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
@@ -106,8 +106,8 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     }
     public static abstract class AbstractWriterMethod extends AbstractMethod {
 
-        public AbstractWriterMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+        public AbstractWriterMethod(Interpreter interp) {
+            super(interp);
         }
 
         protected WriterStream getSelfWriter(Environment env) throws GenyrisException {
@@ -122,8 +122,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     public static class FormatMethod extends AbstractWriterMethod {
         private Exp STDOUT;
 
-        public FormatMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "format";};
+        public FormatMethod(Interpreter interp) {
+            super(interp);
             try {
                 STDOUT = interp.lookupGlobalFromString(Constants.STDOUT);
             }
@@ -156,8 +157,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     }
     public static class CloseMethod extends AbstractWriterMethod {
 
-        public CloseMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "close";};
+        public CloseMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -168,8 +170,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     }
     public static class FlushMethod extends AbstractWriterMethod {
 
-        public FlushMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "flush";};
+        public FlushMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

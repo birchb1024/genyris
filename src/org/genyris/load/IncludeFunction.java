@@ -6,21 +6,23 @@
 package org.genyris.load;
 
 import java.io.Writer;
+
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.NullWriter;
-import org.genyris.load.SourceLoader;
 
 public class IncludeFunction extends ApplicableFunction {
 
-    public IncludeFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return "include";};
+	public static boolean isEager() {return true;};
+	
+    public IncludeFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

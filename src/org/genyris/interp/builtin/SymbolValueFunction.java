@@ -14,8 +14,11 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class SymbolValueFunction extends ApplicableFunction {
-    public SymbolValueFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return "symbol-value";};
+	public static boolean isEager() {return true;};
+	
+    public SymbolValueFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

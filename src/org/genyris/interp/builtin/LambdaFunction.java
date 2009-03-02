@@ -5,9 +5,9 @@
 //
 package org.genyris.interp.builtin;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
@@ -17,9 +17,12 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class LambdaFunction extends ApplicableFunction {
-
-    public LambdaFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	
+	public static String getStaticName() {return Constants.LAMBDA;};
+	public static boolean isEager() {return false;};
+	
+    public LambdaFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -29,10 +32,6 @@ public class LambdaFunction extends ApplicableFunction {
         expression = new Lcons(_lambda, expression);
         return new EagerProcedure(env, expression, new ClassicFunction(_interp));
 
-    }
-
-    public Object getJavaValue() {
-        return _name.toString();
     }
 
 }

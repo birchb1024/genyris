@@ -5,9 +5,9 @@
 //
 package org.genyris.string;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -15,8 +15,9 @@ import org.genyris.interp.Interpreter;
 
 public class LengthMethod extends AbstractStringMethod {
 
-  public LengthMethod(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return Constants.LENGTH;};
+  public LengthMethod(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

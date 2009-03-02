@@ -9,16 +9,22 @@ import java.math.BigDecimal;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.interp.Interpreter;
 
 public class MultiplyFunction extends AbstractMathFunction {
 
-     public MultiplyFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name, 2);
+	public static String getStaticName() {return "*";};
+	public static boolean isEager() {return true;};
+	
+     public MultiplyFunction(Interpreter interp) {
+        super(interp,  2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).multiply((BigDecimal) b.getJavaValue()));
     }
+
+	public String getName() {
+		return getStaticName();
+	}
 }

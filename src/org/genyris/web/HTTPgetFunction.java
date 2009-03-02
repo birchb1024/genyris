@@ -13,7 +13,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -23,16 +22,19 @@ import org.genyris.io.readerstream.ReaderStream;
 
 public class HTTPgetFunction extends ApplicableFunction {
 
-	public HTTPgetFunction(Interpreter interp, Lsymbol name) {
-		super(interp, name);
+	public static String getStaticName() {return "web.get";};
+	public static boolean isEager() {return true;};
+	
+	public HTTPgetFunction(Interpreter interp) {
+		super(interp);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		if (arguments.length != 1)
 			throw new GenyrisException("Wrong number of arguments to "
-					+ getName() + arguments.length);
-		// TODO: unsafe downcasts
+					+ getStaticName() + arguments.length);
+		// TODO: unsafe downcast
 		String URI = (String) arguments[0].getJavaValue();
 
 		try {

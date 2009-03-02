@@ -53,7 +53,7 @@ public class BasicFormatter extends  AbstractFormatter {
 
     public void visitEagerProc(EagerProcedure proc) {
         try {
-            _output.write("<EagerProc: " + proc.getJavaValue().toString() + ">");
+            _output.write(proc.toString());
         }
         catch (IOException e) {
             // TODO Auto-generated catch block
@@ -63,7 +63,7 @@ public class BasicFormatter extends  AbstractFormatter {
 
     public void visitLazyProc(LazyProcedure proc) {
         try {
-            _output.write(proc.getJavaValue().toString());
+            _output.write(proc.toString());
         }
         catch (IOException e) {
             // TODO Auto-generated catch block

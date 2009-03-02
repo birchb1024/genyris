@@ -35,7 +35,7 @@ public class EagerProcedure extends AbstractClosure  {
     }
 
     public String toString() {
-        return "<EagerProc: " + getJavaValue().toString() + ">";
+        return "<EagerProc: " + _functionToApply.toString() + ">";
     }
     public String getBuiltinClassName() {
         return Constants.EAGERPROCEDURE;

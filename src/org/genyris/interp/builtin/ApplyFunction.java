@@ -16,25 +16,37 @@ import org.genyris.interp.Interpreter;
 
 public class ApplyFunction extends ApplicableFunction {
 
-    public ApplyFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
-    }
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 2)
-            throw new GenyrisException("apply expects two arguments, got: " + arguments.length);
-        Closure functionToApply = arguments[0];
-        Exp[] args =  makeArray(arguments[1], NIL);
-        return functionToApply.applyFunction(envForBindOperations, args);
-    }
-    private Exp[] makeArray(Exp list, Lsymbol NIL) throws AccessException {
-        // TODO - Refactor for efficiency?
-        int i = 0;
-        Exp[] result = new Exp[list.length(NIL)];
-        while( list != NIL) {
-            result[i] = list.car();
-            list = list.cdr();
-            i++;
-        }
-        return result;
-    }
+	public static String getStaticName() {
+		return "apply";
+	};
+
+	public static boolean isEager() {
+		return true;
+	};
+
+	public ApplyFunction(Interpreter interp) {
+		super(interp);
+	}
+
+	public Exp bindAndExecute(Closure proc, Exp[] arguments,
+			Environment envForBindOperations) throws GenyrisException {
+		if (arguments.length != 2)
+			throw new GenyrisException("apply expects two arguments, got: "
+					+ arguments.length);
+		Closure functionToApply = arguments[0];
+		Exp[] args = makeArray(arguments[1], NIL);
+		return functionToApply.applyFunction(envForBindOperations, args);
+	}
+
+	private Exp[] makeArray(Exp list, Lsymbol NIL) throws AccessException {
+		// TODO - Refactor for efficiency?
+		int i = 0;
+		Exp[] result = new Exp[list.length(NIL)];
+		while (list != NIL) {
+			result[i] = list.car();
+			list = list.cdr();
+			i++;
+		}
+		return result;
+	}
 }

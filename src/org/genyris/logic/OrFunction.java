@@ -6,7 +6,6 @@
 package org.genyris.logic;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -16,8 +15,11 @@ import org.genyris.interp.Interpreter;
 
 public class OrFunction extends ApplicableFunction {
 
-    public OrFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return "or";};
+	public static boolean isEager() {return false;};
+	
+    public OrFunction(Interpreter interp) {
+        super(interp);
      }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

@@ -6,7 +6,6 @@
 package org.genyris.io;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -91,8 +90,9 @@ public class StringFormatStream implements InStreamEOF {
     }
     
     public static class NewMethod extends AbstractParserMethod {
-        public NewMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "read";};
+        public NewMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

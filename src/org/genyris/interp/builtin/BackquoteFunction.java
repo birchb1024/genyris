@@ -8,7 +8,6 @@ package org.genyris.interp.builtin;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -18,10 +17,14 @@ import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class BackquoteFunction extends ApplicableFunction {
-
+	 
+	public static String getStaticName() {return Constants.TEMPLATE;};
+	public static boolean isEager() {return false;};
+	
+	
     private Exp COMMA, COMMA_AT;
-    public BackquoteFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+    public BackquoteFunction(Interpreter interp) {
+        super(interp);
         COMMA = interp.getSymbolTable().internPlainString(Constants.COMMA);
         COMMA_AT = interp.getSymbolTable().internPlainString(Constants.COMMA_AT);
     }

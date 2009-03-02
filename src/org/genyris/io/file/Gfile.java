@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
 import org.genyris.core.Lsymbol;
@@ -42,8 +43,9 @@ public class Gfile {
     }
     public static class FileOpenMethod extends AbstractMethod {
 
-        public FileOpenMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "static-open";};
+        public FileOpenMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

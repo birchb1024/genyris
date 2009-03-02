@@ -9,13 +9,15 @@ import java.math.BigDecimal;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.interp.Interpreter;
 
 public class MinusFunction extends AbstractMathFunction {
 
-    public MinusFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name, 1);
+	public static String getStaticName() {return "-";};
+	public static boolean isEager() {return true;};
+	
+    public MinusFunction(Interpreter interp) {
+        super(interp, 1);
     }
 
     protected Exp mathOperation(Exp a) {
@@ -25,4 +27,8 @@ public class MinusFunction extends AbstractMathFunction {
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).subtract((BigDecimal) b.getJavaValue()));
     }
+
+	public String getName() {
+		return getStaticName();
+	}
 }

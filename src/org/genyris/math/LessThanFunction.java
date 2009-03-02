@@ -8,13 +8,15 @@ package org.genyris.math;
 import java.math.BigDecimal;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.interp.Interpreter;
 
 public class LessThanFunction extends AbstractMathBooleanFunction {
 
-    public LessThanFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return "<";};
+	public static boolean isEager() {return true;};
+	
+    public LessThanFunction(Interpreter interp) {
+        super(interp);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
@@ -25,4 +27,7 @@ public class LessThanFunction extends AbstractMathBooleanFunction {
             return NIL;
         }
     }
+	public String getName() {
+		return getStaticName();
+	}
 }

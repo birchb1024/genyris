@@ -6,13 +6,12 @@
 package org.genyris.interp;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 
 public abstract class AbstractMethod extends ApplicableFunction {
 
-    public AbstractMethod(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+    public AbstractMethod(Interpreter interp) {
+        super(interp);
     }
 
     protected Exp _self;

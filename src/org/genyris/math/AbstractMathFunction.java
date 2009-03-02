@@ -6,7 +6,6 @@
 package org.genyris.math;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -16,19 +15,17 @@ import org.genyris.interp.Interpreter;
 public abstract class AbstractMathFunction extends ApplicableFunction {
 
 	private int _minExpectedNumberOfArguments;
-	private Lsymbol _name;
 
-	public AbstractMathFunction(Interpreter interp, Lsymbol name,
+	public AbstractMathFunction(Interpreter interp,
 			int minExpectedNumberOfArguments) {
-		super(interp, name);
+		super(interp);
 		_minExpectedNumberOfArguments = minExpectedNumberOfArguments;
-		_name = name;
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		if (arguments.length < _minExpectedNumberOfArguments)
-			throw new GenyrisException("Too few arguments to " + _name);
+			throw new GenyrisException("Too few arguments to " + getName());
 		try {
 			if(arguments.length == 1) {
 				return mathOperation(arguments[0]);
@@ -42,6 +39,8 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
 			throw new GenyrisException(e.getMessage());
 		}
 	}
+
+	public abstract String getName();
 
 	protected Exp mathOperation(Exp unary) throws GenyrisException {
 		throw new GenyrisException("Bad call to mathOperation(Exp unary)");

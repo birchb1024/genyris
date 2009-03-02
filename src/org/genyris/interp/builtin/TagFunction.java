@@ -9,7 +9,6 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -22,8 +21,11 @@ public class TagFunction extends ApplicableFunction {
 
     // TODO - This is really a method so refactor to use method class structure.
 
-    public TagFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return "tag";};
+	public static boolean isEager() {return true;};
+	
+    public TagFunction(Interpreter interp) {
+        super(interp);
     }
 
 

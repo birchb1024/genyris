@@ -9,17 +9,22 @@ import java.math.BigDecimal;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.interp.Interpreter;
 
 public class RemainderFunction extends AbstractMathFunction {
 
 
-    public RemainderFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name, 2);
+	public static String getStaticName() {return "%";};
+	public static boolean isEager() {return true;};
+	
+    public RemainderFunction(Interpreter interp) {
+        super(interp, 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).remainder((BigDecimal) b.getJavaValue()));
     }
+	public String getName() {
+		return getStaticName();
+	}
 }

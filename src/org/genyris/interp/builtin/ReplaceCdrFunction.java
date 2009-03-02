@@ -6,7 +6,6 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -14,9 +13,12 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class ReplaceCdrFunction extends ApplicableFunction {
-
-    public ReplaceCdrFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	
+	public static String getStaticName() {return "rplacd" ;};
+	public static boolean isEager() {return true;};
+	
+    public ReplaceCdrFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] argument, Environment envForBindOperations) throws GenyrisException {

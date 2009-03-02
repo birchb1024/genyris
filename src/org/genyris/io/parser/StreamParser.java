@@ -8,7 +8,6 @@ package org.genyris.io.parser;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -49,8 +48,8 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         _input.close();
     }
     public static abstract class AbstractParserMethod extends AbstractMethod {
-        public AbstractParserMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+        public AbstractParserMethod(Interpreter interp) {
+            super(interp);
         }
 
         protected StreamParser getSelfParser(Environment env) throws GenyrisException {
@@ -63,8 +62,9 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         }
     }
     public static class ReadMethod extends AbstractParserMethod {
-        public ReadMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "read";};
+        public ReadMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -74,8 +74,9 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         }
     }
     public static class CloseMethod extends AbstractParserMethod {
-        public CloseMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "close";};
+        public CloseMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -85,8 +86,9 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         }
     }
     public static class NewMethod extends AbstractParserMethod {
-        public NewMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "new";};
+        public NewMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

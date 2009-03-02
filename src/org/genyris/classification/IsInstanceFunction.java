@@ -8,7 +8,6 @@ package org.genyris.classification;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -17,9 +16,11 @@ import org.genyris.interp.Interpreter;
 
 public class IsInstanceFunction extends ApplicableFunction {
 
+	public static String getStaticName() {return "is-instance?";};
+	public static boolean isEager() {return true;};
 
-    public IsInstanceFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public IsInstanceFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

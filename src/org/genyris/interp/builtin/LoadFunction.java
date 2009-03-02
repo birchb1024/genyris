@@ -6,9 +6,9 @@
 package org.genyris.interp.builtin;
 
 import java.io.Writer;
+
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -19,9 +19,12 @@ import org.genyris.load.SourceLoader;
 
 public class LoadFunction extends ApplicableFunction {
 
+	public static String getStaticName() {return "load";};
+	public static boolean isEager() {return true;};
+	
 
-    public LoadFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+    public LoadFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

@@ -5,9 +5,9 @@
 //
 package org.genyris.interp.builtin;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
@@ -17,9 +17,12 @@ import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
 
 public class LambdaqFunction extends ApplicableFunction {
+	 
+	public static String getStaticName() {return Constants.LAMBDAQ;};
+	public static boolean isEager() {return false;};
 
-    public LambdaqFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public LambdaqFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

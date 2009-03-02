@@ -41,7 +41,7 @@ public class LazyProcedure extends AbstractClosure {
     }
 
     public String toString() {
-        return "<LazyProcedure: " + getJavaValue().toString() + ">";
+        return "<LazyProcedure: " + _functionToApply.toString() + ">";
     }
     public String getBuiltinClassName() {
         return Constants.LAZYPROCEDURE;

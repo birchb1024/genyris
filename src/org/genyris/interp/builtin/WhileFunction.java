@@ -6,7 +6,6 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -16,9 +15,12 @@ import org.genyris.interp.Interpreter;
 
 public class WhileFunction extends ApplicableFunction {
 
+	public static String getStaticName() {return "while";};
+	public static boolean isEager() {return false;};
+	
 
-    public WhileFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+    public WhileFunction(Interpreter interp) {
+        super(interp);
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp retval = NIL;

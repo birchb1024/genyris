@@ -15,7 +15,7 @@ import org.genyris.interp.Interpreter;
 public class StringMethods extends ApplicableFunction {
 
     public StringMethods(Interpreter interp) {
-        super(interp, null);
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

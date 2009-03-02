@@ -17,9 +17,12 @@ import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class DefineClassFunction extends ApplicableFunction {
-
-    public DefineClassFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	
+	public static String getStaticName() {return "class";};
+	public static boolean isEager() {return false;};
+	
+    public DefineClassFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

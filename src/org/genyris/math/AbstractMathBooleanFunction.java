@@ -6,7 +6,6 @@
 package org.genyris.math;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -15,16 +14,13 @@ import org.genyris.interp.Interpreter;
 
 public abstract class AbstractMathBooleanFunction extends ApplicableFunction {
 
-	private Lsymbol _name;
-
-    public AbstractMathBooleanFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
-		_name = name;
+    public AbstractMathBooleanFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
         if( arguments.length != 2)
-            throw new GenyrisException("Not two arguments to " + _name);
+            throw new GenyrisException("Not two arguments to math function");
         try {
             return mathOperation(arguments[0], arguments[1]);
         }

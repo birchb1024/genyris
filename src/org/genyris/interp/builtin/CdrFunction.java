@@ -6,7 +6,6 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -15,9 +14,11 @@ import org.genyris.interp.Interpreter;
 
 public class CdrFunction extends ApplicableFunction {
 
-
-    public CdrFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return "cdr";};
+	public static boolean isEager() {return true;};
+	
+    public CdrFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

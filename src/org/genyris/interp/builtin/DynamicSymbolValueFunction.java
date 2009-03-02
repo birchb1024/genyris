@@ -14,17 +14,25 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class DynamicSymbolValueFunction extends ApplicableFunction {
-    public DynamicSymbolValueFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
-    }
+	public static String getStaticName() {
+		return "dynamic-symbol-value";
+	};
 
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
-            throws GenyrisException {
-        if (arguments.length != 1)
-            throw new GenyrisException("symbol-value expects one argument.");
-        if (!(arguments[0] instanceof Lsymbol)) {
-            throw new GenyrisException("symbol-value expects a symbol.");
-        }
-        return envForBindOperations.lookupDynamicVariableValue(arguments[0]);
-    }
+	public static boolean isEager() {
+		return false;
+	};
+
+	public DynamicSymbolValueFunction(Interpreter interp) {
+		super(interp);
+	}
+
+	public Exp bindAndExecute(Closure proc, Exp[] arguments,
+			Environment envForBindOperations) throws GenyrisException {
+		if (arguments.length != 1)
+			throw new GenyrisException("symbol-value expects one argument.");
+		if (!(arguments[0] instanceof Lsymbol)) {
+			throw new GenyrisException("symbol-value expects a symbol.");
+		}
+		return envForBindOperations.lookupDynamicVariableValue(arguments[0]);
+	}
 }

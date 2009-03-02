@@ -5,14 +5,12 @@
 //
 package org.genyris.io.readerstream;
 
-import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Lsymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -64,8 +62,8 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
 
     public static abstract class AbstractReaderMethod extends AbstractMethod {
 
-        public AbstractReaderMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+        public AbstractReaderMethod(Interpreter interp) {
+            super(interp);
         }
 
         protected ReaderStream getSelfReader(Environment env) throws GenyrisException {
@@ -79,8 +77,9 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     }
     public static class ReadMethod extends AbstractReaderMethod {
 
-        public ReadMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "read";};
+        public ReadMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -91,8 +90,9 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     }
     public static class HasDataMethod extends AbstractReaderMethod {
 
-        public HasDataMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "hasData";};
+        public HasDataMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -103,8 +103,9 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     }
     public static class CloseMethod extends AbstractReaderMethod {
 
-        public CloseMethod(Interpreter interp, Lsymbol name) {
-            super(interp, name);
+    	public static String getStaticName() {return "close";};
+        public CloseMethod(Interpreter interp) {
+            super(interp);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

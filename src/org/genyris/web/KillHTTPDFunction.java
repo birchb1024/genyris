@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -18,8 +17,11 @@ import org.genyris.interp.Interpreter;
 
 public class KillHTTPDFunction extends ApplicableFunction {
 	
-	public KillHTTPDFunction(Interpreter interp, Lsymbol name) {
-		super(interp, name);
+	public static String getStaticName() {return "web.kill";};
+	public static boolean isEager() {return true;};
+	
+	public KillHTTPDFunction(Interpreter interp) {
+		super(interp);
 	}
 
 	private Thread getThreadById( final long id ) {
@@ -36,9 +38,9 @@ public class KillHTTPDFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		if (arguments.length != 1)
-			throw new GenyrisException("Too many or few arguments to " + getName()
+			throw new GenyrisException("Too many or few arguments to " + getStaticName()
 					+ arguments.length);
-		// TODO: unsafe downcasts
+		// TODO: unsafe downcast
 		long id = ((BigDecimal)arguments[0].getJavaValue()).longValue();
 		Thread t = getThreadById(id);
 		if(t == null) {

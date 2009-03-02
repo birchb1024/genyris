@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -20,16 +19,19 @@ import org.genyris.interp.Interpreter;
 
 public class SpawnHTTPDFunction extends ApplicableFunction {
 	
-	public SpawnHTTPDFunction(Interpreter interp, Lsymbol name) {
-		super(interp, name);
+	public static String getStaticName() {return "web.serve";};
+	public static boolean isEager() {return true;};
+	
+	public SpawnHTTPDFunction(Interpreter interp) {
+		super(interp);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		if (arguments.length != 2)
-			throw new GenyrisException("Too many or few arguments to " + getName()
+			throw new GenyrisException("Too many or few arguments to " + getStaticName()
 					+ arguments.length);
-		// TODO: unsafe downcasts
+		// TODO: unsafe downcast
 		int port = ((BigDecimal)arguments[0].getJavaValue()).intValue();
 		String filename = (String)arguments[1].getJavaValue();
 		GenyrisHTTPD httpd1 = new GenyrisHTTPD(port, filename);

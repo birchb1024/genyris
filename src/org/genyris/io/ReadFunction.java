@@ -1,7 +1,6 @@
 package org.genyris.io;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -10,8 +9,11 @@ import org.genyris.interp.Interpreter;
 
 public class ReadFunction extends ApplicableFunction {
 
-    public ReadFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
+	public static String getStaticName() {return "read";};
+	public static boolean isEager() {return true;};
+	
+    public ReadFunction(Interpreter interp) {
+        super(interp);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {

@@ -6,7 +6,6 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -16,25 +15,42 @@ import org.genyris.interp.Interpreter;
 
 public class ConditionalFunction extends ApplicableFunction {
 
-    public ConditionalFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name);
-    }
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-        for(int i= 0; i < arguments.length; i++) {
-            Exp condition = Evaluator.eval(env, arguments[i].car()); // TODO check if it exists?
-            if( condition != NIL ) {
-                if( arguments[i].cdr() == NIL) {
-                    return condition;
-                }
-                else {
-                    return Evaluator.evalSequence(env, arguments[i].cdr()); // TODO check if it exists?
-                }
-            }
-        }
-        return NIL;
-    }
-    public Object getJavaValue() {
-        return "<the cond builtin function>";
-    }
+	public static String getStaticName() {
+		return "cond";
+	};
+
+	public static boolean isEager() {
+		return false;
+	};
+
+	public ConditionalFunction(Interpreter interp) {
+		super(interp);
+	}
+
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+			throws GenyrisException {
+		for (int i = 0; i < arguments.length; i++) {
+			Exp condition = Evaluator.eval(env, arguments[i].car()); // TODO
+																		// check
+																		// if it
+																		// exists?
+			if (condition != NIL) {
+				if (arguments[i].cdr() == NIL) {
+					return condition;
+				} else {
+					return Evaluator.evalSequence(env, arguments[i].cdr()); // TODO
+																			// check
+																			// if
+																			// it
+																			// exists?
+				}
+			}
+		}
+		return NIL;
+	}
+
+	public Object getJavaValue() {
+		return "<the cond builtin function>";
+	}
 
 }

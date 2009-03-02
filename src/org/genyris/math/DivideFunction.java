@@ -10,16 +10,21 @@ import java.math.MathContext;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
 import org.genyris.interp.Interpreter;
 
 public class DivideFunction extends AbstractMathFunction {
 
-    public DivideFunction(Interpreter interp, Lsymbol name) {
-        super(interp, name, 2);
+	public static String getStaticName() {return "/";};
+	public static boolean isEager() {return true;};
+	
+    public DivideFunction(Interpreter interp) {
+        super(interp, 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).divide((BigDecimal) b.getJavaValue(), new MathContext(10)));
     }
+	public String getName() {
+		return getStaticName();
+	}
 }
