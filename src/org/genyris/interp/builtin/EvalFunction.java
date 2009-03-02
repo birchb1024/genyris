@@ -15,9 +15,9 @@ import org.genyris.interp.Interpreter;
 
 public class EvalFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "eval";};
-	public static boolean isEager() {return false;};
-	
+    public static String getStaticName() {return "eval";};
+    public static boolean isEager() {return true;};
+
     public EvalFunction(Interpreter interp) {
         super(interp);
     }

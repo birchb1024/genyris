@@ -8,14 +8,13 @@ load "testscripts/gunit.lin"
 @prefix u "http://www.genyris.org/lang/utilities#"
 
 ;; Test built-in interning
-@prefix p "P"
+@prefix p "http://server/#"
 
 var overall-result
   t.test "Intern tests"
     t.given '(intern "A")       expect 'A
-    t.given '(intern "Pw")       expect 'p.w
+    t.given '(intern "http://server/#w")       expect 'p.w
     t.given (left (member? Symbol ((intern 23)!classes)))       expect Symbol
-    t.given '(intern "Pw")       expect 'p.w
 
-or overall-result (raise "Maths Suite Failed")
+or overall-result (raise "Intern Failed")
 

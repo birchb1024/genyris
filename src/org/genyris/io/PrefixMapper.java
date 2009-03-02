@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +22,12 @@ public class PrefixMapper {
 
 
     public void addprefix(String prefix, String uri) throws GenyrisException {
+        try {
+            new URL(uri);
+        }
+        catch (MalformedURLException e) {
+            throw new GenyrisException("prefix is not mapped to a valid URL: " + uri);
+        }
         if(prefix.startsWith(String.valueOf(Constants.DYNAMICSCOPECHAR2))) {
             throw new GenyrisException("cannot start a prefix with ! in parse: " + prefix);
         }

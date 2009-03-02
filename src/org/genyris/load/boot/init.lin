@@ -48,5 +48,5 @@ load "org/genyris/load/boot/util.lin"
 load "org/genyris/load/boot/version.lin"
 
 @prefix v "http://www.genyris.org/lang/version#"
-u.format "Version: ~a~%Date: ~a~%" v.tip v.tipdate
+; u.format "Version: ~a~%Date: ~a~%" v.tip v.tipdate
 

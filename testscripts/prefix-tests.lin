@@ -3,16 +3,18 @@
 ;
 load "testscripts/gunit.lin"
 @prefix t "http://www.genyris.org/lib/gunit#"
-@prefix myprefix "level-0#"
+@prefix myprefix "http://foo/#"
 var myprefix.foo 0
 
-
-@prefix p1 "P1#"
-t.test "prefixes"
-
+@prefix p1 "http://p1/#"
+;assert
+;    equal? (intern "http://foo/#foo") 'p1.foo
+var overall-result
+  t.test "prefixes"
     t.test "basic prefixes"
-        t.given '(intern "P1#foo") expect 'p1.foo
+        t.given '(intern "http://p1/#foo") expect 'p1.foo
 
     t.test "nested prefixes"
         load "testscripts/prefix-test-nested.lin"
         t.given myprefix.foo expect 0
+or overall-result (raise "Prefixes Failed")
