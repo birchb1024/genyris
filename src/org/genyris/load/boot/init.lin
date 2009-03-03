@@ -47,6 +47,6 @@ load "org/genyris/load/boot/file.lin"
 load "org/genyris/load/boot/util.lin"
 load "org/genyris/load/boot/version.lin"
 
-@prefix v "http://www.genyris.org/lang/version#"
-; u.format "Version: ~a~%Date: ~a~%" v.tip v.tipdate
+@prefix ver "http://www.genyris.org/lang/version#"
+; u.format "Version: ~a~%Date: ~a~%" ver.tip ver.tipdate
 

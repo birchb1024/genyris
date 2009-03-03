@@ -1,0 +1,5 @@
+@prefix u "http://www.genyris.org/lang/utilities#"
+@prefix ver "http://www.genyris.org/lang/version#"
+
+u.format "*** Genyris is listening...~%Version ~a~%" ver.tip
+

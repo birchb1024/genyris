@@ -141,4 +141,8 @@ public class Parser {
         }
         return (tree);
     }
+    
+    public void addPrefix(String prefix, String expansion) throws GenyrisException {
+    	_lexer.addprefix(prefix, expansion);
+    }
 }

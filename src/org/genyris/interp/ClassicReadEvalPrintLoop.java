@@ -18,9 +18,11 @@ import org.genyris.format.IndentedFormatter;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
+import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.StdioInStream;
 import org.genyris.io.UngettableInStream;
+import org.genyris.load.SourceLoader;
 
 public class ClassicReadEvalPrintLoop {
 
@@ -42,10 +44,12 @@ public class ClassicReadEvalPrintLoop {
             Writer output = new PrintWriter(System.out);
             Formatter formatter = new IndentedFormatter(output, 1, _interpreter);
             Exp EOF = _interpreter.getSymbolTable().internString(Constants.EOF);
-            Exp ARGS = _interpreter.getSymbolTable().internString(Constants.GENYRIS + "sys#" + Constants.ARGS);
+            Exp ARGS = _interpreter.getSymbolTable().internString(Constants.GENYRIS + "system#" + Constants.ARGS);
             Exp argsAlist = makeArgList(args);
-            this._interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
-            System.out.println("*** Genyris is listening...");
+            _interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
+
+            setInitialPrefixes(parser);
+            SourceLoader.loadScriptFromClasspath(_interpreter, "org/genyris/load/boot/repl.lin", (Writer)new NullWriter());
             Exp expression = null;
             do {
                 try {
@@ -79,6 +83,14 @@ public class ClassicReadEvalPrintLoop {
         }
 
     }
+
+	private void setInitialPrefixes(Parser parser) throws GenyrisException {
+		parser.addPrefix("u","http://www.genyris.org/lang/utilities#");
+		parser.addPrefix("web","http://www.genyris.org/lang/web#");
+		parser.addPrefix("g","http://www.genyris.org/lang/syntax#");
+		parser.addPrefix("sys","http://www.genyris.org/lang/system#");
+		parser.addPrefix("ver", "http://www.genyris.org/lang/version#");
+		}
 
 	private Exp makeArgList(String[] args) {
 		Exp arglist = this._interpreter.NIL;
