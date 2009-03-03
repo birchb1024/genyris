@@ -85,7 +85,7 @@
             <arg value="{date|date}"/>
         </exec>
 <echo file="${version.dir}/version.lin" append="false">
-@prefix v "http://prefix.genyris.org/lang/version#"
+@prefix v "http://www.genyris.org/lang/version#"
 defvar 'v.tip "${hg.tip}"
 defvar 'v.tipdate "${hg.tip.date}"
 </echo>
