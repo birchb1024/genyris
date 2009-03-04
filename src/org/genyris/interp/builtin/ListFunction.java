@@ -18,7 +18,7 @@ public class ListFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public ListFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

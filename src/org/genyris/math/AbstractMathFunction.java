@@ -17,8 +17,8 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
 	private int _minExpectedNumberOfArguments;
 
 	public AbstractMathFunction(Interpreter interp,
-			int minExpectedNumberOfArguments) {
-		super(interp);
+			String name, int minExpectedNumberOfArguments) {
+		super(interp, name);
 		_minExpectedNumberOfArguments = minExpectedNumberOfArguments;
 	}
 

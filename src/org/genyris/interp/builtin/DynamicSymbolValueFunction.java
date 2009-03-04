@@ -23,7 +23,7 @@ public class DynamicSymbolValueFunction extends ApplicableFunction {
 	};
 
 	public DynamicSymbolValueFunction(Interpreter interp) {
-		super(interp);
+		super(interp, getStaticName());
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

@@ -24,7 +24,7 @@ public class BackquoteFunction extends ApplicableFunction {
 	
     private Exp COMMA, COMMA_AT;
     public BackquoteFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
         COMMA = interp.getSymbolTable().internPlainString(Constants.COMMA);
         COMMA_AT = interp.getSymbolTable().internPlainString(Constants.COMMA_AT);
     }

@@ -14,8 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public abstract class AbstractMathBooleanFunction extends ApplicableFunction {
 
-    public AbstractMathBooleanFunction(Interpreter interp) {
-        super(interp);
+    public AbstractMathBooleanFunction(Interpreter interp, String name) {
+    	super(interp,name);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

@@ -22,7 +22,7 @@ public class IncludeFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public IncludeFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

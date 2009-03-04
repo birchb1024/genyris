@@ -24,7 +24,7 @@ public class SpawnHTTPDFunction extends ApplicableFunction {
     public static boolean isEager() {return true;};
 
     public SpawnHTTPDFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,

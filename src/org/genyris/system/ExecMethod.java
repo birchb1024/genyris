@@ -29,7 +29,7 @@ public class ExecMethod extends AbstractMethod {
     private Exp ListOfLinesClazz;
 
     public ExecMethod(Interpreter interp) throws GenyrisException {
-        super(interp);
+    	super(interp, getStaticName());
         ListOfLinesClazz = interp.lookupGlobalFromString(Constants.LISTOFLINES);
     }
 

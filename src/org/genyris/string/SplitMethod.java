@@ -18,7 +18,7 @@ public class SplitMethod extends AbstractStringMethod {
 	public static String getStaticName() {return Constants.SPLIT;};
 	
 	public SplitMethod(Interpreter interp) {
-        super(interp);
+        super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

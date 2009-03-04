@@ -24,7 +24,7 @@ public class ConditionalFunction extends ApplicableFunction {
 	};
 
 	public ConditionalFunction(Interpreter interp) {
-		super(interp);
+		super(interp, getStaticName());
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

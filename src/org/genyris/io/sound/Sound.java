@@ -134,7 +134,7 @@ public class Sound {
     public static class PlayMethod extends AbstractMethod {
     	public static String getStaticName() {return "play";};
         public PlayMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

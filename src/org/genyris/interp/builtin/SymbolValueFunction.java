@@ -18,7 +18,7 @@ public class SymbolValueFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public SymbolValueFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

@@ -19,7 +19,7 @@ public class GensymFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public GensymFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         if(arguments.length != 1) {

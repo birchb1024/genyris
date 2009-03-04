@@ -19,7 +19,7 @@ public class OrFunction extends ApplicableFunction {
 	public static boolean isEager() {return false;};
 	
     public OrFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
      }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

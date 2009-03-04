@@ -46,7 +46,7 @@ public class Gfile {
 
     	public static String getStaticName() {return "static-open";};
         public FileOpenMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

@@ -20,7 +20,7 @@ public class WhileFunction extends ApplicableFunction {
 	
 
     public WhileFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp retval = NIL;

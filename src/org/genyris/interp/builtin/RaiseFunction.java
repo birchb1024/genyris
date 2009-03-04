@@ -19,7 +19,7 @@ public class RaiseFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public RaiseFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

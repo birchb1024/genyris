@@ -237,13 +237,12 @@ public class Interpreter {
         Class[] paramTypes = new Class[]{Interpreter.class};
         try {
             Constructor ctor = class1.getConstructor(paramTypes);
-            Method getNameMethod = class1.getMethod("getStaticName", (Class[])null);
-            String staticName = (String)getNameMethod.invoke(null,(Object[])null);
             Method isEagerMethod = class1.getMethod("isEager", (Class[])null);
             boolean isEager = ((Boolean)isEagerMethod.invoke(null,(Object[])null)).booleanValue();
-            Symbol  nameSymbol = _table.internString(staticName);
             Object[] args = new Object[]{this};
-            Object proc = ctor.newInstance(args);
+            ApplicableFunction proc = (ApplicableFunction)ctor.newInstance(args);
+            Symbol  nameSymbol = _table.internString(proc.getName());
+            
             if (isEager) {
                 env.defineVariable(nameSymbol, new EagerProcedure(env,
                         null,
@@ -253,6 +252,7 @@ public class Interpreter {
                         null,
                         (ApplicableFunction)proc));
             }
+            
         }
         catch (InvocationTargetException e) {
             throw new RuntimeException(e.getMessage());
@@ -282,12 +282,10 @@ public class Interpreter {
         //
         Class[] paramTypes = new Class[]{Interpreter.class};
         try {
-            Method getNameMethod = class1.getMethod("getStaticName", (Class[])null);
-            String staticName = (String)getNameMethod.invoke(null,(Object[])null);
-            Symbol nameSymbol = _table.internString(staticName);
             Constructor ctor = class1.getConstructor(paramTypes);
             Object[] args = new Object[]{this};
-            Object proc = ctor.newInstance(args);
+            ApplicableFunction proc = (ApplicableFunction) ctor.newInstance(args);
+            Symbol nameSymbol = _table.internString(proc.getName());
             stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(stringClass,
                         null,
                         (ApplicableFunction)proc));

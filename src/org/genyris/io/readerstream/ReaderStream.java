@@ -62,8 +62,8 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
 
     public static abstract class AbstractReaderMethod extends AbstractMethod {
 
-        public AbstractReaderMethod(Interpreter interp) {
-            super(interp);
+        public AbstractReaderMethod(Interpreter interp, String name) {
+        	super(interp, name);
         }
 
         protected ReaderStream getSelfReader(Environment env) throws GenyrisException {
@@ -79,7 +79,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
 
     	public static String getStaticName() {return "read";};
         public ReadMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -92,7 +92,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
 
     	public static String getStaticName() {return "hasData";};
         public HasDataMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -105,7 +105,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
 
     	public static String getStaticName() {return "close";};
         public CloseMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

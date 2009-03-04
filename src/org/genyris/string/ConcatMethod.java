@@ -19,7 +19,7 @@ public class ConcatMethod extends AbstractStringMethod {
 	public static String getStaticName() {return Constants.CONCAT;};
 
     public ConcatMethod(Interpreter interp) {
-        super(interp);
+        super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

@@ -25,7 +25,7 @@ public class ApplyFunction extends ApplicableFunction {
 	};
 
 	public ApplyFunction(Interpreter interp) {
-		super(interp);
+		super(interp, getStaticName());
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

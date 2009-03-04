@@ -18,7 +18,7 @@ public class DefineFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public DefineFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         if( arguments.length != 2) throw new GenyrisException("Incorrect number of arguments to set.");

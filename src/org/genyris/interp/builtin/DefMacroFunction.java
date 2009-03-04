@@ -26,7 +26,7 @@ public class DefMacroFunction extends ApplicableFunction {
 	};
 
 	public DefMacroFunction(Interpreter interp) {
-		super(interp);
+		super(interp, getStaticName());
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
@@ -34,7 +34,7 @@ public class DefMacroFunction extends ApplicableFunction {
 		Exp lambdaExpression = new Lcons(_lambdam, arrayToList(arguments).cdr());
 		// TODO inefficient
 		LazyProcedure fn = new LazyProcedure(envForBindOperations,
-				lambdaExpression, new MacroFunction(arguments[0], _interp));
+				lambdaExpression, new MacroFunction(arguments[0].toString(), _interp));
 		envForBindOperations.defineVariable(arguments[0], fn);
 		return fn;
 	}

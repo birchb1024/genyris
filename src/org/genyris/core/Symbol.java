@@ -13,7 +13,7 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 	}
 
 	public int hashCode() {
-	    return getPrintName().hashCode();
+	    return _printName.hashCode();
 	}
 
     public boolean deepEquals(Object compare) {

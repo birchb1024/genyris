@@ -18,7 +18,7 @@ public class IdentityFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public IdentityFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

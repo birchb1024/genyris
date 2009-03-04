@@ -53,29 +53,29 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
     public void testRecursion() throws Exception {
-        excerciseEval("(defvar 'null (lambda (exp) (cond (exp nil) (true true))))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(defvar 'last (lambda (x) (cond ((null (cdr x)) (car x)) (true (last (cdr x))))))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(defvar 'null (lambda (exp) (cond (exp nil) (true true))))", "<EagerProc: <anonymous lambda>>");
+        excerciseEval("(defvar 'last (lambda (x) (cond ((null (cdr x)) (car x)) (true (last (cdr x))))))", "<EagerProc: <anonymous lambda>>");
         excerciseEval("(last '(1 2 3 4))", "4");
 
     }
 
     public void testLexicalScope() throws Exception {
         excerciseEval("(defvar 'x -1)", "-1");
-        excerciseEval("(defvar 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(mk-func 10)", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(defvar 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <anonymous lambda>>");
+        excerciseEval("(mk-func 10)", "<EagerProc: <anonymous lambda>>");
         excerciseEval("((mk-func 10) 88)", "(10 : 88)");
     }
 
     public void testRestArgs() throws Exception {
-        excerciseEval("(defvar 'fn (lambda (x &rest body) (list x body)))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(defvar 'fn (lambda (x &rest body) (list x body)))", "<EagerProc: <anonymous lambda>>");
         excerciseEval("(fn 1 2 3 4 5 6)", "(1 (2 3 4 5 6))");
-        excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <anonymous lambdaq>>");
         excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
-        excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(defvar 'fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <anonymous lambdaq>>");
         excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
         excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 
-        excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<LazyProcedure: <org.genyris.interp.MacroFunction>>");
+        excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<LazyProcedure: <anonymous lambdam>>");
         excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
     }
     public void testFrame() throws Exception {
@@ -86,8 +86,8 @@ public class ComplexInterpreterTests extends TestCase {
     }
 
     public void testEnvCapture() throws Exception {
-        excerciseEval("(defvar 'mk-fn  (lambda (x) (defvar 'bal x) (defvar 'fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <org.genyris.interp.ClassicFunction>>");
-        excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <org.genyris.interp.ClassicFunction>>");
+        excerciseEval("(defvar 'mk-fn  (lambda (x) (defvar 'bal x) (defvar 'fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <anonymous lambda>>");
+        excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <anonymous lambda>>");
         excerciseEval("(ff 99)", "(44 : 99)");
     }
     public void testEnvCaptureWithDef() throws Exception {

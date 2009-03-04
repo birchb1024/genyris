@@ -18,7 +18,7 @@ public class MatchMethod extends AbstractStringMethod {
 	public static String getStaticName() {return Constants.MATCH;};
 
 	public MatchMethod(Interpreter interp) {
-        super(interp);
+        super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

@@ -10,14 +10,13 @@ import org.genyris.exception.GenyrisException;
 
 public abstract class AbstractMethod extends ApplicableFunction {
 
-    public AbstractMethod(Interpreter interp) {
-        super(interp);
+    public AbstractMethod(Interpreter interp, String name) {
+        super(interp, name);
     }
 
     protected Exp _self;
 
     protected void getSelf(Environment env) throws GenyrisException {
-//        _self = env.lookupVariableValue(_interp.getSymbolTable().internPlainString(Constants.SELF));
         _self = env.getSelf();
     }
 

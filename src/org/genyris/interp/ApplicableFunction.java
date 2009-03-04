@@ -15,8 +15,10 @@ public abstract class ApplicableFunction {
     protected Interpreter _interp;
     protected Symbol     NIL, TRUE;
     protected Exp         _lambda, _lambdam, _lambdaq;
+    private String  _name;
     
-    public ApplicableFunction(Interpreter interp) {
+    public ApplicableFunction(Interpreter interp, String name) {
+    	_name = name;
         _interp = interp;
         NIL = _interp.getNil();
         TRUE = _interp.getTrue();
@@ -37,7 +39,14 @@ public abstract class ApplicableFunction {
     }
 
 	public String getName() {
-		return this.getClass().getName();
+		return _name;
 	}
 
+	protected void checkArguments(Exp[] arguments, int exactly) throws GenyrisException {
+		checkArguments(arguments, exactly,exactly);
+	}
+	protected void checkArguments(Exp[] arguments, int minimum, int maximum) throws GenyrisException {
+        if( arguments.length < minimum ||  arguments.length > maximum)
+            throw new GenyrisException("Incorrect number of arguments to " + getName() + " was expecting between " + minimum + " and " + maximum + "." );
+	}
 }

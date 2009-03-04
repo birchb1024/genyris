@@ -17,7 +17,7 @@ public class MinusFunction extends AbstractMathFunction {
 	public static boolean isEager() {return true;};
 	
     public MinusFunction(Interpreter interp) {
-        super(interp, 1);
+        super(interp, getStaticName(), 1);
     }
 
     protected Exp mathOperation(Exp a) {

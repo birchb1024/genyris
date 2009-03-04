@@ -18,7 +18,7 @@ public class DivideFunction extends AbstractMathFunction {
 	public static boolean isEager() {return true;};
 	
     public DivideFunction(Interpreter interp) {
-        super(interp, 2);
+        super(interp, getStaticName(), 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {

@@ -42,7 +42,7 @@ public class ObjectOrientationTests extends TestCase {
         eval("(defvar 'Standard-Class (dict (!classname : 'Standard-Class)))");
         checkEval("Standard-Class", "(dict (classname : Standard-Class))");
         checkEval("(defvar 'Account (dict (!classes : (list Standard-Class)) (!print : (lambda () (cons $global !balance))) ))",
-                "(dict (print : <EagerProc: <org.genyris.interp.ClassicFunction>>))");
+                "(dict (print : <EagerProc: <anonymous lambda>>))");
 
         checkEval("(Account " +
             "(defvar '!new " +
@@ -50,7 +50,7 @@ public class ObjectOrientationTests extends TestCase {
                 "(dict " +
                     "(!classes: (cons Account nil)) " +
                     "(!balance:  initial-balance))))) ",
-                    "<EagerProc: <org.genyris.interp.ClassicFunction>>" );
+                    "<EagerProc: <anonymous lambda>>" );
 
         checkEval("(defvar 'bb  (Account (!new 1000)))"
                 ,"(dict (balance : 1000))");

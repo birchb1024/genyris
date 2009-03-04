@@ -18,12 +18,11 @@ import org.genyris.interp.MacroFunction;
 
 public class LambdamFunction extends ApplicableFunction {
 	
-	public static String getStaticName() {return Constants.LAMBDAM;};
 	public static boolean isEager() {return false;};
 	
 
 	public LambdamFunction(Interpreter interp) {
-        super(interp);
+		super(interp, Constants.LAMBDAM);
      }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -32,12 +31,8 @@ public class LambdamFunction extends ApplicableFunction {
         // TODO - inefficient
         Exp expression = arrayToList(arguments);
         expression = new Lcons(_lambdam, expression);
-        return new LazyProcedure(env, expression, new MacroFunction(_interp));
+        return new LazyProcedure(env, expression, new MacroFunction("anonymous lambdam", _interp));
 
-    }
-
-    public Object getJavaValue() {
-        return "<the lambdam builtin function>";
     }
 
 }

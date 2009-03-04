@@ -13,7 +13,7 @@ public class ReadFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public ReadFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {

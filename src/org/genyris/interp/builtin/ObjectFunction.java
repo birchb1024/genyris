@@ -24,7 +24,7 @@ public class ObjectFunction extends ApplicableFunction {
 	};
 
 	public ObjectFunction(Interpreter interp) {
-		super(interp);
+		super(interp, getStaticName());
 	}
 
 	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env)

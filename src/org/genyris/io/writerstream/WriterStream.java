@@ -106,8 +106,8 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     }
     public static abstract class AbstractWriterMethod extends AbstractMethod {
 
-        public AbstractWriterMethod(Interpreter interp) {
-            super(interp);
+        public AbstractWriterMethod(Interpreter interp, String name) {
+        	super(interp, name);
         }
 
         protected WriterStream getSelfWriter(Environment env) throws GenyrisException {
@@ -124,7 +124,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
 
     	public static String getStaticName() {return "format";};
         public FormatMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
             try {
                 STDOUT = interp.lookupGlobalFromString(Constants.STDOUT);
             }
@@ -159,7 +159,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
 
     	public static String getStaticName() {return "close";};
         public CloseMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -172,7 +172,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
 
     	public static String getStaticName() {return "flush";};
         public FlushMethod(Interpreter interp) {
-            super(interp);
+        	super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

@@ -27,7 +27,7 @@ public class DisplayFunction extends ApplicableFunction {
 	};
 
 	public DisplayFunction(Interpreter interp) {
-        super(interp);
+        super(interp, getStaticName());
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

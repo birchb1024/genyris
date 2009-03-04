@@ -25,7 +25,7 @@ public class TagFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public TagFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
 

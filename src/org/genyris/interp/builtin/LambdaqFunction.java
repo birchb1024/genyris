@@ -18,11 +18,10 @@ import org.genyris.interp.LazyProcedure;
 
 public class LambdaqFunction extends ApplicableFunction {
 	 
-	public static String getStaticName() {return Constants.LAMBDAQ;};
 	public static boolean isEager() {return false;};
 
 	public LambdaqFunction(Interpreter interp) {
-        super(interp);
+		super(interp, Constants.LAMBDAQ);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -30,7 +29,7 @@ public class LambdaqFunction extends ApplicableFunction {
         // TODO Optimise - repack of args inefficient
         Exp expression = arrayToList(arguments);
         expression = new Lcons(_lambdaq, expression);
-        return new LazyProcedure(env, expression, new ClassicFunction(_interp));
+        return new LazyProcedure(env, expression, new ClassicFunction("anonymous lambdaq", _interp));
     }
 
     public Object getJavaValue() {

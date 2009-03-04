@@ -22,7 +22,7 @@ public class LambdaFunction extends ApplicableFunction {
 	public static boolean isEager() {return false;};
 	
     public LambdaFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -30,7 +30,7 @@ public class LambdaFunction extends ApplicableFunction {
 
         Exp expression = arrayToList(arguments); // TODO - inefficient
         expression = new Lcons(_lambda, expression);
-        return new EagerProcedure(env, expression, new ClassicFunction(_interp));
+        return new EagerProcedure(env, expression, new ClassicFunction("anonymous lambda", _interp));
 
     }
 

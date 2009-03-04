@@ -18,13 +18,12 @@ public class EqualsFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public EqualsFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 2)
-            throw new GenyrisException("Too few arguments to EqualsFunction: " + arguments.length);
-        if( arguments[0].equals(arguments[1]) )
+    	checkArguments(arguments, 2);
+    	if( arguments[0].equals(arguments[1]) )
             return TRUE;
         else
             return NIL;

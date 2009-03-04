@@ -17,7 +17,7 @@ public class MultiplyFunction extends AbstractMathFunction {
 	public static boolean isEager() {return true;};
 	
      public MultiplyFunction(Interpreter interp) {
-        super(interp,  2);
+        super(interp,  getStaticName(), 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {

@@ -19,7 +19,7 @@ public class QuoteFunction extends ApplicableFunction {
 	
 
     public QuoteFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

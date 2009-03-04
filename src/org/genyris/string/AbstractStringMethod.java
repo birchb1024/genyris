@@ -14,8 +14,8 @@ import org.genyris.interp.Interpreter;
 public abstract class AbstractStringMethod extends AbstractMethod {
 
 
-    public AbstractStringMethod(Interpreter interp) {
-        super(interp);
+    public AbstractStringMethod(Interpreter interp, String name) {
+    	super(interp, name);
     }
 
     protected Lstring getSelfString(Environment env) throws GenyrisException {

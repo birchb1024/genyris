@@ -22,7 +22,7 @@ public class DefineClassFunction extends ApplicableFunction {
 	public static boolean isEager() {return false;};
 	
     public DefineClassFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

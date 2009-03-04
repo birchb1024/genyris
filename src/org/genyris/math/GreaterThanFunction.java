@@ -12,11 +12,10 @@ import org.genyris.interp.Interpreter;
 
 public class GreaterThanFunction extends AbstractMathBooleanFunction {
 
-	public static String getStaticName() {return ">";};
 	public static boolean isEager() {return true;};
 	
     public GreaterThanFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, ">");
     }
 
 

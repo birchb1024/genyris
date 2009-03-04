@@ -27,7 +27,7 @@ public class HTTPgetFunction extends ApplicableFunction {
     public static boolean isEager() {return true;};
 
     public HTTPgetFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,

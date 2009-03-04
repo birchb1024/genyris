@@ -18,17 +18,9 @@ import org.genyris.interp.builtin.TagFunction;
 
 public class ClassicFunction extends ApplicableFunction {
     private Exp REST;
-    private String _name;
 
-    public ClassicFunction(Interpreter interp) {
-        super(interp);
-        _name = this.getClass().getName();
-        REST = interp.getSymbolTable().internPlainString(Constants.REST);
-    }
-
-    public ClassicFunction(Exp name, Interpreter interp) {
-        super(interp);
-        _name = name.toString();
+    public ClassicFunction(String name, Interpreter interp) {
+        super(interp, name);
         REST = interp.getSymbolTable().internPlainString(Constants.REST);
     }
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)
@@ -118,6 +110,6 @@ public class ClassicFunction extends ApplicableFunction {
     }
 
     public String toString() {
-        return "<" + _name + ">";
+        return "<" + getName() + ">";
     }
 }

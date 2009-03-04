@@ -22,7 +22,7 @@ public class KillHTTPDFunction extends ApplicableFunction {
     public static boolean isEager() {return true;};
 
     public KillHTTPDFunction(Interpreter interp) {
-        super(interp);
+    	super(interp, getStaticName());
     }
 
     private Thread getThreadById( final long id ) {

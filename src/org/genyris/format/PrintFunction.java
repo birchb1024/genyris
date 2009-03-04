@@ -22,7 +22,7 @@ public class PrintFunction extends ApplicableFunction {
 	public static boolean isEager() {return true;};
 	
     public PrintFunction(Interpreter interp) {
-        super(interp);
+        super(interp, getStaticName());
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

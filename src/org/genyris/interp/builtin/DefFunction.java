@@ -26,7 +26,7 @@ public class DefFunction extends ApplicableFunction {
 	};
 
 	public DefFunction(Interpreter interp) {
-		super(interp);
+		super(interp, getStaticName());
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
@@ -35,7 +35,7 @@ public class DefFunction extends ApplicableFunction {
 		Exp lambdaExpression = new Lcons(_lambda, arrayToList(arguments).cdr());
 		// TODO inefficient
 		EagerProcedure fn = new EagerProcedure(envForBindOperations,
-				lambdaExpression, new ClassicFunction(arguments[0], _interp));
+				lambdaExpression, new ClassicFunction(arguments[0].toString(), _interp));
 		envForBindOperations.defineVariable(arguments[0], fn);
 		return fn;
 	}

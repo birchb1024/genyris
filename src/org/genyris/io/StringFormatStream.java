@@ -90,9 +90,8 @@ public class StringFormatStream implements InStreamEOF {
     }
     
     public static class NewMethod extends AbstractParserMethod {
-    	public static String getStaticName() {return "read";};
         public NewMethod(Interpreter interp) {
-            super(interp);
+            super(interp, "read");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
