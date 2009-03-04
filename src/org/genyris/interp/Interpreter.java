@@ -39,6 +39,7 @@ import org.genyris.interp.builtin.DynamicSymbolValueFunction;
 import org.genyris.interp.builtin.EqFunction;
 import org.genyris.interp.builtin.EqualsFunction;
 import org.genyris.interp.builtin.EvalFunction;
+import org.genyris.interp.builtin.GensymFunction;
 import org.genyris.interp.builtin.IdentityFunction;
 import org.genyris.interp.builtin.InternFunction;
 import org.genyris.interp.builtin.LambdaFunction;
@@ -215,10 +216,13 @@ public class Interpreter {
         bindGlobalProcedure(JunitRunnerFunction.class);
         bindGlobalProcedure(SymListFunction.class);
         bindGlobalProcedure(InternFunction.class);
+        bindGlobalProcedure(GensymFunction.class);
 
         bindGlobalProcedure(SpawnHTTPDFunction.class);
         bindGlobalProcedure(KillHTTPDFunction.class);
         bindGlobalProcedure(HTTPgetFunction.class);
+        
+        
     }
 
     public void bindGlobalProcedure(Class class1) throws GenyrisException {

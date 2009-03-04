@@ -11,10 +11,13 @@ load "testscripts/gunit.lin"
 @prefix p "http://server/#"
 
 var overall-result
-  t.test "Intern tests"
-    t.given '(intern "A")       expect 'A
-    t.given '(intern "http://server/#w")       expect 'p.w
-    t.given (left (member? SimpleSymbol ((intern 23)!classes)))       expect SimpleSymbol
-
+  t.test "Symbol Tests"
+      t.test "Intern tests"
+        t.given '(intern "A")       expect 'A
+        t.given '(intern "http://server/#w")       expect 'p.w
+        t.given (left (member? SimpleSymbol ((intern 23)!classes)))       expect SimpleSymbol
+      t.test "gensym tests"
+        t.given (eq? (gensym 23) (gensym 23)) expect nil
+        t.given (equal? (gensym 23) (gensym 23)) expect nil
+    
 or overall-result (raise "Intern Failed")
-

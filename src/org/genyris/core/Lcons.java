@@ -29,12 +29,12 @@ public class Lcons extends ExpWithEmbeddedClasses {
         guest.visitLcons(this);
     }
 
-    public boolean deepEquals(Object compare) {
+    public boolean equals(Object compare) {
         if (compare.getClass() != this.getClass())
             return false;
         else
-            return this._car.deepEquals(((Lcons)compare)._car)
-                && this._cdr.deepEquals(((Lcons)compare)._cdr);
+            return this._car.equals(((Lcons)compare)._car)
+                && this._cdr.equals(((Lcons)compare)._cdr);
     }
 
 

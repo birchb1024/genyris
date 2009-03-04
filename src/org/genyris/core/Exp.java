@@ -75,13 +75,6 @@ public abstract class Exp implements Classifiable, Closure {
             return this.getJavaValue().equals(((Exp) compare).getJavaValue());
     }
 
-    public boolean deepEquals(Object compare) {
-        if (compare.getClass() != this.getClass())
-            return false;
-        else
-            return this.getJavaValue().equals(((Exp) compare).getJavaValue());
-    }
-
 
     public abstract String toString();
 

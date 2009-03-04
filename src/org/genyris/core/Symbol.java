@@ -16,6 +16,9 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 	    return getPrintName().hashCode();
 	}
 
+    public boolean deepEquals(Object compare) {
+        return equals(compare);
+    }
 	public boolean equals(Object compare) {
 	    return this == compare;
 	}

@@ -37,8 +37,8 @@ public class EqualityTest extends TestCase {
         assertFalse(new Lstring("hello1").equals(new Lstring("hello2")));
     }
     public void testCons() throws Exception {
-        assertTrue(new Lcons(new Lstring("hello"), new Linteger(12)).deepEquals(new Lcons(new Lstring("hello"), new Linteger(12))));
-        assertFalse(new Lcons(new Lstring("hello"), new Lstring("no way")).deepEquals(new Lcons(new Lstring("hello"), new Linteger(12))));
+        assertTrue(new Lcons(new Lstring("hello"), new Linteger(12)).equals(new Lcons(new Lstring("hello"), new Linteger(12))));
+        assertFalse(new Lcons(new Lstring("hello"), new Lstring("no way")).equals(new Lcons(new Lstring("hello"), new Linteger(12))));
     }
     public void testSymbol() throws Exception {
         SymbolTable sym = new SymbolTable();
@@ -65,6 +65,6 @@ public class EqualityTest extends TestCase {
         f1.defineVariableRaw(a, new Lstring("foo"));
         Lobject f2 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
         f2.defineVariableRaw(a, new Lstring("foo"));
-        assertTrue(f1.deepEquals(f2));
+        assertTrue(f1.equals(f2));
     }
 }
