@@ -6,6 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -21,7 +22,7 @@ public class InternFunction extends ApplicableFunction {
 		checkArguments(arguments, 1);
 
         // TODO - probably a bit too general ? Takes anything!
-        return _interp.getSymbolTable().internString(arguments[0].toString());
+        return _interp.getSymbolTable().internSymbol(Symbol.symbolFactory(arguments[0].toString()));
     }
 	public Object getJavaValue() {
         return "[intern builtin function]";

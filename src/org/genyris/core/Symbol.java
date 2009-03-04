@@ -1,7 +1,18 @@
 package org.genyris.core;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public abstract class Symbol extends ExpWithEmbeddedClasses {
 
+	public static Symbol symbolFactory(String name) {
+		try {
+			new URL(name);
+			return new FullyQualifiedSymbol(name);
+		} catch (MalformedURLException e) {
+			return new SimpleSymbol(name);
+		}
+	}
 	protected String _printName;
 
     public Symbol(String newSym) {

@@ -6,7 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -21,11 +21,6 @@ public class GensymFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		checkArguments(arguments, 1);
 
-        // TODO - probably a bit too general ? Takes anything!
-        return new SimpleSymbol(arguments[0].toString());
+        return Symbol.symbolFactory(arguments[0].toString());
     }
-	public Object getJavaValue() { // TODO DRY with siblings 
-        return "[gensym builtin function]";
-    }
-
 }
