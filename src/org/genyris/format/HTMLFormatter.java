@@ -7,6 +7,7 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
@@ -17,7 +18,6 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
@@ -76,8 +76,8 @@ public class HTMLFormatter extends AbstractFormatter {
 
     public void visitLcons(Lcons cons) {
         try {
-            if (cons.car() instanceof SimpleSymbol) {
-                SimpleSymbol tag = (SimpleSymbol) cons.car();
+            if (cons.car() instanceof Symbol) {
+                Symbol tag = (Symbol) cons.car();
                 Exp attributes = new NilSymbol();
                 Exp body = new NilSymbol();
                 if(cons.cdr() instanceof NilSymbol) {

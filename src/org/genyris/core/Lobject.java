@@ -100,7 +100,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
 
-        if (!(exp instanceof SimpleSymbol)) {
+        if (!(exp instanceof Symbol)) {
             throw new GenyrisException("cannot define non-symbol: " + exp.toString());
         }
         Exp sym = exp;
@@ -224,7 +224,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             } else {
                 throw new UnboundException("Bad dynamic symbol: " + dynamicOrReal.toString());
             }
-        } else if(dynamicOrReal instanceof SimpleSymbol) {
+        } else if(dynamicOrReal instanceof Symbol) {
             return (Symbol) dynamicOrReal;
         }
         else {

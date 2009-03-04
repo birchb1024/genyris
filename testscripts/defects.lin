@@ -23,3 +23,7 @@ class C(Object)
    def !f()
       set '!v 34
 define c (C(!new nil))
+
+; Defect with QualifiedSymbols not being understood
+defvar (intern "http://foo/bar#quux") 34
+assert (equal? (eval (intern "http://foo/bar#quux")) 34)

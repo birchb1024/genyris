@@ -10,6 +10,7 @@ import java.util.HashMap;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -114,7 +115,7 @@ public class MagicEnvironment extends StandardEnvironment {
                 throw new UnboundException("cannot set to a bad place" + symbol.toString());
             }
         }
-        if (!(sym instanceof SimpleSymbol)) {
+        if (!(sym instanceof Symbol)) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
 

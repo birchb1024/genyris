@@ -93,7 +93,7 @@ public class StandardEnvironment implements Environment {
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        if(! (symbol instanceof SimpleSymbol) ) {
+        if(! (symbol instanceof Symbol) ) {
             throw new UnboundException("cannot set non-symbol: " + symbol.toString());
         }
         if( _frame.containsKey(symbol) ) {

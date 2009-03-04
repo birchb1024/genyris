@@ -6,9 +6,9 @@
 package org.genyris.interp;
 
 import java.util.Map;
+
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
@@ -29,7 +29,7 @@ public class SpecialEnvironment extends StandardEnvironment {
                 return;
             }
         }
-        else if (!(symbol instanceof SimpleSymbol)) {
+        else if (!(symbol instanceof Symbol)) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
         Symbol sym = (Symbol) symbol;

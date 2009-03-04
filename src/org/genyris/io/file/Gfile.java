@@ -13,7 +13,6 @@ import java.io.OutputStreamWriter;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -54,7 +53,7 @@ public class Gfile {
                 if (!(arguments[0] instanceof Lstring)) {
                     throw new GenyrisException("Non-string filname passed to File_static-open");
                 }
-                if (!(arguments[1] instanceof SimpleSymbol)) {
+                if (!(arguments[1] instanceof Symbol)) {
                     throw new GenyrisException("Non-symbol mode passed to File_static-open");
                 }
                 return open((Lstring)arguments[0], (Symbol)arguments[1]);

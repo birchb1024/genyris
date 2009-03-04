@@ -7,11 +7,12 @@ package org.genyris.interp;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.builtin.TagFunction;
@@ -50,11 +51,11 @@ public class ClassicFunction extends ApplicableFunction {
                 if(formal instanceof Lcons) {
                     Exp left = formal.car();
                     Exp right = formal.cdr();
-                    if(!(left instanceof SimpleSymbol) ) {
+                    if(!(left instanceof Symbol) ) {
                         throw new GenyrisException("function argument not a symbol: "
                                 + left.toString());
                     }
-                    if(!(right instanceof SimpleSymbol) ) {
+                    if(!(right instanceof Symbol) ) {
                         throw new GenyrisException("function argument class spec not a symbol: "
                                 + right.toString());
                     }
@@ -67,7 +68,7 @@ public class ClassicFunction extends ApplicableFunction {
                     }
                     bindings.put(left, arguments[i]);
                 }
-                else if (!(formal instanceof SimpleSymbol)) {
+                else if (!(formal instanceof Symbol)) {
                     throw new GenyrisException("function argument not a symbol: "
                             + formal.toString());
                 } else {
