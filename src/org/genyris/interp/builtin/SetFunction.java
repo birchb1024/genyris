@@ -19,7 +19,7 @@ public class SetFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-        if( arguments.length != 2) throw new GenyrisException("Incorrect number of arguments to set.");
+		checkArguments(arguments, 2);
         env.setVariableValue(arguments[0], arguments[1]);
         return arguments[1];
     }

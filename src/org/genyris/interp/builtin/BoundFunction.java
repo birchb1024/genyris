@@ -15,8 +15,7 @@ public class BoundFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {
-        if( arguments.length > 1)
-            throw new GenyrisException("Too many arguments to bound?: " + arguments.length);
+		checkArguments(arguments, 1);
         try {
             envForBindOperations.lookupVariableValue(arguments[0]);
         } catch (UnboundException e) {

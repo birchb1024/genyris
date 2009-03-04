@@ -24,10 +24,11 @@ public class TagFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment environment) throws GenyrisException {
-        if( arguments.length != 2)
-            throw new GenyrisException("Tag expected 2 args, got: " + arguments.length);
+    	checkArguments(arguments, 2);
+    	Class[] types = {Lobject.class};
+    	checkArgumentTypes(types, arguments);
         Exp object = arguments[1];
-        Lobject klass = (Lobject) arguments[0]; //TODO type check
+        Lobject klass = (Lobject) arguments[0]; 
         callValidator(klass, object, klass); // use the class itself as the env for validation so it can access class params etc.
         object.addClass(klass);
         return object;

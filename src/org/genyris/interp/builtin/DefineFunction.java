@@ -18,8 +18,8 @@ public class DefineFunction extends ApplicableFunction {
     	super(interp, "defvar", true);
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-        if( arguments.length != 2) throw new GenyrisException("Incorrect number of arguments to set.");
-        env.defineVariable(arguments[0], arguments[1]);
+    	checkArguments(arguments, 2);
+    	env.defineVariable(arguments[0], arguments[1]);
 
         return arguments[1];
     }

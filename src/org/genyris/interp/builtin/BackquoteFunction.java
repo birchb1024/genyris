@@ -27,7 +27,7 @@ public class BackquoteFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
-
+		checkArguments(arguments, 1);
         return backQuoteAux(envForBindOperations, arguments[0]);
     }
 

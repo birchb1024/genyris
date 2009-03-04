@@ -19,8 +19,7 @@ public class EqFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-        if( arguments.length != 2)
-            throw new GenyrisException("Too few arguments to EqualsFunction: " + arguments.length);
+    	checkArguments(arguments, 2);
         return arguments[0] == arguments[1] ? TRUE : NIL ;
     }
 

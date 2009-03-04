@@ -20,8 +20,7 @@ public class EvalFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length > 1)
-            throw new GenyrisException("Too many arguments to eval: " + arguments.length);
+    	checkArguments(arguments, 1);
         return Evaluator.eval(envForBindOperations, arguments[0]);
     }
 

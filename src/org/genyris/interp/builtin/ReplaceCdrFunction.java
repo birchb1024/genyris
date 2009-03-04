@@ -19,8 +19,7 @@ public class ReplaceCdrFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] argument, Environment envForBindOperations) throws GenyrisException {
-        if( argument.length != 2)
-            throw new GenyrisException("Too many or few arguments to rplacd: " + argument.length);
+		checkArguments(argument, 2);
         return argument[0].setCdr(argument[1]);
     }
 

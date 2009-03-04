@@ -14,6 +14,7 @@ import java.net.URL;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -29,10 +30,9 @@ public class HTTPgetFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        if (arguments.length != 1)
-            throw new GenyrisException("Wrong number of arguments to "
-                    + getName() + arguments.length);
-        // TODO: unsafe downcast
+        checkArguments(arguments, 1);
+    	Class[] types = {Lstring.class};
+    	checkArgumentTypes(types, arguments);
         String URI = (String) arguments[0].getJavaValue();
 
         try {

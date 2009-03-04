@@ -20,8 +20,7 @@ public class RaiseFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 1)
-            throw new GenyrisException("Too many or few arguments to raise: " + arguments.length);
+		checkArguments(arguments, 1);
         throw new GenyrisUserException( arguments[0] );
     }
 

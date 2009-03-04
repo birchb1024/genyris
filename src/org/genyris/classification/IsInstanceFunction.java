@@ -21,10 +21,10 @@ public class IsInstanceFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length < 2)
-            throw new GenyrisException("Too few arguments to is-instance?: " + arguments.length);
-        if(!(arguments[1] instanceof Lobject) )
-            throw new GenyrisException("Wrong argument 2 to is-instance? was expecting a class, not: " + arguments[1]);
+		checkArguments(arguments, 2);
+    	Class[] types = {Exp.class, Lobject.class, };
+    	checkArgumentTypes(types, arguments);
+    	
         ClassWrapper cw = new ClassWrapper((Lobject)arguments[1]); // TODO check and throw
         if (cw.isInstance(arguments[0]) )
             return envForBindOperations.internString(Constants.TRUE);

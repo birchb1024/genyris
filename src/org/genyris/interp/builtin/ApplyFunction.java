@@ -22,9 +22,7 @@ public class ApplyFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		if (arguments.length != 2)
-			throw new GenyrisException("apply expects two arguments, got: "
-					+ arguments.length);
+		checkArguments(arguments, 2);
 		Closure functionToApply = arguments[0];
 		Exp[] args = makeArray(arguments[1], NIL);
 		return functionToApply.applyFunction(envForBindOperations, args);

@@ -20,9 +20,7 @@ public class WhileFunction extends ApplicableFunction {
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp retval = NIL;
-        if(arguments.length < 1) {
-            throw new GenyrisException("Too few arguments to while.");
-        }
+        this.checkMinArguments(arguments, 1);
         while( Evaluator.eval(env, arguments[0]) != NIL ) {
             for(int i = 1 ; i < arguments.length; i++) {
                 retval =  Evaluator.eval(env, arguments[i]); 

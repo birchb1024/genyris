@@ -20,8 +20,7 @@ public class ConsFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length < 2)
-            throw new GenyrisException("Too few arguments to cons: " + arguments.length);
+		checkArguments(arguments, 2);
         return new Lcons(arguments[0], arguments[1]);
     }
 

@@ -15,22 +15,22 @@ import org.genyris.interp.Interpreter;
 
 public class ReverseFunction extends ApplicableFunction {
 
-    public ReverseFunction(Interpreter interp) {
-    	super(interp, "reverse", true);
-    }
+	public ReverseFunction(Interpreter interp) {
+		super(interp, "reverse", true);
+	}
 
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 1)
-            throw new GenyrisException("Wrong number of arguments to reverse function: " + arguments.length);
-            Exp rev_result = NIL;
-            Exp s = arguments[0];
+	public Exp bindAndExecute(Closure proc, Exp[] arguments,
+			Environment envForBindOperations) throws GenyrisException {
+		checkArguments(arguments, 1);
+		Exp rev_result = NIL;
+		Exp s = arguments[0];
 
-            while( s != NIL ) {
-                    rev_result = new Lcons(s.car(), rev_result);
-                    s = s.cdr();
-            }
-            return(rev_result);
+		while (s != NIL) {
+			rev_result = new Lcons(s.car(), rev_result);
+			s = s.cdr();
+		}
+		return (rev_result);
 
-    }
+	}
 
 }

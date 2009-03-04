@@ -25,6 +25,7 @@ public class LoadFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp result;
+		checkMinArguments(arguments, 1);
         Writer out = new NullWriter();
         if( !( arguments[0] instanceof Lstring) ) {
             throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());

@@ -50,8 +50,20 @@ public abstract class ApplicableFunction {
 	protected void checkArguments(Exp[] arguments, int exactly) throws GenyrisException {
 		checkArguments(arguments, exactly,exactly);
 	}
+	protected void checkMinArguments(Exp[] arguments, int minimum) throws GenyrisException {
+        if( arguments.length < minimum)
+            throw new GenyrisException("Not enough arguments to " + getName() + " was expecting at least " + minimum + "." );
+	}
 	protected void checkArguments(Exp[] arguments, int minimum, int maximum) throws GenyrisException {
         if( arguments.length < minimum ||  arguments.length > maximum)
             throw new GenyrisException("Incorrect number of arguments to " + getName() + " was expecting between " + minimum + " and " + maximum + "." );
 	}
+	protected void checkArgumentTypes(Class[] types, Exp[] args) throws GenyrisException {
+		for(int i=0; i< types.length; i++) {
+			if (!types[i].isInstance(args[i])) {
+				throw new GenyrisException(getName() + " expects a " + types[i].getName() + " at position " + i);
+			}			
+		}
+	}
+
 }

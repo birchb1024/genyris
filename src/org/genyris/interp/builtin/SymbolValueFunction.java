@@ -21,11 +21,9 @@ public class SymbolValueFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
-        if (arguments.length != 1)
-            throw new GenyrisException("symbol-value expects one argument.");
-        if (!(arguments[0] instanceof SimpleSymbol)) {
-            throw new GenyrisException("symbol-value expects a symbol.");
-        }
+		checkArguments(arguments, 1);
+		Class[] types = {SimpleSymbol.class};
+    	checkArgumentTypes(types, arguments);
         return envForBindOperations.lookupVariableValue((SimpleSymbol)arguments[0]);
     }
 }

@@ -23,6 +23,7 @@ public class DefMacroFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
+		checkMinArguments(arguments, 1);
 		Exp lambdaExpression = new Lcons(_lambdam, arrayToList(arguments).cdr());
 		// TODO inefficient
 		LazyProcedure fn = new LazyProcedure(envForBindOperations,

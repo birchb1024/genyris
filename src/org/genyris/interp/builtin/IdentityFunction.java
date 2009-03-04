@@ -19,8 +19,7 @@ public class IdentityFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 1)
-            throw new GenyrisException("Wrong number of arguments to identity function: " + arguments.length);
+		checkArguments(arguments, 1);
         return arguments[0];
     }
 

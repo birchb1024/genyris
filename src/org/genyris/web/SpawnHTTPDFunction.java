@@ -27,7 +27,8 @@ public class SpawnHTTPDFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		checkArguments(arguments, 2);
-		// TODO: unsafe downcast
+    	Class[] types = {Bignum.class, Exp.class};
+    	checkArgumentTypes(types, arguments);
 		int port = ((BigDecimal) arguments[0].getJavaValue()).intValue();
 		String filename = (String) arguments[1].getJavaValue();
 		GenyrisHTTPD httpd1 = new GenyrisHTTPD(port, filename);

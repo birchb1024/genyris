@@ -23,6 +23,7 @@ public class DefFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
+		checkMinArguments(arguments, 1);
 		// TODO check argument types.
 		Exp lambdaExpression = new Lcons(_lambda, arrayToList(arguments).cdr());
 		// TODO inefficient

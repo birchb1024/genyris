@@ -21,11 +21,10 @@ public class DynamicSymbolValueFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		if (arguments.length != 1)
-			throw new GenyrisException("symbol-value expects one argument.");
-		if (!(arguments[0] instanceof SimpleSymbol)) {
-			throw new GenyrisException("symbol-value expects a symbol.");
-		}
+		Class[] types = {SimpleSymbol.class};
+    	checkArguments(arguments, 1);
+    	checkArgumentTypes(types, arguments);
 		return envForBindOperations.lookupDynamicVariableValue(arguments[0]);
 	}
+
 }

@@ -19,8 +19,7 @@ public class CdrFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 1)
-            throw new GenyrisException("Too many or few arguments to car: " + arguments.length);
+		checkArguments(arguments, 1);
         return arguments[0].cdr();
     }
 

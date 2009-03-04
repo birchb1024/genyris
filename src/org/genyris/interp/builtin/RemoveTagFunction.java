@@ -19,8 +19,7 @@ public class RemoveTagFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-        if( arguments.length != 2)
-            throw new GenyrisException("Too few arguments to removetag: " + arguments.length);
+		checkArguments(arguments, 2);
         Exp object = arguments[0];
         Exp newClass = arguments[1];
         object.removeClass(newClass);

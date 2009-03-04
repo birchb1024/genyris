@@ -24,8 +24,7 @@ public class DefineClassFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 
-        if( arguments.length < 1)
-            throw new GenyrisException("Incorrect number of arguments to class.");
+		checkMinArguments(arguments, 1);
         if(! (arguments[0] instanceof Symbol)) {
             throw new GenyrisException("class expects a symbol.");
         }

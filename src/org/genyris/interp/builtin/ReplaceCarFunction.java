@@ -19,8 +19,7 @@ public class ReplaceCarFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] argument, Environment envForBindOperations) throws GenyrisException {
-        if( argument.length != 2)
-            throw new GenyrisException("Too many or few arguments to rplaca: " + argument.length);
+		checkArguments(argument, 2);
         return argument[0].setCar(argument[1]);
     }
 
