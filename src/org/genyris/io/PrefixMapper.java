@@ -12,7 +12,8 @@ import java.util.Map;
 
 import org.genyris.core.Constants;
 import org.genyris.core.FullyQualifiedSymbol;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public class PrefixMapper {
@@ -54,10 +55,10 @@ public class PrefixMapper {
         return symbol.substring(symbol.indexOf(".") + 1);
     }
 
-    public Lsymbol symbolFactory(String news) throws GenyrisException {
+    public Symbol symbolFactory(String news) throws GenyrisException {
         String prefix;
         if(news.equals(".") || !hasPrefix(news) ) {
-            return new Lsymbol(news);
+            return new SimpleSymbol(news);
         }
         else {
             prefix = getPrefix(news);

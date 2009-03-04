@@ -13,51 +13,51 @@ import org.genyris.exception.GenyrisException;
 
 public class SymbolTable {
     private Map         _table;
-    private Lsymbol     NIL;
+    private SimpleSymbol     NIL;
 
     public SymbolTable() {
         _table = new TreeMap();
     }
 
-    public void init(Lsymbol nil) throws GenyrisException {
+    public void init(SimpleSymbol nil) throws GenyrisException {
         NIL = nil;
         _table.put("nil", NIL);
-        _table.put(Constants.SELF, new Lsymbol(Constants.SELF));
-        _table.put(Constants.CLASSES, new Lsymbol(Constants.CLASSES));
-        _table.put(Constants.SUPERCLASSES, new Lsymbol(Constants.SUPERCLASSES));
-        _table.put(Constants.CLASSNAME, new Lsymbol(Constants.CLASSNAME));
-        _table.put(Constants.VARS, new Lsymbol(Constants.VARS));
-        _table.put(Constants.DYNAMIC_SYMBOL, new Lsymbol(Constants.DYNAMIC_SYMBOL));
+        _table.put(Constants.SELF, new SimpleSymbol(Constants.SELF));
+        _table.put(Constants.CLASSES, new SimpleSymbol(Constants.CLASSES));
+        _table.put(Constants.SUPERCLASSES, new SimpleSymbol(Constants.SUPERCLASSES));
+        _table.put(Constants.CLASSNAME, new SimpleSymbol(Constants.CLASSNAME));
+        _table.put(Constants.VARS, new SimpleSymbol(Constants.VARS));
+        _table.put(Constants.DYNAMIC_SYMBOL, new SimpleSymbol(Constants.DYNAMIC_SYMBOL));
 
     }
 
-    public Lsymbol lookupString(String newSym) throws GenyrisException {
+    public SimpleSymbol lookupString(String newSym) throws GenyrisException {
         if (_table.containsKey(newSym)) {
-            return (Lsymbol)_table.get(newSym);
+            return (SimpleSymbol)_table.get(newSym);
         } else {
             throw new GenyrisException("symbol not found in symbol table " + newSym);
         }
     }
 
-    public Lsymbol internString(String news) throws GenyrisException {
+    public SimpleSymbol internString(String news) throws GenyrisException {
         return internPlainString(news);
     }
 
-    public Lsymbol internPlainString(String newSym) {
+    public SimpleSymbol internPlainString(String newSym) {
         if (_table.containsKey(newSym)) {
-            return (Lsymbol)_table.get(newSym);
+            return (SimpleSymbol)_table.get(newSym);
         } else {
-            Lsymbol sym = new Lsymbol(newSym);
+            SimpleSymbol sym = new SimpleSymbol(newSym);
             _table.put(newSym, sym);
             return sym;
         }
     }
 
     public void intern(Exp newSym) throws Exception {
-        if (_table.containsKey(((Lsymbol)newSym).getPrintName())) {
+        if (_table.containsKey(((SimpleSymbol)newSym).getPrintName())) {
             throw new GenyrisException("Can't intern symbol - already exists.");
         } else {
-            _table.put(((Lsymbol)newSym).getPrintName(), newSym);
+            _table.put(((SimpleSymbol)newSym).getPrintName(), newSym);
         }
     }
 

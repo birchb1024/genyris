@@ -6,7 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -38,7 +38,7 @@ public class ApplyFunction extends ApplicableFunction {
 		return functionToApply.applyFunction(envForBindOperations, args);
 	}
 
-	private Exp[] makeArray(Exp list, Lsymbol NIL) throws AccessException {
+	private Exp[] makeArray(Exp list, Symbol NIL) throws AccessException {
 		// TODO - Refactor for efficiency?
 		int i = 0;
 		Exp[] result = new Exp[list.length(NIL)];

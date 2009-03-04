@@ -10,7 +10,7 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -39,7 +39,7 @@ public interface Formatter extends Visitor {
 
     public abstract void visitLstring(Lstring lst);
 
-    public abstract void visitLsymbol(Lsymbol lsym);
+    public abstract void visitSymbol(Symbol sym);
 
     public abstract void visitStandardEnvironment(StandardEnvironment env);
 

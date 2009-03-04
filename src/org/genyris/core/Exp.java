@@ -94,7 +94,7 @@ public abstract class Exp implements Classifiable, Closure {
         return true;
     }
 
-    public int length(Lsymbol NIL) throws AccessException {
+    public int length(Symbol NIL) throws AccessException {
         Exp tmp = this;
         int count = 0;
 
@@ -105,7 +105,7 @@ public abstract class Exp implements Classifiable, Closure {
         return count;
     }
 
-    public Exp nth(int number, Lsymbol NIL) throws AccessException {
+    public Exp nth(int number, Symbol NIL) throws AccessException {
         if (this == NIL) {
             throw new AccessException("nth called on nil.");
         }

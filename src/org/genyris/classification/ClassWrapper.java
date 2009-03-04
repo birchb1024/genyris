@@ -9,7 +9,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -19,7 +19,7 @@ import org.genyris.interp.UnboundException;
 public class ClassWrapper {
     private Lobject _theClass;
     private Exp     CLASSNAME, SUPERCLASSES, SUBCLASSES;
-    private Lsymbol NIL;
+    private SimpleSymbol NIL;
 
     public ClassWrapper(Lobject toWrap) {
         _theClass = toWrap;

@@ -18,7 +18,7 @@ public interface Visitor {
 
     public void visitLstring(Lstring lst);
 
-    public void visitLsymbol(Lsymbol lsym);
+    public void visitSymbol(Symbol sym);
 
     public void visitLazyProc(LazyProcedure lproc);
 

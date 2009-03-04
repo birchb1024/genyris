@@ -16,8 +16,8 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -44,7 +44,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
     public abstract void visitLinteger(Linteger lint);
     public abstract void visitBignum(Bignum bignum);
     public abstract void visitLstring(Lstring lst);
-    public abstract void visitLsymbol(Lsymbol lsym);
+    public abstract void visitSymbol(Symbol sym);
 
     public void visitStandardEnvironment(StandardEnvironment env) {
         try {

@@ -6,7 +6,7 @@
 package org.genyris.interp;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
 
 public interface Environment {
@@ -24,7 +24,7 @@ public interface Environment {
 
     public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException;
 
-    public Lsymbol getNil();
+    public SimpleSymbol getNil();
 
     public Interpreter getInterpreter();
 

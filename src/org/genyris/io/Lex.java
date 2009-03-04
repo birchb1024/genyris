@@ -12,7 +12,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
 
@@ -42,7 +42,7 @@ public class Lex {
         comma_at = table.internPlainString(Constants.COMMA_AT);
         comma = table.internPlainString(Constants.COMMA);
         backquote = table.internPlainString(Constants.TEMPLATE);
-        EOF = new Lsymbol(Constants.EOF);
+        EOF = new SimpleSymbol(Constants.EOF);
         leftParen = table.internPlainString("leftParen");
         rightParen = table.internPlainString("righParen");
         _cdrCharacter = cdrChar;

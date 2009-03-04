@@ -8,7 +8,7 @@ package org.genyris.interp.builtin;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -29,7 +29,7 @@ public class DefineClassFunction extends ApplicableFunction {
 
         if( arguments.length < 1)
             throw new GenyrisException("Incorrect number of arguments to class.");
-        if(! (arguments[0] instanceof Lsymbol)) {
+        if(! (arguments[0] instanceof SimpleSymbol)) {
             throw new GenyrisException("class expects a symbols.");
         }
         Exp klassname = arguments[0];

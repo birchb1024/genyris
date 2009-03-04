@@ -17,8 +17,9 @@ import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.DisplayFunction;
@@ -101,7 +102,7 @@ public class Interpreter {
     SymbolTable      _table;
     Writer           _defaultOutput;
     public NilSymbol NIL;
-    private Lsymbol  TRUE;
+    private SimpleSymbol  TRUE;
 
     public Interpreter() throws GenyrisException {
         NIL = new NilSymbol();
@@ -237,7 +238,7 @@ public class Interpreter {
             String staticName = (String)getNameMethod.invoke(null,(Object[])null);
             Method isEagerMethod = class1.getMethod("isEager", (Class[])null);
             boolean isEager = ((Boolean)isEagerMethod.invoke(null,(Object[])null)).booleanValue();
-            Lsymbol  nameSymbol = _table.internString(staticName);
+            SimpleSymbol  nameSymbol = _table.internString(staticName);
             Object[] args = new Object[]{this};
             Object proc = ctor.newInstance(args);
             if (isEager) {
@@ -280,7 +281,7 @@ public class Interpreter {
         try {
             Method getNameMethod = class1.getMethod("getStaticName", (Class[])null);
             String staticName = (String)getNameMethod.invoke(null,(Object[])null);
-            Lsymbol nameSymbol = _table.internString(staticName);
+            Symbol nameSymbol = _table.internString(staticName);
             Constructor ctor = class1.getConstructor(paramTypes);
             Object[] args = new Object[]{this};
             Object proc = ctor.newInstance(args);
@@ -327,11 +328,11 @@ public class Interpreter {
         return _defaultOutput;
     }
 
-    public Lsymbol getNil() {
+    public SimpleSymbol getNil() {
         return NIL;
     }
 
-    public Lsymbol getTrue() {
+    public SimpleSymbol getTrue() {
         return TRUE;
     }
 

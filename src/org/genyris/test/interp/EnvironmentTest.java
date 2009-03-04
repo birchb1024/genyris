@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
@@ -21,7 +21,7 @@ public class EnvironmentTest extends TestCase {
 	public void testEnvBasics() throws Exception {		
 		Interpreter interp = new Interpreter();
 		Environment env = new StandardEnvironment(interp, new NilSymbol());
-		Lsymbol sym = new Lsymbol("answer");
+		SimpleSymbol sym = new SimpleSymbol("answer");
 		Linteger val = new Linteger(42);
 		env.defineVariable(sym, val);
 		assertEquals(val, env.lookupVariableValue(sym));		
@@ -30,7 +30,7 @@ public class EnvironmentTest extends TestCase {
 	public void testEnvNested() throws Exception {		
 		Interpreter interp = new Interpreter();
 		Environment env1 = new StandardEnvironment(interp, new NilSymbol());
-		Lsymbol sym = new Lsymbol("answer");
+		SimpleSymbol sym = new SimpleSymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym, val);
 		assertEquals(val, env1.lookupVariableValue(sym));		
@@ -45,13 +45,13 @@ public class EnvironmentTest extends TestCase {
 	public void testEnvNestedSets() throws Exception {
 		Interpreter interp = new Interpreter();
 		Environment env1 = new StandardEnvironment(interp, new NilSymbol());
-		Lsymbol sym1 = new Lsymbol("answer");
+		SimpleSymbol sym1 = new SimpleSymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym1, val);
 		assertEquals(val, env1.lookupVariableValue(sym1));		
 		
 		Environment env2 = new StandardEnvironment(env1);
-		Lsymbol sym2 = new Lsymbol("question");
+		SimpleSymbol sym2 = new SimpleSymbol("question");
 		Linteger val2 = new Linteger(99);
 		env2.defineVariable(sym2, val2);
 		assertEquals(val2, env2.lookupVariableValue(sym2));		
@@ -78,7 +78,7 @@ public class EnvironmentTest extends TestCase {
 
 	public void testEnvEvalVariables() throws Exception {		
 		Environment env = new StandardEnvironment(new NilSymbol());
-		Lsymbol answer = new Lsymbol("answer");
+		SimpleSymbol answer = new SimpleSymbol("answer");
 		Linteger int42 = new Linteger(42);
 		env.defineVariable(answer, int42);
 		assertEquals(int42, Evaluator.eval(env, int42));

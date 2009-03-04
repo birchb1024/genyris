@@ -9,13 +9,13 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
 public class BuiltinClasses {
 
-    private static Lobject mkClass(Lsymbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
+    private static Lobject mkClass(Symbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
         Exp symbolicName = env.internString(name);
         Lobject newClass = new Lobject(classname, symbolicName, env );
         newClass.defineVariableRaw(env.internString(Constants.SUBCLASSES), env.getNil());
@@ -28,7 +28,7 @@ public class BuiltinClasses {
     }
     public static void init(Environment env) throws GenyrisException {
         Lobject STANDARDCLASS;
-        Lsymbol classname = (Lsymbol) env.internString(Constants.CLASSNAME);
+        Symbol classname = (Symbol) env.internString(Constants.CLASSNAME);
         {
             // Bootstrap the meta-class
             STANDARDCLASS = new Lobject(classname, env.internString(Constants.STANDARDCLASS), env );

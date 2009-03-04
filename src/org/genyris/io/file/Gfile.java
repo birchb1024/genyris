@@ -13,7 +13,8 @@ import java.io.OutputStreamWriter;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -23,7 +24,7 @@ import org.genyris.io.readerstream.ReaderStream;
 import org.genyris.io.writerstream.WriterStream;
 
 public class Gfile {
-    public static Exp open(Lstring filename, Lsymbol mode) throws GenyrisException {
+    public static Exp open(Lstring filename, Symbol mode) throws GenyrisException {
         if (mode.toString().equals("read")) {
             try {
                 return new ReaderStream(new InputStreamReader(new FileInputStream(filename.toString())));
@@ -54,10 +55,10 @@ public class Gfile {
                 if (!(arguments[0] instanceof Lstring)) {
                     throw new GenyrisException("Non-string filname passed to File_static-open");
                 }
-                if (!(arguments[1] instanceof Lsymbol)) {
+                if (!(arguments[1] instanceof SimpleSymbol)) {
                     throw new GenyrisException("Non-symbol mode passed to File_static-open");
                 }
-                return open((Lstring)arguments[0], (Lsymbol)arguments[1]);
+                return open((Lstring)arguments[0], (Symbol)arguments[1]);
             } else {
                 throw new GenyrisException("Missing argument to File_open");
             }

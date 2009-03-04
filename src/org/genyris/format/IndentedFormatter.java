@@ -19,8 +19,8 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
@@ -152,8 +152,8 @@ public class IndentedFormatter extends AbstractFormatter {
         writeAtom(lst);
     }
 
-    public void visitLsymbol(Lsymbol lsym) {
-        writeAtom(lsym);
+    public void visitSymbol(Symbol sym) {
+        writeAtom(sym);
     }
 
     public void visitLobject(Lobject frame) {

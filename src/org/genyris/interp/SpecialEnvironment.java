@@ -8,7 +8,8 @@ package org.genyris.interp;
 import java.util.Map;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public class SpecialEnvironment extends StandardEnvironment {
@@ -28,10 +29,10 @@ public class SpecialEnvironment extends StandardEnvironment {
                 return;
             }
         }
-        else if (!(symbol instanceof Lsymbol)) {
+        else if (!(symbol instanceof SimpleSymbol)) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
-        Lsymbol sym = (Lsymbol) symbol;
+        Symbol sym = (Symbol) symbol;
         if (sym == _self) {
             throw new GenyrisException("cannot re-define !self.");
         } else {
@@ -67,7 +68,7 @@ public class SpecialEnvironment extends StandardEnvironment {
                 throw new UnboundException("cannot set to a bad place" + symbol.toString());
             }
         }
-        Lsymbol sym = (Lsymbol) symbolatom;
+        Symbol sym = (Symbol) symbolatom;
         if (sym == _self) {
             throw new UnboundException("cannot re-define !self.");
         }

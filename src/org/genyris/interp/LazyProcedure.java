@@ -9,7 +9,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -25,7 +25,7 @@ public class LazyProcedure extends AbstractClosure {
         return makeExpArrayFromList(exp, env.getNil());
     }
 
-    private Exp[] makeExpArrayFromList(Exp exp, Lsymbol NIL) throws AccessException {
+    private Exp[] makeExpArrayFromList(Exp exp, Symbol NIL) throws AccessException {
         int i = 0;
         Exp[] result = new Exp[exp.length(NIL)];
         while( exp.listp()) {

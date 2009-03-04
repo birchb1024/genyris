@@ -18,7 +18,7 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
@@ -174,9 +174,9 @@ public class BasicFormatter extends  AbstractFormatter {
         }
     }
 
-    public void visitLsymbol(Lsymbol lsym) {
+    public void visitSymbol(Symbol sym) {
         try {
-            _output.write(lsym.getJavaValue().toString());
+            _output.write(sym.getJavaValue().toString());
         }
         catch (IOException e) {
             // TODO Auto-generated catch block

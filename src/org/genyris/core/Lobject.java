@@ -22,7 +22,7 @@ import org.genyris.interp.builtin.TagFunction;
 public class Lobject extends ExpWithEmbeddedClasses implements Environment {
     private Map _dict;
 
-    private Lsymbol NIL;
+    private SimpleSymbol NIL;
 
     protected Environment _parent;
 
@@ -39,7 +39,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         init(_parent);
     }
 
-    public Lobject(Lsymbol key, Exp value, Environment parent) {
+    public Lobject(Symbol key, Exp value, Environment parent) {
         _dict = new TreeMap();
         _dict.put(key, value);
         _parent = parent;
@@ -100,7 +100,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
 
-        if (!(exp instanceof Lsymbol)) {
+        if (!(exp instanceof SimpleSymbol)) {
             throw new GenyrisException("cannot define non-symbol: " + exp.toString());
         }
         Exp sym = exp;
@@ -215,24 +215,24 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         throw new UnboundException("dict does not contain key: " + symbol.toString());
     }
 
-    private Lsymbol realSymbol(Exp dynamicOrReal) throws UnboundException {
+    private Symbol realSymbol(Exp dynamicOrReal) throws UnboundException {
         if(dynamicOrReal.listp()) {
             Lcons tmp = (Lcons)dynamicOrReal;
             if(tmp.car() == _dynamic) {
                 tmp = (Lcons)tmp.cdr(); // TODO unsafe downcast
-                return (Lsymbol) tmp.car();
+                return (Symbol) tmp.car();
             } else {
                 throw new UnboundException("Bad dynamic symbol: " + dynamicOrReal.toString());
             }
-        } else if(dynamicOrReal instanceof Lsymbol) {
-            return (Lsymbol) dynamicOrReal;
+        } else if(dynamicOrReal instanceof SimpleSymbol) {
+            return (Symbol) dynamicOrReal;
         }
         else {
             throw new UnboundException("Bad symbol: " + dynamicOrReal.toString());
         }
     }
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        Lsymbol sym = realSymbol(symbol);
+        Symbol sym = realSymbol(symbol);
         if (sym == CLASSES) {
             try {
                 setClasses(valu, NIL);
@@ -289,7 +289,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
     }
 
-    public Lsymbol getNil() {
+    public SimpleSymbol getNil() {
         return NIL;
     }
 

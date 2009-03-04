@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.exception.GenyrisException;
 
@@ -19,7 +19,7 @@ public class StandardEnvironment implements Environment {
 
     Map _frame; // Exp, Exp
     Environment _parent;
-    protected Lsymbol NIL;
+    protected SimpleSymbol NIL;
     protected Exp _self, _classes, _superclasses, _classname;
     protected Exp _left, _right, _dynamic;
     private Interpreter _interpreter;
@@ -92,7 +92,7 @@ public class StandardEnvironment implements Environment {
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        if(! (symbol instanceof Lsymbol) ) {
+        if(! (symbol instanceof SimpleSymbol) ) {
             throw new UnboundException("cannot set non-symbol: " + symbol.toString());
         }
         if( _frame.containsKey(symbol) ) {
@@ -107,7 +107,7 @@ public class StandardEnvironment implements Environment {
     }
 
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if(! (symbol instanceof Lsymbol) ) {
+        if(! (symbol instanceof SimpleSymbol) ) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
         _frame.put(symbol, valu);
@@ -127,7 +127,7 @@ public class StandardEnvironment implements Environment {
         throw new UnboundException("lookupInSuperClasses not implemented for standard environments.");
     }
 
-    public Lsymbol getNil() {
+    public SimpleSymbol getNil() {
         return NIL;
     }
 

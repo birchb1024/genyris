@@ -10,12 +10,12 @@ import junit.framework.TestCase;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Linteger;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.exception.AccessException;
 
 public class CoreTest extends TestCase {
-	private Lsymbol NIL;
+	private SimpleSymbol NIL;
 	
 	public void setUp() {
 		NIL = new NilSymbol();		
@@ -47,7 +47,7 @@ public class CoreTest extends TestCase {
 
 		Exp a = new Linteger(0);
 		try {
-			a.setCar(new Lsymbol("foo"));
+			a.setCar(new SimpleSymbol("foo"));
 			fail("expecting exception");
 		}
 		catch (AccessException e) {
@@ -58,7 +58,7 @@ public class CoreTest extends TestCase {
 
 		Exp a = new Linteger(0);
 		try {
-			a.setCar(new Lsymbol("foo"));
+			a.setCar(new SimpleSymbol("foo"));
 			fail("expecting exception");
 		}
 		catch (AccessException e) {

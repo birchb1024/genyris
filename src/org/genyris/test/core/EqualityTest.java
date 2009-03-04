@@ -16,7 +16,7 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.interp.Interpreter;
@@ -43,10 +43,10 @@ public class EqualityTest extends TestCase {
     public void testSymbol() throws Exception {
         SymbolTable sym = new SymbolTable();
         sym.init(new NilSymbol());
-        assertFalse(new Lsymbol("hello1").equals(new Lsymbol("hello2")));
-        assertFalse(new Lsymbol("hello").equals(new Lsymbol("hello")));
+        assertFalse(new SimpleSymbol("hello1").equals(new SimpleSymbol("hello2")));
+        assertFalse(new SimpleSymbol("hello").equals(new SimpleSymbol("hello")));
         assertTrue(sym.internString("hello").equals(sym.internString("hello")));
-        assertFalse(sym.internString("hello").equals(new Lsymbol("hello")));
+        assertFalse(sym.internString("hello").equals(new SimpleSymbol("hello")));
     }
 
     public void testHashMap() throws Exception {
@@ -60,7 +60,7 @@ public class EqualityTest extends TestCase {
 
     public void testFrame() throws Exception {
         Interpreter interp = new Interpreter();
-        Exp a = new Lsymbol("a");
+        Exp a = new SimpleSymbol("a");
         Lobject f1 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
         f1.defineVariableRaw(a, new Lstring("foo"));
         Lobject f2 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));

@@ -6,7 +6,7 @@
 package org.genyris.core;
 
 
-public class NilSymbol extends Lsymbol {
+public class NilSymbol extends SimpleSymbol {
 
     public NilSymbol() {
         super(Constants.NIL);

@@ -12,7 +12,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
@@ -84,21 +84,21 @@ public class LexTest extends TestCase {
 
     public void testLexIdent1() throws Exception {
 
-        excerciseNextTokenExp(new Lsymbol("foo"), "foo");
-        excerciseNextTokenExp(new Lsymbol("foo*bar"), "foo\\*bar");
-        excerciseNextTokenExp(new Lsymbol("quux"), "\n\nquux");
-        excerciseNextTokenExp(new Lsymbol("|123|"), "  \t|123|");
-        excerciseNextTokenExp(new Lsymbol("dynamic-symbol-value"), "  \t !x");
+        excerciseNextTokenExp(new SimpleSymbol("foo"), "foo");
+        excerciseNextTokenExp(new SimpleSymbol("foo*bar"), "foo\\*bar");
+        excerciseNextTokenExp(new SimpleSymbol("quux"), "\n\nquux");
+        excerciseNextTokenExp(new SimpleSymbol("|123|"), "  \t|123|");
+        excerciseNextTokenExp(new SimpleSymbol("dynamic-symbol-value"), "  \t !x");
 
     }
     public void testLexIdentMinus() throws Exception {
-        excerciseNextTokenExp(new Lsymbol("-"), "- 3");
-        excerciseNextTokenExp(new Lsymbol("-f"), "-f");
-        excerciseNextTokenExp(new Lsymbol("--"), "--");
+        excerciseNextTokenExp(new SimpleSymbol("-"), "- 3");
+        excerciseNextTokenExp(new SimpleSymbol("-f"), "-f");
+        excerciseNextTokenExp(new SimpleSymbol("--"), "--");
     }
     public void testLexCommentStrip() throws Exception {
-        excerciseNextTokenExp(new Lsymbol("X"), "X ; foo");
-        excerciseNextTokenExp(new Lsymbol("Y"), "; stripped \nY");
+        excerciseNextTokenExp(new SimpleSymbol("X"), "X ; foo");
+        excerciseNextTokenExp(new SimpleSymbol("Y"), "; stripped \nY");
         excerciseNextTokenExp(new Linteger(12), "   \n\t\f      ; stripped \n12");
         }
 
@@ -114,9 +114,9 @@ public class LexTest extends TestCase {
 
     public void testCombination1() throws Exception {
         Lex lexer = new Lex(new UngettableInStream( new StringInStream("int 12 double\n 12.34\r\n -12.34e5 \"string\" ")), _table);
-        assertEquals(new Lsymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());
+        assertEquals(new SimpleSymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());
         assertEquals(new Bignum("12"), lexer.nextToken());
-        assertEquals(new Lsymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());
+        assertEquals(new SimpleSymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());
         assertEquals(new Bignum("12.34"), lexer.nextToken());
         assertEquals(new Ldouble(-12.34e5), lexer.nextToken());
         assertEquals(new Lstring("string"), lexer.nextToken());
@@ -124,7 +124,7 @@ public class LexTest extends TestCase {
     }
 
     private void excerciseListParsing(String toParse) throws Exception {
-        Lsymbol NIL = new NilSymbol();
+        SimpleSymbol NIL = new NilSymbol();
         SymbolTable table = new SymbolTable();
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));
@@ -140,7 +140,7 @@ public class LexTest extends TestCase {
 
     private void excerciseListParsingLisp(String toParse, String expected) throws Exception {
         // TODO DRY
-        Lsymbol NIL = new NilSymbol();
+        SimpleSymbol NIL = new NilSymbol();
         SymbolTable table = new SymbolTable();
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));

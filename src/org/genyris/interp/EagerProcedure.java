@@ -7,7 +7,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 
@@ -19,7 +19,7 @@ public class EagerProcedure extends AbstractClosure  {
     }
 
     public Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException {
-        Lsymbol NIL = env.getNil();
+        Symbol NIL = env.getNil();
         int i = 0;
         Exp[] result = new Exp[exp.length(NIL)];
         while( exp != NIL) {

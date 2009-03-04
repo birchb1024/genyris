@@ -6,7 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -25,9 +25,9 @@ public class SymbolValueFunction extends ApplicableFunction {
             throws GenyrisException {
         if (arguments.length != 1)
             throw new GenyrisException("symbol-value expects one argument.");
-        if (!(arguments[0] instanceof Lsymbol)) {
+        if (!(arguments[0] instanceof SimpleSymbol)) {
             throw new GenyrisException("symbol-value expects a symbol.");
         }
-        return envForBindOperations.lookupVariableValue((Lsymbol)arguments[0]);
+        return envForBindOperations.lookupVariableValue((SimpleSymbol)arguments[0]);
     }
 }

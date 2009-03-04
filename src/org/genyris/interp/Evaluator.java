@@ -6,7 +6,7 @@
 package org.genyris.interp;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -19,7 +19,7 @@ public class Evaluator {
         if (expression.isSelfEvaluating()) {
             return expression;
         }
-        else if (expression.getClass() == Lsymbol.class) {
+        else if (expression.getClass() == SimpleSymbol.class) {
             return env.lookupVariableValue(expression);
         }
         else if (expression.listp()) {
@@ -39,7 +39,7 @@ public class Evaluator {
     }
 
     public static Exp evalSequence(Environment env, Exp body) throws GenyrisException {
-        Lsymbol NIL = env.getNil();
+        SimpleSymbol NIL = env.getNil();
         if (body == NIL) {
             return NIL;
         }

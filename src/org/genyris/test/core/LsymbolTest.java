@@ -7,16 +7,16 @@ package org.genyris.test.core;
 
 import junit.framework.TestCase;
 
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 
 public class LsymbolTest extends TestCase {
 	
 	public void testSetGet1() throws Exception {
 		
-		Lsymbol sym = new Lsymbol("G0");
+		SimpleSymbol sym = new SimpleSymbol("G0");
 		assertEquals("G0", sym.getPrintName());;
 		
-		sym = new Lsymbol("G1");
+		sym = new SimpleSymbol("G1");
 		assertEquals("G1", sym.getPrintName());
 
 	}

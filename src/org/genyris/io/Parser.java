@@ -10,7 +10,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Lstring;
-import org.genyris.core.Lsymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -67,7 +67,7 @@ public class Parser {
             Exp arg0 = input.cdr().car();
             if(input.cdr().cdr() != NIL) { 
                 Lstring arg1 = (Lstring)input.cdr().cdr().car();
-                _lexer.addprefix(((Lsymbol)arg0).getPrintName(), arg1.toString());
+                _lexer.addprefix(((SimpleSymbol)arg0).getPrintName(), arg1.toString());
             }
             else {
                 // Use empty string as prefix
