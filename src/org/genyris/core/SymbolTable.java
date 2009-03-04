@@ -10,21 +10,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.Environment;
-import org.genyris.interp.Interpreter;
 
 public class SymbolTable {
     private Map         _table;
     private Lsymbol     NIL;
-    private Interpreter _interp;
-    private Environment _globalEnv;
 
-    public SymbolTable(Interpreter interp) {
+    public SymbolTable() {
         _table = new TreeMap();
-        _interp = interp;
-        if (_interp != null) {
-            _globalEnv = _interp.getGlobalEnv();
-        }
     }
 
     public void init(Lsymbol nil) throws GenyrisException {
@@ -37,11 +29,6 @@ public class SymbolTable {
         _table.put(Constants.VARS, new Lsymbol(Constants.VARS));
         _table.put(Constants.DYNAMIC_SYMBOL, new Lsymbol(Constants.DYNAMIC_SYMBOL));
 
-        ((Lsymbol)_table.get(Constants.SELF)).initFromTable(this);
-        ((Lsymbol)_table.get(Constants.CLASSES)).initFromTable(this);
-        ((Lsymbol)_table.get(Constants.SUPERCLASSES)).initFromTable(this);
-        ((Lsymbol)_table.get(Constants.CLASSNAME)).initFromTable(this);
-        ((Lsymbol)_table.get(Constants.DYNAMIC_SYMBOL)).initFromTable(this);
     }
 
     public Lsymbol lookupString(String newSym) throws GenyrisException {
@@ -61,15 +48,6 @@ public class SymbolTable {
             return (Lsymbol)_table.get(newSym);
         } else {
             Lsymbol sym = new Lsymbol(newSym);
-            try {
-                sym.initFromTable(this);
-                sym.setParent(_globalEnv);
-            }
-            catch (GenyrisException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                System.exit(-1);
-            }
             _table.put(newSym, sym);
             return sym;
         }
@@ -85,12 +63,6 @@ public class SymbolTable {
 
     public Exp getNil() {
         return NIL;
-    }
-
-
-    public void initEnvironment(Environment environment) {
-        this._globalEnv = environment;
-
     }
 
     public Exp getSymbolsList() {

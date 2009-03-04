@@ -105,11 +105,9 @@ public class Interpreter {
 
     public Interpreter() throws GenyrisException {
         NIL = new NilSymbol();
-        _table = new SymbolTable(this);
+        _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this, NIL);
-        NIL.init(_globalEnvironment);
-        _table.initEnvironment(_globalEnvironment);
         Lobject SYMBOL = new Lobject(_globalEnvironment);
         _defaultOutput = new OutputStreamWriter(System.out);
         {

@@ -27,7 +27,7 @@ import org.genyris.io.UngettableInStream;
 
 public class LexTest extends TestCase {
 
-    public SymbolTable _table = new SymbolTable(null);
+    public SymbolTable _table = new SymbolTable();
 
     public void setUp() {
         try {
@@ -125,7 +125,7 @@ public class LexTest extends TestCase {
 
     private void excerciseListParsing(String toParse) throws Exception {
         Lsymbol NIL = new NilSymbol();
-        SymbolTable table = new SymbolTable(null);
+        SymbolTable table = new SymbolTable();
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));
         Parser parser = new Parser(table, input);
@@ -141,7 +141,7 @@ public class LexTest extends TestCase {
     private void excerciseListParsingLisp(String toParse, String expected) throws Exception {
         // TODO DRY
         Lsymbol NIL = new NilSymbol();
-        SymbolTable table = new SymbolTable(null);
+        SymbolTable table = new SymbolTable();
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));
         Parser parser = new Parser(table, input, '.');

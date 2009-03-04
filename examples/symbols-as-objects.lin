@@ -5,15 +5,6 @@
 'y
    print !self (+ 2 3)
    
-; Symbols are also dictionarys:
-'x (var !pronunciation "ex")
-print ('x !pronunciation)
-'x !vars
-; Symbols can have methods
-'cond
-   def !apropos()
-      display "cond is normally bound with the cond function, blah blah\n"
-
 ; Symbols can have classes:
 
 class Keyword()

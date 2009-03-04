@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.genyris.core.Constants;
+import org.genyris.core.FullyQualifiedSymbol;
+import org.genyris.core.Lsymbol;
 import org.genyris.exception.GenyrisException;
 
 public class PrefixMapper {
@@ -52,6 +54,20 @@ public class PrefixMapper {
         return symbol.substring(symbol.indexOf(".") + 1);
     }
 
+    public Lsymbol symbolFactory(String news) throws GenyrisException {
+        String prefix;
+        if(news.equals(".") || !hasPrefix(news) ) {
+            return new Lsymbol(news);
+        }
+        else {
+            prefix = getPrefix(news);
+            if (!_prefixes.containsKey(prefix)) {
+                throw new GenyrisException("Unknown prefix: " + prefix);
+            } else {
+                return new FullyQualifiedSymbol(_prefixes.get(prefix) + getSuffix(news));
+            }
+        }
+    }
     public String getCannonicalSymbol(String news) throws GenyrisException {
         String prefix;
         if(news.equals(".") || !hasPrefix(news) ) {

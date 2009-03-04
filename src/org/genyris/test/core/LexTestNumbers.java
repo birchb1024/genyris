@@ -18,7 +18,7 @@ import junit.framework.TestCase;
 
 public class LexTestNumbers extends TestCase {
 	
-	public SymbolTable _table = new SymbolTable(null);
+	public SymbolTable _table = new SymbolTable();
 	
     public void setUp() {
         try {

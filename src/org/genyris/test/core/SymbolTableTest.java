@@ -16,7 +16,7 @@ public class SymbolTableTest extends TestCase {
 	
 	public void testSymbolTable() throws Exception {
 		
-		SymbolTable tab = new SymbolTable(null);
+		SymbolTable tab = new SymbolTable();
         tab.init(null);
 		Exp foo1 = tab.internString("foo");
 		Exp foo2 = tab.internString("foo");
