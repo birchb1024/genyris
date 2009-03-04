@@ -13,18 +13,11 @@ import org.genyris.interp.Interpreter;
 
 public class RemainderFunction extends AbstractMathFunction {
 
-
-	public static String getStaticName() {return "%";};
-	public static boolean isEager() {return true;};
-	
     public RemainderFunction(Interpreter interp) {
-        super(interp, getStaticName(), 2);
+        super(interp, "%", 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).remainder((BigDecimal) b.getJavaValue()));
     }
-	public String getName() {
-		return getStaticName();
-	}
 }

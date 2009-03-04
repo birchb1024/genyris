@@ -18,7 +18,7 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
 
 	public AbstractMathFunction(Interpreter interp,
 			String name, int minExpectedNumberOfArguments) {
-		super(interp, name);
+		super(interp, name, true);
 		_minExpectedNumberOfArguments = minExpectedNumberOfArguments;
 	}
 
@@ -39,8 +39,6 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
 			throw new GenyrisException(e.getMessage());
 		}
 	}
-
-	public abstract String getName();
 
 	protected Exp mathOperation(Exp unary) throws GenyrisException {
 		throw new GenyrisException("Bad call to mathOperation(Exp unary)");

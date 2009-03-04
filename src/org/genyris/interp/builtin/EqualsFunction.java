@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class EqualsFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "equal?";};
-	public static boolean isEager() {return true;};
-	
     public EqualsFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "equal?", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

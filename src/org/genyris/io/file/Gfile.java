@@ -44,9 +44,8 @@ public class Gfile {
     }
     public static class FileOpenMethod extends AbstractMethod {
 
-    	public static String getStaticName() {return "static-open";};
         public FileOpenMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+        	super(interp, "static-open");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class RemoveTagFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "remove-tag";};
-	public static boolean isEager() {return true;};
-	
     public RemoveTagFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "remove-tag", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

@@ -16,11 +16,8 @@ import org.genyris.interp.Interpreter;
 
 public class IsInstanceFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "is-instance?";};
-	public static boolean isEager() {return true;};
-
 	public IsInstanceFunction(Interpreter interp) {
-        super(interp, getStaticName());
+        super(interp, "is-instance?", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

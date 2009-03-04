@@ -15,11 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class ReverseFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "reverse";};
-	public static boolean isEager() {return true;};
-	
     public ReverseFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "reverse", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

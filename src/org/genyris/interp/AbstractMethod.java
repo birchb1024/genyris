@@ -11,7 +11,7 @@ import org.genyris.exception.GenyrisException;
 public abstract class AbstractMethod extends ApplicableFunction {
 
     public AbstractMethod(Interpreter interp, String name) {
-        super(interp, name);
+        super(interp, name, true);
     }
 
     protected Exp _self;

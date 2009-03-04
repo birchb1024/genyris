@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class CdrFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "cdr";};
-	public static boolean isEager() {return true;};
-	
     public CdrFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "cdr", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

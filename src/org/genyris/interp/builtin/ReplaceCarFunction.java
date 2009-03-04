@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class ReplaceCarFunction extends ApplicableFunction {
 	
-	public static String getStaticName() {return "rplaca";};
-	public static boolean isEager() {return true;};
-	
 	public ReplaceCarFunction(Interpreter interp) {
-		super(interp, getStaticName());
+		super(interp, "rplaca", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] argument, Environment envForBindOperations) throws GenyrisException {

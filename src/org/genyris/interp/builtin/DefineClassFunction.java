@@ -18,11 +18,8 @@ import org.genyris.interp.Interpreter;
 
 public class DefineClassFunction extends ApplicableFunction {
 	
-	public static String getStaticName() {return "class";};
-	public static boolean isEager() {return false;};
-	
     public DefineClassFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "class", false);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

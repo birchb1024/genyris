@@ -20,7 +20,7 @@ public class ClassicFunction extends ApplicableFunction {
     private Exp REST;
 
     public ClassicFunction(String name, Interpreter interp) {
-        super(interp, name);
+        super(interp, name, true);
         REST = interp.getSymbolTable().internPlainString(Constants.REST);
     }
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)

@@ -16,9 +16,11 @@ public abstract class ApplicableFunction {
     protected Symbol     NIL, TRUE;
     protected Exp         _lambda, _lambdam, _lambdaq;
     private String  _name;
+    private boolean _eager;
     
-    public ApplicableFunction(Interpreter interp, String name) {
+    public ApplicableFunction(Interpreter interp, String name, boolean eager) {
     	_name = name;
+    	_eager = eager;
         _interp = interp;
         NIL = _interp.getNil();
         TRUE = _interp.getTrue();
@@ -42,6 +44,9 @@ public abstract class ApplicableFunction {
 		return _name;
 	}
 
+	public boolean isEager() {
+		return _eager;
+	}
 	protected void checkArguments(Exp[] arguments, int exactly) throws GenyrisException {
 		checkArguments(arguments, exactly,exactly);
 	}

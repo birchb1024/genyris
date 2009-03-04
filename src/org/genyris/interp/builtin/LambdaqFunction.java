@@ -18,10 +18,8 @@ import org.genyris.interp.LazyProcedure;
 
 public class LambdaqFunction extends ApplicableFunction {
 	 
-	public static boolean isEager() {return false;};
-
 	public LambdaqFunction(Interpreter interp) {
-		super(interp, Constants.LAMBDAQ);
+		super(interp, Constants.LAMBDAQ, false);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

@@ -19,16 +19,9 @@ import org.genyris.interp.UnboundException;
 
 public class TagFunction extends ApplicableFunction {
 
-    // TODO - This is really a method so refactor to use method class structure.
-
-	public static String getStaticName() {return "tag";};
-	public static boolean isEager() {return true;};
-	
     public TagFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "tag", true);
     }
-
-
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment environment) throws GenyrisException {
         if( arguments.length != 2)

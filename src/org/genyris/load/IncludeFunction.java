@@ -18,11 +18,8 @@ import org.genyris.io.NullWriter;
 
 public class IncludeFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "include";};
-	public static boolean isEager() {return true;};
-	
     public IncludeFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "include", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

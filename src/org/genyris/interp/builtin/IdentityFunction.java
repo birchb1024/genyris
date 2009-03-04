@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class IdentityFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "the";};
-	public static boolean isEager() {return true;};
-	
     public IdentityFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "the", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

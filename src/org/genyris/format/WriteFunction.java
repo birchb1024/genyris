@@ -18,11 +18,8 @@ import org.genyris.interp.Interpreter;
 
 public class WriteFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "write";};
-	public static boolean isEager() {return true;};
-	
-    public WriteFunction(Interpreter interp) {
-        super(interp, getStaticName());
+   public WriteFunction(Interpreter interp) {
+        super(interp, "write", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

@@ -17,12 +17,9 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class PrintFunction extends ApplicableFunction {
-
-	public static String getStaticName() {return "print";};
-	public static boolean isEager() {return true;};
 	
     public PrintFunction(Interpreter interp) {
-        super(interp, getStaticName());
+        super(interp, "print", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

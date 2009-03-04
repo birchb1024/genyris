@@ -9,11 +9,8 @@ import org.genyris.interp.Interpreter;
 
 public class ReadFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "read";};
-	public static boolean isEager() {return true;};
-	
     public ReadFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "read", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {

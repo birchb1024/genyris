@@ -14,17 +14,11 @@ import org.genyris.interp.Interpreter;
 
 public class DivideFunction extends AbstractMathFunction {
 
-	public static String getStaticName() {return "/";};
-	public static boolean isEager() {return true;};
-	
     public DivideFunction(Interpreter interp) {
-        super(interp, getStaticName(), 2);
+        super(interp, "/", 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).divide((BigDecimal) b.getJavaValue(), new MathContext(10)));
     }
-	public String getName() {
-		return getStaticName();
-	}
 }

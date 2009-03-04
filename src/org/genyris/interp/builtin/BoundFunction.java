@@ -10,12 +10,8 @@ import org.genyris.interp.UnboundException;
 
 public class BoundFunction extends ApplicableFunction {
 
-
-	public static String getStaticName() {return "bound?";};
-	public static boolean isEager() {return false;};
-	
     public BoundFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "bound?", false);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {

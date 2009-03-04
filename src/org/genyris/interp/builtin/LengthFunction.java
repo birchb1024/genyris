@@ -15,11 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class LengthFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "length";};
-	public static boolean isEager() {return true;};
-	
     public LengthFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "length", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

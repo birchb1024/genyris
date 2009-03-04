@@ -14,16 +14,9 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class DynamicSymbolValueFunction extends ApplicableFunction {
-	public static String getStaticName() {
-		return "dynamic-symbol-value";
-	};
-
-	public static boolean isEager() {
-		return false;
-	};
 
 	public DynamicSymbolValueFunction(Interpreter interp) {
-		super(interp, getStaticName());
+		super(interp, "dynamic-symbol-value", false);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

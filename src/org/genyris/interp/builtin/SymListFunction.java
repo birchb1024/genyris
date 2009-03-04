@@ -13,11 +13,8 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class SymListFunction extends ApplicableFunction {
-	public static String getStaticName() {return "symlist";};
-	public static boolean isEager() {return true;};
-	
     public SymListFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "symlist", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

@@ -18,11 +18,8 @@ import org.genyris.interp.Interpreter;
 
 public class KillHTTPDFunction extends ApplicableFunction {
 
-    public static String getStaticName() {return Constants.WEB + "kill";};
-    public static boolean isEager() {return true;};
-
     public KillHTTPDFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, Constants.WEB + "kill", true);
     }
 
     private Thread getThreadById( final long id ) {
@@ -38,9 +35,7 @@ public class KillHTTPDFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        if (arguments.length != 1)
-            throw new GenyrisException("Too many or few arguments to " + getStaticName()
-                    + arguments.length);
+		checkArguments(arguments, 1);
         // TODO: unsafe downcast
         long id = ((BigDecimal)arguments[0].getJavaValue()).longValue();
         Thread t = getThreadById(id);

@@ -18,11 +18,8 @@ import org.genyris.interp.Interpreter;
 
 public class LambdaFunction extends ApplicableFunction {
 	
-	public static String getStaticName() {return Constants.LAMBDA;};
-	public static boolean isEager() {return false;};
-	
     public LambdaFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, Constants.LAMBDA, false);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

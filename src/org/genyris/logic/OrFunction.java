@@ -15,11 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class OrFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "or";};
-	public static boolean isEager() {return false;};
-	
     public OrFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "or", false);
      }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

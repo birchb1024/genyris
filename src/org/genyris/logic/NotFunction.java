@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class NotFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "not";};
-	public static boolean isEager() {return true;};
-	
     public NotFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "not", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

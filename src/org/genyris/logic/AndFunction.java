@@ -15,11 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class AndFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "and";};
-	public static boolean isEager() {return false;};
-	
     public AndFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "and", false);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

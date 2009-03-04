@@ -17,16 +17,8 @@ import org.genyris.interp.Interpreter;
 
 public class DefFunction extends ApplicableFunction {
 
-	public static String getStaticName() {
-		return "def";
-	};
-
-	public static boolean isEager() {
-		return false;
-	};
-
 	public DefFunction(Interpreter interp) {
-		super(interp, getStaticName());
+		super(interp, "def", false);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

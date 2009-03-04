@@ -12,19 +12,16 @@ import org.genyris.interp.Interpreter;
 
 public class GreaterThanFunction extends AbstractMathBooleanFunction {
 
-	public static boolean isEager() {return true;};
-	
-    public GreaterThanFunction(Interpreter interp) {
-    	super(interp, ">");
-    }
+	public GreaterThanFunction(Interpreter interp) {
+		super(interp, ">");
+	}
 
-
-    protected Exp mathOperation(Exp a, Exp b) {
-        if ( ((BigDecimal) a.getJavaValue()).compareTo((BigDecimal) b.getJavaValue()) > 0 ) {
-            return TRUE;
-        }
-        else {
-            return NIL;
-        }
-    }
+	protected Exp mathOperation(Exp a, Exp b) {
+		if (((BigDecimal) a.getJavaValue()).compareTo((BigDecimal) b
+				.getJavaValue()) > 0) {
+			return TRUE;
+		} else {
+			return NIL;
+		}
+	}
 }

@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class CarFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "car";};
-	public static boolean isEager() {return true;};
-	
     public CarFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "car", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

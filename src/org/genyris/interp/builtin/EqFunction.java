@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class EqFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "eq?";};
-	public static boolean isEager() {return true;};
-	
     public EqFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "eq?", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

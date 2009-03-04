@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class ListFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "list";};
-	public static boolean isEager() {return true;};
-	
     public ListFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "list", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

@@ -19,12 +19,8 @@ import org.genyris.load.SourceLoader;
 
 public class LoadFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "load";};
-	public static boolean isEager() {return true;};
-	
-
     public LoadFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "load", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

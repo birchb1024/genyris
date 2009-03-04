@@ -13,18 +13,12 @@ import org.genyris.interp.Interpreter;
 
 public class MultiplyFunction extends AbstractMathFunction {
 
-	public static String getStaticName() {return "*";};
-	public static boolean isEager() {return true;};
-	
      public MultiplyFunction(Interpreter interp) {
-        super(interp,  getStaticName(), 2);
+        super(interp,  "*", 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).multiply((BigDecimal) b.getJavaValue()));
     }
 
-	public String getName() {
-		return getStaticName();
-	}
 }

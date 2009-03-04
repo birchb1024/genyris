@@ -14,16 +14,12 @@ import org.genyris.interp.Interpreter;
 
 public class InternFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "intern";};
-	public static boolean isEager() {return true;};
-	
     public InternFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "intern", true);
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-        if(arguments.length != 1) {
-            throw new GenyrisException("Wrong number of arguments to " + getStaticName());
-        }
+		checkArguments(arguments, 1);
+
         // TODO - probably a bit too general ? Takes anything!
         return _interp.getSymbolTable().internString(arguments[0].toString());
     }

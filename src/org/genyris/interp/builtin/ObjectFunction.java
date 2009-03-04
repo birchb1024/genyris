@@ -15,16 +15,9 @@ import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class ObjectFunction extends ApplicableFunction {
-	public static String getStaticName() {
-		return "dict";
-	};
-
-	public static boolean isEager() {
-		return false;
-	};
 
 	public ObjectFunction(Interpreter interp) {
-		super(interp, getStaticName());
+		super(interp, "dict", false);
 	}
 
 	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env)

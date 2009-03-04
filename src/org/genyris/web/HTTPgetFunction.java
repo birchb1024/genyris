@@ -23,18 +23,15 @@ import org.genyris.io.readerstream.ReaderStream;
 
 public class HTTPgetFunction extends ApplicableFunction {
 
-    public static String getStaticName() {return Constants.WEB + "get";};
-    public static boolean isEager() {return true;};
-
     public HTTPgetFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, Constants.WEB + "get", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
         if (arguments.length != 1)
             throw new GenyrisException("Wrong number of arguments to "
-                    + getStaticName() + arguments.length);
+                    + getName() + arguments.length);
         // TODO: unsafe downcast
         String URI = (String) arguments[0].getJavaValue();
 

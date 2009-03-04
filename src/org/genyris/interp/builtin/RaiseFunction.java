@@ -15,11 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class RaiseFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "raise";};
-	public static boolean isEager() {return true;};
-	
     public RaiseFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "raise", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

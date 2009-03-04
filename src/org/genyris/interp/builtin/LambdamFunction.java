@@ -18,11 +18,8 @@ import org.genyris.interp.MacroFunction;
 
 public class LambdamFunction extends ApplicableFunction {
 	
-	public static boolean isEager() {return false;};
-	
-
 	public LambdamFunction(Interpreter interp) {
-		super(interp, Constants.LAMBDAM);
+		super(interp, Constants.LAMBDAM, false);
      }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

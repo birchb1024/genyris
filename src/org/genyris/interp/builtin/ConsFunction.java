@@ -15,11 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class ConsFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "cons";};
-	public static boolean isEager() {return true;};
-	
     public ConsFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "cons", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

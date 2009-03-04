@@ -15,16 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class ConditionalFunction extends ApplicableFunction {
 
-	public static String getStaticName() {
-		return "cond";
-	};
-
-	public static boolean isEager() {
-		return false;
-	};
-
 	public ConditionalFunction(Interpreter interp) {
-		super(interp, getStaticName());
+		super(interp, "cond", false);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

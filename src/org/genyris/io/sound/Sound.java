@@ -132,9 +132,8 @@ public class Sound {
         line.close();
     }
     public static class PlayMethod extends AbstractMethod {
-    	public static String getStaticName() {return "play";};
         public PlayMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+        	super(interp, "play");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

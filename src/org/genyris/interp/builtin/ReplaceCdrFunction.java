@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class ReplaceCdrFunction extends ApplicableFunction {
 	
-	public static String getStaticName() {return "rplacd" ;};
-	public static boolean isEager() {return true;};
-	
     public ReplaceCdrFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "rplacd", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] argument, Environment envForBindOperations) throws GenyrisException {

@@ -22,14 +22,10 @@ import org.genyris.interp.Interpreter;
 
 public class ExecMethod extends AbstractMethod {
 
-    public static String getStaticName() {
-        return "exec";
-    };
-
     private Exp ListOfLinesClazz;
 
     public ExecMethod(Interpreter interp) throws GenyrisException {
-    	super(interp, getStaticName());
+    	super(interp, "exec");
         ListOfLinesClazz = interp.lookupGlobalFromString(Constants.LISTOFLINES);
     }
 

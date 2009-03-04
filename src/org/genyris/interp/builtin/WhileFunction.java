@@ -15,12 +15,8 @@ import org.genyris.interp.Interpreter;
 
 public class WhileFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "while";};
-	public static boolean isEager() {return false;};
-	
-
     public WhileFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "while", false);
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp retval = NIL;

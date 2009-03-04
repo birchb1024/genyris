@@ -18,13 +18,9 @@ import org.genyris.interp.Interpreter;
 
 public class BackquoteFunction extends ApplicableFunction {
 	 
-	public static String getStaticName() {return Constants.TEMPLATE;};
-	public static boolean isEager() {return false;};
-	
-	
     private Exp COMMA, COMMA_AT;
     public BackquoteFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, Constants.TEMPLATE, false);
         COMMA = interp.getSymbolTable().internPlainString(Constants.COMMA);
         COMMA_AT = interp.getSymbolTable().internPlainString(Constants.COMMA_AT);
     }

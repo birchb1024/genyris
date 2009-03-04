@@ -14,11 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class SetFunction extends ApplicableFunction {
 
-	public static String getStaticName() {return "set";};
-	public static boolean isEager() {return true;};
-	
     public SetFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "set", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

@@ -18,16 +18,8 @@ import org.genyris.interp.Interpreter;
 
 public class DisplayFunction extends ApplicableFunction {
 
-	public static String getStaticName() {
-		return "display";
-	};
-
-	public static boolean isEager() {
-		return true;
-	};
-
 	public DisplayFunction(Interpreter interp) {
-        super(interp, getStaticName());
+        super(interp, "display", true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

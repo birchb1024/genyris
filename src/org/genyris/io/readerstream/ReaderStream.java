@@ -77,9 +77,8 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     }
     public static class ReadMethod extends AbstractReaderMethod {
 
-    	public static String getStaticName() {return "read";};
         public ReadMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+        	super(interp, "read");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -90,9 +89,8 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     }
     public static class HasDataMethod extends AbstractReaderMethod {
 
-    	public static String getStaticName() {return "hasData";};
         public HasDataMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+        	super(interp, "hasData");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

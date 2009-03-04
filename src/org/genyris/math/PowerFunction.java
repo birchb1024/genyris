@@ -14,17 +14,11 @@ import org.genyris.interp.Interpreter;
 
 public class PowerFunction extends AbstractMathFunction {
 
-	public static String getStaticName() {return "power";};
-	public static boolean isEager() {return true;};
-	
     public PowerFunction(Interpreter interp) {
-        super(interp,getStaticName(), 2);
+        super(interp,"power", 2);
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
         return new Bignum(((BigDecimal) a.getJavaValue()).pow(((BigDecimal) b.getJavaValue()).intValueExact(), new MathContext(100000)));
     }
-	public String getName() {
-		return getStaticName();
-	}
 }

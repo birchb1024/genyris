@@ -17,16 +17,8 @@ import org.genyris.interp.MacroFunction;
 
 public class DefMacroFunction extends ApplicableFunction {
 
-	public static String getStaticName() {
-		return "defmacro";
-	};
-
-	public static boolean isEager() {
-		return false;
-	};
-
 	public DefMacroFunction(Interpreter interp) {
-		super(interp, getStaticName());
+		super(interp, "defmacro", false);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

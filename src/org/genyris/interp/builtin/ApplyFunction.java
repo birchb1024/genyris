@@ -16,16 +16,8 @@ import org.genyris.interp.Interpreter;
 
 public class ApplyFunction extends ApplicableFunction {
 
-	public static String getStaticName() {
-		return "apply";
-	};
-
-	public static boolean isEager() {
-		return true;
-	};
-
 	public ApplyFunction(Interpreter interp) {
-		super(interp, getStaticName());
+		super(interp, "apply", true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

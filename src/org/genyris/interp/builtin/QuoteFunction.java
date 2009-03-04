@@ -14,12 +14,8 @@ import org.genyris.interp.Interpreter;
 
 public class QuoteFunction extends ApplicableFunction {
 	
-	public static String getStaticName() {return "quote";};
-	public static boolean isEager() {return false;};
-	
-
     public QuoteFunction(Interpreter interp) {
-    	super(interp, getStaticName());
+    	super(interp, "quote", false);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {

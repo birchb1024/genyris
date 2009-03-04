@@ -12,8 +12,6 @@ import org.genyris.interp.Interpreter;
 
 public class LessThanFunction extends AbstractMathBooleanFunction {
 
-	public static boolean isEager() {return true;};
-	
     public LessThanFunction(Interpreter interp) {
         super(interp, "<");
     }

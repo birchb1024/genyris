@@ -13,11 +13,8 @@ import org.genyris.interp.Interpreter;
 
 public class MinusFunction extends AbstractMathFunction {
 
-	public static String getStaticName() {return "-";};
-	public static boolean isEager() {return true;};
-	
     public MinusFunction(Interpreter interp) {
-        super(interp, getStaticName(), 1);
+        super(interp, "-", 1);
     }
 
     protected Exp mathOperation(Exp a) {
@@ -28,7 +25,4 @@ public class MinusFunction extends AbstractMathFunction {
         return new Bignum(((BigDecimal) a.getJavaValue()).subtract((BigDecimal) b.getJavaValue()));
     }
 
-	public String getName() {
-		return getStaticName();
-	}
 }

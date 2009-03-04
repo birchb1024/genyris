@@ -13,11 +13,8 @@ import org.genyris.interp.Interpreter;
 
 public class PlusFunction extends AbstractMathFunction {
 
-	public static String getStaticName() {return "+";};
-	public static boolean isEager() {return true;};
-	
     public PlusFunction(Interpreter interp) {
-        super(interp, getStaticName(), 1);
+        super(interp, "+", 1);
     }
 
     protected Exp mathOperation(Exp a) {
@@ -27,7 +24,4 @@ public class PlusFunction extends AbstractMathFunction {
         return new Bignum(((BigDecimal) a.getJavaValue()).add((BigDecimal) b.getJavaValue()));
     }
 
-	public String getName() {
-		return getStaticName();
-	}
 }
