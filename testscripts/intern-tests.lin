@@ -14,7 +14,7 @@ var overall-result
   t.test "Intern tests"
     t.given '(intern "A")       expect 'A
     t.given '(intern "http://server/#w")       expect 'p.w
-    t.given (left (member? Symbol ((intern 23)!classes)))       expect Symbol
+    t.given (left (member? SimpleSymbol ((intern 23)!classes)))       expect SimpleSymbol
 
 or overall-result (raise "Intern Failed")
 

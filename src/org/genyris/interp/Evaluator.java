@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -19,7 +20,7 @@ public class Evaluator {
         if (expression.isSelfEvaluating()) {
             return expression;
         }
-        else if (expression.getClass() == SimpleSymbol.class) {
+        else if (expression instanceof Symbol) {
             return env.lookupVariableValue(expression);
         }
         else if (expression.listp()) {

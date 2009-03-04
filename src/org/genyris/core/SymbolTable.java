@@ -39,13 +39,13 @@ public class SymbolTable {
         }
     }
 
-    public SimpleSymbol internString(String news) throws GenyrisException {
+    public Symbol internString(String news) throws GenyrisException {
         return internPlainString(news);
     }
 
-    public SimpleSymbol internPlainString(String newSym) {
+    public Symbol internPlainString(String newSym) {
         if (_table.containsKey(newSym)) {
-            return (SimpleSymbol)_table.get(newSym);
+            return (Symbol)_table.get(newSym);
         } else {
             SimpleSymbol sym = new SimpleSymbol(newSym);
             _table.put(newSym, sym);
@@ -53,11 +53,21 @@ public class SymbolTable {
         }
     }
 
-    public void intern(Exp newSym) throws Exception {
+    public Symbol internSymbol(Symbol newSym) throws GenyrisException {
+        if (_table.containsKey(newSym.getPrintName())) {
+            return (Symbol)_table.get(newSym.getPrintName());
+        } else {
+            _table.put(newSym.getPrintName(), newSym);
+            return newSym;
+        }
+    }
+
+    public Exp intern(Exp newSym) throws GenyrisException {
         if (_table.containsKey(((SimpleSymbol)newSym).getPrintName())) {
             throw new GenyrisException("Can't intern symbol - already exists.");
         } else {
             _table.put(((SimpleSymbol)newSym).getPrintName(), newSym);
+            return newSym;
         }
     }
 

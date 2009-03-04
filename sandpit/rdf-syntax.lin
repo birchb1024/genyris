@@ -5,13 +5,15 @@
 @prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix dc "http://purl.org/dc/elements/1.1/"
 
-dict
-   !rdf.about    : "http-//en.wikipedia.org/wiki/Tony-Benn"
-   !dc.Title     : "Tony Benn"
-   !dc.Publisher : "Wikipedia"
+rdf.description ; a macro
+   rdf.about    "http-//en.wikipedia.org/wiki#Tony-Benn" ; gets interned
+   dc.Title     "Tony Benn"
+   dc.Publisher "Wikipedia"
 
-'dc.Title
-   var !rdf.Type 'rdf.Property
+@prefix w "http-//en.wikipedia.org/wiki#Tony-Benn"
+'w.Tony-Benn
+   !triples
+       'rdf.Type 'rdf.Property
 
 'dc.Title !vars
 'dc.Title !rdf.Type

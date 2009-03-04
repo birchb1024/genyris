@@ -17,14 +17,13 @@ import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.DisplayFunction;
-import org.genyris.format.WriteFunction;
 import org.genyris.format.PrintFunction;
+import org.genyris.format.WriteFunction;
 import org.genyris.interp.builtin.ApplyFunction;
 import org.genyris.interp.builtin.BackquoteFunction;
 import org.genyris.interp.builtin.BoundFunction;
@@ -88,9 +87,9 @@ import org.genyris.math.PlusFunction;
 import org.genyris.math.PowerFunction;
 import org.genyris.math.RemainderFunction;
 import org.genyris.string.ConcatMethod;
+import org.genyris.string.LengthMethod;
 import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
-import org.genyris.string.LengthMethod;
 import org.genyris.system.ExecMethod;
 import org.genyris.test.JunitRunnerFunction;
 import org.genyris.web.HTTPgetFunction;
@@ -102,7 +101,7 @@ public class Interpreter {
     SymbolTable      _table;
     Writer           _defaultOutput;
     public NilSymbol NIL;
-    private SimpleSymbol  TRUE;
+    private Symbol  TRUE;
 
     public Interpreter() throws GenyrisException {
         NIL = new NilSymbol();
@@ -114,7 +113,7 @@ public class Interpreter {
         {
             // Circular references between symbols and classnames require manual bootstrap here:
             SYMBOL.defineVariableRaw(_table.internString(Constants.CLASSNAME),
-                    _table.internString(Constants.SYMBOL));
+                    _table.internString(Constants.SIMPLESYMBOL));
         }
         defineConstantSymbols();
 
@@ -238,7 +237,7 @@ public class Interpreter {
             String staticName = (String)getNameMethod.invoke(null,(Object[])null);
             Method isEagerMethod = class1.getMethod("isEager", (Class[])null);
             boolean isEager = ((Boolean)isEagerMethod.invoke(null,(Object[])null)).booleanValue();
-            SimpleSymbol  nameSymbol = _table.internString(staticName);
+            Symbol  nameSymbol = _table.internString(staticName);
             Object[] args = new Object[]{this};
             Object proc = ctor.newInstance(args);
             if (isEager) {
@@ -328,11 +327,11 @@ public class Interpreter {
         return _defaultOutput;
     }
 
-    public SimpleSymbol getNil() {
+    public Symbol getNil() {
         return NIL;
     }
 
-    public SimpleSymbol getTrue() {
+    public Symbol getTrue() {
         return TRUE;
     }
 

@@ -7,7 +7,7 @@
 @prefix s "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
 
-class g.Keyword(Symbol)
+class g.Keyword(SimpleSymbol)
 tag g.Keyword 'function
 ; Some aliases
 defmacro define (var valu) (template (defvar ',var ,valu))

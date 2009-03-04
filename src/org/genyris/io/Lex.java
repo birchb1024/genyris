@@ -152,7 +152,7 @@ public class Lex {
                 break;
             }
         }
-        return _symbolTable.internString(_mapper.getCannonicalSymbol(collect));
+        return _symbolTable.internSymbol(_mapper.symbolFactory(collect));
     }
 
     public Exp nextToken() throws GenyrisException {

@@ -13,5 +13,8 @@ public class SimpleSymbol extends Symbol implements Comparable {
         super(newSym);
     }
 
+	public String getBuiltinClassName() {
+	    return Constants.SIMPLESYMBOL;
+	}
 
 }

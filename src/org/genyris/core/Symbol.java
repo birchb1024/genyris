@@ -40,9 +40,7 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 	    return getPrintName();
 	}
 
-	public String getBuiltinClassName() {
-	    return Constants.SYMBOL;
-	}
+	public abstract String getBuiltinClassName();
 
 	public int compareTo(Object arg0) {
 	    return ((SimpleSymbol) arg0)._printName.compareTo(this._printName);

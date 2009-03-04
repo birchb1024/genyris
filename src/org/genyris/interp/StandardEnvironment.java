@@ -12,6 +12,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 // TODO Break this into a Root environment and a Standard Env....
@@ -107,7 +108,7 @@ public class StandardEnvironment implements Environment {
     }
 
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if(! (symbol instanceof SimpleSymbol) ) {
+        if(! (symbol instanceof Symbol) ) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
         _frame.put(symbol, valu);

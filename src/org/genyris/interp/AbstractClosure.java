@@ -9,7 +9,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -19,7 +19,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
     Exp _lambdaExpression;
     final ApplicableFunction _functionToApply;
     protected int _numberOfRequiredArguments;
-    SimpleSymbol NIL, REST;
+    Symbol NIL, REST;
     Exp _returnClass;
 
     public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl)
