@@ -7,10 +7,12 @@ package org.genyris.test.interp;
 
 import junit.framework.TestCase;
 
+import org.genyris.core.FullyQualifiedSymbol;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
@@ -18,7 +20,7 @@ import org.genyris.interp.StandardEnvironment;
 
 public class EnvironmentTest extends TestCase {
 	
-	public void testEnvBasics() throws Exception {		
+	public void testEnvDefine() throws Exception {		
 		Interpreter interp = new Interpreter();
 		Environment env = new StandardEnvironment(interp, new NilSymbol());
 		SimpleSymbol sym = new SimpleSymbol("answer");
@@ -27,6 +29,14 @@ public class EnvironmentTest extends TestCase {
 		assertEquals(val, env.lookupVariableValue(sym));		
 	}
 	
+	public void testEnvDefineQualified() throws Exception {		
+		Interpreter interp = new Interpreter();
+		Environment env = new StandardEnvironment(interp, new NilSymbol());
+		Symbol sym = new FullyQualifiedSymbol("http://foo/bar#answer");
+		Linteger val = new Linteger(42);
+		env.defineVariable(sym, val);
+		assertEquals(val, env.lookupVariableValue(sym));		
+	}
 	public void testEnvNested() throws Exception {		
 		Interpreter interp = new Interpreter();
 		Environment env1 = new StandardEnvironment(interp, new NilSymbol());
