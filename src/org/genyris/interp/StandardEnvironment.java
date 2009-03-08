@@ -150,4 +150,8 @@ public class StandardEnvironment implements Environment {
         throw new UnboundException("no dynamic variable self in standard environments.");
     }
 
+	public Exp getCLASSES() {
+		return _classes;
+	}
+
 }
