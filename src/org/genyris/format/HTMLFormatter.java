@@ -35,7 +35,7 @@ public class HTMLFormatter extends AbstractFormatter {
         _output.write(HTMLEntityEncode(s));
     }
     public void visitLobject(Lobject frame) {
-        Exp standardClassSymbol = frame.internPlainString(Constants.STANDARDCLASS);
+        Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
         Lobject standardClass;
         try {
             standardClass = (Lobject) frame.getParent().lookupVariableValue(

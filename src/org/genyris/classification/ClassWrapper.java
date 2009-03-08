@@ -23,9 +23,9 @@ public class ClassWrapper {
 
     public ClassWrapper(Lobject toWrap) {
         _theClass = toWrap;
-        CLASSNAME = toWrap.getParent().internPlainString(Constants.CLASSNAME);
-        SUPERCLASSES = toWrap.getParent().internPlainString(Constants.SUPERCLASSES);
-        SUBCLASSES = toWrap.getParent().internPlainString(Constants.SUBCLASSES);
+        CLASSNAME = toWrap.getParent().internString(Constants.CLASSNAME);
+        SUPERCLASSES = toWrap.getParent().internString(Constants.SUPERCLASSES);
+        SUBCLASSES = toWrap.getParent().internString(Constants.SUBCLASSES);
         NIL = toWrap.getParent().getNil();
     }
 

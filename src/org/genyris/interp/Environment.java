@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public interface Environment {
@@ -26,11 +27,11 @@ public interface Environment {
 
     public SimpleSymbol getNil();
 
-    public Interpreter getInterpreter();
+//    private Interpreter getInterpreter();
 
-    public Exp internString(String symbolName) throws GenyrisException;
+    public Symbol internString(String symbolName);
 
-    public Exp internPlainString(String dict);
+//    public Symbol internPlainString(String dict);
 
     public Exp lookupDynamicVariableValue(Exp exp) throws UnboundException;
 

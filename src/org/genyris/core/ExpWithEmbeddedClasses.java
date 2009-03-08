@@ -45,7 +45,7 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     }
     public Exp getClasses(Environment env) {
         Exp NIL = env.getNil();
-        Exp builtinClassSymbol = env.internPlainString(this.getBuiltinClassName());
+        Exp builtinClassSymbol = env.internString(this.getBuiltinClassName());
         Exp builtinClass;
         try {
             builtinClass = env.lookupVariableValue(builtinClassSymbol);

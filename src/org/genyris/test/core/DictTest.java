@@ -26,7 +26,7 @@ public class DictTest extends TestCase {
     }
     public void test1() throws Exception {
 
-        Exp a = _interpreter.getSymbolTable().internString("a");
+        Exp a = _interpreter.intern("a");
         assertEquals(false, _frame.hasKey(a));
         _frame.defineVariableRaw(a, new Linteger(12));
         assertEquals(true, _frame.hasKey(a));

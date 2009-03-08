@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
 import org.genyris.core.SimpleSymbol;
@@ -21,34 +22,34 @@ public class Lex {
     private InStream _input;
     private PrefixMapper _mapper;
 
-    private SymbolTable _symbolTable;
+    private Internable _symbolTable;
     private char _cdrCharacter;
 
     public Exp quote, EOF, raw_quote, raw_dynamic, raw_backquote, raw_comma_at;
     public Exp raw_comma, comma_at, comma, backquote;
     public Exp leftParen, rightParen, cdr_char;
 
-    private void init(InStream inputSource, SymbolTable table, char cdrChar) {
+    private void init(InStream inputSource, Internable table, char cdrChar) {
         _mapper = new PrefixMapper();
         _input = inputSource;
         _symbolTable = table;
-        NIL = table.getNil();
-        quote = table.internPlainString("quote");
-        raw_quote = table.internPlainString("'");
-        raw_backquote = table.internPlainString("`");
-        raw_comma_at = table.internPlainString(",@");
-        raw_comma = table.internPlainString(",");
-        raw_dynamic = table.internPlainString(Constants.DYNAMIC_SYMBOL);
-        comma_at = table.internPlainString(Constants.COMMA_AT);
-        comma = table.internPlainString(Constants.COMMA);
-        backquote = table.internPlainString(Constants.TEMPLATE);
+        NIL = table.internString("nil");
+        quote = table.internString("quote");
+        raw_quote = table.internString("'");
+        raw_backquote = table.internString("`");
+        raw_comma_at = table.internString(",@");
+        raw_comma = table.internString(",");
+        raw_dynamic = table.internString(Constants.DYNAMIC_SYMBOL);
+        comma_at = table.internString(Constants.COMMA_AT);
+        comma = table.internString(Constants.COMMA);
+        backquote = table.internString(Constants.TEMPLATE);
         EOF = new SimpleSymbol(Constants.EOF);
-        leftParen = table.internPlainString("leftParen");
-        rightParen = table.internPlainString("righParen");
+        leftParen = table.internString("leftParen");
+        rightParen = table.internString("righParen");
         _cdrCharacter = cdrChar;
-        cdr_char = table.internPlainString("pair-delimiter");
+        cdr_char = table.internString("pair-delimiter");
     }
-    public Lex(InStream inputSource, SymbolTable table, char cdrChar) {
+    public Lex(InStream inputSource, Internable table, char cdrChar) {
         init(inputSource, table, cdrChar);
     }
     public Lex(InStream inputSource, SymbolTable table) {

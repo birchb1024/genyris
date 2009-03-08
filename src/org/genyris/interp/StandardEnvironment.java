@@ -39,13 +39,13 @@ public class StandardEnvironment implements Environment {
         NIL = nil;
         _interpreter = interp;
 
-        _self = interp.getSymbolTable().internPlainString(Constants.SELF);
-        _classes = interp.getSymbolTable().internPlainString(Constants.CLASSES);
-        _superclasses = interp.getSymbolTable().internPlainString(Constants.SUPERCLASSES);
-        _classname = interp.getSymbolTable().internPlainString(Constants.CLASSNAME);
-        _left = interp.getSymbolTable().internPlainString(Constants.LEFT);
-        _right = interp.getSymbolTable().internPlainString(Constants.RIGHT);
-        _dynamic = interp.getSymbolTable().internPlainString(Constants.DYNAMIC_SYMBOL);
+        _self = interp.intern(Constants.SELF);
+        _classes = interp.intern(Constants.CLASSES);
+        _superclasses = interp.intern(Constants.SUPERCLASSES);
+        _classname = interp.intern(Constants.CLASSNAME);
+        _left = interp.intern(Constants.LEFT);
+        _right = interp.intern(Constants.RIGHT);
+        _dynamic = interp.intern(Constants.DYNAMIC_SYMBOL);
     }
 
     private void init() throws GenyrisException {
@@ -132,27 +132,12 @@ public class StandardEnvironment implements Environment {
         return NIL;
     }
 
-    public Interpreter getInterpreter() {
-        if( _parent != null )
-            return _parent.getInterpreter();
-        else
-            return _interpreter;
-    }
-
-    public Exp internPlainString(String symbolName) {
-        if(_interpreter == null) {
-            return _parent.internPlainString(symbolName);
-        }
-        else {
-            return _interpreter.getSymbolTable().internPlainString(symbolName);
-        }
-    }
-    public Exp internString(String symbolName) throws GenyrisException {
+    public Symbol internString(String symbolName) {
         if(_interpreter == null) {
             return _parent.internString(symbolName);
         }
         else {
-            return _interpreter.getSymbolTable().internString(symbolName);
+            return _interpreter.intern(symbolName);
         }
     }
 

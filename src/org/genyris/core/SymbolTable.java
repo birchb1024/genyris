@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 import org.genyris.exception.GenyrisException;
 
-public class SymbolTable {
+public class SymbolTable implements Internable {
     private Map         _table;
     private SimpleSymbol     NIL;
 
@@ -39,11 +39,7 @@ public class SymbolTable {
         }
     }
 
-    public Symbol internString(String news) throws GenyrisException {
-        return internPlainString(news);
-    }
-
-    public Symbol internPlainString(String newSym) {
+    public Symbol internString(String newSym) {
         if (_table.containsKey(newSym)) {
             return (Symbol)_table.get(newSym);
         } else {
@@ -53,20 +49,11 @@ public class SymbolTable {
         }
     }
 
-    public Symbol internSymbol(Symbol newSym) throws GenyrisException {
+    public Symbol internSymbol(Symbol newSym) {
         if (_table.containsKey(newSym.getPrintName())) {
             return (Symbol)_table.get(newSym.getPrintName());
         } else {
             _table.put(newSym.getPrintName(), newSym);
-            return newSym;
-        }
-    }
-
-    public Exp intern(Exp newSym) throws GenyrisException {
-        if (_table.containsKey(((SimpleSymbol)newSym).getPrintName())) {
-            throw new GenyrisException("Can't intern symbol - already exists.");
-        } else {
-            _table.put(((SimpleSymbol)newSym).getPrintName(), newSym);
             return newSym;
         }
     }

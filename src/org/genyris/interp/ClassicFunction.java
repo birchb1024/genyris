@@ -8,7 +8,6 @@ package org.genyris.interp;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
@@ -18,11 +17,8 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.builtin.TagFunction;
 
 public class ClassicFunction extends ApplicableFunction {
-    private Exp REST;
-
     public ClassicFunction(String name, Interpreter interp) {
         super(interp, name, true);
-        REST = interp.getSymbolTable().internPlainString(Constants.REST);
     }
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {

@@ -43,7 +43,7 @@ public class TagFunction extends ApplicableFunction {
         Exp validator = null;
         ClassWrapper klass = new ClassWrapper(klassobject);
         try {
-            validator = klassobject.lookupVariableValue(environment.getInterpreter().getSymbolTable().internString(Constants.VALIDATE)); // TODO performance
+            validator = klassobject.lookupVariableValue(environment.internString(Constants.VALIDATE)); // TODO performance
         }
         catch (UnboundException ignore) {     // TODO would be nice to have a bound?()
         }
@@ -61,7 +61,7 @@ public class TagFunction extends ApplicableFunction {
         Exp validator = null;
         ClassWrapper klass = new ClassWrapper(klassobject);
         try {
-            validator = klassobject.lookupVariableValue(environment.getInterpreter().getSymbolTable().internString(Constants.VALIDATE)); // TODO performance
+            validator = klassobject.lookupVariableValue(environment.internString(Constants.VALIDATE)); // TODO too long
         }
         catch (UnboundException ignore) {     // TODO would be nice to have a bound?()
             if (!klass.isInstance(object)) {

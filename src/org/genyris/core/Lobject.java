@@ -14,7 +14,6 @@ import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
-import org.genyris.interp.Interpreter;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;
 import org.genyris.interp.builtin.TagFunction;
@@ -46,23 +45,13 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         init(_parent);
     }
 
-    protected void initFromTable(SymbolTable table) throws GenyrisException {
-        _self = table.lookupString(Constants.SELF);
-        CLASSES = table.lookupString(Constants.CLASSES);
-        SUPERCLASSES = table.lookupString(Constants.SUPERCLASSES);
-        CLASSNAME = table.lookupString(Constants.CLASSNAME);
-        VARS = table.lookupString(Constants.VARS);
-        NIL = table.lookupString(Constants.NIL);
-        _dynamic = table.lookupString(Constants.DYNAMIC_SYMBOL);
-    }
-
     protected void init(Environment env) {
-        _self = env.internPlainString(Constants.SELF);
-        CLASSES = env.internPlainString(Constants.CLASSES);
-        SUPERCLASSES = env.internPlainString(Constants.SUPERCLASSES);
-        CLASSNAME = env.internPlainString(Constants.CLASSNAME);
-        VARS = env.internPlainString(Constants.VARS);
-        _dynamic = env.internPlainString(Constants.DYNAMIC_SYMBOL);
+        _self = env.internString(Constants.SELF);
+        CLASSES = env.internString(Constants.CLASSES);
+        SUPERCLASSES = env.internString(Constants.SUPERCLASSES);
+        CLASSNAME = env.internString(Constants.CLASSNAME);
+        VARS = env.internString(Constants.VARS);
+        _dynamic = env.internString(Constants.DYNAMIC_SYMBOL);
         NIL = env.getNil();
     }
 
@@ -95,7 +84,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
             Exp tmp = new LconsWithcolons(key, value);
             result = new Lcons(tmp, result);
         }
-        return new Lcons(_parent.internPlainString(Constants.DICT), result);
+        return new Lcons(_parent.internString(Constants.DICT), result);
     }
 
     public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
@@ -293,20 +282,12 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
         return NIL;
     }
 
-    public Interpreter getInterpreter() {
-        return _parent.getInterpreter();
-    }
-
-    public Exp internString(String symbolName) throws GenyrisException {
+    public Symbol internString(String symbolName) {
         return _parent.internString(symbolName);
     }
 
     public String getBuiltinClassName() {
         return Constants.OBJECT;
-    }
-
-    public Exp internPlainString(String dict) {
-        return _parent.internPlainString(dict);
     }
 
     public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {

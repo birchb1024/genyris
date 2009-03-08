@@ -7,11 +7,11 @@ package org.genyris.io;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Lstring;
 import org.genyris.core.SimpleSymbol;
-import org.genyris.core.SymbolTable;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -21,15 +21,15 @@ public class Parser {
     private Exp NIL, GLOBAL_EOF;
     private Exp _prefix;
 
-    public Parser(SymbolTable table, InStream stream) {
+    public Parser(Internable table, InStream stream) {
         this(table, stream, Constants.CDRCHAR);
     }
 
-    public Parser(SymbolTable table, InStream stream, char cdrCharacter) {
+    public Parser(Internable table, InStream stream, char cdrCharacter) {
         _lexer = new Lex(stream, table, cdrCharacter);
-        NIL = table.getNil();
-        GLOBAL_EOF = table.internPlainString("EOF");
-        _prefix = table.internPlainString(Constants.PREFIX);
+        NIL = table.internString("nil");
+        GLOBAL_EOF = table.internString("EOF");
+        _prefix = table.internString(Constants.PREFIX);
     }
 
     public void nextsym() throws GenyrisException {

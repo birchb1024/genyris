@@ -116,8 +116,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         Writer output = new PrintWriter(buffer);
         // (httpd-serve request)
-        Exp expression = new Lcons(interpreter.getSymbolTable().internPlainString("httpd-serve"),
-                new Lcons(request, NIL));
+        Exp expression = new Lcons(interpreter.intern("httpd-serve"), new Lcons(request, NIL));
 
         try {
             Formatter formatter;

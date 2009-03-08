@@ -1,2 +1,2 @@
-#!/usr/bin/sh
+#!/bin/sh
 java -cp $GENYRIS_HOME/dist/genyris-bin*.jar org.genyris.interp.ClassicReadEvalPrintLoop $*

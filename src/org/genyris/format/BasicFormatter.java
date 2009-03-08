@@ -32,7 +32,7 @@ public class BasicFormatter extends  AbstractFormatter {
     }
 
     public void visitLobject(Lobject frame) {
-        Exp standardClassSymbol = frame.internPlainString(Constants.STANDARDCLASS);
+        Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
         Lobject standardClass;
         try {
             standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);

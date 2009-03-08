@@ -20,7 +20,7 @@ public class SymListFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
     	checkArguments(arguments, 0);
-        return _interp.getSymbolTable().getSymbolsList();
+        return _interp.getSymbolsList();
     }
 
 }

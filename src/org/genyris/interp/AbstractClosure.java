@@ -30,8 +30,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements 
         _numberOfRequiredArguments = -1;
         NIL = environment.getNil();
         _returnClass = null;
-        REST = environment.getInterpreter().getSymbolTable().internString(Constants.REST); // TOD
-        // performance
+        REST = environment.internString(Constants.REST); // TODO 
     }
 
     private int countFormalArguments(Exp exp) throws AccessException {

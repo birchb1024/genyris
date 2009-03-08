@@ -21,7 +21,6 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
-import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
@@ -167,10 +166,6 @@ public class IndentedFormatter extends AbstractFormatter {
             }
         }
         catch (UnboundException ignore) {
-        }
-        catch (GenyrisException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         try {

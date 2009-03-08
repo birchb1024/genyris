@@ -22,7 +22,7 @@ public class InternFunction extends ApplicableFunction {
 		checkArguments(arguments, 1);
 
         // TODO - probably a bit too general ? Takes anything!
-        return _interp.getSymbolTable().internSymbol(Symbol.symbolFactory(arguments[0].toString()));
+        return _interp.intern(Symbol.symbolFactory(arguments[0].toString()));
     }
 	public Object getJavaValue() {
         return "[intern builtin function]";

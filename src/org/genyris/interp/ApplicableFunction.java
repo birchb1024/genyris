@@ -17,6 +17,7 @@ public abstract class ApplicableFunction {
     protected Exp         _lambda, _lambdam, _lambdaq;
     private String  _name;
     private boolean _eager;
+	protected Exp REST;
     
     public ApplicableFunction(Interpreter interp, String name, boolean eager) {
     	_name = name;
@@ -24,9 +25,10 @@ public abstract class ApplicableFunction {
         _interp = interp;
         NIL = _interp.getNil();
         TRUE = _interp.getTrue();
-        _lambda = interp.getSymbolTable().internPlainString(Constants.LAMBDA);
-        _lambdaq = interp.getSymbolTable().internPlainString(Constants.LAMBDAQ);
-        _lambdam = interp.getSymbolTable().internPlainString(Constants.LAMBDAM);
+        _lambda = interp.intern(Constants.LAMBDA);
+        _lambdaq = interp.intern(Constants.LAMBDAQ);
+        _lambdam = interp.intern(Constants.LAMBDAM);
+        REST = interp.REST();
     }
 
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments,

@@ -80,7 +80,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
         Exp klasses = result.getClasses(interp.getGlobalEnv());
         while(!(klasses instanceof NilSymbol)){
             Environment klass = (Environment) klasses.car();
-            _output.write(" " + klass.lookupVariableShallow(interp.getSymbolTable().internString(Constants.CLASSNAME)).toString());
+            _output.write(" " + klass.lookupVariableShallow(interp.intern(Constants.CLASSNAME)).toString());
             klasses = klasses.cdr();
         }
     }

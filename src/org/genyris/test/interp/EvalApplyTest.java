@@ -10,8 +10,8 @@ import java.io.StringWriter;
 import junit.framework.TestCase;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.Linteger;
-import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
@@ -29,7 +29,7 @@ public class EvalApplyTest extends TestCase {
     public void testLambda1() throws Exception {
         Interpreter interp = new Interpreter();
         Environment env = interp.getGlobalEnv();
-        SymbolTable table = interp.getSymbolTable();
+        Internable table = interp.getSymbolTable();
         InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
         Parser parser = new Parser(table, input);
         Exp expression = parser.read();
@@ -48,8 +48,8 @@ public class EvalApplyTest extends TestCase {
         Interpreter interp = new Interpreter();
         Environment env = interp.getGlobalEnv();
         Environment env2 = new StandardEnvironment(env);
-        env2.defineVariable(interp.getSymbolTable().internString("alpha"), new Linteger(23));
-        env2.defineVariable(interp.getSymbolTable().internString("bravo"), new Linteger(45));
+        env2.defineVariable(interp.intern("alpha"), new Linteger(23));
+        env2.defineVariable(interp.intern("bravo"), new Linteger(45));
         InStream input = new UngettableInStream( new StringInStream(exp));
         Parser parser = new Parser(interp.getSymbolTable(), input);
         Exp expression = parser.read();

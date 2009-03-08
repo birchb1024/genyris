@@ -15,6 +15,7 @@ import org.genyris.classes.BuiltinClasses;
 import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.Lobject;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
@@ -328,10 +329,21 @@ public class Interpreter {
 		return _globalEnvironment;
 	}
 
-	public SymbolTable getSymbolTable() {
+	public Internable getSymbolTable() {
 		return _table;
 	}
-
+	public Symbol intern(String name) {
+		return _table.internString(name);
+	}
+	public Symbol intern(Symbol name) {
+		return _table.internSymbol(name);
+	}
+	public Symbol REST() {
+		return intern(Constants.REST);
+	}
+    public Exp getSymbolsList() {
+    	return _table.getSymbolsList();
+    }
 	public Exp lookupGlobalFromString(String var) throws GenyrisException {
 		return _globalEnvironment.lookupVariableValue(_table.internString(var));
 	}
