@@ -30,7 +30,7 @@ public class EagerProcedure extends AbstractClosure  {
         return result;
     }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitEagerProc(this);
     }
 

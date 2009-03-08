@@ -23,6 +23,10 @@ public class TagFunction extends ApplicableFunction {
     	super(interp, "tag", true);
     }
 
+    private Exp VALIDATE() {
+		return _interp.intern(Constants.VALIDATE);
+	}
+
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment environment) throws GenyrisException {
     	checkArguments(arguments, 2);
     	Class[] types = {Lobject.class};
@@ -37,13 +41,13 @@ public class TagFunction extends ApplicableFunction {
 
 
     // TODO move these into ClassWrapper:
-    public static void callValidator(Environment environment, Exp object, Lobject klassobject) throws GenyrisException {
+    public void callValidator(Environment environment, Exp object, Lobject klassobject) throws GenyrisException {
         // TODO DRY
         Exp NIL = environment.getNil();
         Exp validator = null;
         ClassWrapper klass = new ClassWrapper(klassobject);
         try {
-            validator = klassobject.lookupVariableValue(environment.internString(Constants.VALIDATE)); // TODO performance
+            validator = klassobject.lookupVariableValue(VALIDATE()); 
         }
         catch (UnboundException ignore) {     // TODO would be nice to have a bound?()
         }
@@ -56,7 +60,7 @@ public class TagFunction extends ApplicableFunction {
             }
         }
     }
-    public static void validateObjectInClass(Environment environment, Exp object, Lobject klassobject) throws GenyrisException {
+	public static void validateObjectInClass(Environment environment, Exp object, Lobject klassobject) throws GenyrisException {
         Exp NIL = environment.getNil();
         Exp validator = null;
         ClassWrapper klass = new ClassWrapper(klassobject);

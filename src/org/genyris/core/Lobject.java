@@ -47,7 +47,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		return _dict;
 	}
 
-	public void acceptVisitor(Visitor guest) {
+	public void acceptVisitor(Visitor guest)  throws GenyrisException {
 		guest.visitLobject(this);
 	}
 

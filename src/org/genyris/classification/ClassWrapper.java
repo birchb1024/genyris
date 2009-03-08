@@ -33,7 +33,7 @@ public class ClassWrapper {
         return _theClass;
     }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitClassWrapper(this);
     }
 

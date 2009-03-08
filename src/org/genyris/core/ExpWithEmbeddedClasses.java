@@ -8,6 +8,7 @@ package org.genyris.core;
 import java.util.ArrayList;
 import org.genyris.classification.ClassMROComparator;
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
@@ -18,7 +19,7 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
         _classes = new ArrayList(1);
     }
     public abstract Object getJavaValue();
-    public abstract void acceptVisitor(Visitor guest);
+    public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 
     private void sortClassesinMRO(Environment env) {
         Object[] tmp = _classes.toArray();

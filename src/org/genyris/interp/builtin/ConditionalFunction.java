@@ -6,6 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -22,19 +23,18 @@ public class ConditionalFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 			throws GenyrisException {
 		for (int i = 0; i < arguments.length; i++) {
-			Exp condition = Evaluator.eval(env, arguments[i].car()); // TODO
-																		// check
-																		// if it
-																		// exists?
+			if(! (arguments[i] instanceof Lcons)) {
+				throw new GenyrisException("Invalid condition: " + arguments[i]);
+			}
+			Exp condition = Evaluator.eval(env, arguments[i].car()); 
 			if (condition != NIL) {
 				if (arguments[i].cdr() == NIL) {
 					return condition;
 				} else {
-					return Evaluator.evalSequence(env, arguments[i].cdr()); // TODO
-																			// check
-																			// if
-																			// it
-																			// exists?
+					if(! (arguments[i] instanceof Lcons)) {
+						throw new GenyrisException("Invalid condition: " + arguments[i]);
+					}
+					return Evaluator.evalSequence(env, arguments[i].cdr()); 
 				}
 			}
 		}

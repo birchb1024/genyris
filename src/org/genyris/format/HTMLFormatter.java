@@ -21,6 +21,7 @@ import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
@@ -34,7 +35,7 @@ public class HTMLFormatter extends AbstractFormatter {
     private void emit(String s) throws IOException{
         _output.write(HTMLEntityEncode(s));
     }
-    public void visitLobject(Lobject frame) {
+    public void visitLobject(Lobject frame)  throws GenyrisException {
         Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
         Lobject standardClass;
         try {
@@ -54,7 +55,7 @@ public class HTMLFormatter extends AbstractFormatter {
 
     }
 
-    public void visitEagerProc(EagerProcedure proc) {
+    public void visitEagerProc(EagerProcedure proc)  throws GenyrisException {
         try {
             _output
                     .write("<EagerProc: " + proc.getJavaValue().toString()
@@ -65,7 +66,7 @@ public class HTMLFormatter extends AbstractFormatter {
         }
     }
 
-    public void visitLazyProc(LazyProcedure proc) {
+    public void visitLazyProc(LazyProcedure proc)  throws GenyrisException {
         try {
             emit(proc.getJavaValue().toString());
         } catch (IOException e) {
@@ -74,7 +75,7 @@ public class HTMLFormatter extends AbstractFormatter {
         }
     }
 
-    public void visitLcons(Lcons cons) {
+    public void visitLcons(Lcons cons)  throws GenyrisException {
         try {
             if (cons.car() instanceof Symbol) {
                 Symbol tag = (Symbol) cons.car();

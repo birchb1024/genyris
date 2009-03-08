@@ -44,7 +44,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     public InStream getInStream() {
         return _input;
     }
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitExpWithEmbeddedClasses(this);
     }
 

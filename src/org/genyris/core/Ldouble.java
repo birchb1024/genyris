@@ -5,6 +5,8 @@
 //
 package org.genyris.core;
 
+import org.genyris.exception.GenyrisException;
+
 
 public class Ldouble extends ExpWithEmbeddedClasses {
 
@@ -15,7 +17,7 @@ public class Ldouble extends ExpWithEmbeddedClasses {
 
     public Object getJavaValue() { return new Double(_value); }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest)  throws GenyrisException {
         guest.visitLdouble(this);
     }
 

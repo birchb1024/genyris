@@ -7,6 +7,8 @@ package org.genyris.core;
 
 import java.math.BigDecimal;
 
+import org.genyris.exception.GenyrisException;
+
 public class Bignum extends ExpWithEmbeddedClasses {
     private BigDecimal _value;
 
@@ -30,7 +32,7 @@ public class Bignum extends ExpWithEmbeddedClasses {
         _value = new BigDecimal(string);
     }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest)  throws GenyrisException {
         guest.visitBignum(this);
     }
 

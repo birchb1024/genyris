@@ -7,6 +7,7 @@ package org.genyris.core;
 
 import java.io.StringWriter;
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 
 public class Lcons extends ExpWithEmbeddedClasses {
@@ -25,7 +26,7 @@ public class Lcons extends ExpWithEmbeddedClasses {
         return result;
     }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitLcons(this);
     }
 
@@ -63,7 +64,11 @@ public class Lcons extends ExpWithEmbeddedClasses {
     public String toString() {
         StringWriter buffer = new StringWriter();
         BasicFormatter formatter = new BasicFormatter(buffer);
-        this.acceptVisitor(formatter);
+        try {
+			this.acceptVisitor(formatter);
+		} catch (GenyrisException e) {
+			return e.getMessage();
+		}
         return buffer.toString();
     }
     public String getBuiltinClassName() {

@@ -20,6 +20,7 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
@@ -31,7 +32,7 @@ public class BasicFormatter extends  AbstractFormatter {
         super(out);
     }
 
-    public void visitLobject(Lobject frame) {
+    public void visitLobject(Lobject frame) throws GenyrisException {
         Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
         Lobject standardClass;
         try {
@@ -71,7 +72,7 @@ public class BasicFormatter extends  AbstractFormatter {
         }
     }
 
-    void writeCdr(Exp cons) {
+    void writeCdr(Exp cons)  throws GenyrisException {
         try {
             if (cons.isNil()) {
                 return;
@@ -98,7 +99,7 @@ public class BasicFormatter extends  AbstractFormatter {
         }
     }
 
-    public void visitLcons(Lcons cons) {
+    public void visitLcons(Lcons cons)  throws GenyrisException {
         try {
             _output.write("(");
             cons.car().acceptVisitor(this);

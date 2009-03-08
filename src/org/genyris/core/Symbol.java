@@ -3,6 +3,8 @@ package org.genyris.core;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.genyris.exception.GenyrisException;
+
 public abstract class Symbol extends ExpWithEmbeddedClasses {
 
 	public static Symbol symbolFactory(String name) {
@@ -46,7 +48,7 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 	    return false;
 	}
 
-	public void acceptVisitor(Visitor guest) {
+	public void acceptVisitor(Visitor guest) throws GenyrisException  {
 	    guest.visitSymbol(this);
 	}
 

@@ -35,16 +35,15 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
         _output = out;
     }
 
-    public abstract void visitLobject(Lobject frame);
-
-    public abstract void visitEagerProc(EagerProcedure proc);
-    public abstract void visitLazyProc(LazyProcedure proc);
-    public abstract void visitLcons(Lcons cons);
-    public abstract void visitLdouble(Ldouble dub);
-    public abstract void visitLinteger(Linteger lint);
-    public abstract void visitBignum(Bignum bignum);
-    public abstract void visitLstring(Lstring lst);
-    public abstract void visitSymbol(Symbol sym);
+    public abstract void visitLobject(Lobject frame) throws GenyrisException;
+    public abstract void visitEagerProc(EagerProcedure proc) throws GenyrisException;
+    public abstract void visitLazyProc(LazyProcedure proc) throws GenyrisException;
+    public abstract void visitLcons(Lcons cons) throws GenyrisException;
+    public abstract void visitLdouble(Ldouble dub) throws GenyrisException;
+    public abstract void visitLinteger(Linteger lint) throws GenyrisException;
+    public abstract void visitBignum(Bignum bignum) throws GenyrisException;
+    public abstract void visitLstring(Lstring lst) throws GenyrisException;
+    public abstract void visitSymbol(Symbol sym) throws GenyrisException;
 
     public void visitStandardEnvironment(StandardEnvironment env) {
         try {

@@ -13,121 +13,129 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
-public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements Closure {
+public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
+		Closure {
 
-    Environment _env;
-    Exp _lambdaExpression;
-    final ApplicableFunction _functionToApply;
-    protected int _numberOfRequiredArguments;
-    Symbol NIL, REST;
-    Exp _returnClass;
+	final Environment _env;
+	final Exp _lambdaExpression;
+	final ApplicableFunction _functionToApply;
+	protected int _numberOfRequiredArguments;
+	Exp _returnClass;
 
-    public AbstractClosure(Environment environment, Exp expression, ApplicableFunction appl)
-            throws GenyrisException {
-        _env = environment;
-        _lambdaExpression = expression;
-        _functionToApply = appl;
-        _numberOfRequiredArguments = -1;
-        NIL = environment.getNil();
-        _returnClass = null;
-        REST = environment.internString(Constants.REST); // TODO 
-    }
+	public AbstractClosure(Environment environment, Exp expression,
+			ApplicableFunction appl) {
+		_env = environment;
+		_lambdaExpression = expression;
+		_functionToApply = appl;
+		_numberOfRequiredArguments = -1;
+		_returnClass = null;
+	}
 
-    private int countFormalArguments(Exp exp) throws AccessException {
-        int count = 0;
-        while (exp != NIL) {
-            if (!(exp instanceof Lcons)) { // ignore trailing type specification
-                break;
-            }
-            if (((Lcons) exp).car() == REST) {
-                // count += 1;
-                break;
-            }
-            count += 1;
-            exp = exp.cdr();
-        }
-        return count;
-    }
+	private Symbol REST() {
+		return _env.internString(Constants.REST);
+	}
 
-    public Exp getArgumentOrNIL(int index) throws GenyrisException  {
-        try {
-            return _lambdaExpression.cdr().car().nth(index, NIL);
-        }
-        catch( AccessException e) {
-            throw new GenyrisException("Additional argument to function " + _lambdaExpression);
-        }
-    }
+	private Symbol NIL() {
+		return _env.getNil();
+	}
 
-    public Object getJavaValue() {
-        return "<" + this._functionToApply.toString() + ">";
-    }
+	private int countFormalArguments(Exp exp) throws AccessException {
+		int count = 0;
+		while (exp != NIL()) {
+			if (!(exp instanceof Lcons)) { // ignore trailing type
+											// specification
+				break;
+			}
+			if (((Lcons) exp).car() == REST()) {
+				// count += 1;
+				break;
+			}
+			count += 1;
+			exp = exp.cdr();
+		}
+		return count;
+	}
 
-    public Exp getBody() throws AccessException {
-        return _lambdaExpression.cdr().cdr();
-    }
+	public Exp getArgumentOrNIL(int index) throws GenyrisException {
+		try {
+			return _lambdaExpression.cdr().car().nth(index, NIL());
+		} catch (AccessException e) {
+			throw new GenyrisException("Additional argument to function "
+					+ _lambdaExpression);
+		}
+	}
 
-    public abstract Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException;
+	public Object getJavaValue() {
+		return "<" + this._functionToApply.toString() + ">";
+	}
 
-    public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
-        return _functionToApply.bindAndExecute(this, arguments, environment); // double
-        // dispatch
-    }
+	public Exp getBody() throws AccessException {
+		return _lambdaExpression.cdr().cdr();
+	}
 
-    public Environment getEnv() {
-        return _env;
-    }
+	public abstract Exp[] computeArguments(Environment env, Exp exp)
+			throws GenyrisException;
 
-    public int getNumberOfRequiredArguments() throws AccessException {
-        if (_numberOfRequiredArguments < 0) {
-            _numberOfRequiredArguments = countFormalArguments(_lambdaExpression.cdr().car());
-        }
-        return _numberOfRequiredArguments;
-    }
+	public Exp applyFunction(Environment environment, Exp[] arguments)
+			throws GenyrisException {
+		return _functionToApply.bindAndExecute(this, arguments, environment); // double
+		// dispatch
+	}
 
-    public String getName() {
-        return _functionToApply.getName();
-    }
+	public Environment getEnv() {
+		return _env;
+	}
 
-    public Exp lastArgument(Exp args) throws AccessException {
-        if (args == NIL)
-            return NIL;
-        Exp tmp = args;
-        while (tmp.cdr() != NIL) {
-            if (!(tmp.cdr() instanceof Lcons)) {
-                break;
-            }
-            tmp = tmp.cdr();
-        }
-        return tmp.car();
-    }
+	public int getNumberOfRequiredArguments() throws AccessException {
+		if (_numberOfRequiredArguments < 0) {
+			_numberOfRequiredArguments = countFormalArguments(_lambdaExpression
+					.cdr().car());
+		}
+		return _numberOfRequiredArguments;
+	}
 
-    public Exp getLastArgumentOrNIL() throws AccessException {
-        Exp args = _lambdaExpression.cdr().car();
-        // TODO - clean up
-        return lastArgument(args);
+	public String getName() {
+		return _functionToApply.getName();
+	}
 
-    }
+	public Exp lastArgument(Exp args) throws AccessException {
+		if (args == NIL())
+			return NIL();
+		Exp tmp = args;
+		while (tmp.cdr() != NIL()) {
+			if (!(tmp.cdr() instanceof Lcons)) {
+				break;
+			}
+			tmp = tmp.cdr();
+		}
+		return tmp.car();
+	}
 
-    public Exp getReturnClassOrNIL() throws GenyrisException {
-        if (_returnClass != null) {
-            return _returnClass;
-        }
-        Exp args = _lambdaExpression.cdr().car();
-        Exp returnTypeSymbol = NIL;
-        _returnClass = NIL;
-        if (args != NIL) {
-            Exp tmp = args;
-            while (tmp.cdr() != NIL) { // TODO refactor this loop into
-                // constructor for better performance?
-                if (!(tmp.cdr() instanceof Lcons)) {
-                    returnTypeSymbol = tmp.cdr();
-                    _returnClass = _env.lookupVariableValue(returnTypeSymbol);
-                    break;
-                }
-                tmp = tmp.cdr();
-            }
-        }
-        return _returnClass;
-    }
+	public Exp getLastArgumentOrNIL() throws AccessException {
+		Exp args = _lambdaExpression.cdr().car();
+		return lastArgument(args);
+	}
+
+	public Exp getReturnClassOrNIL() throws GenyrisException {
+		if (_returnClass != null) {
+			return _returnClass;
+		}
+		Exp args = _lambdaExpression.cdr().car();
+		Exp returnTypeSymbol = NIL();
+		_returnClass = NIL();
+		if (args != NIL()) {
+			Exp tmp = args;
+			while (tmp.cdr() != NIL()) { // TODO refactor this loop into
+				// constructor for better performance?
+				if (!(tmp.cdr() instanceof Lcons)) {
+					returnTypeSymbol = tmp.cdr();
+					_returnClass = _env.lookupVariableValue(returnTypeSymbol);
+					break;
+				}
+				tmp = tmp.cdr();
+			}
+		}
+		return _returnClass;
+	}
 
 }

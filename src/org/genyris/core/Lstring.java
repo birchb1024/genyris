@@ -25,7 +25,7 @@ public class Lstring extends ExpWithEmbeddedClasses {
     public String toString() {
         return _value;
     }
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest)  throws GenyrisException {
         guest.visitLstring(this);
     }
     public String getBuiltinClassName() {

@@ -34,7 +34,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         _value = w;
     }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitExpWithEmbeddedClasses(this);
     }
 

@@ -36,7 +36,7 @@ public class LazyProcedure extends AbstractClosure {
         return result;
     }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitLazyProc(this);
     }
 

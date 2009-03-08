@@ -16,7 +16,7 @@ import org.genyris.interp.builtin.TagFunction;
 public abstract class Exp implements Classifiable, Closure {
 
     public abstract Object getJavaValue();
-    public abstract void acceptVisitor(Visitor guest);
+    public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 
     public Exp[] computeArguments(Environment ignored, Exp exp) throws GenyrisException {
         Exp[] args = {exp};

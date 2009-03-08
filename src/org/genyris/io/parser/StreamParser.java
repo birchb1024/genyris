@@ -32,7 +32,7 @@ public class StreamParser extends ExpWithEmbeddedClasses {
 		_parser = interp.newParser(_input);
 	}
 
-	public void acceptVisitor(Visitor guest) {
+	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitExpWithEmbeddedClasses(this);
 	}
 

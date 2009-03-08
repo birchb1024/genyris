@@ -55,7 +55,7 @@ public class ClassicFunction extends ApplicableFunction {
                         throw new GenyrisException("function argument class spec not a symbol: "
                                 + right.toString());
                     }
-                    Exp klass = proc.getEnv().lookupVariableValue(right); // TODO - move to def for speedup.
+                    Exp klass = proc.getEnv().lookupVariableValue(right); 
                     try {
                         TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (Lobject)klass);
                     }

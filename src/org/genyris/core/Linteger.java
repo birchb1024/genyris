@@ -5,6 +5,8 @@
 //
 package org.genyris.core;
 
+import org.genyris.exception.GenyrisException;
+
 
 
 public class Linteger extends ExpWithEmbeddedClasses {
@@ -18,7 +20,7 @@ public class Linteger extends ExpWithEmbeddedClasses {
         _value = i;
     }
 
-    public void acceptVisitor(Visitor guest) {
+    public void acceptVisitor(Visitor guest)  throws GenyrisException {
         guest.visitLinteger(this);
     }
 

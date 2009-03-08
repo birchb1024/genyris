@@ -21,6 +21,7 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
+import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
@@ -43,7 +44,7 @@ public class IndentedFormatter extends AbstractFormatter {
             _output.write("   ");
     }
 
-    public void printLcons(Lcons cons) throws IOException {
+    public void printLcons(Lcons cons) throws IOException, GenyrisException  {
         // TODO - Yuck!
         _consDepth += 1;
         Exp head = cons;
@@ -65,8 +66,6 @@ public class IndentedFormatter extends AbstractFormatter {
                     if (countOfRight <= INDENT_DEPTH) {
                         if (countOfRight > 1)
                             _output.write(' ');
-//                        else
-//                            printSpaces(_consDepth);
                         headCons.car().acceptVisitor(_basic);
                         head = headCons.cdr();
                         continue;
@@ -105,36 +104,36 @@ public class IndentedFormatter extends AbstractFormatter {
         _consDepth -= 1;
     }
 
-    public void visitLcons(Lcons cons) {
+    public void visitLcons(Lcons cons) throws GenyrisException {
         try {
             printLcons(cons);
         }
         catch (IOException e) {
-            // TODO what to do with these exceptions?
+            throw new GenyrisException(e.getMessage());
         }
     }
 
-    public void visitEagerProc(EagerProcedure proc) {
+    public void visitEagerProc(EagerProcedure proc) throws GenyrisException {
         writeAtom(proc);
     }
 
-    public void visitLazyProc(LazyProcedure proc) {
+    public void visitLazyProc(LazyProcedure proc) throws GenyrisException {
         writeAtom(proc);
     }
 
-    public void visitLdouble(Ldouble dub) {
+    public void visitLdouble(Ldouble dub) throws GenyrisException {
         writeAtom(dub);
     }
 
-    public void visitLinteger(Linteger lint) {
+    public void visitLinteger(Linteger lint) throws GenyrisException {
         writeAtom(lint);
     }
 
-    public void visitBignum(Bignum bignum) {
+    public void visitBignum(Bignum bignum) throws GenyrisException {
         writeAtom(bignum);
     }
 
-    private void writeAtom(Exp exp) {
+    private void writeAtom(Exp exp) throws GenyrisException {
         try {
             if (_consDepth == 0)
                 _output.write("~ ");
@@ -146,15 +145,15 @@ public class IndentedFormatter extends AbstractFormatter {
         }
     }
 
-    public void visitLstring(Lstring lst) {
+    public void visitLstring(Lstring lst) throws GenyrisException {
         writeAtom(lst);
     }
 
-    public void visitSymbol(Symbol sym) {
+    public void visitSymbol(Symbol sym) throws GenyrisException {
         writeAtom(sym);
     }
 
-    public void visitLobject(Lobject frame) {
+    public void visitLobject(Lobject frame) throws GenyrisException {
         try {
             Exp standardClassSymbol = frame.getParent().internString(Constants.STANDARDCLASS);
             Lobject standardClass;
@@ -176,7 +175,7 @@ public class IndentedFormatter extends AbstractFormatter {
 
     }
 
-    public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) {
+    public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) throws GenyrisException {
         writeAtom(exp);
     }
 
