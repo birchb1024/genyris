@@ -140,8 +140,7 @@ public class IndentedFormatter extends AbstractFormatter {
             exp.acceptVisitor(_basic);
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new GenyrisException(this.getClass().getName() + ": " + e.getMessage());
         }
     }
 
@@ -155,7 +154,7 @@ public class IndentedFormatter extends AbstractFormatter {
 
     public void visitLobject(Lobject frame) throws GenyrisException {
         try {
-            Exp standardClassSymbol = frame.getParent().internString(Constants.STANDARDCLASS);
+            Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
             Lobject standardClass;
             standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
             if (frame.isTaggedWith(standardClass)) {
@@ -170,7 +169,7 @@ public class IndentedFormatter extends AbstractFormatter {
             printLcons((Lcons) frame.getAlist());
         }
         catch (IOException e) {
-            // TODO what to do with these exceptions?
+            throw new GenyrisException(this.getClass().getName() + ": " + e.getMessage());
         }
 
     }

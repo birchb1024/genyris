@@ -8,8 +8,6 @@ package org.genyris.interp;
 import java.util.HashMap;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -80,72 +78,35 @@ public class MagicEnvironment extends StandardEnvironment {
     }
 
     public Exp lookupVariableValue(Exp exp) throws UnboundException {
-        Exp sym = exp;
-        boolean isMember = false;
-        if (exp.listp()) {
-            Lcons tmp = (Lcons) exp;
-            if (tmp.car() == _dynamic) {
-                tmp = (Lcons) tmp.cdr(); // TODO unsafe downcast
-                sym = tmp.car();
-                isMember = true;
-            }
-            else {
-                throw new UnboundException("bad dynamic: " + exp.toString());
-            }
+        if (Symbol.isDynamic(exp, _dynamic)) {
+            return lookupDynamicVariableValue(exp);
         }
-        SimpleSymbol symbol = (SimpleSymbol) sym;
-        if (isMember) {
-            return lookupDynamicVariableValue(sym);
+        else if (exp instanceof Symbol) {
+            return super.lookupVariableValue((Symbol)exp);
         }
-        else
-            return super.lookupVariableValue(symbol);
+        else {
+        	throw new UnboundException(exp.toString());
+        	}
     }
 
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        Exp sym = symbol;
-        boolean isMember = false;
-        if (symbol.listp()) {
-            Lcons tmp = (Lcons) symbol;
-            if (tmp.car() == _dynamic) {
-                tmp = (Lcons) tmp.cdr(); // TODO unsafe downcast
-                sym = tmp.car();
-                isMember = true;
-            }
-            else {
-                throw new UnboundException("cannot set to a bad place" + symbol.toString());
-            }
-        }
-        if (!(sym instanceof Symbol)) {
-            throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
-        }
+        Exp sym = Symbol.realSymbol(symbol, _dynamic);
 
-        if (isMember && sym == _classes) {
-            _it.setClasses(valu, NIL);
-            return;
-        }
-        else if (isMember && sym == _self) {
-            throw new GenyrisException("cannot re-define self.");
-        }
-        else {
+        if (Symbol.isDynamic(symbol, _dynamic)) {
+        	if( sym == _classes) {
+        		_it.setClasses(valu, NIL);
+        	} else if (sym == _self) {
+        		throw new GenyrisException("cannot re-define self.");
+        	}
+        } else {
             super.defineVariable(symbol, valu);
         }
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        boolean isMember = false;
-        Exp sym = symbol;
-        if (symbol.listp()) {
-            Lcons tmp = (Lcons) symbol;
-            if (tmp.car() == _dynamic) {
-                tmp = (Lcons) tmp.cdr(); // TODO unsafe downcast
-                sym = tmp.car();
-                isMember = true;
-            }
-            else {
-                throw new UnboundException("cannot set to a bad place" + symbol.toString());
-            }
-        }
-        if (isMember) {
+        Exp sym = Symbol.realSymbol(symbol, _dynamic);
+
+        if (Symbol.isDynamic(symbol, _dynamic)) {
             if (sym == _classes) {
                 try {
                     _it.setClasses(valu, NIL);

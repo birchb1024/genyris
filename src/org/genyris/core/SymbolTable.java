@@ -19,17 +19,21 @@ public class SymbolTable implements Internable {
         _table = new TreeMap();
     }
 
-    public void init(SimpleSymbol nil) throws GenyrisException {
+    public void init(SimpleSymbol nil) {
         NIL = nil;
         _table.put("nil", NIL);
-        _table.put(Constants.SELF, new SimpleSymbol(Constants.SELF));
-        _table.put(Constants.CLASSES, new SimpleSymbol(Constants.CLASSES));
-        _table.put(Constants.SUPERCLASSES, new SimpleSymbol(Constants.SUPERCLASSES));
-        _table.put(Constants.CLASSNAME, new SimpleSymbol(Constants.CLASSNAME));
-        _table.put(Constants.VARS, new SimpleSymbol(Constants.VARS));
-        _table.put(Constants.DYNAMIC_SYMBOL, new SimpleSymbol(Constants.DYNAMIC_SYMBOL));
+        bindKeyword(Constants.SELF);
+        bindKeyword(Constants.CLASSES);
+        bindKeyword(Constants.SUPERCLASSES);
+        bindKeyword(Constants.CLASSNAME);
+        bindKeyword(Constants.VARS);
+        bindKeyword(Constants.DYNAMIC_SYMBOL);
 
     }
+
+	private void bindKeyword(String name) {
+		_table.put(name, new SimpleSymbol(name));
+	}
 
     public SimpleSymbol lookupString(String newSym) throws GenyrisException {
         if (_table.containsKey(newSym)) {

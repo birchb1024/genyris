@@ -47,7 +47,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		return _dict;
 	}
 
-	public void acceptVisitor(Visitor guest)  throws GenyrisException {
+	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitLobject(this);
 	}
 
@@ -92,11 +92,9 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	}
 
 	public void defineVariable(Exp exp, Exp valu) throws GenyrisException {
-		if (exp.listp()) {
-			if (exp.car() == DYNAMIC()) {
-				defineVariableRaw(exp.cdr().car(), valu);
-				return;
-			}
+		if (Symbol.isDynamic(exp, DYNAMIC())) {
+			defineVariableRaw(Symbol.realSymbol(exp, DYNAMIC()), valu);
+			return;
 		}
 		throw new GenyrisException(
 				"cannot define non-dynamic symbol in object: " + exp.toString());
@@ -139,7 +137,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		return _parent.internString(Constants.VARS);
 	}
 
-	private Exp DYNAMIC() {
+	private Symbol DYNAMIC() {
 		return _parent.internString(Constants.DYNAMIC_SYMBOL);
 	}
 
@@ -205,26 +203,8 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 				+ symbol.toString());
 	}
 
-	private Symbol realSymbol(Exp dynamicOrReal) throws UnboundException {
-		if (dynamicOrReal.listp()) {
-			Lcons tmp = (Lcons) dynamicOrReal;
-			if (tmp.car() == DYNAMIC()) {
-				tmp = (Lcons) tmp.cdr(); // TODO unsafe downcast
-				return (Symbol) tmp.car();
-			} else {
-				throw new UnboundException("Bad dynamic symbol: "
-						+ dynamicOrReal.toString());
-			}
-		} else if (dynamicOrReal instanceof Symbol) {
-			return (Symbol) dynamicOrReal;
-		} else {
-			throw new UnboundException("Bad symbol: "
-					+ dynamicOrReal.toString());
-		}
-	}
-
 	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-		Symbol sym = realSymbol(symbol);
+		Symbol sym = Symbol.realSymbol(symbol, DYNAMIC());
 		if (sym == CLASSES()) {
 			try {
 				setClasses(valu, _parent.getNil());

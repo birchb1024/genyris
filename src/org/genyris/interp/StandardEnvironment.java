@@ -22,8 +22,8 @@ public class StandardEnvironment implements Environment {
     Map _frame; // Exp, Exp
     Environment _parent;
     protected SimpleSymbol NIL;
-    protected Exp _self, _classes, _superclasses, _classname;
-    protected Exp _left, _right, _dynamic;
+    protected Symbol _self, _classes, _superclasses, _classname;
+    protected Symbol _left, _right, _dynamic;
     private Internable _table;
 
 

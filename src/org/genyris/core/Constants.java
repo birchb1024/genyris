@@ -16,7 +16,6 @@ public class Constants {
         public static final char ATCHAR = '@';
         public static final char CDRCHAR = ':';
         public static final char LISPCDRCHAR = '.';
-//        public static final char DYNAMICSCOPECHAR = '_';
     // Language Keywords
         public static final String NIL = "nil";
         public static final String CLASSNAME = "classname";
@@ -24,7 +23,6 @@ public class Constants {
         public static final String SUPERCLASSES = "superclasses";
         public static final String SUBCLASSES = "subclasses";
         public static final String SELF = "self";
-//        public static final String _SELF = DYNAMICSCOPECHAR + SELF;
         public static final String VALIDATE = "valid?";
         public static final String LAMBDA = "lambda";
         public static final String LAMBDAQ = "lambdaq";

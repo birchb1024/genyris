@@ -30,13 +30,7 @@ public class LexTest extends TestCase {
     public SymbolTable _table = new SymbolTable();
 
     public void setUp() {
-        try {
-            _table.init(null);
-        }
-        catch (GenyrisException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        _table.init(null);
     }
 
     private void excerciseNextTokenInt(Exp expected, String toparse) throws GenyrisException {

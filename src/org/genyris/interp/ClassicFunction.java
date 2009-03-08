@@ -79,10 +79,10 @@ public class ClassicFunction extends ApplicableFunction {
         // and the dynamic environment for the object stuff.
         Environment newEnv = new SpecialEnvironment(proc.getEnv(), bindings, envForBindOperations);
         Exp result = Evaluator.evalSequence(newEnv, proc.getBody());
-        Exp returnClass = proc.getReturnClassOrNIL();
-        if(returnClass != NIL) {
+        Lobject returnClass = proc.getReturnClassOrNull();
+        if(returnClass != null) {
             try {
-                TagFunction.validateObjectInClass(proc.getEnv(), result, (Lobject)returnClass); // TODO unsafe downcast
+                TagFunction.validateObjectInClass(proc.getEnv(), result, returnClass);
             }
             catch(GenyrisTypeMismatchException e) {
                 throw new GenyrisTypeMismatchException("return type " + e.getMessage());

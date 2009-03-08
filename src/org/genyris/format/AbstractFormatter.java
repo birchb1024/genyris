@@ -7,6 +7,7 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
@@ -29,60 +30,76 @@ import org.genyris.interp.StandardEnvironment;
 
 public abstract class AbstractFormatter implements Visitor, Formatter {
 
-    protected Writer _output;
+	protected Writer _output;
 
-    public AbstractFormatter(Writer out) {
-        _output = out;
-    }
+	public AbstractFormatter(Writer out) {
+		_output = out;
+	}
 
-    public abstract void visitLobject(Lobject frame) throws GenyrisException;
-    public abstract void visitEagerProc(EagerProcedure proc) throws GenyrisException;
-    public abstract void visitLazyProc(LazyProcedure proc) throws GenyrisException;
-    public abstract void visitLcons(Lcons cons) throws GenyrisException;
-    public abstract void visitLdouble(Ldouble dub) throws GenyrisException;
-    public abstract void visitLinteger(Linteger lint) throws GenyrisException;
-    public abstract void visitBignum(Bignum bignum) throws GenyrisException;
-    public abstract void visitLstring(Lstring lst) throws GenyrisException;
-    public abstract void visitSymbol(Symbol sym) throws GenyrisException;
+	public abstract void visitLobject(Lobject frame) throws GenyrisException;
 
-    public void visitStandardEnvironment(StandardEnvironment env) {
-        try {
-            _output.write(env.getJavaValue().toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public abstract void visitEagerProc(EagerProcedure proc)
+			throws GenyrisException;
 
-    public void visitSpecialEnvironment(SpecialEnvironment env) {
-        try {
-            _output.write(env.getJavaValue().toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public abstract void visitLazyProc(LazyProcedure proc)
+			throws GenyrisException;
 
-    public void visitClassWrapper(ClassWrapper klass) {
-        try {
-            _output.write(klass.toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public abstract void visitLcons(Lcons cons) throws GenyrisException;
 
-    public void printClassNames(Exp result, Interpreter interp) throws IOException, GenyrisException {
-        Exp klasses = result.getClasses(interp.getGlobalEnv());
-        while(!(klasses instanceof NilSymbol)){
-            Environment klass = (Environment) klasses.car();
-            _output.write(" " + klass.lookupVariableShallow(interp.intern(Constants.CLASSNAME)).toString());
-            klasses = klasses.cdr();
-        }
-    }
+	public abstract void visitLdouble(Ldouble dub) throws GenyrisException;
 
+	public abstract void visitLinteger(Linteger lint) throws GenyrisException;
+
+	public abstract void visitBignum(Bignum bignum) throws GenyrisException;
+
+	public abstract void visitLstring(Lstring lst) throws GenyrisException;
+
+	public abstract void visitSymbol(Symbol sym) throws GenyrisException;
+
+	public void visitStandardEnvironment(StandardEnvironment env)
+			throws GenyrisException {
+
+		write(env.getJavaValue().toString());
+	}
+
+	public void visitSpecialEnvironment(SpecialEnvironment env)
+			throws GenyrisException {
+		write(env.getJavaValue().toString());
+	}
+
+	public void visitClassWrapper(ClassWrapper klass) throws GenyrisException {
+		write(klass.toString());
+	}
+
+	public void printClassNames(Exp result, Interpreter interp)
+			throws GenyrisException {
+		Exp klasses = result.getClasses(interp.getGlobalEnv());
+		while (!(klasses instanceof NilSymbol)) {
+			Environment klass = (Environment) klasses.car();
+			write(" "
+					+ klass.lookupVariableShallow(
+							interp.intern(Constants.CLASSNAME)).toString());
+			klasses = klasses.cdr();
+		}
+	}
+
+	private void handleIO(IOException e) throws GenyrisException {
+		throw new GenyrisException(this.getClass().getName() + " write: "+ e.getMessage());
+	}
+	protected void write(char ch) throws GenyrisException {
+		try {
+			_output.write(ch);
+		} catch (IOException e) {
+			handleIO(e);
+		}
+	}
+
+	public void write(String str) throws GenyrisException {
+		try {
+			_output.write(str);
+		} catch (IOException e) {
+			handleIO(e);
+		}
+	}
 
 }

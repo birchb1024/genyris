@@ -77,7 +77,6 @@ public class ClassicReadEvalPrintLoop {
             } while (true);
         }
         catch (GenyrisException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
             System.exit(-1);
         }

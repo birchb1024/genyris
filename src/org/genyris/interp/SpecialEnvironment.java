@@ -8,7 +8,6 @@ package org.genyris.interp;
 import java.util.Map;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
@@ -23,11 +22,9 @@ public class SpecialEnvironment extends StandardEnvironment {
     }
 
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if(symbol.listp()) {
-            if(symbol.car() == _dynamic) {
+        if(Symbol.isDynamic(symbol, _dynamic)) {
                 _object.defineVariable(symbol, valu);
                 return;
-            }
         }
         else if (!(symbol instanceof Symbol)) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
@@ -41,42 +38,24 @@ public class SpecialEnvironment extends StandardEnvironment {
     }
 
     public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-        if(symbol.listp()) {
-            Lcons tmp = (Lcons)symbol;
-            if(tmp.car() == _dynamic) {
-                tmp = (Lcons)tmp.cdr(); // TODO unsafe downcast
-                return _object.lookupVariableValue(tmp.car());
-            } else {
-                throw new UnboundException("cannot set to a bad place" + symbol.toString());
+        if(Symbol.isDynamic(symbol, _dynamic)) {
+                return _object.lookupVariableValue(symbol);
             }
-        }
         else {
             return super.lookupVariableValue(symbol);
         }
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        boolean isMember = false;
-        Exp symbolatom = null;
-        if(symbol.listp()) {
-            Lcons tmp = (Lcons)symbol;
-            if(tmp.car() == _dynamic) {
-                tmp = (Lcons)tmp.cdr(); // TODO unsafe downcast
-                symbolatom = tmp.car();
-                isMember = true;
-            } else {
-                throw new UnboundException("cannot set to a bad place" + symbol.toString());
-            }
-        }
-        Symbol sym = (Symbol) symbolatom;
+        Symbol sym = Symbol.realSymbol(symbol, _dynamic);
         if (sym == _self) {
             throw new UnboundException("cannot re-define !self.");
         }
-        else if (isMember) {
-            _object.setVariableValue(symbol, valu);
+        if(symbol instanceof Symbol)  {
+        	super.setVariableValue(symbol, valu);
         }
-        else {
-            super.setVariableValue(symbol, valu);
+        else { // object field
+            _object.setVariableValue(symbol, valu);
         }
     }
 

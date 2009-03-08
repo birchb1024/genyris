@@ -7,27 +7,21 @@ package org.genyris.test.core;
 
 import java.math.BigDecimal;
 
-import org.genyris.core.*;
-import org.genyris.exception.GenyrisException;
+import junit.framework.TestCase;
+
+import org.genyris.core.Exp;
+import org.genyris.core.SymbolTable;
 import org.genyris.io.Lex;
 import org.genyris.io.LexException;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
-
-import junit.framework.TestCase;
 
 public class LexTestNumbers extends TestCase {
 	
 	public SymbolTable _table = new SymbolTable();
 	
     public void setUp() {
-        try {
-            _table.init(null);
-        }
-        catch (GenyrisException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        _table.init(null);
     }
 	private BigDecimal excerciseParseDecimalNumber(String input) throws LexException
 	{

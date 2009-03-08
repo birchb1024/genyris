@@ -5,7 +5,6 @@
 //
 package org.genyris.format;
 
-import java.io.IOException;
 import java.io.Writer;
 
 import org.genyris.classification.ClassWrapper;
@@ -20,211 +19,149 @@ import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
-import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.UnboundException;
 
 public class HTMLFormatter extends AbstractFormatter {
 
-    public HTMLFormatter(Writer out) {
-        super(out);
-    }
+	public HTMLFormatter(Writer out) {
+		super(out);
+	}
 
-    private void emit(String s) throws IOException{
-        _output.write(HTMLEntityEncode(s));
-    }
-    public void visitLobject(Lobject frame)  throws GenyrisException {
-        Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
-        Lobject standardClass;
-        try {
-            standardClass = (Lobject) frame.getParent().lookupVariableValue(
-                    standardClassSymbol);
-        } catch (UnboundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-            return;
-        }
+	private void emit(String s) throws GenyrisException {
+		write(HTMLEntityEncode(s));
+	}
 
-        if (frame.isTaggedWith(standardClass)) {
-            new ClassWrapper(frame).acceptVisitor(this);
-            return;
-        }
-        frame.getAlist().acceptVisitor(this);
+	public void visitLobject(Lobject frame) throws GenyrisException {
+		Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
+		Lobject standardClass;
+		standardClass = (Lobject) frame.getParent().lookupVariableValue(
+				standardClassSymbol);
 
-    }
+		if (frame.isTaggedWith(standardClass)) {
+			new ClassWrapper(frame).acceptVisitor(this);
+			return;
+		}
+		frame.getAlist().acceptVisitor(this);
+	}
 
-    public void visitEagerProc(EagerProcedure proc)  throws GenyrisException {
-        try {
-            _output
-                    .write("<EagerProc: " + proc.getJavaValue().toString()
-                            + ">");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public void visitEagerProc(EagerProcedure proc) throws GenyrisException {
+		write("<EagerProc: " + proc.getJavaValue().toString() + ">");
+	}
 
-    public void visitLazyProc(LazyProcedure proc)  throws GenyrisException {
-        try {
-            emit(proc.getJavaValue().toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public void visitLazyProc(LazyProcedure proc) throws GenyrisException {
+		emit(proc.getJavaValue().toString());
+	}
 
-    public void visitLcons(Lcons cons)  throws GenyrisException {
-        try {
-            if (cons.car() instanceof Symbol) {
-                Symbol tag = (Symbol) cons.car();
-                Exp attributes = new NilSymbol();
-                Exp body = new NilSymbol();
-                if(cons.cdr() instanceof NilSymbol) {
-                    // no attributes or body
-                    body = attributes = cons.cdr();
-                } else {
-                    if(cons.cdr().listp()) {
-                        attributes = cons.cdr().car();
-                        body = cons.cdr().cdr();
+	public void visitLcons(Lcons cons) throws GenyrisException {
 
-                    } else {
-                        ; // skip bad or missing attributes list
-                        body = cons.cdr();
-                    }
-                }
-                if(tag.getPrintName().equals("verbatim")) {
-                    while(!body.isNil()) {
-                        DisplayFormatter formatter = new DisplayFormatter(_output);
-                        body.car().acceptVisitor(formatter);
-                        body = body.cdr();
-                    }
-                    return;
-                }
-                _output.write("<" + tag.getPrintName());
-                writeAttributes(attributes);
-                if (body instanceof NilSymbol) {
-                    _output.write("/>");
-                } else {
-                    _output.write(">");
-                    body.acceptVisitor(this);
-                    _output.write("</" + tag.getPrintName() + ">");
-                }
-            } else {
-                cons.car().acceptVisitor(this);
-                if ( !(cons.cdr() instanceof NilSymbol)) {
-                    cons.cdr().acceptVisitor(this);
-                }
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (AccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+		if (cons.car() instanceof Symbol) {
+			Symbol tag = (Symbol) cons.car();
+			Exp attributes = new NilSymbol();
+			Exp body = new NilSymbol();
+			if (cons.cdr() instanceof NilSymbol) {
+				// no attributes or body
+				body = attributes = cons.cdr();
+			} else {
+				if (cons.cdr().listp()) {
+					attributes = cons.cdr().car();
+					body = cons.cdr().cdr();
 
-    private void writeAttributes(Exp attributes) throws IOException, AccessException {
-        if (!(attributes instanceof NilSymbol)) {
-            _output.write(" ");
-            while ( !(attributes instanceof NilSymbol)) {
-                if(!(attributes instanceof Lcons)) {
-                    _output.write("*** error bad HTML attribute: ");
-                    _output.write(attributes.toString());
-                    return;
-                }
-                if(!(attributes.car() instanceof Lcons)) {
-                    _output.write("*** error bad HTML attribute: ");
-                    _output.write(attributes.toString());
-                    return;
-                }
-                _output.write(attributes.car().car().toString());
-                _output.write("=\"");
-                _output.write(attributes.car().cdr().toString());
-                _output.write("\"");
-                if (!(attributes.cdr() instanceof NilSymbol))
-                    _output.write(" ");
-                attributes = attributes.cdr();
-            }
-        }
-    }
+				} else {
+					; // skip bad or missing attributes list
+					body = cons.cdr();
+				}
+			}
+			if (tag.getPrintName().equals("verbatim")) {
+				while (!body.isNil()) {
+					DisplayFormatter formatter = new DisplayFormatter(_output);
+					body.car().acceptVisitor(formatter);
+					body = body.cdr();
+				}
+				return;
+			}
+			write("<" + tag.getPrintName());
+			writeAttributes(attributes);
+			if (body instanceof NilSymbol) {
+				write("/>");
+			} else {
+				write(">");
+				body.acceptVisitor(this);
+				write("</" + tag.getPrintName() + ">");
+			}
+		} else {
+			cons.car().acceptVisitor(this);
+			if (!(cons.cdr() instanceof NilSymbol)) {
+				cons.cdr().acceptVisitor(this);
+			}
+		}
+	}
 
-    public void visitLdouble(Ldouble dub) {
-        try {
-            _output.write(dub.getJavaValue().toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	private void writeAttributes(Exp attributes) throws GenyrisException {
+		if (!(attributes instanceof NilSymbol)) {
+			write(" ");
+			while (!(attributes instanceof NilSymbol)) {
+				if (!(attributes instanceof Lcons)) {
+					write("*** error bad HTML attribute: ");
+					write(attributes.toString());
+					return;
+				}
+				if (!(attributes.car() instanceof Lcons)) {
+					write("*** error bad HTML attribute: ");
+					write(attributes.toString());
+					return;
+				}
+				write(attributes.car().car().toString());
+				write("=\"");
+				write(attributes.car().cdr().toString());
+				write("\"");
+				if (!(attributes.cdr() instanceof NilSymbol))
+					write(" ");
+				attributes = attributes.cdr();
+			}
+		}
+	}
 
-    public void visitLinteger(Linteger lint) {
-        try {
-            _output.write(lint.getJavaValue().toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public void visitLdouble(Ldouble dub) throws GenyrisException {
+		write(dub.getJavaValue().toString());
+	}
 
-    public void visitBignum(Bignum bignum) {
-        try {
-            _output.write(bignum.getJavaValue().toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public void visitLinteger(Linteger lint) throws GenyrisException {
+		write(lint.getJavaValue().toString());
+	}
 
-    public void visitLstring(Lstring lst) {
-        try {
-            emit(lst.getJavaValue().toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public void visitBignum(Bignum bignum) throws GenyrisException {
+		write(bignum.getJavaValue().toString());
+	}
 
-    public void visitSymbol(Symbol sym) {
-        try {
-            emit(sym.getJavaValue().toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+	public void visitLstring(Lstring lst) throws GenyrisException {
+		emit(lst.getJavaValue().toString());
+	}
 
-    public static String HTMLEntityEncode(String s) {
-        StringBuffer buf = new StringBuffer();
-        int len = (s == null ? -1 : s.length());
+	public void visitSymbol(Symbol sym) throws GenyrisException {
+		emit(sym.getJavaValue().toString());
+	}
 
-        for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
-            if (c >= 'a' && c <= 'z'
-                || c >= 'A' && c <= 'Z'
-                || c >= '0'&& c <= '9'
-                || c == ' '
-                || c == '.'
-                || c == '-'
-                || c == ':'
-                || c == '+'
-                ) {
-                buf.append(c);
-            } else {
-                buf.append("&#" + (int) c + ";");
-            }
-        }
-        return buf.toString();
-    }
+	public static String HTMLEntityEncode(String s) {
+		StringBuffer buf = new StringBuffer();
+		int len = (s == null ? -1 : s.length());
 
-    public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) {
-        try {
-            emit(exp.getJavaValue().toString());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+		for (int i = 0; i < len; i++) {
+			char c = s.charAt(i);
+			if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0'
+					&& c <= '9' || c == ' ' || c == '.' || c == '-' || c == ':'
+					|| c == '+') {
+				buf.append(c);
+			} else {
+				buf.append("&#" + (int) c + ";");
+			}
+		}
+		return buf.toString();
+	}
+
+	public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp)
+			throws GenyrisException {
+		emit(exp.getJavaValue().toString());
+	}
 }

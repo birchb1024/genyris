@@ -9,6 +9,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
+import org.genyris.core.Lobject;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -20,7 +21,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 	final Exp _lambdaExpression;
 	final ApplicableFunction _functionToApply;
 	protected int _numberOfRequiredArguments;
-	Exp _returnClass;
+	Lobject _returnClass;
 
 	public AbstractClosure(Environment environment, Exp expression,
 			ApplicableFunction appl) {
@@ -116,26 +117,31 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 		return lastArgument(args);
 	}
 
-	public Exp getReturnClassOrNIL() throws GenyrisException {
+	public Lobject getReturnClassOrNull() throws GenyrisException {
 		if (_returnClass != null) {
 			return _returnClass;
 		}
 		Exp args = _lambdaExpression.cdr().car();
 		Exp returnTypeSymbol = NIL();
-		_returnClass = NIL();
+		Exp possibleReturnClass = NIL();
 		if (args != NIL()) {
 			Exp tmp = args;
 			while (tmp.cdr() != NIL()) { // TODO refactor this loop into
-				// constructor for better performance?
 				if (!(tmp.cdr() instanceof Lcons)) {
 					returnTypeSymbol = tmp.cdr();
-					_returnClass = _env.lookupVariableValue(returnTypeSymbol);
+					possibleReturnClass = _env.lookupVariableValue(returnTypeSymbol);
 					break;
 				}
 				tmp = tmp.cdr();
 			}
 		}
-		return _returnClass;
+		if(possibleReturnClass == NIL()) {
+			return null;			
+		}
+		if(possibleReturnClass instanceof Lobject) {
+			return (_returnClass = (Lobject)possibleReturnClass);			
+		}
+		throw new GenyrisException(possibleReturnClass + " return class not a class.");
 	}
 
 }

@@ -5,22 +5,17 @@
 //
 package org.genyris.format;
 
-import java.io.IOException;
 import java.io.Writer;
+
 import org.genyris.core.Lstring;
+import org.genyris.exception.GenyrisException;
 
 public class DisplayFormatter extends BasicFormatter {
     public DisplayFormatter(Writer out) {
         super(out);
     }
 
-    public void visitLstring(Lstring lst) {
-        try {
-            _output.write(lst.getJavaValue().toString());
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void visitLstring(Lstring lst) throws GenyrisException {
+        write(lst.getJavaValue().toString());
     }
 }
