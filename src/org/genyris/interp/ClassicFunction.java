@@ -23,7 +23,10 @@ public class ClassicFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
         // TODO clean it up what a right royal mess
-        AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
+    	if(!(closure instanceof AbstractClosure)) {
+    		throw new GenyrisException("type missmatch - was expecting an AbstractClosure");
+    	}
+        AbstractClosure proc = (AbstractClosure)closure;
         Map bindings = new HashMap();
         if (arguments.length < proc.getNumberOfRequiredArguments()) {
             throw new GenyrisException("Too few arguments supplied to proc: " + proc.getName());

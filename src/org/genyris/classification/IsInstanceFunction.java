@@ -24,8 +24,8 @@ public class IsInstanceFunction extends ApplicableFunction {
 		checkArguments(arguments, 2);
     	Class[] types = {Exp.class, Lobject.class, };
     	checkArgumentTypes(types, arguments);
-    	
-        ClassWrapper cw = new ClassWrapper((Lobject)arguments[1]); // TODO check and throw
+    	ClassWrapper.isThisObjectAClass(arguments[1]);
+        ClassWrapper cw = new ClassWrapper((Lobject)arguments[1]);
         if (cw.isInstance(arguments[0]) )
             return envForBindOperations.internString(Constants.TRUE);
         else

@@ -180,8 +180,8 @@ public class ClassWrapper {
 		return false;
 	}
 
-	private void isThisObjectAClass(Exp firstClass) throws GenyrisException {
-		// TODO need a method to check is something is really a class.
+	static void  isThisObjectAClass(Exp firstClass) throws GenyrisException {
+		// TODO improve this method to check is something is really a class.
 		if(! (firstClass instanceof Lobject)) {
 			throw new GenyrisException(firstClass + "is not a class.");
 		}

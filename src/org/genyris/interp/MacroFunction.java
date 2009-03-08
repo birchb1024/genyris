@@ -16,7 +16,10 @@ public class MacroFunction extends ClassicFunction {
     }
 
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment env) throws GenyrisException  {
-        AbstractClosure proc = (AbstractClosure)closure; // TODO run time validation
+    	if(!(closure instanceof AbstractClosure)) {
+    		throw new GenyrisException("type missmatch - was expecting an AbstractClosure");
+    	}
+        AbstractClosure proc = (AbstractClosure)closure;
         return Evaluator.eval(env, super.bindAndExecute( proc, arguments, proc.getEnv()));
     }
 

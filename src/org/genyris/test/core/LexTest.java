@@ -133,7 +133,6 @@ public class LexTest extends TestCase {
     }
 
     private void excerciseListParsingLisp(String toParse, String expected) throws Exception {
-        // TODO DRY
         SimpleSymbol NIL = new NilSymbol();
         SymbolTable table = new SymbolTable();
         table.init(NIL);

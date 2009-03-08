@@ -24,7 +24,6 @@ public class LambdaqFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
-        // TODO Optimise - repack of args inefficient
         Exp expression = arrayToList(arguments);
         expression = new Lcons(_lambdaq, expression);
         return new LazyProcedure(env, expression, new ClassicFunction("anonymous lambdaq", _interp));

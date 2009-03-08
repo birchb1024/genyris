@@ -215,7 +215,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 				_dict.put(sym, valu);
 			} else {
 				throw new UnboundException("in object, undefined variable: "
-						+ symbol); // TODO downcast
+						+ symbol);
 			}
 		}
 	}

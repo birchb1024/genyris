@@ -8,7 +8,7 @@ package org.genyris.interp;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 
-public interface Closure {
+public interface Closure { // TODO rename this to "Applyable" 
 
     public abstract Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException;
 

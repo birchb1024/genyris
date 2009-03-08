@@ -76,7 +76,11 @@ public final class GenyrisServlet extends HttpServlet {
                 return;
             }
         } else {
-            _interpreter = (Interpreter) interpattr; // TODO type check
+        	if(interpattr instanceof Interpreter) {
+        		_interpreter = (Interpreter) interpattr;      		
+        	} else {
+        		throw new ServletException("bad session object was not an interpreter.");
+        	}
         }
 
         try {

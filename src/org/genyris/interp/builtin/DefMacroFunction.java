@@ -25,7 +25,6 @@ public class DefMacroFunction extends ApplicableFunction {
 			Environment envForBindOperations) throws GenyrisException {
 		checkMinArguments(arguments, 1);
 		Exp lambdaExpression = new Lcons(_lambdam, arrayToList(arguments).cdr());
-		// TODO inefficient
 		LazyProcedure fn = new LazyProcedure(envForBindOperations,
 				lambdaExpression, new MacroFunction(arguments[0].toString(), _interp));
 		envForBindOperations.defineVariable(arguments[0], fn);
