@@ -15,6 +15,7 @@ import java.io.Writer;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.Lstring;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
@@ -29,17 +30,17 @@ import org.genyris.io.UngettableInStream;
 
 public class SourceLoader {
 
-    public static Parser parserFactory(String filename, Reader input, Interpreter interp)
+    public static Parser parserFactory(String filename, Reader input, Internable table)
             throws GenyrisException {
         if (filename.endsWith(".lin")) {
             InStream is = new UngettableInStream(new ConvertEofInStream(new IndentStream(
                     new UngettableInStream(new ReaderInStream(input)), false)));
-            return new Parser(interp.getSymbolTable(), is);
+            return new Parser(table, is);
 
         }
         else if (filename.endsWith(".lsp")) {
             InStream is = new UngettableInStream(new ReaderInStream(input));
-            return new Parser(interp.getSymbolTable(), is, Constants.LISPCDRCHAR);
+            return new Parser(table, is, Constants.LISPCDRCHAR);
         }
         else {
             throw new GenyrisException("unknown file suffix in : " + filename);
@@ -93,8 +94,8 @@ public class SourceLoader {
 
     public static Exp executeScript(String filename, Interpreter interp, Reader reader,
             Writer output) throws GenyrisException {
-        Parser parser = parserFactory(filename, reader, interp);
-        Formatter formatter = new IndentedFormatter(output, 3, interp);
+        Parser parser = parserFactory(filename, reader, interp.getSymbolTable());
+        Formatter formatter = new IndentedFormatter(output, 3);
         Exp expression = null;
         Exp result = null;
         do {

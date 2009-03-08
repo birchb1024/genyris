@@ -22,7 +22,6 @@ import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.interp.EagerProcedure;
-import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
 
@@ -32,7 +31,7 @@ public class IndentedFormatter extends AbstractFormatter {
     private int _consDepth;
     private Formatter _basic;
 
-    public IndentedFormatter(Writer out, int indentDepth, Interpreter interp) {
+    public IndentedFormatter(Writer out, int indentDepth) {
         super(out);
         INDENT_DEPTH = indentDepth;
         _consDepth = 0;

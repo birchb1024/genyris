@@ -42,7 +42,7 @@ public class ClassicReadEvalPrintLoop {
                             new UngettableInStream(new StdioInStream()), true)));
             Parser parser = _interpreter.newParser(input);
             Writer output = new PrintWriter(System.out);
-            Formatter formatter = new IndentedFormatter(output, 1, _interpreter);
+            Formatter formatter = new IndentedFormatter(output, 1);
             Exp EOF = _interpreter.intern(Constants.EOF);
             Exp ARGS = _interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
             Exp argsAlist = makeArgList(args);

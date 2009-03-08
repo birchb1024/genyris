@@ -12,7 +12,6 @@ import org.genyris.exception.GenyrisException;
 
 public interface Environment {
 
-    // TODO reconsider exception - maybe return "unbound" symbol?
     public Exp lookupVariableValue(Exp symbol) throws UnboundException;
 
     public Exp lookupVariableShallow(Exp symbol) throws UnboundException;
@@ -27,11 +26,7 @@ public interface Environment {
 
     public SimpleSymbol getNil();
 
-//    private Interpreter getInterpreter();
-
     public Symbol internString(String symbolName);
-
-//    public Symbol internPlainString(String dict);
 
     public Exp lookupDynamicVariableValue(Exp exp) throws UnboundException;
 

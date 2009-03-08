@@ -31,7 +31,7 @@ public class RoundtripIndentedFormatterTest extends TestCase {
         Exp expression = parser.read();
         // Output as an indented string
         StringWriter out = new StringWriter();
-        Formatter formatter = new IndentedFormatter(out, 3, interpreter);
+        Formatter formatter = new IndentedFormatter(out, 3);
         expression.acceptVisitor(formatter);
         String formatted = out.getBuffer().toString();
         // Parse the output back into Lisp again

@@ -25,7 +25,7 @@ public class PrintFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 
         Writer output = new PrintWriter(System.out);
-        Formatter formatter = new IndentedFormatter(output, 2, _interp);
+        Formatter formatter = new IndentedFormatter(output, 2);
         for (int i=0; i< arguments.length; i++) {
             arguments[i].acceptVisitor(formatter);
             try {

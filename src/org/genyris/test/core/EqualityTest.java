@@ -61,9 +61,9 @@ public class EqualityTest extends TestCase {
     public void testFrame() throws Exception {
         Interpreter interp = new Interpreter();
         Exp a = new SimpleSymbol("a");
-        Lobject f1 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
+        Lobject f1 = new Lobject(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
         f1.defineVariableRaw(a, new Lstring("foo"));
-        Lobject f2 = new Lobject(new StandardEnvironment(interp, new NilSymbol()));
+        Lobject f2 = new Lobject(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
         f2.defineVariableRaw(a, new Lstring("foo"));
         assertTrue(f1.equals(f2));
     }

@@ -108,7 +108,7 @@ public class Interpreter {
 		NIL = new NilSymbol();
 		_table = new SymbolTable();
 		_table.init(NIL);
-		_globalEnvironment = new StandardEnvironment(this, NIL);
+		_globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
 		Lobject SYMBOL = new Lobject(_globalEnvironment);
 		_defaultOutput = new OutputStreamWriter(System.out);
 		{

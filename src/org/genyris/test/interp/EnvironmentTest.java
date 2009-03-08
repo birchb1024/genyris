@@ -9,8 +9,9 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
@@ -20,8 +21,8 @@ public class EnvironmentTest extends TestCase {
 	
 	public void testEnvBasics() throws Exception {		
 		Interpreter interp = new Interpreter();
-		Environment env = new StandardEnvironment(interp, new NilSymbol());
-		SimpleSymbol sym = new SimpleSymbol("answer");
+		Environment env = new StandardEnvironment(interp.getSymbolTable(), new NilSymbol());
+		Symbol sym = new SimpleSymbol("answer");
 		Linteger val = new Linteger(42);
 		env.defineVariable(sym, val);
 		assertEquals(val, env.lookupVariableValue(sym));		
@@ -29,7 +30,7 @@ public class EnvironmentTest extends TestCase {
 	
 	public void testEnvNested() throws Exception {		
 		Interpreter interp = new Interpreter();
-		Environment env1 = new StandardEnvironment(interp, new NilSymbol());
+		Environment env1 = new StandardEnvironment(interp.getSymbolTable(), new NilSymbol());
 		SimpleSymbol sym = new SimpleSymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym, val);
@@ -44,7 +45,7 @@ public class EnvironmentTest extends TestCase {
 	
 	public void testEnvNestedSets() throws Exception {
 		Interpreter interp = new Interpreter();
-		Environment env1 = new StandardEnvironment(interp, new NilSymbol());
+		Environment env1 = new StandardEnvironment(interp.getSymbolTable(), new NilSymbol());
 		SimpleSymbol sym1 = new SimpleSymbol("answer");
 		Linteger val = new Linteger(42);
 		env1.defineVariable(sym1, val);

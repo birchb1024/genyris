@@ -22,7 +22,7 @@ public class DictTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         _interpreter = new Interpreter();
-        _frame = new Lobject(new StandardEnvironment(_interpreter, new NilSymbol()));
+        _frame = new Lobject(new StandardEnvironment(_interpreter.getSymbolTable(), new NilSymbol()));
     }
     public void test1() throws Exception {
 

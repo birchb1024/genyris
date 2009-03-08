@@ -87,7 +87,7 @@ public final class GenyrisServlet extends HttpServlet {
             Exp expression = parser.read();
             Exp result = _interpreter.evalInGlobalEnvironment(expression);
 
-            Formatter formatter = new IndentedFormatter(writer, 3, _interpreter);
+            Formatter formatter = new IndentedFormatter(writer, 3);
             result.acceptVisitor(formatter);
         } catch (GenyrisException e) {
             writer.println(e.getMessage());

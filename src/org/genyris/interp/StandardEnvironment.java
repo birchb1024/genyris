@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
@@ -23,32 +24,32 @@ public class StandardEnvironment implements Environment {
     protected SimpleSymbol NIL;
     protected Exp _self, _classes, _superclasses, _classname;
     protected Exp _left, _right, _dynamic;
-    private Interpreter _interpreter;
+    private Internable _table;
 
 
     public StandardEnvironment(NilSymbol nil) {
         _parent = null;
         _frame = new HashMap();
         NIL = nil;
-        _interpreter = null;
+        _table = null;
     }
 
-    public StandardEnvironment(Interpreter interp, NilSymbol nil) {
+    public StandardEnvironment(Internable table, NilSymbol nil) {
         _parent = null;
         _frame = new HashMap();
         NIL = nil;
-        _interpreter = interp;
+        _table = table;
 
-        _self = interp.intern(Constants.SELF);
-        _classes = interp.intern(Constants.CLASSES);
-        _superclasses = interp.intern(Constants.SUPERCLASSES);
-        _classname = interp.intern(Constants.CLASSNAME);
-        _left = interp.intern(Constants.LEFT);
-        _right = interp.intern(Constants.RIGHT);
-        _dynamic = interp.intern(Constants.DYNAMIC_SYMBOL);
+        _self = table.internString(Constants.SELF);
+        _classes = table.internString(Constants.CLASSES);
+        _superclasses = table.internString(Constants.SUPERCLASSES);
+        _classname = table.internString(Constants.CLASSNAME);
+        _left = table.internString(Constants.LEFT);
+        _right = table.internString(Constants.RIGHT);
+        _dynamic = table.internString(Constants.DYNAMIC_SYMBOL);
     }
 
-    private void init() throws GenyrisException {
+    private void init() {
         NIL = _parent.getNil();
         _self = _parent.internString(Constants.SELF);
         _classes = _parent.internString(Constants.CLASSES);
@@ -58,12 +59,12 @@ public class StandardEnvironment implements Environment {
         _right = _parent.internString(Constants.RIGHT);
         _dynamic = _parent.internString(Constants.DYNAMIC_SYMBOL);
     }
-    public StandardEnvironment(Environment parent) throws GenyrisException {
+    public StandardEnvironment(Environment parent) {
         _parent = parent;
         _frame = new HashMap();
         init();
     }
-    public StandardEnvironment(Environment parent, Map bindings) throws GenyrisException {
+    public StandardEnvironment(Environment parent, Map bindings) {
         _parent = parent;
         _frame = bindings;
         init();
@@ -133,11 +134,11 @@ public class StandardEnvironment implements Environment {
     }
 
     public Symbol internString(String symbolName) {
-        if(_interpreter == null) {
+        if(_table == null) {
             return _parent.internString(symbolName);
         }
         else {
-            return _interpreter.intern(symbolName);
+            return _table.internString(symbolName);
         }
     }
 
