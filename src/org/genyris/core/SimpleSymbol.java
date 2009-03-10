@@ -5,6 +5,8 @@
 //
 package org.genyris.core;
 
+import org.genyris.exception.GenyrisException;
+
 
 
 public class SimpleSymbol extends Symbol implements Comparable {
@@ -16,5 +18,10 @@ public class SimpleSymbol extends Symbol implements Comparable {
 	public String getBuiltinClassName() {
 	    return Constants.SIMPLESYMBOL;
 	}
+	
+	public void acceptVisitor(Visitor guest) throws GenyrisException {
+		guest.visitSimpleSymbol(this);
+	}
+
 
 }

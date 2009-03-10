@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.genyris.core.Constants;
-import org.genyris.core.FullyQualifiedSymbol;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
@@ -58,14 +56,14 @@ public class PrefixMapper {
     public Symbol symbolFactory(String news) throws GenyrisException {
         String prefix;
         if(news.equals(".") || !hasPrefix(news) ) {
-            return new SimpleSymbol(news);
+            return Symbol.symbolFactory(news, false);
         }
         else {
             prefix = getPrefix(news);
             if (!_prefixes.containsKey(prefix)) {
                 throw new GenyrisException("Unknown prefix: " + prefix);
             } else {
-                return new FullyQualifiedSymbol(_prefixes.get(prefix) + getSuffix(news));
+                return Symbol.symbolFactory(_prefixes.get(prefix) + getSuffix(news), false);
             }
         }
     }

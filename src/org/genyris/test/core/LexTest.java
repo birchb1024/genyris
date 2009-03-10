@@ -6,14 +6,17 @@
 package org.genyris.test.core;
 
 import java.io.StringWriter;
+
 import junit.framework.TestCase;
+
 import org.genyris.core.Bignum;
+import org.genyris.core.EscapedSymbol;
 import org.genyris.core.Exp;
+import org.genyris.core.FullyQualifiedSymbol;
 import org.genyris.core.Ldouble;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lstring;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
@@ -50,10 +53,19 @@ public class LexTest extends TestCase {
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
         assertEquals(expected.getJavaValue().toString(), lexer.nextToken().getJavaValue().toString());
     }
+    private void excerciseNextTokenExp2Times(Exp expected, String toparse) throws GenyrisException {
+        _table.init(null);
+        Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
+        lexer.nextToken();
+        assertEquals(expected.toString(), lexer.nextToken().toString());
+    }
+
     private void excerciseNextTokenExp(Exp expected, String toparse) throws GenyrisException {
         _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-        assertEquals(expected.toString(), lexer.nextToken().toString());
+        Exp result = lexer.nextToken();
+        assertEquals(expected.getClass(), result.getClass());
+        assertEquals(expected.toString(), result.toString());
     }
 
     public void testLex1() throws Exception {
@@ -81,8 +93,30 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new SimpleSymbol("foo"), "foo");
         excerciseNextTokenExp(new SimpleSymbol("foo*bar"), "foo\\*bar");
         excerciseNextTokenExp(new SimpleSymbol("quux"), "\n\nquux");
-        excerciseNextTokenExp(new SimpleSymbol("|123|"), "  \t|123|");
+        excerciseNextTokenExp(new EscapedSymbol("123"), "  \t|123|");
         excerciseNextTokenExp(new SimpleSymbol("dynamic-symbol-value"), "  \t !x");
+
+    }
+    public void testLexIdentEscaped() throws Exception {
+
+		try {
+			excerciseNextTokenExp2Times(new SimpleSymbol("q"), "|werw\t|q|");
+						fail();
+		} catch (GenyrisException ignore) { }
+		excerciseNextTokenExp2Times(new EscapedSymbol("q"), "|werw| |q|");
+
+		
+		excerciseNextTokenExp2Times(new SimpleSymbol("q|"), "|werw |q|");
+		excerciseNextTokenExp(new EscapedSymbol("with a space in it"), "|with a space in it|");
+		excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/bar space/#123"), "|http://foo/bar space/#123|");
+		excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/bar%20space/#123"), "|http://foo/bar%20space/#123|");
+
+		excerciseNextTokenExp(new EscapedSymbol("foo"), "|foo|");
+        excerciseNextTokenExp(new EscapedSymbol("foo*bar"), "|foo\\*bar|");
+        excerciseNextTokenExp(new EscapedSymbol("quux"), "\n\n|quux|");
+        excerciseNextTokenExp(new EscapedSymbol("123"), "  \t|123|");
+        excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/bar#123"), "|http://foo/bar#123|");
+        excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/b|ar#123"), "|http://foo/b\\|ar#123|");
 
     }
     public void testLexIdentMinus() throws Exception {
@@ -93,7 +127,7 @@ public class LexTest extends TestCase {
     public void testLexCommentStrip() throws Exception {
         excerciseNextTokenExp(new SimpleSymbol("X"), "X ; foo");
         excerciseNextTokenExp(new SimpleSymbol("Y"), "; stripped \nY");
-        excerciseNextTokenExp(new Linteger(12), "   \n\t\f      ; stripped \n12");
+        excerciseNextTokenExp(new Bignum(12), "   \n\t\f      ; stripped \n12");
         }
 
 

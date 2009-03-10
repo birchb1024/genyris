@@ -21,6 +21,6 @@ public class GensymFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		checkArguments(arguments, 1);
 
-        return Symbol.symbolFactory(arguments[0].toString());
+        return Symbol.symbolFactory(arguments[0].toString(), true);
     }
 }

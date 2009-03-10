@@ -1,6 +1,8 @@
 package org.genyris.core;
 
-public class FullyQualifiedSymbol extends Symbol {
+import org.genyris.exception.GenyrisException;
+
+public class FullyQualifiedSymbol extends EscapedSymbol {
 
 	public FullyQualifiedSymbol(String newSym) {
 		super(newSym);
@@ -8,5 +10,7 @@ public class FullyQualifiedSymbol extends Symbol {
 	public String getBuiltinClassName() {
 	    return Constants.QUALIFIEDSYMBOL;
 	}
-
+	public void acceptVisitor(Visitor guest) throws GenyrisException {
+		guest.visitFullyQualifiedSymbol(this);
+	}
 }

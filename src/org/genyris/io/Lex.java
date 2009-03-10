@@ -14,6 +14,7 @@ import org.genyris.core.Internable;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
 
@@ -112,6 +113,17 @@ public class Lex {
         }
     }
 
+    private boolean isNotIdentEscapeChar(char c) {
+        switch (c) {
+            case '\f':
+            case '\n':
+            case '\t':
+            case '\r':
+                return false;
+            default:
+                return true;
+        }
+    }
     private boolean isIdentCharacter(char c) {
         if(c == _cdrCharacter)
             return false;
@@ -133,6 +145,28 @@ public class Lex {
             default:
                 return true;
         }
+    }
+
+    public Exp parseIdentEscaped() throws GenyrisException {
+        char ch;
+        String collect = "";
+        if (!_input.hasData()) {
+            throw new LexException("unexpected end of file");
+        }
+        while (_input.hasData()) {
+            ch = _input.readNext();
+            if (isNotIdentEscapeChar(ch)) {
+                if (ch == Constants.SYMBOLESCAPE)
+                    break;
+                if (ch == '\\')
+                    ch = _input.readNext();
+                collect += ch;
+            }
+            else {
+                throw new LexException("unexpected end of escaped symbol");
+            }
+        }
+        return _symbolTable.internSymbol(Symbol.symbolFactory(collect, true));
     }
 
     public Exp parseIdent() throws GenyrisException {
@@ -239,6 +273,8 @@ public class Lex {
                 }
 
             }
+            case Constants.SYMBOLESCAPE:
+                return parseIdentEscaped();            	
             default:
                 if ((ch >= ' ') && (ch <= '~')) {
                     _input.unGet(ch);

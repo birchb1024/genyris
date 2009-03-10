@@ -139,10 +139,6 @@ public class HTMLFormatter extends AbstractFormatter {
 		emit(lst.getJavaValue().toString());
 	}
 
-	public void visitSymbol(Symbol sym) throws GenyrisException {
-		emit(sym.getJavaValue().toString());
-	}
-
 	public static String HTMLEntityEncode(String s) {
 		StringBuffer buf = new StringBuffer();
 		int len = (s == null ? -1 : s.length());

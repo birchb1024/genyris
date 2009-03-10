@@ -43,4 +43,7 @@ public class BasicFormatterTest extends TestCase {
     public void test3() throws Exception {
         excerciseFormatter("(45 : 89)");
     }
+    public void testSymbols() throws Exception {
+        excerciseFormatter("(quux |fo:o| |http://foo/bar#|)");
+    }
 }

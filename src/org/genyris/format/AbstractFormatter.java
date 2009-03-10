@@ -12,13 +12,14 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.FullyQualifiedSymbol;
 import org.genyris.core.Lcons;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
-import org.genyris.core.Symbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -54,7 +55,14 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 
 	public abstract void visitLstring(Lstring lst) throws GenyrisException;
 
-	public abstract void visitSymbol(Symbol sym) throws GenyrisException;
+    public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
+        write(sym.toString());
+    }
+
+    public void visitFullyQualifiedSymbol(FullyQualifiedSymbol sym) throws GenyrisException {
+        write(sym.toString());
+    } 
+
 
 	public void visitStandardEnvironment(StandardEnvironment env)
 			throws GenyrisException {

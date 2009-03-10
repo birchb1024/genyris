@@ -18,7 +18,6 @@ import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -117,10 +116,6 @@ public class BasicFormatter extends  AbstractFormatter {
 		        write(ch);
 		}
 		 write("\"");
-    }
-
-    public void visitSymbol(Symbol sym) throws GenyrisException {
-        write(sym.getJavaValue().toString());
     }
 
     public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) throws GenyrisException {

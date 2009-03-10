@@ -13,6 +13,7 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
+import org.genyris.core.FullyQualifiedSymbol;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Ldouble;
@@ -20,7 +21,7 @@ import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
-import org.genyris.core.Symbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
@@ -144,12 +145,16 @@ public class IndentedFormatter extends AbstractFormatter {
         }
     }
 
-    public void visitLstring(Lstring lst) throws GenyrisException {
-        writeAtom(lst);
+    public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
+        writeAtom(sym);
     }
 
-    public void visitSymbol(Symbol sym) throws GenyrisException {
+    public void visitFullyQualifiedSymbol(FullyQualifiedSymbol sym) throws GenyrisException {
         writeAtom(sym);
+    } 
+    
+    public void visitLstring(Lstring lst) throws GenyrisException {
+        writeAtom(lst);
     }
 
     public void visitLobject(Lobject frame) throws GenyrisException {

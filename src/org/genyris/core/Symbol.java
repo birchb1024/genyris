@@ -4,17 +4,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.genyris.exception.AccessException;
-import org.genyris.exception.GenyrisException;
 import org.genyris.interp.UnboundException;
 
 public abstract class Symbol extends ExpWithEmbeddedClasses {
 
-	public static Symbol symbolFactory(String name) {
+	public static Symbol symbolFactory(String name, boolean escaped) {
 		try {
 			new URL(name);
 			return new FullyQualifiedSymbol(name);
 		} catch (MalformedURLException e) {
-			return new SimpleSymbol(name);
+			return (escaped?new EscapedSymbol(name):new SimpleSymbol(name));
 		}
 	}
 
@@ -32,10 +31,6 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 		return _printName.hashCode();
 	}
 
-	public boolean deepEquals(Object compare) {
-		return equals(compare);
-	}
-
 	public boolean equals(Object compare) {
 		return this == compare;
 	}
@@ -50,10 +45,6 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 
 	public boolean isSelfEvaluating() {
 		return false;
-	}
-
-	public void acceptVisitor(Visitor guest) throws GenyrisException {
-		guest.visitSymbol(this);
 	}
 
 	public String toString() {
