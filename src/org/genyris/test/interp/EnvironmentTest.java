@@ -10,6 +10,8 @@ import junit.framework.TestCase;
 import org.genyris.core.FullyQualifiedSymbol;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
+import org.genyris.core.NilSymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
@@ -29,7 +31,7 @@ public class EnvironmentTest extends TestCase {
 	
 	public void testEnvDefineQualified() throws Exception {		
 		Interpreter interp = new Interpreter();
-		Environment env = new StandardEnvironment(interp, new NilSymbol());
+		Environment env = new StandardEnvironment(interp.getSymbolTable(), new NilSymbol());
 		Symbol sym = new FullyQualifiedSymbol("http://foo/bar#answer");
 		Linteger val = new Linteger(42);
 		env.defineVariable(sym, val);
