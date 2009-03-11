@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 import org.genyris.core.Bignum;
 import org.genyris.core.EscapedSymbol;
 import org.genyris.core.Exp;
-import org.genyris.core.FullyQualifiedSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
@@ -108,15 +108,16 @@ public class LexTest extends TestCase {
 		
 		excerciseNextTokenExp2Times(new SimpleSymbol("q|"), "|werw |q|");
 		excerciseNextTokenExp(new EscapedSymbol("with a space in it"), "|with a space in it|");
-		excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/bar space/#123"), "|http://foo/bar space/#123|");
-		excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/bar%20space/#123"), "|http://foo/bar%20space/#123|");
+		excerciseNextTokenExp(new EscapedSymbol("http://foo/bar space/#123"), "|http://foo/bar space/#123|");
+		excerciseNextTokenExp(new URISymbol("http://foo/bar%20space/#123"), "|http://foo/bar%20space/#123|");
 
 		excerciseNextTokenExp(new EscapedSymbol("foo"), "|foo|");
+		excerciseNextTokenExp(new EscapedSymbol("fo|o"), "|fo\\|o|");
         excerciseNextTokenExp(new EscapedSymbol("foo*bar"), "|foo\\*bar|");
         excerciseNextTokenExp(new EscapedSymbol("quux"), "\n\n|quux|");
         excerciseNextTokenExp(new EscapedSymbol("123"), "  \t|123|");
-        excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/bar#123"), "|http://foo/bar#123|");
-        excerciseNextTokenExp(new FullyQualifiedSymbol("http://foo/b|ar#123"), "|http://foo/b\\|ar#123|");
+        excerciseNextTokenExp(new URISymbol("http://foo/bar#123"), "|http://foo/bar#123|");
+        excerciseNextTokenExp(new URISymbol("http://foo/b:ar#123"), "|http://foo/b\\:ar#123|");
 
     }
     public void testLexIdentMinus() throws Exception {

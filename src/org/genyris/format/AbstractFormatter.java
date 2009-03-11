@@ -12,7 +12,7 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.FullyQualifiedSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.core.Lcons;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
@@ -59,7 +59,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
         write(sym.toString());
     }
 
-    public void visitFullyQualifiedSymbol(FullyQualifiedSymbol sym) throws GenyrisException {
+    public void visitFullyQualifiedSymbol(URISymbol sym) throws GenyrisException {
         write(sym.toString());
     } 
 

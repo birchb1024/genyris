@@ -7,7 +7,7 @@ package org.genyris.test.interp;
 
 import junit.framework.TestCase;
 
-import org.genyris.core.FullyQualifiedSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
 import org.genyris.core.NilSymbol;
@@ -32,7 +32,7 @@ public class EnvironmentTest extends TestCase {
 	public void testEnvDefineQualified() throws Exception {		
 		Interpreter interp = new Interpreter();
 		Environment env = new StandardEnvironment(interp.getSymbolTable(), new NilSymbol());
-		Symbol sym = new FullyQualifiedSymbol("http://foo/bar#answer");
+		Symbol sym = new URISymbol("http://foo/bar#answer");
 		Linteger val = new Linteger(42);
 		env.defineVariable(sym, val);
 		assertEquals(val, env.lookupVariableValue(sym));		

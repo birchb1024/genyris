@@ -13,7 +13,7 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.FullyQualifiedSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
 import org.genyris.core.Ldouble;
@@ -149,7 +149,7 @@ public class IndentedFormatter extends AbstractFormatter {
         writeAtom(sym);
     }
 
-    public void visitFullyQualifiedSymbol(FullyQualifiedSymbol sym) throws GenyrisException {
+    public void visitFullyQualifiedSymbol(URISymbol sym) throws GenyrisException {
         writeAtom(sym);
     } 
     

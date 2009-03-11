@@ -46,7 +46,7 @@ public class BuiltinClasses {
         mkClass(classname, Constants.STRING, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.DOUBLE, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.SIMPLESYMBOL, env, STANDARDCLASS, dict);
-        mkClass(classname, Constants.QUALIFIEDSYMBOL, env, STANDARDCLASS, dict);
+        mkClass(classname, Constants.URISYMBOL, env, STANDARDCLASS, dict);
         mkClass(classname, Constants.JAVAOBJECT, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.JAVAMETHOD, env, STANDARDCLASS, builtin);
         Lobject closure = mkClass(classname, Constants.CLOSURE, env, STANDARDCLASS, builtin);

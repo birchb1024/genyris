@@ -12,9 +12,13 @@ load "testscripts/gunit.lin"
 
 var overall-result
   t.test "Symbol Tests"
+      t.test "Escaped Intern tests"
+        equal? (intern "foo") '|foo|
+        not (equal? (gensym "foo") '|foo|)
+        equal? (intern "http://server/#w") '|http://server/#w|
       t.test "Intern tests"
         equal? ((intern "foo")!classes) (list SimpleSymbol)
-        equal? ((intern "http://server/#w")!classes) (list QualifiedSymbol)
+        equal? ((intern "http://server/#w")!classes) (list URISymbol)
         t.given '(intern "A")       expect 'A
         t.given '(intern "http://server/#w")       expect 'p.w
         t.given (left (member? SimpleSymbol ((intern 23)!classes)))       expect SimpleSymbol

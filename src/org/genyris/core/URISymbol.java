@@ -2,13 +2,13 @@ package org.genyris.core;
 
 import org.genyris.exception.GenyrisException;
 
-public class FullyQualifiedSymbol extends EscapedSymbol {
+public class URISymbol extends EscapedSymbol {
 
-	public FullyQualifiedSymbol(String newSym) {
+	public URISymbol(String newSym) {
 		super(newSym);
 	}
 	public String getBuiltinClassName() {
-	    return Constants.QUALIFIEDSYMBOL;
+	    return Constants.URISYMBOL;
 	}
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitFullyQualifiedSymbol(this);

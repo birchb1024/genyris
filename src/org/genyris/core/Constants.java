@@ -38,7 +38,7 @@ public class Constants {
 
         public static final String THING = "Thing";
         public static final String SIMPLESYMBOL = "SimpleSymbol";
-        public static final String QUALIFIEDSYMBOL = "QualifiedSymbol";
+        public static final String URISYMBOL = "URISymbol";
         public static final String LAZYPROCEDURE = "LazyProcedure";
         public static final String EAGERPROCEDURE = "EagerProcedure";
         public static final String BIGNUM = "Bignum";

@@ -35,6 +35,6 @@ public interface Visitor {
 	public void visitSimpleSymbol(SimpleSymbol simpleSymbol)
 			throws GenyrisException;
 
-	public void visitFullyQualifiedSymbol(FullyQualifiedSymbol sym)
+	public void visitFullyQualifiedSymbol(URISymbol sym)
 			throws GenyrisException;
 }

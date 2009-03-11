@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.FullyQualifiedSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.core.Lcons;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Linteger;
@@ -41,7 +41,7 @@ public interface Formatter extends Visitor {
     public abstract void visitLstring(Lstring lst) throws GenyrisException;
 
     public abstract void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException;
-    public abstract void visitFullyQualifiedSymbol(FullyQualifiedSymbol sym) throws GenyrisException;
+    public abstract void visitFullyQualifiedSymbol(URISymbol sym) throws GenyrisException;
 
     public abstract void visitStandardEnvironment(StandardEnvironment env) throws GenyrisException;
 

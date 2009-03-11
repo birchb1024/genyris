@@ -1,7 +1,7 @@
 package org.genyris.core;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.genyris.exception.AccessException;
 import org.genyris.interp.UnboundException;
@@ -10,11 +10,11 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 
 	public static Symbol symbolFactory(String name, boolean escaped) {
 		try {
-			new URL(name);
-			return new FullyQualifiedSymbol(name);
-		} catch (MalformedURLException e) {
-			return (escaped?new EscapedSymbol(name):new SimpleSymbol(name));
-		}
+			URI uri = new URI(name);
+			if(uri.isAbsolute())
+				return new URISymbol(name);
+		} catch (URISyntaxException e) { }
+		return (escaped?new EscapedSymbol(name):new SimpleSymbol(name));
 	}
 
 	protected String _printName;
