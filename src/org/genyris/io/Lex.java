@@ -19,7 +19,6 @@ import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
 
 public class Lex {
-    private Exp NIL;
     private InStream _input;
     private PrefixMapper _mapper;
 
@@ -34,7 +33,6 @@ public class Lex {
         _mapper = new PrefixMapper();
         _input = inputSource;
         _symbolTable = table;
-        NIL = table.internString("nil");
         quote = table.internString("quote");
         raw_quote = table.internString("'");
         raw_backquote = table.internString("`");
@@ -55,10 +53,6 @@ public class Lex {
     }
     public Lex(InStream inputSource, SymbolTable table) {
         init( inputSource,  table, Constants.CDRCHAR);
-    }
-
-    public boolean hasData() throws LexException {
-        return _input.hasData();
     }
 
     public BigDecimal parseDecimalNumber() throws LexException {
@@ -192,7 +186,6 @@ public class Lex {
 
     public Exp nextToken() throws GenyrisException {
         char ch;
-        boolean forever = true;
         do {
             if (!_input.hasData()) {
                 return EOF;
@@ -284,20 +277,13 @@ public class Lex {
                     throw new LexException("invalid input character");
                 }
             }
-        } while (forever);
-        return NIL;
+        } while (true);
     }
 
     public Exp parseString() throws LexException {
         char ch;
         String collect = "";
-        if (!_input.hasData()) {
-            throw new LexException("empty string");
-        }
         ch = _input.readNext();
-        if (ch != '\"') {
-            throw new LexException("malformed string");
-        }
         while (_input.hasData()) {
             ch = _input.readNext();
             if (ch == '"') {

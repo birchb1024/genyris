@@ -1,5 +1,6 @@
+define fixture "foo.txt"
 define fi
-   File(!new "C:\\foo.txt")
+   File(!new fixture)
 define out
    fi (!open 'write)
 out (!format "Hello\n")
@@ -12,7 +13,7 @@ out
 out (!close)
 
 define fi
-   File(!new "C:\\foo.txt")
+   File(!new fixture)
 define in
    fi (!open 'read)
 print (in(!read))
@@ -20,7 +21,7 @@ print (in(!read))
 in(!close)
 
 def dump()
-  var fi (File(!new "C:\\foo.txt"))
+  var fi (File(!new fixture))
   var in (fi (!open 'read))
   var ch nil
   var count 0
@@ -32,7 +33,7 @@ def dump()
 
 
 def parse-file()
-  var fi (File(!new "C:\\foo.lsp"))
+  var fi (File(!new "testscripts/factorial.lsp"))
   var in (fi (!open 'read))
   var parser (ParenParser(!new in))
   var exp nil
@@ -72,3 +73,8 @@ def eval-sfs-file()
            setq exp (eval (parser(!read)))
      display exp
   parser(!close)
+
+dump
+parse-file
+parse-sfs-file
+eval-sfs-file

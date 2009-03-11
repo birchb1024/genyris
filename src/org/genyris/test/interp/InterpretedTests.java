@@ -42,4 +42,7 @@ public class InterpretedTests extends TestCase {
     public void testPrefix() throws GenyrisException {
          useSourceLoader("prefix-tests.lin");
     }
+    public void testFileIO() throws GenyrisException {
+        useSourceLoader("file-tests.lin");
+   }
 }

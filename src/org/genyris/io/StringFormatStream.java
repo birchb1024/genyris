@@ -91,7 +91,7 @@ public class StringFormatStream implements InStreamEOF {
     
     public static class NewMethod extends AbstractParserMethod {
         public NewMethod(Interpreter interp) {
-            super(interp, "read");
+            super(interp, "new");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

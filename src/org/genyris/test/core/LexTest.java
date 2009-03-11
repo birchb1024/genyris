@@ -12,12 +12,12 @@ import junit.framework.TestCase;
 import org.genyris.core.Bignum;
 import org.genyris.core.EscapedSymbol;
 import org.genyris.core.Exp;
-import org.genyris.core.URISymbol;
 import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.core.URISymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
@@ -64,11 +64,20 @@ public class LexTest extends TestCase {
         _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
         Exp result = lexer.nextToken();
-        assertEquals(expected.getClass(), result.getClass());
         assertEquals(expected.toString(), result.toString());
+        assertEquals(expected.getClass(), result.getClass());
     }
 
-    public void testLex1() throws Exception {
+    private void excerciseBadNextTokenExp(String toparse) {
+        _table.init(null);
+        Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
+        Exp result;
+		try {
+			result = lexer.nextToken();
+			fail("got " + result + " when looking for exception.");
+		} catch (GenyrisException ex) {		}
+    }
+    public void testLexNumbers() throws Exception {
 
         excerciseNextTokenInt(new Bignum("12"), "12");
         excerciseNextTokenInt(new Bignum("-12"), "-12");
@@ -78,8 +87,7 @@ public class LexTest extends TestCase {
         excerciseNextTokenDouble(new Ldouble(-12.34e-5), "-12.34e-5");
         excerciseNextTokenDouble(new Ldouble(-12e-5), "-12.0e-5");
     }
-
-    public void testLex2() throws Exception {
+    public void testNUmbers() throws Exception {
 
         excerciseNextTokenInt(new Bignum("12"), "   12");
         excerciseNextTokenInt(new Bignum("-12"), "\t\t-12");
@@ -139,8 +147,17 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
         excerciseNextTokenExp(new Lstring("\n\t\f\r\\"), "\"\n\t\f\r\\\\\"");
         excerciseNextTokenExp(new Lstring("s1-"), "\"\\s\\1\\-\"");
+        excerciseNextTokenExp(new Lstring("\007\n\r\t\f"), "\"\\a\\n\\r\\t\\f\"");
+        excerciseNextTokenExp(new Lstring("\\"), "\"\\\\\"");
+        excerciseNextTokenExp(new Lstring("\""), "\"\\\"\"");
+        excerciseNextTokenExp(new Lstring("\\"), "\"\\\\\"");
+        excerciseNextTokenExp(new Lstring("\033"), "\"\\e\"");
+        excerciseNextTokenExp(new Lstring(""),"\"");
     }
 
+    public void testLexString2() throws Exception {
+        excerciseBadNextTokenExp("\"\\");
+    }
     public void testCombination1() throws Exception {
         Lex lexer = new Lex(new UngettableInStream( new StringInStream("int 12 double\n 12.34\r\n -12.34e5 \"string\" ")), _table);
         assertEquals(new SimpleSymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());

@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Exp;
 import org.genyris.core.SymbolTable;
+import org.genyris.exception.GenyrisException;
 import org.genyris.io.Lex;
 import org.genyris.io.LexException;
 import org.genyris.io.StringInStream;
@@ -23,6 +24,17 @@ public class LexTestNumbers extends TestCase {
     public void setUp() {
         _table.init(null);
     }
+    private void excerciseNextTokenBadInt(String toparse) throws GenyrisException {
+        _table.init(null);
+        Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
+        try {
+			Exp result = lexer.nextToken();
+			
+			fail("got " + result + " when expecting exception");
+		} catch (LexException e) {
+		}
+    }
+
 	private BigDecimal excerciseParseDecimalNumber(String input) throws LexException
 	{
 		return new Lex(new UngettableInStream( new StringInStream(input)), _table).parseDecimalNumber();
@@ -131,5 +143,12 @@ public class LexTestNumbers extends TestCase {
 		assertEquals(-999999999.99e-2, excerciseParseNumberDouble("-999999999.99e-2"), 0.001);
 		assertEquals(-999999999.99e-3, excerciseParseNumberDouble("-00999999999.99e-3"), 0.001);
 	}
+    public void testLexBadNumbers() throws Exception {
+
+        excerciseNextTokenBadInt("1..2");
+        excerciseNextTokenBadInt("1ee3");
+        excerciseNextTokenBadInt("1e");
+        excerciseNextTokenBadInt("1e");
+    }
 
 }

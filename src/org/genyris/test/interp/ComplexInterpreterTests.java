@@ -7,6 +7,8 @@ package org.genyris.test.interp;
 
 import junit.framework.TestCase;
 
+import org.genyris.exception.GenyrisException;
+
 public class ComplexInterpreterTests extends TestCase {
 
     private TestUtilities interpreter;
@@ -18,6 +20,13 @@ public class ComplexInterpreterTests extends TestCase {
 
     private void excerciseEval(String exp, String expected) throws Exception {
         assertEquals(expected,  interpreter.eval(exp));
+    }
+
+    private void excerciseBadEval(String exp) {
+        try {
+			interpreter.eval(exp);
+			fail();
+		} catch (GenyrisException e) {}
     }
 
     public void testExcerciseEval() throws Exception {
@@ -121,4 +130,14 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(def define-some-global-y (x) (defvar '!y \"global !y\") (cons !x !y))", "<EagerProc: <define-some-global-y>>");
         excerciseEval("(d (define-some-global-y 33))", "(11111 : \"global !y\")");
     }
+    public void testMagicEnv() throws Exception {
+        excerciseEval("(23 !self)", "23");
+        excerciseEval("(23 (defvar 'x 43) x)", "43");
+        excerciseEval("(23 (defvar 'x 43) (set 'x 99)x)", "99");
+        excerciseEval("(23 (defvar '!classes (list Bignum)) 3)", "3");
+        excerciseBadEval("(23 (defvar '!self 3)");
+        excerciseBadEval("(23 (setq !left 3)");
+        excerciseBadEval("(23 (setq !right 3)");
+    }
+
 }

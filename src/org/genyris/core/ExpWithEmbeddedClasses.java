@@ -38,6 +38,9 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
         sortClassesinMRO(klass.getParent());
     }
     public void setClasses(Exp classList, Exp NIL) throws AccessException {
+    	if(!(classList instanceof Lcons)) {
+    		throw new AccessException("setClasses expected a list, not " + classList);
+    	}
         _classes.clear();
         while(classList != NIL) {
             _classes.add(classList.car());
