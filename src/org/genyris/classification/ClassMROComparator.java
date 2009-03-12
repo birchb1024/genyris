@@ -1,7 +1,7 @@
 package org.genyris.classification;
 
 import java.util.Comparator;
-import org.genyris.core.Constants;
+
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
 import org.genyris.core.Symbol;
@@ -16,7 +16,7 @@ public class ClassMROComparator implements Comparator {
 
     }
     private Symbol SUPERCLASSES() {
-    	return env.internString(Constants.SUPERCLASSES);
+    	return env.getSymbolTable().SUPERCLASSES();
     }
     public int compare(Object o1, Object o2) {
         Lobject c1 = (Lobject) o1;

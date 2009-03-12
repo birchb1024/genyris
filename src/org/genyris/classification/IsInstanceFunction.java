@@ -5,7 +5,6 @@
 //
 package org.genyris.classification;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
 import org.genyris.exception.GenyrisException;
@@ -27,7 +26,7 @@ public class IsInstanceFunction extends ApplicableFunction {
     	ClassWrapper.isThisObjectAClass(arguments[1]);
         ClassWrapper cw = new ClassWrapper((Lobject)arguments[1]);
         if (cw.isInstance(arguments[0]) )
-            return envForBindOperations.internString(Constants.TRUE);
+            return envForBindOperations.getSymbolTable().TRUE();
         else
             return envForBindOperations.getNil();
     }

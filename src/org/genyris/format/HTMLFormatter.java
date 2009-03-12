@@ -9,7 +9,6 @@ import java.io.Writer;
 
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
@@ -34,7 +33,7 @@ public class HTMLFormatter extends AbstractFormatter {
 	}
 
 	public void visitLobject(Lobject frame) throws GenyrisException {
-		Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
+		Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
 		Lobject standardClass;
 		standardClass = (Lobject) frame.getParent().lookupVariableValue(
 				standardClassSymbol);

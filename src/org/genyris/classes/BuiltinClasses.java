@@ -18,8 +18,8 @@ public class BuiltinClasses {
     private static Lobject mkClass(Symbol classname, String name, Environment env, Exp STANDARDCLASS, Lobject superClass) throws GenyrisException {
         Exp symbolicName = env.internString(name);
         Lobject newClass = new Lobject(classname, symbolicName, env );
-        newClass.defineVariableRaw(env.internString(Constants.SUBCLASSES), env.getNil());
-        newClass.defineVariableRaw(env.internString(Constants.SUPERCLASSES), env.getNil());
+        newClass.defineVariableRaw(env.getSymbolTable().SUPERCLASSES(), env.getNil());
+        newClass.defineVariableRaw(env.getSymbolTable().SUBCLASSES(), env.getNil());
         newClass.addClass(STANDARDCLASS);
         if(superClass != null)
             new ClassWrapper(newClass).addSuperClass(superClass);
@@ -28,12 +28,12 @@ public class BuiltinClasses {
     }
     public static void init(Environment env) throws GenyrisException {
         Lobject STANDARDCLASS;
-        Symbol classname = (Symbol) env.internString(Constants.CLASSNAME);
+        Symbol classname = (Symbol) env.getSymbolTable().CLASSNAME();
         {
             // Bootstrap the meta-class
-            STANDARDCLASS = new Lobject(classname, env.internString(Constants.STANDARDCLASS), env );
+            STANDARDCLASS = new Lobject(classname, env.getSymbolTable().STANDARDCLASS(), env );
             STANDARDCLASS.addClass(STANDARDCLASS);
-            env.defineVariable(env.internString(Constants.STANDARDCLASS), STANDARDCLASS);
+            env.defineVariable(env.getSymbolTable().STANDARDCLASS(), STANDARDCLASS);
         }
 
         Lobject THING = mkClass(classname, "Thing", env, STANDARDCLASS, null);

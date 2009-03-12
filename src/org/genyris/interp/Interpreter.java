@@ -102,7 +102,7 @@ public class Interpreter {
 	SymbolTable _table;
 	Writer _defaultOutput;
 	public NilSymbol NIL;
-	private Symbol TRUE;
+	private Symbol TRUE, FALSE;
 
 	public Interpreter() throws GenyrisException {
 		NIL = new NilSymbol();
@@ -130,7 +130,9 @@ public class Interpreter {
 	private void defineConstantSymbols() throws GenyrisException {
 		_globalEnvironment.defineVariable(NIL, NIL);
 		TRUE = _table.internString("true");
+		FALSE = _table.internString("false");
 		_globalEnvironment.defineVariable(TRUE, TRUE);
+		_globalEnvironment.defineVariable(FALSE, FALSE);
 		_globalEnvironment.defineVariable(_table.internString(Constants.EOF),
 				_table.internString(Constants.EOF));
 		_globalEnvironment.defineVariable(

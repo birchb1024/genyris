@@ -8,7 +8,6 @@ package org.genyris.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -24,17 +23,17 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	protected Environment _parent;
 
 	public Lobject() {
-		_dict = new TreeMap();
+		_dict = new HashMap();
 		_parent = null;
 	}
 
 	public Lobject(Environment parent) {
-		_dict = new TreeMap();
+		_dict = new HashMap();
 		_parent = parent;
 	}
 
 	public Lobject(Symbol key, Exp value, Environment parent) {
-		_dict = new TreeMap();
+		_dict = new HashMap();
 		_dict.put(key, value);
 		_parent = parent;
 	}
@@ -69,7 +68,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 			Exp tmp = new LconsWithcolons(key, value);
 			result = new Lcons(tmp, result);
 		}
-		return new Lcons(_parent.internString(Constants.DICT), result);
+		return new Lcons(_parent.getSymbolTable().DICT(), result);
 	}
 
 	public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
@@ -79,17 +78,13 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 					+ exp.toString());
 		}
 		Exp sym = exp;
-		if (sym == intern(Constants.CLASSES)) {
+		if (sym == CLASSES()) {
 			setClasses(valu, _parent.getNil());
 			return;
 		} else {
 			_dict.put(sym, valu);
 			return;
 		}
-	}
-
-	private Exp intern(String symbolName) {
-		return _parent.internString(symbolName);
 	}
 
 	public void defineVariable(Exp exp, Exp valu) throws GenyrisException {
@@ -123,23 +118,23 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	}
 
 	private Exp CLASSES() {
-		return _parent.internString(Constants.CLASSES);
+		return _parent.getSymbolTable().CLASSES();
 	}
 
 	private Exp SELF() {
-		return _parent.internString(Constants.SELF);
+		return _parent.getSymbolTable().SELF();
 	}
 
 	private Exp SUPERCLASSES() {
-		return _parent.internString(Constants.SUPERCLASSES);
+		return _parent.getSymbolTable().SUPERCLASSES();
 	}
 
 	private Exp VARS() {
-		return _parent.internString(Constants.VARS);
+		return _parent.getSymbolTable().VARS();
 	}
 
 	private Symbol DYNAMIC() {
-		return _parent.internString(Constants.DYNAMIC_SYMBOL);
+		return _parent.getSymbolTable().DYNAMIC_SYMBOL();
 	}
 
 	private Exp getVarsList() {
@@ -278,6 +273,9 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
 	public Exp getSelf() {
 		return this;
+	}
+	public Internable getSymbolTable() {
+		return _parent.getSymbolTable();
 	}
 
 }

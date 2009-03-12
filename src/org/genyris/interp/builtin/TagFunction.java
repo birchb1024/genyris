@@ -90,7 +90,7 @@ public class TagFunction extends ApplicableFunction {
 	}
 
 	private static Symbol VALIDATE(Environment environment) {
-		return environment.internString(Constants.VALIDATE);
+		return environment.getSymbolTable().VALIDATE();
 	}
 
 }

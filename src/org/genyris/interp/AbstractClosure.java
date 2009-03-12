@@ -5,7 +5,6 @@
 //
 package org.genyris.interp;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
@@ -33,7 +32,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 	}
 
 	private Symbol REST() {
-		return _env.internString(Constants.REST);
+		return _env.getSymbolTable().REST();
 	}
 
 	private Symbol NIL() {

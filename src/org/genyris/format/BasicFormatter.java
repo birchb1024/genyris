@@ -31,7 +31,7 @@ public class BasicFormatter extends  AbstractFormatter {
     }
 
     public void visitLobject(Lobject frame) throws GenyrisException {
-        Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
+        Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
         Lobject standardClass;
         standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
 

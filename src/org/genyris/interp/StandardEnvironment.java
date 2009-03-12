@@ -8,11 +8,10 @@ package org.genyris.interp;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
@@ -40,24 +39,23 @@ public class StandardEnvironment implements Environment {
         NIL = nil;
         _table = table;
 
-        _self = table.internString(Constants.SELF);
-        _classes = table.internString(Constants.CLASSES);
-        _superclasses = table.internString(Constants.SUPERCLASSES);
-        _classname = table.internString(Constants.CLASSNAME);
-        _left = table.internString(Constants.LEFT);
-        _right = table.internString(Constants.RIGHT);
-        _dynamic = table.internString(Constants.DYNAMIC_SYMBOL);
+      initConstants(table);
     }
+
+	private void initConstants(Internable table) {
+		_self = table.SELF();
+		  _classes = table.CLASSES();
+		  _superclasses = table.SUPERCLASSES();
+		  _classname = table.CLASSNAME();
+		  _left = table.LEFT();
+		  _right = table.RIGHT();
+		  _dynamic = table.DYNAMIC_SYMBOL();
+	}
 
     private void init() {
         NIL = _parent.getNil();
-        _self = _parent.internString(Constants.SELF);
-        _classes = _parent.internString(Constants.CLASSES);
-        _superclasses = _parent.internString(Constants.SUPERCLASSES);
-        _classname = _parent.internString(Constants.CLASSNAME);
-        _left = _parent.internString(Constants.LEFT);
-        _right = _parent.internString(Constants.RIGHT);
-        _dynamic = _parent.internString(Constants.DYNAMIC_SYMBOL);
+        Internable table = _parent.getSymbolTable();
+        initConstants(table);
     }
     public StandardEnvironment(Environment parent) {
         _parent = parent;
@@ -152,6 +150,13 @@ public class StandardEnvironment implements Environment {
 
 	public Exp getCLASSES() {
 		return _classes;
+	}
+
+	public Internable getSymbolTable() {
+		if(_table != null) {
+			return _table;
+		}
+		else {return _parent.getSymbolTable();}
 	}
 
 }

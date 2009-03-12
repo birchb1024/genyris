@@ -5,7 +5,6 @@
 //
 package org.genyris.classification;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
@@ -25,9 +24,9 @@ public class ClassWrapper {
 
 	public ClassWrapper(Lobject toWrap) {
 		_theClass = toWrap;
-		CLASSNAME = toWrap.internString(Constants.CLASSNAME);
-		SUPERCLASSES = toWrap.internString(Constants.SUPERCLASSES);
-		SUBCLASSES = toWrap.internString(Constants.SUBCLASSES);
+		CLASSNAME = toWrap.getSymbolTable().CLASSNAME();
+		SUPERCLASSES = toWrap.getSymbolTable().SUPERCLASSES();
+		SUBCLASSES = toWrap.getSymbolTable().SUBCLASSES();
 		NIL = toWrap.getNil();
 	}
 
@@ -112,33 +111,32 @@ public class ClassWrapper {
 	public static Lobject makeClass(Environment env, Exp klassname,
 			Exp superklasses) throws GenyrisException {
 		Exp NIL = env.getNil();
-		Exp standardClassSymbol = env.internString(Constants.STANDARDCLASS);
+		Exp standardClassSymbol = env.getSymbolTable().STANDARDCLASS();
 		Exp standardClass = env.lookupVariableValue(standardClassSymbol);
 		Lobject newClass = new Lobject(env);
 		newClass.addClass(standardClass);
-		newClass.defineVariableRaw(env.internString(Constants.CLASSNAME),
+		newClass.defineVariableRaw(env.getSymbolTable().CLASSNAME(),
 				klassname);
-		newClass.defineVariableRaw(env.internString(Constants.CLASSES),
+		newClass.defineVariableRaw(env.getSymbolTable().CLASSES(),
 				new Lcons(standardClass, NIL));
-		newClass.defineVariableRaw(env.internString(Constants.SUBCLASSES), NIL);
+		newClass.defineVariableRaw(env.getSymbolTable().SUBCLASSES(), NIL);
 		if (superklasses == NIL)
-			superklasses = new Lcons(env.internString(Constants.THING), NIL);
+			superklasses = new Lcons(env.getSymbolTable().THING(), NIL);
 		{
 			newClass.defineVariableRaw(
-					env.internString(Constants.SUPERCLASSES), lookupClasses(
+					env.getSymbolTable().SUPERCLASSES(), lookupClasses(
 							env, superklasses));
 			Exp sklist = superklasses;
 			while (sklist != NIL) {
 				Lobject sk = (Lobject) (env.lookupVariableValue(sklist.car()));
 				Exp subklasses = NIL;
 				try {
-					subklasses = sk.lookupVariableShallow(env
-							.internString(Constants.SUBCLASSES));
+					subklasses = sk.lookupVariableShallow(env.getSymbolTable().SUBCLASSES());
 				} catch (UnboundException ignore) {
-					sk.defineVariable(env.internString(Constants.SUBCLASSES),
+					sk.defineVariable(env.getSymbolTable().SUBCLASSES(),
 							NIL);
 				}
-				sk.setVariableValue(env.internString(Constants.SUBCLASSES),
+				sk.setVariableValue(env.getSymbolTable().SUBCLASSES(),
 						new Lcons(newClass, subklasses));
 				sklist = sklist.cdr();
 			}

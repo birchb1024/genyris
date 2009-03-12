@@ -6,6 +6,7 @@
 package org.genyris.interp;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
@@ -31,5 +32,7 @@ public interface Environment {
     public Exp lookupDynamicVariableValue(Exp exp) throws UnboundException;
 
     public Exp getSelf() throws UnboundException;
+
+	public Internable getSymbolTable();
 
 }
