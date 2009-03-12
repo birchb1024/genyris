@@ -10,14 +10,13 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Ldouble;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.StandardEnvironment;
@@ -25,20 +24,20 @@ import org.genyris.interp.StandardEnvironment;
 public class EqualityTest extends TestCase {
 
     public void testInt1() throws Exception {
-        assertTrue(new Linteger(12).equals(new Linteger(12)));
-        assertFalse(new Linteger(11).equals(new Linteger(12)));
+        assertTrue(new Bignum(12).equals(new Bignum(12)));
+        assertFalse(new Bignum(11).equals(new Bignum(12)));
     }
     public void testDouble1() throws Exception {
-        assertTrue(new Ldouble(12.23e9).equals(new Ldouble(12.23e9)));
-        assertFalse(new Ldouble(12.230001e9).equals(new Ldouble(12.23e9)));
+        assertTrue(new Bignum(12.23e9).equals(new Bignum(12.23e9)));
+        assertFalse(new Bignum(12.230001e9).equals(new Bignum(12.23e9)));
     }
     public void testString() throws Exception {
         assertTrue(new Lstring("hello").equals(new Lstring("hello")));
         assertFalse(new Lstring("hello1").equals(new Lstring("hello2")));
     }
     public void testCons() throws Exception {
-        assertTrue(new Lcons(new Lstring("hello"), new Linteger(12)).equals(new Lcons(new Lstring("hello"), new Linteger(12))));
-        assertFalse(new Lcons(new Lstring("hello"), new Lstring("no way")).equals(new Lcons(new Lstring("hello"), new Linteger(12))));
+        assertTrue(new Lcons(new Lstring("hello"), new Bignum(12)).equals(new Lcons(new Lstring("hello"), new Bignum(12))));
+        assertFalse(new Lcons(new Lstring("hello"), new Lstring("no way")).equals(new Lcons(new Lstring("hello"), new Bignum(12))));
     }
     public void testSymbol() throws Exception {
         SymbolTable sym = new SymbolTable();

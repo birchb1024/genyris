@@ -23,5 +23,9 @@ public class SimpleSymbol extends Symbol implements Comparable {
 		guest.visitSimpleSymbol(this);
 	}
 
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.SIMPLESYMBOL();
+	}
+
 
 }

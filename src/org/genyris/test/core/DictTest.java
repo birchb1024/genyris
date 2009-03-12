@@ -7,8 +7,8 @@ package org.genyris.test.core;
 
 import junit.framework.TestCase;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.NilSymbol;
 import org.genyris.interp.Interpreter;
@@ -28,7 +28,7 @@ public class DictTest extends TestCase {
 
         Exp a = _interpreter.intern("a");
         assertEquals(false, _frame.hasKey(a));
-        _frame.defineVariableRaw(a, new Linteger(12));
+        _frame.defineVariableRaw(a, new Bignum(12));
         assertEquals(true, _frame.hasKey(a));
 
     }

@@ -6,7 +6,6 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.classification.ClassWrapper;
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
 import org.genyris.core.Symbol;
@@ -25,7 +24,7 @@ public class TagFunction extends ApplicableFunction {
 	}
 
 	private Exp VALIDATE() {
-		return _interp.intern(Constants.VALIDATE);
+		return _interp.getSymbolTable().VALIDATE();
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

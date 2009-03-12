@@ -10,16 +10,13 @@ import java.io.Writer;
 
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.URISymbol;
 import org.genyris.core.Lcons;
-import org.genyris.core.Ldouble;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -46,10 +43,6 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 			throws GenyrisException;
 
 	public abstract void visitLcons(Lcons cons) throws GenyrisException;
-
-	public abstract void visitLdouble(Ldouble dub) throws GenyrisException;
-
-	public abstract void visitLinteger(Linteger lint) throws GenyrisException;
 
 	public abstract void visitBignum(Bignum bignum) throws GenyrisException;
 
@@ -85,8 +78,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 		while (!(klasses instanceof NilSymbol)) {
 			Environment klass = (Environment) klasses.car();
 			write(" "
-					+ klass.lookupVariableShallow(
-							interp.intern(Constants.CLASSNAME)).toString());
+					+ klass.lookupVariableShallow(interp.getSymbolTable().CLASSNAME()).toString());
 			klasses = klasses.cdr();
 		}
 	}

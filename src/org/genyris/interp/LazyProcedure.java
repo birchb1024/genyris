@@ -9,6 +9,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
@@ -16,6 +17,10 @@ import org.genyris.exception.GenyrisException;
 
 public class LazyProcedure extends AbstractClosure {
     // I DO NOT evaluate my arguments before being applied.
+
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.LAZYPROC();
+	}
 
     public LazyProcedure(Environment env, Exp expression, ApplicableFunction appl) throws GenyrisException {
         super( env,  expression,  appl);

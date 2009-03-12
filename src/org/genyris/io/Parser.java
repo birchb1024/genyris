@@ -18,18 +18,19 @@ import org.genyris.exception.GenyrisException;
 public class Parser {
     private Lex _lexer;
     private Exp cursym;
-    private Exp NIL, GLOBAL_EOF;
+    private Exp NIL;
     private Exp _prefix;
+    Internable _table;
 
     public Parser(Internable table, InStream stream) {
         this(table, stream, Constants.CDRCHAR);
     }
 
     public Parser(Internable table, InStream stream, char cdrCharacter) {
+    	_table = table;
         _lexer = new Lex(stream, table, cdrCharacter);
-        NIL = table.internString("nil");
-        GLOBAL_EOF = table.internString("EOF");
-        _prefix = table.internString(Constants.PREFIX);
+        NIL = table.NIL();
+        _prefix = table.PREFIX();
     }
 
     public void nextsym() throws GenyrisException {
@@ -39,8 +40,8 @@ public class Parser {
     private Exp readAux() throws GenyrisException {
         Exp retval = NIL;
         nextsym();
-        if (cursym.equals(_lexer.EOF)) {
-            retval = GLOBAL_EOF;
+        if (cursym.equals(_lexer.EOF_TOKEN)) {
+            retval = _table.EOF();
         } else {
             retval = parseExpression();
         }
@@ -86,14 +87,14 @@ public class Parser {
     public Exp parseList() throws GenyrisException {
         Exp tree;
         nextsym();
-        if (cursym.equals(_lexer.rightParen)) {
+        if (cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
             tree = NIL;
-        } else if (cursym.equals(_lexer.cdr_char)) {
-            return _lexer.cdr_char;
+        } else if (cursym.equals(_lexer.COLON_TOKEN)) {
+            return _lexer.COLON_TOKEN;
         } else {
             tree = parseExpression();
             Exp restOfList = parseList();
-            if (restOfList == _lexer.cdr_char) {
+            if (restOfList == _lexer.COLON_TOKEN) {
                 nextsym();
                 restOfList = parseExpression();
                 nextsym();
@@ -107,35 +108,35 @@ public class Parser {
 
     public Exp parseExpression() throws GenyrisException {
         Exp tree = NIL;
-        if (cursym.equals(_lexer.cdr_char)) {
+        if (cursym.equals(_lexer.COLON_TOKEN)) {
             throw new ParseException("unexpected colon");
         }
-        if (cursym.equals(_lexer.EOF)) {
+        if (cursym.equals(_lexer.EOF_TOKEN)) {
             throw new ParseException("unexpected End of File");
         }
-        if (cursym.equals(_lexer.rightParen)) {
+        if (cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
             throw new ParseException("unexpected right paren");
         }
-        if (cursym.equals(_lexer.leftParen)) {
+        if (cursym.equals(_lexer.LEFT_PAREN_TOKEN)) {
             tree = parseList();
-            if (!cursym.equals(_lexer.rightParen)) {
+            if (!cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
                 throw new ParseException("missing right paren");
             }
-        } else if (cursym == _lexer.raw_backquote) {
+        } else if (cursym == _lexer.BACKQUOTE_TOKEN) {
             nextsym();
-            tree = new Lcons(_lexer.backquote, new Lcons(parseExpression(), NIL));
-        } else if (cursym == _lexer.raw_quote) {
+            tree = new Lcons(_table.TEMPLATE(), new Lcons(parseExpression(), NIL));
+        } else if (cursym == _lexer.QUOTE_TOKEN) {
             nextsym();
-            tree = new Lcons(_lexer.quote, new Lcons(parseExpression(), NIL));
-        } else if (cursym == _lexer.raw_comma) {
+            tree = new Lcons(_table.QUOTE(), new Lcons(parseExpression(), NIL));
+        } else if (cursym == _lexer.COMMA_TOKEN) {
             nextsym();
-            tree = new Lcons(_lexer.comma, new Lcons(parseExpression(), NIL));
-        } else if (cursym == _lexer.raw_comma_at) {
+            tree = new Lcons(_table.COMMA(), new Lcons(parseExpression(), NIL));
+        } else if (cursym == _lexer.COMMA_AT_TOKEN) {
             nextsym();
-            tree = new Lcons(_lexer.comma_at, new Lcons(parseExpression(), NIL));
-        } else if (cursym == _lexer.raw_dynamic) {
+            tree = new Lcons(_table.COMMA_AT(), new Lcons(parseExpression(), NIL));
+        } else if (cursym == _lexer.DYNAMIC_TOKEN) {
             nextsym();
-            tree = new Lcons(_lexer.raw_dynamic, new Lcons(parseExpression(), NIL));
+            tree = new Lcons(_table.DYNAMIC_SYMBOL(), new Lcons(parseExpression(), NIL));
         } else {
             tree = cursym;
         }

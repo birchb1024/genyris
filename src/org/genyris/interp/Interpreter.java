@@ -102,7 +102,6 @@ public class Interpreter {
 	SymbolTable _table;
 	Writer _defaultOutput;
 	public NilSymbol NIL;
-	private Symbol TRUE, FALSE;
 
 	public Interpreter() throws GenyrisException {
 		NIL = new NilSymbol();
@@ -114,8 +113,8 @@ public class Interpreter {
 		{
 			// Circular references between symbols and classnames require manual
 			// bootstrap here:
-			SYMBOL.defineVariableRaw(_table.internString(Constants.CLASSNAME),
-					_table.internString(Constants.SIMPLESYMBOL));
+			SYMBOL.defineVariableRaw(_table.CLASSNAME(),
+					_table.SIMPLESYMBOL());
 		}
 		defineConstantSymbols();
 
@@ -129,12 +128,10 @@ public class Interpreter {
 
 	private void defineConstantSymbols() throws GenyrisException {
 		_globalEnvironment.defineVariable(NIL, NIL);
-		TRUE = _table.internString("true");
-		FALSE = _table.internString("false");
-		_globalEnvironment.defineVariable(TRUE, TRUE);
-		_globalEnvironment.defineVariable(FALSE, FALSE);
-		_globalEnvironment.defineVariable(_table.internString(Constants.EOF),
-				_table.internString(Constants.EOF));
+		_globalEnvironment.defineVariable(_table.TRUE(), _table.TRUE());
+		_globalEnvironment.defineVariable(_table.FALSE(), _table.FALSE());
+		_globalEnvironment.defineVariable(_table.EOF(),
+				_table.EOF());
 		_globalEnvironment.defineVariable(
 				_table.internString(Constants.STDOUT), new WriterStream(
 						new PrintWriter(System.out)));
@@ -319,13 +316,9 @@ public class Interpreter {
 		return _defaultOutput;
 	}
 
-	public Symbol getNil() {
-		return NIL;
-	}
-
-	public Symbol getTrue() {
-		return TRUE;
-	}
+//	public Symbol getNil() {
+//		return NIL;
+//	}
 
 	public Environment getGlobalEnv() {
 		return _globalEnvironment;
@@ -339,9 +332,6 @@ public class Interpreter {
 	}
 	public Symbol intern(Symbol name) {
 		return _table.internSymbol(name);
-	}
-	public Symbol REST() {
-		return intern(Constants.REST);
 	}
     public Exp getSymbolsList() {
     	return _table.getSymbolsList();

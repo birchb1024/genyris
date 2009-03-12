@@ -13,15 +13,13 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.URISymbol;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
-import org.genyris.core.Ldouble;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
@@ -122,14 +120,6 @@ public class IndentedFormatter extends AbstractFormatter {
         writeAtom(proc);
     }
 
-    public void visitLdouble(Ldouble dub) throws GenyrisException {
-        writeAtom(dub);
-    }
-
-    public void visitLinteger(Linteger lint) throws GenyrisException {
-        writeAtom(lint);
-    }
-
     public void visitBignum(Bignum bignum) throws GenyrisException {
         writeAtom(bignum);
     }
@@ -159,7 +149,7 @@ public class IndentedFormatter extends AbstractFormatter {
 
     public void visitLobject(Lobject frame) throws GenyrisException {
         try {
-            Exp standardClassSymbol = frame.internString(Constants.STANDARDCLASS);
+            Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
             Lobject standardClass;
             standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
             if (frame.isTaggedWith(standardClass)) {

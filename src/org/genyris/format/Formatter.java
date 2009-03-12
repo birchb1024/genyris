@@ -5,13 +5,11 @@ import java.io.IOException;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.URISymbol;
 import org.genyris.core.Lcons;
-import org.genyris.core.Ldouble;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -31,10 +29,6 @@ public interface Formatter extends Visitor {
     public abstract void visitLazyProc(LazyProcedure proc) throws GenyrisException;
 
     public abstract void visitLcons(Lcons cons) throws GenyrisException;
-
-    public abstract void visitLdouble(Ldouble dub) throws GenyrisException;
-
-    public abstract void visitLinteger(Linteger lint) throws GenyrisException;
 
     public abstract void visitBignum(Bignum bignum) throws GenyrisException;
 

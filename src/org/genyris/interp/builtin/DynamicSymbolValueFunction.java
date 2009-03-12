@@ -5,6 +5,7 @@
 //
 package org.genyris.interp.builtin;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
@@ -16,7 +17,7 @@ import org.genyris.interp.Interpreter;
 public class DynamicSymbolValueFunction extends ApplicableFunction {
 
 	public DynamicSymbolValueFunction(Interpreter interp) {
-		super(interp, "dynamic-symbol-value", false);
+		super(interp, Constants.DYNAMIC_SYMBOL, false);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

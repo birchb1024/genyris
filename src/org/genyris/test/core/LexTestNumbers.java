@@ -58,7 +58,7 @@ public class LexTestNumbers extends TestCase {
 	private double excerciseParseNumberDouble(String input) throws LexException
 	{
 		Exp result =  new Lex(new UngettableInStream( new StringInStream(input)), _table).parseNumber();
-		return ((Double) result.getJavaValue()).doubleValue();
+		return ((BigDecimal) result.getJavaValue()).doubleValue();
 	}
 
 	public void testParseDecimalNumber1() throws Exception {

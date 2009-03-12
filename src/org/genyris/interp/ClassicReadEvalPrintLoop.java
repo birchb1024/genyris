@@ -43,7 +43,7 @@ public class ClassicReadEvalPrintLoop {
             Parser parser = _interpreter.newParser(input);
             Writer output = new PrintWriter(System.out);
             Formatter formatter = new IndentedFormatter(output, 1);
-            Exp EOF = _interpreter.intern(Constants.EOF);
+            Exp EOF = _interpreter.getSymbolTable().EOF();
             Exp ARGS = _interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
             Exp argsAlist = makeArgList(args);
             _interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);

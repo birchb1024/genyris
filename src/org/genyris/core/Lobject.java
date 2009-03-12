@@ -151,6 +151,9 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		Exp classes = getClasses(_parent);
 		while (classes != _parent.getNil()) {
 			try {
+				if(!(classes.car() instanceof Environment)) {
+					throw new UnboundException("damaged class in lass list: " + classes.car());
+				}
 				Environment klass = (Environment) (classes.car());
 				try {
 					return (Exp) klass.lookupInThisClassAndSuperClasses(symbol);
@@ -263,8 +266,8 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		return _parent.internString(symbolName);
 	}
 
-	public String getBuiltinClassName() {
-		return Constants.OBJECT;
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.DICTIONARY();
 	}
 
 	public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {

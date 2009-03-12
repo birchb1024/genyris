@@ -8,6 +8,8 @@ package org.genyris.io.parser;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
+import org.genyris.core.Internable;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -40,6 +42,9 @@ public class StreamParser extends ExpWithEmbeddedClasses {
 		return "<StreamParser>";
 	}
 
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.PARENPARSER();
+	}
 	public String getBuiltinClassName() {
 		return Constants.PARENPARSER;
 	}
@@ -103,4 +108,5 @@ public class StreamParser extends ExpWithEmbeddedClasses {
 			}
 		}
 	}
+
 }

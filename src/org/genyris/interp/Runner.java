@@ -8,7 +8,6 @@ package org.genyris.interp;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
@@ -31,7 +30,7 @@ public class Runner {
         Exp result = null;
         do {
             expression = parser.read();
-            if (expression.equals(interp.intern(Constants.EOF)) ) {
+            if (expression.equals(interp.getSymbolTable().EOF()) ) {
                 break;
             }
             result = interp.evalInGlobalEnvironment(expression);

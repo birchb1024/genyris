@@ -40,7 +40,7 @@ public class BuiltinClasses {
         Lobject builtin = mkClass(classname, "Builtin", env, STANDARDCLASS, THING);
         Lobject pair = mkClass(classname, "Pair", env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, pair);
-        mkClass(classname, Constants.OBJECT, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.DICTIONARY, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.INTEGER, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.BIGNUM, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.STRING, env, STANDARDCLASS, builtin);

@@ -5,7 +5,6 @@
 //
 package org.genyris.interp.builtin;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Symbol;
@@ -35,7 +34,7 @@ public class DefFunction extends ApplicableFunction {
 	}
 
 	private Symbol DYNAMIC() {
-		return _interp.intern(Constants.DYNAMIC_SYMBOL);
+		return _interp.getSymbolTable().DYNAMIC_SYMBOL();
 	}
 
 }

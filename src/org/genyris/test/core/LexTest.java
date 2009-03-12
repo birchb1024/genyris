@@ -12,7 +12,6 @@ import junit.framework.TestCase;
 import org.genyris.core.Bignum;
 import org.genyris.core.EscapedSymbol;
 import org.genyris.core.Exp;
-import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
@@ -40,12 +39,6 @@ public class LexTest extends TestCase {
         _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
         assertEquals(expected, lexer.nextToken());
-    }
-
-    private void excerciseNextTokenDouble(Exp expected, String toparse) throws GenyrisException {
-        _table.init(null);
-        Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-        assertEquals(((Double)expected.getJavaValue()).doubleValue(), ((Double)lexer.nextToken().getJavaValue()).doubleValue(), 0.00001);
     }
 
     private void excerciseNextTokenBignum(Exp expected, String toparse) throws GenyrisException {
@@ -83,9 +76,6 @@ public class LexTest extends TestCase {
         excerciseNextTokenInt(new Bignum("-12"), "-12");
         excerciseNextTokenBignum(new Bignum("12.34"), "12.34");
         excerciseNextTokenBignum(new Bignum("-12.34"), "-12.34");
-        excerciseNextTokenDouble(new Ldouble(12.34e5), "12.34e5");
-        excerciseNextTokenDouble(new Ldouble(-12.34e-5), "-12.34e-5");
-        excerciseNextTokenDouble(new Ldouble(-12e-5), "-12.0e-5");
     }
     public void testNUmbers() throws Exception {
 
@@ -102,7 +92,7 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new SimpleSymbol("foo*bar"), "foo\\*bar");
         excerciseNextTokenExp(new SimpleSymbol("quux"), "\n\nquux");
         excerciseNextTokenExp(new EscapedSymbol("123"), "  \t|123|");
-        excerciseNextTokenExp(new SimpleSymbol("dynamic-symbol-value"), "  \t !x");
+        excerciseNextTokenExp(new SimpleSymbol("DYNAMIC_TOKEN"), "  \t !x");
 
     }
     public void testLexIdentEscaped() throws Exception {
@@ -164,7 +154,7 @@ public class LexTest extends TestCase {
         assertEquals(new Bignum("12"), lexer.nextToken());
         assertEquals(new SimpleSymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());
         assertEquals(new Bignum("12.34"), lexer.nextToken());
-        assertEquals(new Ldouble(-12.34e5), lexer.nextToken());
+        assertEquals(new Bignum(-12.34e5), lexer.nextToken());
         assertEquals(new Lstring("string"), lexer.nextToken());
 
     }
@@ -260,13 +250,12 @@ public class LexTest extends TestCase {
     }
 
     public void testSpecialLexBackQuote() throws Exception {
-        excerciseSpecialParsing("(`a)", "(template a)");
-        excerciseSpecialParsing("(`12.34)", "(template 12.34)");
-        excerciseSpecialParsing("(`\"str\")", "(template \"str\")");
-        excerciseSpecialParsing("(`(1 2))", "(template (1 2))");
-        excerciseSpecialParsing("(`(1 : 2))", "(template (1 : 2))");
-        excerciseSpecialParsing("(``(1 : 2))", "(template template (1 : 2))");
-        excerciseSpecialParsing("(`(1 : 2)`)", "(template (1 : 2) template)");
+        excerciseSpecialParsing("`12.34", "(template 12.34)");
+        excerciseSpecialParsing("`\"str\"", "(template \"str\")");
+        excerciseSpecialParsing("`(1 2)", "(template (1 2))");
+        excerciseSpecialParsing("`(1 : 2)", "(template (1 : 2))");
+        excerciseSpecialParsing("``(1 : 2)", "(template (template (1 : 2)))");
+        excerciseSpecialParsing("`(1 : 2)`", "(template (1 : 2))");
     }
 
     public void testSpecialLexComma() throws Exception {

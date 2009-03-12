@@ -12,8 +12,6 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
-import org.genyris.core.Ldouble;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.core.NilSymbol;
@@ -120,14 +118,6 @@ public class HTMLFormatter extends AbstractFormatter {
 				attributes = attributes.cdr();
 			}
 		}
-	}
-
-	public void visitLdouble(Ldouble dub) throws GenyrisException {
-		write(dub.getJavaValue().toString());
-	}
-
-	public void visitLinteger(Linteger lint) throws GenyrisException {
-		write(lint.getJavaValue().toString());
 	}
 
 	public void visitBignum(Bignum bignum) throws GenyrisException {

@@ -5,7 +5,6 @@
 //
 package org.genyris.interp;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Symbol;
@@ -23,12 +22,12 @@ public abstract class ApplicableFunction {
     	_name = name;
     	_eager = eager;
         _interp = interp;
-        NIL = _interp.getNil();
-        TRUE = _interp.getTrue();
-        _lambda = interp.intern(Constants.LAMBDA);
-        _lambdaq = interp.intern(Constants.LAMBDAQ);
-        _lambdam = interp.intern(Constants.LAMBDAM);
-        REST = interp.REST();
+        NIL = interp.getSymbolTable().NIL();
+        TRUE = interp.getSymbolTable().TRUE();
+        _lambda = interp.getSymbolTable().LAMBDA();
+        _lambdaq = interp.getSymbolTable().LAMBDAQ();
+        _lambdam = interp.getSymbolTable().LAMBDAM();
+        REST = interp.getSymbolTable().REST();
     }
 
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments,

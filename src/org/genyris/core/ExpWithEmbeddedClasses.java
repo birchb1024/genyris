@@ -49,13 +49,13 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     }
     public Exp getClasses(Environment env) {
         Exp NIL = env.getNil();
-        Exp builtinClassSymbol = env.internString(this.getBuiltinClassName());
+        Exp builtinClassSymbol = this.getBuiltinClassSymbol(env.getSymbolTable());
         Exp builtinClass;
         try {
             builtinClass = env.lookupVariableValue(builtinClassSymbol);
         }
         catch (UnboundException e) {
-            throw new Error(this.getBuiltinClassName() + "Missing builting class - fatal!");
+            throw new Error(builtinClassSymbol + "Missing builting class - fatal!");
         }
         Exp classes = new Lcons (builtinClass, NIL);
         Object arryOfObjects[] = _classes.toArray();

@@ -96,7 +96,7 @@ public class SourceLoader {
 		Exp result = null;
 		do {
 			expression = parser.read();
-			if (expression.equals(interp.intern(Constants.EOF))) {
+			if (expression.equals(interp.getSymbolTable().EOF())) {
 				break;
 			}
 			result = interp.evalInGlobalEnvironment(expression);

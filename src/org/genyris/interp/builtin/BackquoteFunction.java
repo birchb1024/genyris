@@ -21,8 +21,8 @@ public class BackquoteFunction extends ApplicableFunction {
     private Exp COMMA, COMMA_AT;
     public BackquoteFunction(Interpreter interp) {
     	super(interp, Constants.TEMPLATE, false);
-        COMMA = interp.intern(Constants.COMMA);
-        COMMA_AT = interp.intern(Constants.COMMA_AT);
+        COMMA = interp.getSymbolTable().COMMA();
+        COMMA_AT = interp.getSymbolTable().COMMA_AT();
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

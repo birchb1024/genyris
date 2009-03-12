@@ -7,11 +7,11 @@ package org.genyris.test.core;
 
 import junit.framework.TestCase;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
-import org.genyris.core.Linteger;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.AccessException;
 
 public class CoreTest extends TestCase {
@@ -23,7 +23,7 @@ public class CoreTest extends TestCase {
 	
 	public void testAccessExceptionCar() {
 
-		Exp a = new Linteger(0);
+		Exp a = new Bignum(0);
 		try {
 			a.car();
 			fail("expecting exception");
@@ -34,7 +34,7 @@ public class CoreTest extends TestCase {
 
 	public void testAccessExceptionCdr() {
 
-		Exp a = new Linteger(0);
+		Exp a = new Bignum(0);
 		try {
 			a.cdr();
 			fail("expecting exception");
@@ -45,7 +45,7 @@ public class CoreTest extends TestCase {
 
 	public void testAccessExceptionSetCar() {
 
-		Exp a = new Linteger(0);
+		Exp a = new Bignum(0);
 		try {
 			a.setCar(new SimpleSymbol("foo"));
 			fail("expecting exception");
@@ -56,7 +56,7 @@ public class CoreTest extends TestCase {
 
 	public void testAccessExceptionSetCdr() {
 
-		Exp a = new Linteger(0);
+		Exp a = new Bignum(0);
 		try {
 			a.setCar(new SimpleSymbol("foo"));
 			fail("expecting exception");
@@ -67,7 +67,7 @@ public class CoreTest extends TestCase {
 
 	public void testLength() throws AccessException {
 
-		Exp list = new Lcons(new Linteger(1), new Lcons(new Linteger(2), NIL));
+		Exp list = new Lcons(new Bignum(1), new Lcons(new Bignum(2), NIL));
 		assertEquals(2, list.length(NIL));
 		assertEquals(1, list.cdr().length(NIL));
 		assertEquals(0, list.cdr().cdr().length(NIL));
@@ -86,6 +86,6 @@ public class CoreTest extends TestCase {
 	}
 	public void testLisp() {
 		assertTrue(new Lcons(NIL, NIL).listp());
-		assertFalse(new Linteger(1).listp());
+		assertFalse(new Bignum(1).listp());
 	}
 }

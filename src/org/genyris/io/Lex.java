@@ -11,7 +11,6 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.Ldouble;
 import org.genyris.core.Lstring;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
@@ -25,28 +24,25 @@ public class Lex {
     private Internable _symbolTable;
     private char _cdrCharacter;
 
-    public Exp quote, EOF, raw_quote, raw_dynamic, raw_backquote, raw_comma_at;
-    public Exp raw_comma, comma_at, comma, backquote;
-    public Exp leftParen, rightParen, cdr_char;
+    public Symbol EOF_TOKEN, QUOTE_TOKEN, DYNAMIC_TOKEN, BACKQUOTE_TOKEN, COMMA_AT_TOKEN;
+    public Symbol COMMA_TOKEN; 
+    public Symbol LEFT_PAREN_TOKEN, RIGHT_PAREN_TOKEN, COLON_TOKEN;
 
     private void init(InStream inputSource, Internable table, char cdrChar) {
         _mapper = new PrefixMapper();
         _input = inputSource;
         _symbolTable = table;
-        quote = table.internString("quote");
-        raw_quote = table.internString("'");
-        raw_backquote = table.internString("`");
-        raw_comma_at = table.internString(",@");
-        raw_comma = table.internString(",");
-        raw_dynamic = table.internString(Constants.DYNAMIC_SYMBOL);
-        comma_at = table.internString(Constants.COMMA_AT);
-        comma = table.internString(Constants.COMMA);
-        backquote = table.internString(Constants.TEMPLATE);
-        EOF = new SimpleSymbol(Constants.EOF);
-        leftParen = table.internString("leftParen");
-        rightParen = table.internString("righParen");
         _cdrCharacter = cdrChar;
-        cdr_char = table.internString("pair-delimiter");
+
+        QUOTE_TOKEN = new SimpleSymbol("QuoteToken");
+        BACKQUOTE_TOKEN = new SimpleSymbol("BackquoteToken");
+        COMMA_AT_TOKEN = new SimpleSymbol("COMMA_AT_TOKEN");
+        COMMA_TOKEN = new SimpleSymbol("COMMA_TOKEN");
+        DYNAMIC_TOKEN = new SimpleSymbol("DYNAMIC_TOKEN");
+        EOF_TOKEN =  new SimpleSymbol("EOF_TOKEN"); 
+        LEFT_PAREN_TOKEN = new SimpleSymbol("leftParenToken");
+        RIGHT_PAREN_TOKEN = new SimpleSymbol("righParenToken");
+        COLON_TOKEN = new SimpleSymbol("pair-delimiterToken");
     }
     public Lex(InStream inputSource, Internable table, char cdrChar) {
         init(inputSource, table, cdrChar);
@@ -99,7 +95,7 @@ public class Lex {
         if (nextChar == 'e' || nextChar == 'E') {
             mantissa = parseDecimalNumber();
             double mantissaRaised = Math.pow(10, mantissa.intValue());
-            return (new Ldouble(floatingValue.doubleValue() * mantissaRaised));
+            return (new Bignum(floatingValue.doubleValue() * mantissaRaised));
         }
         else {
             _input.unGet(nextChar);
@@ -188,11 +184,11 @@ public class Lex {
         char ch;
         do {
             if (!_input.hasData()) {
-                return EOF;
+                return EOF_TOKEN;
             }
             ch = _input.readNext();
             if( ch == this._cdrCharacter )
-                return cdr_char;
+                return COLON_TOKEN;
 
             switch (ch) {
             case '\f':
@@ -203,7 +199,7 @@ public class Lex {
                 break;
             case '-':
                 if (!_input.hasData()) {
-                    return EOF;
+                    return EOF_TOKEN;
                 }
                 ch = _input.readNext();
                 if (ch >= '0' && ch <= '9') {
@@ -240,29 +236,29 @@ public class Lex {
                 _input.unGet(ch);
                 return parseNumber();
             case '(':
-                return leftParen;
+                return LEFT_PAREN_TOKEN;
             case ')':
-                return rightParen;
+                return RIGHT_PAREN_TOKEN;
             case Constants.DYNAMICSCOPECHAR2:
-                return raw_dynamic;
+                return DYNAMIC_TOKEN;
             case Constants.QUOTECHAR:
-                return raw_quote;
+                return QUOTE_TOKEN;
             case Constants.BQUOTECHAR:
-                return backquote;
+                return BACKQUOTE_TOKEN;
             case Constants.COMMACHAR: {
                 if (_input.hasData()) {
                     ch = _input.readNext();
                     if (ch == Constants.ATCHAR) {
-                        return raw_comma_at;
+                        return COMMA_AT_TOKEN;
                     }
                     else {
                         _input.unGet(ch);
                         ch = Constants.COMMACHAR;
-                        return raw_comma;
+                        return COMMA_TOKEN;
                     }
                 }
                 else {
-                    return raw_comma;
+                    return COMMA_TOKEN;
                 }
 
             }

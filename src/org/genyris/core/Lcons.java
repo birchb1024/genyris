@@ -20,6 +20,10 @@ public class Lcons extends ExpWithEmbeddedClasses {
         _car = car;
         _cdr = cdr;
     }
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.PAIR();
+	}
+
     public Object getJavaValue() {
         Exp result[] = new Exp[2];
         result[0] = _car;

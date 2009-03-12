@@ -11,6 +11,8 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
+import org.genyris.core.Internable;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -112,5 +114,8 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
             return NIL;
         }
     }
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.READER();
+	}
 
 }

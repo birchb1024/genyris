@@ -49,11 +49,11 @@ public abstract class Exp implements Classifiable, Closure {
     }
 
     public Exp car() throws AccessException {
-        throw new AccessException("attempt to take car of non-pair: " + this.toString() + " ; " + this.getBuiltinClassName());
+        throw new AccessException("attempt to take car of non-pair: " + this.toString()  );
     }
 
     public Exp cdr() throws AccessException {
-        throw new AccessException("attempt to take cdr of non-pair: " +  this.toString() + " ; " +  this.getBuiltinClassName());
+        throw new AccessException("attempt to take cdr of non-pair: " +  this.toString() );
     }
 
     public Exp setCar(Exp exp) throws AccessException {

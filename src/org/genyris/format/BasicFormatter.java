@@ -14,8 +14,6 @@ import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Lcons;
 import org.genyris.core.LconsWithcolons;
-import org.genyris.core.Ldouble;
-import org.genyris.core.Linteger;
 import org.genyris.core.Lobject;
 import org.genyris.core.Lstring;
 import org.genyris.exception.AccessException;
@@ -84,14 +82,6 @@ public class BasicFormatter extends  AbstractFormatter {
 		    writeCdr(cons.cdr());
 		}
 		write(")");
-    }
-
-    public void visitLdouble(Ldouble dub) throws GenyrisException {
-        write(dub.getJavaValue().toString());
-    }
-
-    public void visitLinteger(Linteger lint) throws GenyrisException {
-        write(lint.getJavaValue().toString());
     }
 
     public void visitBignum(Bignum bignum) throws GenyrisException {

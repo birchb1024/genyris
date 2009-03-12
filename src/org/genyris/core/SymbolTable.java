@@ -23,14 +23,34 @@ public class SymbolTable implements Internable {
 	private Symbol _dynamic;
 	private Symbol _rest;
 	private Symbol _dict;
-	private Exp _true;
-	private Exp _false;
+	private Symbol _true;
+	private Symbol _false;
 	
-	private Exp _standardclass;
-	private Exp _subclasses;
-	private Exp _thing;
+	private Symbol _standardclass;
+	private Symbol _subclasses;
+	private Symbol _thing;
 	private Symbol _validate;
-	private Exp _vars;
+	private Symbol _vars;
+	private Symbol _lambda;
+	private Symbol _lambdaq;
+	private Symbol _lambdam;
+	private Symbol _eof;
+	private Symbol _template;
+	private Symbol _quote;
+	private Symbol _comma;
+	private Symbol _comma_at;
+	private Symbol _prefix;
+	private Symbol _BIGNUM;
+	private Symbol _EAGERPROC;
+	private Symbol _LAZYPROC;
+	private Symbol _PAIR;
+	private Symbol _PARENPARSER;
+	private Symbol _READER;
+	private Symbol _SIMPLESYMBOL;
+	private Symbol _STRING;
+	private Symbol _WRITER;
+	private Symbol _dictionary;
+	private Symbol _URISYMBOL;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -48,6 +68,7 @@ public class SymbolTable implements Internable {
       _dynamic = bindKeyword(Constants.DYNAMIC_SYMBOL);
       _rest = bindKeyword(Constants.REST);
       _dict = bindKeyword(Constants.DICT);
+      _dictionary = bindKeyword(Constants.DICTIONARY);
       _true = bindKeyword(Constants.TRUE);
       _false = bindKeyword(Constants.FALSE);
       _standardclass = bindKeyword(Constants.STANDARDCLASS);
@@ -56,6 +77,29 @@ public class SymbolTable implements Internable {
       _thing = bindKeyword(Constants.THING);
       _validate = bindKeyword(Constants.VALIDATE);
       _vars = bindKeyword(Constants.VARS);
+
+      _lambda = bindKeyword(Constants.LAMBDA);
+      _lambdaq = bindKeyword(Constants.LAMBDAQ);
+      _lambdam = bindKeyword(Constants.LAMBDAM);
+
+      _eof = bindKeyword(Constants.EOF);
+      _template = bindKeyword(Constants.TEMPLATE);
+      _quote = bindKeyword(Constants.QUOTE);
+      _comma = bindKeyword(String.valueOf(Constants.COMMA));
+      _comma_at = bindKeyword(String.valueOf(Constants.COMMA_AT));
+      _prefix = bindKeyword(String.valueOf(Constants.PREFIX));
+
+  	_BIGNUM = bindKeyword(String.valueOf(Constants.BIGNUM));
+	_EAGERPROC = bindKeyword(String.valueOf(Constants.EAGERPROCEDURE));
+	_LAZYPROC = bindKeyword(String.valueOf(Constants.LAZYPROCEDURE));
+	_PAIR = bindKeyword(String.valueOf(Constants.PAIR));
+
+	_PARENPARSER = bindKeyword(String.valueOf(Constants.PARENPARSER));
+	_READER = bindKeyword(String.valueOf(Constants.READER));
+	_SIMPLESYMBOL = bindKeyword(String.valueOf(Constants.SIMPLESYMBOL));
+	_URISYMBOL = bindKeyword(String.valueOf(Constants.URISYMBOL));
+	_STRING = bindKeyword(String.valueOf(Constants.STRING));
+	_WRITER = bindKeyword(String.valueOf(Constants.WRITER));
 
     }
 
@@ -74,7 +118,6 @@ public class SymbolTable implements Internable {
     }
 
     public Symbol internString(String newSym) {
-    	System.out.println("intern: " + newSym);
         if (_table.containsKey(newSym)) {
             return (Symbol)_table.get(newSym);
         } else {
@@ -93,7 +136,7 @@ public class SymbolTable implements Internable {
         }
     }
 
-    public Exp getNil() {
+    public Symbol NIL() {
         return NIL;
     }
 
@@ -110,7 +153,11 @@ public class SymbolTable implements Internable {
         }
         return head;
     }
-
+    
+    //
+    // The following methods exist to eliminate use of internString in clients.
+    // Added after performance tests.
+    //
 	public Symbol SELF() {
 		return _self;
 	}
@@ -143,34 +190,111 @@ public class SymbolTable implements Internable {
 		return _rest;
 	}
 
-	public Exp DICT() {
+	public Symbol DICT() {
 		return _dict;
 	}
 
-	public Exp TRUE() {
+	public Symbol DICTIONARY() {
+		return _dictionary;
+	}
+
+	public Symbol TRUE() {
 		return _true;
 	}
 
-	public Exp FALSE() {
+	public Symbol FALSE() {
 		return _false;
 	}
-	public Exp VARS() {
+	public Symbol VARS() {
 		return _vars;
 	}
 
-	public Exp STANDARDCLASS() {
+	public Symbol STANDARDCLASS() {
 		return _standardclass;
 	}
 
-	public Exp SUBCLASSES() {
+	public Symbol SUBCLASSES() {
 		return _subclasses;
 	}
 
-	public Exp THING() {
+	public Symbol THING() {
 		return _thing;
 	}
 
 	public Symbol VALIDATE() {
 		return _validate;
+	}
+
+	public Symbol LAMBDA() {
+		return _lambda;
+	}
+
+	public Symbol LAMBDAM() {
+		return _lambdaq;
+	}
+
+	public Symbol LAMBDAQ() {
+		return _lambdam;
+	}
+
+	public Symbol EOF() {
+		return _eof;
+	}
+	public Symbol TEMPLATE() {
+		return _template;
+	}
+	public Symbol QUOTE() {
+		return _quote;
+	}
+
+	public Symbol COMMA() {
+		return _comma;
+	}
+	public Symbol COMMA_AT() {
+		return _comma_at;
+	}
+
+	public Symbol PREFIX() {
+		return _prefix;
+	}
+
+	public Symbol BIGNUM() {
+		return _BIGNUM;
+	}
+
+	public Symbol EAGERPROC() {
+		return _EAGERPROC;
+	}
+
+	public Symbol LAZYPROC() {
+		return _LAZYPROC;
+	}
+
+	public Symbol PAIR() {
+		return _PAIR;
+	}
+
+	public Symbol PARENPARSER() {
+		return _PARENPARSER;
+	}
+
+	public Symbol READER() {
+		return _READER;
+	}
+
+	public Symbol SIMPLESYMBOL() {
+		return _SIMPLESYMBOL;
+	}
+
+	public Symbol URISYMBOL() {
+		return _URISYMBOL;
+	}
+
+	public Symbol STRING() {
+		return _STRING;
+	}
+
+	public Symbol WRITER() {
+		return _WRITER;
 	}
 }

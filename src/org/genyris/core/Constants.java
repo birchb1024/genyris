@@ -28,6 +28,7 @@ public class Constants {
         public static final String LAMBDAQ = "lambdaq";
         public static final String LAMBDAM = "lambdam";
         public static final String DICT = "dict";
+        public static final String DICTIONARY = "Dictionary";
         public static final String COMMA = "comma";
         public static final String COMMA_AT = "comma-at";
         public static final String REST = "&rest";
@@ -46,7 +47,6 @@ public class Constants {
         public static final String DOUBLE = "Double";
         public static final String INTEGER = "Integer";
         public static final String STRING = "String";
-        public static final String OBJECT = "Dictionary";
         public static final String JAVAOBJECT = "JavaObject";
         public static final String JAVAMETHOD = "JavaMethod";
         public static final String VARS = "vars";
@@ -80,6 +80,8 @@ public class Constants {
 		public static final char SYMBOLESCAPE = '|';
 		public static final String SYMBOL = "Symbol";
 		public static final String FALSE = "false";
+		public static final String QUOTE = "quote";
+		public static final String BACKQUOTE = "backquote";
 
 
 }

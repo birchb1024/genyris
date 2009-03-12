@@ -12,6 +12,10 @@ import org.genyris.exception.GenyrisException;
 public class Bignum extends ExpWithEmbeddedClasses {
     private BigDecimal _value;
 
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.BIGNUM();
+	}
+
     public Object getJavaValue() {
         return _value;
     }

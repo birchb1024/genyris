@@ -40,7 +40,7 @@ public class IndentedFormatterTest extends TestCase {
         excerciseFormatter("nil", "~ nil", 2);
     }
     public void testAtom3() throws Exception {
-        excerciseFormatter("1.23E15", "~ 1.23E15", 2);
+        excerciseFormatter("1.23E15", "~ 1230000000000000", 2);
     }
     public void testAtom4() throws Exception {
         excerciseFormatter("foo", "~ foo", 2);

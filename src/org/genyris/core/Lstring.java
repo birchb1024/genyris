@@ -58,4 +58,8 @@ public class Lstring extends ExpWithEmbeddedClasses {
     return (new Bignum(_value.length()));
   }
 
+public Symbol getBuiltinClassSymbol(Internable table) {
+	return table.STRING();
+}
+
 }

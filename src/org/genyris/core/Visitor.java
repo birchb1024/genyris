@@ -13,10 +13,6 @@ import org.genyris.interp.LazyProcedure;
 public interface Visitor {
 	public void visitLcons(Lcons cons) throws GenyrisException;
 
-	public void visitLdouble(Ldouble dub) throws GenyrisException;
-
-	public void visitLinteger(Linteger lint) throws GenyrisException;
-
 	public void visitLstring(Lstring lst) throws GenyrisException;
 
 	public void visitLazyProc(LazyProcedure lproc) throws GenyrisException;

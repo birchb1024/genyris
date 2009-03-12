@@ -11,7 +11,9 @@ import java.io.Writer;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
+import org.genyris.core.Internable;
 import org.genyris.core.Lstring;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
@@ -41,6 +43,10 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     public String toString() {
         return _value.toString();
     }
+
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.WRITER();
+	}
 
     public String getBuiltinClassName() {
         return Constants.WRITER;

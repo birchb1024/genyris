@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
@@ -17,6 +18,10 @@ public class EagerProcedure extends AbstractClosure  {
     public EagerProcedure(Environment env, Exp expression, ApplicableFunction appl) throws GenyrisException {
         super( env,  expression,  appl);
     }
+
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.EAGERPROC();
+	}
 
     public Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException {
         Symbol NIL = env.getNil();

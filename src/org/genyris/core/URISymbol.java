@@ -7,6 +7,9 @@ public class URISymbol extends EscapedSymbol {
 	public URISymbol(String newSym) {
 		super(newSym);
 	}
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.URISYMBOL();
+	}
 	public String getBuiltinClassName() {
 	    return Constants.URISYMBOL;
 	}
