@@ -19,7 +19,7 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 
 	protected String _printName;
 
-	public Symbol(String newSym) {
+	protected Symbol(String newSym) {
 		_printName = newSym;
 	}
 

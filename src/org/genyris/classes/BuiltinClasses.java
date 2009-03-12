@@ -40,13 +40,14 @@ public class BuiltinClasses {
         Lobject builtin = mkClass(classname, "Builtin", env, STANDARDCLASS, THING);
         Lobject pair = mkClass(classname, "Pair", env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, pair);
-        Lobject dict = mkClass(classname, Constants.OBJECT, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.OBJECT, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.INTEGER, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.BIGNUM, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.STRING, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.DOUBLE, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.SIMPLESYMBOL, env, STANDARDCLASS, dict);
-        mkClass(classname, Constants.URISYMBOL, env, STANDARDCLASS, dict);
+        Lobject symbol = mkClass(classname, Constants.SYMBOL, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.SIMPLESYMBOL, env, STANDARDCLASS, symbol);
+        mkClass(classname, Constants.URISYMBOL, env, STANDARDCLASS, symbol);
         mkClass(classname, Constants.JAVAOBJECT, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.JAVAMETHOD, env, STANDARDCLASS, builtin);
         Lobject closure = mkClass(classname, Constants.CLOSURE, env, STANDARDCLASS, builtin);

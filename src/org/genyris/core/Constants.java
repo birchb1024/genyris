@@ -78,6 +78,7 @@ public class Constants {
         public static final String ARGS = "argv";
         public static final String WEB = GENYRIS + "web#";
 		public static final char SYMBOLESCAPE = '|';
+		public static final String SYMBOL = "Symbol";
 
 
 }

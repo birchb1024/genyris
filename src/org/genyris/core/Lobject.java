@@ -61,6 +61,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
 	public Exp getAlist() {
 		Iterator iter = _dict.keySet().iterator();
+		// TODO Sort the keyset to get a consistent result for test cases.
 		Exp result = _parent.getNil();
 		while (iter.hasNext()) {
 			Exp key = (Exp) iter.next();
