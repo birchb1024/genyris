@@ -15,9 +15,6 @@ public class SimpleSymbol extends Symbol implements Comparable {
         super(newSym);
     }
 
-	public String getBuiltinClassName() {
-	    return Constants.SIMPLESYMBOL;
-	}
 	
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitSimpleSymbol(this);

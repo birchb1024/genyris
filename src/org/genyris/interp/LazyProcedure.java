@@ -7,7 +7,6 @@
 
 package org.genyris.interp;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
@@ -47,9 +46,6 @@ public class LazyProcedure extends AbstractClosure {
 
     public String toString() {
         return "<LazyProcedure: " + _functionToApply.toString() + ">";
-    }
-    public String getBuiltinClassName() {
-        return Constants.LAZYPROCEDURE;
     }
 
 }

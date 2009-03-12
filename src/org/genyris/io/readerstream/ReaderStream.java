@@ -8,7 +8,6 @@ package org.genyris.io.readerstream;
 import java.io.Reader;
 
 import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
@@ -52,10 +51,6 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
 
     public String toString() {
         return _input.toString();
-    }
-
-    public String getBuiltinClassName() {
-        return Constants.READER;
     }
 
     public void close() throws GenyrisException {

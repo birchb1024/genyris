@@ -48,10 +48,6 @@ public class WriterStream extends ExpWithEmbeddedClasses {
 		return table.WRITER();
 	}
 
-    public String getBuiltinClassName() {
-        return Constants.WRITER;
-    }
-
     public void close() throws GenyrisException {
         try {
             _value.close();

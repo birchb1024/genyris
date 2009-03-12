@@ -5,7 +5,6 @@
 //
 package org.genyris.io.parser;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
@@ -45,10 +44,6 @@ public class StreamParser extends ExpWithEmbeddedClasses {
 	public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.PARENPARSER();
 	}
-	public String getBuiltinClassName() {
-		return Constants.PARENPARSER;
-	}
-
 	public void close() throws GenyrisException {
 		_input.close();
 	}

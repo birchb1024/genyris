@@ -44,7 +44,4 @@ public class Bignum extends ExpWithEmbeddedClasses {
         return _value.toString();
     }
 
-    public String getBuiltinClassName() {
-        return Constants.BIGNUM;
-    }
 }

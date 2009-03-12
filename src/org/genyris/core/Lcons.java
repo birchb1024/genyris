@@ -76,8 +76,5 @@ public class Lcons extends ExpWithEmbeddedClasses {
 		}
         return buffer.toString();
     }
-    public String getBuiltinClassName() {
-        return Constants.PAIR;
-    }
 
 }

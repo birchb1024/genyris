@@ -10,9 +10,6 @@ public class URISymbol extends EscapedSymbol {
 	public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.URISYMBOL();
 	}
-	public String getBuiltinClassName() {
-	    return Constants.URISYMBOL;
-	}
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitFullyQualifiedSymbol(this);
 	}

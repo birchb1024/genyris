@@ -198,8 +198,5 @@ public class JavaMethodWrapper extends ExpWithEmbeddedClasses implements Environ
     public Exp internString(String symbolName) throws GenyrisException {
         return _parent.internString(symbolName);
     }
-    public String getBuiltinClassName() {
-        return Constants.JAVAMETHOD;
-    }
 
 }

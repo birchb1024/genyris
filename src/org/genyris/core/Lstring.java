@@ -28,9 +28,6 @@ public class Lstring extends ExpWithEmbeddedClasses {
     public void acceptVisitor(Visitor guest)  throws GenyrisException {
         guest.visitLstring(this);
     }
-    public String getBuiltinClassName() {
-        return Constants.STRING;
-    }
 
   public Exp split(Exp NIL, Lstring regex) throws GenyrisException {
     Exp result = NIL;
