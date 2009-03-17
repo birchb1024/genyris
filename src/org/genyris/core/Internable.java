@@ -43,5 +43,6 @@ public interface Internable {
 	public Symbol URISYMBOL();
 	public Symbol TRIPLE();
 	public Symbol TRIPLESET();
+    public Symbol TYPE();
 
 }

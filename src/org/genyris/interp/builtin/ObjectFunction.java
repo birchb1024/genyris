@@ -5,6 +5,7 @@
 //
 package org.genyris.interp.builtin;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Lobject;
@@ -18,6 +19,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class ObjectFunction extends ApplicableFunction {
 
@@ -65,6 +67,9 @@ public class ObjectFunction extends ApplicableFunction {
 			Lobject self = getSelfAsDictionary(env);
 			checkArguments(arguments, 0);
 			Exp alist = self.asAlist().cdr();
+            // TODO move this code int Lobject as a method
+            // TODO also collect ExpWithEmbeddedClasses classes triples.
+
 			Exp results = NIL;
 			while(alist != NIL) {
 				results = new Lcons(new Triple(self, (Symbol)(alist.car().car()), alist.car().cdr()), results);
@@ -84,6 +89,8 @@ public class ObjectFunction extends ApplicableFunction {
 				throws GenyrisException {
 			Lobject self = getSelfAsDictionary(env);
 			checkArguments(arguments, 0);
+            // TODO move this code int Lobject
+            // TODO also collect ExpWithEmbeddedClasses classes triples.
 			Exp alist = self.asAlist().cdr();
 			TripleSet results = new TripleSet();
 			while(alist != NIL) {
@@ -92,5 +99,10 @@ public class ObjectFunction extends ApplicableFunction {
 			}
 			return results;
 		}
+	}
+
+	public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+		interpreter.bindMethod(Constants.DICTIONARY, ObjectFunction.AsTriplesMethod.class);
+		interpreter.bindMethod(Constants.DICTIONARY, ObjectFunction.AsTripleSetMethod.class);	
 	}
 }

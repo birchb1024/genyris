@@ -10,11 +10,13 @@ import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Closure;
+import org.genyris.interp.Environment;
 
 public class TripleSet extends ExpWithEmbeddedClasses {
-	
+
 	private Set triples;
-	
+
 	public TripleSet() {
 		triples = new HashSet();
 	}
@@ -26,51 +28,67 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 	public Iterator iterator() {
 		return triples.iterator();
 	}
+
 	public Object getJavaValue() {
 		return null;
 	}
 
 	public String toString() {
-		return "(tripleset"  + ")";
+		return "(tripleset" + ")";
 	}
 
 	public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.TRIPLESET();
 	}
 
-    public int hashCode() {
-        return triples.hashCode();
-    }
+	public int hashCode() {
+		return triples.hashCode();
+	}
 
-    public boolean equals(Object compare) {
-        if (compare instanceof TripleSet) {
-        	TripleSet t = (TripleSet) compare;
-        	return triples.equals(t.triples);
-        }
-        else {
-        	return false;
-        }
-    }
-    
-    public void add(Triple t) {
-    	triples.add(t);
-    }
+	public boolean equals(Object compare) {
+		if (compare instanceof TripleSet) {
+			TripleSet t = (TripleSet) compare;
+			return triples.equals(t.triples);
+		} else {
+			return false;
+		}
+	}
 
-    public TripleSet query(Exp subject, Exp predicate, Exp Object) {
-    	TripleSet results = new TripleSet();
-    	Iterator iter = triples.iterator();
-    	while(iter.hasNext()) {
-    		Triple t = (Triple)iter.next();
-    		if(subject != null) {
-    			if(t.subject == subject) {
-    				results.add(t);
-    			}   			
-    		}
-    	}
-    	return results;
-    }
+	public void add(Triple t) {
+		triples.add(t);
+	}
+
+	public TripleSet select(Exp subject, Exp predicate, Exp object,
+			Closure condition, Environment env) throws GenyrisException {
+		TripleSet results = new TripleSet();
+		Iterator iter = triples.iterator();
+		while (iter.hasNext()) {
+			Triple t = (Triple) iter.next();
+			if (   (subject   != null && t.subject   != subject) 
+				|| (predicate != null && t.predicate != predicate)
+				|| (object    != null && t.object    != object)) {
+					continue; // no match so try next triple				
+			}
+			if (condition != null) {
+				Exp[] arguments = new Exp[3];
+				arguments[0] = t.subject;
+				arguments[1] = t.predicate;
+				arguments[2] = t.object;
+				Exp testResult = condition.applyFunction(env, arguments);
+				if (testResult == env.getNil()) {
+					continue;
+				}
+			} 
+			results.add(t);
+		}
+		return results;
+	}
 
 	public boolean empty() {
 		return triples.isEmpty();
+	}
+
+	public void remove(Triple triple) {
+		triples.remove(triple);
 	}
 }

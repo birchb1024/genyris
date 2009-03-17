@@ -5,6 +5,7 @@
 //
 package org.genyris.dl;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
@@ -13,6 +14,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class TripleFunction extends ApplicableFunction {
 
@@ -85,6 +87,13 @@ public class TripleFunction extends ApplicableFunction {
 			checkArguments(arguments, 0);
 			return self.object;
 		}
+	}
+
+	public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+		interpreter.bindGlobalProcedure(TripleFunction.class);
+		interpreter.bindMethod(Constants.TRIPLE, SubjectMethod.class);
+		interpreter.bindMethod(Constants.TRIPLE, PredicateMethod.class);
+		interpreter.bindMethod(Constants.TRIPLE, ObjectMethod.class);
 	}
 
 }

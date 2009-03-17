@@ -103,11 +103,18 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 			handleIO(e);
 		}
 	}
-	public void visitTriple(Triple triple) throws GenyrisException {
-		write(triple.toString());		
-	}
-	public void visitTripleSet(TripleSet ts) throws GenyrisException {
-		write(ts.toString());		
-	}
+    public void visitTriple(Triple triple) throws GenyrisException {
+        Formatter basic = new BasicFormatter(_output);
+        write("(triple ");
+        triple.subject.acceptVisitor(basic);
+        write(" ");
+        triple.predicate.acceptVisitor(basic);
+        write(" ");
+        triple.object.acceptVisitor(basic);
+        write(")");
+    }
+    public void visitTripleSet(TripleSet ts) throws GenyrisException {
+        write(ts.toString());       
+    }
 
 }

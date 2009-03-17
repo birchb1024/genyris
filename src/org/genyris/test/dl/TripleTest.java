@@ -3,7 +3,11 @@ package org.genyris.test.dl;
 import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
+import org.genyris.core.Exp;
+import org.genyris.core.Lcons;
+import org.genyris.core.Lstring;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
@@ -39,6 +43,17 @@ public class TripleTest extends TestCase {
 			!= new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99)));
 		assertNotSame(new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99)) 
 			, new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99)));
+    }
+    public void testTripleEquals() {
+
+        Exp subject = new Bignum(34);
+        Symbol predicate = new SimpleSymbol("p");
+        assertTrue(!new Triple(subject, predicate, new Bignum(99)).equals(
+            new Triple(subject, predicate, new Bignum(99))));
+        assertTrue(!new Triple(subject, predicate, new Lstring("foo")).equals(
+                new Triple(subject, predicate, new Lstring("foo"))));
+        assertTrue(!new Triple(subject, predicate, new Lcons(new Lstring("foo"),new Bignum(99))).equals(
+                new Triple(subject, predicate, new Lcons(new Lstring("foo"),new Bignum(99)))));
 	}
 
 	public void testGetBuiltinClassSymbol() {
@@ -54,6 +69,7 @@ public class TripleTest extends TestCase {
 		excerciseEval("(triple 1 '|http://foo/| 23)", "(triple 1 |http://foo/| 23)");
 		excerciseEval("((triple 1 '|http://foo/| 23)!classes)", "(<class Triple (Builtin) ()>)");
 		excerciseEval("(equal? (triple 1 'S 23) (triple 1 'S 23))", "nil");
+        excerciseEval("(equal? (triple 's 'S 23) (triple 's 'S 23))", "nil");
 		excerciseEval("(equal? (triple 'S 'P 'O) (triple 'S 'P 'O))", "true");
 		
 	}

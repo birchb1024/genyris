@@ -7,6 +7,7 @@ package org.genyris.dl;
 
 import java.util.Iterator;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Lcons;
 import org.genyris.core.Symbol;
@@ -16,6 +17,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class TripleSetFunction extends ApplicableFunction {
 
@@ -27,12 +29,12 @@ public class TripleSetFunction extends ApplicableFunction {
 			Environment envForBindOperations) throws GenyrisException {
 		TripleSet ts = new TripleSet();
 		for (int i = 0; i < arguments.length; i++) {
-			addTriple(ts, arguments[i]);
+			addTripleFromList(ts, arguments[i]);
 		}
 		return ts;
 	}
 
-	private void addTriple(TripleSet ts, Exp exp) throws GenyrisException {
+	private void addTripleFromList(TripleSet ts, Exp exp) throws GenyrisException {
 		Exp subject = exp.car();
 		Exp predicate = exp.cdr().car();
 		Exp object = exp.cdr().cdr().car();
@@ -43,6 +45,13 @@ public class TripleSetFunction extends ApplicableFunction {
 		ts.add(new Triple(subject, (Symbol) predicate, object));
 	}
 
+	public static void bindFunctionsAndMethods(Interpreter interp) throws UnboundException, GenyrisException {
+		interp.bindGlobalProcedure(TripleSetFunction.class);
+		interp.bindMethod(Constants.TRIPLESET, AddMethod.class);
+		interp.bindMethod(Constants.TRIPLESET, SelectMethod.class);
+		interp.bindMethod(Constants.TRIPLESET, AsTriplesMethod.class);
+		interp.bindMethod(Constants.TRIPLESET, RemoveMethod.class);
+	}
 	public static abstract class AbstractTripleSetMethod extends AbstractMethod {
 
 		public AbstractTripleSetMethod(Interpreter interp, String name) {
@@ -85,11 +94,29 @@ public class TripleSetFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
+			Closure closure = null;
 			TripleSet self = getSelfTS(env);
-			checkArguments(arguments, 3);
-			Class[] types = { Exp.class, Symbol.class, Exp.class };
+			checkMinArguments(arguments, 3);
+			Class[] types = { Exp.class, Symbol.class, Exp.class};
 			checkArgumentTypes(types, arguments);
-			return self.query(arguments[0], arguments[1], arguments[2]);
+			Exp subject = arguments[0];
+			Symbol predicate = (Symbol)arguments[1];
+			Exp object = arguments[2];
+			if(arguments[0] == NIL) {
+				subject = null;
+			}
+			if(arguments[1] == NIL) {
+				predicate = null;
+			}
+			if(arguments[2] == NIL) {
+				object = null;
+			}
+			if(arguments.length == 4) {
+				if(arguments[3] instanceof Closure) {
+					closure = (Closure) arguments[3];
+				}
+			}
+			return self.select(subject, predicate, object, closure, env);
 		}
 	}
 
@@ -109,6 +136,23 @@ public class TripleSetFunction extends ApplicableFunction {
 				result = new Lcons(t, result);
 			}
 			return result;
+		}
+	}
+
+	public static class RemoveMethod extends AbstractTripleSetMethod {
+
+		public RemoveMethod(Interpreter interp) {
+			super(interp, "remove");
+		}
+
+		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+				throws GenyrisException {
+			TripleSet self = getSelfTS(env);
+			checkArguments(arguments, 1);
+			Class[] types = { Triple.class };
+			checkArgumentTypes(types, arguments);
+			self.remove((Triple) arguments[0]);
+			return self;
 		}
 	}
 

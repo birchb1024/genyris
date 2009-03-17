@@ -45,4 +45,7 @@ public class InterpretedTests extends TestCase {
     public void testFileIO() throws GenyrisException {
         useSourceLoader("file-tests.lin");
    }
+    public void testTriples() throws GenyrisException {
+        useSourceLoader("triple-tests.lin");
+    }
 }

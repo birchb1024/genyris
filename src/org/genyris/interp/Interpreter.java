@@ -20,6 +20,7 @@ import org.genyris.core.Lobject;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.dl.ThingMethods;
 import org.genyris.dl.TripleFunction;
 import org.genyris.dl.TripleSetFunction;
 import org.genyris.exception.GenyrisException;
@@ -161,16 +162,13 @@ public class Interpreter {
 		bindMethod("System", ExecMethod.class);
 		bindMethod("Sound", PlayMethod.class);
 
-		bindMethod(Constants.TRIPLE, TripleFunction.SubjectMethod.class);
-		bindMethod(Constants.TRIPLE, TripleFunction.PredicateMethod.class);
-		bindMethod(Constants.TRIPLE, TripleFunction.ObjectMethod.class);
+        bindMethod("Thing", ThingMethods.AsTripleSetMethod.class);
+        bindMethod("Thing", ThingMethods.AsTriplesMethod.class);
+        
+		TripleFunction.bindFunctionsAndMethods(this);
+		TripleSetFunction.bindFunctionsAndMethods(this);
+		ObjectFunction.bindFunctionsAndMethods(this);
 
-		bindMethod(Constants.TRIPLESET, TripleSetFunction.AddMethod.class);
-		bindMethod(Constants.TRIPLESET, TripleSetFunction.SelectMethod.class);
-		bindMethod(Constants.TRIPLESET, TripleSetFunction.AsTriplesMethod.class);
-		bindMethod(Constants.DICTIONARY, ObjectFunction.AsTriplesMethod.class);
-		bindMethod(Constants.DICTIONARY, ObjectFunction.AsTripleSetMethod.class);
-	
 	}
 
 	private void bindAllGlobalFunctions() throws GenyrisException {
@@ -236,8 +234,6 @@ public class Interpreter {
 		bindGlobalProcedure(KillHTTPDFunction.class);
 		bindGlobalProcedure(HTTPgetFunction.class);
 
-		bindGlobalProcedure(TripleFunction.class);
-		bindGlobalProcedure(TripleSetFunction.class);
 	}
 
 	public void bindGlobalProcedure(Class class1) throws GenyrisException {
@@ -280,7 +276,7 @@ public class Interpreter {
 		}
 	}
 
-	private void bindMethod(String className, Class class1)
+	public void bindMethod(String className, Class class1)
 			throws UnboundException, GenyrisException {
 		Lobject stringClass = (Lobject) _globalEnvironment
 				.lookupVariableValue(_table.internString(className));

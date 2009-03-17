@@ -23,6 +23,7 @@ public class TestUtilities {
 
     public TestUtilities() throws GenyrisException {
         _interpreter = new Interpreter();
+        _interpreter.init(false);
     }
 
     public String eval(String script) throws GenyrisException {
