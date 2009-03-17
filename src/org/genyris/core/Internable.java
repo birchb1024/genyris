@@ -41,5 +41,7 @@ public interface Internable {
 	public Symbol WRITER();
 	public Symbol DICTIONARY();
 	public Symbol URISYMBOL();
+	public Symbol TRIPLE();
+	public Symbol TRIPLESET();
 
 }

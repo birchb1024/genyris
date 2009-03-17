@@ -82,6 +82,8 @@ public class Constants {
 		public static final String FALSE = "false";
 		public static final String QUOTE = "quote";
 		public static final String BACKQUOTE = "backquote";
+		public static final String TRIPLE = "Triple";
+		public static final String TRIPLESET = "TripleSet";
 
 
 }

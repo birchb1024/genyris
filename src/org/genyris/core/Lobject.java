@@ -58,7 +58,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		return _dict.containsKey(a);
 	}
 
-	public Exp getAlist() {
+	public Exp asAlist() {
 		Iterator iter = _dict.keySet().iterator();
 		// TODO Sort the keyset to get a consistent result for test cases.
 		Exp result = _parent.getNil();
@@ -220,7 +220,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	}
 
 	public String toString() {
-		return "<dict " + getAlist().toString() + ">";
+		return "<dict " + asAlist().toString() + ">";
 	}
 
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {

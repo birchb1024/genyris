@@ -51,6 +51,8 @@ public class SymbolTable implements Internable {
 	private Symbol _WRITER;
 	private Symbol _dictionary;
 	private Symbol _URISYMBOL;
+	private Symbol _TRIPLE;
+	private Symbol _TRIPLESET;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -101,6 +103,8 @@ public class SymbolTable implements Internable {
 	_STRING = bindKeyword(String.valueOf(Constants.STRING));
 	_WRITER = bindKeyword(String.valueOf(Constants.WRITER));
 
+	_TRIPLE = bindKeyword(String.valueOf(Constants.TRIPLE));
+	_TRIPLESET = bindKeyword(String.valueOf(Constants.TRIPLESET));
     }
 
 	private Symbol bindKeyword(String name) {
@@ -296,5 +300,11 @@ public class SymbolTable implements Internable {
 
 	public Symbol WRITER() {
 		return _WRITER;
+	}
+	public Symbol TRIPLESET() {
+		return _TRIPLESET;
+	}
+	public Symbol TRIPLE() {
+		return _TRIPLE;
 	}
 }

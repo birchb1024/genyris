@@ -37,7 +37,7 @@ public class BasicFormatter extends  AbstractFormatter {
             new ClassWrapper(frame).acceptVisitor(this);
             return;
         }
-        frame.getAlist().acceptVisitor(this);
+        frame.asAlist().acceptVisitor(this);
 
     }
 
@@ -111,6 +111,5 @@ public class BasicFormatter extends  AbstractFormatter {
     public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) throws GenyrisException {
         write("[Exp: " + exp.getJavaValue().toString() + "]");
     }
-
 
 }

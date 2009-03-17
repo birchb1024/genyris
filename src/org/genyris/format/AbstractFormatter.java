@@ -18,6 +18,8 @@ import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
+import org.genyris.dl.Triple;
+import org.genyris.dl.TripleSet;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
@@ -100,6 +102,12 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 		} catch (IOException e) {
 			handleIO(e);
 		}
+	}
+	public void visitTriple(Triple triple) throws GenyrisException {
+		write(triple.toString());		
+	}
+	public void visitTripleSet(TripleSet ts) throws GenyrisException {
+		write(ts.toString());		
 	}
 
 }
