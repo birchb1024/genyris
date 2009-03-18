@@ -20,6 +20,9 @@ import org.genyris.core.Lobject;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.dl.ThingMethods;
+import org.genyris.dl.TripleFunction;
+import org.genyris.dl.TripleSetFunction;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.DisplayFunction;
 import org.genyris.format.PrintFunction;
@@ -158,6 +161,14 @@ public class Interpreter {
 		bindMethod("StringFormatStream", StringFormatStream.NewMethod.class);
 		bindMethod("System", ExecMethod.class);
 		bindMethod("Sound", PlayMethod.class);
+
+        bindMethod("Thing", ThingMethods.AsTripleSetMethod.class);
+        bindMethod("Thing", ThingMethods.AsTriplesMethod.class);
+        
+		TripleFunction.bindFunctionsAndMethods(this);
+		TripleSetFunction.bindFunctionsAndMethods(this);
+		ObjectFunction.bindFunctionsAndMethods(this);
+
 	}
 
 	private void bindAllGlobalFunctions() throws GenyrisException {
@@ -265,7 +276,7 @@ public class Interpreter {
 		}
 	}
 
-	private void bindMethod(String className, Class class1)
+	public void bindMethod(String className, Class class1)
 			throws UnboundException, GenyrisException {
 		Lobject stringClass = (Lobject) _globalEnvironment
 				.lookupVariableValue(_table.internString(className));

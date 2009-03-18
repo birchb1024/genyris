@@ -6,6 +6,8 @@
 package org.genyris.core;
 
 import org.genyris.classification.ClassWrapper;
+import org.genyris.dl.Triple;
+import org.genyris.dl.TripleSet;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
@@ -33,4 +35,8 @@ public interface Visitor {
 
 	public void visitFullyQualifiedSymbol(URISymbol sym)
 			throws GenyrisException;
+
+	public void visitTriple(Triple triple) throws GenyrisException;
+
+	public void visitTripleSet(TripleSet store) throws GenyrisException;
 }

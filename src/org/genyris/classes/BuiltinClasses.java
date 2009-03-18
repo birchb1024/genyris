@@ -62,5 +62,8 @@ public class BuiltinClasses {
         mkClass(classname, Constants.PARENPARSER, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.STRINGFORMATSTREAM, env, STANDARDCLASS, builtin);
         mkClass(classname, Constants.SOUND, env, STANDARDCLASS, builtin);
-    }
+
+        mkClass(classname, Constants.TRIPLE, env, STANDARDCLASS, builtin);
+        mkClass(classname, Constants.TRIPLESET, env, STANDARDCLASS, builtin);
+}
 }

@@ -1,0 +1,26 @@
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;; Copyright 2008 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;;
+class Years
+class Age
+
+var twenty 20
+
+;; make staments about this object
+var statements
+   tripleset 
+      `(,twenty units ,Years)
+      `(,twenty type |http://people.org/type#age|)
+statements(!asTriples)
+
+df description(&rest body)
+    `(tripleset ,@body)
+description
+    |http://people.org/type#age| |http://people.org/type#age| |http://people.org/type#age|
+    

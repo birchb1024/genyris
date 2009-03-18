@@ -40,7 +40,7 @@ public class HTMLFormatter extends AbstractFormatter {
 			new ClassWrapper(frame).acceptVisitor(this);
 			return;
 		}
-		frame.getAlist().acceptVisitor(this);
+		frame.asAlist().acceptVisitor(this);
 	}
 
 	public void visitEagerProc(EagerProcedure proc) throws GenyrisException {
@@ -149,4 +149,5 @@ public class HTMLFormatter extends AbstractFormatter {
 			throws GenyrisException {
 		emit(exp.getJavaValue().toString());
 	}
+
 }

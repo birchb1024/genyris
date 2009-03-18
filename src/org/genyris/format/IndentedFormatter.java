@@ -161,7 +161,7 @@ public class IndentedFormatter extends AbstractFormatter {
         }
 
         try {
-            printLcons((Lcons) frame.getAlist());
+            printLcons((Lcons) frame.asAlist());
         }
         catch (IOException e) {
             throw new GenyrisException(this.getClass().getName() + ": " + e.getMessage());
@@ -172,6 +172,5 @@ public class IndentedFormatter extends AbstractFormatter {
     public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) throws GenyrisException {
         writeAtom(exp);
     }
-
 
 }
