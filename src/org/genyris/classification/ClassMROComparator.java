@@ -6,18 +6,16 @@ import org.genyris.core.Exp;
 import org.genyris.core.Lobject;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
-import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
 public class ClassMROComparator implements Comparator {
-	private Environment env;
-    public ClassMROComparator(Environment env) {
-        env = this.env;
+	//private Environment env;
+	private Symbol NIL, SUPERCLASSES;
+    public ClassMROComparator(Symbol NIL, Symbol superclasses) {
+       this.NIL = NIL;
+       this.SUPERCLASSES = superclasses;
+    }
 
-    }
-    private Symbol SUPERCLASSES() {
-    	return env.getSymbolTable().SUPERCLASSES();
-    }
     public int compare(Object o1, Object o2) {
         Lobject c1 = (Lobject) o1;
         Lobject c2 = (Lobject) o2;
@@ -26,12 +24,12 @@ public class ClassMROComparator implements Comparator {
     private int getClassDepth(Exp klass) {
         Lobject c1 = (Lobject) klass;
         try {
-            Exp superclasses = c1.lookupVariableShallow(SUPERCLASSES());
-            if(superclasses == NIL()) {
+            Exp superclasses = c1.lookupVariableShallow(SUPERCLASSES);
+            if(superclasses == NIL) {
                 return 0;
             }
             int retval = 0;
-            while( superclasses != NIL()) {
+            while( superclasses != NIL) {
                 int tmp = 1 + getClassDepth(superclasses.car());
                 if (retval < tmp ){
                     retval = tmp;
@@ -45,7 +43,4 @@ public class ClassMROComparator implements Comparator {
             return 1000000;
         }
     }
-	private Exp NIL() {
-		return env.getNil();
-	}
 }

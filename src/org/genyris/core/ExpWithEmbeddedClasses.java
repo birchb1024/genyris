@@ -6,6 +6,8 @@
 package org.genyris.core;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+
 import org.genyris.classification.ClassMROComparator;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -23,7 +25,8 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
 
     private void sortClassesinMRO(Environment env) {
         Object[] tmp = _classes.toArray();
-        java.util.Arrays.sort(tmp, new ClassMROComparator(env) );
+        Comparator comp = new ClassMROComparator(env.getSymbolTable().NIL(), env.getSymbolTable().SUPERCLASSES());
+        java.util.Arrays.sort(tmp, comp );
         _classes.clear();
         for(int i=0; i< tmp.length; i++)
             _classes.add(tmp[i]); // TODO learn some Java

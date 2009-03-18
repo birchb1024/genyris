@@ -64,16 +64,16 @@ public abstract class Exp implements Classifiable, Closure {
         throw new AccessException("attempt to set car of non-cons");
     }
 
-    public int hashCode() {
-        return getJavaValue().hashCode();
-    }
-
-    public boolean equals(Object compare) {
-        if (compare.getClass() != this.getClass())
-            return false;
-        else
-            return this.getJavaValue().equals(((Exp) compare).getJavaValue());
-    }
+//    public int hashCode() {
+//        return getJavaValue().hashCode();
+//    }
+//
+//    public boolean equals(Object compare) {
+//        if (compare.getClass() != this.getClass())
+//            return false;
+//        else
+//            return this.getJavaValue().equals(((Exp) compare).getJavaValue());
+//    }
 
 
     public abstract String toString();

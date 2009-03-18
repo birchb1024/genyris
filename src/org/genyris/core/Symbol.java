@@ -27,13 +27,13 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 		return false;
 	}
 
-	public int hashCode() {
-		return _printName.hashCode();
-	}
-
-	public boolean equals(Object compare) {
-		return this == compare;
-	}
+//	public int hashCode() {
+//		return _printName.hashCode();
+//	}
+//
+//	public boolean equals(Object compare) {
+//		return this == compare;
+//	}
 
 	public String getPrintName() {
 		return _printName;

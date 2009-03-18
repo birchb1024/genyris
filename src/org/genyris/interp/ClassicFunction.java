@@ -27,7 +27,7 @@ public class ClassicFunction extends ApplicableFunction {
     		throw new GenyrisException("type missmatch - was expecting an AbstractClosure");
     	}
         AbstractClosure proc = (AbstractClosure)closure;
-        Map bindings = new HashMap();
+        Map bindings = new HashMap(proc.getNumberOfRequiredArguments());
         if (arguments.length < proc.getNumberOfRequiredArguments()) {
             throw new GenyrisException("Too few arguments supplied to proc: " + proc.getName());
         }

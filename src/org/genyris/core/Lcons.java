@@ -76,5 +76,8 @@ public class Lcons extends ExpWithEmbeddedClasses {
 		}
         return buffer.toString();
     }
+	public int hashCode() {
+		return _car.hashCode() + _cdr.hashCode();
+	}
 
 }

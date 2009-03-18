@@ -10,38 +10,49 @@ import java.math.BigDecimal;
 import org.genyris.exception.GenyrisException;
 
 public class Bignum extends ExpWithEmbeddedClasses {
-    private BigDecimal _value;
+	private BigDecimal _value;
 
 	public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.BIGNUM();
 	}
 
-    public Object getJavaValue() {
-        return _value;
-    }
+	public Object getJavaValue() {
+		return _value;
+	}
 
-    public Bignum(BigDecimal i) {
-        _value = i;
-    }
+	public Bignum(BigDecimal i) {
+		_value = i;
+	}
 
-    public Bignum(int i) {
-        _value = new BigDecimal(i);
-    }
+	public Bignum(int i) {
+		_value = new BigDecimal(i);
+	}
 
-    public Bignum(double d) {
-        _value = new BigDecimal(d);
-    }
+	public Bignum(double d) {
+		_value = new BigDecimal(d);
+	}
 
-    public Bignum(String string) {
-        _value = new BigDecimal(string);
-    }
+	public Bignum(String string) {
+		_value = new BigDecimal(string);
+	}
 
-    public void acceptVisitor(Visitor guest)  throws GenyrisException {
-        guest.visitBignum(this);
-    }
+	public void acceptVisitor(Visitor guest) throws GenyrisException {
+		guest.visitBignum(this);
+	}
 
-    public String toString() {
-        return _value.toString();
-    }
+	public String toString() {
+		return _value.toString();
+	}
+
+	public int hashCode() {
+		return _value.hashCode();
+	}
+
+	public boolean equals(Object compare) {
+		if (compare.getClass() != this.getClass())
+			return false;
+		else
+			return _value.equals(((Bignum)compare)._value);
+	}
 
 }

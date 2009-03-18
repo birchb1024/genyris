@@ -8,6 +8,7 @@ package org.genyris.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -22,18 +23,22 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
 	protected Environment _parent;
 
+    private static Map mapFactory() {
+    	return new HashMap();
+    }
+
 	public Lobject() {
-		_dict = new HashMap();
+		_dict = mapFactory();
 		_parent = null;
 	}
 
 	public Lobject(Environment parent) {
-		_dict = new HashMap();
+		_dict = mapFactory();
 		_parent = parent;
 	}
 
 	public Lobject(Symbol key, Exp value, Environment parent) {
-		_dict = new HashMap();
+		_dict = mapFactory();
 		_dict.put(key, value);
 		_parent = parent;
 	}
@@ -59,7 +64,8 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	}
 
 	public Exp getAlist() {
-		Iterator iter = _dict.keySet().iterator();
+		Map keys = new TreeMap(_dict);
+		Iterator iter = keys.keySet().iterator();
 		// TODO Sort the keyset to get a consistent result for test cases.
 		Exp result = _parent.getNil();
 		while (iter.hasNext()) {
@@ -97,6 +103,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	}
 
 	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
+    	System.out.println("Lobject:lookupVariableValue: " + symbol);
 		if (symbol == SELF()) {
 			return this;
 		} else if (symbol == CLASSES()) {
@@ -239,7 +246,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		if (arguments[0].isNil()) {
 			return this;
 		}
-		Map bindings = new HashMap();
+		Map bindings = mapFactory();
 		bindings.put(SELF(), this);
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment,
 				bindings, this);

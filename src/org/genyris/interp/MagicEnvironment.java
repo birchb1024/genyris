@@ -5,8 +5,6 @@
 //
 package org.genyris.interp;
 
-import java.util.HashMap;
-
 import org.genyris.core.Exp;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
@@ -19,7 +17,7 @@ public class MagicEnvironment extends StandardEnvironment {
     private Exp _it;
 
     public MagicEnvironment(Environment runtime, Exp theObject) throws GenyrisException {
-        super(runtime, new HashMap());
+        super(runtime, mapFactory());
         _it = theObject;
     }
 

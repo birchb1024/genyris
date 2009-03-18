@@ -9,54 +9,64 @@ import java.util.regex.PatternSyntaxException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.core.Bignum;
 
-
 public class Lstring extends ExpWithEmbeddedClasses {
 
-    String _value;
+	private String _value;
 
-    public Lstring(String str) {
-        _value = str;
-    }
+	public Lstring(String str) {
+		_value = str;
+	}
 
-    public Object getJavaValue() {
-        return _value;
-    }
+	public Object getJavaValue() {
+		return _value;
+	}
 
-    public String toString() {
-        return _value;
-    }
-    public void acceptVisitor(Visitor guest)  throws GenyrisException {
-        guest.visitLstring(this);
-    }
+	public String toString() {
+		return _value;
+	}
 
-  public Exp split(Exp NIL, Lstring regex) throws GenyrisException {
-    Exp result = NIL;
-    try {
-      String[] splitted = _value.split(regex._value);
-      for(int i=splitted.length-1; i>=0; i--) {
-        result = new Lcons(new Lstring(splitted[i]), result);
-      }
-    }
-    catch(PatternSyntaxException e) {
-      throw new GenyrisException(e.getMessage());
-    }
-    return result;
-  }
+	public void acceptVisitor(Visitor guest) throws GenyrisException {
+		guest.visitLstring(this);
+	}
 
-  public Lstring concat(Lstring str) {
-    return new Lstring(this._value.concat(str._value));
-  }
+	public Exp split(Exp NIL, Lstring regex) throws GenyrisException {
+		Exp result = NIL;
+		try {
+			String[] splitted = _value.split(regex._value);
+			for (int i = splitted.length - 1; i >= 0; i--) {
+				result = new Lcons(new Lstring(splitted[i]), result);
+			}
+		} catch (PatternSyntaxException e) {
+			throw new GenyrisException(e.getMessage());
+		}
+		return result;
+	}
 
-  public Exp match(Symbol nil, Symbol true1, Lstring regex) {
-    return (_value.matches(regex._value)? true1 : nil);
-  }
+	public Lstring concat(Lstring str) {
+		return new Lstring(this._value.concat(str._value));
+	}
 
-  public Exp length() {
-    return (new Bignum(_value.length()));
-  }
+	public Exp match(Symbol nil, Symbol true1, Lstring regex) {
+		return (_value.matches(regex._value) ? true1 : nil);
+	}
 
-public Symbol getBuiltinClassSymbol(Internable table) {
-	return table.STRING();
-}
+	public Exp length() {
+		return (new Bignum(_value.length()));
+	}
+
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.STRING();
+	}
+
+	public int hashCode() {
+		return _value.hashCode();
+	}
+
+	public boolean equals(Object compare) {
+		if (compare.getClass() != this.getClass())
+			return false;
+		else
+			return _value.equals(((Lstring) compare)._value);
+	}
 
 }
