@@ -6,7 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -26,7 +26,7 @@ public class ReverseFunction extends ApplicableFunction {
 		Exp s = arguments[0];
 
 		while (s != NIL) {
-			rev_result = new Lcons(s.car(), rev_result);
+			rev_result = new Pair(s.car(), rev_result);
 			s = s.cdr();
 		}
 		return (rev_result);

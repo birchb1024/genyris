@@ -4,8 +4,8 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.StrinG;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
@@ -50,10 +50,10 @@ public class TripleTest extends TestCase {
         Symbol predicate = new SimpleSymbol("p");
         assertTrue(!new Triple(subject, predicate, new Bignum(99)).equals(
             new Triple(subject, predicate, new Bignum(99))));
-        assertTrue(!new Triple(subject, predicate, new Lstring("foo")).equals(
-                new Triple(subject, predicate, new Lstring("foo"))));
-        assertTrue(!new Triple(subject, predicate, new Lcons(new Lstring("foo"),new Bignum(99))).equals(
-                new Triple(subject, predicate, new Lcons(new Lstring("foo"),new Bignum(99)))));
+        assertTrue(!new Triple(subject, predicate, new StrinG("foo")).equals(
+                new Triple(subject, predicate, new StrinG("foo"))));
+        assertTrue(!new Triple(subject, predicate, new Pair(new StrinG("foo"),new Bignum(99))).equals(
+                new Triple(subject, predicate, new Pair(new StrinG("foo"),new Bignum(99)))));
 	}
 
 	public void testGetBuiltinClassSymbol() {

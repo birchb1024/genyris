@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -36,7 +36,7 @@ public class SpawnHTTPDFunction extends ApplicableFunction {
 			Thread t = httpd1.run();
 			return new Bignum(t.getId());
 		} catch (IOException e) {
-			return new Lstring(e.getMessage());
+			return new StrinG(e.getMessage());
 		}
 
 	}

@@ -7,7 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
@@ -25,7 +25,7 @@ public class LambdaFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
         Exp expression = arrayToList(arguments); 
-        expression = new Lcons(_lambda, expression);
+        expression = new Pair(_lambda, expression);
         return new EagerProcedure(env, expression, new ClassicFunction("anonymous lambda", _interp));
 
     }

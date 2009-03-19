@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.AccessException;
@@ -67,7 +67,7 @@ public class CoreTest extends TestCase {
 
 	public void testLength() throws AccessException {
 
-		Exp list = new Lcons(new Bignum(1), new Lcons(new Bignum(2), NIL));
+		Exp list = new Pair(new Bignum(1), new Pair(new Bignum(2), NIL));
 		assertEquals(2, list.length(NIL));
 		assertEquals(1, list.cdr().length(NIL));
 		assertEquals(0, list.cdr().cdr().length(NIL));
@@ -85,7 +85,7 @@ public class CoreTest extends TestCase {
 		}
 	}
 	public void testLisp() {
-		assertTrue(new Lcons(NIL, NIL).listp());
+		assertTrue(new Pair(NIL, NIL).listp());
 		assertFalse(new Bignum(1).listp());
 	}
 }

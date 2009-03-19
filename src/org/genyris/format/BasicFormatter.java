@@ -12,10 +12,10 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Lcons;
-import org.genyris.core.LconsWithcolons;
-import org.genyris.core.Lobject;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.PairWithcolons;
+import org.genyris.core.Dictionary;
+import org.genyris.core.StrinG;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -28,10 +28,10 @@ public class BasicFormatter extends  AbstractFormatter {
         super(out);
     }
 
-    public void visitLobject(Lobject frame) throws GenyrisException {
+    public void visitDictionary(Dictionary frame) throws GenyrisException {
         Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
-        Lobject standardClass;
-        standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
+        Dictionary standardClass;
+        standardClass = (Dictionary) frame.getParent().lookupVariableValue(standardClassSymbol);
 
         if (frame.isTaggedWith(standardClass)) {
             new ClassWrapper(frame).acceptVisitor(this);
@@ -71,10 +71,10 @@ public class BasicFormatter extends  AbstractFormatter {
         }
     }
 
-    public void visitLcons(Lcons cons)  throws GenyrisException {
+    public void visitPair(Pair cons)  throws GenyrisException {
         write("(");
 		cons.car().acceptVisitor(this);
-		if (cons instanceof LconsWithcolons) {
+		if (cons instanceof PairWithcolons) {
 		    write(" : ");
 		    cons.cdr().acceptVisitor(this);
 		}
@@ -88,7 +88,7 @@ public class BasicFormatter extends  AbstractFormatter {
         write(bignum.getJavaValue().toString());
     }
 
-    public void visitLstring(Lstring lst) throws GenyrisException {
+    public void visitStrinG(StrinG lst) throws GenyrisException {
         write("\"");
 		StringBuffer str = new StringBuffer (lst.getJavaValue().toString());
 		for(int i=0; i< str.length(); i++) {

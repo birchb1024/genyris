@@ -3,7 +3,7 @@ package org.genyris.test.dl;
 import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
@@ -40,8 +40,8 @@ public class TripleSetTest extends TestCase {
 		assertTrue(ts.equals(ts2));
 
 		Bignum subject = new Bignum(1);
-		ts.add(new Triple(subject, new SimpleSymbol("s"), new Lstring("$")));
-		ts2.add(new Triple(new Bignum(1), new SimpleSymbol("s"), new Lstring(
+		ts.add(new Triple(subject, new SimpleSymbol("s"), new StrinG("$")));
+		ts2.add(new Triple(new Bignum(1), new SimpleSymbol("s"), new StrinG(
 				"$")));
 		assertFalse(ts.equals(ts2));
 
@@ -56,9 +56,9 @@ public class TripleSetTest extends TestCase {
 
 		Bignum subject = new Bignum(12);
 		Symbol predicate = new SimpleSymbol("s");
-		Lstring object = new Lstring("$");
+		StrinG object = new StrinG("$");
 		ts.add(new Triple(subject, predicate, object));
-		ts.add(new Triple(subject, new SimpleSymbol("s"), new Lstring("$")));
+		ts.add(new Triple(subject, new SimpleSymbol("s"), new StrinG("$")));
 
 		assertEquals(ts.empty(), false);
 

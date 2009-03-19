@@ -12,8 +12,8 @@ import java.io.InputStreamReader;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -32,11 +32,11 @@ public class ExecMethod extends AbstractMethod {
     private String[] toStringArray(Exp[] expArray) throws GenyrisException {
         String[] result = new String[expArray.length];
         for (int i = 0; i < expArray.length; i++) {
-            if (!(expArray[i] instanceof Lstring)) {
+            if (!(expArray[i] instanceof StrinG)) {
                 throw new GenyrisException("Non-string passed to "
                         + Constants.EXEC);
             } else {
-                result[i] = ((Lstring) expArray[i]).toString();
+                result[i] = ((StrinG) expArray[i]).toString();
             }
         }
         return result;
@@ -57,9 +57,9 @@ public class ExecMethod extends AbstractMethod {
             String line;
             while ((line = buf.readLine()) != null) {
                 if (lines == NIL) {
-                    tail = lines = new Lcons(new Lstring(line), NIL);
+                    tail = lines = new Pair(new StrinG(line), NIL);
                 } else {
-                    tail.setCdr(new Lcons(new Lstring(line), NIL));
+                    tail.setCdr(new Pair(new StrinG(line), NIL));
                     tail = tail.cdr();
                 }
             }
@@ -69,7 +69,7 @@ public class ExecMethod extends AbstractMethod {
         }
         try {
             if (child.waitFor() != 0) {
-                lines = new Lcons(new Lstring("exec return value = "
+                lines = new Pair(new StrinG("exec return value = "
                         + child.exitValue()), lines);
             }
         } catch (InterruptedException e) {

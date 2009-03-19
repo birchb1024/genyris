@@ -16,7 +16,7 @@ import java.io.Writer;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
@@ -72,7 +72,7 @@ public class SourceLoader {
 		String url = SourceLoader.class.getClassLoader().getResource(filename)
 				.toString();
 		execAndClose(_interp, in, url, writer);
-		return new Lstring(url);
+		return new StrinG(url);
 	}
 
 	public static Exp loadScriptFromFile(Interpreter _interp, String filename,
@@ -85,7 +85,7 @@ public class SourceLoader {
 			throw new GenyrisException("loadScriptFromFile: " + e.getMessage());
 		}
 		execAndClose(_interp, in, filename, writer);
-		return new Lstring(filename);
+		return new StrinG(filename);
 	}
 
 	public static Exp executeScript(String filename, Interpreter interp,

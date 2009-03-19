@@ -7,7 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Exp;
-import org.genyris.core.Lobject;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -30,10 +30,10 @@ public class TagFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment environment) throws GenyrisException {
 		checkArguments(arguments, 2);
-		Class[] types = { Lobject.class };
+		Class[] types = { Dictionary.class };
 		checkArgumentTypes(types, arguments);
 		Exp object = arguments[1];
-		Lobject klass = (Lobject) arguments[0];
+		Dictionary klass = (Dictionary) arguments[0];
 		callValidator(klass, object, klass); // use the class itself as the
 												// env for validation so it can
 												// access class params etc.
@@ -43,7 +43,7 @@ public class TagFunction extends ApplicableFunction {
 
 	// TODO move these into ClassWrapper:
 	public void callValidator(Environment environment, Exp object,
-			Lobject klassobject) throws GenyrisException {
+			Dictionary klassobject) throws GenyrisException {
 		// TODO DRY
 		Exp NIL = environment.getNil();
 		Exp validator = null;
@@ -64,7 +64,7 @@ public class TagFunction extends ApplicableFunction {
 	}
 
 	public static void validateObjectInClass(Environment environment,
-			Exp object, Lobject klassobject) throws GenyrisException {
+			Exp object, Dictionary klassobject) throws GenyrisException {
 		Exp NIL = environment.getNil();
 		Exp validator = null;
 		ClassWrapper klass = new ClassWrapper(klassobject);

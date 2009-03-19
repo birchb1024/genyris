@@ -16,7 +16,7 @@ import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.Lobject;
+import org.genyris.core.Dictionary;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
@@ -111,7 +111,7 @@ public class Interpreter {
 		_table = new SymbolTable();
 		_table.init(NIL);
 		_globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
-		Lobject SYMBOL = new Lobject(_globalEnvironment);
+		Dictionary SYMBOL = new Dictionary(_globalEnvironment);
 		_defaultOutput = new OutputStreamWriter(System.out);
 		{
 			// Circular references between symbols and classnames require manual
@@ -278,7 +278,7 @@ public class Interpreter {
 
 	public void bindMethod(String className, Class class1)
 			throws UnboundException, GenyrisException {
-		Lobject stringClass = (Lobject) _globalEnvironment
+		Dictionary stringClass = (Dictionary) _globalEnvironment
 				.lookupVariableValue(_table.internString(className));
 		//
 		// Method uses reflection to locate and call the constructor.

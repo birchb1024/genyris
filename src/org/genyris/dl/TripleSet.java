@@ -7,7 +7,7 @@ import java.util.Set;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
@@ -94,7 +94,7 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 		Iterator iter = triples.iterator();
 		while(iter.hasNext()) {
 			Triple t = (Triple) iter.next();
-			result = new Lcons(t, result);
+			result = new Pair(t, result);
 		}
 		return result;
 	}

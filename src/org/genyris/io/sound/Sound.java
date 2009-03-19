@@ -16,7 +16,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -26,7 +26,7 @@ import org.genyris.interp.Interpreter;
 public class Sound {
     private static final int EXTERNAL_BUFFER_SIZE = 128000;
 
-    public static void play(Lstring strFilename) throws GenyrisException {
+    public static void play(StrinG strFilename) throws GenyrisException {
         /*
          * Copyright (c) 1999 - 2001 by Matthias Pfisterer All rights reserved.
          * 
@@ -139,10 +139,10 @@ public class Sound {
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
             if (arguments.length == 1) {
-                if (!(arguments[0] instanceof Lstring)) {
+                if (!(arguments[0] instanceof StrinG)) {
                     throw new GenyrisException("Non-string filename passed to Sound!Play");
                 }
-                play((Lstring)arguments[0]);
+                play((StrinG)arguments[0]);
                 return NIL;
             } else {
                 throw new GenyrisException("Missing argument to Sound!play");

@@ -147,13 +147,13 @@ public class SymbolTable implements Internable {
     }
 
     public Exp getSymbolsList() {
-        Lcons head, tail;
+        Pair head, tail;
         Iterator iter = _table.values().iterator();
         Exp key = (Exp)iter.next(); // Safe to assume symbol table is never empty
-        head = tail = new Lcons(key,NIL);
+        head = tail = new Pair(key,NIL);
         while(iter.hasNext()) {
             key = (Exp)iter.next();
-            Lcons newItem = new Lcons(key,NIL);
+            Pair newItem = new Pair(key,NIL);
             tail.setCdr(newItem);
             tail = newItem;
         }

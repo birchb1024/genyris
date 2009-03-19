@@ -7,7 +7,7 @@ package org.genyris.dl;
 
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -54,7 +54,7 @@ public class ThingMethods {
             Exp classes = self.getClasses(env);
             // TODO move this code int ExpWithEmbeddedClasses as a method
             while (classes != NIL) {
-                results = new Lcons(new Triple(self, env.getSymbolTable()
+                results = new Pair(new Triple(self, env.getSymbolTable()
                         .TYPE(), classes.car()), results);
                 classes = classes.cdr();
             }

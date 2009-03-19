@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -46,7 +46,7 @@ public class KillHTTPDFunction extends ApplicableFunction {
         }
         String name = t.getName();
         t.interrupt();
-        return new Lstring("Interrupted " + name);
+        return new StrinG("Interrupted " + name);
 
     }
 

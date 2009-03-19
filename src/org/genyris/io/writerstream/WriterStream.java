@@ -12,7 +12,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
@@ -57,7 +57,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         }
     }
 
-    public Exp format(Lstring formatString, Exp[] args, Environment env) throws GenyrisException {
+    public Exp format(StrinG formatString, Exp[] args, Environment env) throws GenyrisException {
         StringBuffer format = new StringBuffer(formatString.toString());
         int argCounter = 1;
         try {
@@ -138,11 +138,11 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
             if (arguments.length > 0) {
-                if (!(arguments[0] instanceof Lstring)) {
+                if (!(arguments[0] instanceof StrinG)) {
                     throw new GenyrisException("Non string passed to FormatMethod");
                 }
                 WriterStream self = getSelfWriter(env);
-                Exp retval = self.format((Lstring)arguments[0], arguments, env);
+                Exp retval = self.format((StrinG)arguments[0], arguments, env);
                 if(self == STDOUT) {
                     try {
                         self._value.flush();

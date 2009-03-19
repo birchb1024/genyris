@@ -32,8 +32,8 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
             _classes.add(tmp[i]); // TODO learn some Java
     }
 
-    public void addClass(Exp k) { // TODO change signature to Lobject
-        Lobject klass = (Lobject) k;
+    public void addClass(Exp k) { // TODO change signature to Dictionary
+        Dictionary klass = (Dictionary) k;
         if(_classes.contains(klass)) {
             return;
         }
@@ -41,7 +41,7 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
         sortClassesinMRO(klass.getParent());
     }
     public void setClasses(Exp classList, Exp NIL) throws AccessException {
-    	if(!(classList instanceof Lcons)) {
+    	if(!(classList instanceof Pair)) {
     		throw new AccessException("setClasses expected a list, not " + classList);
     	}
         _classes.clear();
@@ -60,19 +60,19 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
         catch (UnboundException e) {
             throw new Error(builtinClassSymbol + "Missing builting class - fatal!");
         }
-        Exp classes = new Lcons (builtinClass, NIL);
+        Exp classes = new Pair (builtinClass, NIL);
         Object arryOfObjects[] = _classes.toArray();
         for(int i=0; i< arryOfObjects.length; i++) {
-            classes = new Lcons ((Exp)arryOfObjects[i], classes);
+            classes = new Pair ((Exp)arryOfObjects[i], classes);
         }
         return classes;
     }
     public void removeClass(Exp k) {
-        Lobject klass = (Lobject) k;
+        Dictionary klass = (Dictionary) k;
         _classes.remove(klass);
         sortClassesinMRO(klass.getParent());
     }
-    public boolean isTaggedWith(Lobject klass) {
+    public boolean isTaggedWith(Dictionary klass) {
         return _classes.contains(klass);
     }
 

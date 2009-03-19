@@ -7,8 +7,8 @@ package org.genyris.interp;
 
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
+import org.genyris.core.Pair;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -20,7 +20,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 	final Exp _lambdaExpression;
 	final ApplicableFunction _functionToApply;
 	protected int _numberOfRequiredArguments;
-	Lobject _returnClass;
+	Dictionary _returnClass;
 
 	public AbstractClosure(Environment environment, Exp expression,
 			ApplicableFunction appl) {
@@ -42,11 +42,11 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 	private int countFormalArguments(Exp exp) throws AccessException {
 		int count = 0;
 		while (exp != NIL()) {
-			if (!(exp instanceof Lcons)) { // ignore trailing type
+			if (!(exp instanceof Pair)) { // ignore trailing type
 											// specification
 				break;
 			}
-			if (((Lcons) exp).car() == REST()) {
+			if (((Pair) exp).car() == REST()) {
 				// count += 1;
 				break;
 			}
@@ -103,7 +103,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 			return NIL();
 		Exp tmp = args;
 		while (tmp.cdr() != NIL()) {
-			if (!(tmp.cdr() instanceof Lcons)) {
+			if (!(tmp.cdr() instanceof Pair)) {
 				break;
 			}
 			tmp = tmp.cdr();
@@ -116,7 +116,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 		return lastArgument(args);
 	}
 
-	public Lobject getReturnClassOrNull() throws GenyrisException {
+	public Dictionary getReturnClassOrNull() throws GenyrisException {
 		if (_returnClass != null) {
 			return _returnClass;
 		}
@@ -126,7 +126,7 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 		if (args != NIL()) {
 			Exp tmp = args;
 			while (tmp.cdr() != NIL()) { // TODO refactor this loop into
-				if (!(tmp.cdr() instanceof Lcons)) {
+				if (!(tmp.cdr() instanceof Pair)) {
 					returnTypeSymbol = tmp.cdr();
 					possibleReturnClass = _env.lookupVariableValue(returnTypeSymbol);
 					break;
@@ -137,8 +137,8 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 		if(possibleReturnClass == NIL()) {
 			return null;			
 		}
-		if(possibleReturnClass instanceof Lobject) {
-			return (_returnClass = (Lobject)possibleReturnClass);			
+		if(possibleReturnClass instanceof Dictionary) {
+			return (_returnClass = (Dictionary)possibleReturnClass);			
 		}
 		throw new GenyrisException(possibleReturnClass + " return class not a class.");
 	}

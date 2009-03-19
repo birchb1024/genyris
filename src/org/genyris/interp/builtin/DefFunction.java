@@ -6,7 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -26,7 +26,7 @@ public class DefFunction extends ApplicableFunction {
 			Environment envForBindOperations) throws GenyrisException {
 		checkMinArguments(arguments, 1);
 		Symbol.realSymbol(arguments[0], DYNAMIC());
-		Exp lambdaExpression = new Lcons(_lambda, arrayToList(arguments).cdr());
+		Exp lambdaExpression = new Pair(_lambda, arrayToList(arguments).cdr());
 		EagerProcedure fn = new EagerProcedure(envForBindOperations,
 				lambdaExpression, new ClassicFunction(arguments[0].toString(), _interp));
 		envForBindOperations.defineVariable(arguments[0], fn);

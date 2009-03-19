@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
+import org.genyris.core.Pair;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -34,7 +34,7 @@ public class ClassicFunction extends ApplicableFunction {
         int i = 0;
         Exp formals = proc._lambdaExpression.cdr().car();
         while(formals != NIL) {
-            if(!(formals instanceof Lcons)) {
+            if(!(formals instanceof Pair)) {
                 break; // skip the return class
             }
             Exp formal = formals.car();
@@ -47,7 +47,7 @@ public class ClassicFunction extends ApplicableFunction {
                 i++;
                 break;
             } else if (formal != NIL) {
-                if(formal instanceof Lcons) {
+                if(formal instanceof Pair) {
                     Exp left = formal.car();
                     Exp right = formal.cdr();
                     if(!(left instanceof Symbol) ) {
@@ -60,7 +60,7 @@ public class ClassicFunction extends ApplicableFunction {
                     }
                     Exp klass = proc.getEnv().lookupVariableValue(right); 
                     try {
-                        TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (Lobject)klass);
+                        TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (Dictionary)klass);
                     }
                     catch (GenyrisException e) {
                         throw new GenyrisException("Type mismatch in function call for " + left);
@@ -82,7 +82,7 @@ public class ClassicFunction extends ApplicableFunction {
         // and the dynamic environment for the object stuff.
         Environment newEnv = new SpecialEnvironment(proc.getEnv(), bindings, envForBindOperations);
         Exp result = Evaluator.evalSequence(newEnv, proc.getBody());
-        Lobject returnClass = proc.getReturnClassOrNull();
+        Dictionary returnClass = proc.getReturnClassOrNull();
         if(returnClass != null) {
             try {
                 TagFunction.validateObjectInClass(proc.getEnv(), result, returnClass);
@@ -99,10 +99,10 @@ public class ClassicFunction extends ApplicableFunction {
         if(arguments.length <= i) {
             return NIL;
         }
-        Lcons actuals = new Lcons(arguments[i], NIL);
-        Lcons tail = actuals;
+        Pair actuals = new Pair(arguments[i], NIL);
+        Pair tail = actuals;
         for (int j = i + 1; j < arguments.length; j++) {
-            Lcons newTail = new Lcons(arguments[j], NIL);
+            Pair newTail = new Pair(arguments[j], NIL);
             tail.setCdr(newTail);
             tail = newTail;
         }

@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 import org.genyris.core.Bignum;
 import org.genyris.core.EscapedSymbol;
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.SymbolTable;
@@ -131,18 +131,18 @@ public class LexTest extends TestCase {
 
 
     public void testLexString() throws Exception {
-        excerciseNextTokenExp(new Lstring("str"), "\"str\"");
-        excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
-        excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
-        excerciseNextTokenExp(new Lstring("s\nr"), "\"s\nr\"");
-        excerciseNextTokenExp(new Lstring("\n\t\f\r\\"), "\"\n\t\f\r\\\\\"");
-        excerciseNextTokenExp(new Lstring("s1-"), "\"\\s\\1\\-\"");
-        excerciseNextTokenExp(new Lstring("\007\n\r\t\f"), "\"\\a\\n\\r\\t\\f\"");
-        excerciseNextTokenExp(new Lstring("\\"), "\"\\\\\"");
-        excerciseNextTokenExp(new Lstring("\""), "\"\\\"\"");
-        excerciseNextTokenExp(new Lstring("\\"), "\"\\\\\"");
-        excerciseNextTokenExp(new Lstring("\033"), "\"\\e\"");
-        excerciseNextTokenExp(new Lstring(""),"\"");
+        excerciseNextTokenExp(new StrinG("str"), "\"str\"");
+        excerciseNextTokenExp(new StrinG("s\nr"), "\"s\nr\"");
+        excerciseNextTokenExp(new StrinG("s\nr"), "\"s\nr\"");
+        excerciseNextTokenExp(new StrinG("s\nr"), "\"s\nr\"");
+        excerciseNextTokenExp(new StrinG("\n\t\f\r\\"), "\"\n\t\f\r\\\\\"");
+        excerciseNextTokenExp(new StrinG("s1-"), "\"\\s\\1\\-\"");
+        excerciseNextTokenExp(new StrinG("\007\n\r\t\f"), "\"\\a\\n\\r\\t\\f\"");
+        excerciseNextTokenExp(new StrinG("\\"), "\"\\\\\"");
+        excerciseNextTokenExp(new StrinG("\""), "\"\\\"\"");
+        excerciseNextTokenExp(new StrinG("\\"), "\"\\\\\"");
+        excerciseNextTokenExp(new StrinG("\033"), "\"\\e\"");
+        excerciseNextTokenExp(new StrinG(""),"\"");
     }
 
     public void testLexString2() throws Exception {
@@ -155,7 +155,7 @@ public class LexTest extends TestCase {
         assertEquals(new SimpleSymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());
         assertEquals(new Bignum("12.34"), lexer.nextToken());
         assertEquals(new Bignum(-12.34e5), lexer.nextToken());
-        assertEquals(new Lstring("string"), lexer.nextToken());
+        assertEquals(new StrinG("string"), lexer.nextToken());
 
     }
 

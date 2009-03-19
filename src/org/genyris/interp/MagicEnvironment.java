@@ -29,7 +29,7 @@ public class MagicEnvironment extends StandardEnvironment {
             return _it;
         }
         // TODO - DRY
-        // TODO - move these into the Lcons class as an Environment
+        // TODO - move these into the Pair class as an Environment
         else if (symbol == _left) {
             try {
                 return _it.car();
@@ -115,7 +115,7 @@ public class MagicEnvironment extends StandardEnvironment {
                 return;
             }
             // TODO - DRY
-            // TODO - Move into Lcons in an Environment
+            // TODO - Move into Pair in an Environment
             else if (sym == _left) {
                 try {
                     _it.setCar(valu);

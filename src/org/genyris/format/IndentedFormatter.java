@@ -13,10 +13,10 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Lcons;
-import org.genyris.core.LconsWithcolons;
-import org.genyris.core.Lobject;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.PairWithcolons;
+import org.genyris.core.Dictionary;
+import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.URISymbol;
@@ -43,12 +43,12 @@ public class IndentedFormatter extends AbstractFormatter {
             _output.write("   ");
     }
 
-    public void printLcons(Lcons cons) throws IOException, GenyrisException  {
+    public void printPair(Pair cons) throws IOException, GenyrisException  {
         // TODO - Yuck!
         _consDepth += 1;
         Exp head = cons;
         int countOfRight = 0;
-        if (cons instanceof LconsWithcolons) {
+        if (cons instanceof PairWithcolons) {
             printSpaces(_consDepth);
             cons.car().acceptVisitor(_basic);
             _output.write(" " + Constants.CDRCHAR + " ");
@@ -59,9 +59,9 @@ public class IndentedFormatter extends AbstractFormatter {
         while ( !(head instanceof NilSymbol)) {
             countOfRight += 1;
             if (head.listp()) {
-                Lcons headCons = ((Lcons) head);
+                Pair headCons = ((Pair) head);
                 if (headCons.car().listp()) {
-                    Lcons first = ((Lcons) headCons.car());
+                    Pair first = ((Pair) headCons.car());
                     if (countOfRight <= INDENT_DEPTH) {
                         if (countOfRight > 1)
                             _output.write(' ');
@@ -73,10 +73,10 @@ public class IndentedFormatter extends AbstractFormatter {
                         _output.write('\n');
                         ;
                         printSpaces(_consDepth + 1);
-                        printLcons(first);
+                        printPair(first);
                     }
                     if (headCons.cdr().listp()) {
-                        Lcons rest = (Lcons) headCons.cdr();
+                        Pair rest = (Pair) headCons.cdr();
                         if (!rest.car().listp()) {
                             _output.write('\n');
                             printSpaces(_consDepth + 1);
@@ -103,9 +103,9 @@ public class IndentedFormatter extends AbstractFormatter {
         _consDepth -= 1;
     }
 
-    public void visitLcons(Lcons cons) throws GenyrisException {
+    public void visitPair(Pair cons) throws GenyrisException {
         try {
-            printLcons(cons);
+            printPair(cons);
         }
         catch (IOException e) {
             throw new GenyrisException(e.getMessage());
@@ -143,15 +143,15 @@ public class IndentedFormatter extends AbstractFormatter {
         writeAtom(sym);
     } 
     
-    public void visitLstring(Lstring lst) throws GenyrisException {
+    public void visitStrinG(StrinG lst) throws GenyrisException {
         writeAtom(lst);
     }
 
-    public void visitLobject(Lobject frame) throws GenyrisException {
+    public void visitDictionary(Dictionary frame) throws GenyrisException {
         try {
             Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
-            Lobject standardClass;
-            standardClass = (Lobject) frame.getParent().lookupVariableValue(standardClassSymbol);
+            Dictionary standardClass;
+            standardClass = (Dictionary) frame.getParent().lookupVariableValue(standardClassSymbol);
             if (frame.isTaggedWith(standardClass)) {
                 new ClassWrapper(frame).acceptVisitor(this);
                 return;
@@ -161,7 +161,7 @@ public class IndentedFormatter extends AbstractFormatter {
         }
 
         try {
-            printLcons((Lcons) frame.asAlist());
+            printPair((Pair) frame.asAlist());
         }
         catch (IOException e) {
             throw new GenyrisException(this.getClass().getName() + ": " + e.getMessage());

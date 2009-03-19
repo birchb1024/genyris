@@ -8,9 +8,9 @@ package org.genyris.io;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.Lcons;
-import org.genyris.core.LconsWithcolons;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.PairWithcolons;
+import org.genyris.core.StrinG;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -67,7 +67,7 @@ public class Parser {
             }
             Exp arg0 = input.cdr().car();
             if(input.cdr().cdr() != NIL) { 
-                Lstring arg1 = (Lstring)input.cdr().cdr().car();
+                StrinG arg1 = (StrinG)input.cdr().cdr().car();
                 _lexer.addprefix(((SimpleSymbol)arg0).getPrintName(), arg1.toString());
             }
             else {
@@ -98,10 +98,10 @@ public class Parser {
                 nextsym();
                 restOfList = parseExpression();
                 nextsym();
-                tree = new LconsWithcolons(tree, restOfList);
+                tree = new PairWithcolons(tree, restOfList);
                 return tree;
             }
-            tree = new Lcons(tree, restOfList);
+            tree = new Pair(tree, restOfList);
         }
         return tree;
     }
@@ -124,19 +124,19 @@ public class Parser {
             }
         } else if (cursym == _lexer.BACKQUOTE_TOKEN) {
             nextsym();
-            tree = new Lcons(_table.TEMPLATE(), new Lcons(parseExpression(), NIL));
+            tree = new Pair(_table.TEMPLATE(), new Pair(parseExpression(), NIL));
         } else if (cursym == _lexer.QUOTE_TOKEN) {
             nextsym();
-            tree = new Lcons(_table.QUOTE(), new Lcons(parseExpression(), NIL));
+            tree = new Pair(_table.QUOTE(), new Pair(parseExpression(), NIL));
         } else if (cursym == _lexer.COMMA_TOKEN) {
             nextsym();
-            tree = new Lcons(_table.COMMA(), new Lcons(parseExpression(), NIL));
+            tree = new Pair(_table.COMMA(), new Pair(parseExpression(), NIL));
         } else if (cursym == _lexer.COMMA_AT_TOKEN) {
             nextsym();
-            tree = new Lcons(_table.COMMA_AT(), new Lcons(parseExpression(), NIL));
+            tree = new Pair(_table.COMMA_AT(), new Pair(parseExpression(), NIL));
         } else if (cursym == _lexer.DYNAMIC_TOKEN) {
             nextsym();
-            tree = new Lcons(_table.DYNAMIC_SYMBOL(), new Lcons(parseExpression(), NIL));
+            tree = new Pair(_table.DYNAMIC_SYMBOL(), new Pair(parseExpression(), NIL));
         } else {
             tree = cursym;
         }

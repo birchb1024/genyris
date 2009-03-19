@@ -11,12 +11,12 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.format.AbstractFormatter;
 import org.genyris.format.BasicFormatter;
 
-public class Lcons extends ExpWithEmbeddedClasses {
+public class Pair extends ExpWithEmbeddedClasses {
 
     private  Exp _car;
     private  Exp _cdr;
 
-    public Lcons(Exp car, Exp cdr) {
+    public Pair(Exp car, Exp cdr) {
         _car = car;
         _cdr = cdr;
     }
@@ -32,15 +32,15 @@ public class Lcons extends ExpWithEmbeddedClasses {
     }
 
     public void acceptVisitor(Visitor guest) throws GenyrisException {
-        guest.visitLcons(this);
+        guest.visitPair(this);
     }
 
     public boolean equals(Object compare) {
         if (compare.getClass() != this.getClass())
             return false;
         else
-            return this._car.equals(((Lcons)compare)._car)
-                && this._cdr.equals(((Lcons)compare)._cdr);
+            return this._car.equals(((Pair)compare)._car)
+                && this._cdr.equals(((Pair)compare)._cdr);
     }
 
 

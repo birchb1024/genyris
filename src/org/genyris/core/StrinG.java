@@ -9,11 +9,11 @@ import java.util.regex.PatternSyntaxException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.core.Bignum;
 
-public class Lstring extends ExpWithEmbeddedClasses {
+public class StrinG extends ExpWithEmbeddedClasses {
 
 	private String _value;
 
-	public Lstring(String str) {
+	public StrinG(String str) {
 		_value = str;
 	}
 
@@ -26,15 +26,15 @@ public class Lstring extends ExpWithEmbeddedClasses {
 	}
 
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
-		guest.visitLstring(this);
+		guest.visitStrinG(this);
 	}
 
-	public Exp split(Exp NIL, Lstring regex) throws GenyrisException {
+	public Exp split(Exp NIL, StrinG regex) throws GenyrisException {
 		Exp result = NIL;
 		try {
 			String[] splitted = _value.split(regex._value);
 			for (int i = splitted.length - 1; i >= 0; i--) {
-				result = new Lcons(new Lstring(splitted[i]), result);
+				result = new Pair(new StrinG(splitted[i]), result);
 			}
 		} catch (PatternSyntaxException e) {
 			throw new GenyrisException(e.getMessage());
@@ -42,11 +42,11 @@ public class Lstring extends ExpWithEmbeddedClasses {
 		return result;
 	}
 
-	public Lstring concat(Lstring str) {
-		return new Lstring(this._value.concat(str._value));
+	public StrinG concat(StrinG str) {
+		return new StrinG(this._value.concat(str._value));
 	}
 
-	public Exp match(Symbol nil, Symbol true1, Lstring regex) {
+	public Exp match(Symbol nil, Symbol true1, StrinG regex) {
 		return (_value.matches(regex._value) ? true1 : nil);
 	}
 
@@ -66,7 +66,7 @@ public class Lstring extends ExpWithEmbeddedClasses {
 		if (compare.getClass() != this.getClass())
 			return false;
 		else
-			return _value.equals(((Lstring) compare)._value);
+			return _value.equals(((StrinG) compare)._value);
 	}
 
 }

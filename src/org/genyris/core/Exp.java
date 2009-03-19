@@ -33,7 +33,7 @@ public abstract class Exp implements Classifiable, Closure {
         }
         else {
             try {
-                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
+                Dictionary klass = (Dictionary) Evaluator.eval(newEnv, arguments[0]);
                 // call validator if it exists
                 TagFunction.validateObjectInClass(environment, this, klass);
                 return this;
@@ -80,7 +80,7 @@ public abstract class Exp implements Classifiable, Closure {
 
 
     public boolean listp() {
-        return (this instanceof Lcons);
+        return (this instanceof Pair);
     }
 
     public boolean isSelfEvaluating() {
