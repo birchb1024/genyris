@@ -3,7 +3,7 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-package org.genyris.web;
+package org.genyris.task;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.web.GenyrisHTTPD;
 
 public class SpawnHTTPDFunction extends ApplicableFunction {
 

@@ -3,10 +3,9 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-package org.genyris.web;
+package org.genyris.task;
 
 import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
@@ -15,10 +14,10 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
-public class KillHTTPDFunction extends ApplicableFunction {
+public class KillTaskFunction extends ApplicableFunction {
 
-    public KillHTTPDFunction(Interpreter interp) {
-    	super(interp, Constants.WEB + "kill", true);
+    public KillTaskFunction(Interpreter interp) {
+    	super(interp, "kill", true);
     }
 
     private Thread getThreadById( final long id ) {

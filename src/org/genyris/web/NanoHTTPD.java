@@ -392,7 +392,7 @@ public class NanoHTTPD {
 
         /**
         * Returns an error message as a HTTP response and throws
-        * InterruptedException to stop furhter request processing.
+        * GenyrisInterruptedException to stop furhter request processing.
         */
         private void sendError(String status, String msg) throws InterruptedException {
             sendResponse(status, MIME_PLAINTEXT, null, new ByteArrayInputStream(msg.getBytes()));

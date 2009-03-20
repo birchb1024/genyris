@@ -95,10 +95,12 @@ import org.genyris.string.LengthMethod;
 import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
 import org.genyris.system.ExecMethod;
+import org.genyris.task.KillTaskFunction;
+import org.genyris.task.SleepFunction;
+import org.genyris.task.SpawnFunction;
+import org.genyris.task.SpawnHTTPDFunction;
 import org.genyris.test.JunitRunnerFunction;
 import org.genyris.web.HTTPgetFunction;
-import org.genyris.web.KillHTTPDFunction;
-import org.genyris.web.SpawnHTTPDFunction;
 
 public class Interpreter {
 	StandardEnvironment _globalEnvironment;
@@ -231,9 +233,11 @@ public class Interpreter {
 		bindGlobalProcedure(GensymFunction.class);
 
 		bindGlobalProcedure(SpawnHTTPDFunction.class);
-		bindGlobalProcedure(KillHTTPDFunction.class);
+		bindGlobalProcedure(KillTaskFunction.class);
 		bindGlobalProcedure(HTTPgetFunction.class);
-
+		
+		bindGlobalProcedure(SpawnFunction.class);
+		bindGlobalProcedure(SleepFunction.class);
 	}
 
 	public void bindGlobalProcedure(Class class1) throws GenyrisException {
