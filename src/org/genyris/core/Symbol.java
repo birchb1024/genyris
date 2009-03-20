@@ -39,10 +39,6 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
 		return _printName;
 	}
 
-	public Object getJavaValue() {
-		return getPrintName();
-	}
-
 	public boolean isSelfEvaluating() {
 		return false;
 	}

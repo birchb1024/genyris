@@ -40,8 +40,4 @@ public class DefineClassFunction extends ApplicableFunction {
         return newClass;
     }
 
-    public Object getJavaValue() {
-        return "<the class builtin function>";
-    }
-
 }

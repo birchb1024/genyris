@@ -85,12 +85,12 @@ public class BasicFormatter extends  AbstractFormatter {
     }
 
     public void visitBignum(Bignum bignum) throws GenyrisException {
-        write(bignum.getJavaValue().toString());
+        write(bignum.toString());
     }
 
     public void visitStrinG(StrinG lst) throws GenyrisException {
         write("\"");
-		StringBuffer str = new StringBuffer (lst.getJavaValue().toString());
+		StringBuffer str = new StringBuffer (lst.toString());
 		for(int i=0; i< str.length(); i++) {
 		    char ch = str.charAt(i);
 		    if( ch == '\n') { // TODO move this into a table in Lex.
@@ -109,7 +109,7 @@ public class BasicFormatter extends  AbstractFormatter {
     }
 
     public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) throws GenyrisException {
-        write("[Exp: " + exp.getJavaValue().toString() + "]");
+       write("[Exp: " + exp.toString() + "]");
     }
 
 }

@@ -17,10 +17,6 @@ public class StrinG extends ExpWithEmbeddedClasses {
 		_value = str;
 	}
 
-	public Object getJavaValue() {
-		return _value;
-	}
-
 	public String toString() {
 		return _value;
 	}

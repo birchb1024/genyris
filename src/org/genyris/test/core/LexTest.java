@@ -44,7 +44,7 @@ public class LexTest extends TestCase {
     private void excerciseNextTokenBignum(Exp expected, String toparse) throws GenyrisException {
         _table.init(null);
         Lex lexer = new Lex(new UngettableInStream( new StringInStream(toparse)), _table);
-        assertEquals(expected.getJavaValue().toString(), lexer.nextToken().getJavaValue().toString());
+        assertEquals(expected.toString(), lexer.nextToken().toString());
     }
     private void excerciseNextTokenExp2Times(Exp expected, String toparse) throws GenyrisException {
         _table.init(null);
@@ -150,9 +150,9 @@ public class LexTest extends TestCase {
     }
     public void testCombination1() throws Exception {
         Lex lexer = new Lex(new UngettableInStream( new StringInStream("int 12 double\n 12.34\r\n -12.34e5 \"string\" ")), _table);
-        assertEquals(new SimpleSymbol("int").getJavaValue(), lexer.nextToken().getJavaValue());
+        assertEquals(new SimpleSymbol("int").toString(), lexer.nextToken().toString());
         assertEquals(new Bignum("12"), lexer.nextToken());
-        assertEquals(new SimpleSymbol("double").getJavaValue(), lexer.nextToken().getJavaValue());
+        assertEquals(new SimpleSymbol("double").toString(), lexer.nextToken().toString());
         assertEquals(new Bignum("12.34"), lexer.nextToken());
         assertEquals(new Bignum(-12.34e5), lexer.nextToken());
         assertEquals(new StrinG("string"), lexer.nextToken());

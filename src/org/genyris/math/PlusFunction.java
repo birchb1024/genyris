@@ -5,8 +5,6 @@
 //
 package org.genyris.math;
 
-import java.math.BigDecimal;
-
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.interp.Interpreter;
@@ -21,7 +19,7 @@ public class PlusFunction extends AbstractMathFunction {
         return a;
     }
     protected Exp mathOperation(Exp a, Exp b) {
-        return new Bignum(((BigDecimal) a.getJavaValue()).add((BigDecimal) b.getJavaValue()));
+		return ((Bignum) a).add((Bignum) b);
     }
 
 }

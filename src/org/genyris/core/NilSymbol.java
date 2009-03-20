@@ -23,10 +23,6 @@ public class NilSymbol extends SimpleSymbol {
         return _printName;
     }
 
-    public Object getJavaValue() {
-        return getPrintName();
-    }
-
     public boolean isSelfEvaluating() {
         return true;
     }

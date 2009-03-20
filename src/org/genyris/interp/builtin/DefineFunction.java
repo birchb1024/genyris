@@ -23,8 +23,4 @@ public class DefineFunction extends ApplicableFunction {
 
         return arguments[1];
     }
-    public Object getJavaValue() {
-        return "<the defvar builtin function>";
-    }
-
 }

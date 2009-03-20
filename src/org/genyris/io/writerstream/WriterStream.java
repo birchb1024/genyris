@@ -28,10 +28,6 @@ import org.genyris.interp.Interpreter;
 public class WriterStream extends ExpWithEmbeddedClasses {
     private Writer _value;
 
-    public Object getJavaValue() {
-        return _value;
-    }
-
     public WriterStream(Writer w) {
         _value = w;
     }

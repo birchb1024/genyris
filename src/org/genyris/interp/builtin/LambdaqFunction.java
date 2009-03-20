@@ -29,8 +29,4 @@ public class LambdaqFunction extends ApplicableFunction {
         return new LazyProcedure(env, expression, new ClassicFunction("anonymous lambdaq", _interp));
     }
 
-    public Object getJavaValue() {
-        return "<the lambdaq builtin function>";
-    }
-
 }

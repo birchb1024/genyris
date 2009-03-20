@@ -24,8 +24,4 @@ public class InternFunction extends ApplicableFunction {
         // TODO - probably a bit too general ? Takes anything!
         return _interp.intern(Symbol.symbolFactory(arguments[0].toString(),true));
     }
-	public Object getJavaValue() {
-        return "[intern builtin function]";
-    }
-
 }

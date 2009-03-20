@@ -47,10 +47,6 @@ public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
 		return _parent;
 	}
 
-	public Object getJavaValue() {
-		return _dict;
-	}
-
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitDictionary(this);
 	}

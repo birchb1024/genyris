@@ -65,10 +65,6 @@ public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
 		}
 	}
 
-	public Object getJavaValue() {
-		return "<" + this._functionToApply.toString() + ">";
-	}
-
 	public Exp getBody() throws AccessException {
 		return _lambdaExpression.cdr().cdr();
 	}

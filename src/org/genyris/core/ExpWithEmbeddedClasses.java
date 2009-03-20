@@ -20,7 +20,6 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     public ExpWithEmbeddedClasses() {
         _classes = new ArrayList(1);
     }
-    public abstract Object getJavaValue();
     public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 
     private void sortClassesinMRO(Environment env) {

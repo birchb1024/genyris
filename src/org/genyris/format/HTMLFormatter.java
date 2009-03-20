@@ -44,11 +44,11 @@ public class HTMLFormatter extends AbstractFormatter {
 	}
 
 	public void visitEagerProc(EagerProcedure proc) throws GenyrisException {
-		write("<EagerProc: " + proc.getJavaValue().toString() + ">");
+		write("<EagerProc: " + proc.toString() + ">");
 	}
 
 	public void visitLazyProc(LazyProcedure proc) throws GenyrisException {
-		emit(proc.getJavaValue().toString());
+		emit(proc.toString());
 	}
 
 	public void visitPair(Pair cons) throws GenyrisException {
@@ -121,11 +121,11 @@ public class HTMLFormatter extends AbstractFormatter {
 	}
 
 	public void visitBignum(Bignum bignum) throws GenyrisException {
-		write(bignum.getJavaValue().toString());
+		write(bignum.toString());
 	}
 
 	public void visitStrinG(StrinG lst) throws GenyrisException {
-		emit(lst.getJavaValue().toString());
+		emit(lst.toString());
 	}
 
 	public static String HTMLEntityEncode(String s) {
@@ -147,7 +147,7 @@ public class HTMLFormatter extends AbstractFormatter {
 
 	public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp)
 			throws GenyrisException {
-		emit(exp.getJavaValue().toString());
+		emit(exp.toString());
 	}
 
 }

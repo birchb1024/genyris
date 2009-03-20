@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
@@ -46,19 +47,19 @@ public class LexTestNumbers extends TestCase {
 	private BigDecimal excerciseParseNumberInt(String input) throws LexException
 	{
 		Exp result =  new Lex(new UngettableInStream( new StringInStream(input)), _table).parseNumber();
-		return(BigDecimal)result.getJavaValue();
+		return((Bignum)result).bigDecimalValue();
 	}
 	
 	private BigDecimal excerciseParseNumberFloatingPoint(String input) throws LexException
 	{
 		Exp result =  new Lex(new UngettableInStream( new StringInStream(input)), _table).parseNumber();
-		return (BigDecimal) result.getJavaValue();
+		return ((Bignum)result).bigDecimalValue();
 	}
 
 	private double excerciseParseNumberDouble(String input) throws LexException
 	{
-		Exp result =  new Lex(new UngettableInStream( new StringInStream(input)), _table).parseNumber();
-		return ((BigDecimal) result.getJavaValue()).doubleValue();
+		Bignum result =  (Bignum) new Lex(new UngettableInStream( new StringInStream(input)), _table).parseNumber();
+		return result.doubleValue();
 	}
 
 	public void testParseDecimalNumber1() throws Exception {

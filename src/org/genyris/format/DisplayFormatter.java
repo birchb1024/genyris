@@ -16,6 +16,6 @@ public class DisplayFormatter extends BasicFormatter {
     }
 
     public void visitStrinG(StrinG lst) throws GenyrisException {
-        write(lst.getJavaValue().toString());
+        write(lst.toString());
     }
 }

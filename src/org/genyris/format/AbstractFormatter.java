@@ -62,12 +62,12 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 	public void visitStandardEnvironment(StandardEnvironment env)
 			throws GenyrisException {
 
-		write(env.getJavaValue().toString());
+		write(env.toString());
 	}
 
 	public void visitSpecialEnvironment(SpecialEnvironment env)
 			throws GenyrisException {
-		write(env.getJavaValue().toString());
+		write(env.toString());
 	}
 
 	public void visitClassWrapper(ClassWrapper klass) throws GenyrisException {

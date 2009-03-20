@@ -28,8 +28,4 @@ public class WhileFunction extends ApplicableFunction {
         }
         return retval;
     }
-    public Object getJavaValue() {
-        return "[the while builtin function]";
-    }
-
 }

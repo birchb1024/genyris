@@ -26,10 +26,6 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 		guest.visitTripleSet(this);
 	}
 
-	public Object getJavaValue() {
-		return null;
-	}
-
 	public String toString() {
 		return "(tripleset" + ")";
 	}

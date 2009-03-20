@@ -5,8 +5,6 @@
 //
 package org.genyris.math;
 
-import java.math.BigDecimal;
-
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.interp.Interpreter;
@@ -18,6 +16,6 @@ public class RemainderFunction extends AbstractMathFunction {
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
-        return new Bignum(((BigDecimal) a.getJavaValue()).remainder((BigDecimal) b.getJavaValue()));
+        return ((Bignum)a).remainder((Bignum) b);
     }
 }

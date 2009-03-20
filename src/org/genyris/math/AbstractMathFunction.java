@@ -44,5 +44,7 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
 		throw new GenyrisException("Bad call to mathOperation(Exp unary)");
 	}
 
-	protected abstract Exp mathOperation(Exp a, Exp b);
+	protected Exp mathOperation(Exp a, Exp b) throws GenyrisException{
+		throw new GenyrisException("Bad call to mathOperation(Exp a, Exp b)");
+	}
 }

@@ -33,7 +33,7 @@ public class HTTPgetFunction extends ApplicableFunction {
         checkArguments(arguments, 1);
     	Class[] types = {StrinG.class};
     	checkArgumentTypes(types, arguments);
-        String URI = (String) arguments[0].getJavaValue();
+        String URI = arguments[0].toString();
 
         try {
             URL url = new URL(URI);

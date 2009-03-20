@@ -5,8 +5,6 @@
 //
 package org.genyris.web;
 
-import java.math.BigDecimal;
-
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
@@ -39,7 +37,7 @@ public class KillHTTPDFunction extends ApplicableFunction {
         checkArguments(arguments, 1);
     	Class[] types = {Bignum.class};
     	checkArgumentTypes(types, arguments);
-        long id = ((BigDecimal)arguments[0].getJavaValue()).longValue();
+        long id = ((Bignum)arguments[0]).bigDecimalValue().longValue();
         Thread t = getThreadById(id);
         if(t == null) {
             return NIL;

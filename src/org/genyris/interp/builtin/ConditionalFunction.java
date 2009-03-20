@@ -41,8 +41,4 @@ public class ConditionalFunction extends ApplicableFunction {
 		return NIL;
 	}
 
-	public Object getJavaValue() {
-		return "<the cond builtin function>";
-	}
-
 }

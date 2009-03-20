@@ -34,10 +34,6 @@ public class Triple extends ExpWithEmbeddedClasses {
 
 	}
 
-	public Object getJavaValue() {
-		return null;
-	}
-
 	public String toString() {
 		return "(triple " + subject + " " + predicate +  " " + object + ")";
 	}

@@ -71,10 +71,6 @@ public class StandardEnvironment implements Environment {
         init();
     }
 
-    public Object getJavaValue() {
-        return "<StandardEnvironment>";
-    }
-
     public Exp lookupVariableValue(Exp symbol) throws UnboundException {
         if( _frame.containsKey(symbol) ) {
             return (Exp)_frame.get(symbol);

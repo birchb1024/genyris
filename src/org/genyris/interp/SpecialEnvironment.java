@@ -63,9 +63,6 @@ public class SpecialEnvironment extends StandardEnvironment {
         return "<SpecialEnvironment on: " + _object.toString() + ">";
     }
 
-    public Object getJavaValue() {
-        return this;
-    }
     public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
         return _object.lookupDynamicVariableValue(symbol);
     }

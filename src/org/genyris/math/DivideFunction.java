@@ -5,9 +5,6 @@
 //
 package org.genyris.math;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.interp.Interpreter;
@@ -19,6 +16,6 @@ public class DivideFunction extends AbstractMathFunction {
     }
 
     protected Exp mathOperation(Exp a, Exp b) {
-        return new Bignum(((BigDecimal) a.getJavaValue()).divide((BigDecimal) b.getJavaValue(), new MathContext(10)));
+        return ((Bignum)a).divide((Bignum)b);
     }
 }

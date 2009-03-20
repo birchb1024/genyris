@@ -24,10 +24,6 @@ public class StreamParser extends ExpWithEmbeddedClasses {
 	private InStream _input;
 	private Parser _parser;
 
-	public Object getJavaValue() {
-		return _input;
-	}
-
 	public StreamParser(Interpreter interp, ReaderStream reader) {
 		_input = new UngettableInStream(reader.getInStream());
 		_parser = interp.newParser(_input);

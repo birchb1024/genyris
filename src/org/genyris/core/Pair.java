@@ -24,13 +24,6 @@ public class Pair extends ExpWithEmbeddedClasses {
 		return table.PAIR();
 	}
 
-    public Object getJavaValue() {
-        Exp result[] = new Exp[2];
-        result[0] = _car;
-        result[1] = _cdr;
-        return result;
-    }
-
     public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitPair(this);
     }
