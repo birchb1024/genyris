@@ -33,14 +33,7 @@ public class TripleSetFunction extends ApplicableFunction {
 	}
 
 	private void addTripleFromList(TripleSet ts, Exp exp) throws GenyrisException {
-		Exp subject = exp.car();
-		Exp predicate = exp.cdr().car();
-		Exp object = exp.cdr().cdr().car();
-		if (!(predicate instanceof Symbol)) {
-			throw new GenyrisException(getName()
-					+ " was expecting a Symbol predicate, got: " + predicate);
-		}
-		ts.add(new Triple(subject, (Symbol) predicate, object));
+		ts.add(Triple.mkTripleFromList(exp));
 	}
 
 	public static void bindFunctionsAndMethods(Interpreter interp) throws UnboundException, GenyrisException {
