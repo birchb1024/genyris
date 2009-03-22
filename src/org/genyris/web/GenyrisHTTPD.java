@@ -10,8 +10,8 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
@@ -89,8 +89,8 @@ public class GenyrisHTTPD extends NanoHTTPD {
         Enumeration e = header.propertyNames();
         while (e.hasMoreElements()) {
             String value = (String) e.nextElement();
-            headers = new Lcons(new Lcons(new Lstring(value),
-                    new Lstring(header.getProperty(value))), headers);
+            headers = new Pair(new Pair(new StrinG(value),
+                    new StrinG(header.getProperty(value))), headers);
             // System.out.println(" HDR: '" + value + "' = '" +
             // header.getProperty(value) + "'");
         }
@@ -100,23 +100,23 @@ public class GenyrisHTTPD extends NanoHTTPD {
         e = parms.propertyNames();
         while (e.hasMoreElements()) {
             String value = (String) e.nextElement();
-            parameters = new Lcons(new Lcons(new Lstring(value), new Lstring(parms
+            parameters = new Pair(new Pair(new StrinG(value), new StrinG(parms
                     .getProperty(value))), parameters);
             // System.out.println(" PRM: '" + value + "' = '" +
             // parms.getProperty(value) + "'");
         }
         parameters.addClass(this.AlistClazz);
 
-        request = new Lcons(parameters, request);
-        request = new Lcons(headers, request);
-        request = new Lcons(new Lstring(uri), request);
-        request = new Lcons(new Lstring(method), request);
+        request = new Pair(parameters, request);
+        request = new Pair(headers, request);
+        request = new Pair(new StrinG(uri), request);
+        request = new Pair(new StrinG(method), request);
         request.addClass(HttpRequestClazz);
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         Writer output = new PrintWriter(buffer);
         // (httpd-serve request)
-        Exp expression = new Lcons(interpreter.intern("httpd-serve"), new Lcons(request, NIL));
+        Exp expression = new Pair(interpreter.intern("httpd-serve"), new Pair(request, NIL));
 
         try {
             Formatter formatter;

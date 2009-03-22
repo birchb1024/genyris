@@ -7,6 +7,7 @@ import java.util.Set;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
+import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
@@ -23,14 +24,6 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitTripleSet(this);
-	}
-
-	public Iterator iterator() {
-		return triples.iterator();
-	}
-
-	public Object getJavaValue() {
-		return null;
 	}
 
 	public String toString() {
@@ -91,4 +84,16 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 	public void remove(Triple triple) {
 		triples.remove(triple);
 	}
+
+	public Exp asTripleList(Exp NIL) {
+		Exp result = NIL;
+		Iterator iter = triples.iterator();
+		while(iter.hasNext()) {
+			Triple t = (Triple) iter.next();
+			result = new Pair(t, result);
+		}
+		return result;
+	}
+
+
 }

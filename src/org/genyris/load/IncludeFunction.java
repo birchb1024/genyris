@@ -8,7 +8,7 @@ package org.genyris.load;
 import java.io.Writer;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -25,7 +25,7 @@ public class IncludeFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp result;
         Writer out = new NullWriter();
-        if( !( arguments[0] instanceof Lstring) ) {
+        if( !( arguments[0] instanceof StrinG) ) {
             throw new GenyrisException("non-string argument passed to include: " + arguments[0].toString());
         }
         if( arguments.length > 1 ) {

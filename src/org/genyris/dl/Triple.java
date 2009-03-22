@@ -9,9 +9,9 @@ import org.genyris.exception.GenyrisException;
 
 public class Triple extends ExpWithEmbeddedClasses {
 	
-	public Exp subject;
-	public Symbol predicate;
-	public Exp object;
+	public final Exp subject;
+	public final Symbol predicate;
+	public final Exp object;
 
 	public Triple(Exp subject, Symbol predicate, Exp object) {
 		this.subject = subject;
@@ -19,13 +19,19 @@ public class Triple extends ExpWithEmbeddedClasses {
 		this.object = object;
 	}
 
+	public static Triple mkTripleFromList(Exp exp) throws GenyrisException {
+		Exp subject = exp.car();
+		Exp predicate = exp.cdr().car();
+		Exp object = exp.cdr().cdr().car();
+		if (!(predicate instanceof Symbol)) {
+			throw new GenyrisException("mkTripleFromList was expecting a Symbol predicate, got: " + predicate);
+		}
+		return new Triple(subject, (Symbol) predicate, object);
+	}
+
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitTriple(this);
 
-	}
-
-	public Object getJavaValue() {
-		return null;
 	}
 
 	public String toString() {

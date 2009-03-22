@@ -5,7 +5,7 @@
 //
 package org.genyris.string;
 
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Environment;
@@ -18,12 +18,12 @@ public abstract class AbstractStringMethod extends AbstractMethod {
     	super(interp, name);
     }
 
-    protected Lstring getSelfString(Environment env) throws GenyrisException {
+    protected StrinG getSelfString(Environment env) throws GenyrisException {
         getSelf(env);
-        if (!(_self instanceof Lstring)) {
+        if (!(_self instanceof StrinG)) {
             throw new GenyrisException("Non-String passed to getSelfString: " + _self.toString());
         } else {
-            Lstring theString = (Lstring) _self;
+            StrinG theString = (StrinG) _self;
             return theString;
         }
     }

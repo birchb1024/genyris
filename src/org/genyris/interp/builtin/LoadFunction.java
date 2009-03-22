@@ -8,7 +8,7 @@ package org.genyris.interp.builtin;
 import java.io.Writer;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -27,7 +27,7 @@ public class LoadFunction extends ApplicableFunction {
         Exp result;
 		checkMinArguments(arguments, 1);
         Writer out = new NullWriter();
-        if( !( arguments[0] instanceof Lstring) ) {
+        if( !( arguments[0] instanceof StrinG) ) {
             throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
         }
         if( arguments.length > 1 ) {

@@ -7,7 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -36,7 +36,7 @@ public class BackquoteFunction extends ApplicableFunction {
             return sexp;
         }
         else {
-            Lcons list = (Lcons) sexp;
+            Pair list = (Pair) sexp;
             if( list.car() == COMMA) {
                 return  Evaluator.eval(env,  list.cdr().car() );
             }
@@ -46,7 +46,7 @@ public class BackquoteFunction extends ApplicableFunction {
                 return append(res, rest);
             }
             else {
-                return new Lcons(backQuoteAux(env, list.car()) , backQuoteAux(env, list.cdr()) );
+                return new Pair(backQuoteAux(env, list.car()) , backQuoteAux(env, list.cdr()) );
             }
         }
     }
@@ -55,7 +55,7 @@ public class BackquoteFunction extends ApplicableFunction {
             return l2;
         }
         else {
-            return new Lcons( l1.car(), append(l1.cdr(), l2));
+            return new Pair( l1.car(), append(l1.cdr(), l2));
         }
     }
 }

@@ -12,9 +12,9 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.Dictionary;
+import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.SymbolTable;
@@ -32,12 +32,12 @@ public class EqualityTest extends TestCase {
         assertFalse(new Bignum(12.230001e9).equals(new Bignum(12.23e9)));
     }
     public void testString() throws Exception {
-        assertTrue(new Lstring("hello").equals(new Lstring("hello")));
-        assertFalse(new Lstring("hello1").equals(new Lstring("hello2")));
+        assertTrue(new StrinG("hello").equals(new StrinG("hello")));
+        assertFalse(new StrinG("hello1").equals(new StrinG("hello2")));
     }
     public void testCons() throws Exception {
-        assertTrue(new Lcons(new Lstring("hello"), new Bignum(12)).equals(new Lcons(new Lstring("hello"), new Bignum(12))));
-        assertFalse(new Lcons(new Lstring("hello"), new Lstring("no way")).equals(new Lcons(new Lstring("hello"), new Bignum(12))));
+        assertTrue(new Pair(new StrinG("hello"), new Bignum(12)).equals(new Pair(new StrinG("hello"), new Bignum(12))));
+        assertFalse(new Pair(new StrinG("hello"), new StrinG("no way")).equals(new Pair(new StrinG("hello"), new Bignum(12))));
     }
     public void testSymbol() throws Exception {
         SymbolTable sym = new SymbolTable();
@@ -60,10 +60,10 @@ public class EqualityTest extends TestCase {
     public void testFrame() throws Exception {
         Interpreter interp = new Interpreter();
         Exp a = new SimpleSymbol("a");
-        Lobject f1 = new Lobject(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
-        f1.defineVariableRaw(a, new Lstring("foo"));
-        Lobject f2 = new Lobject(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
-        f2.defineVariableRaw(a, new Lstring("foo"));
-        assertTrue(f1.equals(f2));
+        Dictionary f1 = new Dictionary(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
+        f1.defineVariableRaw(a, new StrinG("foo"));
+        Dictionary f2 = new Dictionary(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
+        f2.defineVariableRaw(a, new StrinG("foo"));
+        assertFalse(f1.equals(f2));
     }
 }

@@ -10,8 +10,8 @@ import java.io.Writer;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
@@ -94,7 +94,7 @@ public class ClassicReadEvalPrintLoop {
 	private Exp makeArgList(String[] args) {
 		Exp arglist = this._interpreter.NIL;
 		for(int i=args.length-1;i>=0;i--) {
-			arglist = new Lcons(new Lstring(args[i]), arglist);
+			arglist = new Pair(new StrinG(args[i]), arglist);
 		}
 		return arglist;
 	}

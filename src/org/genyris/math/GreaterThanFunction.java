@@ -5,8 +5,7 @@
 //
 package org.genyris.math;
 
-import java.math.BigDecimal;
-
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.interp.Interpreter;
 
@@ -17,11 +16,6 @@ public class GreaterThanFunction extends AbstractMathBooleanFunction {
 	}
 
 	protected Exp mathOperation(Exp a, Exp b) {
-		if (((BigDecimal) a.getJavaValue()).compareTo((BigDecimal) b
-				.getJavaValue()) > 0) {
-			return TRUE;
-		} else {
-			return NIL;
-		}
+		return ((Bignum) a).greaterThan((Bignum) b) ? TRUE : NIL;
 	}
 }

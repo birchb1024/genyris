@@ -5,11 +5,8 @@
 //
 package org.genyris.dl;
 
-import java.util.Iterator;
-
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -20,6 +17,7 @@ import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
 public class TripleSetFunction extends ApplicableFunction {
+	// TODO move most of this logic into the TripleSet class
 
 	public TripleSetFunction(Interpreter interp) {
 		super(interp, "tripleset", true);
@@ -35,14 +33,7 @@ public class TripleSetFunction extends ApplicableFunction {
 	}
 
 	private void addTripleFromList(TripleSet ts, Exp exp) throws GenyrisException {
-		Exp subject = exp.car();
-		Exp predicate = exp.cdr().car();
-		Exp object = exp.cdr().cdr().car();
-		if (!(predicate instanceof Symbol)) {
-			throw new GenyrisException(getName()
-					+ " was expecting a Symbol predicate, got: " + predicate);
-		}
-		ts.add(new Triple(subject, (Symbol) predicate, object));
+		ts.add(Triple.mkTripleFromList(exp));
 	}
 
 	public static void bindFunctionsAndMethods(Interpreter interp) throws UnboundException, GenyrisException {
@@ -129,16 +120,9 @@ public class TripleSetFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			TripleSet self = getSelfTS(env);
-			Exp result = NIL;
-			Iterator iter = self.iterator();
-			while(iter.hasNext()) {
-				Triple t = (Triple) iter.next();
-				result = new Lcons(t, result);
-			}
-			return result;
+			return self.asTripleList(NIL);
 		}
 	}
-
 	public static class RemoveMethod extends AbstractTripleSetMethod {
 
 		public RemoveMethod(Interpreter interp) {

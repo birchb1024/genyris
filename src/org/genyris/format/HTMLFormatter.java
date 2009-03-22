@@ -11,9 +11,9 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.Dictionary;
+import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
@@ -30,10 +30,10 @@ public class HTMLFormatter extends AbstractFormatter {
 		write(HTMLEntityEncode(s));
 	}
 
-	public void visitLobject(Lobject frame) throws GenyrisException {
+	public void visitDictionary(Dictionary frame) throws GenyrisException {
 		Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
-		Lobject standardClass;
-		standardClass = (Lobject) frame.getParent().lookupVariableValue(
+		Dictionary standardClass;
+		standardClass = (Dictionary) frame.getParent().lookupVariableValue(
 				standardClassSymbol);
 
 		if (frame.isTaggedWith(standardClass)) {
@@ -44,14 +44,14 @@ public class HTMLFormatter extends AbstractFormatter {
 	}
 
 	public void visitEagerProc(EagerProcedure proc) throws GenyrisException {
-		write("<EagerProc: " + proc.getJavaValue().toString() + ">");
+		write("<EagerProc: " + proc.toString() + ">");
 	}
 
 	public void visitLazyProc(LazyProcedure proc) throws GenyrisException {
-		emit(proc.getJavaValue().toString());
+		emit(proc.toString());
 	}
 
-	public void visitLcons(Lcons cons) throws GenyrisException {
+	public void visitPair(Pair cons) throws GenyrisException {
 
 		if (cons.car() instanceof Symbol) {
 			Symbol tag = (Symbol) cons.car();
@@ -99,12 +99,12 @@ public class HTMLFormatter extends AbstractFormatter {
 		if (!(attributes instanceof NilSymbol)) {
 			write(" ");
 			while (!(attributes instanceof NilSymbol)) {
-				if (!(attributes instanceof Lcons)) {
+				if (!(attributes instanceof Pair)) {
 					write("*** error bad HTML attribute: ");
 					write(attributes.toString());
 					return;
 				}
-				if (!(attributes.car() instanceof Lcons)) {
+				if (!(attributes.car() instanceof Pair)) {
 					write("*** error bad HTML attribute: ");
 					write(attributes.toString());
 					return;
@@ -121,11 +121,11 @@ public class HTMLFormatter extends AbstractFormatter {
 	}
 
 	public void visitBignum(Bignum bignum) throws GenyrisException {
-		write(bignum.getJavaValue().toString());
+		write(bignum.toString());
 	}
 
-	public void visitLstring(Lstring lst) throws GenyrisException {
-		emit(lst.getJavaValue().toString());
+	public void visitStrinG(StrinG lst) throws GenyrisException {
+		emit(lst.toString());
 	}
 
 	public static String HTMLEntityEncode(String s) {
@@ -147,7 +147,7 @@ public class HTMLFormatter extends AbstractFormatter {
 
 	public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp)
 			throws GenyrisException {
-		emit(exp.getJavaValue().toString());
+		emit(exp.toString());
 	}
 
 }

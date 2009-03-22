@@ -5,8 +5,6 @@
 //
 package org.genyris.interp;
 
-import java.util.HashMap;
-
 import org.genyris.core.Exp;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
@@ -19,7 +17,7 @@ public class MagicEnvironment extends StandardEnvironment {
     private Exp _it;
 
     public MagicEnvironment(Environment runtime, Exp theObject) throws GenyrisException {
-        super(runtime, new HashMap());
+        super(runtime, mapFactory());
         _it = theObject;
     }
 
@@ -31,7 +29,7 @@ public class MagicEnvironment extends StandardEnvironment {
             return _it;
         }
         // TODO - DRY
-        // TODO - move these into the Lcons class as an Environment
+        // TODO - move these into the Pair class as an Environment
         else if (symbol == _left) {
             try {
                 return _it.car();
@@ -117,7 +115,7 @@ public class MagicEnvironment extends StandardEnvironment {
                 return;
             }
             // TODO - DRY
-            // TODO - Move into Lcons in an Environment
+            // TODO - Move into Pair in an Environment
             else if (sym == _left) {
                 try {
                     _it.setCar(valu);

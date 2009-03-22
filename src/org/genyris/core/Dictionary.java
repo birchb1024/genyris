@@ -8,6 +8,7 @@ package org.genyris.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -17,23 +18,27 @@ import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;
 import org.genyris.interp.builtin.TagFunction;
 
-public class Lobject extends ExpWithEmbeddedClasses implements Environment {
+public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
 	private Map _dict;
 
 	protected Environment _parent;
 
-	public Lobject() {
-		_dict = new HashMap();
+    private static Map mapFactory() {
+    	return new HashMap();
+    }
+
+	public Dictionary() {
+		_dict = mapFactory();
 		_parent = null;
 	}
 
-	public Lobject(Environment parent) {
-		_dict = new HashMap();
+	public Dictionary(Environment parent) {
+		_dict = mapFactory();
 		_parent = parent;
 	}
 
-	public Lobject(Symbol key, Exp value, Environment parent) {
-		_dict = new HashMap();
+	public Dictionary(Symbol key, Exp value, Environment parent) {
+		_dict = mapFactory();
 		_dict.put(key, value);
 		_parent = parent;
 	}
@@ -42,12 +47,8 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		return _parent;
 	}
 
-	public Object getJavaValue() {
-		return _dict;
-	}
-
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
-		guest.visitLobject(this);
+		guest.visitDictionary(this);
 	}
 
 	public boolean isSelfEvaluating() {
@@ -59,16 +60,17 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	}
 
 	public Exp asAlist() {
-		Iterator iter = _dict.keySet().iterator();
+		Map keys = new TreeMap(_dict);
+		Iterator iter = keys.keySet().iterator();
 		// TODO Sort the keyset to get a consistent result for test cases.
 		Exp result = _parent.getNil();
 		while (iter.hasNext()) {
 			Exp key = (Exp) iter.next();
 			Exp value = (Exp) _dict.get(key);
-			Exp tmp = new LconsWithcolons(key, value);
-			result = new Lcons(tmp, result);
+			Exp tmp = new PairWithcolons(key, value);
+			result = new Pair(tmp, result);
 		}
-		return new Lcons(_parent.getSymbolTable().DICT(), result);
+		return new Pair(_parent.getSymbolTable().DICT(), result);
 	}
 
 	public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
@@ -97,6 +99,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 	}
 
 	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
+
 		if (symbol == SELF()) {
 			return this;
 		} else if (symbol == CLASSES()) {
@@ -139,10 +142,10 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 
 	private Exp getVarsList() {
 		Iterator iter = _dict.keySet().iterator();
-		Exp result = new Lcons(VARS(), _parent.getNil());
+		Exp result = new Pair(VARS(), _parent.getNil());
 		while (iter.hasNext()) {
 			Exp key = (Exp) iter.next();
-			result = new Lcons(key, result);
+			result = new Pair(key, result);
 		}
 		return result;
 	}
@@ -239,7 +242,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 		if (arguments[0].isNil()) {
 			return this;
 		}
-		Map bindings = new HashMap();
+		Map bindings = mapFactory();
 		bindings.put(SELF(), this);
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment,
 				bindings, this);
@@ -247,7 +250,7 @@ public class Lobject extends ExpWithEmbeddedClasses implements Environment {
 			return Evaluator.evalSequence(newEnv, arguments[0]);
 		} else {
 			try {
-				Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
+				Dictionary klass = (Dictionary) Evaluator.eval(newEnv, arguments[0]);
 				TagFunction.validateObjectInClass(environment, this, klass);
 				return this;
 			} catch (ClassCastException e) {

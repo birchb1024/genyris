@@ -6,7 +6,7 @@
 package org.genyris.classification;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lobject;
+import org.genyris.core.Dictionary;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -21,10 +21,10 @@ public class IsInstanceFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		checkArguments(arguments, 2);
-    	Class[] types = {Exp.class, Lobject.class, };
+    	Class[] types = {Exp.class, Dictionary.class, };
     	checkArgumentTypes(types, arguments);
     	ClassWrapper.isThisObjectAClass(arguments[1]);
-        ClassWrapper cw = new ClassWrapper((Lobject)arguments[1]);
+        ClassWrapper cw = new ClassWrapper((Dictionary)arguments[1]);
         if (cw.isInstance(arguments[0]) )
             return envForBindOperations.getSymbolTable().TRUE();
         else

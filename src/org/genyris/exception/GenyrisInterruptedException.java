@@ -5,11 +5,12 @@
 //
 package org.genyris.exception;
 
-public class GenyrisException extends Exception {
 
-	private static final long serialVersionUID = 2930499792506317096L;
+public class GenyrisInterruptedException extends GenyrisException {
 
-	public GenyrisException(String string) {
+	private static final long serialVersionUID = 5461497754125356267L;
+
+	public GenyrisInterruptedException(String string) {
         super(string);
     }
 

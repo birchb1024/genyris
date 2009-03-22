@@ -7,7 +7,7 @@ package org.genyris.string;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -24,11 +24,11 @@ public class MatchMethod extends AbstractStringMethod {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 			throws GenyrisException {
 		if(arguments.length > 0) {
-			if(!(arguments[0] instanceof Lstring)) {
+			if(!(arguments[0] instanceof StrinG)) {
 				throw new GenyrisException("Non string passed to " + Constants.MATCH);
 			}
-			Lstring regex = (Lstring) arguments[0];			
-			Lstring theString = getSelfString(env);
+			StrinG regex = (StrinG) arguments[0];			
+			StrinG theString = getSelfString(env);
 			return theString.match(NIL, TRUE, regex);
 		}
 		else {

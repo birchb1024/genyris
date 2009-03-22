@@ -6,8 +6,8 @@
 package org.genyris.classification;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
+import org.genyris.core.Pair;
+import org.genyris.core.Dictionary;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
@@ -16,13 +16,13 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
 public class ClassWrapper {
-	private Lobject _theClass;
+	private Dictionary _theClass;
 
 	private Exp CLASSNAME, SUPERCLASSES, SUBCLASSES;
 
 	private SimpleSymbol NIL;
 
-	public ClassWrapper(Lobject toWrap) {
+	public ClassWrapper(Dictionary toWrap) {
 		_theClass = toWrap;
 		CLASSNAME = toWrap.getSymbolTable().CLASSNAME();
 		SUPERCLASSES = toWrap.getSymbolTable().SUPERCLASSES();
@@ -30,7 +30,7 @@ public class ClassWrapper {
 		NIL = toWrap.getNil();
 	}
 
-	public Lobject getTheClass() {
+	public Dictionary getTheClass() {
 		return _theClass;
 	}
 
@@ -54,7 +54,7 @@ public class ClassWrapper {
 	private String classListToString(Exp classes) throws AccessException {
 		String result = " (";
 		while (classes != NIL) {
-			ClassWrapper klass = new ClassWrapper((Lobject) classes.car());
+			ClassWrapper klass = new ClassWrapper((Dictionary) classes.car());
 			result += klass.getClassName();
 			if (classes.cdr() != NIL)
 				result += ' ';
@@ -72,22 +72,22 @@ public class ClassWrapper {
 		}
 	}
 
-	public void addSuperClass(Lobject klass) throws GenyrisException {
+	public void addSuperClass(Dictionary klass) throws GenyrisException {
 		if (klass == null)
 			return;
 
 		Exp supers = _theClass.lookupVariableShallow(SUPERCLASSES);
-		supers = new Lcons(klass, supers);
+		supers = new Pair(klass, supers);
 		_theClass.setVariableValue(SUPERCLASSES, supers);
 		new ClassWrapper(klass).addSubClass(_theClass);
 		// TODO use a list set adding function to avoid duplicates.
 	}
 
-	public void addSubClass(Lobject klass) throws UnboundException {
+	public void addSubClass(Dictionary klass) throws UnboundException {
 		if (klass == null)
 			return;
 		Exp subs = _theClass.lookupVariableShallow(SUBCLASSES);
-		subs = new Lcons(klass, subs);
+		subs = new Pair(klass, subs);
 		_theClass.setVariableValue(SUBCLASSES, subs);
 		// TODO use a list set adding function to avoid duplicate subclasses.
 	}
@@ -108,27 +108,27 @@ public class ClassWrapper {
 		}
 	}
 
-	public static Lobject makeClass(Environment env, Exp klassname,
+	public static Dictionary makeClass(Environment env, Exp klassname,
 			Exp superklasses) throws GenyrisException {
 		Exp NIL = env.getNil();
 		Exp standardClassSymbol = env.getSymbolTable().STANDARDCLASS();
 		Exp standardClass = env.lookupVariableValue(standardClassSymbol);
-		Lobject newClass = new Lobject(env);
+		Dictionary newClass = new Dictionary(env);
 		newClass.addClass(standardClass);
 		newClass.defineVariableRaw(env.getSymbolTable().CLASSNAME(),
 				klassname);
 		newClass.defineVariableRaw(env.getSymbolTable().CLASSES(),
-				new Lcons(standardClass, NIL));
+				new Pair(standardClass, NIL));
 		newClass.defineVariableRaw(env.getSymbolTable().SUBCLASSES(), NIL);
 		if (superklasses == NIL)
-			superklasses = new Lcons(env.getSymbolTable().THING(), NIL);
+			superklasses = new Pair(env.getSymbolTable().THING(), NIL);
 		{
 			newClass.defineVariableRaw(
 					env.getSymbolTable().SUPERCLASSES(), lookupClasses(
 							env, superklasses));
 			Exp sklist = superklasses;
 			while (sklist != NIL) {
-				Lobject sk = (Lobject) (env.lookupVariableValue(sklist.car()));
+				Dictionary sk = (Dictionary) (env.lookupVariableValue(sklist.car()));
 				Exp subklasses = NIL;
 				try {
 					subklasses = sk.lookupVariableShallow(env.getSymbolTable().SUBCLASSES());
@@ -137,7 +137,7 @@ public class ClassWrapper {
 							NIL);
 				}
 				sk.setVariableValue(env.getSymbolTable().SUBCLASSES(),
-						new Lcons(newClass, subklasses));
+						new Pair(newClass, subklasses));
 				sklist = sklist.cdr();
 			}
 		}
@@ -149,7 +149,7 @@ public class ClassWrapper {
 			throws GenyrisException {
 		Exp result = env.getNil();
 		while (superklasses != env.getNil()) {
-			result = new Lcons(env.lookupVariableValue(superklasses.car()),
+			result = new Pair(env.lookupVariableValue(superklasses.car()),
 					result);
 			superklasses = superklasses.cdr();
 		}
@@ -167,7 +167,7 @@ public class ClassWrapper {
 		while (mysubclasses != env.getNil()) {
 			Exp firstClass = mysubclasses.car();
 			isThisObjectAClass(firstClass);
-			ClassWrapper mysubklass = new ClassWrapper((Lobject) firstClass); 
+			ClassWrapper mysubklass = new ClassWrapper((Dictionary) firstClass); 
 			if (mysubklass._theClass == klass._theClass) {
 				return true;
 			} else if (mysubklass.isSubClass(klass)) {
@@ -180,7 +180,7 @@ public class ClassWrapper {
 
 	static void  isThisObjectAClass(Exp firstClass) throws GenyrisException {
 		// TODO improve this method to check is something is really a class.
-		if(! (firstClass instanceof Lobject)) {
+		if(! (firstClass instanceof Dictionary)) {
 			throw new GenyrisException(firstClass + "is not a class.");
 		}
 	}
@@ -192,7 +192,7 @@ public class ClassWrapper {
 		classes = object.getClasses(env);
 		while (classes != env.getNil()) {
 			isThisObjectAClass(classes.car());
-			ClassWrapper klass = new ClassWrapper((Lobject) classes.car()); 
+			ClassWrapper klass = new ClassWrapper((Dictionary) classes.car()); 
 			if (classes.car() == _theClass) {
 				return true;
 			}

@@ -7,8 +7,8 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
+import org.genyris.core.Pair;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
 import org.genyris.dl.TripleSet;
@@ -29,7 +29,7 @@ public class ObjectFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env)
 			throws GenyrisException {
-		Lobject dict = new Lobject(env);
+		Dictionary dict = new Dictionary(env);
 		for (int i = 0; i < arguments.length; i++) {
 			if (!arguments[i].listp())
 				throw new GenyrisException("argument to dict not a list");
@@ -45,13 +45,13 @@ public class ObjectFunction extends ApplicableFunction {
 			super(interp, name);
 		}
 
-		protected Lobject getSelfAsDictionary(Environment env) throws GenyrisException {
+		protected Dictionary getSelfAsDictionary(Environment env) throws GenyrisException {
 			getSelf(env);
-			if (!(_self instanceof Lobject)) {
+			if (!(_self instanceof Dictionary)) {
 				throw new GenyrisException(
 						"Non-Dictionary passed to a Dictionary method.");
 			} else {
-				return (Lobject) _self;
+				return (Dictionary) _self;
 			}
 		}
 	}
@@ -64,15 +64,15 @@ public class ObjectFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Lobject self = getSelfAsDictionary(env);
+			Dictionary self = getSelfAsDictionary(env);
 			checkArguments(arguments, 0);
 			Exp alist = self.asAlist().cdr();
-            // TODO move this code int Lobject as a method
+            // TODO move this code int Dictionary as a method
             // TODO also collect ExpWithEmbeddedClasses classes triples.
 
 			Exp results = NIL;
 			while(alist != NIL) {
-				results = new Lcons(new Triple(self, (Symbol)(alist.car().car()), alist.car().cdr()), results);
+				results = new Pair(new Triple(self, (Symbol)(alist.car().car()), alist.car().cdr()), results);
 				alist = alist.cdr();
 			}
 			return results;
@@ -87,9 +87,9 @@ public class ObjectFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Lobject self = getSelfAsDictionary(env);
+			Dictionary self = getSelfAsDictionary(env);
 			checkArguments(arguments, 0);
-            // TODO move this code int Lobject
+            // TODO move this code int Dictionary
             // TODO also collect ExpWithEmbeddedClasses classes triples.
 			Exp alist = self.asAlist().cdr();
 			TripleSet results = new TripleSet();

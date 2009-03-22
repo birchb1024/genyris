@@ -7,7 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -34,14 +34,10 @@ public class DefineClassFunction extends ApplicableFunction {
         if (arguments.length > 2) {
             Exp body = arrayToList(arguments);
             body = body.cdr().cdr();
-            body = new Lcons(klassname, body);
+            body = new Pair(klassname, body);
             Evaluator.eval(env, body);
         }
         return newClass;
-    }
-
-    public Object getJavaValue() {
-        return "<the class builtin function>";
     }
 
 }

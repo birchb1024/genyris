@@ -11,7 +11,7 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
@@ -323,7 +323,7 @@ public class Lex {
                 collect += ch;
             }
         }
-        return new Lstring(collect);
+        return new StrinG(collect);
     }
     public void addprefix(String prefix, String uri) throws GenyrisException {
         _mapper.addprefix(prefix, uri);

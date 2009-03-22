@@ -25,17 +25,20 @@ public class StandardEnvironment implements Environment {
     protected Symbol _left, _right, _dynamic;
     private Internable _table;
 
+    protected static Map mapFactory() {
+    	return new HashMap();
+    }
 
     public StandardEnvironment(NilSymbol nil) {
         _parent = null;
-        _frame = new HashMap();
+        _frame = mapFactory();
         NIL = nil;
         _table = null;
     }
 
     public StandardEnvironment(Internable table, NilSymbol nil) {
         _parent = null;
-        _frame = new HashMap();
+        _frame = mapFactory();
         NIL = nil;
         _table = table;
 
@@ -59,17 +62,13 @@ public class StandardEnvironment implements Environment {
     }
     public StandardEnvironment(Environment parent) {
         _parent = parent;
-        _frame = new HashMap();
+        _frame = mapFactory();
         init();
     }
     public StandardEnvironment(Environment parent, Map bindings) {
         _parent = parent;
         _frame = bindings;
         init();
-    }
-
-    public Object getJavaValue() {
-        return "<StandardEnvironment>";
     }
 
     public Exp lookupVariableValue(Exp symbol) throws UnboundException {

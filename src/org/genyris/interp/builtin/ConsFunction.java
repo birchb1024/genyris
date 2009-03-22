@@ -6,7 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -21,7 +21,7 @@ public class ConsFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		checkArguments(arguments, 2);
-        return new Lcons(arguments[0], arguments[1]);
+        return new Pair(arguments[0], arguments[1]);
     }
 
 }

@@ -18,10 +18,12 @@ def readPage(url)
 t.test "Web Server"
     t.test "Spawn and Kill"
         web.serve 7777 "testscripts/www-text.lin"
-        t.given (web.kill 7) expect "Interrupted ReaderThread"
+        sleep 2000
+        t.given (kill 7) expect "Interrupted ReaderThread"
 
     t.test "Spawn and HTTP Get"
         web.serve 7778 "testscripts/www-text.lin"
+        sleep 2000
         t.given (readPage "http://localhost:7777/") expect 15
-        web.kill 8
+        kill 8
 

@@ -3,7 +3,7 @@ package org.genyris.test.dl;
 import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
@@ -40,8 +40,8 @@ public class TripleSetTest extends TestCase {
 		assertTrue(ts.equals(ts2));
 
 		Bignum subject = new Bignum(1);
-		ts.add(new Triple(subject, new SimpleSymbol("s"), new Lstring("$")));
-		ts2.add(new Triple(new Bignum(1), new SimpleSymbol("s"), new Lstring(
+		ts.add(new Triple(subject, new SimpleSymbol("s"), new StrinG("$")));
+		ts2.add(new Triple(new Bignum(1), new SimpleSymbol("s"), new StrinG(
 				"$")));
 		assertFalse(ts.equals(ts2));
 
@@ -56,9 +56,9 @@ public class TripleSetTest extends TestCase {
 
 		Bignum subject = new Bignum(12);
 		Symbol predicate = new SimpleSymbol("s");
-		Lstring object = new Lstring("$");
+		StrinG object = new StrinG("$");
 		ts.add(new Triple(subject, predicate, object));
-		ts.add(new Triple(subject, new SimpleSymbol("s"), new Lstring("$")));
+		ts.add(new Triple(subject, new SimpleSymbol("s"), new StrinG("$")));
 
 		assertEquals(ts.empty(), false);
 
@@ -76,8 +76,7 @@ public class TripleSetTest extends TestCase {
         eval("(triple '(2:3) 'b (list 1 2 3 4 5))", "(triple (2 : 3) b (1 2 3 4 5))");
     }
 	public void testInterpStore() throws Exception {
-		eval("((car ((tripleset)!classes))!vars)",
-				"(asTriples add subclasses classname superclasses select remove vars)");
+		eval("(null? (member? 'asTriples ((car ((tripleset)!classes))!vars)))","nil");
 		eval("(defvar 'ts (tripleset))", "(tripleset)");
 		eval("(ts!classes)", "(<class TripleSet (Builtin) ()>)");
 		eval("(ts(!add (triple 's 'p 'o)))", "(tripleset)");
@@ -100,12 +99,9 @@ public class TripleSetTest extends TestCase {
 		eval("(ts(!add (triple 's 'p 'o)))", "(tripleset)");
 		eval("(ts(!add (triple 'x 'p 'o)))", "(tripleset)");
 		eval("(ts(!add (triple 's 'p 99)))", "(tripleset)");
-		eval("(ts(!add (triple 'x 'p '99)))", "(tripleset)");
-		eval("(ts(!asTriples))",
-				"((triple s p 99) (triple s p o) (triple x p 99) (triple x p o))");
+		eval("(ts(!add (triple 'x 'p 99)))", "(tripleset)");
 		eval("(defvar 'result (ts(!select nil nil nil isObject99))))",
 				"(tripleset)");
-		eval("(result(!asTriples))", "((triple s p 99) (triple x p 99))");
 		eval("(defvar 'result (ts(!select 's nil nil isObject99))))",
 				"(tripleset)");
 		eval("(result(!asTriples))", "((triple s p 99))");
@@ -129,6 +125,8 @@ public class TripleSetTest extends TestCase {
 		eval("(defvar 'result (ts(!select 's 'p ninenine isObject99))))",
 				"(tripleset)");
 		eval("(result(!asTriples))", "((triple s p 99))");
+		eval("(print (ts(!asTriples))))","true");
+		eval("((SetList!equal?)(ts(!asTriples)) (list (triple 's 'p 'o) (triple 'x 'p 'o) (triple 'x 'p ninenine) (triple 's 'p ninenine)))","true");
 	}
 
 	public void testInterpStoreConstruction() throws Exception {
@@ -154,7 +152,7 @@ public class TripleSetTest extends TestCase {
 		eval("(defvar 'ts (tripleset '(s p o) '(s b c)))", "(tripleset)");
 		eval("(ts(!select 's nil nil noop)))", "(tripleset)");
 		eval("(length (ts(!asTriples))))", "2");
-		eval("(ts(!asTriples)))", "((triple s b c) (triple s p o))");
+		eval("((SetList!equal?) (ts(!asTriples)) (list (tripleq s p o) (tripleq s b c)))","true");
 	}
 
 	public void testInterpTripleDict() throws Exception {

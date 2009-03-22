@@ -27,10 +27,16 @@ def test-remove()
          list (triple 's 'd 'f)
 
    ts(!add (triple 'z'x'c))
+   print
+      ts(!asTriples)
+   print
+      ts(!asTriples)
+   print
+      ts(!asTriples)
    assert
-      equal?
+      (SetList!equal?)
          ts(!asTriples)
-         list (triple 's 'd 'f)(triple 'z 'x 'c)
+         list (triple 's 'd 'f) (triple 'z 'x 'c)
 
    ts(!remove (triple 's 'd 'f))
    assert

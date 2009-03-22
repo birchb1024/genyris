@@ -11,9 +11,9 @@ import java.io.Writer;
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
-import org.genyris.core.Lobject;
-import org.genyris.core.Lstring;
+import org.genyris.core.Pair;
+import org.genyris.core.Dictionary;
+import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.URISymbol;
@@ -36,7 +36,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 		_output = out;
 	}
 
-	public abstract void visitLobject(Lobject frame) throws GenyrisException;
+	public abstract void visitDictionary(Dictionary frame) throws GenyrisException;
 
 	public abstract void visitEagerProc(EagerProcedure proc)
 			throws GenyrisException;
@@ -44,11 +44,11 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 	public abstract void visitLazyProc(LazyProcedure proc)
 			throws GenyrisException;
 
-	public abstract void visitLcons(Lcons cons) throws GenyrisException;
+	public abstract void visitPair(Pair cons) throws GenyrisException;
 
 	public abstract void visitBignum(Bignum bignum) throws GenyrisException;
 
-	public abstract void visitLstring(Lstring lst) throws GenyrisException;
+	public abstract void visitStrinG(StrinG lst) throws GenyrisException;
 
     public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
         write(sym.toString());
@@ -62,12 +62,12 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 	public void visitStandardEnvironment(StandardEnvironment env)
 			throws GenyrisException {
 
-		write(env.getJavaValue().toString());
+		write(env.toString());
 	}
 
 	public void visitSpecialEnvironment(SpecialEnvironment env)
 			throws GenyrisException {
-		write(env.getJavaValue().toString());
+		write(env.toString());
 	}
 
 	public void visitClassWrapper(ClassWrapper klass) throws GenyrisException {

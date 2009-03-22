@@ -16,7 +16,7 @@ import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.Lobject;
+import org.genyris.core.Dictionary;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
@@ -95,10 +95,12 @@ import org.genyris.string.LengthMethod;
 import org.genyris.string.MatchMethod;
 import org.genyris.string.SplitMethod;
 import org.genyris.system.ExecMethod;
+import org.genyris.task.KillTaskFunction;
+import org.genyris.task.SleepFunction;
+import org.genyris.task.SpawnFunction;
+import org.genyris.task.SpawnHTTPDFunction;
 import org.genyris.test.JunitRunnerFunction;
 import org.genyris.web.HTTPgetFunction;
-import org.genyris.web.KillHTTPDFunction;
-import org.genyris.web.SpawnHTTPDFunction;
 
 public class Interpreter {
 	StandardEnvironment _globalEnvironment;
@@ -111,7 +113,7 @@ public class Interpreter {
 		_table = new SymbolTable();
 		_table.init(NIL);
 		_globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
-		Lobject SYMBOL = new Lobject(_globalEnvironment);
+		Dictionary SYMBOL = new Dictionary(_globalEnvironment);
 		_defaultOutput = new OutputStreamWriter(System.out);
 		{
 			// Circular references between symbols and classnames require manual
@@ -231,9 +233,11 @@ public class Interpreter {
 		bindGlobalProcedure(GensymFunction.class);
 
 		bindGlobalProcedure(SpawnHTTPDFunction.class);
-		bindGlobalProcedure(KillHTTPDFunction.class);
+		bindGlobalProcedure(KillTaskFunction.class);
 		bindGlobalProcedure(HTTPgetFunction.class);
-
+		
+		bindGlobalProcedure(SpawnFunction.class);
+		bindGlobalProcedure(SleepFunction.class);
 	}
 
 	public void bindGlobalProcedure(Class class1) throws GenyrisException {
@@ -278,7 +282,7 @@ public class Interpreter {
 
 	public void bindMethod(String className, Class class1)
 			throws UnboundException, GenyrisException {
-		Lobject stringClass = (Lobject) _globalEnvironment
+		Dictionary stringClass = (Dictionary) _globalEnvironment
 				.lookupVariableValue(_table.internString(className));
 		//
 		// Method uses reflection to locate and call the constructor.

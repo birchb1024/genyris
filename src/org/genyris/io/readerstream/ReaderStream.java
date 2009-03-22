@@ -26,10 +26,6 @@ import org.genyris.io.ReaderInStream;
 public class ReaderStream extends ExpWithEmbeddedClasses {
     private InStream _input;
 
-    public Object getJavaValue() {
-        return _input;
-    }
-
     public ReaderStream(InStream reader) {
         _input = reader;
     }

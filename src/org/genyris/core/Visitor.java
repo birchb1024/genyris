@@ -13,15 +13,15 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 
 public interface Visitor {
-	public void visitLcons(Lcons cons) throws GenyrisException;
+	public void visitPair(Pair cons) throws GenyrisException;
 
-	public void visitLstring(Lstring lst) throws GenyrisException;
+	public void visitStrinG(StrinG lst) throws GenyrisException;
 
 	public void visitLazyProc(LazyProcedure lproc) throws GenyrisException;
 
 	public void visitEagerProc(EagerProcedure eproc) throws GenyrisException;
 
-	public void visitLobject(Lobject frame) throws GenyrisException;
+	public void visitDictionary(Dictionary frame) throws GenyrisException;
 
 	public void visitBignum(Bignum bignum) throws GenyrisException;
 

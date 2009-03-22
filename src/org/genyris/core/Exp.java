@@ -15,7 +15,6 @@ import org.genyris.interp.builtin.TagFunction;
 
 public abstract class Exp implements Classifiable, Closure {
 
-    public abstract Object getJavaValue();
     public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 
     public Exp[] computeArguments(Environment ignored, Exp exp) throws GenyrisException {
@@ -33,7 +32,7 @@ public abstract class Exp implements Classifiable, Closure {
         }
         else {
             try {
-                Lobject klass = (Lobject) Evaluator.eval(newEnv, arguments[0]);
+                Dictionary klass = (Dictionary) Evaluator.eval(newEnv, arguments[0]);
                 // call validator if it exists
                 TagFunction.validateObjectInClass(environment, this, klass);
                 return this;
@@ -64,23 +63,23 @@ public abstract class Exp implements Classifiable, Closure {
         throw new AccessException("attempt to set car of non-cons");
     }
 
-    public int hashCode() {
-        return getJavaValue().hashCode();
-    }
-
-    public boolean equals(Object compare) {
-        if (compare.getClass() != this.getClass())
-            return false;
-        else
-            return this.getJavaValue().equals(((Exp) compare).getJavaValue());
-    }
+//    public int hashCode() {
+//        return getJavaValue().hashCode();
+//    }
+//
+//    public boolean equals(Object compare) {
+//        if (compare.getClass() != this.getClass())
+//            return false;
+//        else
+//            return this.getJavaValue().equals(((Exp) compare).getJavaValue());
+//    }
 
 
     public abstract String toString();
 
 
     public boolean listp() {
-        return (this instanceof Lcons);
+        return (this instanceof Pair);
     }
 
     public boolean isSelfEvaluating() {

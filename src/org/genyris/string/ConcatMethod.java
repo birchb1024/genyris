@@ -7,7 +7,7 @@ package org.genyris.string;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -24,12 +24,12 @@ public class ConcatMethod extends AbstractStringMethod {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
-        Lstring result = getSelfString(env);
+        StrinG result = getSelfString(env);
         for(int i=0;i<arguments.length; i++) {
-            if(!(arguments[i] instanceof Lstring)) {
+            if(!(arguments[i] instanceof StrinG)) {
                 throw new GenyrisException("Non-string passed to " + Constants.CONCAT + ": " + arguments[i].toString());
             }
-            result = result.concat((Lstring)arguments[i]);
+            result = result.concat((StrinG)arguments[i]);
         }
         return result;
     }

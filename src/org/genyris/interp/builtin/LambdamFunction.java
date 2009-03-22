@@ -7,7 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -27,7 +27,7 @@ public class LambdamFunction extends ApplicableFunction {
 
         // TODO - inefficient
         Exp expression = arrayToList(arguments);
-        expression = new Lcons(_lambdam, expression);
+        expression = new Pair(_lambdam, expression);
         return new LazyProcedure(env, expression, new MacroFunction("anonymous lambdam", _interp));
 
     }

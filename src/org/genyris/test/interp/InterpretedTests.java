@@ -19,14 +19,18 @@ public class InterpretedTests extends TestCase {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
+        try {
+			SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
+		} finally {
+			System.out.println(out.getBuffer());
+		}
     }
     public void testMath() throws GenyrisException {
         useSourceLoader("mathtests.lin");
     }
-//    public void testWeb() throws GenyrisException {
-//        useSourceLoader("web-tests.lin");
-//    }
+    public void testWeb() throws GenyrisException {
+        useSourceLoader("web-tests.lin");
+    }
     public void testFactorial() throws GenyrisException {
         useSourceLoader("factorial.lin");
     }

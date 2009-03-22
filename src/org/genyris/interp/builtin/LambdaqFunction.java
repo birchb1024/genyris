@@ -7,7 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Lcons;
+import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
@@ -25,12 +25,8 @@ public class LambdaqFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
         Exp expression = arrayToList(arguments);
-        expression = new Lcons(_lambdaq, expression);
+        expression = new Pair(_lambdaq, expression);
         return new LazyProcedure(env, expression, new ClassicFunction("anonymous lambdaq", _interp));
-    }
-
-    public Object getJavaValue() {
-        return "<the lambdaq builtin function>";
     }
 
 }

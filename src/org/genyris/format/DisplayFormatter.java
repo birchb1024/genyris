@@ -7,7 +7,7 @@ package org.genyris.format;
 
 import java.io.Writer;
 
-import org.genyris.core.Lstring;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 
 public class DisplayFormatter extends BasicFormatter {
@@ -15,7 +15,7 @@ public class DisplayFormatter extends BasicFormatter {
         super(out);
     }
 
-    public void visitLstring(Lstring lst) throws GenyrisException {
-        write(lst.getJavaValue().toString());
+    public void visitStrinG(StrinG lst) throws GenyrisException {
+        write(lst.toString());
     }
 }
