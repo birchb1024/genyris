@@ -4,16 +4,19 @@
         <PROPERTY NAME="commentStart" VALUE="#|"/>
         <PROPERTY NAME="commentEnd" VALUE="|#"/>
         <PROPERTY NAME="lineComment" VALUE=";"/>
-        <PROPERTY NAME="noWordSep" VALUE="_:"/>
+        <PROPERTY NAME="noWordSep" VALUE="_-$+?"/>
     </PROPS>
-    <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE" NO_WORD_SEP="_-+?:*/!">
+    <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+	<WHITESPACE> </WHITESPACE>
         <SPAN TYPE="COMMENT1">
             <BEGIN>#|</BEGIN>
             <END>|#</END>
         </SPAN>
         <SEQ TYPE="NULL">'(</SEQ>
+	<SEQ TYPE="NULL">(</SEQ>
+	<SEQ TYPE="NULL">)</SEQ>
         <MARK_FOLLOWING TYPE="LITERAL2">'</MARK_FOLLOWING>
-        <MARK_FOLLOWING TYPE="LITERAL3">!</MARK_FOLLOWING>
+        <MARK_FOLLOWING TYPE="LITERAL2">!</MARK_FOLLOWING>
         <EOL_SPAN TYPE="COMMENT1">;</EOL_SPAN>
         <SPAN TYPE="LITERAL1">
             <BEGIN>"</BEGIN>
@@ -27,6 +30,7 @@
             <KEYWORD1>cons</KEYWORD1>
             <KEYWORD1>def</KEYWORD1>
             <KEYWORD1>define</KEYWORD1>
+            <KEYWORD1>df</KEYWORD1>
             <KEYWORD1>defmacro</KEYWORD1>
             <KEYWORD1>defvar</KEYWORD1>
             <KEYWORD1>rest</KEYWORD1>
@@ -42,7 +46,7 @@
             <KEYWORD1>list</KEYWORD1>
             <KEYWORD1>print</KEYWORD1>
             <KEYWORD1>the</KEYWORD1>
-            <KEYWORD1>raise</KEYWORD1>            
+            <KEYWORD1>raise</KEYWORD1>
             <KEYWORD1>self</KEYWORD1>
             <KEYWORD1>set</KEYWORD1>
             <KEYWORD1>set!</KEYWORD1>
@@ -54,7 +58,9 @@
             <KEYWORD1>eval</KEYWORD1>
             <KEYWORD1>var</KEYWORD1>
             <KEYWORD1>apply</KEYWORD1>
-            
+            <KEYWORD1>tripleset</KEYWORD1>
+            <KEYWORD1>triple</KEYWORD1>
+
             <KEYWORD2>Bignum</KEYWORD2>
             <KEYWORD2>Pair</KEYWORD2>
             <KEYWORD2>String</KEYWORD2>
@@ -70,19 +76,19 @@
             <KEYWORD3>display</KEYWORD3>
              <KEYWORD3>eq?</KEYWORD3>
             <KEYWORD3>equal?</KEYWORD3>
+            <KEYWORD3>=</KEYWORD3>
             <KEYWORD3>null?</KEYWORD3>
             <KEYWORD3>Alist</KEYWORD3>
-            
+
             <KEYWORD3>!vars</KEYWORD3>
             <KEYWORD3>!classes</KEYWORD3>
             <KEYWORD3>!superclasses</KEYWORD3>
             <KEYWORD3>!subclasses</KEYWORD3>
             <KEYWORD3>!classname</KEYWORD3>
-            
+
             <LITERAL1>true</LITERAL1>
             <LITERAL1>nil</LITERAL1>
             <LITERAL2>:</LITERAL2>
-            <LITERAL4>=</LITERAL4>
 
             </KEYWORDS>
     </RULES>
