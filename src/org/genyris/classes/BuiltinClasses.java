@@ -9,61 +9,74 @@ import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Dictionary;
+import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
 public class BuiltinClasses {
 
-    private static Dictionary mkClass(Symbol classname, String name, Environment env, Exp STANDARDCLASS, Dictionary superClass) throws GenyrisException {
-        Exp symbolicName = env.internString(name);
-        Dictionary newClass = new Dictionary(classname, symbolicName, env );
-        newClass.defineVariableRaw(env.getSymbolTable().SUPERCLASSES(), env.getNil());
-        newClass.defineVariableRaw(env.getSymbolTable().SUBCLASSES(), env.getNil());
-        newClass.addClass(STANDARDCLASS);
-        if(superClass != null)
+    private static Dictionary mkClass(String name, Environment env,
+            Dictionary superClass) throws GenyrisException {
+        Internable table = env.getSymbolTable();
+        Symbol STANDARDCLASS = table.STANDARDCLASS();
+        Exp standardClassDict = env.lookupVariableValue(STANDARDCLASS);
+        Symbol classname = table.CLASSNAME();
+        Exp symbolicName = table.internString(name);
+
+        Dictionary newClass = makeTheClass(env, superClass, table, standardClassDict, classname, symbolicName);
+        return newClass;
+    }
+
+    private static Dictionary makeTheClass(Environment env, Dictionary superClass, Internable table, Exp standardClassDict, Symbol classname, Exp symbolicName) throws GenyrisException {
+        Dictionary newClass = new Dictionary(classname, symbolicName, env);
+        newClass.defineVariableRaw(table.SUPERCLASSES(), env.getNil());
+        newClass.defineVariableRaw(table.SUBCLASSES(), env.getNil());
+        newClass.addClass(standardClassDict);
+        if (superClass != null)
             new ClassWrapper(newClass).addSuperClass(superClass);
         env.defineVariable(symbolicName, newClass);
         return newClass;
     }
+
     public static void init(Environment env) throws GenyrisException {
-        Dictionary STANDARDCLASS;
-        Symbol classname = (Symbol) env.getSymbolTable().CLASSNAME();
+        Dictionary standardClassDict;
+        Internable table = env.getSymbolTable();
+        Symbol CLASSNAME = table.CLASSNAME();
         {
             // Bootstrap the meta-class
-            STANDARDCLASS = new Dictionary(classname, env.getSymbolTable().STANDARDCLASS(), env );
-            STANDARDCLASS.addClass(STANDARDCLASS);
-            env.defineVariable(env.getSymbolTable().STANDARDCLASS(), STANDARDCLASS);
+            standardClassDict = new Dictionary(CLASSNAME,
+                    table.STANDARDCLASS(), env);
+            standardClassDict.addClass(standardClassDict);
+            env.defineVariable(table.STANDARDCLASS(), standardClassDict);
         }
 
-        Dictionary THING = mkClass(classname, "Thing", env, STANDARDCLASS, null);
-        Dictionary builtin = mkClass(classname, "Builtin", env, STANDARDCLASS, THING);
-        Dictionary pair = mkClass(classname, "Pair", env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.PRINTWITHCOLON, env, STANDARDCLASS, pair);
-        mkClass(classname, Constants.DICTIONARY, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.INTEGER, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.BIGNUM, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.STRING, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.DOUBLE, env, STANDARDCLASS, builtin);
-        Dictionary symbol = mkClass(classname, Constants.SYMBOL, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.SIMPLESYMBOL, env, STANDARDCLASS, symbol);
-        mkClass(classname, Constants.URISYMBOL, env, STANDARDCLASS, symbol);
-        mkClass(classname, Constants.JAVAOBJECT, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.JAVAMETHOD, env, STANDARDCLASS, builtin);
-        Dictionary closure = mkClass(classname, Constants.CLOSURE, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.EAGERPROCEDURE, env, STANDARDCLASS, closure);
-        mkClass(classname, Constants.LAZYPROCEDURE, env, STANDARDCLASS, closure);
-        mkClass(classname, Constants.FILE, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.READER, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.WRITER, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.SYSTEM, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.LISTOFLINES, env, STANDARDCLASS, pair);
-        mkClass(classname, Constants.INDENTEDPARSER, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.PARENPARSER, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.STRINGFORMATSTREAM, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.SOUND, env, STANDARDCLASS, builtin);
+        Dictionary THING = mkClass("Thing", env, null);
+        Dictionary builtin = mkClass("Builtin", env, THING);
+        mkClass(Constants.DICTIONARY, env, builtin);
+        mkClass(Constants.INTEGER, env, builtin);
+        mkClass(Constants.BIGNUM, env, builtin);
+        mkClass(Constants.STRING, env, builtin);
+        mkClass(Constants.DOUBLE, env, builtin);
+        mkClass(Constants.FILE, env, builtin);
+        mkClass(Constants.READER, env, builtin);
+        mkClass(Constants.WRITER, env, builtin);
+        mkClass(Constants.SYSTEM, env, builtin);
+        mkClass(Constants.INDENTEDPARSER, env, builtin);
+        mkClass(Constants.PARENPARSER, env, builtin);
+        mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
+        mkClass(Constants.SOUND, env, builtin);
+        mkClass(Constants.TRIPLE, env, builtin);
+        mkClass(Constants.TRIPLESET, env, builtin);
 
-        mkClass(classname, Constants.TRIPLE, env, STANDARDCLASS, builtin);
-        mkClass(classname, Constants.TRIPLESET, env, STANDARDCLASS, builtin);
-}
+        Dictionary symbol = mkClass(Constants.SYMBOL, env, builtin);
+        Dictionary closure = mkClass(Constants.CLOSURE, env, builtin);
+        Dictionary pair = mkClass("Pair", env, builtin);
+        mkClass(Constants.PRINTWITHCOLON, env, pair);
+        mkClass(Constants.SIMPLESYMBOL, env, symbol);
+        mkClass(Constants.URISYMBOL, env, symbol);
+        mkClass(Constants.EAGERPROCEDURE, env, closure);
+        mkClass(Constants.LAZYPROCEDURE, env, closure);
+        mkClass(Constants.LISTOFLINES, env, pair);
+    }
 }

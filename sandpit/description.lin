@@ -30,7 +30,7 @@ description Age
 description |http://example.org/courses/6.001|
   s.students
      rdf.Bag
-        |http://example.org/students/Amy|
+        s.Amy
         |http://example.org/students/Mohamed|
         |http://example.org/students/Johann|
         |http://example.org/students/Maria|
@@ -43,3 +43,33 @@ description
         |ftp://ftp1.example.org/|
         |ftp://ftp2.example.org/|
         |ftp://ftp3.example.org/|
+
+
+@prefix p "http://mine.org/person#"
+
+description
+   p.Name
+      type Property
+      range String
+   p.Age
+      type Property
+      range Bignum
+
+class p.Person(Thing)
+   !description
+      ; type Class ; implicit
+      ; subclassOf Thing ; implicit
+      hasProperty p.Name
+      hasProperty p.Age
+
+description
+   Month
+      type Class
+      range (1 : 12)
+      range
+         Alt
+             January
+             February
+             ...
+
+
