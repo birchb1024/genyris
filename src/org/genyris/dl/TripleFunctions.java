@@ -16,9 +16,9 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
-public class TripleFunction extends ApplicableFunction {
+public class TripleFunctions extends ApplicableFunction {
 
-	public TripleFunction(Interpreter interp) {
+	public TripleFunctions(Interpreter interp) {
 		super(interp, "triple", true);
 	}
 
@@ -90,7 +90,7 @@ public class TripleFunction extends ApplicableFunction {
 	}
 
 	public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-		interpreter.bindGlobalProcedure(TripleFunction.class);
+		interpreter.bindGlobalProcedure(TripleFunctions.class);
 		interpreter.bindMethod(Constants.TRIPLE, SubjectMethod.class);
 		interpreter.bindMethod(Constants.TRIPLE, PredicateMethod.class);
 		interpreter.bindMethod(Constants.TRIPLE, ObjectMethod.class);

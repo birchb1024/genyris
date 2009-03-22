@@ -26,13 +26,13 @@ import org.genyris.load.SourceLoader;
 
 public class ClassicReadEvalPrintLoop {
 
-	private Interpreter _interpreter;
-	
+    private Interpreter _interpreter;
+
     public static void main(String[] args) {
-    	ClassicReadEvalPrintLoop loop = new ClassicReadEvalPrintLoop();
-    	loop.run(args);
+        ClassicReadEvalPrintLoop loop = new ClassicReadEvalPrintLoop();
+        loop.run(args);
     }
-    
+
     public void run(String args[]) {
         try {
             _interpreter = new Interpreter();
@@ -83,20 +83,20 @@ public class ClassicReadEvalPrintLoop {
 
     }
 
-	private void setInitialPrefixes(Parser parser) throws GenyrisException {
-		parser.addPrefix("u","http://www.genyris.org/lang/utilities#");
-		parser.addPrefix("web","http://www.genyris.org/lang/web#");
-		parser.addPrefix("g","http://www.genyris.org/lang/syntax#");
-		parser.addPrefix("sys","http://www.genyris.org/lang/system#");
-		parser.addPrefix("ver", "http://www.genyris.org/lang/version#");
-		}
+    private void setInitialPrefixes(Parser parser) throws GenyrisException {
+        parser.addPrefix("u", Constants.PREFIX_UTIL);
+        parser.addPrefix("web", Constants.PREFIX_WEB);
+        parser.addPrefix("g", Constants.PREFIX_SYNTAX);
+        parser.addPrefix("sys", Constants.PREFIX_SYSTEM);
+        parser.addPrefix("ver",  Constants.PREFIX_VERSION);
+        }
 
-	private Exp makeArgList(String[] args) {
-		Exp arglist = this._interpreter.NIL;
-		for(int i=args.length-1;i>=0;i--) {
-			arglist = new Pair(new StrinG(args[i]), arglist);
-		}
-		return arglist;
-	}
+    private Exp makeArgList(String[] args) {
+        Exp arglist = this._interpreter.NIL;
+        for(int i=args.length-1;i>=0;i--) {
+            arglist = new Pair(new StrinG(args[i]), arglist);
+        }
+        return arglist;
+    }
 
 }

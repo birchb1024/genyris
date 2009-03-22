@@ -37,6 +37,9 @@ def null? (sexp)
       sexp nil
       else true
 
+s.load-class-by-name "org.genyris.dl.TripleFunctions"
+s.load-class-by-name "org.genyris.dl.TripleSetFunction"
+s.load-class-by-name "org.genyris.interp.builtin.ObjectFunction"
 
 load "org/genyris/load/boot/assert.lin"
 load "org/genyris/load/boot/pair.lin"

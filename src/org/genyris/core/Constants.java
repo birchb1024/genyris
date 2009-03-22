@@ -77,14 +77,19 @@ public class Constants {
         public static final String GENYRIS = "http://www.genyris.org/lang/";
         public static final String ARGS = "argv";
         public static final String WEB = GENYRIS + "web#";
-		public static final char SYMBOLESCAPE = '|';
-		public static final String SYMBOL = "Symbol";
-		public static final String FALSE = "false";
-		public static final String QUOTE = "quote";
-		public static final String BACKQUOTE = "backquote";
-		public static final String TRIPLE = "Triple";
-		public static final String TRIPLESET = "TripleSet";
-        public static final Object TYPE = "type";
+        public static final char SYMBOLESCAPE = '|';
+        public static final String SYMBOL = "Symbol";
+        public static final String FALSE = "false";
+        public static final String QUOTE = "quote";
+        public static final String BACKQUOTE = "backquote";
+        public static final String TRIPLE = "Triple";
+        public static final String TRIPLESET = "TripleSet";
+        public static final String TYPE = "type";
 
+        public static final String PREFIX_UTIL = "http://www.genyris.org/lang/utilities#";
+        public static final String PREFIX_WEB = "http://www.genyris.org/lang/web#";
+        public static final String PREFIX_SYNTAX = "http://www.genyris.org/lang/syntax#";
+        public static final String PREFIX_SYSTEM = "http://www.genyris.org/lang/system#";
+        public static final String PREFIX_VERSION = "http://www.genyris.org/lang/version#";
 
 }
