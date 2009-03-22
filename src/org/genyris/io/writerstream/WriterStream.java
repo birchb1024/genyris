@@ -24,6 +24,7 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class WriterStream extends ExpWithEmbeddedClasses {
     private Writer _value;
@@ -40,9 +41,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         return _value.toString();
     }
 
-	public Symbol getBuiltinClassSymbol(Internable table) {
-		return table.WRITER();
-	}
+    public Symbol getBuiltinClassSymbol(Internable table) {
+        return table.WRITER();
+    }
 
     public void close() throws GenyrisException {
         try {
@@ -105,7 +106,7 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     public static abstract class AbstractWriterMethod extends AbstractMethod {
 
         public AbstractWriterMethod(Interpreter interp, String name) {
-        	super(interp, name);
+            super(interp, name);
         }
 
         protected WriterStream getSelfWriter(Environment env) throws GenyrisException {
@@ -116,13 +117,18 @@ public class WriterStream extends ExpWithEmbeddedClasses {
                 return (WriterStream)_self;
             }
         }
+        public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+            interpreter.bindMethod(Constants.WRITER, FormatMethod.class);
+            interpreter.bindMethod(Constants.WRITER, CloseMethod.class);
+            interpreter.bindMethod(Constants.WRITER, FlushMethod.class);
+        }
     }
     public static class FormatMethod extends AbstractWriterMethod {
         private Exp STDOUT;
 
-    	public static String getStaticName() {return "format";};
+        public static String getStaticName() {return "format";};
         public FormatMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+            super(interp, getStaticName());
             try {
                 STDOUT = interp.lookupGlobalFromString(Constants.STDOUT);
             }
@@ -155,9 +161,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     }
     public static class CloseMethod extends AbstractWriterMethod {
 
-    	public static String getStaticName() {return "close";};
+        public static String getStaticName() {return "close";};
         public CloseMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+            super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -168,9 +174,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
     }
     public static class FlushMethod extends AbstractWriterMethod {
 
-    	public static String getStaticName() {return "flush";};
+        public static String getStaticName() {return "flush";};
         public FlushMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+            super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

@@ -11,13 +11,12 @@ import java.io.Writer;
 
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
-public class PrintFunction extends ApplicableFunction {
-	
+public class PrintFunction extends AbstractFormatFunction {
+
     public PrintFunction(Interpreter interp) {
         super(interp, "print", true);
     }

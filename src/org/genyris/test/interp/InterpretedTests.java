@@ -20,16 +20,13 @@ public class InterpretedTests extends TestCase {
         interp.init(false);
         StringWriter out = new StringWriter();
         try {
-			SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
-		} finally {
-			System.out.println(out.getBuffer());
-		}
+            SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
+        } finally {
+            System.out.println(out.getBuffer());
+        }
     }
     public void testMath() throws GenyrisException {
         useSourceLoader("mathtests.lin");
-    }
-    public void testWeb() throws GenyrisException {
-        useSourceLoader("web-tests.lin");
     }
     public void testFactorial() throws GenyrisException {
         useSourceLoader("factorial.lin");
@@ -51,5 +48,11 @@ public class InterpretedTests extends TestCase {
    }
     public void testTriples() throws GenyrisException {
         useSourceLoader("triple-tests.lin");
+    }
+    public void testMiscellaneous() throws GenyrisException {
+        useSourceLoader("miscellaneous-tests.lin");
+    }
+    public void testWeb() throws GenyrisException {
+        useSourceLoader("web-tests.lin");
     }
 }

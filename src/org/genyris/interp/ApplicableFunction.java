@@ -16,11 +16,11 @@ public abstract class ApplicableFunction {
     protected Exp         _lambda, _lambdam, _lambdaq;
     private String  _name;
     private boolean _eager;
-	protected Exp REST;
-    
+    protected Exp REST;
+
     public ApplicableFunction(Interpreter interp, String name, boolean eager) {
-    	_name = name;
-    	_eager = eager;
+        _name = name;
+        _eager = eager;
         _interp = interp;
         NIL = interp.getSymbolTable().NIL();
         TRUE = interp.getSymbolTable().TRUE();
@@ -33,7 +33,7 @@ public abstract class ApplicableFunction {
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException;
 
-	protected Exp arrayToList(Exp[] array) {
+    protected Exp arrayToList(Exp[] array) {
         Exp expression = NIL;
         for (int i = array.length - 1; i >= 0; i--) {
             expression = new Pair(array[i], expression);
@@ -41,30 +41,30 @@ public abstract class ApplicableFunction {
         return expression;
     }
 
-	public String getName() {
-		return _name;
-	}
+    public String getName() {
+        return _name;
+    }
 
-	public boolean isEager() {
-		return _eager;
-	}
-	protected void checkArguments(Exp[] arguments, int exactly) throws GenyrisException {
-		checkArguments(arguments, exactly,exactly);
-	}
-	protected void checkMinArguments(Exp[] arguments, int minimum) throws GenyrisException {
+    public boolean isEager() {
+        return _eager;
+    }
+    protected void checkArguments(Exp[] arguments, int exactly) throws GenyrisException {
+        checkArguments(arguments, exactly,exactly);
+    }
+    protected void checkMinArguments(Exp[] arguments, int minimum) throws GenyrisException {
         if( arguments.length < minimum)
             throw new GenyrisException("Not enough arguments to " + getName() + " was expecting at least " + minimum + "." );
-	}
-	protected void checkArguments(Exp[] arguments, int minimum, int maximum) throws GenyrisException {
+    }
+    protected void checkArguments(Exp[] arguments, int minimum, int maximum) throws GenyrisException {
         if( arguments.length < minimum ||  arguments.length > maximum)
             throw new GenyrisException("Incorrect number of arguments to " + getName() + " was expecting between " + minimum + " and " + maximum + "." );
-	}
-	protected void checkArgumentTypes(Class[] types, Exp[] args) throws GenyrisException {
-		for(int i=0; i< types.length; i++) {
-			if (!types[i].isInstance(args[i])) {
-				throw new GenyrisException(getName() + " expects a " + types[i].getName() + " at position " + i);
-			}			
-		}
-	}
+    }
+    protected void checkArgumentTypes(Class[] types, Exp[] args) throws GenyrisException {
+        for(int i=0; i< types.length; i++) {
+            if (!types[i].isInstance(args[i])) {
+                throw new GenyrisException(getName() + " expects a " + types[i].getName() + " at position " + i);
+            }
+        }
+    }
 
 }

@@ -21,90 +21,28 @@ import org.genyris.core.Internable;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
-import org.genyris.dl.ThingMethods;
 import org.genyris.exception.GenyrisException;
-import org.genyris.format.DisplayFunction;
-import org.genyris.format.PrintFunction;
-import org.genyris.format.WriteFunction;
-import org.genyris.interp.builtin.ApplyFunction;
-import org.genyris.interp.builtin.BackquoteFunction;
-import org.genyris.interp.builtin.BoundFunction;
-import org.genyris.interp.builtin.CarFunction;
-import org.genyris.interp.builtin.CdrFunction;
-import org.genyris.interp.builtin.ConditionalFunction;
-import org.genyris.interp.builtin.ConsFunction;
-import org.genyris.interp.builtin.DefFunction;
-import org.genyris.interp.builtin.DefMacroFunction;
-import org.genyris.interp.builtin.DefineClassFunction;
-import org.genyris.interp.builtin.DefineFunction;
-import org.genyris.interp.builtin.DynamicSymbolValueFunction;
-import org.genyris.interp.builtin.EqFunction;
-import org.genyris.interp.builtin.EqualsFunction;
-import org.genyris.interp.builtin.EvalFunction;
-import org.genyris.interp.builtin.GensymFunction;
-import org.genyris.interp.builtin.IdentityFunction;
-import org.genyris.interp.builtin.InternFunction;
-import org.genyris.interp.builtin.LambdaFunction;
-import org.genyris.interp.builtin.LambdamFunction;
-import org.genyris.interp.builtin.LambdaqFunction;
-import org.genyris.interp.builtin.LengthFunction;
-import org.genyris.interp.builtin.ListFunction;
-import org.genyris.interp.builtin.LoadFunction;
-import org.genyris.interp.builtin.ObjectFunction;
-import org.genyris.interp.builtin.QuoteFunction;
-import org.genyris.interp.builtin.RaiseFunction;
-import org.genyris.interp.builtin.RemoveTagFunction;
-import org.genyris.interp.builtin.ReplaceCarFunction;
-import org.genyris.interp.builtin.ReplaceCdrFunction;
-import org.genyris.interp.builtin.ReverseFunction;
-import org.genyris.interp.builtin.SetFunction;
-import org.genyris.interp.builtin.SymListFunction;
-import org.genyris.interp.builtin.SymbolValueFunction;
-import org.genyris.interp.builtin.TagFunction;
-import org.genyris.interp.builtin.WhileFunction;
+import org.genyris.interp.builtin.BuiltinFunction;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReadFunction;
 import org.genyris.io.StdioInStream;
-import org.genyris.io.StringFormatStream;
-import org.genyris.io.file.Gfile;
-import org.genyris.io.parser.StreamParser;
 import org.genyris.io.readerstream.ReaderStream;
-import org.genyris.io.sound.Sound.PlayMethod;
 import org.genyris.io.writerstream.WriterStream;
-import org.genyris.io.writerstream.WriterStream.CloseMethod;
-import org.genyris.io.writerstream.WriterStream.FlushMethod;
-import org.genyris.io.writerstream.WriterStream.FormatMethod;
 import org.genyris.load.IncludeFunction;
+import org.genyris.load.LoadFunction;
 import org.genyris.load.SourceLoader;
-import org.genyris.logic.AndFunction;
-import org.genyris.logic.NotFunction;
-import org.genyris.logic.OrFunction;
-import org.genyris.math.DivideFunction;
-import org.genyris.math.GreaterThanFunction;
-import org.genyris.math.LessThanFunction;
-import org.genyris.math.MinusFunction;
-import org.genyris.math.MultiplyFunction;
-import org.genyris.math.PlusFunction;
-import org.genyris.math.PowerFunction;
-import org.genyris.math.RemainderFunction;
-import org.genyris.string.ConcatMethod;
-import org.genyris.string.LengthMethod;
-import org.genyris.string.MatchMethod;
-import org.genyris.string.SplitMethod;
-import org.genyris.system.ExecMethod;
-import org.genyris.task.KillTaskFunction;
-import org.genyris.task.SleepFunction;
-import org.genyris.task.SpawnFunction;
-import org.genyris.task.SpawnHTTPDFunction;
-import org.genyris.test.JunitRunnerFunction;
-import org.genyris.web.HTTPgetFunction;
 
 public class Interpreter {
+    private static final String BIND_FUNCTIONS_AND_METHODS = "bindFunctionsAndMethods";
+
     StandardEnvironment _globalEnvironment;
+
     SymbolTable _table;
+
     Writer _defaultOutput;
+
     public NilSymbol NIL;
 
     public Interpreter() throws GenyrisException {
@@ -117,8 +55,7 @@ public class Interpreter {
         {
             // Circular references between symbols and classnames require manual
             // bootstrap here:
-            SYMBOL.defineVariableRaw(_table.CLASSNAME(),
-                    _table.SIMPLESYMBOL());
+            SYMBOL.defineVariableRaw(_table.CLASSNAME(), _table.SIMPLESYMBOL());
         }
         defineConstantSymbols();
 
@@ -126,7 +63,7 @@ public class Interpreter {
 
         bindAllGlobalFunctions();
 
-        bindAllBuiltinMethods();
+        ClassloaderFunctions.bindFunctionsAndMethods(this);
 
     }
 
@@ -134,8 +71,7 @@ public class Interpreter {
         _globalEnvironment.defineVariable(NIL, NIL);
         _globalEnvironment.defineVariable(_table.TRUE(), _table.TRUE());
         _globalEnvironment.defineVariable(_table.FALSE(), _table.FALSE());
-        _globalEnvironment.defineVariable(_table.EOF(),
-                _table.EOF());
+        _globalEnvironment.defineVariable(_table.EOF(), _table.EOF());
         _globalEnvironment.defineVariable(
                 _table.internString(Constants.STDOUT), new WriterStream(
                         new PrintWriter(System.out)));
@@ -143,98 +79,15 @@ public class Interpreter {
                 new ReaderStream(new StdioInStream()));
     }
 
-    private void bindAllBuiltinMethods() throws UnboundException,
-            GenyrisException {
-        bindMethod("String", SplitMethod.class);
-        bindMethod("String", ConcatMethod.class);
-        bindMethod("String", MatchMethod.class);
-        bindMethod("String", LengthMethod.class);
-        bindMethod("File", Gfile.FileOpenMethod.class);
-        bindMethod(Constants.WRITER, FormatMethod.class);
-        bindMethod(Constants.WRITER, CloseMethod.class);
-        bindMethod(Constants.WRITER, FlushMethod.class);
-        bindMethod(Constants.READER, ReaderStream.HasDataMethod.class);
-        bindMethod(Constants.READER, ReaderStream.ReadMethod.class);
-        bindMethod(Constants.READER, ReaderStream.CloseMethod.class);
-        bindMethod(Constants.PARENPARSER, StreamParser.NewMethod.class);
-        bindMethod(Constants.PARENPARSER, StreamParser.ReadMethod.class);
-        bindMethod(Constants.PARENPARSER, StreamParser.CloseMethod.class);
-        bindMethod("StringFormatStream", StringFormatStream.NewMethod.class);
-        bindMethod("System", ExecMethod.class);
-        bindMethod("Sound", PlayMethod.class);
-
-        bindMethod("Thing", ThingMethods.AsTripleSetMethod.class);
-        bindMethod("Thing", ThingMethods.AsTriplesMethod.class);
-
-        ClassloaderFunctions.bindFunctionsAndMethods(this);
-
-    }
-
     private void bindAllGlobalFunctions() throws GenyrisException {
-        // TODO? Use reflection to loop over these classes
 
-        bindGlobalProcedure(IsInstanceFunction.class);
-        bindGlobalProcedure(LambdaFunction.class);
-        bindGlobalProcedure(LambdaqFunction.class);
-        bindGlobalProcedure(LambdamFunction.class);
-        bindGlobalProcedure(BackquoteFunction.class);
+        BuiltinFunction.bindFunctionsAndMethods(this);
 
-        bindGlobalProcedure(CarFunction.class);
-        bindGlobalProcedure(CdrFunction.class);
-        bindGlobalProcedure(ReplaceCarFunction.class);
-        bindGlobalProcedure(ReplaceCdrFunction.class);
-        bindGlobalProcedure(ConsFunction.class);
-        bindGlobalProcedure(QuoteFunction.class);
-        bindGlobalProcedure(SetFunction.class);
-        bindGlobalProcedure(DefineFunction.class);
-        bindGlobalProcedure(DefFunction.class);
-        bindGlobalProcedure(DefMacroFunction.class);
-        bindGlobalProcedure(DefineClassFunction.class);
-        bindGlobalProcedure(ConditionalFunction.class);
-        bindGlobalProcedure(WhileFunction.class);
-        bindGlobalProcedure(EqualsFunction.class);
-        bindGlobalProcedure(EqFunction.class);
-        bindGlobalProcedure(ObjectFunction.class);
-        bindGlobalProcedure(EvalFunction.class);
-        bindGlobalProcedure(ApplyFunction.class);
-        bindGlobalProcedure(SymbolValueFunction.class);
-        bindGlobalProcedure(DynamicSymbolValueFunction.class);
-        bindGlobalProcedure(IdentityFunction.class);
-        bindGlobalProcedure(ListFunction.class);
-        bindGlobalProcedure(ReverseFunction.class);
-        bindGlobalProcedure(LengthFunction.class);
+        bindGlobalProcedure(ReadFunction.class);
         bindGlobalProcedure(LoadFunction.class);
         bindGlobalProcedure(IncludeFunction.class);
-        bindGlobalProcedure(PrintFunction.class);
-        bindGlobalProcedure(DisplayFunction.class);
-        bindGlobalProcedure(WriteFunction.class);
-        bindGlobalProcedure(ReadFunction.class);
-        bindGlobalProcedure(TagFunction.class);
-        bindGlobalProcedure(RemoveTagFunction.class);
-        bindGlobalProcedure(PlusFunction.class);
-        bindGlobalProcedure(MinusFunction.class);
-        bindGlobalProcedure(MultiplyFunction.class);
-        bindGlobalProcedure(DivideFunction.class);
-        bindGlobalProcedure(RemainderFunction.class);
-        bindGlobalProcedure(GreaterThanFunction.class);
-        bindGlobalProcedure(LessThanFunction.class);
-        bindGlobalProcedure(PowerFunction.class);
-        bindGlobalProcedure(OrFunction.class);
-        bindGlobalProcedure(AndFunction.class);
-        bindGlobalProcedure(NotFunction.class);
-        bindGlobalProcedure(BoundFunction.class);
-        bindGlobalProcedure(RaiseFunction.class);
-        bindGlobalProcedure(JunitRunnerFunction.class);
-        bindGlobalProcedure(SymListFunction.class);
-        bindGlobalProcedure(InternFunction.class);
-        bindGlobalProcedure(GensymFunction.class);
+        bindGlobalProcedure(IsInstanceFunction.class);
 
-        bindGlobalProcedure(SpawnHTTPDFunction.class);
-        bindGlobalProcedure(KillTaskFunction.class);
-        bindGlobalProcedure(HTTPgetFunction.class);
-
-        bindGlobalProcedure(SpawnFunction.class);
-        bindGlobalProcedure(SleepFunction.class);
     }
 
     public void bindGlobalProcedure(Class class1) throws GenyrisException {
@@ -328,9 +181,9 @@ public class Interpreter {
         return _defaultOutput;
     }
 
-//    public Symbol getNil() {
-//        return NIL;
-//    }
+    // public Symbol getNil() {
+    // return NIL;
+    // }
 
     public Environment getGlobalEnv() {
         return _globalEnvironment;
@@ -339,15 +192,19 @@ public class Interpreter {
     public Internable getSymbolTable() {
         return _table;
     }
+
     public Symbol intern(String name) {
         return _table.internString(name);
     }
+
     public Symbol intern(Symbol name) {
         return _table.internSymbol(name);
     }
+
     public Exp getSymbolsList() {
         return _table.getSymbolsList();
     }
+
     public Exp lookupGlobalFromString(String var) throws GenyrisException {
         return _globalEnvironment.lookupVariableValue(_table.internString(var));
     }
@@ -355,24 +212,32 @@ public class Interpreter {
     public void loadClassByName(String classname) throws GenyrisException {
         try {
             Class toInitialise = Class.forName(classname);
-            Method binder = findMethod("bindFunctionsAndMethods", toInitialise);
-            binder.invoke(null, new Object[] {this});
+            Method binder = findMethod(BIND_FUNCTIONS_AND_METHODS, toInitialise);
+            if(binder == null) {
+                throw new GenyrisException("Method not found: " + BIND_FUNCTIONS_AND_METHODS);
+            }
+            binder.invoke(null, new Object[] { this });
 
         } catch (ClassNotFoundException e) {
-            throw new GenyrisException("ClassNotFoundException: " + e.getMessage());
+            throw new GenyrisException("ClassNotFoundException: "
+                    + e.getMessage());
         } catch (IllegalArgumentException e) {
-            throw new GenyrisException("IllegalArgumentException: " + e.getMessage());
+            throw new GenyrisException("IllegalArgumentException: "
+                    + e.getMessage());
         } catch (IllegalAccessException e) {
-            throw new GenyrisException("IllegalAccessException: " + e.getMessage());
+            throw new GenyrisException("IllegalAccessException: "
+                    + e.getMessage());
         } catch (InvocationTargetException e) {
-            throw new GenyrisException("InvocationTargetException: " + e.getMessage());
+            throw new GenyrisException("InvocationTargetException: "
+                    + e.getMessage());
         }
 
     }
+
     private static Method findMethod(String name, final Class clazz) {
         Method methods[] = clazz.getMethods();
-        for( int i = 0; i< methods.length; i++ ) {
-            if(methods[i].getName().equals(name)) {
+        for (int i = 0; i < methods.length; i++) {
+            if (methods[i].getName().equals(name)) {
                 return methods[i];
             }
         }

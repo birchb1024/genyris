@@ -10,6 +10,11 @@ def test-equality()
       equal?
           triple '(1:2) 'O '(w:45)
           triple '(1:2) 'O '(w:45)
+   var someDict (dict (!a:3))
+   assert
+      equal?
+          triple someDict 'O 89
+          triple someDict 'O 89
    var eighty 80
    assert
       equal?

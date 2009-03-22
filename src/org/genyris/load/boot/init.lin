@@ -7,6 +7,30 @@
 @prefix s "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
 
+;
+; Load extension functions
+;
+s.load-class-by-name "org.genyris.io.writerstream.WriterStream$AbstractWriterMethod"
+s.load-class-by-name "org.genyris.io.file.Gfile"
+s.load-class-by-name "org.genyris.string.AbstractStringMethod"
+s.load-class-by-name "org.genyris.io.readerstream.ReaderStream"
+s.load-class-by-name "org.genyris.io.parser.StreamParser"
+s.load-class-by-name "org.genyris.io.StringFormatStream"
+s.load-class-by-name "org.genyris.dl.ThingMethods"
+s.load-class-by-name "org.genyris.io.sound.Sound$PlayMethod"
+s.load-class-by-name "org.genyris.system.ExecMethod"
+
+s.load-class-by-name "org.genyris.interp.builtin.ObjectFunction"
+s.load-class-by-name "org.genyris.dl.TripleFunctions"
+s.load-class-by-name "org.genyris.dl.TripleSetFunction"
+s.load-class-by-name "org.genyris.logic.AbstractLogicFunction"
+s.load-class-by-name "org.genyris.math.AbstractMathFunction"
+s.load-class-by-name "org.genyris.format.AbstractFormatFunction"
+s.load-class-by-name "org.genyris.task.TaskFunction"
+s.load-class-by-name "org.genyris.web.HTTPgetFunction"
+
+s.load-class-by-name "org.genyris.test.JunitRunnerFunction"
+
 class g.Keyword(SimpleSymbol)
 tag g.Keyword 'function
 ; Some aliases
@@ -37,10 +61,9 @@ def null? (sexp)
       sexp nil
       else true
 
-s.load-class-by-name "org.genyris.dl.TripleFunctions"
-s.load-class-by-name "org.genyris.dl.TripleSetFunction"
-s.load-class-by-name "org.genyris.interp.builtin.ObjectFunction"
-
+;
+; Load source functions and classes
+;
 load "org/genyris/load/boot/assert.lin"
 load "org/genyris/load/boot/pair.lin"
 load "org/genyris/load/boot/alist.lin"

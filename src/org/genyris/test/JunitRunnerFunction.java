@@ -11,16 +11,20 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class JunitRunnerFunction extends ApplicableFunction {
 
-	public JunitRunnerFunction(Interpreter interp) {
-		super(interp, "self-test-runner", true);
-	}
+    public JunitRunnerFunction(Interpreter interp) {
+        super(interp, "self-test-runner", true);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
-		junit.textui.TestRunner.run(org.genyris.test.AllTestSuite.makeSuite());
-		return NIL;
-	}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException {
+        junit.textui.TestRunner.run(org.genyris.test.AllTestSuite.makeSuite());
+        return NIL;
+    }
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindGlobalProcedure(JunitRunnerFunction.class);
+    }
 }

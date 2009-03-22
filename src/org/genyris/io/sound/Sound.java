@@ -22,6 +22,7 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class Sound {
     private static final int EXTERNAL_BUFFER_SIZE = 128000;
@@ -29,14 +30,14 @@ public class Sound {
     public static void play(StrinG strFilename) throws GenyrisException {
         /*
          * Copyright (c) 1999 - 2001 by Matthias Pfisterer All rights reserved.
-         * 
+         *
          * Redistribution and use in source and binary forms, with or without modification, are
          * permitted provided that the following conditions are met:
          *  - Redistributions of source code must retain the above copyright notice, this list of
          * conditions and the following disclaimer. - Redistributions in binary form must reproduce
          * the above copyright notice, this list of conditions and the following disclaimer in the
          * documentation and/or other materials provided with the distribution.
-         * 
+         *
          * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
          * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
          * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -122,7 +123,7 @@ public class Sound {
          * Wait until all data are played. This is only necessary because of the bug noted below.
          * (If we do not wait, we would interrupt the playback by prematurely closing the line and
          * exiting the VM.)
-         * 
+         *
          * Thanks to Margie Fitch for bringing me on the right path to this solution.
          */
         line.drain();
@@ -133,7 +134,7 @@ public class Sound {
     }
     public static class PlayMethod extends AbstractMethod {
         public PlayMethod(Interpreter interp) {
-        	super(interp, "play");
+            super(interp, "play");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -147,6 +148,10 @@ public class Sound {
             } else {
                 throw new GenyrisException("Missing argument to Sound!play");
             }
+        }
+
+        public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+            interpreter.bindMethod("Sound", PlayMethod.class);
         }
     }
 }

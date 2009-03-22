@@ -11,12 +11,11 @@ import java.io.Writer;
 
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
-public class WriteFunction extends ApplicableFunction {
+public class WriteFunction extends AbstractFormatFunction {
 
    public WriteFunction(Interpreter interp) {
         super(interp, "write", true);

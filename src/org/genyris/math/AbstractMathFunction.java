@@ -11,40 +11,54 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public abstract class AbstractMathFunction extends ApplicableFunction {
 
-	private int _minExpectedNumberOfArguments;
+    private int _minExpectedNumberOfArguments;
 
-	public AbstractMathFunction(Interpreter interp,
-			String name, int minExpectedNumberOfArguments) {
-		super(interp, name, true);
-		_minExpectedNumberOfArguments = minExpectedNumberOfArguments;
-	}
+    public AbstractMathFunction(Interpreter interp,
+            String name, int minExpectedNumberOfArguments) {
+        super(interp, name, true);
+        _minExpectedNumberOfArguments = minExpectedNumberOfArguments;
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
-		if (arguments.length < _minExpectedNumberOfArguments)
-			throw new GenyrisException("Too few arguments to " + getName());
-		try {
-			if(arguments.length == 1) {
-				return mathOperation(arguments[0]);
-			}
-			Exp result = arguments[0];
-			for (int i = 1; i < arguments.length; i++) {
-				result = mathOperation(result, arguments[i]);
-			}
-			return result;
-		} catch (RuntimeException e) {
-			throw new GenyrisException(e.getMessage());
-		}
-	}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException {
+        if (arguments.length < _minExpectedNumberOfArguments)
+            throw new GenyrisException("Too few arguments to " + getName());
+        try {
+            if(arguments.length == 1) {
+                return mathOperation(arguments[0]);
+            }
+            Exp result = arguments[0];
+            for (int i = 1; i < arguments.length; i++) {
+                result = mathOperation(result, arguments[i]);
+            }
+            return result;
+        } catch (RuntimeException e) {
+            throw new GenyrisException(e.getMessage());
+        }
+    }
 
-	protected Exp mathOperation(Exp unary) throws GenyrisException {
-		throw new GenyrisException("Bad call to mathOperation(Exp unary)");
-	}
+    protected Exp mathOperation(Exp unary) throws GenyrisException {
+        throw new GenyrisException("Bad call to mathOperation(Exp unary)");
+    }
 
-	protected Exp mathOperation(Exp a, Exp b) throws GenyrisException{
-		throw new GenyrisException("Bad call to mathOperation(Exp a, Exp b)");
-	}
+    protected Exp mathOperation(Exp a, Exp b) throws GenyrisException{
+        throw new GenyrisException("Bad call to mathOperation(Exp a, Exp b)");
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindGlobalProcedure(PlusFunction.class);
+        interpreter.bindGlobalProcedure(MinusFunction.class);
+        interpreter.bindGlobalProcedure(MultiplyFunction.class);
+        interpreter.bindGlobalProcedure(DivideFunction.class);
+        interpreter.bindGlobalProcedure(RemainderFunction.class);
+        interpreter.bindGlobalProcedure(GreaterThanFunction.class);
+        interpreter.bindGlobalProcedure(LessThanFunction.class);
+        interpreter.bindGlobalProcedure(PowerFunction.class);
+
+    }
+
 }

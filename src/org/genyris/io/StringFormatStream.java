@@ -10,6 +10,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 import org.genyris.io.parser.StreamParser.AbstractParserMethod;
 import org.genyris.io.readerstream.ReaderStream;
 
@@ -88,7 +89,7 @@ public class StringFormatStream implements InStreamEOF {
 
     public void close() throws GenyrisException {
     }
-    
+
     public static class NewMethod extends AbstractParserMethod {
         public NewMethod(Interpreter interp) {
             super(interp, "new");
@@ -103,5 +104,9 @@ public class StringFormatStream implements InStreamEOF {
                 return new ReaderStream(new StringFormatStream(input.getInStream()));
             }
         }
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethod("StringFormatStream", StringFormatStream.NewMethod.class);
     }
 }

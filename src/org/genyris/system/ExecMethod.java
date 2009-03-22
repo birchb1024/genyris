@@ -19,13 +19,14 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class ExecMethod extends AbstractMethod {
 
     private Exp ListOfLinesClazz;
 
     public ExecMethod(Interpreter interp) throws GenyrisException {
-    	super(interp, "exec");
+        super(interp, "exec");
         ListOfLinesClazz = interp.lookupGlobalFromString(Constants.LISTOFLINES);
     }
 
@@ -79,5 +80,9 @@ public class ExecMethod extends AbstractMethod {
         lines.addClass(ListOfLinesClazz);
         return lines;
 
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethod("System", ExecMethod.class);
     }
 }

@@ -8,6 +8,7 @@ package org.genyris.io.readerstream;
 import java.io.Reader;
 
 import org.genyris.core.Bignum;
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
@@ -18,6 +19,7 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.InStreamEOF;
@@ -56,7 +58,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     public static abstract class AbstractReaderMethod extends AbstractMethod {
 
         public AbstractReaderMethod(Interpreter interp, String name) {
-        	super(interp, name);
+            super(interp, name);
         }
 
         protected ReaderStream getSelfReader(Environment env) throws GenyrisException {
@@ -71,7 +73,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     public static class ReadMethod extends AbstractReaderMethod {
 
         public ReadMethod(Interpreter interp) {
-        	super(interp, "read");
+            super(interp, "read");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -83,7 +85,7 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     public static class HasDataMethod extends AbstractReaderMethod {
 
         public HasDataMethod(Interpreter interp) {
-        	super(interp, "hasData");
+            super(interp, "hasData");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -94,9 +96,9 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     }
     public static class CloseMethod extends AbstractReaderMethod {
 
-    	public static String getStaticName() {return "close";};
+        public static String getStaticName() {return "close";};
         public CloseMethod(Interpreter interp) {
-        	super(interp, getStaticName());
+            super(interp, getStaticName());
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -105,8 +107,15 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
             return NIL;
         }
     }
-	public Symbol getBuiltinClassSymbol(Internable table) {
-		return table.READER();
-	}
+    public Symbol getBuiltinClassSymbol(Internable table) {
+        return table.READER();
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethod(Constants.READER, HasDataMethod.class);
+        interpreter.bindMethod(Constants.READER, ReadMethod.class);
+        interpreter.bindMethod(Constants.READER, CloseMethod.class);
+
+    }
 
 }

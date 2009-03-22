@@ -13,6 +13,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 import org.genyris.interp.builtin.ObjectFunction.AbstractDictionaryMethod;
 
 public class ThingMethods {
@@ -60,6 +61,11 @@ public class ThingMethods {
             }
             return results;
         }
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethod("Thing", AsTripleSetMethod.class);
+        interpreter.bindMethod("Thing", AsTriplesMethod.class);
     }
 
 }

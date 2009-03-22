@@ -9,15 +9,14 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
-public class KillTaskFunction extends ApplicableFunction {
+public class KillTaskFunction extends TaskFunction {
 
     public KillTaskFunction(Interpreter interp) {
-    	super(interp, "kill", true);
+        super(interp, "kill", true);
     }
 
     private Thread getThreadById( final long id ) {
@@ -34,8 +33,8 @@ public class KillTaskFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
         checkArguments(arguments, 1);
-    	Class[] types = {Bignum.class};
-    	checkArgumentTypes(types, arguments);
+        Class[] types = {Bignum.class};
+        checkArgumentTypes(types, arguments);
         long id = ((Bignum)arguments[0]).bigDecimalValue().longValue();
         Thread t = getThreadById(id);
         if(t == null) {

@@ -44,12 +44,16 @@ public class ClassicReadEvalPrintLoop {
             Writer output = new PrintWriter(System.out);
             Formatter formatter = new IndentedFormatter(output, 1);
             Exp EOF = _interpreter.getSymbolTable().EOF();
-            Exp ARGS = _interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
+            Exp ARGS = _interpreter.intern(Constants.GENYRIS + "system#"
+                    + Constants.ARGS);
             Exp argsAlist = makeArgList(args);
             _interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
 
             setInitialPrefixes(parser);
-            SourceLoader.loadScriptFromClasspath(_interpreter, "org/genyris/load/boot/repl.lin", (Writer)new NullWriter());
+            SourceLoader
+                    .loadScriptFromClasspath(_interpreter,
+                            "org/genyris/load/boot/repl.lin",
+                            (Writer) new NullWriter());
             Exp expression = null;
             do {
                 try {
@@ -60,23 +64,21 @@ public class ClassicReadEvalPrintLoop {
                         break;
                     }
 
-                    Exp result = _interpreter.evalInGlobalEnvironment(expression);
+                    Exp result = _interpreter
+                            .evalInGlobalEnvironment(expression);
 
                     result.acceptVisitor(formatter);
 
                     output.write(" ;");
                     formatter.printClassNames(result, _interpreter);
                     output.flush();
-                }
-                catch (GenyrisException e) {
+                } catch (GenyrisException e) {
                     System.out.println("*** Error: " + e.getMessage());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } while (true);
-        }
-        catch (GenyrisException e1) {
+        } catch (GenyrisException e1) {
             e1.printStackTrace();
             System.exit(-1);
         }
@@ -88,12 +90,12 @@ public class ClassicReadEvalPrintLoop {
         parser.addPrefix("web", Constants.PREFIX_WEB);
         parser.addPrefix("g", Constants.PREFIX_SYNTAX);
         parser.addPrefix("sys", Constants.PREFIX_SYSTEM);
-        parser.addPrefix("ver",  Constants.PREFIX_VERSION);
-        }
+        parser.addPrefix("ver", Constants.PREFIX_VERSION);
+    }
 
     private Exp makeArgList(String[] args) {
         Exp arglist = this._interpreter.NIL;
-        for(int i=args.length-1;i>=0;i--) {
+        for (int i = args.length - 1; i >= 0; i--) {
             arglist = new Pair(new StrinG(args[i]), arglist);
         }
         return arglist;

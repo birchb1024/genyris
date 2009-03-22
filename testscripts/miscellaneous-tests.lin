@@ -1,0 +1,9 @@
+;
+; Miscellaneous tests
+;
+
+
+; only windows:
+;Sound(!play "testscripts/welcome.wav"))
+System(!exec "date")
+

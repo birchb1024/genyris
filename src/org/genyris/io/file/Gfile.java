@@ -19,6 +19,7 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 import org.genyris.io.readerstream.ReaderStream;
 import org.genyris.io.writerstream.WriterStream;
 
@@ -44,7 +45,7 @@ public class Gfile {
     public static class FileOpenMethod extends AbstractMethod {
 
         public FileOpenMethod(Interpreter interp) {
-        	super(interp, "static-open");
+            super(interp, "static-open");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -61,5 +62,9 @@ public class Gfile {
                 throw new GenyrisException("Missing argument to File_open");
             }
         }
+    }
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethod("File", Gfile.FileOpenMethod.class);
+
     }
 }

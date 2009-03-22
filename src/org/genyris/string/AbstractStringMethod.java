@@ -10,12 +10,13 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public abstract class AbstractStringMethod extends AbstractMethod {
 
 
     public AbstractStringMethod(Interpreter interp, String name) {
-    	super(interp, name);
+        super(interp, name);
     }
 
     protected StrinG getSelfString(Environment env) throws GenyrisException {
@@ -27,4 +28,11 @@ public abstract class AbstractStringMethod extends AbstractMethod {
             return theString;
         }
     }
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethod("String", SplitMethod.class);
+        interpreter.bindMethod("String", ConcatMethod.class);
+        interpreter.bindMethod("String", MatchMethod.class);
+        interpreter.bindMethod("String", LengthMethod.class);
+    }
+
 }

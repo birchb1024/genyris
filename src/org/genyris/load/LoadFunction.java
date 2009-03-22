@@ -3,7 +3,7 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-package org.genyris.interp.builtin;
+package org.genyris.load;
 
 import java.io.Writer;
 
@@ -15,7 +15,6 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.NullWriter;
-import org.genyris.load.SourceLoader;
 
 public class LoadFunction extends ApplicableFunction {
 

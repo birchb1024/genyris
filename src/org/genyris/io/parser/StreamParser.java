@@ -5,6 +5,7 @@
 //
 package org.genyris.io.parser;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
@@ -15,89 +16,96 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 import org.genyris.io.InStream;
 import org.genyris.io.Parser;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
 
 public class StreamParser extends ExpWithEmbeddedClasses {
-	private InStream _input;
-	private Parser _parser;
+    private InStream _input;
+    private Parser _parser;
 
-	public StreamParser(Interpreter interp, ReaderStream reader) {
-		_input = new UngettableInStream(reader.getInStream());
-		_parser = interp.newParser(_input);
-	}
+    public StreamParser(Interpreter interp, ReaderStream reader) {
+        _input = new UngettableInStream(reader.getInStream());
+        _parser = interp.newParser(_input);
+    }
 
-	public void acceptVisitor(Visitor guest) throws GenyrisException {
-		guest.visitExpWithEmbeddedClasses(this);
-	}
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
+        guest.visitExpWithEmbeddedClasses(this);
+    }
 
-	public String toString() {
-		return "<StreamParser>";
-	}
+    public String toString() {
+        return "<StreamParser>";
+    }
 
-	public Symbol getBuiltinClassSymbol(Internable table) {
-		return table.PARENPARSER();
-	}
-	public void close() throws GenyrisException {
-		_input.close();
-	}
+    public Symbol getBuiltinClassSymbol(Internable table) {
+        return table.PARENPARSER();
+    }
+    public void close() throws GenyrisException {
+        _input.close();
+    }
 
-	public static abstract class AbstractParserMethod extends AbstractMethod {
-		public AbstractParserMethod(Interpreter interp, String name) {
-			super(interp, name);
-		}
+    public static abstract class AbstractParserMethod extends AbstractMethod {
+        public AbstractParserMethod(Interpreter interp, String name) {
+            super(interp, name);
+        }
 
-		protected StreamParser getSelfParser(Environment env)
-				throws GenyrisException {
-			getSelf(env);
-			if (!(_self instanceof StreamParser)) {
-				throw new GenyrisException(
-						"Non-Parser passed to a Parser method.");
-			} else {
-				return (StreamParser) _self;
-			}
-		}
-	}
+        protected StreamParser getSelfParser(Environment env)
+                throws GenyrisException {
+            getSelf(env);
+            if (!(_self instanceof StreamParser)) {
+                throw new GenyrisException(
+                        "Non-Parser passed to a Parser method.");
+            } else {
+                return (StreamParser) _self;
+            }
+        }
+    }
 
-	public static class ReadMethod extends AbstractParserMethod {
-		public ReadMethod(Interpreter interp) {
-			super(interp, "read");
-		}
+    public static class ReadMethod extends AbstractParserMethod {
+        public ReadMethod(Interpreter interp) {
+            super(interp, "read");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			StreamParser self = getSelfParser(env);
-			return self._parser.read();
-		}
-	}
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            StreamParser self = getSelfParser(env);
+            return self._parser.read();
+        }
+    }
 
-	public static class CloseMethod extends AbstractParserMethod {
-		public CloseMethod(Interpreter interp) {
-			super(interp, "close");
-		}
+    public static class CloseMethod extends AbstractParserMethod {
+        public CloseMethod(Interpreter interp) {
+            super(interp, "close");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			getSelfParser(env).close();
-			return NIL;
-		}
-	}
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            getSelfParser(env).close();
+            return NIL;
+        }
+    }
 
-	public static class NewMethod extends AbstractParserMethod {
-		public NewMethod(Interpreter interp) {
-			super(interp, "new");
-		}
+    public static class NewMethod extends AbstractParserMethod {
+        public NewMethod(Interpreter interp) {
+            super(interp, "new");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			if (!(arguments[0] instanceof ReaderStream)) {
-				throw new GenyrisException("Bad arg to new method of Parser");
-			} else {
-				return new StreamParser(_interp, (ReaderStream) arguments[0]);
-			}
-		}
-	}
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            if (!(arguments[0] instanceof ReaderStream)) {
+                throw new GenyrisException("Bad arg to new method of Parser");
+            } else {
+                return new StreamParser(_interp, (ReaderStream) arguments[0]);
+            }
+        }
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethod(Constants.PARENPARSER, StreamParser.NewMethod.class);
+        interpreter.bindMethod(Constants.PARENPARSER, StreamParser.ReadMethod.class);
+        interpreter.bindMethod(Constants.PARENPARSER, StreamParser.CloseMethod.class);
+    }
 
 }

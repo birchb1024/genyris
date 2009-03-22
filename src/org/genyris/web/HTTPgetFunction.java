@@ -20,19 +20,20 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 import org.genyris.io.readerstream.ReaderStream;
 
 public class HTTPgetFunction extends ApplicableFunction {
 
     public HTTPgetFunction(Interpreter interp) {
-    	super(interp, Constants.WEB + "get", true);
+        super(interp, Constants.WEB + "get", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
         checkArguments(arguments, 1);
-    	Class[] types = {StrinG.class};
-    	checkArgumentTypes(types, arguments);
+        Class[] types = {StrinG.class};
+        checkArgumentTypes(types, arguments);
         String URI = arguments[0].toString();
 
         try {
@@ -46,5 +47,7 @@ public class HTTPgetFunction extends ApplicableFunction {
             throw new GenyrisException(e.getMessage());
         }
     }
-
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindGlobalProcedure(HTTPgetFunction.class);
+    }
 }
