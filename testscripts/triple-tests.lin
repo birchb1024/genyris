@@ -1,24 +1,30 @@
+;
+; Tests on triples
+;
 def test-equality()
    assert
-     not
       equal?
           triple 'X 'O 89
           triple 'X 'O 89
+   assert
+      equal?
+          triple '(1:2) 'O '(w:45)
+          triple '(1:2) 'O '(w:45)
    var eighty 80
    assert
       equal?
-              triple 'X 'O eighty
-              triple 'X 'O eighty
+           triple 'X 'O eighty
+           triple 'X 'O eighty
    assert
       not
          equal?
               triple 'X 'O eighty
               triple 'X (gensym "O") eighty
-                
+
 test-equality
 
 def test-remove()
-   var ts (tripleset)  
+   var ts (tripleset)
    ts
      !add (triple 's 'd 'f)
    assert
@@ -52,19 +58,19 @@ def test-select()
           '(joe age ten) :
             '("John" age 22) :
                '("John" height 223)
-   var result 
+   var result
       ts
         !select 'joe nil nil
-   print          
+   print
        result(!asTriples)
    assert
       equal?
          result
-         tripleset '(joe age three) '(joe age ten)   
+         tripleset '(joe age three) '(joe age ten)
    assert
       equal?
          result
-         tripleset  '(joe age ten)  '(joe age three) 
+         tripleset  '(joe age ten)  '(joe age three)
 
 test-remove
 test-select
