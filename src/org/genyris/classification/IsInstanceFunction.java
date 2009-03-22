@@ -15,20 +15,25 @@ import org.genyris.interp.Interpreter;
 
 public class IsInstanceFunction extends ApplicableFunction {
 
-	public IsInstanceFunction(Interpreter interp) {
+    public IsInstanceFunction(Interpreter interp) {
         super(interp, "is-instance?", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-		checkArguments(arguments, 2);
-    	Class[] types = {Exp.class, Dictionary.class, };
-    	checkArgumentTypes(types, arguments);
-    	ClassWrapper.isThisObjectAClass(arguments[1]);
+        checkArguments(arguments, 2);
+        Class[] types = {Exp.class, Dictionary.class, };
+        checkArgumentTypes(types, arguments);
+        ClassWrapper.isThisObjectAClass(arguments[1]);
         ClassWrapper cw = new ClassWrapper((Dictionary)arguments[1]);
         if (cw.isInstance(arguments[0]) )
             return envForBindOperations.getSymbolTable().TRUE();
         else
             return envForBindOperations.getNil();
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws GenyrisException {
+        interpreter.bindGlobalProcedureInstance(new IsInstanceFunction(interpreter));
+
     }
 
 }

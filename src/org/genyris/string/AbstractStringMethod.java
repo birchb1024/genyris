@@ -5,6 +5,7 @@
 //
 package org.genyris.string;
 
+import org.genyris.core.Constants;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -13,7 +14,6 @@ import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
 public abstract class AbstractStringMethod extends AbstractMethod {
-
 
     public AbstractStringMethod(Interpreter interp, String name) {
         super(interp, name);
@@ -29,10 +29,10 @@ public abstract class AbstractStringMethod extends AbstractMethod {
         }
     }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethod("String", SplitMethod.class);
-        interpreter.bindMethod("String", ConcatMethod.class);
-        interpreter.bindMethod("String", MatchMethod.class);
-        interpreter.bindMethod("String", LengthMethod.class);
+        interpreter.bindMethodInstance(Constants.STRING, new SplitMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.STRING, new ConcatMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.STRING, new MatchMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.STRING, new LengthMethod(interpreter));
     }
 
 }

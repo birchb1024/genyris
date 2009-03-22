@@ -118,9 +118,9 @@ public class WriterStream extends ExpWithEmbeddedClasses {
             }
         }
         public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-            interpreter.bindMethod(Constants.WRITER, FormatMethod.class);
-            interpreter.bindMethod(Constants.WRITER, CloseMethod.class);
-            interpreter.bindMethod(Constants.WRITER, FlushMethod.class);
+            interpreter.bindMethodInstance(Constants.WRITER, new FormatMethod(interpreter));
+            interpreter.bindMethodInstance(Constants.WRITER, new CloseMethod(interpreter));
+            interpreter.bindMethodInstance(Constants.WRITER, new FlushMethod(interpreter));
         }
     }
     public static class FormatMethod extends AbstractWriterMethod {

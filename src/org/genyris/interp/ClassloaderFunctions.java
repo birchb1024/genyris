@@ -27,7 +27,7 @@ public class ClassloaderFunctions extends ApplicableFunction {
 
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedure(ClassloaderFunctions.class);
+        interpreter.bindGlobalProcedureInstance(new ClassloaderFunctions(interpreter));
     }
 
 }

@@ -83,6 +83,6 @@ public class ExecMethod extends AbstractMethod {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethod("System", ExecMethod.class);
+        interpreter.bindMethodInstance(Constants.SYSTEM, new ExecMethod(interpreter));
     }
 }

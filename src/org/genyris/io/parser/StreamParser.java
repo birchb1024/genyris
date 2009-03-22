@@ -103,9 +103,9 @@ public class StreamParser extends ExpWithEmbeddedClasses {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethod(Constants.PARENPARSER, StreamParser.NewMethod.class);
-        interpreter.bindMethod(Constants.PARENPARSER, StreamParser.ReadMethod.class);
-        interpreter.bindMethod(Constants.PARENPARSER, StreamParser.CloseMethod.class);
+        interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.NewMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.ReadMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.CloseMethod(interpreter));
     }
 
 }

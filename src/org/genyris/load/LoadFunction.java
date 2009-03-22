@@ -19,12 +19,12 @@ import org.genyris.io.NullWriter;
 public class LoadFunction extends ApplicableFunction {
 
     public LoadFunction(Interpreter interp) {
-    	super(interp, "load", true);
+        super(interp, "load", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp result;
-		checkMinArguments(arguments, 1);
+        checkMinArguments(arguments, 1);
         Writer out = new NullWriter();
         if( !( arguments[0] instanceof StrinG) ) {
             throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
@@ -37,5 +37,10 @@ public class LoadFunction extends ApplicableFunction {
         result = SourceLoader.loadScriptFromClasspath(_interp, arguments[0].toString(), out);
 
         return result;
+    }
+
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws GenyrisException {
+        interpreter.bindGlobalProcedureInstance(new LoadFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new IncludeFunction(interpreter));
     }
 }

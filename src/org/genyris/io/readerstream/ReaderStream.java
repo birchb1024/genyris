@@ -112,10 +112,9 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethod(Constants.READER, HasDataMethod.class);
-        interpreter.bindMethod(Constants.READER, ReadMethod.class);
-        interpreter.bindMethod(Constants.READER, CloseMethod.class);
-
+        interpreter.bindMethodInstance(Constants.READER, new HasDataMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.READER, new ReadMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.READER, new CloseMethod(interpreter));
     }
 
 }

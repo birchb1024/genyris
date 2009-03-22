@@ -6,9 +6,9 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.Dictionary;
 import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
 import org.genyris.dl.TripleSet;
@@ -23,86 +23,86 @@ import org.genyris.interp.UnboundException;
 
 public class ObjectFunction extends ApplicableFunction {
 
-	public ObjectFunction(Interpreter interp) {
-		super(interp, "dict", false);
-	}
+    public ObjectFunction(Interpreter interp) {
+        super(interp, "dict", false);
+    }
 
-	public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env)
-			throws GenyrisException {
-		Dictionary dict = new Dictionary(env);
-		for (int i = 0; i < arguments.length; i++) {
-			if (!arguments[i].listp())
-				throw new GenyrisException("argument to dict not a list");
-			dict.defineVariable(arguments[i].car(), Evaluator.eval(env,
-					arguments[i].cdr()));
-		}
-		return dict;
-	}
+    public Exp bindAndExecute(Closure ignored, Exp[] arguments, Environment env)
+            throws GenyrisException {
+        Dictionary dict = new Dictionary(env);
+        for (int i = 0; i < arguments.length; i++) {
+            if (!arguments[i].listp())
+                throw new GenyrisException("argument to dict not a list");
+            dict.defineVariable(arguments[i].car(), Evaluator.eval(env,
+                    arguments[i].cdr()));
+        }
+        return dict;
+    }
 
-	public static abstract class AbstractDictionaryMethod extends AbstractMethod {
+    public static abstract class AbstractDictionaryMethod extends AbstractMethod {
 
-		public AbstractDictionaryMethod(Interpreter interp, String name) {
-			super(interp, name);
-		}
+        public AbstractDictionaryMethod(Interpreter interp, String name) {
+            super(interp, name);
+        }
 
-		protected Dictionary getSelfAsDictionary(Environment env) throws GenyrisException {
-			getSelf(env);
-			if (!(_self instanceof Dictionary)) {
-				throw new GenyrisException(
-						"Non-Dictionary passed to a Dictionary method.");
-			} else {
-				return (Dictionary) _self;
-			}
-		}
-	}
+        protected Dictionary getSelfAsDictionary(Environment env) throws GenyrisException {
+            getSelf(env);
+            if (!(_self instanceof Dictionary)) {
+                throw new GenyrisException(
+                        "Non-Dictionary passed to a Dictionary method.");
+            } else {
+                return (Dictionary) _self;
+            }
+        }
+    }
 
-	public static class AsTriplesMethod extends AbstractDictionaryMethod {
+    public static class AsTriplesMethod extends AbstractDictionaryMethod {
 
-		public AsTriplesMethod(Interpreter interp) {
-			super(interp, "asTriples");
-		}
+        public AsTriplesMethod(Interpreter interp) {
+            super(interp, "asTriples");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			Dictionary self = getSelfAsDictionary(env);
-			checkArguments(arguments, 0);
-			Exp alist = self.asAlist().cdr();
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Dictionary self = getSelfAsDictionary(env);
+            checkArguments(arguments, 0);
+            Exp alist = self.asAlist().cdr();
             // TODO move this code int Dictionary as a method
             // TODO also collect ExpWithEmbeddedClasses classes triples.
 
-			Exp results = NIL;
-			while(alist != NIL) {
-				results = new Pair(new Triple(self, (Symbol)(alist.car().car()), alist.car().cdr()), results);
-				alist = alist.cdr();
-			}
-			return results;
-		}
-	}
+            Exp results = NIL;
+            while(alist != NIL) {
+                results = new Pair(new Triple(self, (Symbol)(alist.car().car()), alist.car().cdr()), results);
+                alist = alist.cdr();
+            }
+            return results;
+        }
+    }
 
-	public static class AsTripleSetMethod extends AbstractDictionaryMethod {
+    public static class AsTripleSetMethod extends AbstractDictionaryMethod {
 
-		public AsTripleSetMethod(Interpreter interp) {
-			super(interp, "asTripleSet");
-		}
+        public AsTripleSetMethod(Interpreter interp) {
+            super(interp, "asTripleSet");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			Dictionary self = getSelfAsDictionary(env);
-			checkArguments(arguments, 0);
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Dictionary self = getSelfAsDictionary(env);
+            checkArguments(arguments, 0);
             // TODO move this code int Dictionary
             // TODO also collect ExpWithEmbeddedClasses classes triples.
-			Exp alist = self.asAlist().cdr();
-			TripleSet results = new TripleSet();
-			while(alist != NIL) {
-				results.add(new Triple(self, (Symbol)(alist.car().car()), alist.car().cdr()));
-				alist = alist.cdr();
-			}
-			return results;
-		}
-	}
+            Exp alist = self.asAlist().cdr();
+            TripleSet results = new TripleSet();
+            while(alist != NIL) {
+                results.add(new Triple(self, (Symbol)(alist.car().car()), alist.car().cdr()));
+                alist = alist.cdr();
+            }
+            return results;
+        }
+    }
 
-	public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-		interpreter.bindMethod(Constants.DICTIONARY, ObjectFunction.AsTriplesMethod.class);
-		interpreter.bindMethod(Constants.DICTIONARY, ObjectFunction.AsTripleSetMethod.class);	
-	}
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindMethodInstance(Constants.DICTIONARY, new ObjectFunction.AsTriplesMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.DICTIONARY, new ObjectFunction.AsTripleSetMethod(interpreter));
+    }
 }

@@ -64,8 +64,8 @@ public class ThingMethods {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethod("Thing", AsTripleSetMethod.class);
-        interpreter.bindMethod("Thing", AsTriplesMethod.class);
+        interpreter.bindMethodInstance("Thing", new AsTripleSetMethod(interpreter));
+        interpreter.bindMethodInstance("Thing", new AsTriplesMethod(interpreter));
     }
 
 }

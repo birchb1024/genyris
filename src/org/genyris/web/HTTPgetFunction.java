@@ -48,6 +48,6 @@ public class HTTPgetFunction extends ApplicableFunction {
         }
     }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedure(HTTPgetFunction.class);
+        interpreter.bindGlobalProcedureInstance(new HTTPgetFunction(interpreter));
     }
 }

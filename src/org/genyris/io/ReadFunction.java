@@ -6,11 +6,12 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class ReadFunction extends ApplicableFunction {
 
     public ReadFunction(Interpreter interp) {
-    	super(interp, "read", true);
+        super(interp, "read", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {
@@ -24,5 +25,7 @@ public class ReadFunction extends ApplicableFunction {
         Parser parser = _interp.newParser(input);
         return parser.read();
     }
-
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindGlobalProcedureInstance(new ReadFunction(interpreter));
+    }
 }

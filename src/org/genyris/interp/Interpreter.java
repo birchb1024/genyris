@@ -8,12 +8,10 @@ package org.genyris.interp;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.genyris.classes.BuiltinClasses;
-import org.genyris.classification.IsInstanceFunction;
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
@@ -22,15 +20,12 @@ import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.builtin.BuiltinFunction;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
-import org.genyris.io.ReadFunction;
 import org.genyris.io.StdioInStream;
 import org.genyris.io.readerstream.ReaderStream;
 import org.genyris.io.writerstream.WriterStream;
-import org.genyris.load.IncludeFunction;
 import org.genyris.load.LoadFunction;
 import org.genyris.load.SourceLoader;
 
@@ -61,10 +56,11 @@ public class Interpreter {
 
         BuiltinClasses.init(_globalEnvironment);
 
-        bindAllGlobalFunctions();
+        LoadFunction.bindFunctionsAndMethods(this);
 
         ClassloaderFunctions.bindFunctionsAndMethods(this);
 
+        bindAllJavaFunctionsFromScript();
     }
 
     private void defineConstantSymbols() throws GenyrisException {
@@ -79,88 +75,37 @@ public class Interpreter {
                 new ReaderStream(new StdioInStream()));
     }
 
-    private void bindAllGlobalFunctions() throws GenyrisException {
-
-        BuiltinFunction.bindFunctionsAndMethods(this);
-
-        bindGlobalProcedure(ReadFunction.class);
-        bindGlobalProcedure(LoadFunction.class);
-        bindGlobalProcedure(IncludeFunction.class);
-        bindGlobalProcedure(IsInstanceFunction.class);
-
-    }
-
-    public void bindGlobalProcedure(Class class1) throws GenyrisException {
-        bindProcedure(_globalEnvironment, class1);
-    }
-
-    private void bindProcedure(Environment env, Class class1)
+    public void bindGlobalProcedureInstance(ApplicableFunction proc)
             throws GenyrisException {
-        //
-        // Method uses reflection to locate and call the constructor.
-        //
-        Class[] paramTypes = new Class[] { Interpreter.class };
-        try {
-            Constructor ctor = class1.getConstructor(paramTypes);
-            Object[] args = new Object[] { this };
-            ApplicableFunction proc = (ApplicableFunction) ctor
-                    .newInstance(args);
-            Symbol nameSymbol = _table.internString(proc.getName());
+        bindProcedure(_globalEnvironment, proc);
+    }
 
-            if (proc.isEager()) {
-                env.defineVariable(nameSymbol, new EagerProcedure(env, null,
-                        (ApplicableFunction) proc));
-            } else {
-                env.defineVariable(nameSymbol, new LazyProcedure(env, null,
-                        (ApplicableFunction) proc));
-            }
+    private void bindProcedure(Environment env, ApplicableFunction proc)
+            throws GenyrisException {
+        Symbol nameSymbol = _table.internString(proc.getName());
 
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (SecurityException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e.getMessage());
+        if (proc.isEager()) {
+            env.defineVariable(nameSymbol, new EagerProcedure(env, null,
+                    (ApplicableFunction) proc));
+        } else {
+            env.defineVariable(nameSymbol, new LazyProcedure(env, null,
+                    (ApplicableFunction) proc));
         }
     }
 
-    public void bindMethod(String className, Class class1)
+    public void bindMethodInstance(String className, ApplicableFunction proc)
             throws UnboundException, GenyrisException {
         Dictionary stringClass = (Dictionary) _globalEnvironment
                 .lookupVariableValue(_table.internString(className));
-        //
-        // Method uses reflection to locate and call the constructor.
-        //
-        Class[] paramTypes = new Class[] { Interpreter.class };
-        try {
-            Constructor ctor = class1.getConstructor(paramTypes);
-            Object[] args = new Object[] { this };
-            ApplicableFunction proc = (ApplicableFunction) ctor
-                    .newInstance(args);
-            Symbol nameSymbol = _table.internString(proc.getName());
+             Symbol nameSymbol = _table.internString(proc.getName());
             stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(
                     stringClass, null, (ApplicableFunction) proc));
 
-        } // TODO DRY
-        catch (InvocationTargetException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (SecurityException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    }
+
+    public Exp bindAllJavaFunctionsFromScript() throws GenyrisException {
+        return SourceLoader.loadScriptFromClasspath(this,
+                "org/genyris/load/boot/bind-compiled-functions.lin", (Writer) new NullWriter());
     }
 
     public Exp init(boolean verbose) throws GenyrisException {
@@ -180,10 +125,6 @@ public class Interpreter {
     public Writer getDefaultOutputWriter() {
         return _defaultOutput;
     }
-
-    // public Symbol getNil() {
-    // return NIL;
-    // }
 
     public Environment getGlobalEnv() {
         return _globalEnvironment;
@@ -213,8 +154,9 @@ public class Interpreter {
         try {
             Class toInitialise = Class.forName(classname);
             Method binder = findMethod(BIND_FUNCTIONS_AND_METHODS, toInitialise);
-            if(binder == null) {
-                throw new GenyrisException("Method not found: " + BIND_FUNCTIONS_AND_METHODS);
+            if (binder == null) {
+                throw new GenyrisException("Method not found: "
+                        + BIND_FUNCTIONS_AND_METHODS);
             }
             binder.invoke(null, new Object[] { this });
 

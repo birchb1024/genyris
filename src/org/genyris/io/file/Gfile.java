@@ -64,7 +64,6 @@ public class Gfile {
         }
     }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethod("File", Gfile.FileOpenMethod.class);
-
+        interpreter.bindMethodInstance("File", new Gfile.FileOpenMethod(interpreter));
     }
 }

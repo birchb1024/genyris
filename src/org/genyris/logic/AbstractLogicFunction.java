@@ -16,9 +16,9 @@ public abstract class AbstractLogicFunction extends ApplicableFunction {
     throws GenyrisException;
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws GenyrisException {
-        interpreter.bindGlobalProcedure(AndFunction.class);
-        interpreter.bindGlobalProcedure(NotFunction.class);
-        interpreter.bindGlobalProcedure(OrFunction.class);
+        interpreter.bindGlobalProcedureInstance(new AndFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new NotFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new OrFunction(interpreter));
     }
 
 }

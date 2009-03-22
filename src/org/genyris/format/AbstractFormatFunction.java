@@ -12,9 +12,9 @@ public abstract class AbstractFormatFunction extends ApplicableFunction {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedure(PrintFunction.class);
-        interpreter.bindGlobalProcedure(WriteFunction.class);
-        interpreter.bindGlobalProcedure(DisplayFunction.class);
+        interpreter.bindGlobalProcedureInstance(new PrintFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new WriteFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new DisplayFunction(interpreter));
     }
 
 

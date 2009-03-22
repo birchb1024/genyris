@@ -25,6 +25,6 @@ public class JunitRunnerFunction extends ApplicableFunction {
         return NIL;
     }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedure(JunitRunnerFunction.class);
+        interpreter.bindGlobalProcedureInstance(new JunitRunnerFunction(interpreter));
     }
 }

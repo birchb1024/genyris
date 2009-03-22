@@ -18,46 +18,42 @@ public abstract class BuiltinFunction  extends ApplicableFunction {
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException;
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedure(ApplyFunction.class);
-        interpreter.bindGlobalProcedure(BackquoteFunction.class);
-        interpreter.bindGlobalProcedure(BoundFunction.class);
-        interpreter.bindGlobalProcedure(CarFunction.class);
-        interpreter.bindGlobalProcedure(CdrFunction.class);
-        interpreter.bindGlobalProcedure(ConditionalFunction.class);
-        interpreter.bindGlobalProcedure(ConsFunction.class);
-        interpreter.bindGlobalProcedure(DefFunction.class);
-        interpreter.bindGlobalProcedure(DefineClassFunction.class);
-        interpreter.bindGlobalProcedure(DefineFunction.class);
-        interpreter.bindGlobalProcedure(DefMacroFunction.class);
-        interpreter.bindGlobalProcedure(DynamicSymbolValueFunction.class);
-        interpreter.bindGlobalProcedure(EqFunction.class);
-        interpreter.bindGlobalProcedure(EqualsFunction.class);
-        interpreter.bindGlobalProcedure(EvalFunction.class);
-        interpreter.bindGlobalProcedure(GensymFunction.class);
-        interpreter.bindGlobalProcedure(IdentityFunction.class);
-        interpreter.bindGlobalProcedure(InternFunction.class);
-        interpreter.bindGlobalProcedure(LambdaFunction.class);
-        interpreter.bindGlobalProcedure(LambdamFunction.class);
-        interpreter.bindGlobalProcedure(LambdaqFunction.class);
-        interpreter.bindGlobalProcedure(LengthFunction.class);
-        interpreter.bindGlobalProcedure(ListFunction.class);
-        interpreter.bindGlobalProcedure(LoadFunction.class);
-        interpreter.bindGlobalProcedure(ObjectFunction.class);
-        interpreter.bindGlobalProcedure(QuoteFunction.class);
-        interpreter.bindGlobalProcedure(RaiseFunction.class);
-        interpreter.bindGlobalProcedure(RemoveTagFunction.class);
-        interpreter.bindGlobalProcedure(ReplaceCarFunction.class);
-        interpreter.bindGlobalProcedure(ReplaceCdrFunction.class);
-        interpreter.bindGlobalProcedure(ReverseFunction.class);
-        interpreter.bindGlobalProcedure(SetFunction.class);
-        interpreter.bindGlobalProcedure(SymbolValueFunction.class);
-        interpreter.bindGlobalProcedure(SymListFunction.class);
-        interpreter.bindGlobalProcedure(TagFunction.class);
-        interpreter.bindGlobalProcedure(WhileFunction.class);
-
-
-
-
+        interpreter.bindGlobalProcedureInstance(new ApplyFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new BackquoteFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new BoundFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new CarFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new CdrFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new ConditionalFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new ConsFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new DefFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new DefineClassFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new DefineFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new DefMacroFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new DynamicSymbolValueFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new EqFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new EqualsFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new EvalFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new GensymFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new IdentityFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new InternFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new LambdaFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new LambdamFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new LambdaqFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new LengthFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new ListFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new LoadFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new ObjectFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new QuoteFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new RaiseFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new RemoveTagFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new ReplaceCarFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new ReplaceCdrFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new ReverseFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SetFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SymbolValueFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SymListFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new TagFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new WhileFunction(interpreter));
     }
 
 }

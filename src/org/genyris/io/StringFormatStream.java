@@ -107,6 +107,6 @@ public class StringFormatStream implements InStreamEOF {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethod("StringFormatStream", StringFormatStream.NewMethod.class);
+        interpreter.bindMethodInstance("StringFormatStream", new StringFormatStream.NewMethod(interpreter));
     }
 }

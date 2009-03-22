@@ -12,10 +12,10 @@ public abstract class TaskFunction extends ApplicableFunction {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedure(SleepFunction.class);
-        interpreter.bindGlobalProcedure(SpawnFunction.class);
-        interpreter.bindGlobalProcedure(KillTaskFunction.class);
-        interpreter.bindGlobalProcedure(SpawnHTTPDFunction.class);
+        interpreter.bindGlobalProcedureInstance(new SleepFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SpawnFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new KillTaskFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SpawnHTTPDFunction(interpreter));
     }
 
 

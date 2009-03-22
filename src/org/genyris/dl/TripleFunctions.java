@@ -5,7 +5,6 @@
 //
 package org.genyris.dl;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
@@ -18,82 +17,82 @@ import org.genyris.interp.UnboundException;
 
 public class TripleFunctions extends ApplicableFunction {
 
-	public TripleFunctions(Interpreter interp) {
-		super(interp, "triple", true);
-	}
+    public TripleFunctions(Interpreter interp) {
+        super(interp, "triple", true);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
-		checkArguments(arguments, 3);
-		Class[] types = { Exp.class, Symbol.class, Exp.class };
-		checkArgumentTypes(types, arguments);
-		return new Triple(arguments[0], (Symbol) arguments[1], arguments[2]);
-	}
+    public Exp bindAndExecute(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException {
+        checkArguments(arguments, 3);
+        Class[] types = { Exp.class, Symbol.class, Exp.class };
+        checkArgumentTypes(types, arguments);
+        return new Triple(arguments[0], (Symbol) arguments[1], arguments[2]);
+    }
 
-	public static abstract class AbstractTripleMethod extends AbstractMethod {
+    public static abstract class AbstractTripleMethod extends AbstractMethod {
 
-		public AbstractTripleMethod(Interpreter interp, String name) {
-			super(interp, name);
-		}
+        public AbstractTripleMethod(Interpreter interp, String name) {
+            super(interp, name);
+        }
 
-		protected Triple getSelfAsTriple(Environment env) throws GenyrisException {
-			getSelf(env);
-			if (!(_self instanceof Triple)) {
-				throw new GenyrisException(
-						"Non-Triple passed to a Triple method.");
-			} else {
-				return (Triple) _self;
-			}
-		}
-	}
+        protected Triple getSelfAsTriple(Environment env) throws GenyrisException {
+            getSelf(env);
+            if (!(_self instanceof Triple)) {
+                throw new GenyrisException(
+                        "Non-Triple passed to a Triple method.");
+            } else {
+                return (Triple) _self;
+            }
+        }
+    }
 
-	public static class SubjectMethod extends AbstractTripleMethod {
+    public static class SubjectMethod extends AbstractTripleMethod {
 
-		public SubjectMethod(Interpreter interp) {
-			super(interp, "subject");
-		}
+        public SubjectMethod(Interpreter interp) {
+            super(interp, "subject");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			Triple self = getSelfAsTriple(env);
-			checkArguments(arguments, 0);
-			return self.subject;
-		}
-	}
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Triple self = getSelfAsTriple(env);
+            checkArguments(arguments, 0);
+            return self.subject;
+        }
+    }
 
-	public static class PredicateMethod extends AbstractTripleMethod {
+    public static class PredicateMethod extends AbstractTripleMethod {
 
-		public PredicateMethod(Interpreter interp) {
-			super(interp, "predicate");
-		}
+        public PredicateMethod(Interpreter interp) {
+            super(interp, "predicate");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			Triple self = getSelfAsTriple(env);
-			checkArguments(arguments, 0);
-			return self.predicate;
-		}
-	}
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Triple self = getSelfAsTriple(env);
+            checkArguments(arguments, 0);
+            return self.predicate;
+        }
+    }
 
-	public static class ObjectMethod extends AbstractTripleMethod {
+    public static class ObjectMethod extends AbstractTripleMethod {
 
-		public ObjectMethod(Interpreter interp) {
-			super(interp, "object");
-		}
+        public ObjectMethod(Interpreter interp) {
+            super(interp, "object");
+        }
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
-			Triple self = getSelfAsTriple(env);
-			checkArguments(arguments, 0);
-			return self.object;
-		}
-	}
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Triple self = getSelfAsTriple(env);
+            checkArguments(arguments, 0);
+            return self.object;
+        }
+    }
 
-	public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-		interpreter.bindGlobalProcedure(TripleFunctions.class);
-		interpreter.bindMethod(Constants.TRIPLE, SubjectMethod.class);
-		interpreter.bindMethod(Constants.TRIPLE, PredicateMethod.class);
-		interpreter.bindMethod(Constants.TRIPLE, ObjectMethod.class);
-	}
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+        interpreter.bindGlobalProcedureInstance(new TripleFunctions(interpreter));
+        interpreter.bindMethodInstance("Thing", new SubjectMethod(interpreter));
+        interpreter.bindMethodInstance("Thing", new PredicateMethod(interpreter));
+        interpreter.bindMethodInstance("Thing", new ObjectMethod(interpreter));
+    }
 
 }

@@ -151,7 +151,7 @@ public class Sound {
         }
 
         public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-            interpreter.bindMethod("Sound", PlayMethod.class);
+            interpreter.bindMethodInstance("Sound", new PlayMethod(interpreter));
         }
     }
 }
