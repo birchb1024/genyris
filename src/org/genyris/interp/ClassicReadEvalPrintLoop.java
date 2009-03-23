@@ -91,6 +91,7 @@ public class ClassicReadEvalPrintLoop {
         parser.addPrefix("g", Constants.PREFIX_SYNTAX);
         parser.addPrefix("sys", Constants.PREFIX_SYSTEM);
         parser.addPrefix("ver", Constants.PREFIX_VERSION);
+        parser.addPrefix("types", Constants.PREFIX_TYPES);
     }
 
     private Exp makeArgList(String[] args) {

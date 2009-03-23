@@ -12,7 +12,7 @@ import java.util.Map;
 import org.genyris.exception.GenyrisException;
 
 public class SymbolTable implements Internable {
-    private Map         _table;
+	private Map         _table;
     private SimpleSymbol     NIL;
 	private Symbol _self;
 	private Symbol _classes;
@@ -54,6 +54,8 @@ public class SymbolTable implements Internable {
 	private Symbol _TRIPLE;
 	private Symbol _TRIPLESET;
     private Symbol _TYPE;
+    private Symbol _DESCRIPTIONS;
+	private Symbol _SUBCLASSOF;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -107,6 +109,10 @@ public class SymbolTable implements Internable {
 	_TRIPLE = bindKeyword(String.valueOf(Constants.TRIPLE));
 	_TRIPLESET = bindKeyword(String.valueOf(Constants.TRIPLESET));
     _TYPE = bindKeyword(String.valueOf(Constants.TYPE));
+    _DESCRIPTIONS = bindKeyword(String.valueOf(Constants.DESCRIPTIONS));
+    
+    _SUBCLASSOF = bindKeyword(String.valueOf(Constants.SUBCLASSOF));
+
     }
 
 	private Symbol bindKeyword(String name) {
@@ -313,4 +319,12 @@ public class SymbolTable implements Internable {
     public Symbol TYPE() {
         return _TYPE;
     }
+
+	public Symbol DESCRIPTIONS() {
+		return _DESCRIPTIONS;
+	}
+
+	public Symbol SUBCLASSOF() {
+		return _SUBCLASSOF;
+	}
 }

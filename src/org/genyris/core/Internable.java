@@ -44,5 +44,7 @@ public interface Internable {
 	public Symbol TRIPLE();
 	public Symbol TRIPLESET();
     public Symbol TYPE();
+    public Symbol DESCRIPTIONS();
+	public Symbol SUBCLASSOF();
 
 }

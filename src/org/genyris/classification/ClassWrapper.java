@@ -5,10 +5,12 @@
 //
 package org.genyris.classification;
 
+import org.genyris.classes.GlobalDescriptions;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.Dictionary;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -108,7 +110,7 @@ public class ClassWrapper {
 		}
 	}
 
-	public static Dictionary makeClass(Environment env, Exp klassname,
+	public static Dictionary makeClass(Environment env, Symbol klassname,
 			Exp superklasses) throws GenyrisException {
 		Exp NIL = env.getNil();
 		Exp standardClassSymbol = env.getSymbolTable().STANDARDCLASS();
@@ -142,6 +144,7 @@ public class ClassWrapper {
 			}
 		}
 		env.defineVariable(klassname, newClass);
+		GlobalDescriptions.updateClass(env, env.getSymbolTable(), klassname, superklasses);
 		return newClass;
 	}
 

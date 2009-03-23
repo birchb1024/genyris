@@ -28,7 +28,7 @@ public class DefineClassFunction extends ApplicableFunction {
         if(! (arguments[0] instanceof Symbol)) {
             throw new GenyrisException("class expects a symbol.");
         }
-        Exp klassname = arguments[0];
+        Symbol klassname = (Symbol)arguments[0];
         Exp superklasses = ( arguments.length > 1 ? arguments[1] : NIL);
         Exp newClass = ClassWrapper.makeClass(env, klassname, superklasses);
         if (arguments.length > 2) {

@@ -91,5 +91,9 @@ public class Constants {
         public static final String PREFIX_SYNTAX = "http://www.genyris.org/lang/syntax#";
         public static final String PREFIX_SYSTEM = "http://www.genyris.org/lang/system#";
         public static final String PREFIX_VERSION = "http://www.genyris.org/lang/version#";
+        public static final String PREFIX_TYPES = "http://www.genyris.org/lang/types#";
+
+        public static final String DESCRIPTIONS = PREFIX_TYPES + "Descriptions";
+		public static final String SUBCLASSOF = "subClassOf";
 
 }

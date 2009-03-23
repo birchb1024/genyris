@@ -22,6 +22,10 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 		triples = new HashSet();
 	}
 
+	public TripleSet(Set triples2) {
+		triples = new HashSet(triples2);
+	}
+
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitTripleSet(this);
 	}
@@ -92,6 +96,12 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 			Triple t = (Triple) iter.next();
 			result = new Pair(t, result);
 		}
+		return result;
+	}
+
+	public TripleSet difference(TripleSet toRemove) throws GenyrisException {
+		TripleSet result =  new TripleSet(triples);
+		result.triples.removeAll(toRemove.triples);
 		return result;
 	}
 

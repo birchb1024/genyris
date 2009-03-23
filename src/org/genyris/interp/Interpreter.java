@@ -19,6 +19,7 @@ import org.genyris.core.Internable;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
+import org.genyris.dl.TripleSet;
 import org.genyris.exception.GenyrisException;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
@@ -33,8 +34,8 @@ public class Interpreter {
     private static final String BIND_FUNCTIONS_AND_METHODS = "bindFunctionsAndMethods";
 
     StandardEnvironment _globalEnvironment;
-
     SymbolTable _table;
+    TripleSet _globalDescriptions;
 
     Writer _defaultOutput;
 
@@ -45,6 +46,7 @@ public class Interpreter {
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
+        _globalDescriptions = new TripleSet();
         Dictionary SYMBOL = new Dictionary(_globalEnvironment);
         _defaultOutput = new OutputStreamWriter(System.out);
         {
@@ -73,6 +75,7 @@ public class Interpreter {
                         new PrintWriter(System.out)));
         _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
                 new ReaderStream(new StdioInStream()));
+        _globalEnvironment.defineVariable(_table.DESCRIPTIONS(), _globalDescriptions);
     }
 
     public void bindGlobalProcedureInstance(ApplicableFunction proc)
