@@ -12,6 +12,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
@@ -26,80 +27,99 @@ import org.genyris.load.SourceLoader;
 
 public class ClassicReadEvalPrintLoop {
 
-    private Interpreter _interpreter;
+	private Interpreter _interpreter;
 
-    public static void main(String[] args) {
-        ClassicReadEvalPrintLoop loop = new ClassicReadEvalPrintLoop();
-        loop.run(args);
-    }
+	public static void main(String[] args) {
+		if (args.length > 0) {
+			String filename = args[0];
+			try {
+				Interpreter interpreter = new Interpreter();
+				interpreter.init(false);
+				Writer output = new PrintWriter(System.out);
+				setArgs(args, interpreter);
+				SourceLoader.loadScriptFromFile(interpreter, filename, output);
+			} catch (GenyrisException e) {
+				System.out.println("*** Error in file : " + filename + " "
+						+ e.getMessage());
+				System.exit(-1);
+			}
+		} else {
+			ClassicReadEvalPrintLoop loop = new ClassicReadEvalPrintLoop();
+			loop.run(args);
+		}
+	}
 
-    public void run(String args[]) {
-        try {
-            _interpreter = new Interpreter();
-            _interpreter.init(false);
-            InStream input = new UngettableInStream(new ConvertEofInStream(
-                    new IndentStream(
-                            new UngettableInStream(new StdioInStream()), true)));
-            Parser parser = _interpreter.newParser(input);
-            Writer output = new PrintWriter(System.out);
-            Formatter formatter = new IndentedFormatter(output, 1);
-            Exp EOF = _interpreter.getSymbolTable().EOF();
-            Exp ARGS = _interpreter.intern(Constants.GENYRIS + "system#"
-                    + Constants.ARGS);
-            Exp argsAlist = makeArgList(args);
-            _interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
+	private static void setArgs(String[] args, Interpreter interpreter) throws GenyrisException {
+		Exp ARGS = interpreter.intern(Constants.GENYRIS + "system#"
+				+ Constants.ARGS);
+		Exp argsAlist = makeArgList(interpreter.getSymbolTable().NIL(),args);
+		interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
+	}
 
-            setInitialPrefixes(parser);
-            SourceLoader
-                    .loadScriptFromClasspath(_interpreter,
-                            "org/genyris/load/boot/repl.lin",
-                            (Writer) new NullWriter());
-            Exp expression = null;
-            do {
-                try {
-                    System.out.print("\n> ");
-                    expression = parser.read();
-                    if (expression.equals(EOF)) {
-                        System.out.println("Bye..");
-                        break;
-                    }
+	public void run(String args[]) {
+		try {
+			_interpreter = new Interpreter();
+			_interpreter.init(false);
+			InStream input = new UngettableInStream(new ConvertEofInStream(
+					new IndentStream(
+							new UngettableInStream(new StdioInStream()), true)));
+			Parser parser = _interpreter.newParser(input);
+			Writer output = new PrintWriter(System.out);
+			Formatter formatter = new IndentedFormatter(output, 1);
+			Exp EOF = _interpreter.getSymbolTable().EOF();
+			setArgs(args, _interpreter);
 
-                    Exp result = _interpreter
-                            .evalInGlobalEnvironment(expression);
+			setInitialPrefixes(parser);
+			SourceLoader
+					.loadScriptFromClasspath(_interpreter,
+							"org/genyris/load/boot/repl.lin",
+							(Writer) new NullWriter());
+			Exp expression = null;
+			do {
+				try {
+					System.out.print("\n> ");
+					expression = parser.read();
+					if (expression.equals(EOF)) {
+						System.out.println("Bye..");
+						break;
+					}
 
-                    result.acceptVisitor(formatter);
+					Exp result = _interpreter
+							.evalInGlobalEnvironment(expression);
 
-                    output.write(" ;");
-                    formatter.printClassNames(result, _interpreter);
-                    output.flush();
-                } catch (GenyrisException e) {
-                    System.out.println("*** Error: " + e.getMessage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } while (true);
-        } catch (GenyrisException e1) {
-            e1.printStackTrace();
-            System.exit(-1);
-        }
+					result.acceptVisitor(formatter);
 
-    }
+					output.write(" ;");
+					formatter.printClassNames(result, _interpreter);
+					output.flush();
+				} catch (GenyrisException e) {
+					System.out.println("*** Error: " + e.getMessage());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} while (true);
+		} catch (GenyrisException e1) {
+			e1.printStackTrace();
+			System.exit(-1);
+		}
 
-    private void setInitialPrefixes(Parser parser) throws GenyrisException {
-        parser.addPrefix("u", Constants.PREFIX_UTIL);
-        parser.addPrefix("web", Constants.PREFIX_WEB);
-        parser.addPrefix("g", Constants.PREFIX_SYNTAX);
-        parser.addPrefix("sys", Constants.PREFIX_SYSTEM);
-        parser.addPrefix("ver", Constants.PREFIX_VERSION);
-        parser.addPrefix("types", Constants.PREFIX_TYPES);
-    }
+	}
 
-    private Exp makeArgList(String[] args) {
-        Exp arglist = this._interpreter.NIL;
-        for (int i = args.length - 1; i >= 0; i--) {
-            arglist = new Pair(new StrinG(args[i]), arglist);
-        }
-        return arglist;
-    }
+	private void setInitialPrefixes(Parser parser) throws GenyrisException {
+		parser.addPrefix("u", Constants.PREFIX_UTIL);
+		parser.addPrefix("web", Constants.PREFIX_WEB);
+		parser.addPrefix("g", Constants.PREFIX_SYNTAX);
+		parser.addPrefix("sys", Constants.PREFIX_SYSTEM);
+		parser.addPrefix("ver", Constants.PREFIX_VERSION);
+		parser.addPrefix("types", Constants.PREFIX_TYPES);
+	}
+
+	private static Exp makeArgList(Symbol NIL, String[] args) {
+		Exp arglist = NIL;
+		for (int i = args.length - 1; i >= 0; i--) {
+			arglist = new Pair(new StrinG(args[i]), arglist);
+		}
+		return arglist;
+	}
 
 }

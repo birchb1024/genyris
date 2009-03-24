@@ -1,0 +1,9 @@
+;
+;
+;
+@prefix sys "http://www.genyris.org/lang/system#"
+
+
+include "examples/queens.lin"
+print sys.argv
+queens 5
