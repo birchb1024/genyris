@@ -47,5 +47,8 @@ public class LazyProcedure extends AbstractClosure {
     public String toString() {
         return "<LazyProcedure: " + _functionToApply.toString() + ">";
     }
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
 
 }

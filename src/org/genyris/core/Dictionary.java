@@ -284,4 +284,8 @@ public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
 		return _parent.getSymbolTable();
 	}
 
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
+
 }

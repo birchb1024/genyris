@@ -42,4 +42,8 @@ public class EagerProcedure extends AbstractClosure  {
         return "<EagerProc: " + _functionToApply.toString() + ">";
     }
 
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
+
 }

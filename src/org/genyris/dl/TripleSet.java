@@ -104,6 +104,9 @@ public class TripleSet extends ExpWithEmbeddedClasses {
 		result.triples.removeAll(toRemove.triples);
 		return result;
 	}
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
 
 
 }

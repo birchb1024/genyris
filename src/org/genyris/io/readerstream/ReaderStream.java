@@ -116,5 +116,8 @@ public class ReaderStream extends ExpWithEmbeddedClasses {
         interpreter.bindMethodInstance(Constants.READER, new ReadMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new CloseMethod(interpreter));
     }
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
 
 }

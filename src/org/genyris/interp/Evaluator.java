@@ -7,7 +7,6 @@ package org.genyris.interp;
 
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
-import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -17,26 +16,7 @@ public class Evaluator {
 
     public static Exp eval(Environment env, Exp expression) throws UnboundException,
             AccessException, GenyrisException {
-        if (expression.isSelfEvaluating()) {
-            return expression;
-        }
-        else if (expression instanceof Symbol) {
-            return env.lookupVariableValue(expression);
-        }
-        else if (expression.listp()) {
-            Exp tmp = eval(env, expression.car());
-            if(!(tmp instanceof Closure)) {
-                throw new GenyrisException("Attempt to call something which is not a Closure: "
-                        + expression.toString());
-            }
-            Closure proc = (Closure) tmp;
-            Exp[] arguments = proc.computeArguments(env, expression.cdr());
-            return proc.applyFunction(env, arguments);
-        }
-        else {
-            throw new GenyrisException("Evaluator does not know how to eval: "
-                    + expression.toString());
-        }
+    	return expression.eval(env);
     }
 
     public static Exp evalSequence(Environment env, Exp body) throws GenyrisException {

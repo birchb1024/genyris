@@ -10,6 +10,8 @@ import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.AbstractFormatter;
 import org.genyris.format.BasicFormatter;
+import org.genyris.interp.Closure;
+import org.genyris.interp.Environment;
 
 public class Pair extends ExpWithEmbeddedClasses {
 
@@ -72,5 +74,14 @@ public class Pair extends ExpWithEmbeddedClasses {
 	public int hashCode() {
 		return _car.hashCode() + _cdr.hashCode();
 	}
-
+	public Exp eval(Environment env) throws GenyrisException {
+        Exp tmp = car().eval(env);
+        if(!(tmp instanceof Closure)) {
+            throw new GenyrisException("Attempt to call something which is not a Closure: "
+                    + toString());
+        }
+        Closure proc = (Closure) tmp;
+        Exp[] arguments = proc.computeArguments(env, cdr());
+        return proc.applyFunction(env, arguments);      
+	} 
 }

@@ -194,5 +194,8 @@ public class WriterStream extends ExpWithEmbeddedClasses {
         }
         return null;
     }
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
 
 }

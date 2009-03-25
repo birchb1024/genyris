@@ -6,6 +6,7 @@ import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 public class Triple extends ExpWithEmbeddedClasses {
 
@@ -57,5 +58,8 @@ public class Triple extends ExpWithEmbeddedClasses {
             return false;
         }
     }
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
 
 }

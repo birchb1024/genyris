@@ -7,6 +7,7 @@ package org.genyris.core;
 
 import java.util.regex.PatternSyntaxException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 import org.genyris.core.Bignum;
 
 public class StrinG extends ExpWithEmbeddedClasses {
@@ -63,6 +64,9 @@ public class StrinG extends ExpWithEmbeddedClasses {
 			return false;
 		else
 			return _value.equals(((StrinG) compare)._value);
+	}
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
 	}
 
 }

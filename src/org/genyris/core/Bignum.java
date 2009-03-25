@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 public class Bignum extends ExpWithEmbeddedClasses {
 	private BigDecimal _value;
@@ -90,5 +91,9 @@ public class Bignum extends ExpWithEmbeddedClasses {
 	}
 	public BigDecimal bigDecimalValue() {
 		return _value;
+	}
+
+	public Exp eval(Environment env) {
+		return this;
 	}
 }

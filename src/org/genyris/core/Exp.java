@@ -22,6 +22,14 @@ public abstract class Exp implements Classifiable, Closure {
         return args;
     }
 
+    public abstract Exp eval(Environment env) throws GenyrisException;
+    
+
+//    public Exp eval(Environment env) throws GenyrisException {
+//        throw new GenyrisException("Evaluator does not know how to eval: "
+//                + toString());    	
+//    }
+    
     public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
         if(arguments[0].isNil()) {
             return this;
@@ -63,27 +71,11 @@ public abstract class Exp implements Classifiable, Closure {
         throw new AccessException("attempt to set car of non-cons");
     }
 
-//    public int hashCode() {
-//        return getJavaValue().hashCode();
-//    }
-//
-//    public boolean equals(Object compare) {
-//        if (compare.getClass() != this.getClass())
-//            return false;
-//        else
-//            return this.getJavaValue().equals(((Exp) compare).getJavaValue());
-//    }
-
-
     public abstract String toString();
 
 
     public boolean listp() {
         return (this instanceof Pair);
-    }
-
-    public boolean isSelfEvaluating() {
-        return true;
     }
 
     public int length(Symbol NIL) throws AccessException {

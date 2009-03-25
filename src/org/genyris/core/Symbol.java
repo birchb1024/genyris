@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.genyris.exception.AccessException;
+import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
 public abstract class Symbol extends ExpWithEmbeddedClasses {
@@ -87,5 +89,9 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
             return null;
         }
     }
+	public Exp eval(Environment env) throws GenyrisException {
+		return env.lookupVariableValue(this);
+	}
+
 
 }

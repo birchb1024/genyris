@@ -107,5 +107,8 @@ public class StreamParser extends ExpWithEmbeddedClasses {
         interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.ReadMethod(interpreter));
         interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.CloseMethod(interpreter));
     }
+	public Exp eval(Environment env) throws GenyrisException {
+		return this;
+	}
 
 }
