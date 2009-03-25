@@ -1,14 +1,14 @@
 package org.genyris.dl;
 
+import org.genyris.core.Atom;
 import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
-public class Triple extends ExpWithEmbeddedClasses {
+public class Triple extends Atom {
 
     public final Exp subject;
     public final Symbol predicate;

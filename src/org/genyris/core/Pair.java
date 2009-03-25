@@ -105,5 +105,17 @@ public class Pair extends ExpWithEmbeddedClasses {
 		}
 		return count;
 	}
+	public Exp nth(int number, Symbol NIL) throws AccessException {
+		Exp tmp = this;
+		int count = 0;
+		while (tmp != NIL) {
+			if (count == number) {
+				return tmp.car();
+			}
+			tmp = tmp.cdr();
+			count++;
+		}
+		throw new AccessException("nth could not find item: " + number);
+	}
 
 }

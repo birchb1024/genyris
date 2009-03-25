@@ -7,10 +7,10 @@ package org.genyris.io.readerstream;
 
 import java.io.Reader;
 
+import org.genyris.core.Atom;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
@@ -25,7 +25,7 @@ import org.genyris.io.InStream;
 import org.genyris.io.InStreamEOF;
 import org.genyris.io.ReaderInStream;
 
-public class ReaderStream extends ExpWithEmbeddedClasses {
+public class ReaderStream extends Atom {
     private InStream _input;
 
     public ReaderStream(InStream reader) {

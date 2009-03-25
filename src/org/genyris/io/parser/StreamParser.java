@@ -5,9 +5,9 @@
 //
 package org.genyris.io.parser;
 
+import org.genyris.core.Atom;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
@@ -22,7 +22,7 @@ import org.genyris.io.Parser;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
 
-public class StreamParser extends ExpWithEmbeddedClasses {
+public class StreamParser extends Atom {
     private InStream _input;
     private Parser _parser;
 

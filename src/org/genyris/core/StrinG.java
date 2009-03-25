@@ -10,7 +10,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.core.Bignum;
 
-public class StrinG extends ExpWithEmbeddedClasses {
+public class StrinG extends Atom {
 
 	private String _value;
 

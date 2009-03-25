@@ -23,6 +23,10 @@ public abstract class Exp implements Classifiable, Closure {
 	}
 
 	public abstract Exp eval(Environment env) throws GenyrisException;
+	public Exp evalSequence(Environment env) throws GenyrisException {
+		throw new GenyrisException("Callto abstract evalSequence.");
+	}
+
 
 
 	public Exp applyFunction(Environment environment, Exp[] arguments)
@@ -50,54 +54,16 @@ public abstract class Exp implements Classifiable, Closure {
 		return false;
 	}
 
-	public Exp car() throws AccessException {
-		throw new AccessException("attempt to take car of non-pair: "
-				+ this.toString());
-	}
-
-	public Exp cdr() throws AccessException {
-		throw new AccessException("attempt to take cdr of non-pair: "
-				+ this.toString());
-	}
-
-	public Exp setCar(Exp exp) throws AccessException {
-		throw new AccessException("attempt to set car of non-cons");
-	}
-
-	public Exp setCdr(Exp exp) throws AccessException {
-		throw new AccessException("attempt to set car of non-cons");
-	}
+	public abstract Exp car() throws AccessException;
+	public abstract Exp cdr() throws AccessException;
+	public abstract Exp setCar(Exp exp) throws AccessException ;
+	public abstract Exp setCdr(Exp exp) throws AccessException;
+	public abstract boolean isPair();
+	public abstract int length(Symbol NIL) throws AccessException;
+	public abstract  Exp nth(int number, Symbol NIL) throws AccessException;
 
 	public abstract String toString();
 
-	public boolean isPair() {
-		return false;
-	}
 
-	public int length(Symbol NIL) throws AccessException {
-		return ((Pair)this).length(NIL);
-	}
-
-	public Exp nth(int number, Symbol NIL) throws AccessException {
-		if (this == NIL) {
-			throw new AccessException("nth called on nil.");
-		}
-		Exp tmp = this;
-		int count = 0;
-		while (tmp != NIL) {
-			if (count == number) {
-				return tmp.car();
-			}
-			tmp = tmp.cdr();
-			count++;
-		}
-		throw new AccessException("nth could not find item: " + number);
-	}
-
-	public Exp evalSequence(Environment env) throws GenyrisException {
-
-		throw new GenyrisException("Callto abstract evalSequence.");
-
-	}
 
 }

@@ -11,7 +11,7 @@ import java.math.MathContext;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
-public class Bignum extends ExpWithEmbeddedClasses {
+public class Bignum extends Atom {
 	private BigDecimal _value;
 
 	public Symbol getBuiltinClassSymbol(Internable table) {

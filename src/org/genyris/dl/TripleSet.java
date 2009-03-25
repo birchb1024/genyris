@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.genyris.core.Atom;
 import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
 import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
@@ -14,7 +14,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 
-public class TripleSet extends ExpWithEmbeddedClasses {
+public class TripleSet extends Atom {
 
 	private Set triples;
 

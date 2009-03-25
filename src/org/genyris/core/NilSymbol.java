@@ -33,5 +33,8 @@ public class NilSymbol extends SimpleSymbol {
 	public int length(Symbol NIL) throws AccessException {
 		return 0;
 	}
+	public Exp nth(int number, Symbol NIL) throws AccessException {
+			throw new AccessException("nth called on nil.");
+	}
 
 }

@@ -8,7 +8,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
-public abstract class Symbol extends ExpWithEmbeddedClasses {
+public abstract class Symbol extends Atom {
 
     public static Symbol symbolFactory(String name, boolean escaped) {
         try {

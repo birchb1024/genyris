@@ -17,7 +17,7 @@ import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;
 import org.genyris.interp.builtin.TagFunction;
 
-public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
+public class Dictionary extends Atom implements Environment {
 	private Map _dict;
 
 	protected Environment _parent;

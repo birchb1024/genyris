@@ -8,9 +8,9 @@ package org.genyris.io.writerstream;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.genyris.core.Atom;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Internable;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
@@ -26,7 +26,7 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
-public class WriterStream extends ExpWithEmbeddedClasses {
+public class WriterStream extends Atom {
     private Writer _value;
 
     public WriterStream(Writer w) {

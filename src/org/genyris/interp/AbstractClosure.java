@@ -5,15 +5,15 @@
 //
 package org.genyris.interp;
 
-import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Pair;
+import org.genyris.core.Atom;
 import org.genyris.core.Dictionary;
+import org.genyris.core.Exp;
+import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
-public abstract class AbstractClosure extends ExpWithEmbeddedClasses implements
+public abstract class AbstractClosure extends Atom implements
 		Closure {
 
 	final Environment _env;
