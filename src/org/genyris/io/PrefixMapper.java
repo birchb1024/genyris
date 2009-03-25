@@ -23,6 +23,9 @@ public class PrefixMapper {
 
 
     public void addprefix(String prefix, String uri) throws GenyrisException {
+    	if(prefix.equals(".")) {
+    		prefix = "";
+    	}
         try {
             new URL(uri);
         }
