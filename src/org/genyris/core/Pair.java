@@ -57,10 +57,6 @@ public class Pair extends ExpWithEmbeddedClasses {
         return this;
     }
 
-    public boolean isSelfEvaluating() {
-        return false;
-    }
-
     public String toString() {
         StringWriter buffer = new StringWriter();
         AbstractFormatter formatter = new BasicFormatter(buffer);

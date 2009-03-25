@@ -33,10 +33,6 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
         return _printName;
     }
 
-    public boolean isSelfEvaluating() {
-        return false;
-    }
-
     public String toString() {
         return getPrintName();
     }

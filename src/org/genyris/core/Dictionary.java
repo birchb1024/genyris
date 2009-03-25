@@ -50,10 +50,6 @@ public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
 		guest.visitDictionary(this);
 	}
 
-	public boolean isSelfEvaluating() {
-		return true;
-	}
-
 	public boolean hasKey(Exp a) {
 		return _dict.containsKey(a);
 	}

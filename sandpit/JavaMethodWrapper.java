@@ -85,10 +85,6 @@ public class JavaMethodWrapper extends ExpWithEmbeddedClasses implements Environ
 ///        guest.visitLobject(this);
     }
 
-    public boolean isSelfEvaluating() {
-        return false;
-    }
-
     public boolean hasKey(Exp a) {
         return false;
     }
