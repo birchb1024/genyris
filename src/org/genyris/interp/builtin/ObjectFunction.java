@@ -30,7 +30,7 @@ public class ObjectFunction extends ApplicableFunction {
 			throws GenyrisException {
 		Dictionary dict = new Dictionary(env);
 		for (int i = 0; i < arguments.length; i++) {
-			if (!arguments[i].listp())
+			if (!arguments[i].isPair())
 				throw new GenyrisException("argument to dict not a list");
 			dict.defineVariable(arguments[i].car(), 
 					arguments[i].cdr().eval(env));

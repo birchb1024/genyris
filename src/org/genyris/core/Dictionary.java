@@ -241,7 +241,7 @@ public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
 		bindings.put(SELF(), this);
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment,
 				bindings, this);
-		if (arguments[0].listp()) {
+		if (arguments[0].isPair()) {
 			return arguments[0].evalSequence(newEnv);
 		} else {
 			try {

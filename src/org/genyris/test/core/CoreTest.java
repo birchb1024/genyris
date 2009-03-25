@@ -85,7 +85,7 @@ public class CoreTest extends TestCase {
 		}
 	}
 	public void testLisp() {
-		assertTrue(new Pair(NIL, NIL).listp());
-		assertFalse(new Bignum(1).listp());
+		assertTrue(new Pair(NIL, NIL).isPair());
+		assertFalse(new Bignum(1).isPair());
 	}
 }

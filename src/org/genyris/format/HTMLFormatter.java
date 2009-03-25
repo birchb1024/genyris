@@ -61,7 +61,7 @@ public class HTMLFormatter extends AbstractFormatter {
 				// no attributes or body
 				body = attributes = cons.cdr();
 			} else {
-				if (cons.cdr().listp()) {
+				if (cons.cdr().isPair()) {
 					attributes = cons.cdr().car();
 					body = cons.cdr().cdr();
 

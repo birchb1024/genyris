@@ -32,7 +32,7 @@ public class LazyProcedure extends AbstractClosure {
     private Exp[] makeExpArrayFromList(Exp exp, Symbol NIL) throws AccessException {
         int i = 0;
         Exp[] result = new Exp[exp.length(NIL)];
-        while( exp.listp()) {
+        while( exp.isPair()) {
             result[i] = exp.car();
             exp = exp.cdr();
             i++;

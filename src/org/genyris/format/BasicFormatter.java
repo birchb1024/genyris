@@ -55,7 +55,7 @@ public class BasicFormatter extends  AbstractFormatter {
                 return;
             }
             write(" ");
-            if (!cons.listp()) {
+            if (!cons.isPair()) {
                 write(Constants.CDRCHAR + " "); // cdr_char
                 cons.acceptVisitor(this);
                 return;

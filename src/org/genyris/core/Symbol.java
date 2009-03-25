@@ -53,7 +53,7 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
     }
 
     public static boolean isDynamic(Exp dynamicOrReal, Symbol DYNAMIC) throws UnboundException {
-        if (dynamicOrReal.listp()) {
+        if (dynamicOrReal.isPair()) {
             try {
                 if (dynamicOrReal.car() == DYNAMIC) {
                     Exp possibleSymbol = dynamicOrReal.cdr().car();

@@ -31,7 +31,7 @@ public abstract class Exp implements Classifiable, Closure {
 			return this;
 		}
 		Environment newEnv = new MagicEnvironment(environment, this);
-		if (arguments[0].listp()) {
+		if (arguments[0].isPair()) {
 			return arguments[0].evalSequence(newEnv);
 		} else {
 			try {
@@ -70,19 +70,12 @@ public abstract class Exp implements Classifiable, Closure {
 
 	public abstract String toString();
 
-	public boolean listp() {
-		return (this instanceof Pair);
+	public boolean isPair() {
+		return false;
 	}
 
 	public int length(Symbol NIL) throws AccessException {
-		Exp tmp = this;
-		int count = 0;
-
-		while (tmp != NIL) {
-			tmp = tmp.cdr();
-			count++;
-		}
-		return count;
+		return ((Pair)this).length(NIL);
 	}
 
 	public Exp nth(int number, Symbol NIL) throws AccessException {

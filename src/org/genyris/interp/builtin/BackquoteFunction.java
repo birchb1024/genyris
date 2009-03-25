@@ -31,7 +31,7 @@ public class BackquoteFunction extends ApplicableFunction {
     }
 
     private Exp backQuoteAux(Environment env, Exp sexp) throws GenyrisException {
-        if(sexp == NIL || (!sexp.listp())) {
+        if(sexp == NIL || (!sexp.isPair())) {
             return sexp;
         }
         else {
@@ -39,7 +39,7 @@ public class BackquoteFunction extends ApplicableFunction {
             if( list.car() == COMMA) {
                 return list.cdr().car().eval(env);
             }
-            else if(list.car().listp() && list.car().car() == COMMA_AT) {
+            else if(list.car().isPair() && list.car().car() == COMMA_AT) {
                 Exp res = list.car().cdr().car().eval(env);
                 Exp rest = backQuoteAux(env, list.cdr() );
                 return append(res, rest);

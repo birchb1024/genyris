@@ -58,9 +58,9 @@ public class IndentedFormatter extends AbstractFormatter {
         }
         while ( !(head instanceof NilSymbol)) {
             countOfRight += 1;
-            if (head.listp()) {
+            if (head.isPair()) {
                 Pair headCons = ((Pair) head);
-                if (headCons.car().listp()) {
+                if (headCons.car().isPair()) {
                     Pair first = ((Pair) headCons.car());
                     if (countOfRight <= INDENT_DEPTH) {
                         if (countOfRight > 1)
@@ -75,9 +75,9 @@ public class IndentedFormatter extends AbstractFormatter {
                         printSpaces(_consDepth + 1);
                         printPair(first);
                     }
-                    if (headCons.cdr().listp()) {
+                    if (headCons.cdr().isPair()) {
                         Pair rest = (Pair) headCons.cdr();
-                        if (!rest.car().listp()) {
+                        if (!rest.car().isPair()) {
                             _output.write('\n');
                             printSpaces(_consDepth + 1);
                             _output.write('~');

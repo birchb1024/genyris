@@ -5,6 +5,7 @@
 //
 package org.genyris.core;
 
+import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
@@ -29,5 +30,8 @@ public class NilSymbol extends SimpleSymbol {
     public Exp evalSequence(Environment env) throws GenyrisException {
     	return this;
     }
+	public int length(Symbol NIL) throws AccessException {
+		return 0;
+	}
 
 }

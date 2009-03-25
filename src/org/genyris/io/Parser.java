@@ -59,7 +59,7 @@ public class Parser {
     private boolean processOrder(Exp input) throws GenyrisException {
         // process parser orders
         try {
-            if (!input.listp()) {
+            if (!input.isPair()) {
                 return false;
             }
             if (input.car() != _prefix) {

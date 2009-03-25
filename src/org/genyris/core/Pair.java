@@ -38,8 +38,11 @@ public class Pair extends ExpWithEmbeddedClasses {
                 && this._cdr.equals(((Pair)compare)._cdr);
     }
 
+	public boolean isPair() {
+		return true;
+	}
 
-    public Exp car() {
+	public Exp car() {
         return _car;
     }
 
@@ -92,4 +95,15 @@ public class Pair extends ExpWithEmbeddedClasses {
             return body.cdr().evalSequence(env);
         }
     }
+	public int length(Symbol NIL) throws AccessException {
+		Exp tmp = this;
+		int count = 0;
+
+		while (tmp != NIL) {
+			tmp = tmp.cdr();
+			count++;
+		}
+		return count;
+	}
+
 }
