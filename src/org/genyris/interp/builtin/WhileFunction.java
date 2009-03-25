@@ -10,7 +10,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class WhileFunction extends ApplicableFunction {
@@ -21,9 +20,9 @@ public class WhileFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp retval = NIL;
         this.checkMinArguments(arguments, 1);
-        while( Evaluator.eval(env, arguments[0]) != NIL ) {
+        while( arguments[0].eval(env) != NIL ) {
             for(int i = 1 ; i < arguments.length; i++) {
-                retval =  Evaluator.eval(env, arguments[i]); 
+                retval =  arguments[i].eval(env); 
             }
         }
         return retval;

@@ -10,7 +10,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class OrFunction extends ApplicableFunction {
@@ -25,7 +24,7 @@ public class OrFunction extends ApplicableFunction {
             throw new GenyrisException("Too few arguments to or: " + arguments.length);
 
         for (int i = 0; i < arguments.length; i++) {
-            Exp result = Evaluator.eval(envForBindOperations, arguments[i]);
+            Exp result = arguments[i].eval(envForBindOperations);
 
             if (result != NIL) {
                 return TRUE;

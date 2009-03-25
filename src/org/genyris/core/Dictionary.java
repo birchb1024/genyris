@@ -250,7 +250,7 @@ public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
 			return Evaluator.evalSequence(newEnv, arguments[0]);
 		} else {
 			try {
-				Dictionary klass = (Dictionary) Evaluator.eval(newEnv, arguments[0]);
+				Dictionary klass = (Dictionary) arguments[0].eval(newEnv);
 				TagFunction.validateObjectInClass(environment, this, klass);
 				return this;
 			} catch (ClassCastException e) {

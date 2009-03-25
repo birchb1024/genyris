@@ -16,7 +16,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.StandardEnvironment;
 import org.genyris.io.InStream;
@@ -33,7 +32,7 @@ public class EvalApplyTest extends TestCase {
         InStream input = new UngettableInStream( new StringInStream("((lambda (x) (cons x x)) 23)"));
         Parser parser = new Parser(table, input);
         Exp expression = parser.read();
-        Exp result = Evaluator.eval(env, expression);
+        Exp result = expression.eval(env);
         StringWriter out = new StringWriter();
         Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
@@ -56,7 +55,7 @@ public class EvalApplyTest extends TestCase {
 
             try {
                 Exp result;
-                result = Evaluator.eval(env2, expression);
+                result = expression.eval(env2);
 
                 StringWriter out = new StringWriter();
                 Formatter formatter = new BasicFormatter(out);

@@ -20,7 +20,7 @@ public class MacroFunction extends ClassicFunction {
     		throw new GenyrisException("type missmatch - was expecting an AbstractClosure");
     	}
         AbstractClosure proc = (AbstractClosure)closure;
-        return Evaluator.eval(env, super.bindAndExecute( proc, arguments, proc.getEnv()));
+        return super.bindAndExecute( proc, arguments, proc.getEnv()).eval(env);
     }
 
 }

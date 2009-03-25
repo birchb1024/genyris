@@ -26,7 +26,7 @@ public class ConditionalFunction extends ApplicableFunction {
 			if(! (arguments[i] instanceof Pair)) {
 				throw new GenyrisException("Invalid condition: " + arguments[i]);
 			}
-			Exp condition = Evaluator.eval(env, arguments[i].car()); 
+			Exp condition = arguments[i].car().eval(env); 
 			if (condition != NIL) {
 				if (arguments[i].cdr() == NIL) {
 					return condition;

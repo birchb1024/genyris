@@ -40,7 +40,7 @@ public abstract class Exp implements Classifiable, Closure {
         }
         else {
             try {
-                Dictionary klass = (Dictionary) Evaluator.eval(newEnv, arguments[0]);
+                Dictionary klass = (Dictionary) arguments[0].eval(newEnv);
                 // call validator if it exists
                 TagFunction.validateObjectInClass(environment, this, klass);
                 return this;

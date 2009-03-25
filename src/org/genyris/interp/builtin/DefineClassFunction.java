@@ -13,7 +13,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class DefineClassFunction extends ApplicableFunction {
@@ -35,7 +34,7 @@ public class DefineClassFunction extends ApplicableFunction {
             Exp body = arrayToList(arguments);
             body = body.cdr().cdr();
             body = new Pair(klassname, body);
-            Evaluator.eval(env, body);
+            body.eval(env);
         }
         return newClass;
     }

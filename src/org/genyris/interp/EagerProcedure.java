@@ -27,7 +27,7 @@ public class EagerProcedure extends AbstractClosure  {
         int i = 0;
         Exp[] result = new Exp[exp.length(NIL)];
         while( exp != NIL) {
-            result[i] = Evaluator.eval(env, exp.car());
+            result[i] = exp.car().eval(env);
             exp = exp.cdr();
             i++;
         }

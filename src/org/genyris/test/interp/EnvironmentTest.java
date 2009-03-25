@@ -13,7 +13,6 @@ import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.URISymbol;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.StandardEnvironment;
 
@@ -79,9 +78,9 @@ public class EnvironmentTest extends TestCase {
 		Environment env = new StandardEnvironment(new NilSymbol());
 		Bignum int42 = new Bignum(42);
 		
-		assertEquals(int42, Evaluator.eval(env, int42));
+		assertEquals(int42, int42.eval(env));
 		Bignum double4p2 = new Bignum(4.2);
-		assertEquals(double4p2, Evaluator.eval(env, double4p2));
+		assertEquals(double4p2, double4p2.eval(env));
 	
 	}
 
@@ -90,8 +89,8 @@ public class EnvironmentTest extends TestCase {
 		SimpleSymbol answer = new SimpleSymbol("answer");
 		Bignum int42 = new Bignum(42);
 		env.defineVariable(answer, int42);
-		assertEquals(int42, Evaluator.eval(env, int42));
-		assertEquals(int42, Evaluator.eval(env, answer));
+		assertEquals(int42, int42.eval(env));
+		assertEquals(int42, answer.eval(env));
 	}
 
 	

@@ -122,7 +122,7 @@ public class Interpreter {
     }
 
     public Exp evalInGlobalEnvironment(Exp expression) throws GenyrisException {
-        return Evaluator.eval(_globalEnvironment, expression);
+        return expression.eval(_globalEnvironment);
     }
 
     public Writer getDefaultOutputWriter() {

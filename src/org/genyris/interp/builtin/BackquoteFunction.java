@@ -13,7 +13,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class BackquoteFunction extends ApplicableFunction {
@@ -38,10 +37,10 @@ public class BackquoteFunction extends ApplicableFunction {
         else {
             Pair list = (Pair) sexp;
             if( list.car() == COMMA) {
-                return  Evaluator.eval(env,  list.cdr().car() );
+                return list.cdr().car().eval(env);
             }
             else if(list.car().listp() && list.car().car() == COMMA_AT) {
-                Exp res = Evaluator.eval(env,  list.car().cdr().car());
+                Exp res = list.car().cdr().car().eval(env);
                 Exp rest = backQuoteAux(env, list.cdr() );
                 return append(res, rest);
             }

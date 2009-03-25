@@ -10,7 +10,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class EvalFunction extends ApplicableFunction {
@@ -21,7 +20,7 @@ public class EvalFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
     	checkArguments(arguments, 1);
-        return Evaluator.eval(envForBindOperations, arguments[0]);
+        return arguments[0].eval(envForBindOperations);
     }
 
 }
