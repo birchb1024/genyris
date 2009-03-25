@@ -3,7 +3,6 @@ package org.genyris.core;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
@@ -18,12 +17,6 @@ public abstract class Symbol extends Atom {
         } catch (URISyntaxException e) { }
         return (escaped?new EscapedSymbol(name):new SimpleSymbol(name));
     }
-
-//    protected String _printName;
-//
-//    protected Symbol(String newSym) {
-//        _printName = newSym;
-//    }
 
     public boolean isNil() {
         return false;

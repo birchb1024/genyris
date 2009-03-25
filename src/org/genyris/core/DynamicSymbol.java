@@ -13,8 +13,7 @@ public class DynamicSymbol extends Symbol {
         return ((DynamicSymbol) arg0)._realSymbol.compareTo(_realSymbol);
     }
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
-		// TODO Auto-generated method stub
-
+		guest.visitDynamicSymbol(this);
 	}
 
 	public Symbol getBuiltinClassSymbol(Internable table) {

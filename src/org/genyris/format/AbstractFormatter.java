@@ -10,6 +10,7 @@ import java.io.Writer;
 
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.Dictionary;
@@ -51,6 +52,10 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 	public abstract void visitStrinG(StrinG lst) throws GenyrisException;
 
     public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
+        write(sym.toString());
+    }
+
+    public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {
         write(sym.toString());
     }
 

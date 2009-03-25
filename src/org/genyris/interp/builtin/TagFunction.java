@@ -6,9 +6,8 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.classification.ClassWrapper;
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
 import org.genyris.core.Dictionary;
+import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;

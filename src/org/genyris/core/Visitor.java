@@ -39,4 +39,6 @@ public interface Visitor {
 	public void visitTriple(Triple triple) throws GenyrisException;
 
 	public void visitTripleSet(TripleSet store) throws GenyrisException;
+
+	public void visitDynamicSymbol(DynamicSymbol symbol)  throws GenyrisException;
 }
