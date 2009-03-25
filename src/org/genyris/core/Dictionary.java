@@ -69,6 +69,9 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
+		if(exp instanceof DynamicSymbol) {
+			exp = ((DynamicSymbol)exp).getRealSymbol();
+		}
 
 		if (!(exp instanceof Symbol)) {
 			throw new GenyrisException("cannot define non-symbol: "
@@ -94,7 +97,9 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-
+		if(symbol instanceof DynamicSymbol) {
+			symbol = ((DynamicSymbol)symbol).getRealSymbol();
+		}
 		if (symbol == SELF()) {
 			return this;
 		} else if (symbol == CLASSES()) {
@@ -222,6 +227,9 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
+		if(symbol instanceof DynamicSymbol) {
+			symbol = ((DynamicSymbol)symbol).getRealSymbol();
+		}
 		if (symbol == CLASSES()) {
 			return getClasses(_parent);
 		} else if (_dict.containsKey(symbol)) {

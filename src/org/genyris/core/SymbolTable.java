@@ -29,7 +29,7 @@ public class SymbolTable implements Internable {
 	private Symbol _standardclass;
 	private Symbol _subclasses;
 	private Symbol _thing;
-	private Symbol _validate;
+	private SimpleSymbol _validate;
 	private Symbol _vars;
 	private Symbol _lambda;
 	private Symbol _lambdaq;
@@ -56,6 +56,7 @@ public class SymbolTable implements Internable {
     private Symbol _TYPE;
     private Symbol _DESCRIPTIONS;
 	private Symbol _SUBCLASSOF;
+	private Symbol _DYNAMICSYMBOLREF;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -112,11 +113,11 @@ public class SymbolTable implements Internable {
     _DESCRIPTIONS = bindKeyword(String.valueOf(Constants.DESCRIPTIONS));
     
     _SUBCLASSOF = bindKeyword(String.valueOf(Constants.SUBCLASSOF));
-
+    _DYNAMICSYMBOLREF = bindKeyword(String.valueOf(Constants.DYNAMICSYMBOLREF));
     }
 
-	private Symbol bindKeyword(String name) {
-		Symbol sym = new SimpleSymbol(name);
+	private SimpleSymbol bindKeyword(String name) {
+		SimpleSymbol sym = new SimpleSymbol(name);
 		_table.put(name, sym);
 		return sym;
 	}
@@ -233,7 +234,7 @@ public class SymbolTable implements Internable {
 		return _thing;
 	}
 
-	public Symbol VALIDATE() {
+	public SimpleSymbol VALIDATE() {
 		return _validate;
 	}
 
@@ -326,5 +327,9 @@ public class SymbolTable implements Internable {
 
 	public Symbol SUBCLASSOF() {
 		return _SUBCLASSOF;
+	}
+
+	public Symbol DYNAMICSYMBOLREF() {
+		return _DYNAMICSYMBOLREF;
 	}
 }

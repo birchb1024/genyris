@@ -11,8 +11,20 @@ import org.genyris.exception.GenyrisException;
 
 public class SimpleSymbol extends Symbol implements Comparable {
 
+//    public SimpleSymbol(String newSym) {
+//       //  super(newSym);
+//    }
+
+    protected String _printName;
+
     public SimpleSymbol(String newSym) {
-        super(newSym);
+        _printName = newSym;
+    }
+    public String getPrintName() {
+        return _printName;
+    }
+    public int compareTo(Object arg0) {
+        return ((SimpleSymbol) arg0)._printName.compareTo(this._printName);
     }
 
 	

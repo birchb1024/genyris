@@ -19,7 +19,7 @@ public interface Internable {
 	public Symbol SUBCLASSES();
 	public Symbol STANDARDCLASS();
 	public Symbol THING();
-	public Symbol VALIDATE();
+	public SimpleSymbol VALIDATE();
 	public Symbol LAMBDA();
 	public Symbol LAMBDAQ();
 	public Symbol LAMBDAM();
@@ -46,5 +46,6 @@ public interface Internable {
     public Symbol TYPE();
     public Symbol DESCRIPTIONS();
 	public Symbol SUBCLASSOF();
+	public Symbol DYNAMICSYMBOLREF();
 
 }

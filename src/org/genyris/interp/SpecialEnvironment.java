@@ -8,6 +8,7 @@ package org.genyris.interp;
 import java.util.Map;
 
 import org.genyris.core.Exp;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
@@ -23,7 +24,7 @@ public class SpecialEnvironment extends StandardEnvironment {
 
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
         if(Symbol.isDynamic(symbol, _dynamic)) {
-                _object.defineVariable(symbol, valu);
+                _object.defineVariable(symbol , valu);
                 return;
         }
         else if (!(symbol instanceof Symbol)) {
@@ -51,7 +52,7 @@ public class SpecialEnvironment extends StandardEnvironment {
         if (sym == _self) {
             throw new UnboundException("cannot re-define !self.");
         }
-        if(symbol instanceof Symbol)  {
+        if(symbol instanceof SimpleSymbol)  {
         	super.setVariableValue(symbol, valu);
         }
         else { // object field

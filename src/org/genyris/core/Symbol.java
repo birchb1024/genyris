@@ -19,27 +19,23 @@ public abstract class Symbol extends Atom {
         return (escaped?new EscapedSymbol(name):new SimpleSymbol(name));
     }
 
-    protected String _printName;
-
-    protected Symbol(String newSym) {
-        _printName = newSym;
-    }
+//    protected String _printName;
+//
+//    protected Symbol(String newSym) {
+//        _printName = newSym;
+//    }
 
     public boolean isNil() {
         return false;
     }
 
-    public String getPrintName() {
-        return _printName;
-    }
+    public abstract String getPrintName();
 
     public String toString() {
         return getPrintName();
     }
 
-    public int compareTo(Object arg0) {
-        return ((SimpleSymbol) arg0)._printName.compareTo(this._printName);
-    }
+    public abstract int compareTo(Object arg0);
 
     public static Symbol realSymbol(Exp dynamicOrReal, Symbol DYNAMIC)
             throws UnboundException {
@@ -53,32 +49,34 @@ public abstract class Symbol extends Atom {
     }
 
     public static boolean isDynamic(Exp dynamicOrReal, Symbol DYNAMIC) throws UnboundException {
-        if (dynamicOrReal.isPair()) {
-            try {
-                if (dynamicOrReal.car() == DYNAMIC) {
-                    Exp possibleSymbol = dynamicOrReal.cdr().car();
-                    if (possibleSymbol instanceof Symbol) {
-                        return true;
-                    }
-                }
-            } catch (AccessException next) {
-                throw new UnboundException("Bad dynamic symbol: " + dynamicOrReal);
-            }
-            return false;
-
-        } else {
-            return false;
-        }
+    	return dynamicOrReal instanceof DynamicSymbol;
+//    	if (dynamicOrReal.isPair()) {
+//            try {
+//                if (dynamicOrReal.car() == DYNAMIC) {
+//                    Exp possibleSymbol = dynamicOrReal.cdr().car();
+//                    if (possibleSymbol instanceof Symbol) {
+//                        return true;
+//                    }
+//                }
+//            } catch (AccessException next) {
+//                throw new UnboundException("Bad dynamic symbol: " + dynamicOrReal);
+//            }
+//            return false;
+//
+//        } else {
+//            return false;
+//        }
     }
 
     private static Symbol realSymbolOrNull(Exp dynamicOrReal, Symbol DYNAMIC)
             throws UnboundException {
         if (Symbol.isDynamic(dynamicOrReal, DYNAMIC)) {
-            try {
-                return (Symbol) dynamicOrReal.cdr().car();
-            } catch (AccessException e) {
-                return null;
-            }
+        	return ((DynamicSymbol)dynamicOrReal).getRealSymbol();
+//            try {
+//                return (Symbol) dynamicOrReal.cdr().car();
+//            } catch (AccessException e) {
+//                return null;
+//            }
         } else if (dynamicOrReal instanceof Symbol) {
             return (Symbol) dynamicOrReal;
         } else {

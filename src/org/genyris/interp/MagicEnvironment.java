@@ -77,7 +77,7 @@ public class MagicEnvironment extends StandardEnvironment {
 
     public Exp lookupVariableValue(Exp exp) throws UnboundException {
         if (Symbol.isDynamic(exp, _dynamic)) {
-            return lookupDynamicVariableValue(exp);
+            return lookupDynamicVariableValue(Symbol.realSymbol(exp, _dynamic));
         }
         else if (exp instanceof Symbol) {
             return super.lookupVariableValue((Symbol)exp);

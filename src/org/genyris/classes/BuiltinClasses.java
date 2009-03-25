@@ -83,5 +83,6 @@ public class BuiltinClasses {
 		mkClass(Constants.EAGERPROCEDURE, env, closure);
 		mkClass(Constants.LAZYPROCEDURE, env, closure);
 		mkClass(Constants.LISTOFLINES, env, pair);
+		mkClass(Constants.DYNAMICSYMBOLREF, env, symbol);
 	}
 }

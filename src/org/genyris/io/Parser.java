@@ -6,12 +6,13 @@
 package org.genyris.io;
 
 import org.genyris.core.Constants;
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Pair;
 import org.genyris.core.PairWithcolons;
-import org.genyris.core.StrinG;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.StrinG;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -136,7 +137,8 @@ public class Parser {
             tree = new Pair(_table.COMMA_AT(), new Pair(parseExpression(), NIL));
         } else if (cursym == _lexer.DYNAMIC_TOKEN) {
             nextsym();
-            tree = new Pair(_table.DYNAMIC_SYMBOL(), new Pair(parseExpression(), NIL));
+            tree = new DynamicSymbol((SimpleSymbol)cursym); // todo validate cast
+//            tree = new Pair(_table.DYNAMIC_SYMBOL(), new Pair(parseExpression(), NIL));
         } else {
             tree = cursym;
         }

@@ -106,7 +106,7 @@ public class StandardEnvironment implements Environment {
     }
 
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if(! (symbol instanceof Symbol) ) {
+        if(! (symbol instanceof SimpleSymbol) ) {
             throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
         }
         _frame.put(symbol, valu);
