@@ -84,4 +84,16 @@ public class Pair extends ExpWithEmbeddedClasses {
         Exp[] arguments = proc.computeArguments(env, cdr());
         return proc.applyFunction(env, arguments);      
 	} 
+	
+    public Exp evalSequence(Environment env) throws GenyrisException {
+        SimpleSymbol NIL = env.getNil();
+        Exp body = this;
+        if (body.cdr() == NIL) {
+            return body.car().eval(env);
+        }
+        else {
+            body.car().eval(env);
+            return body.cdr().evalSequence(env);
+        }
+    }
 }

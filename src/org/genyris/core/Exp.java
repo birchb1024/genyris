@@ -9,101 +9,102 @@ import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.MagicEnvironment;
 import org.genyris.interp.builtin.TagFunction;
 
 public abstract class Exp implements Classifiable, Closure {
 
-    public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
+	public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 
-    public Exp[] computeArguments(Environment ignored, Exp exp) throws GenyrisException {
-        Exp[] args = {exp};
-        return args;
-    }
+	public Exp[] computeArguments(Environment ignored, Exp exp)
+			throws GenyrisException {
+		Exp[] args = { exp };
+		return args;
+	}
 
-    public abstract Exp eval(Environment env) throws GenyrisException;
-    
-
-//    public Exp eval(Environment env) throws GenyrisException {
-//        throw new GenyrisException("Evaluator does not know how to eval: "
-//                + toString());    	
-//    }
-    
-    public Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException {
-        if(arguments[0].isNil()) {
-            return this;
-        }
-        Environment newEnv = new MagicEnvironment(environment, this);
-        if(arguments[0].listp()) {
-            return Evaluator.evalSequence(newEnv, arguments[0]);
-        }
-        else {
-            try {
-                Dictionary klass = (Dictionary) arguments[0].eval(newEnv);
-                // call validator if it exists
-                TagFunction.validateObjectInClass(environment, this, klass);
-                return this;
-            }
-            catch (ClassCastException e) {
-                throw new GenyrisException("type tag failure: " + arguments[0] + " is not a class");
-            }
-        }
-    }
-
-    public boolean isNil() {
-        return false;
-    }
-
-    public Exp car() throws AccessException {
-        throw new AccessException("attempt to take car of non-pair: " + this.toString()  );
-    }
-
-    public Exp cdr() throws AccessException {
-        throw new AccessException("attempt to take cdr of non-pair: " +  this.toString() );
-    }
-
-    public Exp setCar(Exp exp) throws AccessException {
-        throw new AccessException("attempt to set car of non-cons");
-    }
-
-    public Exp setCdr(Exp exp) throws AccessException {
-        throw new AccessException("attempt to set car of non-cons");
-    }
-
-    public abstract String toString();
+	public abstract Exp eval(Environment env) throws GenyrisException;
 
 
-    public boolean listp() {
-        return (this instanceof Pair);
-    }
+	public Exp applyFunction(Environment environment, Exp[] arguments)
+			throws GenyrisException {
+		if (arguments[0].isNil()) {
+			return this;
+		}
+		Environment newEnv = new MagicEnvironment(environment, this);
+		if (arguments[0].listp()) {
+			return arguments[0].evalSequence(newEnv);
+		} else {
+			try {
+				Dictionary klass = (Dictionary) arguments[0].eval(newEnv);
+				// call validator if it exists
+				TagFunction.validateObjectInClass(environment, this, klass);
+				return this;
+			} catch (ClassCastException e) {
+				throw new GenyrisException("type tag failure: " + arguments[0]
+						+ " is not a class");
+			}
+		}
+	}
 
-    public int length(Symbol NIL) throws AccessException {
-        Exp tmp = this;
-        int count = 0;
+	public boolean isNil() {
+		return false;
+	}
 
-        while (tmp != NIL) {
-            tmp = tmp.cdr();
-            count++;
-        }
-        return count;
-    }
+	public Exp car() throws AccessException {
+		throw new AccessException("attempt to take car of non-pair: "
+				+ this.toString());
+	}
 
-    public Exp nth(int number, Symbol NIL) throws AccessException {
-        if (this == NIL) {
-            throw new AccessException("nth called on nil.");
-        }
-        Exp tmp = this;
-        int count = 0;
-        while (tmp != NIL) {
-            if (count == number) {
-                return tmp.car();
-            }
-            tmp = tmp.cdr();
-            count++;
-        }
-        throw new AccessException("nth could not find item: " + number);
-    }
+	public Exp cdr() throws AccessException {
+		throw new AccessException("attempt to take cdr of non-pair: "
+				+ this.toString());
+	}
 
+	public Exp setCar(Exp exp) throws AccessException {
+		throw new AccessException("attempt to set car of non-cons");
+	}
+
+	public Exp setCdr(Exp exp) throws AccessException {
+		throw new AccessException("attempt to set car of non-cons");
+	}
+
+	public abstract String toString();
+
+	public boolean listp() {
+		return (this instanceof Pair);
+	}
+
+	public int length(Symbol NIL) throws AccessException {
+		Exp tmp = this;
+		int count = 0;
+
+		while (tmp != NIL) {
+			tmp = tmp.cdr();
+			count++;
+		}
+		return count;
+	}
+
+	public Exp nth(int number, Symbol NIL) throws AccessException {
+		if (this == NIL) {
+			throw new AccessException("nth called on nil.");
+		}
+		Exp tmp = this;
+		int count = 0;
+		while (tmp != NIL) {
+			if (count == number) {
+				return tmp.car();
+			}
+			tmp = tmp.cdr();
+			count++;
+		}
+		throw new AccessException("nth could not find item: " + number);
+	}
+
+	public Exp evalSequence(Environment env) throws GenyrisException {
+
+		throw new GenyrisException("Callto abstract evalSequence.");
+
+	}
 
 }

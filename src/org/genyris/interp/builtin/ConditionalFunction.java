@@ -11,7 +11,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.Interpreter;
 
 public class ConditionalFunction extends ApplicableFunction {
@@ -34,7 +33,7 @@ public class ConditionalFunction extends ApplicableFunction {
 					if(! (arguments[i] instanceof Pair)) {
 						throw new GenyrisException("Invalid condition: " + arguments[i]);
 					}
-					return Evaluator.evalSequence(env, arguments[i].cdr()); 
+					return arguments[i].cdr().evalSequence(env); 
 				}
 			}
 		}

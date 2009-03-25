@@ -91,7 +91,7 @@ public abstract class Symbol extends ExpWithEmbeddedClasses {
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return env.lookupVariableValue(this);
-	}
+    }
 
 
 }

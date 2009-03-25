@@ -13,7 +13,6 @@ import java.util.TreeMap;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-import org.genyris.interp.Evaluator;
 import org.genyris.interp.SpecialEnvironment;
 import org.genyris.interp.UnboundException;
 import org.genyris.interp.builtin.TagFunction;
@@ -247,7 +246,7 @@ public class Dictionary extends ExpWithEmbeddedClasses implements Environment {
 		SpecialEnvironment newEnv = new SpecialEnvironment(environment,
 				bindings, this);
 		if (arguments[0].listp()) {
-			return Evaluator.evalSequence(newEnv, arguments[0]);
+			return arguments[0].evalSequence(newEnv);
 		} else {
 			try {
 				Dictionary klass = (Dictionary) arguments[0].eval(newEnv);

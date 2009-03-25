@@ -5,6 +5,9 @@
 //
 package org.genyris.core;
 
+import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
+
 
 public class NilSymbol extends SimpleSymbol {
 
@@ -23,9 +26,8 @@ public class NilSymbol extends SimpleSymbol {
         return _printName;
     }
 
-    public boolean isSelfEvaluating() {
-        return true;
+    public Exp evalSequence(Environment env) throws GenyrisException {
+    	return this;
     }
-
 
 }
