@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.genyris.core.Constants;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
@@ -56,7 +57,7 @@ public class PrefixMapper {
         return symbol.substring(symbol.indexOf(".") + 1);
     }
 
-    public Symbol symbolFactory(String news) throws GenyrisException {
+    public SimpleSymbol symbolFactory(String news) throws GenyrisException {
         String prefix;
         if(news.equals(".") || !hasPrefix(news) ) {
             return Symbol.symbolFactory(news, false);

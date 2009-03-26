@@ -13,10 +13,6 @@ import org.genyris.interp.UnboundException;
 
 public class SimpleSymbol extends Symbol implements Comparable {
 
-//    public SimpleSymbol(String newSym) {
-//       //  super(newSym);
-//    }
-
     protected String _printName;
 
     public SimpleSymbol(String newSym) {
@@ -44,7 +40,7 @@ public class SimpleSymbol extends Symbol implements Comparable {
 		return env.lookupLexicalVariableValue(this);
 	}
 	public void setVariableValue(Environment env, Exp valu) throws UnboundException {
-		; // env.setLexicalVariable(this, valu);		
+		env.setLexicalVariableValue(this, valu);		
 	}
 
 

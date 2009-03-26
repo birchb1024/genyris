@@ -80,10 +80,7 @@ public class StandardEnvironment extends AbstractEnvironment {
         }
     }
 
-    public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        if(! (symbol instanceof Symbol) ) {
-            throw new UnboundException("cannot set non-symbol: " + symbol.toString());
-        }
+    public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException {
         if( _frame.containsKey(symbol) ) {
             _frame.put(symbol, valu);
         }
@@ -91,7 +88,7 @@ public class StandardEnvironment extends AbstractEnvironment {
             throw new UnboundException("unbound: " + symbol.toString());
         }
         else {
-            _parent.setVariableValue(symbol, valu);
+            _parent.setLexicalVariableValue(symbol, valu);
         }
     }
 

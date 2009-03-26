@@ -9,7 +9,7 @@ import org.genyris.interp.UnboundException;
 
 public abstract class Symbol extends Atom {
 
-    public static Symbol symbolFactory(String name, boolean escaped) {
+    public static SimpleSymbol symbolFactory(String name, boolean escaped) {
         try {
             URI uri = new URI(name);
             if(uri.isAbsolute())
@@ -36,31 +36,6 @@ public abstract class Symbol extends Atom {
 
     public abstract int compareTo(Object arg0);
 
-    public static Symbol realSymbol(Exp dynamicOrReal, Symbol DYNAMIC)
-            throws UnboundException {
-        Symbol retval = realSymbolOrNull(dynamicOrReal, DYNAMIC);
-        if (retval == null) {
-            throw new UnboundException("Bad dynamic symbol: "
-                    + dynamicOrReal.toString());
-        } else {
-            return retval;
-        }
-    }
-
-    public static boolean isDynamic(Exp dynamicOrReal, Symbol DYNAMIC) throws UnboundException {
-    	return dynamicOrReal instanceof DynamicSymbol;
-    }
-
-    private static Symbol realSymbolOrNull(Exp dynamicOrReal, Symbol DYNAMIC)
-            throws UnboundException {
-        if (Symbol.isDynamic(dynamicOrReal, DYNAMIC)) {
-        	return ((DynamicSymbol)dynamicOrReal).getRealSymbol();
-        } else if (dynamicOrReal instanceof Symbol) {
-            return (Symbol) dynamicOrReal;
-        } else {
-            return null;
-        }
-    }
 	public Exp eval(Environment env) throws GenyrisException {
 		return env.lookupVariableValue(this);
     }

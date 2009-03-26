@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public class SpecialEnvironment extends StandardEnvironment {
@@ -26,17 +24,9 @@ public class SpecialEnvironment extends StandardEnvironment {
     public void defineDynamicVariable(DynamicSymbol symbol, Exp valu) throws GenyrisException {
         _object.defineDynamicVariable(symbol , valu);
     }
-    public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-        Symbol sym = Symbol.realSymbol(symbol, _dynamic);
-        if (sym == _self) {
-            throw new UnboundException("cannot re-define !self.");
-        }
-        if(symbol instanceof SimpleSymbol)  {
-        	super.setVariableValue(symbol, valu);
-        }
-        else { // object field
-            _object.setVariableValue(symbol, valu);
-        }
+
+    public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException {
+        _object.setDynamicVariableValue(symbol, valu);
     }
 
     public String toString() {

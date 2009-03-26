@@ -24,7 +24,7 @@ public class DynamicSymbol extends Symbol {
 	public String getPrintName() {
 		return "!" + _realSymbol.getPrintName();
 	}
-	public Symbol getRealSymbol() {
+	public SimpleSymbol getRealSymbol() {
 		return _realSymbol;
 	}
 	public void defineVariable(Environment env, Exp valu) throws GenyrisException {
@@ -34,7 +34,7 @@ public class DynamicSymbol extends Symbol {
 		return env.lookupDynamicVariableValue(this);
 	}
 	public void setVariableValue(Environment env, Exp valu) throws UnboundException {
-		; //return env.setDynamicVariableValue(this);
+		env.setDynamicVariableValue(this, valu);
 	}
 
 }

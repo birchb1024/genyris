@@ -14,49 +14,49 @@ import org.genyris.exception.GenyrisException;
 public class SymbolTable implements Internable {
 	private Map         _table;
     private SimpleSymbol     NIL;
-	private Symbol _self;
-	private Symbol _classes;
-	private Symbol _superclasses;
-	private Symbol _classname;
-	private Symbol _left;
-	private Symbol _right;
-	private Symbol _dynamic;
-	private Symbol _rest;
-	private Symbol _dict;
-	private Symbol _true;
-	private Symbol _false;
+	private SimpleSymbol _self;
+	private SimpleSymbol _classes;
+	private SimpleSymbol _superclasses;
+	private SimpleSymbol _classname;
+	private SimpleSymbol _left;
+	private SimpleSymbol _right;
+	private SimpleSymbol _dynamic;
+	private SimpleSymbol _rest;
+	private SimpleSymbol _dict;
+	private SimpleSymbol _true;
+	private SimpleSymbol _false;
 	
-	private Symbol _standardclass;
-	private Symbol _subclasses;
-	private Symbol _thing;
+	private SimpleSymbol _standardclass;
+	private SimpleSymbol _subclasses;
+	private SimpleSymbol _thing;
 	private SimpleSymbol _validate;
-	private Symbol _vars;
-	private Symbol _lambda;
-	private Symbol _lambdaq;
-	private Symbol _lambdam;
-	private Symbol _eof;
-	private Symbol _template;
-	private Symbol _quote;
-	private Symbol _comma;
-	private Symbol _comma_at;
-	private Symbol _prefix;
-	private Symbol _BIGNUM;
-	private Symbol _EAGERPROC;
-	private Symbol _LAZYPROC;
-	private Symbol _PAIR;
-	private Symbol _PARENPARSER;
-	private Symbol _READER;
-	private Symbol _SIMPLESYMBOL;
-	private Symbol _STRING;
-	private Symbol _WRITER;
-	private Symbol _dictionary;
-	private Symbol _URISYMBOL;
-	private Symbol _TRIPLE;
-	private Symbol _TRIPLESET;
-    private Symbol _TYPE;
-    private Symbol _DESCRIPTIONS;
-	private Symbol _SUBCLASSOF;
-	private Symbol _DYNAMICSYMBOLREF;
+	private SimpleSymbol _vars;
+	private SimpleSymbol _lambda;
+	private SimpleSymbol _lambdaq;
+	private SimpleSymbol _lambdam;
+	private SimpleSymbol _eof;
+	private SimpleSymbol _template;
+	private SimpleSymbol _quote;
+	private SimpleSymbol _comma;
+	private SimpleSymbol _comma_at;
+	private SimpleSymbol _prefix;
+	private SimpleSymbol _BIGNUM;
+	private SimpleSymbol _EAGERPROC;
+	private SimpleSymbol _LAZYPROC;
+	private SimpleSymbol _PAIR;
+	private SimpleSymbol _PARENPARSER;
+	private SimpleSymbol _READER;
+	private SimpleSymbol _SIMPLESYMBOL;
+	private SimpleSymbol _STRING;
+	private SimpleSymbol _WRITER;
+	private SimpleSymbol _dictionary;
+	private SimpleSymbol _URISYMBOL;
+	private SimpleSymbol _TRIPLE;
+	private SimpleSymbol _TRIPLESET;
+    private SimpleSymbol _TYPE;
+    private SimpleSymbol _DESCRIPTIONS;
+	private SimpleSymbol _SUBCLASSOF;
+	private SimpleSymbol _DYNAMICSYMBOLREF;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -130,9 +130,9 @@ public class SymbolTable implements Internable {
         }
     }
 
-    public Symbol internString(String newSym) {
+    public SimpleSymbol internString(String newSym) {
         if (_table.containsKey(newSym)) {
-            return (Symbol)_table.get(newSym);
+            return (SimpleSymbol)_table.get(newSym);
         } else {
             SimpleSymbol sym = new SimpleSymbol(newSym);
             _table.put(newSym, sym);
@@ -140,16 +140,16 @@ public class SymbolTable implements Internable {
         }
     }
 
-    public Symbol internSymbol(Symbol newSym) {
+    public SimpleSymbol internSymbol(SimpleSymbol newSym) {
         if (_table.containsKey(newSym.getPrintName())) {
-            return (Symbol)_table.get(newSym.getPrintName());
+            return (SimpleSymbol)_table.get(newSym.getPrintName());
         } else {
             _table.put(newSym.getPrintName(), newSym);
             return newSym;
         }
     }
 
-    public Symbol NIL() {
+    public SimpleSymbol NIL() {
         return NIL;
     }
 
@@ -171,66 +171,66 @@ public class SymbolTable implements Internable {
     // The following methods exist to eliminate use of internString in clients.
     // Added after performance tests.
     //
-	public Symbol SELF() {
+	public SimpleSymbol SELF() {
 		return _self;
 	}
 
-	public Symbol CLASSES() {
+	public SimpleSymbol CLASSES() {
 		return _classes;
 	}
 
-	public Symbol CLASSNAME() {
+	public SimpleSymbol CLASSNAME() {
 		return _classname;
 	}
 
-	public Symbol DYNAMIC_SYMBOL() {
+	public SimpleSymbol DYNAMIC_SYMBOL() {
 		return _dynamic;
 	}
 
-	public Symbol LEFT() {
+	public SimpleSymbol LEFT() {
 		return _left;
 	}
 
-	public Symbol RIGHT() {
+	public SimpleSymbol RIGHT() {
 		return _right;
 	}
 
-	public Symbol SUPERCLASSES() {
+	public SimpleSymbol SUPERCLASSES() {
 		return _superclasses;
 	}
 
-	public Symbol REST() {
+	public SimpleSymbol REST() {
 		return _rest;
 	}
 
-	public Symbol DICT() {
+	public SimpleSymbol DICT() {
 		return _dict;
 	}
 
-	public Symbol DICTIONARY() {
+	public SimpleSymbol DICTIONARY() {
 		return _dictionary;
 	}
 
-	public Symbol TRUE() {
+	public SimpleSymbol TRUE() {
 		return _true;
 	}
 
-	public Symbol FALSE() {
+	public SimpleSymbol FALSE() {
 		return _false;
 	}
-	public Symbol VARS() {
+	public SimpleSymbol VARS() {
 		return _vars;
 	}
 
-	public Symbol STANDARDCLASS() {
+	public SimpleSymbol STANDARDCLASS() {
 		return _standardclass;
 	}
 
-	public Symbol SUBCLASSES() {
+	public SimpleSymbol SUBCLASSES() {
 		return _subclasses;
 	}
 
-	public Symbol THING() {
+	public SimpleSymbol THING() {
 		return _thing;
 	}
 
@@ -238,98 +238,98 @@ public class SymbolTable implements Internable {
 		return _validate;
 	}
 
-	public Symbol LAMBDA() {
+	public SimpleSymbol LAMBDA() {
 		return _lambda;
 	}
 
-	public Symbol LAMBDAM() {
+	public SimpleSymbol LAMBDAM() {
 		return _lambdaq;
 	}
 
-	public Symbol LAMBDAQ() {
+	public SimpleSymbol LAMBDAQ() {
 		return _lambdam;
 	}
 
-	public Symbol EOF() {
+	public SimpleSymbol EOF() {
 		return _eof;
 	}
-	public Symbol TEMPLATE() {
+	public SimpleSymbol TEMPLATE() {
 		return _template;
 	}
-	public Symbol QUOTE() {
+	public SimpleSymbol QUOTE() {
 		return _quote;
 	}
 
-	public Symbol COMMA() {
+	public SimpleSymbol COMMA() {
 		return _comma;
 	}
-	public Symbol COMMA_AT() {
+	public SimpleSymbol COMMA_AT() {
 		return _comma_at;
 	}
 
-	public Symbol PREFIX() {
+	public SimpleSymbol PREFIX() {
 		return _prefix;
 	}
 
-	public Symbol BIGNUM() {
+	public SimpleSymbol BIGNUM() {
 		return _BIGNUM;
 	}
 
-	public Symbol EAGERPROC() {
+	public SimpleSymbol EAGERPROC() {
 		return _EAGERPROC;
 	}
 
-	public Symbol LAZYPROC() {
+	public SimpleSymbol LAZYPROC() {
 		return _LAZYPROC;
 	}
 
-	public Symbol PAIR() {
+	public SimpleSymbol PAIR() {
 		return _PAIR;
 	}
 
-	public Symbol PARENPARSER() {
+	public SimpleSymbol PARENPARSER() {
 		return _PARENPARSER;
 	}
 
-	public Symbol READER() {
+	public SimpleSymbol READER() {
 		return _READER;
 	}
 
-	public Symbol SIMPLESYMBOL() {
+	public SimpleSymbol SIMPLESYMBOL() {
 		return _SIMPLESYMBOL;
 	}
 
-	public Symbol URISYMBOL() {
+	public SimpleSymbol URISYMBOL() {
 		return _URISYMBOL;
 	}
 
-	public Symbol STRING() {
+	public SimpleSymbol STRING() {
 		return _STRING;
 	}
 
-	public Symbol WRITER() {
+	public SimpleSymbol WRITER() {
 		return _WRITER;
 	}
-	public Symbol TRIPLESET() {
+	public SimpleSymbol TRIPLESET() {
 		return _TRIPLESET;
 	}
-	public Symbol TRIPLE() {
+	public SimpleSymbol TRIPLE() {
 		return _TRIPLE;
 	}
 
-    public Symbol TYPE() {
+    public SimpleSymbol TYPE() {
         return _TYPE;
     }
 
-	public Symbol DESCRIPTIONS() {
+	public SimpleSymbol DESCRIPTIONS() {
 		return _DESCRIPTIONS;
 	}
 
-	public Symbol SUBCLASSOF() {
+	public SimpleSymbol SUBCLASSOF() {
 		return _SUBCLASSOF;
 	}
 
-	public Symbol DYNAMICSYMBOLREF() {
+	public SimpleSymbol DYNAMICSYMBOLREF() {
 		return _DYNAMICSYMBOLREF;
 	}
 }

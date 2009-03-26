@@ -62,5 +62,16 @@ public abstract class AbstractEnvironment implements Environment {
 	public abstract Exp lookupVariableShallow(Exp symbol) throws UnboundException;
 
 
-	public abstract void setVariableValue(Exp symbol, Exp valu) throws UnboundException;
+	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
+		if(symbol instanceof Symbol) {
+			((Symbol)symbol).setVariableValue(this, valu);
+		}	
+	}
+    public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException {
+		throw new UnboundException("setLexicalVariableValue: no dynamic variable in environment: " + symbol);
+	}
+
+    public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException {
+		throw new UnboundException("setDynamicVariableValue: no lexical variable in environment: " + symbol);
+	}
 }

@@ -107,10 +107,6 @@ public class Dictionary extends Atom implements Environment {
 		return _parent.getSymbolTable().VARS();
 	}
 
-	private Symbol DYNAMIC() {
-		return _parent.getSymbolTable().DYNAMIC_SYMBOL();
-	}
-
 	private Exp getVarsList() {
 		Iterator iter = _dict.keySet().iterator();
 		Exp result = new Pair(VARS(), _parent.getNil());
@@ -177,7 +173,11 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-		Symbol sym = Symbol.realSymbol(symbol, DYNAMIC());
+		if(symbol instanceof Symbol) {
+			((Symbol)symbol).setVariableValue(this, valu);
+		}	
+	}
+	public void setDynamicVariableValueRaw(SimpleSymbol sym, Exp valu) throws UnboundException {
 		if (sym == CLASSES()) {
 			try {
 				setClasses(valu, _parent.getNil());
@@ -187,10 +187,16 @@ public class Dictionary extends Atom implements Environment {
 			if (_dict.containsKey(sym)) {
 				_dict.put(sym, valu);
 			} else {
-				throw new UnboundException("in object, undefined variable: "
-						+ symbol);
+				throw new UnboundException("in object, undefined variable: " + sym);
 			}
 		}
+	}
+	public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException {
+		setDynamicVariableValueRaw(symbol.getRealSymbol(), valu);
+	}
+	
+	public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException {
+		throw new UnboundException("Dictionary expected dynamic symbol ref " 	+ symbol);
 	}
 
 	public String toString() {

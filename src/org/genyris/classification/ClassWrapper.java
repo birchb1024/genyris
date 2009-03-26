@@ -20,7 +20,7 @@ import org.genyris.interp.UnboundException;
 public class ClassWrapper {
 	private Dictionary _theClass;
 
-	private Exp CLASSNAME, SUPERCLASSES, SUBCLASSES;
+	private SimpleSymbol CLASSNAME, SUPERCLASSES, SUBCLASSES;
 
 	private SimpleSymbol NIL;
 
@@ -80,7 +80,7 @@ public class ClassWrapper {
 
 		Exp supers = _theClass.lookupVariableShallow(SUPERCLASSES);
 		supers = new Pair(klass, supers);
-		_theClass.setVariableValue(SUPERCLASSES, supers);
+		_theClass.setDynamicVariableValueRaw(SUPERCLASSES, supers);
 		new ClassWrapper(klass).addSubClass(_theClass);
 		// TODO use a list set adding function to avoid duplicates.
 	}
@@ -90,7 +90,7 @@ public class ClassWrapper {
 			return;
 		Exp subs = _theClass.lookupVariableShallow(SUBCLASSES);
 		subs = new Pair(klass, subs);
-		_theClass.setVariableValue(SUBCLASSES, subs);
+		_theClass.setDynamicVariableValueRaw(SUBCLASSES, subs);
 		// TODO use a list set adding function to avoid duplicate subclasses.
 	}
 
@@ -138,7 +138,7 @@ public class ClassWrapper {
 					sk.defineVariable(env.getSymbolTable().SUBCLASSES(),
 							NIL);
 				}
-				sk.setVariableValue(env.getSymbolTable().SUBCLASSES(),
+				sk.setDynamicVariableValueRaw(env.getSymbolTable().SUBCLASSES(),
 						new Pair(newClass, subklasses));
 				sklist = sklist.cdr();
 			}

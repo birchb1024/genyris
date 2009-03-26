@@ -25,6 +25,8 @@ public interface Environment {
     public void defineDynamicVariable(DynamicSymbol symbol, Exp valu) throws GenyrisException;
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException;
+    public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException;
+    public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException;
 
 
     public String toString();

@@ -17,6 +17,7 @@ import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.dl.TripleSet;
@@ -141,7 +142,7 @@ public class Interpreter {
         return _table.internString(name);
     }
 
-    public Symbol intern(Symbol name) {
+    public Symbol intern(SimpleSymbol name) {
         return _table.internSymbol(name);
     }
 
