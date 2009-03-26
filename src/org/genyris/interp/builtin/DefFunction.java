@@ -5,7 +5,6 @@
 //
 package org.genyris.interp.builtin;
 
-import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
@@ -28,9 +27,6 @@ public class DefFunction extends ApplicableFunction {
 		Exp lambdaExpression = new Pair(_lambda, arrayToList(arguments).cdr());
 		EagerProcedure fn = new EagerProcedure(envForBindOperations,
 				lambdaExpression, new ClassicFunction(arguments[0].toString(), _interp));
-		if(arguments[0] instanceof DynamicSymbol) {
-			System.out.println();
-		}
 		envForBindOperations.defineVariable(arguments[0], fn);
 		return fn;
 	}
