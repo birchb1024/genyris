@@ -1,6 +1,8 @@
 package org.genyris.core;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
+import org.genyris.interp.UnboundException;
 
 public class DynamicSymbol extends Symbol {
 
@@ -24,6 +26,17 @@ public class DynamicSymbol extends Symbol {
 	}
 	public Symbol getRealSymbol() {
 		return _realSymbol;
+	}
+	public void defineVariable(Environment env, Exp valu) throws GenyrisException {
+		// TODO Auto-generated method stub
+		
+	}
+	public Exp lookupVariableValue(Environment env) throws UnboundException {
+		return env.lookupDynamicVariableValue(this);
+	}
+	public void setVariableValue(Environment env, Exp valu) throws UnboundException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

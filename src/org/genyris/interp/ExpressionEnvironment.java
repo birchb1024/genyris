@@ -5,34 +5,35 @@
 //
 package org.genyris.interp;
 
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
-public class MagicEnvironment extends StandardEnvironment {
+public class ExpressionEnvironment extends StandardEnvironment {
     // This environment encompasses an expression (Exp) which provides
     // the first place to look for slots.
-    // TODO - rename this class, perhaps.
-    private Exp _it;
 
-    public MagicEnvironment(Environment runtime, Exp theObject) throws GenyrisException {
+	private Exp _theExpression;
+
+    public ExpressionEnvironment(Environment runtime, Exp theObject) throws GenyrisException {
         super(runtime, mapFactory());
-        _it = theObject;
+        _theExpression = theObject;
     }
 
     public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
         if (symbol == _classes) {
-            return _it.getClasses(_parent);
+            return _theExpression.getClasses(_parent);
         }
         else if (symbol == _self) {
-            return _it;
+            return _theExpression;
         }
         // TODO - DRY
         // TODO - move these into the Pair class as an Environment
         else if (symbol == _left) {
             try {
-                return _it.car();
+                return _theExpression.car();
             }
             catch (AccessException e) {
                 throw new UnboundException(e.getMessage());
@@ -40,7 +41,7 @@ public class MagicEnvironment extends StandardEnvironment {
         }
         else if (symbol == _right) {
             try {
-                return _it.cdr();
+                return _theExpression.cdr();
             }
             catch (AccessException e) {
                 throw new UnboundException(e.getMessage());
@@ -54,7 +55,7 @@ public class MagicEnvironment extends StandardEnvironment {
     }
 
     private Exp lookupInClasses(Exp symbol) throws UnboundException {
-        Exp classes = _it.getClasses(_parent);
+        Exp classes = _theExpression.getClasses(_parent);
         while (classes != NIL) {
             try {
                 Environment klass = (Environment) (classes.car());
@@ -75,24 +76,12 @@ public class MagicEnvironment extends StandardEnvironment {
         throw new UnboundException("unbound symbol: " + symbol.toString());
     }
 
-    public Exp lookupVariableValue(Exp exp) throws UnboundException {
-        if (Symbol.isDynamic(exp, _dynamic)) {
-            return lookupDynamicVariableValue(Symbol.realSymbol(exp, _dynamic));
-        }
-        else if (exp instanceof Symbol) {
-            return super.lookupVariableValue((Symbol)exp);
-        }
-        else {
-        	throw new UnboundException(exp.toString());
-        	}
-    }
-
     public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
         Exp sym = Symbol.realSymbol(symbol, _dynamic);
 
         if (Symbol.isDynamic(symbol, _dynamic)) {
         	if( sym == _classes) {
-        		_it.setClasses(valu, NIL);
+        		_theExpression.setClasses(valu, NIL);
         	} else if (sym == _self) {
         		throw new GenyrisException("cannot re-define self.");
         	}
@@ -107,7 +96,7 @@ public class MagicEnvironment extends StandardEnvironment {
         if (Symbol.isDynamic(symbol, _dynamic)) {
             if (sym == _classes) {
                 try {
-                    _it.setClasses(valu, NIL);
+                    _theExpression.setClasses(valu, NIL);
                 }
                 catch (AccessException e) {
                     throw new UnboundException(e.getMessage());
@@ -118,7 +107,7 @@ public class MagicEnvironment extends StandardEnvironment {
             // TODO - Move into Pair in an Environment
             else if (sym == _left) {
                 try {
-                    _it.setCar(valu);
+                    _theExpression.setCar(valu);
                 }
                 catch (AccessException e) {
                     throw new UnboundException(e.getMessage());
@@ -126,7 +115,7 @@ public class MagicEnvironment extends StandardEnvironment {
             }
             else if (sym == _right) {
                 try {
-                    _it.setCdr(valu);
+                    _theExpression.setCdr(valu);
                 }
                 catch (AccessException e) {
                     throw new UnboundException(e.getMessage());
@@ -137,15 +126,14 @@ public class MagicEnvironment extends StandardEnvironment {
             super.setVariableValue(symbol, valu);
         }
     }
-
-    public Exp lookupDynamicVariableValue(Exp sym) throws UnboundException {
-
+	public Exp lookupDynamicVariableValue(DynamicSymbol dsym) throws UnboundException {
+		Symbol sym = dsym.getRealSymbol();
         if (sym == _classes) {
-            return _it.getClasses(_parent);
+            return _theExpression.getClasses(_parent);
         }
         else if (sym == _left) {
             try {
-                return _it.car();
+                return _theExpression.car();
             }
             catch (AccessException e) {
                 throw new UnboundException(e.getMessage());
@@ -153,14 +141,14 @@ public class MagicEnvironment extends StandardEnvironment {
         }
         else if (sym == _right) {
             try {
-                return _it.cdr();
+                return _theExpression.cdr();
             }
             catch (AccessException e) {
                 throw new UnboundException(e.getMessage());
             }
         }
         else if (sym == _self) {
-            return _it;
+            return _theExpression;
         }
         else {
             return lookupInClasses(sym);
@@ -168,7 +156,7 @@ public class MagicEnvironment extends StandardEnvironment {
 
     }
     public Exp getSelf() throws UnboundException {
-        return _it;
+        return _theExpression;
     }
 
 }

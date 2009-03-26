@@ -6,6 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
@@ -25,7 +26,7 @@ public class DynamicSymbolValueFunction extends ApplicableFunction {
 		Class[] types = {SimpleSymbol.class};
     	checkArguments(arguments, 1);
     	checkArgumentTypes(types, arguments);
-		return envForBindOperations.lookupDynamicVariableValue(arguments[0]);
+		return new DynamicSymbol((SimpleSymbol)arguments[0]);
 	}
 
 }

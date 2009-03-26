@@ -5,6 +5,7 @@
 //
 package org.genyris.interp;
 
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.SimpleSymbol;
@@ -29,10 +30,12 @@ public interface Environment {
 
     public Symbol internString(String symbolName);
 
-    public Exp lookupDynamicVariableValue(Exp exp) throws UnboundException;
+    public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException;
+    public Exp lookupLexicalVariableValue(SimpleSymbol symbol) throws UnboundException;
 
     public Exp getSelf() throws UnboundException;
 
 	public Internable getSymbolTable();
+
 
 }

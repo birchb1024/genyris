@@ -8,6 +8,7 @@ package org.genyris.interp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.NilSymbol;
@@ -16,7 +17,7 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 // TODO Break this into a Root environment and a Standard Env....
-public class StandardEnvironment implements Environment {
+public class StandardEnvironment extends AbstractEnvironment implements Environment {
 
     Map _frame; // Exp, Exp
     Environment _parent;
@@ -71,17 +72,6 @@ public class StandardEnvironment implements Environment {
         init();
     }
 
-    public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-        if( _frame.containsKey(symbol) ) {
-            return (Exp)_frame.get(symbol);
-        }
-        else if(_parent == null) {
-            throw new UnboundException("unbound variable: " + symbol.toString());
-        }
-        else {
-            return _parent.lookupVariableValue(symbol);
-        }
-    }
     public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
         if( _frame.containsKey(symbol) ) {
             return (Exp)_frame.get(symbol);
@@ -139,10 +129,6 @@ public class StandardEnvironment implements Environment {
         }
     }
 
-    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
-        throw new UnboundException("no dynamic variables in standard environments: " + symbol.toString());
-    }
-
     public Exp getSelf() throws UnboundException {
         throw new UnboundException("no dynamic variable self in standard environments.");
     }
@@ -156,6 +142,22 @@ public class StandardEnvironment implements Environment {
 			return _table;
 		}
 		else {return _parent.getSymbolTable();}
+	}
+
+	public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException {
+		throw new UnboundException("no dynamic variable in standard environments: " + symbol);
+	}
+
+	public Exp lookupLexicalVariableValue(SimpleSymbol symbol) throws UnboundException {
+        if( _frame.containsKey(symbol) ) {
+            return (Exp)_frame.get(symbol);
+        }
+        else if(_parent == null) {
+            throw new UnboundException("unbound variable: " + symbol.toString());
+        }
+        else {
+            return _parent.lookupVariableValue(symbol);
+        }
 	}
 
 }

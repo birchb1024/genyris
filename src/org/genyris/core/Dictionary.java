@@ -276,7 +276,7 @@ public class Dictionary extends Atom implements Environment {
 		return table.DICTIONARY();
 	}
 
-	public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
+	public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException {
 		return lookupVariableValue(symbol);
 	}
 
@@ -289,6 +289,11 @@ public class Dictionary extends Atom implements Environment {
 
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
+	}
+
+	public Exp lookupLexicalVariableValue(SimpleSymbol symbol) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -6,6 +6,8 @@
 package org.genyris.core;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
+import org.genyris.interp.UnboundException;
 
 
 
@@ -34,6 +36,17 @@ public class SimpleSymbol extends Symbol implements Comparable {
 
 	public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.SIMPLESYMBOL();
+	}
+	public void defineVariable(Environment env, Exp valu) throws GenyrisException {
+		// TODO Auto-generated method stub
+		
+	}
+	public Exp lookupVariableValue(Environment env) throws UnboundException {
+		return env.lookupLexicalVariableValue(this);
+	}
+	public void setVariableValue(Environment env, Exp valu) throws UnboundException {
+		// TODO Auto-generated method stub
+		
 	}
 
 

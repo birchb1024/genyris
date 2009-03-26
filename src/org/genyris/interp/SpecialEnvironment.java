@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import java.util.Map;
 
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
@@ -38,15 +39,6 @@ public class SpecialEnvironment extends StandardEnvironment {
         }
     }
 
-    public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-        if(Symbol.isDynamic(symbol, _dynamic)) {
-                return _object.lookupVariableValue(symbol);
-            }
-        else {
-            return super.lookupVariableValue(symbol);
-        }
-    }
-
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
         Symbol sym = Symbol.realSymbol(symbol, _dynamic);
         if (sym == _self) {
@@ -64,9 +56,10 @@ public class SpecialEnvironment extends StandardEnvironment {
         return "<SpecialEnvironment on: " + _object.toString() + ">";
     }
 
-    public Exp lookupDynamicVariableValue(Exp symbol) throws UnboundException {
+    public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException {
         return _object.lookupDynamicVariableValue(symbol);
     }
+
     public Exp getSelf() throws UnboundException {
         return _object.getSelf();
     }

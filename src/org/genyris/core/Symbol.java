@@ -28,6 +28,12 @@ public abstract class Symbol extends Atom {
         return getPrintName();
     }
 
+    public abstract Exp lookupVariableValue(Environment env) throws UnboundException;
+
+    public abstract void setVariableValue(Environment env, Exp valu) throws UnboundException;
+
+    public abstract void defineVariable(Environment env, Exp valu) throws GenyrisException;
+
     public abstract int compareTo(Object arg0);
 
     public static Symbol realSymbol(Exp dynamicOrReal, Symbol DYNAMIC)
