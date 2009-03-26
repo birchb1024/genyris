@@ -5,9 +5,8 @@ import junit.framework.TestCase;
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.StrinG;
 import org.genyris.core.SimpleSymbol;
-import org.genyris.core.Symbol;
+import org.genyris.core.StrinG;
 import org.genyris.core.SymbolTable;
 import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
@@ -47,7 +46,7 @@ public class TripleTest extends TestCase {
     public void testTripleEquals() {
 
         Exp subject = new Bignum(34);
-        Symbol predicate = new SimpleSymbol("p");
+        SimpleSymbol predicate = new SimpleSymbol("p");
         assertTrue(new Triple(subject, predicate, new Bignum(99)).equals(
             new Triple(subject, predicate, new Bignum(99))));
         assertTrue(new Triple(subject, predicate, new StrinG("foo")).equals(

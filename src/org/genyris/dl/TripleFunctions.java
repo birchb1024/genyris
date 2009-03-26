@@ -6,6 +6,7 @@
 package org.genyris.dl;
 
 import org.genyris.core.Exp;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
@@ -26,7 +27,7 @@ public class TripleFunctions extends ApplicableFunction {
         checkArguments(arguments, 3);
         Class[] types = { Exp.class, Symbol.class, Exp.class };
         checkArgumentTypes(types, arguments);
-        return new Triple(arguments[0], (Symbol) arguments[1], arguments[2]);
+        return new Triple(arguments[0], (SimpleSymbol) arguments[1], arguments[2]);
     }
 
     public static abstract class AbstractTripleMethod extends AbstractMethod {

@@ -9,7 +9,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.Symbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.dl.Triple;
 import org.genyris.dl.TripleSet;
 import org.genyris.exception.GenyrisException;
@@ -74,7 +74,7 @@ public class ObjectFunction extends ApplicableFunction {
 			Exp results = NIL;
 			while (alist != NIL) {
 				results = new Pair(new Triple(self,
-						(Symbol) (alist.car().car()), alist.car().cdr()),
+						(SimpleSymbol) (alist.car().car()), alist.car().cdr()),
 						results);
 				alist = alist.cdr();
 			}
@@ -97,7 +97,7 @@ public class ObjectFunction extends ApplicableFunction {
 			Exp alist = self.asAlist().cdr();
 			TripleSet results = new TripleSet();
 			while (alist != NIL) {
-				results.add(new Triple(self, (Symbol) (alist.car().car()),
+				results.add(new Triple(self, (SimpleSymbol) (alist.car().car()),
 						alist.car().cdr()));
 				alist = alist.cdr();
 			}
