@@ -22,23 +22,10 @@ public class SpecialEnvironment extends StandardEnvironment {
         super(runtime, bindings);
         _object = object;
     }
-
-    public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if(Symbol.isDynamic(symbol, _dynamic)) {
-                _object.defineVariable(symbol , valu);
-                return;
-        }
-        else if (!(symbol instanceof Symbol)) {
-            throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
-        }
-        Symbol sym = (Symbol) symbol;
-        if (sym == _self) {
-            throw new GenyrisException("cannot re-define !self.");
-        } else {
-            super.defineVariable(symbol, valu);
-        }
+    
+    public void defineDynamicVariable(DynamicSymbol symbol, Exp valu) throws GenyrisException {
+        _object.defineDynamicVariable(symbol , valu);
     }
-
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
         Symbol sym = Symbol.realSymbol(symbol, _dynamic);
         if (sym == _self) {

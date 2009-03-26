@@ -38,15 +38,13 @@ public class SimpleSymbol extends Symbol implements Comparable {
 		return table.SIMPLESYMBOL();
 	}
 	public void defineVariable(Environment env, Exp valu) throws GenyrisException {
-		// TODO Auto-generated method stub
-		
+		env.defineLexicalVariable(this, valu);
 	}
 	public Exp lookupVariableValue(Environment env) throws UnboundException {
 		return env.lookupLexicalVariableValue(this);
 	}
 	public void setVariableValue(Environment env, Exp valu) throws UnboundException {
-		// TODO Auto-generated method stub
-		
+		; // env.setLexicalVariable(this, valu);		
 	}
 
 

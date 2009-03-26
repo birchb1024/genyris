@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -50,11 +51,11 @@ public class ExpressionEnvironment extends StandardEnvironment {
         throw new UnboundException("unbound symbol " + symbol.toString());
     }
 
-    public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
+    public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol) throws UnboundException {
         throw new UnboundException("unbound symbol " + symbol.toString());
     }
 
-    private Exp lookupInClasses(Exp symbol) throws UnboundException {
+    private Exp lookupInClasses(DynamicSymbol symbol) throws UnboundException {
         Exp classes = _theExpression.getClasses(_parent);
         while (classes != NIL) {
             try {
@@ -76,18 +77,12 @@ public class ExpressionEnvironment extends StandardEnvironment {
         throw new UnboundException("unbound symbol: " + symbol.toString());
     }
 
-    public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        Exp sym = Symbol.realSymbol(symbol, _dynamic);
-
-        if (Symbol.isDynamic(symbol, _dynamic)) {
-        	if( sym == _classes) {
+    public void defineDynamicVariable(DynamicSymbol sym, Exp valu) throws GenyrisException {
+        	if( sym.getRealSymbol() == _classes) {
         		_theExpression.setClasses(valu, NIL);
-        	} else if (sym == _self) {
+        	} else if (sym.getRealSymbol() == _self) {
         		throw new GenyrisException("cannot re-define self.");
         	}
-        } else {
-            super.defineVariable(symbol, valu);
-        }
     }
 
     public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
@@ -151,7 +146,7 @@ public class ExpressionEnvironment extends StandardEnvironment {
             return _theExpression;
         }
         else {
-            return lookupInClasses(sym);
+            return lookupInClasses(dsym);
         }
 
     }

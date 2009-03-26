@@ -87,37 +87,8 @@ public class Dictionary extends Atom implements Environment {
 		}
 	}
 
-	public void defineVariable(Exp exp, Exp valu) throws GenyrisException {
-		if (Symbol.isDynamic(exp, DYNAMIC())) {
-			defineVariableRaw(Symbol.realSymbol(exp, DYNAMIC()), valu);
-			return;
-		}
-		throw new GenyrisException(
-				"cannot define non-dynamic symbol in object: " + exp.toString());
-	}
-
-	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-		if(symbol instanceof DynamicSymbol) {
-			symbol = ((DynamicSymbol)symbol).getRealSymbol();
-		}
-		if (symbol == SELF()) {
-			return this;
-		} else if (symbol == CLASSES()) {
-			return getClasses(_parent);
-		} else if (symbol == VARS()) {
-			return getVarsList();
-		} else if (_dict.containsKey(symbol)) {
-			return (Exp) _dict.get(symbol);
-		}
-		try {
-			return lookupInClasses(symbol);
-		} catch (UnboundException ignore) {
-		}
-
-		if (_dict.containsKey(SUPERCLASSES())) {
-			return lookupInSuperClasses(symbol);
-		}
-		throw new UnboundException("unbound " + symbol.toString());
+	public void defineDynamicVariable(DynamicSymbol sym, Exp valu) throws GenyrisException {
+		defineVariableRaw(sym, valu);
 	}
 
 	private Exp CLASSES() {
@@ -150,7 +121,7 @@ public class Dictionary extends Atom implements Environment {
 		return result;
 	}
 
-	private Exp lookupInClasses(Exp symbol) throws UnboundException {
+	private Exp lookupInClasses(DynamicSymbol symbol) throws UnboundException {
 		Exp classes = getClasses(_parent);
 		while (classes != _parent.getNil()) {
 			try {
@@ -173,16 +144,16 @@ public class Dictionary extends Atom implements Environment {
 				+ symbol.toString());
 	}
 
-	public Exp lookupInThisClassAndSuperClasses(Exp symbol)
+	public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
 			throws UnboundException {
-		if (_dict.containsKey(symbol)) {
-			return (Exp) _dict.get(symbol);
+		if (_dict.containsKey(symbol.getRealSymbol())) {
+			return (Exp) _dict.get(symbol.getRealSymbol());
 		} else {
 			return lookupInSuperClasses(symbol);
 		}
 	}
 
-	private Exp lookupInSuperClasses(Exp symbol) throws UnboundException {
+	private Exp lookupInSuperClasses(DynamicSymbol symbol) throws UnboundException {
 		if (!_dict.containsKey(SUPERCLASSES())) {
 			throw new UnboundException("object has no superclasses");
 		}
@@ -276,10 +247,6 @@ public class Dictionary extends Atom implements Environment {
 		return table.DICTIONARY();
 	}
 
-	public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException {
-		return lookupVariableValue(symbol);
-	}
-
 	public Exp getSelf() {
 		return this;
 	}
@@ -291,9 +258,49 @@ public class Dictionary extends Atom implements Environment {
 		return this;
 	}
 
-	public Exp lookupLexicalVariableValue(SimpleSymbol symbol) {
-		// TODO Auto-generated method stub
-		return null;
+	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
+		if(symbol instanceof Symbol ) { // TODO make parameter Symbol and remove?
+			return ((Symbol)symbol).lookupVariableValue(this);
+		} else {
+			throw new UnboundException("lookupVariableValue needed Symbol: " + symbol);
+		}
 	}
+	public Exp lookupDynamicVariableValue(DynamicSymbol dsymbol) throws UnboundException {
+		Symbol symbol = ((DynamicSymbol)dsymbol).getRealSymbol();
+
+		if (symbol == SELF()) {
+			return this;
+		} else if (symbol == CLASSES()) {
+			return getClasses(_parent);
+		} else if (symbol == VARS()) {
+			return getVarsList();
+		} else if (_dict.containsKey(symbol)) {
+			return (Exp) _dict.get(symbol);
+		}
+		try {
+			return lookupInClasses(dsymbol);
+		} catch (UnboundException ignore) {
+		}
+
+		if (_dict.containsKey(SUPERCLASSES())) {
+			return lookupInSuperClasses(dsymbol);
+		}
+		throw new UnboundException("unbound " + symbol.toString());
+	}
+
+	public Exp lookupLexicalVariableValue(SimpleSymbol symbol) throws UnboundException {
+		throw new UnboundException("no lexical symbols in Dictionary: " + symbol);
+	}
+
+	public void defineLexicalVariable(SimpleSymbol symbol, Exp valu) throws GenyrisException {
+		throw new UnboundException("no lexical symbols in Dictionary: " + symbol);		
+	}
+
+	public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
+		if(symbol instanceof Symbol) {
+			((Symbol)symbol).defineVariable(this, valu);
+		}		
+	}
+
 
 }

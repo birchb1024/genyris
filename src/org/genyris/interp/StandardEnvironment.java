@@ -17,7 +17,7 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 // TODO Break this into a Root environment and a Standard Env....
-public class StandardEnvironment extends AbstractEnvironment implements Environment {
+public class StandardEnvironment extends AbstractEnvironment {
 
     Map _frame; // Exp, Exp
     Environment _parent;
@@ -95,14 +95,9 @@ public class StandardEnvironment extends AbstractEnvironment implements Environm
         }
     }
 
-    public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-        if(! (symbol instanceof SimpleSymbol) ) {
-            throw new GenyrisException("cannot define non-symbol: " + symbol.toString());
-        }
-        _frame.put(symbol, valu);
+    public void defineLexicalVariable(SimpleSymbol symbol, Exp valu) throws GenyrisException {
+    	_frame.put(symbol, valu);
     }
-
-
 
     public String toString() {
         if( _parent != null ) {
@@ -112,7 +107,7 @@ public class StandardEnvironment extends AbstractEnvironment implements Environm
             return "/" + _frame.toString();
         }
     }
-    public Exp lookupInThisClassAndSuperClasses(Exp symbol) throws UnboundException {
+    public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol) throws UnboundException {
         throw new UnboundException("lookupInSuperClasses not implemented for standard environments.");
     }
 

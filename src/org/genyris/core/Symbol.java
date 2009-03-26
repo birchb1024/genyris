@@ -49,33 +49,12 @@ public abstract class Symbol extends Atom {
 
     public static boolean isDynamic(Exp dynamicOrReal, Symbol DYNAMIC) throws UnboundException {
     	return dynamicOrReal instanceof DynamicSymbol;
-//    	if (dynamicOrReal.isPair()) {
-//            try {
-//                if (dynamicOrReal.car() == DYNAMIC) {
-//                    Exp possibleSymbol = dynamicOrReal.cdr().car();
-//                    if (possibleSymbol instanceof Symbol) {
-//                        return true;
-//                    }
-//                }
-//            } catch (AccessException next) {
-//                throw new UnboundException("Bad dynamic symbol: " + dynamicOrReal);
-//            }
-//            return false;
-//
-//        } else {
-//            return false;
-//        }
     }
 
     private static Symbol realSymbolOrNull(Exp dynamicOrReal, Symbol DYNAMIC)
             throws UnboundException {
         if (Symbol.isDynamic(dynamicOrReal, DYNAMIC)) {
         	return ((DynamicSymbol)dynamicOrReal).getRealSymbol();
-//            try {
-//                return (Symbol) dynamicOrReal.cdr().car();
-//            } catch (AccessException e) {
-//                return null;
-//            }
         } else if (dynamicOrReal instanceof Symbol) {
             return (Symbol) dynamicOrReal;
         } else {
