@@ -16,7 +16,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.SpecialEnvironment;
+import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.StandardEnvironment;
 import org.genyris.interp.UnboundException;
 
@@ -39,7 +39,7 @@ public interface Formatter extends Visitor {
 
     public abstract void visitStandardEnvironment(StandardEnvironment env) throws GenyrisException;
 
-    public abstract void visitSpecialEnvironment(SpecialEnvironment env) throws GenyrisException;
+    public abstract void visitDynamicEnvironment(DynamicEnvironment env) throws GenyrisException;
 
     public abstract void visitClassWrapper(ClassWrapper klass) throws GenyrisException;
 

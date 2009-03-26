@@ -26,7 +26,7 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.SpecialEnvironment;
+import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.StandardEnvironment;
 
 public abstract class AbstractFormatter implements Visitor, Formatter {
@@ -70,7 +70,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 		write(env.toString());
 	}
 
-	public void visitSpecialEnvironment(SpecialEnvironment env)
+	public void visitDynamicEnvironment(DynamicEnvironment env)
 			throws GenyrisException {
 		write(env.toString());
 	}

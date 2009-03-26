@@ -11,12 +11,12 @@ import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 
-public class SpecialEnvironment extends StandardEnvironment {
+public class DynamicEnvironment extends StandardEnvironment {
     // This environment merges two into one - a dynamic and a lexical.
 
     private Environment _object;
 
-    public SpecialEnvironment(Environment runtime, Map bindings, Environment object) throws GenyrisException {
+    public DynamicEnvironment(Environment runtime, Map bindings, Environment object) throws GenyrisException {
         super(runtime, bindings);
         _object = object;
     }
@@ -30,7 +30,7 @@ public class SpecialEnvironment extends StandardEnvironment {
     }
 
     public String toString() {
-        return "<SpecialEnvironment on: " + _object.toString() + ">";
+        return "<DynamicEnvironment on: " + _object.toString() + ">";
     }
 
     public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException {

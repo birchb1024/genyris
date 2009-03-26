@@ -13,7 +13,7 @@ import java.util.TreeMap;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-import org.genyris.interp.SpecialEnvironment;
+import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.UnboundException;
 import org.genyris.interp.builtin.TagFunction;
 
@@ -224,7 +224,7 @@ public class Dictionary extends Atom implements Environment {
 		}
 		Map bindings = mapFactory();
 		bindings.put(SELF(), this);
-		SpecialEnvironment newEnv = new SpecialEnvironment(environment,
+		DynamicEnvironment newEnv = new DynamicEnvironment(environment,
 				bindings, this);
 		if (arguments[0].isPair()) {
 			return arguments[0].evalSequence(newEnv);
