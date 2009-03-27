@@ -16,6 +16,7 @@ import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Pair;
 import org.genyris.core.PairWithcolons;
 import org.genyris.core.Dictionary;
+import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
@@ -154,7 +155,7 @@ public class IndentedFormatter extends AbstractFormatter {
             Dictionary standardClass;
             standardClass = (Dictionary) frame.getParent().lookupVariableValue(standardClassSymbol);
             if (frame.isTaggedWith(standardClass)) {
-                new ClassWrapper(frame).acceptVisitor(this);
+                new ClassWrapper((StandardClass)frame).acceptVisitor(this);
                 return;
             }
         }

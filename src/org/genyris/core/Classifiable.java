@@ -11,7 +11,7 @@ import org.genyris.interp.Environment;
 public interface Classifiable {
 
     public Exp getClasses(Environment env);
-    public void addClass(Exp klass);
+    public void addClass(Dictionary klass);
     public void removeClass(Exp klass);
     public boolean isTaggedWith(Dictionary klass);
     public void setClasses(Exp classList, Exp NIL) throws AccessException;

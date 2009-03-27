@@ -6,10 +6,10 @@
 package org.genyris.classification;
 
 import org.genyris.classes.GlobalDescriptions;
-import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.StandardClass;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
@@ -18,13 +18,13 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
 public class ClassWrapper {
-	private Dictionary _theClass;
+	private StandardClass _theClass;
 
 	private SimpleSymbol CLASSNAME, SUPERCLASSES, SUBCLASSES;
 
 	private SimpleSymbol NIL;
 
-	public ClassWrapper(Dictionary toWrap) {
+	public ClassWrapper(StandardClass toWrap) {
 		_theClass = toWrap;
 		CLASSNAME = toWrap.getSymbolTable().CLASSNAME();
 		SUPERCLASSES = toWrap.getSymbolTable().SUPERCLASSES();
@@ -32,7 +32,7 @@ public class ClassWrapper {
 		NIL = toWrap.getNil();
 	}
 
-	public Dictionary getTheClass() {
+	public StandardClass getTheClass() {
 		return _theClass;
 	}
 
@@ -56,7 +56,7 @@ public class ClassWrapper {
 	private String classListToString(Exp classes) throws AccessException {
 		String result = " (";
 		while (classes != NIL) {
-			ClassWrapper klass = new ClassWrapper((Dictionary) classes.car());
+			ClassWrapper klass = new ClassWrapper((StandardClass) classes.car());
 			result += klass.getClassName();
 			if (classes.cdr() != NIL)
 				result += ' ';
@@ -74,7 +74,7 @@ public class ClassWrapper {
 		}
 	}
 
-	public void addSuperClass(Dictionary klass) throws GenyrisException {
+	public void addSuperClass(StandardClass klass) throws GenyrisException {
 		if (klass == null)
 			return;
 
@@ -85,7 +85,7 @@ public class ClassWrapper {
 		// TODO use a list set adding function to avoid duplicates.
 	}
 
-	public void addSubClass(Dictionary klass) throws UnboundException {
+	public void addSubClass(StandardClass klass) throws UnboundException {
 		if (klass == null)
 			return;
 		Exp subs = _theClass.lookupVariableShallow(SUBCLASSES);
@@ -110,12 +110,12 @@ public class ClassWrapper {
 		}
 	}
 
-	public static Dictionary makeClass(Environment env, Symbol klassname,
+	public static StandardClass makeClass(Environment env, Symbol klassname,
 			Exp superklasses) throws GenyrisException {
 		Exp NIL = env.getNil();
 		Symbol standardClassSymbol = env.getSymbolTable().STANDARDCLASS();
-		Exp standardClass = env.lookupVariableValue(standardClassSymbol);
-		Dictionary newClass = new Dictionary(env);
+		StandardClass standardClass = (StandardClass)env.lookupVariableValue(standardClassSymbol);
+		StandardClass newClass = new StandardClass(env);
 		newClass.addClass(standardClass);
 		newClass.defineVariableRaw(env.getSymbolTable().CLASSNAME(),
 				klassname);
@@ -130,7 +130,7 @@ public class ClassWrapper {
 							env, superklasses));
 			Exp sklist = superklasses;
 			while (sklist != NIL) {
-				Dictionary sk = (Dictionary) (env.lookupVariableValue((Symbol)sklist.car()));
+				StandardClass sk = (StandardClass) (env.lookupVariableValue((Symbol)sklist.car()));
 				Exp subklasses = NIL;
 				try {
 					subklasses = sk.lookupVariableShallow(env.getSymbolTable().SUBCLASSES());
@@ -170,7 +170,7 @@ public class ClassWrapper {
 		while (mysubclasses != env.getNil()) {
 			Exp firstClass = mysubclasses.car();
 			isThisObjectAClass(firstClass);
-			ClassWrapper mysubklass = new ClassWrapper((Dictionary) firstClass); 
+			ClassWrapper mysubklass = new ClassWrapper((StandardClass) firstClass); 
 			if (mysubklass._theClass == klass._theClass) {
 				return true;
 			} else if (mysubklass.isSubClass(klass)) {
@@ -183,7 +183,7 @@ public class ClassWrapper {
 
 	static void  isThisObjectAClass(Exp firstClass) throws GenyrisException {
 		// TODO improve this method to check is something is really a class.
-		if(! (firstClass instanceof Dictionary)) {
+		if(! (firstClass instanceof StandardClass)) {
 			throw new GenyrisException(firstClass + "is not a class.");
 		}
 	}
@@ -195,7 +195,7 @@ public class ClassWrapper {
 		classes = object.getClasses(env);
 		while (classes != env.getNil()) {
 			isThisObjectAClass(classes.car());
-			ClassWrapper klass = new ClassWrapper((Dictionary) classes.car()); 
+			ClassWrapper klass = new ClassWrapper((StandardClass) classes.car()); 
 			if (classes.car() == _theClass) {
 				return true;
 			}

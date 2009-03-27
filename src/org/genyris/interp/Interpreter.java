@@ -11,13 +11,13 @@ import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.genyris.classes.BuiltinClasses;
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.StandardClass;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.dl.TripleSet;
@@ -57,7 +57,7 @@ public class Interpreter {
         }
         defineConstantSymbols();
 
-        BuiltinClasses.init(_globalEnvironment);
+        standardClassInit(_globalEnvironment);
 
         LoadFunction.bindFunctionsAndMethods(this);
 
@@ -190,4 +190,48 @@ public class Interpreter {
         return null;
 
     }
+    
+	public static void standardClassInit(Environment env) throws GenyrisException {
+		StandardClass standardClassDict;
+		Internable table = env.getSymbolTable();
+		SimpleSymbol CLASSNAME = table.CLASSNAME();
+		{
+			// Bootstrap the meta-class
+			standardClassDict = new StandardClass(CLASSNAME,
+					table.STANDARDCLASS(), env);
+			standardClassDict.addClass(standardClassDict);
+			env.defineVariable(table.STANDARDCLASS(), standardClassDict);
+		}
+
+		StandardClass THING = StandardClass.mkClass("Thing", env, null);
+		StandardClass builtin = StandardClass.mkClass("Builtin", env, THING);
+		StandardClass.mkClass(Constants.DICTIONARY, env, builtin);
+		StandardClass.mkClass(Constants.INTEGER, env, builtin);
+		StandardClass.mkClass(Constants.BIGNUM, env, builtin);
+		StandardClass.mkClass(Constants.STRING, env, builtin);
+		StandardClass.mkClass(Constants.DOUBLE, env, builtin);
+		StandardClass.mkClass(Constants.FILE, env, builtin);
+		StandardClass.mkClass(Constants.READER, env, builtin);
+		StandardClass.mkClass(Constants.WRITER, env, builtin);
+		StandardClass.mkClass(Constants.SYSTEM, env, builtin);
+		StandardClass.mkClass(Constants.INDENTEDPARSER, env, builtin);
+		StandardClass.mkClass(Constants.PARENPARSER, env, builtin);
+		StandardClass.mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
+		StandardClass.mkClass(Constants.SOUND, env, builtin);
+		StandardClass.mkClass(Constants.TRIPLE, env, builtin);
+		StandardClass.mkClass(Constants.TRIPLESET, env, builtin);
+
+		StandardClass symbol = StandardClass.mkClass(Constants.SYMBOL, env, builtin);
+		StandardClass closure = StandardClass.mkClass(Constants.CLOSURE, env, builtin);
+		StandardClass pair = StandardClass.mkClass("Pair", env, builtin);
+		StandardClass.mkClass(Constants.PRINTWITHCOLON, env, pair);
+		StandardClass.mkClass(Constants.SIMPLESYMBOL, env, symbol);
+		StandardClass.mkClass(Constants.URISYMBOL, env, symbol);
+		StandardClass.mkClass(Constants.EAGERPROCEDURE, env, closure);
+		StandardClass.mkClass(Constants.LAZYPROCEDURE, env, closure);
+		StandardClass.mkClass(Constants.LISTOFLINES, env, pair);
+		StandardClass.mkClass(Constants.DYNAMICSYMBOLREF, env, symbol);
+	}
+    
+    
 }

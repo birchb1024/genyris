@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
@@ -25,7 +26,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     Exp NIL;
 
-    Exp HttpRequestClazz, AlistClazz;
+    Dictionary HttpRequestClazz, AlistClazz;
 
     ServerSocket ss = null;
 
@@ -40,8 +41,8 @@ public class GenyrisHTTPD extends NanoHTTPD {
                 output);
         SourceLoader.loadScriptFromFile(interpreter, filename, output);
 
-        HttpRequestClazz = interpreter.lookupGlobalFromString("HttpRequest");
-        AlistClazz = interpreter.lookupGlobalFromString("Alist");
+        HttpRequestClazz = (Dictionary)interpreter.lookupGlobalFromString("HttpRequest");
+        AlistClazz = (Dictionary)interpreter.lookupGlobalFromString("Alist");
 
         try {
             ss = new ServerSocket(myTcpPort);
@@ -94,7 +95,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
             // System.out.println(" HDR: '" + value + "' = '" +
             // header.getProperty(value) + "'");
         }
-        headers.addClass(this.AlistClazz);
+        headers.addClass(AlistClazz);
 
         Exp parameters = NIL;
         e = parms.propertyNames();

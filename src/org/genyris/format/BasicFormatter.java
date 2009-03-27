@@ -15,6 +15,7 @@ import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Pair;
 import org.genyris.core.PairWithcolons;
 import org.genyris.core.Dictionary;
+import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
@@ -35,7 +36,7 @@ public class BasicFormatter extends  AbstractFormatter {
         standardClass = (Dictionary) frame.getParent().lookupVariableValue(standardClassSymbol);
 
         if (frame.isTaggedWith(standardClass)) {
-            new ClassWrapper(frame).acceptVisitor(this);
+            new ClassWrapper((StandardClass)frame).acceptVisitor(this);
             return;
         }
         frame.asAlist().acceptVisitor(this);

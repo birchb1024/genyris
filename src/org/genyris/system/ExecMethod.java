@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.genyris.core.Constants;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
@@ -23,11 +24,11 @@ import org.genyris.interp.UnboundException;
 
 public class ExecMethod extends AbstractMethod {
 
-    private Exp ListOfLinesClazz;
+    private Dictionary ListOfLinesClazz;
 
     public ExecMethod(Interpreter interp) throws GenyrisException {
         super(interp, "exec");
-        ListOfLinesClazz = interp.lookupGlobalFromString(Constants.LISTOFLINES);
+        ListOfLinesClazz = (Dictionary)interp.lookupGlobalFromString(Constants.LISTOFLINES);
     }
 
     private String[] toStringArray(Exp[] expArray) throws GenyrisException {

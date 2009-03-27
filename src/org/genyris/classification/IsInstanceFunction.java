@@ -7,6 +7,7 @@ package org.genyris.classification;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Dictionary;
+import org.genyris.core.StandardClass;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -24,7 +25,7 @@ public class IsInstanceFunction extends ApplicableFunction {
         Class[] types = {Exp.class, Dictionary.class, };
         checkArgumentTypes(types, arguments);
         ClassWrapper.isThisObjectAClass(arguments[1]);
-        ClassWrapper cw = new ClassWrapper((Dictionary)arguments[1]);
+        ClassWrapper cw = new ClassWrapper((StandardClass)arguments[1]);
         if (cw.isInstance(arguments[0]) )
             return envForBindOperations.getSymbolTable().TRUE();
         else

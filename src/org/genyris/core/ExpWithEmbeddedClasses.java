@@ -31,8 +31,7 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
             _classes.add(tmp[i]); // TODO learn some Java
     }
 
-    public void addClass(Exp k) { // TODO change signature to Dictionary
-        Dictionary klass = (Dictionary) k;
+    public void addClass(Dictionary klass) { // TODO change signature to Dictionary
         if(_classes.contains(klass)) {
             return;
         }
