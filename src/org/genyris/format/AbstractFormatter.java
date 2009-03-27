@@ -10,23 +10,22 @@ import java.io.Writer;
 
 import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
+import org.genyris.core.Dictionary;
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.Dictionary;
-import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.StrinG;
 import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
 import org.genyris.dl.Triple;
 import org.genyris.dl.TripleSet;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.EagerProcedure;
-import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.StandardEnvironment;
 
 public abstract class AbstractFormatter implements Visitor, Formatter {
@@ -83,7 +82,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 			throws GenyrisException {
 		Exp klasses = result.getClasses(interp.getGlobalEnv());
 		while (!(klasses instanceof NilSymbol)) {
-			Environment klass = (Environment) klasses.car();
+			Dictionary klass = (Dictionary) klasses.car();
 			write(" "
 					+ klass.lookupVariableShallow(interp.getSymbolTable().CLASSNAME()).toString());
 			klasses = klasses.cdr();

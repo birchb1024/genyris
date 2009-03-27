@@ -15,7 +15,7 @@ public class ExpressionEnvironment extends StandardEnvironment {
 	// This environment encompasses an expression (Exp) which provides
 	// the first place to look for slots.
 
-	private Exp _theExpression;
+	protected Exp _theExpression;
 
 	public ExpressionEnvironment(Environment runtime, Exp theObject)
 			throws GenyrisException {
@@ -23,36 +23,12 @@ public class ExpressionEnvironment extends StandardEnvironment {
 		_theExpression = theObject;
 	}
 
-	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
-		if (symbol == _classes) {
-			return _theExpression.getClasses(_parent);
-		} else if (symbol == _self) {
-			return _theExpression;
-		}
-		// TODO - DRY
-		// TODO - move these into the Pair class as an Environment
-		else if (symbol == _left) {
-			try {
-				return _theExpression.car();
-			} catch (AccessException e) {
-				throw new UnboundException(e.getMessage());
-			}
-		} else if (symbol == _right) {
-			try {
-				return _theExpression.cdr();
-			} catch (AccessException e) {
-				throw new UnboundException(e.getMessage());
-			}
-		}
-		throw new UnboundException("unbound symbol " + symbol.toString());
-	}
-
 	public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
 			throws UnboundException {
 		throw new UnboundException("unbound symbol " + symbol.toString());
 	}
 
-	private Exp lookupInClasses(DynamicSymbol symbol) throws UnboundException {
+	protected Exp lookupInClasses(DynamicSymbol symbol) throws UnboundException {
 		Exp classes = _theExpression.getClasses(_parent);
 		while (classes != NIL) {
 			try {
@@ -81,7 +57,7 @@ public class ExpressionEnvironment extends StandardEnvironment {
 	}
 
 	public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu)
-			throws UnboundException {
+			throws  UnboundException {
 		Exp sym = symbol.getRealSymbol();
 
 		if (sym == _classes) {
@@ -92,22 +68,6 @@ public class ExpressionEnvironment extends StandardEnvironment {
 			}
 			return;
 		}
-		// TODO - DRY
-		// TODO - Move into Pair in an Environment
-		else if (sym == _left) {
-			try {
-				_theExpression.setCar(valu);
-			} catch (AccessException e) {
-				throw new UnboundException(e.getMessage());
-			}
-		} else if (sym == _right) {
-			try {
-				_theExpression.setCdr(valu);
-			} catch (AccessException e) {
-				throw new UnboundException(e.getMessage());
-			}
-		}
-
 	}
 
 	public Exp lookupDynamicVariableValue(DynamicSymbol dsym)
@@ -115,19 +75,8 @@ public class ExpressionEnvironment extends StandardEnvironment {
 		Symbol sym = dsym.getRealSymbol();
 		if (sym == _classes) {
 			return _theExpression.getClasses(_parent);
-		} else if (sym == _left) {
-			try {
-				return _theExpression.car();
-			} catch (AccessException e) {
-				throw new UnboundException(e.getMessage());
-			}
-		} else if (sym == _right) {
-			try {
-				return _theExpression.cdr();
-			} catch (AccessException e) {
-				throw new UnboundException(e.getMessage());
-			}
-		} else if (sym == _self) {
+		} 
+		else if (sym == _self) {
 			return _theExpression;
 		} else {
 			return lookupInClasses(dsym);

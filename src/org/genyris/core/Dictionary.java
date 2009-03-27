@@ -36,7 +36,7 @@ public class Dictionary extends Atom implements Environment {
 		_parent = parent;
 	}
 
-	public Dictionary(Symbol key, Exp value, Environment parent) {
+	public Dictionary(SimpleSymbol key, Exp value, Environment parent) {
 		_dict = mapFactory();
 		_dict.put(key, value);
 		_parent = parent;
@@ -203,10 +203,7 @@ public class Dictionary extends Atom implements Environment {
 		return "<dict " + asAlist().toString() + ">";
 	}
 
-	public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
-		if(symbol instanceof DynamicSymbol) {
-			symbol = ((DynamicSymbol)symbol).getRealSymbol();
-		}
+	public Exp lookupVariableShallow(SimpleSymbol symbol) throws UnboundException {
 		if (symbol == CLASSES()) {
 			return getClasses(_parent);
 		} else if (_dict.containsKey(symbol)) {

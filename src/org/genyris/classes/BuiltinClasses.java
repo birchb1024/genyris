@@ -10,6 +10,7 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Dictionary;
 import org.genyris.core.Internable;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
@@ -21,19 +22,19 @@ public class BuiltinClasses {
 		Internable table = env.getSymbolTable();
 		Symbol STANDARDCLASS = table.STANDARDCLASS();
 		Exp standardClassDict = env.lookupVariableValue(STANDARDCLASS);
-		Symbol classname = table.CLASSNAME();
-		Symbol symbolicName = table.internString(name);
+		SimpleSymbol classname = table.CLASSNAME();
+		SimpleSymbol symbolicName = table.internString(name);
 
 		Dictionary newClass = makeTheClass(env, superClass, table,
 				standardClassDict, classname, symbolicName);
 		GlobalDescriptions.updateClassSingleSuper(env, table, symbolicName,
-				(superClass!=null?(Symbol) superClass.lookupVariableShallow(table.CLASSNAME()):null));
+				(superClass!=null?(Symbol) superClass.lookupVariableShallow(classname):null));
 		return newClass;
 	}
 
 	private static Dictionary makeTheClass(Environment env,
 			Dictionary superClass, Internable table, Exp standardClassDict,
-			Symbol classname, Exp symbolicName) throws GenyrisException {
+			SimpleSymbol classname, Exp symbolicName) throws GenyrisException {
 		Dictionary newClass = new Dictionary(classname, symbolicName, env);
 		newClass.defineVariableRaw(table.SUPERCLASSES(), env.getNil());
 		newClass.defineVariableRaw(table.SUBCLASSES(), env.getNil());
@@ -47,7 +48,7 @@ public class BuiltinClasses {
 	public static void init(Environment env) throws GenyrisException {
 		Dictionary standardClassDict;
 		Internable table = env.getSymbolTable();
-		Symbol CLASSNAME = table.CLASSNAME();
+		SimpleSymbol CLASSNAME = table.CLASSNAME();
 		{
 			// Bootstrap the meta-class
 			standardClassDict = new Dictionary(CLASSNAME,

@@ -2,16 +2,16 @@ package org.genyris.classification;
 
 import java.util.Comparator;
 
-import org.genyris.core.Exp;
 import org.genyris.core.Dictionary;
-import org.genyris.core.Symbol;
+import org.genyris.core.Exp;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.AccessException;
 import org.genyris.interp.UnboundException;
 
 public class ClassMROComparator implements Comparator {
-	//private Environment env;
-	private Symbol NIL, SUPERCLASSES;
-    public ClassMROComparator(Symbol NIL, Symbol superclasses) {
+
+	private SimpleSymbol NIL, SUPERCLASSES;
+    public ClassMROComparator(SimpleSymbol NIL, SimpleSymbol superclasses) {
        this.NIL = NIL;
        this.SUPERCLASSES = superclasses;
     }

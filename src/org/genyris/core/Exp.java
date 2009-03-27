@@ -9,7 +9,6 @@ import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.ExpressionEnvironment;
 import org.genyris.interp.builtin.TagFunction;
 
 public abstract class Exp implements Classifiable, Closure {
@@ -34,7 +33,7 @@ public abstract class Exp implements Classifiable, Closure {
 		if (arguments[0].isNil()) {
 			return this;
 		}
-		Environment newEnv = new ExpressionEnvironment(environment, this);
+		Environment newEnv = this.makeEnvironment(environment);
 		if (arguments[0].isPair()) {
 			return arguments[0].evalSequence(newEnv);
 		} else {
@@ -49,6 +48,8 @@ public abstract class Exp implements Classifiable, Closure {
 			}
 		}
 	}
+
+	public abstract Environment  makeEnvironment(Environment parent) throws GenyrisException;
 
 	public boolean isNil() {
 		return false;

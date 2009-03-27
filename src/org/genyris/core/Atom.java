@@ -3,6 +3,7 @@ package org.genyris.core;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
+import org.genyris.interp.ExpressionEnvironment;
 
 public abstract class Atom extends ExpWithEmbeddedClasses {
 
@@ -44,5 +45,7 @@ public abstract class Atom extends ExpWithEmbeddedClasses {
 		throw new AccessException("attempt to set car of non-cons");
 	}
 
-
+	public Environment  makeEnvironment(Environment parent) throws GenyrisException {
+		return new ExpressionEnvironment(parent, this);
+	}
 }

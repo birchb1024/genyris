@@ -12,6 +12,7 @@ import org.genyris.format.AbstractFormatter;
 import org.genyris.format.BasicFormatter;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
+import org.genyris.interp.PairEnvironment;
 
 public class Pair extends ExpWithEmbeddedClasses {
 
@@ -50,7 +51,7 @@ public class Pair extends ExpWithEmbeddedClasses {
         return _cdr;
     }
 
-    public Exp setCar(Exp exp) throws AccessException {
+    public Exp setCar(Exp exp) {
         this._car = exp;;
         return this;
     }
@@ -116,6 +117,9 @@ public class Pair extends ExpWithEmbeddedClasses {
 			count++;
 		}
 		throw new AccessException("nth could not find item: " + number);
+	}
+	public Environment makeEnvironment(Environment parent) throws GenyrisException {
+		return new PairEnvironment(parent, this);
 	}
 
 }

@@ -59,9 +59,6 @@ public abstract class AbstractEnvironment implements Environment {
 	public abstract Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol) throws UnboundException;
 
 
-	public abstract Exp lookupVariableShallow(Exp symbol) throws UnboundException;
-
-
 	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
 		if(symbol instanceof Symbol) {
 			((Symbol)symbol).setVariableValue(this, valu);

@@ -30,13 +30,6 @@ public class StandardEnvironment extends AbstractEnvironment {
     	return new HashMap();
     }
 
-    public StandardEnvironment(NilSymbol nil) {
-        _parent = null;
-        _frame = mapFactory();
-        NIL = nil;
-        _table = null;
-    }
-
     public StandardEnvironment(Internable table, NilSymbol nil) {
         _parent = null;
         _frame = mapFactory();
@@ -47,6 +40,7 @@ public class StandardEnvironment extends AbstractEnvironment {
     }
 
 	private void initConstants(Internable table) {
+		if(table == null) return;
 		_self = table.SELF();
 		  _classes = table.CLASSES();
 		  _superclasses = table.SUPERCLASSES();

@@ -75,7 +75,7 @@ public class EnvironmentTest extends TestCase {
 	}
 	
 	public void testEnvEvalSelf() throws Exception {		
-		Environment env = new StandardEnvironment(new NilSymbol());
+		Environment env = new StandardEnvironment(null, new NilSymbol());
 		Bignum int42 = new Bignum(42);
 		
 		assertEquals(int42, int42.eval(env));
@@ -85,7 +85,7 @@ public class EnvironmentTest extends TestCase {
 	}
 
 	public void testEnvEvalVariables() throws Exception {		
-		Environment env = new StandardEnvironment(new NilSymbol());
+		Environment env = new StandardEnvironment(null, new NilSymbol());
 		SimpleSymbol answer = new SimpleSymbol("answer");
 		Bignum int42 = new Bignum(42);
 		env.defineVariable(answer, int42);

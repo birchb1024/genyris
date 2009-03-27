@@ -11,7 +11,6 @@ import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
-import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
 public class LazyProcedure extends AbstractClosure {
@@ -25,11 +24,11 @@ public class LazyProcedure extends AbstractClosure {
         super( env,  expression,  appl);
     }
 
-    public Exp[] computeArguments(Environment env, Exp exp) throws AccessException {
+    public Exp[] computeArguments(Environment env, Exp exp) throws GenyrisException {
         return makeExpArrayFromList(exp, env.getNil());
     }
 
-    private Exp[] makeExpArrayFromList(Exp exp, Symbol NIL) throws AccessException {
+    private Exp[] makeExpArrayFromList(Exp exp, Symbol NIL) throws GenyrisException {
         int i = 0;
         Exp[] result = new Exp[exp.length(NIL)];
         while( exp.isPair()) {
