@@ -11,12 +11,11 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
 import org.genyris.core.Dictionary;
-import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.StrinG;
 import org.genyris.core.SymbolTable;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.StandardEnvironment;
@@ -59,7 +58,7 @@ public class EqualityTest extends TestCase {
 
     public void testFrame() throws Exception {
         Interpreter interp = new Interpreter();
-        Exp a = new SimpleSymbol("a");
+        SimpleSymbol a = new SimpleSymbol("a");
         Dictionary f1 = new Dictionary(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
         f1.defineVariableRaw(a, new StrinG("foo"));
         Dictionary f2 = new Dictionary(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));

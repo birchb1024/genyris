@@ -34,7 +34,7 @@ public class BuiltinClasses {
 
 	private static Dictionary makeTheClass(Environment env,
 			Dictionary superClass, Internable table, Exp standardClassDict,
-			SimpleSymbol classname, Exp symbolicName) throws GenyrisException {
+			SimpleSymbol classname, SimpleSymbol symbolicName) throws GenyrisException {
 		Dictionary newClass = new Dictionary(classname, symbolicName, env);
 		newClass.defineVariableRaw(table.SUPERCLASSES(), env.getNil());
 		newClass.defineVariableRaw(table.SUBCLASSES(), env.getNil());

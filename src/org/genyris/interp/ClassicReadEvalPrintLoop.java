@@ -50,7 +50,7 @@ public class ClassicReadEvalPrintLoop {
 	}
 
 	private static void setArgs(String[] args, Interpreter interpreter) throws GenyrisException {
-		Exp ARGS = interpreter.intern(Constants.GENYRIS + "system#"
+		Symbol ARGS = interpreter.intern(Constants.GENYRIS + "system#"
 				+ Constants.ARGS);
 		Exp argsAlist = makeArgList(interpreter.getSymbolTable().NIL(),args);
 		interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);

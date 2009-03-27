@@ -101,7 +101,7 @@ public class Interpreter {
             throws UnboundException, GenyrisException {
         Dictionary stringClass = (Dictionary) _globalEnvironment
                 .lookupVariableValue(_table.internString(className));
-             Symbol nameSymbol = _table.internString(proc.getName());
+        SimpleSymbol nameSymbol = _table.internString(proc.getName());
             stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(
                     stringClass, null, (ApplicableFunction) proc));
 
@@ -138,11 +138,11 @@ public class Interpreter {
         return _table;
     }
 
-    public Symbol intern(String name) {
+    public SimpleSymbol intern(String name) {
         return _table.internString(name);
     }
 
-    public Symbol intern(SimpleSymbol name) {
+    public SimpleSymbol intern(SimpleSymbol name) {
         return _table.internSymbol(name);
     }
 

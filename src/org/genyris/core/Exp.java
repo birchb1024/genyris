@@ -65,6 +65,12 @@ public abstract class Exp implements Classifiable, Closure {
 
 	public abstract String toString();
 
+	public static void assertIsSymbol(Exp predicate, String message) throws GenyrisException {
+		if (!(predicate instanceof SimpleSymbol)) {
+            throw new GenyrisException(message + predicate);
+        }
+	}
+
 
 
 }

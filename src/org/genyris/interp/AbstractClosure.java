@@ -117,14 +117,14 @@ public abstract class AbstractClosure extends Atom implements
 			return _returnClass;
 		}
 		Exp args = _lambdaExpression.cdr().car();
-		Exp returnTypeSymbol = NIL();
+		Symbol returnTypeSymbolFound = NIL();
 		Exp possibleReturnClass = NIL();
 		if (args != NIL()) {
 			Exp tmp = args;
 			while (tmp.cdr() != NIL()) { // TODO refactor this loop into
-				if (!(tmp.cdr() instanceof Pair)) {
-					returnTypeSymbol = tmp.cdr();
-					possibleReturnClass = _env.lookupVariableValue(returnTypeSymbol);
+				if (tmp.cdr() instanceof Symbol) {
+					returnTypeSymbolFound = (Symbol)tmp.cdr();
+					possibleReturnClass = _env.lookupVariableValue(returnTypeSymbolFound);
 					break;
 				}
 				tmp = tmp.cdr();

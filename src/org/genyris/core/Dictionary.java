@@ -68,16 +68,7 @@ public class Dictionary extends Atom implements Environment {
 		return new Pair(_parent.getSymbolTable().DICT(), result);
 	}
 
-	public void defineVariableRaw(Exp exp, Exp valu) throws GenyrisException {
-		if(exp instanceof DynamicSymbol) {
-			exp = ((DynamicSymbol)exp).getRealSymbol();
-		}
-
-		if (!(exp instanceof Symbol)) {
-			throw new GenyrisException("cannot define non-symbol: "
-					+ exp.toString());
-		}
-		Exp sym = exp;
+	public void defineVariableRaw(SimpleSymbol sym, Exp valu) throws GenyrisException {
 		if (sym == CLASSES()) {
 			setClasses(valu, _parent.getNil());
 			return;
@@ -88,7 +79,7 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public void defineDynamicVariable(DynamicSymbol sym, Exp valu) throws GenyrisException {
-		defineVariableRaw(sym, valu);
+		defineVariableRaw(sym.getRealSymbol(), valu);
 	}
 
 	private Exp CLASSES() {
@@ -172,10 +163,8 @@ public class Dictionary extends Atom implements Environment {
 				+ symbol.toString());
 	}
 
-	public void setVariableValue(Exp symbol, Exp valu) throws UnboundException {
-		if(symbol instanceof Symbol) {
-			((Symbol)symbol).setVariableValue(this, valu);
-		}	
+	public void setVariableValue(Symbol symbol, Exp valu) throws UnboundException {
+		symbol.setVariableValue(this, valu);
 	}
 	public void setDynamicVariableValueRaw(SimpleSymbol sym, Exp valu) throws UnboundException {
 		if (sym == CLASSES()) {
@@ -261,12 +250,8 @@ public class Dictionary extends Atom implements Environment {
 		return this;
 	}
 
-	public Exp lookupVariableValue(Exp symbol) throws UnboundException {
-		if(symbol instanceof Symbol ) { // TODO make parameter Symbol and remove?
-			return ((Symbol)symbol).lookupVariableValue(this);
-		} else {
-			throw new UnboundException("lookupVariableValue needed Symbol: " + symbol);
-		}
+	public Exp lookupVariableValue(Symbol symbol) throws UnboundException {
+		return symbol.lookupVariableValue(this);
 	}
 	public Exp lookupDynamicVariableValue(DynamicSymbol dsymbol) throws UnboundException {
 		Symbol symbol = ((DynamicSymbol)dsymbol).getRealSymbol();
@@ -299,10 +284,8 @@ public class Dictionary extends Atom implements Environment {
 		throw new UnboundException("no lexical symbols in Dictionary: " + symbol);		
 	}
 
-	public void defineVariable(Exp symbol, Exp valu) throws GenyrisException {
-		if(symbol instanceof Symbol) {
-			((Symbol)symbol).defineVariable(this, valu);
-		}		
+	public void defineVariable(Symbol symbol, Exp valu) throws GenyrisException {
+			symbol.defineVariable(this, valu);
 	}
 
 

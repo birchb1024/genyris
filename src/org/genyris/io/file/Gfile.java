@@ -43,6 +43,7 @@ public class Gfile {
         return null;
     }
     public static class FileOpenMethod extends AbstractMethod {
+    	private static Class[] types = {StrinG.class, Symbol.class};
 
         public FileOpenMethod(Interpreter interp) {
             super(interp, "static-open");
@@ -50,17 +51,9 @@ public class Gfile {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            if (arguments.length > 1) {
-                if (!(arguments[0] instanceof StrinG)) {
-                    throw new GenyrisException("Non-string filname passed to File_static-open");
-                }
-                if (!(arguments[1] instanceof Symbol)) {
-                    throw new GenyrisException("Non-symbol mode passed to File_static-open");
-                }
-                return open((StrinG)arguments[0], (Symbol)arguments[1]);
-            } else {
-                throw new GenyrisException("Missing argument to File_open");
-            }
+        	checkMinArguments(arguments, 2);
+        	checkArgumentTypes(types, arguments);
+            return open((StrinG)arguments[0], (Symbol)arguments[1]);
         }
     }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {

@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.ClassicFunction;
@@ -24,10 +25,12 @@ public class DefFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		checkMinArguments(arguments, 1);
+		Class[] types = {Symbol.class};
+		checkArgumentTypes(types, arguments);
 		Exp lambdaExpression = new Pair(_lambda, arrayToList(arguments).cdr());
 		EagerProcedure fn = new EagerProcedure(envForBindOperations,
 				lambdaExpression, new ClassicFunction(arguments[0].toString(), _interp));
-		envForBindOperations.defineVariable(arguments[0], fn);
+		envForBindOperations.defineVariable((Symbol)arguments[0], fn);
 		return fn;
 	}
 

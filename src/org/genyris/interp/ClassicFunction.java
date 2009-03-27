@@ -58,20 +58,20 @@ public class ClassicFunction extends ApplicableFunction {
                         throw new GenyrisException("function argument class spec not a symbol: "
                                 + right.toString());
                     }
-                    Exp klass = proc.getEnv().lookupVariableValue(right); 
+                    Exp klass = proc.getEnv().lookupVariableValue((Symbol)right); 
                     try {
                         TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (Dictionary)klass);
                     }
                     catch (GenyrisException e) {
                         throw new GenyrisException("Type mismatch in function call for " + left);
                     }
-                    bindings.put(left, arguments[i]);
+                    bindings.put((Symbol)left, arguments[i]);
                 }
                 else if (!(formal instanceof Symbol)) {
                     throw new GenyrisException("function argument not a symbol: "
                             + formal.toString());
                 } else {
-                    bindings.put(formal, arguments[i]);
+                    bindings.put((Symbol)formal, arguments[i]);
                 }
             }
             formals = formals.cdr();

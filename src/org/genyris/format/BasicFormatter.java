@@ -16,6 +16,7 @@ import org.genyris.core.Pair;
 import org.genyris.core.PairWithcolons;
 import org.genyris.core.Dictionary;
 import org.genyris.core.StrinG;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -29,7 +30,7 @@ public class BasicFormatter extends  AbstractFormatter {
     }
 
     public void visitDictionary(Dictionary frame) throws GenyrisException {
-        Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
+        Symbol standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
         Dictionary standardClass;
         standardClass = (Dictionary) frame.getParent().lookupVariableValue(standardClassSymbol);
 

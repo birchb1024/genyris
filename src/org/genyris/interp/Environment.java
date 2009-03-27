@@ -14,15 +14,15 @@ import org.genyris.exception.GenyrisException;
 
 public interface Environment {
 
-    public Exp lookupVariableValue(Exp symbol) throws UnboundException;
+    public Exp lookupVariableValue(Symbol symbol) throws UnboundException;
     public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException;
     public Exp lookupLexicalVariableValue(SimpleSymbol symbol) throws UnboundException;
 
-    public void defineVariable(Exp symbol, Exp valu) throws GenyrisException;
+    public void defineVariable(Symbol symbol, Exp valu) throws GenyrisException;
     public void defineLexicalVariable(SimpleSymbol symbol, Exp valu) throws GenyrisException;
     public void defineDynamicVariable(DynamicSymbol symbol, Exp valu) throws GenyrisException;
 
-    public void setVariableValue(Exp symbol, Exp valu) throws UnboundException;
+    public void setVariableValue(Symbol symbol, Exp valu) throws UnboundException;
     public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException;
     public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException;
 

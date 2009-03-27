@@ -12,6 +12,7 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.exception.GenyrisInterruptedException;
@@ -50,7 +51,7 @@ public class SpawnFunction extends ApplicableFunction {
 				interpreter = new Interpreter();
 				interpreter.init(false);
 				Writer output = new PrintWriter(System.out);
-				Exp ARGS = interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
+				SimpleSymbol ARGS = interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
 				interpreter.getGlobalEnv().defineVariable(ARGS, arrayToExpList(interpreter.NIL, arguments));
 				SourceLoader.loadScriptFromFile(interpreter, filename, output);
 			} catch (GenyrisException e) {

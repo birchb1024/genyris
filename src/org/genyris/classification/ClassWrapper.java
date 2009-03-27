@@ -113,7 +113,7 @@ public class ClassWrapper {
 	public static Dictionary makeClass(Environment env, Symbol klassname,
 			Exp superklasses) throws GenyrisException {
 		Exp NIL = env.getNil();
-		Exp standardClassSymbol = env.getSymbolTable().STANDARDCLASS();
+		Symbol standardClassSymbol = env.getSymbolTable().STANDARDCLASS();
 		Exp standardClass = env.lookupVariableValue(standardClassSymbol);
 		Dictionary newClass = new Dictionary(env);
 		newClass.addClass(standardClass);
@@ -130,7 +130,7 @@ public class ClassWrapper {
 							env, superklasses));
 			Exp sklist = superklasses;
 			while (sklist != NIL) {
-				Dictionary sk = (Dictionary) (env.lookupVariableValue(sklist.car()));
+				Dictionary sk = (Dictionary) (env.lookupVariableValue((Symbol)sklist.car()));
 				Exp subklasses = NIL;
 				try {
 					subklasses = sk.lookupVariableShallow(env.getSymbolTable().SUBCLASSES());
@@ -152,7 +152,7 @@ public class ClassWrapper {
 			throws GenyrisException {
 		Exp result = env.getNil();
 		while (superklasses != env.getNil()) {
-			result = new Pair(env.lookupVariableValue(superklasses.car()),
+			result = new Pair(env.lookupVariableValue((Symbol)superklasses.car()),
 					result);
 			superklasses = superklasses.cdr();
 		}

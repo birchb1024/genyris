@@ -7,9 +7,11 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
 import org.genyris.dl.TripleSet;
 import org.genyris.exception.GenyrisException;
@@ -32,7 +34,9 @@ public class ObjectFunction extends ApplicableFunction {
 		for (int i = 0; i < arguments.length; i++) {
 			if (!arguments[i].isPair())
 				throw new GenyrisException("argument to dict not a list");
-			dict.defineVariable(arguments[i].car(), 
+			if (!(arguments[i].car() instanceof DynamicSymbol))
+				throw new GenyrisException("argument to dict not a dynamic symbol");
+			dict.defineVariable((Symbol)arguments[i].car(), 
 					arguments[i].cdr().eval(env));
 		}
 		return dict;

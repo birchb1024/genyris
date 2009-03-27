@@ -31,7 +31,7 @@ public class HTMLFormatter extends AbstractFormatter {
 	}
 
 	public void visitDictionary(Dictionary frame) throws GenyrisException {
-		Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
+		Symbol standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
 		Dictionary standardClass;
 		standardClass = (Dictionary) frame.getParent().lookupVariableValue(
 				standardClassSymbol);

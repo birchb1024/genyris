@@ -6,6 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -20,7 +21,9 @@ public class SetFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		checkArguments(arguments, 2);
-        env.setVariableValue(arguments[0], arguments[1]);
+		Class[] types = {Symbol.class};
+		checkArgumentTypes(types, arguments);
+        env.setVariableValue((Symbol)arguments[0], arguments[1]);
         return arguments[1];
     }
 }

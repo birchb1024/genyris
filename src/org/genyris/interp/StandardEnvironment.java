@@ -66,14 +66,6 @@ public class StandardEnvironment extends AbstractEnvironment {
         init();
     }
 
-    public Exp lookupVariableShallow(Exp symbol) throws UnboundException {
-        if( _frame.containsKey(symbol) ) {
-            return (Exp)_frame.get(symbol);
-        } else {
-            throw new UnboundException("frame does not contain key: " + symbol.toString());
-        }
-    }
-
     public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException {
         if( _frame.containsKey(symbol) ) {
             _frame.put(symbol, valu);

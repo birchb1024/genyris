@@ -25,9 +25,7 @@ public class Triple extends Atom {
         Exp subject = exp.car();
         Exp predicate = exp.cdr().car();
         Exp object = exp.cdr().cdr().car();
-        if (!(predicate instanceof SimpleSymbol)) {
-            throw new GenyrisException("mkTripleFromList was expecting a Symbol predicate, got: " + predicate);
-        }
+        assertIsSymbol(predicate, "mkTripleFromList was expecting a Symbol predicate, got: ");
         return new Triple(subject, (SimpleSymbol) predicate, object);
     }
 

@@ -1,6 +1,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -16,8 +17,10 @@ public class BoundFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {
 		checkArguments(arguments, 1);
+		Class[] types = {Symbol.class};
+		this.checkArgumentTypes(types, arguments);
         try {
-            envForBindOperations.lookupVariableValue(arguments[0]);
+            envForBindOperations.lookupVariableValue((Symbol)arguments[0]);
         } catch (UnboundException e) {
             return NIL;
         }

@@ -19,6 +19,7 @@ import org.genyris.core.Dictionary;
 import org.genyris.core.StrinG;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.core.URISymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -149,7 +150,7 @@ public class IndentedFormatter extends AbstractFormatter {
 
     public void visitDictionary(Dictionary frame) throws GenyrisException {
         try {
-            Exp standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
+            Symbol standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
             Dictionary standardClass;
             standardClass = (Dictionary) frame.getParent().lookupVariableValue(standardClassSymbol);
             if (frame.isTaggedWith(standardClass)) {

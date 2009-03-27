@@ -24,9 +24,8 @@ public class DefineClassFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 
 		checkMinArguments(arguments, 1);
-        if(! (arguments[0] instanceof Symbol)) {
-            throw new GenyrisException("class expects a symbol.");
-        }
+		Class[] types = {Symbol.class};
+		checkArgumentTypes(types, arguments);
         Symbol klassname = (Symbol)arguments[0];
         Exp superklasses = ( arguments.length > 1 ? arguments[1] : NIL);
         Exp newClass = ClassWrapper.makeClass(env, klassname, superklasses);
