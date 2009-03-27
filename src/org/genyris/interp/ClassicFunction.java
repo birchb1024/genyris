@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.Dictionary;
+import org.genyris.core.StandardClass;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -59,8 +59,9 @@ public class ClassicFunction extends ApplicableFunction {
                                 + right.toString());
                     }
                     Exp klass = proc.getEnv().lookupVariableValue((Symbol)right); 
+                    StandardClass.assertIsThisObjectAClass(klass);
                     try {
-                        TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (Dictionary)klass);
+                        TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (StandardClass)klass);
                     }
                     catch (GenyrisException e) {
                         throw new GenyrisException("Type mismatch in function call for " + left);
@@ -82,7 +83,7 @@ public class ClassicFunction extends ApplicableFunction {
         // and the dynamic environment for the object stuff.
         Environment newEnv = new DynamicEnvironment(proc.getEnv(), bindings, envForBindOperations);
         Exp result = proc.getBody().evalSequence(newEnv);
-        Dictionary returnClass = proc.getReturnClassOrNull();
+        StandardClass returnClass = proc.getReturnClassOrNull();
         if(returnClass != null) {
             try {
                 TagFunction.validateObjectInClass(proc.getEnv(), result, returnClass);

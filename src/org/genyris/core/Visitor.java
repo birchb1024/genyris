@@ -5,7 +5,6 @@
 //
 package org.genyris.core;
 
-import org.genyris.classification.ClassWrapper;
 import org.genyris.dl.Triple;
 import org.genyris.dl.TripleSet;
 import org.genyris.exception.GenyrisException;
@@ -25,7 +24,7 @@ public interface Visitor {
 
 	public void visitBignum(Bignum bignum) throws GenyrisException;
 
-	public void visitClassWrapper(ClassWrapper klass) throws GenyrisException;
+	public void visitStandardClass(StandardClass klass) throws GenyrisException;
 
 	public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp)
 			throws GenyrisException;

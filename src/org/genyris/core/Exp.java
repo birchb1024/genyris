@@ -38,9 +38,10 @@ public abstract class Exp implements Classifiable, Closure {
 			return arguments[0].evalSequence(newEnv);
 		} else {
 			try {
-				Dictionary klass = (Dictionary) arguments[0].eval(newEnv);
+				Exp result = arguments[0].eval(newEnv);
+				StandardClass.assertIsThisObjectAClass(result);
 				// call validator if it exists
-				TagFunction.validateObjectInClass(environment, this, klass);
+				TagFunction.validateObjectInClass(environment, this, (StandardClass)result);
 				return this;
 			} catch (ClassCastException e) {
 				throw new GenyrisException("type tag failure: " + arguments[0]

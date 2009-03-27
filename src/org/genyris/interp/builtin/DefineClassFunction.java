@@ -5,9 +5,9 @@
 //
 package org.genyris.interp.builtin;
 
-import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
+import org.genyris.core.StandardClass;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -28,7 +28,7 @@ public class DefineClassFunction extends ApplicableFunction {
 		checkArgumentTypes(types, arguments);
         Symbol klassname = (Symbol)arguments[0];
         Exp superklasses = ( arguments.length > 1 ? arguments[1] : NIL);
-        Exp newClass = ClassWrapper.makeClass(env, klassname, superklasses);
+        Exp newClass = StandardClass.makeClass(env, klassname, superklasses);
         if (arguments.length > 2) {
             Exp body = arrayToList(arguments);
             body = body.cdr().cdr();

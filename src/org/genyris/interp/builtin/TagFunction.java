@@ -5,8 +5,6 @@
 //
 package org.genyris.interp.builtin;
 
-import org.genyris.classification.ClassWrapper;
-import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StandardClass;
@@ -49,7 +47,6 @@ public class TagFunction extends ApplicableFunction {
 		// TODO DRY
 		Exp NIL = environment.getNil();
 		Exp validator = null;
-		ClassWrapper klass = new ClassWrapper((StandardClass)klassobject);
 		try {
 			validator = klassobject.lookupVariableValue(VALIDATE());
 		} catch (UnboundException ignore) {
@@ -59,23 +56,22 @@ public class TagFunction extends ApplicableFunction {
 		args[0] = object;
 		Exp result = validator.applyFunction(environment, args);
 		if (result == NIL) {
-			throw new GenyrisException("class " + klass.getClassName()
+			throw new GenyrisException("class " + klassobject.getClassName()
 					+ " validator error for object " + object);
 		}
 
 	}
 
 	public static void validateObjectInClass(Environment environment,
-			Exp object, Dictionary klassobject) throws GenyrisException {
+			Exp object, StandardClass klassobject) throws GenyrisException {
 		Exp NIL = environment.getNil();
 		Exp validator = null;
-		ClassWrapper klass = new ClassWrapper((StandardClass)klassobject);
 		try {
 			validator = klassobject.lookupVariableValue(VALIDATE(environment));
 		} catch (UnboundException ignore) { 
-			if (!klass.isInstance(object)) {
+			if (!klassobject.isInstance(object)) {
 				throw new GenyrisTypeMismatchException("class "
-						+ klass.getClassName() + " validator error for object "
+						+ klassobject.getClassName() + " validator error for object "
 						+ object);
 			}
 		}
@@ -84,7 +80,7 @@ public class TagFunction extends ApplicableFunction {
 			args[0] = object;
 			Exp result = validator.applyFunction(environment, args);
 			if (result == NIL) {
-				throw new GenyrisException("class " + klass.getClassName()
+				throw new GenyrisException("class " + klassobject.getClassName()
 						+ " validator error for object " + object);
 			}
 		}

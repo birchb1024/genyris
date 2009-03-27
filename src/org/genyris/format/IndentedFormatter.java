@@ -8,24 +8,20 @@ package org.genyris.format;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
+import org.genyris.core.NilSymbol;
 import org.genyris.core.Pair;
 import org.genyris.core.PairWithcolons;
-import org.genyris.core.Dictionary;
-import org.genyris.core.StandardClass;
-import org.genyris.core.StrinG;
-import org.genyris.core.NilSymbol;
 import org.genyris.core.SimpleSymbol;
-import org.genyris.core.Symbol;
+import org.genyris.core.StrinG;
 import org.genyris.core.URISymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.UnboundException;
 
 public class IndentedFormatter extends AbstractFormatter {
 
@@ -45,7 +41,7 @@ public class IndentedFormatter extends AbstractFormatter {
             _output.write("   ");
     }
 
-    public void printPair(Pair cons) throws IOException, GenyrisException  {
+    public void printPair(Pair cons) throws GenyrisException, IOException  {
         // TODO - Yuck!
         _consDepth += 1;
         Exp head = cons;
@@ -150,17 +146,6 @@ public class IndentedFormatter extends AbstractFormatter {
     }
 
     public void visitDictionary(Dictionary frame) throws GenyrisException {
-        try {
-            Symbol standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
-            Dictionary standardClass;
-            standardClass = (Dictionary) frame.getParent().lookupVariableValue(standardClassSymbol);
-            if (frame.isTaggedWith(standardClass)) {
-                new ClassWrapper((StandardClass)frame).acceptVisitor(this);
-                return;
-            }
-        }
-        catch (UnboundException ignore) {
-        }
 
         try {
             printPair((Pair) frame.asAlist());

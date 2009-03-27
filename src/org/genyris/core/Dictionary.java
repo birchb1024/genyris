@@ -216,8 +216,9 @@ public class Dictionary extends Atom implements Environment {
 			return arguments[0].evalSequence(newEnv);
 		} else {
 			try {
-				Dictionary klass = (Dictionary) arguments[0].eval(newEnv);
-				TagFunction.validateObjectInClass(environment, this, klass);
+				Exp result = arguments[0].eval(newEnv);
+				StandardClass.assertIsThisObjectAClass(result);
+				TagFunction.validateObjectInClass(environment, this, (StandardClass) result);
 				return this;
 			} catch (ClassCastException e) {
 				throw new GenyrisException("type tag failure: " + arguments[0]

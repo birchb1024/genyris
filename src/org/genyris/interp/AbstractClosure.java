@@ -6,9 +6,9 @@
 package org.genyris.interp;
 
 import org.genyris.core.Atom;
-import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
+import org.genyris.core.StandardClass;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -20,7 +20,7 @@ public abstract class AbstractClosure extends Atom implements
 	final Exp _lambdaExpression;
 	final ApplicableFunction _functionToApply;
 	protected int _numberOfRequiredArguments;
-	Dictionary _returnClass;
+	StandardClass _returnClass;
 
 	public AbstractClosure(Environment environment, Exp expression,
 			ApplicableFunction appl) {
@@ -112,7 +112,7 @@ public abstract class AbstractClosure extends Atom implements
 		return lastArgument(args);
 	}
 
-	public Dictionary getReturnClassOrNull() throws GenyrisException {
+	public StandardClass getReturnClassOrNull() throws GenyrisException {
 		if (_returnClass != null) {
 			return _returnClass;
 		}
@@ -133,8 +133,8 @@ public abstract class AbstractClosure extends Atom implements
 		if(possibleReturnClass == NIL()) {
 			return null;			
 		}
-		if(possibleReturnClass instanceof Dictionary) {
-			return (_returnClass = (Dictionary)possibleReturnClass);			
+		if(possibleReturnClass instanceof StandardClass) {
+			return (_returnClass = (StandardClass)possibleReturnClass);			
 		}
 		throw new GenyrisException(possibleReturnClass + " return class not a class.");
 	}

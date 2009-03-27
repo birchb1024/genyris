@@ -7,15 +7,14 @@ package org.genyris.format;
 
 import java.io.Writer;
 
-import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
+import org.genyris.core.NilSymbol;
 import org.genyris.core.Pair;
-import org.genyris.core.Dictionary;
 import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
-import org.genyris.core.NilSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -38,7 +37,7 @@ public class HTMLFormatter extends AbstractFormatter {
 				standardClassSymbol);
 
 		if (frame.isTaggedWith(standardClass)) {
-			new ClassWrapper((StandardClass)frame).acceptVisitor(this);
+			((StandardClass)frame).acceptVisitor(this);
 			return;
 		}
 		frame.asAlist().acceptVisitor(this);

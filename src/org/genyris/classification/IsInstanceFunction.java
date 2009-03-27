@@ -24,8 +24,8 @@ public class IsInstanceFunction extends ApplicableFunction {
         checkArguments(arguments, 2);
         Class[] types = {Exp.class, Dictionary.class, };
         checkArgumentTypes(types, arguments);
-        ClassWrapper.isThisObjectAClass(arguments[1]);
-        ClassWrapper cw = new ClassWrapper((StandardClass)arguments[1]);
+        StandardClass.assertIsThisObjectAClass(arguments[1]);
+        StandardClass cw = (StandardClass)arguments[1];
         if (cw.isInstance(arguments[0]) )
             return envForBindOperations.getSymbolTable().TRUE();
         else

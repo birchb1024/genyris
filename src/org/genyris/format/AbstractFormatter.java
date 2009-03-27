@@ -8,7 +8,6 @@ package org.genyris.format;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.genyris.classification.ClassWrapper;
 import org.genyris.core.Bignum;
 import org.genyris.core.Dictionary;
 import org.genyris.core.DynamicSymbol;
@@ -16,6 +15,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
+import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
@@ -38,6 +38,10 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 
 	public abstract void visitDictionary(Dictionary frame) throws GenyrisException;
 
+    public void visitStandardClass(StandardClass klass) throws GenyrisException {
+    	write(klass.toString());
+    }
+    
 	public abstract void visitEagerProc(EagerProcedure proc)
 			throws GenyrisException;
 
@@ -72,10 +76,6 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 	public void visitDynamicEnvironment(DynamicEnvironment env)
 			throws GenyrisException {
 		write(env.toString());
-	}
-
-	public void visitClassWrapper(ClassWrapper klass) throws GenyrisException {
-		write(klass.toString());
 	}
 
 	public void printClassNames(Exp result, Interpreter interp)
