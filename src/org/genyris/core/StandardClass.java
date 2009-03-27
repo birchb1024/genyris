@@ -12,8 +12,9 @@ public class StandardClass extends Dictionary {
 
 	private SimpleSymbol NIL;
 
-	public StandardClass(SimpleSymbol classname, SimpleSymbol symbolicName, Environment env) {
-		super( classname,  symbolicName,  env);
+	public StandardClass(SimpleSymbol classname, SimpleSymbol symbolicName,
+			Environment env) {
+		super(classname, symbolicName, env);
 		CLASSNAME = env.getSymbolTable().CLASSNAME();
 		SUPERCLASSES = env.getSymbolTable().SUPERCLASSES();
 		SUBCLASSES = env.getSymbolTable().SUBCLASSES();
@@ -28,28 +29,34 @@ public class StandardClass extends Dictionary {
 		NIL = env.getNil();
 	}
 
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.STANDARDCLASS();
+	}
+
 	public static StandardClass mkClass(String name, Environment env,
 			StandardClass superClass) throws GenyrisException {
 		Internable table = env.getSymbolTable();
 		Symbol STANDARDCLASS = table.STANDARDCLASS();
-		StandardClass standardClassDict = (StandardClass)env.lookupVariableValue(STANDARDCLASS);
+		StandardClass standardClassDict = (StandardClass) env
+				.lookupVariableValue(STANDARDCLASS);
 		SimpleSymbol classname = table.CLASSNAME();
 		SimpleSymbol symbolicName = table.internString(name);
 
 		StandardClass newClass = makeTheClass(env, superClass, table,
 				standardClassDict, classname, symbolicName);
 		GlobalDescriptions.updateClassSingleSuper(env, table, symbolicName,
-				(superClass!=null?(Symbol) superClass.lookupVariableShallow(classname):null));
+				(superClass != null ? (Symbol) superClass
+						.lookupVariableShallow(classname) : null));
 		return newClass;
 	}
 
 	private static StandardClass makeTheClass(Environment env,
-			StandardClass superClass, Internable table, StandardClass standardClassDict,
-			SimpleSymbol classname, SimpleSymbol symbolicName) throws GenyrisException {
+			StandardClass superClass, Internable table,
+			StandardClass standardClassDict, SimpleSymbol classname,
+			SimpleSymbol symbolicName) throws GenyrisException {
 		StandardClass newClass = new StandardClass(classname, symbolicName, env);
 		newClass.defineVariableRaw(table.SUPERCLASSES(), env.getNil());
 		newClass.defineVariableRaw(table.SUBCLASSES(), env.getNil());
-		newClass.addClass(standardClassDict);
 		if (superClass != null)
 			newClass.addSuperClass(superClass);
 		env.defineVariable(symbolicName, newClass);
@@ -90,7 +97,7 @@ public class StandardClass extends Dictionary {
 		}
 	}
 
-	public void addSuperClass(StandardClass klass) throws GenyrisException {
+	public void addSuperClass(StandardClass klass) throws UnboundException {
 		if (klass == null)
 			return;
 
@@ -122,45 +129,40 @@ public class StandardClass extends Dictionary {
 		try {
 			return lookupVariableShallow(CLASSNAME).toString();
 		} catch (UnboundException e) {
-			return "anonymous";
+			return "Anonymous";
 		}
 	}
 
 	public static StandardClass makeClass(Environment env, Symbol klassname,
 			Exp superklasses) throws GenyrisException {
 		Exp NIL = env.getNil();
-		Symbol standardClassSymbol = env.getSymbolTable().STANDARDCLASS();
-		StandardClass standardClass = (StandardClass)env.lookupVariableValue(standardClassSymbol);
 		StandardClass newClass = new StandardClass(env);
-		newClass.addClass(standardClass);
-		newClass.defineVariableRaw(env.getSymbolTable().CLASSNAME(),
-				klassname);
-		newClass.defineVariableRaw(env.getSymbolTable().CLASSES(),
-				new Pair(standardClass, NIL));
+		newClass.defineVariableRaw(env.getSymbolTable().CLASSNAME(), klassname);
 		newClass.defineVariableRaw(env.getSymbolTable().SUBCLASSES(), NIL);
 		if (superklasses == NIL)
 			superklasses = new Pair(env.getSymbolTable().THING(), NIL);
-		{
-			newClass.defineVariableRaw(
-					env.getSymbolTable().SUPERCLASSES(), lookupClasses(
-							env, superklasses));
-			Exp sklist = superklasses;
-			while (sklist != NIL) {
-				StandardClass sk = (StandardClass) (env.lookupVariableValue((Symbol)sklist.car()));
-				Exp subklasses = NIL;
-				try {
-					subklasses = sk.lookupVariableShallow(env.getSymbolTable().SUBCLASSES());
-				} catch (UnboundException ignore) {
-					sk.defineVariable(env.getSymbolTable().SUBCLASSES(),
-							NIL);
-				}
-				sk.setDynamicVariableValueRaw(env.getSymbolTable().SUBCLASSES(),
-						new Pair(newClass, subklasses));
-				sklist = sklist.cdr();
+
+		newClass.defineVariableRaw(env.getSymbolTable().SUPERCLASSES(), lookupClasses(env, superklasses));
+		Exp sklist = superklasses;
+		while (sklist != NIL) {
+			Exp possibleClass = env.lookupVariableValue((Symbol) sklist.car());
+			StandardClass.assertIsThisObjectAClass(possibleClass);
+			StandardClass superClass = (StandardClass)possibleClass;
+			Exp subklasses = NIL;
+			try {
+				subklasses = superClass.lookupVariableShallow(env.getSymbolTable()
+						.SUBCLASSES());
+			} catch (UnboundException ignore) {
+				superClass.defineVariable(env.getSymbolTable().SUBCLASSES(), NIL);
 			}
+			superClass.setDynamicVariableValueRaw(env.getSymbolTable().SUBCLASSES(),
+					new Pair(newClass, subklasses));
+			sklist = sklist.cdr();
 		}
+
 		env.defineVariable(klassname, newClass);
-		GlobalDescriptions.updateClass(env, env.getSymbolTable(), klassname, superklasses);
+		GlobalDescriptions.updateClass(env, env.getSymbolTable(), klassname,
+				superklasses);
 		return newClass;
 	}
 
@@ -168,15 +170,15 @@ public class StandardClass extends Dictionary {
 			throws GenyrisException {
 		Exp result = env.getNil();
 		while (superklasses != env.getNil()) {
-			result = new Pair(env.lookupVariableValue((Symbol)superklasses.car()),
-					result);
+			result = new Pair(env.lookupVariableValue((Symbol) superklasses
+					.car()), result);
 			superklasses = superklasses.cdr();
 		}
 		return result;
 	}
 
 	public boolean isSubClass(StandardClass klass) throws GenyrisException {
-		if (klass  == this) {
+		if (klass == this) {
 			return true;
 		}
 		Environment env = getParent();
@@ -184,7 +186,7 @@ public class StandardClass extends Dictionary {
 
 		while (mysubclasses != env.getNil()) {
 			assertIsThisObjectAClass(mysubclasses.car());
-			StandardClass firstClass = (StandardClass)mysubclasses.car();
+			StandardClass firstClass = (StandardClass) mysubclasses.car();
 			if (firstClass == klass) {
 				return true;
 			} else if (firstClass.isSubClass(klass)) {
@@ -195,8 +197,9 @@ public class StandardClass extends Dictionary {
 		return false;
 	}
 
-	public static void  assertIsThisObjectAClass(Exp firstClass) throws GenyrisException {
-		if(! (firstClass instanceof StandardClass)) {
+	public static void assertIsThisObjectAClass(Exp firstClass)
+			throws GenyrisException {
+		if (!(firstClass instanceof StandardClass)) {
 			throw new GenyrisException(firstClass + "is not a class.");
 		}
 	}
@@ -208,7 +211,7 @@ public class StandardClass extends Dictionary {
 		classes = object.getClasses(env);
 		while (classes != env.getNil()) {
 			assertIsThisObjectAClass(classes.car());
-			StandardClass klass = (StandardClass) classes.car(); 
+			StandardClass klass = (StandardClass) classes.car();
 			if (classes.car() == this) {
 				return true;
 			}
@@ -219,10 +222,9 @@ public class StandardClass extends Dictionary {
 		}
 		return false;
 	}
-	
+
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitStandardClass(this);
 	}
-
 
 }

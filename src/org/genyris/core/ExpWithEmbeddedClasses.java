@@ -50,7 +50,7 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
     }
     public Exp getClasses(Environment env) {
         Exp NIL = env.getNil();
-        Symbol builtinClassSymbol = this.getBuiltinClassSymbol(env.getSymbolTable());
+        Symbol builtinClassSymbol = getBuiltinClassSymbol(env.getSymbolTable());
         Exp builtinClass;
         try {
             builtinClass = env.lookupVariableValue(builtinClassSymbol);
@@ -59,7 +59,7 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements Classifiable
             throw new Error(builtinClassSymbol + "Missing builting class - fatal!");
         }
         Exp classes = new Pair (builtinClass, NIL);
-        Object arryOfObjects[] = _classes.toArray();
+        Object arryOfObjects[] = _classes.toArray(); // TODO why convert?
         for(int i=0; i< arryOfObjects.length; i++) {
             classes = new Pair ((Exp)arryOfObjects[i], classes);
         }

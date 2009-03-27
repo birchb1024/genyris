@@ -196,14 +196,14 @@ public class Interpreter {
 		Internable table = env.getSymbolTable();
 		SimpleSymbol CLASSNAME = table.CLASSNAME();
 		{
-			// Bootstrap the meta-class
-			standardClassDict = new StandardClass(CLASSNAME,
-					table.STANDARDCLASS(), env);
-			standardClassDict.addClass(standardClassDict);
-			env.defineVariable(table.STANDARDCLASS(), standardClassDict);
+			standardClassDict = new StandardClass(CLASSNAME, table.STANDARDCLASS(), env);
+			standardClassDict.defineVariableRaw(env.getSymbolTable().SUBCLASSES(), table.NIL());
+			standardClassDict.defineVariableRaw(env.getSymbolTable().SUPERCLASSES(), table.NIL());
 		}
+		env.defineVariable(table.STANDARDCLASS(), standardClassDict);
 
 		StandardClass THING = StandardClass.mkClass("Thing", env, null);
+		standardClassDict.addSuperClass(THING);
 		StandardClass builtin = StandardClass.mkClass("Builtin", env, THING);
 		StandardClass.mkClass(Constants.DICTIONARY, env, builtin);
 		StandardClass.mkClass(Constants.INTEGER, env, builtin);
