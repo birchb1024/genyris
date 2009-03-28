@@ -203,9 +203,9 @@ public class Interpreter {
 		env.defineVariable(table.STANDARDCLASS(), standardClassDict);
 
 		StandardClass THING = StandardClass.mkClass("Thing", env, null);
-		standardClassDict.addSuperClass(THING);
 		StandardClass builtin = StandardClass.mkClass("Builtin", env, THING);
-		StandardClass.mkClass(Constants.DICTIONARY, env, builtin);
+		StandardClass dictionary = StandardClass.mkClass(Constants.DICTIONARY, env, builtin);
+		standardClassDict.addSuperClass(dictionary);
 		StandardClass.mkClass(Constants.INTEGER, env, builtin);
 		StandardClass.mkClass(Constants.BIGNUM, env, builtin);
 		StandardClass.mkClass(Constants.STRING, env, builtin);

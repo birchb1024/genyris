@@ -139,5 +139,7 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseBadEval("(23 (setq !left 3)");
         excerciseBadEval("(23 (setq !right 3)");
     }
-
+	public void testParseAString() throws Exception {
+		excerciseEval("((ParenParser(!new \"(+ 1 2 3)\"))(!read))", "(+ 1 2 3)");
+	}
 }

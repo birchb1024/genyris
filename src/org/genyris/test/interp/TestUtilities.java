@@ -12,10 +12,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
-import org.genyris.io.InStream;
 import org.genyris.io.Parser;
-import org.genyris.io.StringInStream;
-import org.genyris.io.UngettableInStream;
 
 public class TestUtilities {
 
@@ -26,10 +23,9 @@ public class TestUtilities {
         _interpreter.init(false);
     }
 
-    public String eval(String script) throws GenyrisException {
-        InStream input = new UngettableInStream( new StringInStream(script));
-        Parser parser = _interpreter.newParser(input);
-        Exp expression = parser.read();
+
+   public String eval(String script) throws GenyrisException {
+        Exp expression = Parser.parseSingleExpressionFromString(_interpreter.getSymbolTable(), script);
         Exp result = _interpreter.evalInGlobalEnvironment(expression);
 
         StringWriter out = new StringWriter();
@@ -37,5 +33,6 @@ public class TestUtilities {
         result.acceptVisitor(formatter);
         return out.getBuffer().toString();
     }
+
 
 }

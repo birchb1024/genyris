@@ -24,6 +24,8 @@ import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.InStreamEOF;
 import org.genyris.io.ReaderInStream;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
 
 public class ReaderStream extends Atom {
     private InStream _input;
@@ -38,6 +40,10 @@ public class ReaderStream extends Atom {
 
     public ReaderStream(Reader reader) {
         _input = new ReaderInStream(reader);
+    }
+
+    public ReaderStream(String script) {
+        _input = new UngettableInStream( new StringInStream(script));
     }
 
     public InStream getInStream() {

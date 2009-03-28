@@ -30,9 +30,9 @@ public class SourceLoaderTest extends TestCase {
     }
 
     public void testSourceLoader1() throws GenyrisException {
-        excerciseSourceLoader("list 1\n list 2\n ~22\n\nlist 3 4","1 (2) 22\n3 4\n");
-        excerciseSourceLoader("list 1\n list 2\n ~22\n\ndef f (x) \n      cons x x","1 (2) 22\n~ <EagerProc: <f>>\n");
-        excerciseSourceLoader("list 22\n  list\n      the 333\n\nlist 'f '(x)\n    cons 1 2\n", "22 (333)\nf (x) (1 : 2)\n");
+        excerciseSourceLoader("list 1\n list 2\n ~22\n\nlist 3 4","");
+        excerciseSourceLoader("list 1\n list 2\n ~22\n\ndef f (x) \n      cons x x","");
+        excerciseSourceLoader("list 22\n  list\n      the 333\n\nlist 'f '(x)\n    cons 1 2\n", "");
 
     }
 

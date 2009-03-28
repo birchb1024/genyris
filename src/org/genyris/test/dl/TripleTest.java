@@ -81,9 +81,10 @@ public class TripleTest extends TestCase {
         excerciseEval("((triple 1 's 34)(!object))", "34");
     }
         public void testTripleAccessorsOnClassFunction() throws Exception {
-        excerciseEval("((car (Bignum(!asTriples)))(!subject))", "<class Bignum (Builtin) ()>");
-        excerciseEval("((car (Bignum(!asTriples)))(!predicate))", "type");
-        excerciseEval("(((car (Bignum(!asTriples)))(!object))!classname)", "StandardClass");
+        excerciseEval("(defvar 't (triple 'a 's 'd))", "(triple a s d)");
+        excerciseEval("(t(!subject))", "a");
+        excerciseEval("(t(!predicate))", "s");
+        excerciseEval("(t(!object))", "d");
     }
 
 }

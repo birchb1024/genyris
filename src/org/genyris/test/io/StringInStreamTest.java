@@ -17,5 +17,4 @@ public class StringInStreamTest extends TestCase {
 		assertEquals('2', str1.readNext());
 		assertEquals('3', str1.readNext());
 	}
-
 }

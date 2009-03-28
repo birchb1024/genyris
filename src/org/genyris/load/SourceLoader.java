@@ -18,8 +18,6 @@ import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
-import org.genyris.format.Formatter;
-import org.genyris.format.IndentedFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
@@ -91,7 +89,6 @@ public class SourceLoader {
 	public static Exp executeScript(String filename, Interpreter interp,
 			Reader reader, Writer output) throws GenyrisException {
 		Parser parser = parserFactory(filename, reader, interp.getSymbolTable());
-		Formatter formatter = new IndentedFormatter(output, 3);
 		Exp expression = null;
 		Exp result = null;
 		do {
@@ -100,13 +97,6 @@ public class SourceLoader {
 				break;
 			}
 			result = interp.evalInGlobalEnvironment(expression);
-			result.acceptVisitor(formatter);
-			try {
-				output.write('\n');
-				output.flush();
-			} catch (IOException ignore) {
-			}
-
 		} while (true);
 		return result;
 	}

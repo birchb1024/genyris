@@ -32,6 +32,18 @@ def dump()
   print "\n" count
 
 
+def parse-string()
+  var script "343 (cons 1 2) (list 1 2 3 4 5)"
+  var parser (ParenParser(!new script))
+  var exp nil
+  while
+     not
+        equal? EOF
+           setq exp (parser(!read))
+     write exp
+     display "\n"
+  parser(!close)
+
 def parse-file()
   var fi (File(!new "testscripts/factorial.lsp"))
   var in (fi (!open 'read))
