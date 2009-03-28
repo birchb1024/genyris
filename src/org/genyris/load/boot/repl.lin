@@ -1,5 +1,7 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 @prefix ver "http://www.genyris.org/lang/version#"
 
-u.format "Version ~a~%*** Genyris is listening...~%" ver.tip
+u.format "*** Welcome ~a, Genyris version ~a is listening...~%" :
+    ((System(!getProperties))!|user.name|) :
+       ver.tip
 

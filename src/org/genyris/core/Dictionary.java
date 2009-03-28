@@ -42,6 +42,11 @@ public class Dictionary extends Atom implements Environment {
 		_parent = parent;
 	}
 
+	public Dictionary(Environment parent, final HashMap map) {
+		_dict = new HashMap(map);
+		_parent = parent;
+	}
+
 	public Environment getParent() {
 		return _parent;
 	}
