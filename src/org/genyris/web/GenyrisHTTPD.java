@@ -55,7 +55,6 @@ public class GenyrisHTTPD extends NanoHTTPD {
     public Thread run() throws IOException {
         Thread t = new Thread(new Runnable() {
             public void run() {
-
                 try {
                     while (true) {
                         HTTPSession session = new HTTPSession(ss.accept());
@@ -82,7 +81,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
         return t;
     }
 
-    public Response serve(String uri, String method, Properties header, Properties parms) {
+    public Response serve(String uri, String method, Properties header, Properties parms, String rootdir) {
         Exp request = NIL;
         // System.out.println(method + " '" + uri + "' ");
 

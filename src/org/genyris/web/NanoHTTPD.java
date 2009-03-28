@@ -56,6 +56,13 @@ public class NanoHTTPD {
 
     File myFileDir;
 
+	private final String rootdir;
+
+	private ServerSocket ss;
+
+	public NanoHTTPD() {
+		rootdir = "no root";
+	}
     // ==================================================
     // API parts
     // ==================================================
@@ -74,7 +81,7 @@ public class NanoHTTPD {
     * @parm header Header entries, percent decoded
     * @return HTTP response, see class Response for details
     */
-    public Response serve(String uri, String method, Properties header, Properties parms) {
+    public Response serve(String uri, String method, Properties header, Properties parms, String rootdir) {
         System.out.println(method + " '" + uri + "' ");
 
         Enumeration e = header.propertyNames();
@@ -88,7 +95,7 @@ public class NanoHTTPD {
             System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
         }
 
-        return serveFile(uri, header, new File("."), true);
+        return serveFile(uri, header, new File(rootdir), true);
     }
 
     /**
@@ -166,30 +173,43 @@ public class NanoHTTPD {
     // Socket & server code
     // ==================================================
 
-    public NanoHTTPD() {
-    }
-
     /**
     * Starts a HTTP server to given port.
     * <p>
     * Throws an IOException if the socket is already in use
     */
-    public NanoHTTPD(int port) throws IOException {
+    public NanoHTTPD(int port, final String root) throws IOException {
         myTcpPort = port;
-
-        final ServerSocket ss = new ServerSocket(myTcpPort);
+        this.rootdir = root;
+        ss = new ServerSocket(myTcpPort);
+    }
+    public Thread run() throws IOException {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
-                    while (true)
-                        new HTTPSession(ss.accept());
+                    while (true) {
+                        HTTPSession session = new HTTPSession(ss.accept(), rootdir);
+                        session.run();
+                    }
                 }
                 catch (IOException ioe) {
+                    System.out.println("NanoHTTPD: Port " + myTcpPort + " " + ioe.getMessage());
                 }
+                finally {
+                    try {
+                        if (ss != null)
+                            ss.close();
+                    }
+                    catch (IOException e) {
+                    }
+                }
+
             }
         });
+        t.setName("NanoHTTPD-" + myTcpPort);
         t.setDaemon(true);
         t.start();
+        return t;
     }
 
     /**
@@ -217,7 +237,7 @@ public class NanoHTTPD {
 
         NanoHTTPD nh = null;
         try {
-            nh = new NanoHTTPD(port);
+            nh = new NanoHTTPD(port, ".");
         }
         catch (IOException ioe) {
             System.err.println("Couldn't start server:\n" + ioe);
@@ -242,14 +262,21 @@ public class NanoHTTPD {
     * response.
     */
     class HTTPSession implements Runnable {
-        public HTTPSession(Socket s) {
+        private String rootdir;
+
+		public HTTPSession(Socket s, String rootdir) {
             mySocket = s;
+            this.rootdir = rootdir;
 //            Thread t = new Thread(this);
 //            t.setDaemon(true);
 //            t.start();
         }
 
-        public void run() {
+        public HTTPSession(Socket socket) {
+            mySocket = socket;
+		}
+
+		public void run() {
             try {
                 InputStream is = mySocket.getInputStream();
                 if (is == null)
@@ -319,7 +346,7 @@ public class NanoHTTPD {
                 }
 
                 // Ok, now do the serve()
-                Response r = serve(uri, method, header, parms);
+                Response r = serve(uri, method, header, parms, rootdir);
                 if (r == null)
                     sendError(HTTP_INTERNALERROR,
                             "SERVER INTERNAL ERROR: Serve() returned a null response.");
