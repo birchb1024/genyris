@@ -15,15 +15,16 @@ def readPage(url)
     count
 
 
-t.test "Web Server"
+var overall-result
+  t.test "Web Server"
     t.test "Spawn and Kill"
-        web.serve 7777 "testscripts/www-text.lin"
-        sleep 2000
+        t.given (web.serve 7777 "testscripts/www-text.lin") expect 8
+        t.given (sleep 2000) expect nil
         t.given (kill 7) expect "Interrupted ReaderThread"
 
     t.test "Spawn and HTTP Get"
-        web.serve 7778 "testscripts/www-text.lin"
-        sleep 2000
+        t.given (web.serve 7778 "testscripts/www-text.lin") expect 9
+        t.given (sleep 2000) expect nil
         t.given (readPage "http://localhost:7777/") expect 15
         kill 8
-
+or overall-result (raise "Web Suite Failed")
