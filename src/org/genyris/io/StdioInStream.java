@@ -51,4 +51,7 @@ public class StdioInStream implements InStream {
 
     public void close() throws GenyrisException {}
 
+	public void resetAfterError() {
+	}
+
 }

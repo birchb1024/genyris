@@ -62,4 +62,8 @@ public class ReaderInStream implements InStream {
         }
     }
 
+
+	public void resetAfterError() {
+	}
+
 }

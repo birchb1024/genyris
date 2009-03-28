@@ -53,7 +53,7 @@ public class Bignum extends Atom {
 			return _value.equals(((Bignum)compare)._value);
 	}
     public Bignum divide(Bignum other) {
-    	return new Bignum(_value.divide(other._value));
+    	return new Bignum(_value.divide(other._value, 150, BigDecimal.ROUND_HALF_UP));
     }
     public boolean lessThan(Bignum other) {
 		return(_value.compareTo(other._value) < 0) ? true : false;

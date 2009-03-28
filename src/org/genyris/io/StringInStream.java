@@ -33,4 +33,7 @@ public class StringInStream implements InStream {
 
     public void close() throws GenyrisException {}
 
+	public void resetAfterError() {
+	}
+
 }

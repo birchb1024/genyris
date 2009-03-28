@@ -59,5 +59,9 @@ public class UngettableInStream implements InStream {
         public void close() throws GenyrisException {
             _input.close();
         }
+
+		public void resetAfterError() {
+			_input.resetAfterError();
+		}
 }
 

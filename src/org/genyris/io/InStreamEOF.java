@@ -16,4 +16,6 @@ public interface InStreamEOF {
 
     void close()  throws GenyrisException ;
 
+	void resetAfterError();
+
 }

@@ -112,6 +112,41 @@ public class IndentStream implements InStreamEOF {
 		}
 		return result;
 	}
+	public void resetAfterError() {
+		char ch;
+		startLine();
+		try {
+			while (_instream.hasData()) {
+				ch = _instream.readNext();
+				if (ch == '\n') {
+					if (_instream.hasData()) {
+						char ch2 = _instream.readNext();
+						if(isWhiteSpace(ch2)) {
+							continue;							
+						} else {
+							_instream.unGet(ch2);
+							return;							
+						}
+					} else {
+						return;
+					}
+				}
+			}
+		} catch (LexException ignore) {
+		}
+	}
+	private boolean isWhiteSpace(char ch2) {
+		switch (ch2) {
+		case '\f':
+		case '\n':
+		case '\t':
+		case ' ':
+		case '\r':
+			return true;
+		default:
+			return false;
+		}
+	}
 
 	public int getChar() throws LexException {
 
@@ -150,7 +185,8 @@ public class IndentStream implements InStreamEOF {
 				} else if (ch == '\t') {
 					throw new LexException(
 							"illegal tab character before statement at line "
-									+ Integer.toString(this._lineNumber));
+									+ Integer.toString(_lineNumber) +
+									" looking for new expresseion..." );
 				} else if (ch == '~') {
 					// Continuation line so pretend indentation is aligned
 					// with the previous level

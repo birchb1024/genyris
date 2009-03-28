@@ -15,5 +15,5 @@ public interface InStream {
     char readNext();
     public boolean hasData() throws LexException;
     public void close() throws GenyrisException;
-
+	void resetAfterError();
 }

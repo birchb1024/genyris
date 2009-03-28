@@ -109,4 +109,7 @@ public class StringFormatStream implements InStreamEOF {
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindMethodInstance("StringFormatStream", new StringFormatStream.NewMethod(interpreter));
     }
+
+	public void resetAfterError() {
+	}
 }

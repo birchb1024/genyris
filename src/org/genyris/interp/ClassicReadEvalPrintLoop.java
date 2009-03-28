@@ -19,6 +19,7 @@ import org.genyris.format.IndentedFormatter;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
+import org.genyris.io.LexException;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.StdioInStream;
@@ -92,6 +93,9 @@ public class ClassicReadEvalPrintLoop {
 					output.write(" ;");
 					formatter.printClassNames(result, _interpreter);
 					output.flush();
+				} catch (LexException e) {
+					System.out.println("*** Error: " + e.getMessage());
+					parser.resetAfterError();
 				} catch (GenyrisException e) {
 					System.out.println("*** Error: " + e.getMessage());
 				} catch (Exception e) {
