@@ -136,8 +136,9 @@ public class StandardEnvironment extends AbstractEnvironment {
 
 	public Exp lookupLexicalVariableValue(SimpleSymbol symbol)
 			throws UnboundException {
-		if (_frame.containsKey(symbol)) {
-			return (Exp) _frame.get(symbol);
+		Object result = _frame.get(symbol);
+		if(result != null ) {
+			return (Exp) result;
 		} else if (_parent == null) {
 			throw new UnboundException("unbound variable: " + symbol.toString());
 		} else {

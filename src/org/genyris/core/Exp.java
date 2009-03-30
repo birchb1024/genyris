@@ -11,7 +11,10 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.builtin.TagFunction;
 
-public abstract class Exp implements Classifiable, Closure {
+//
+// Exp is short for 'Expression'
+//
+public abstract class Exp implements Classifiable, Closure { 
 
 	public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 

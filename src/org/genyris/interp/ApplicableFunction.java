@@ -7,17 +7,18 @@ package org.genyris.interp;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.Symbol;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
 
 public abstract class ApplicableFunction {
     protected Interpreter _interp;
 
-    protected Symbol NIL, TRUE;
-    protected Exp _lambda, _lambdam, _lambdaq;
+    protected SimpleSymbol NIL, TRUE;
+    protected SimpleSymbol _lambda, _lambdam, _lambdaq;
     private String _name;
     private boolean _eager;
-    protected Exp REST;
+    protected SimpleSymbol REST;
+
 
     public ApplicableFunction(Interpreter interp, String name, boolean eager) {
         _name = name;

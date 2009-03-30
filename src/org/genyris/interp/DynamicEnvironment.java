@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import java.util.Map;
 
+import org.genyris.core.Dictionary;
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
@@ -16,6 +17,9 @@ public class DynamicEnvironment extends StandardEnvironment {
 
     private Environment _object;
 
+    public boolean isRuntimeDictionary() {
+    	return (_object instanceof Dictionary);
+    }
     public DynamicEnvironment(Environment runtime, Map bindings, Environment object) throws GenyrisException {
         super(runtime, bindings);
         _object = object;
