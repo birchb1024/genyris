@@ -19,17 +19,10 @@ def run-web(port)
     sleep 2000
     kill thread-id
 
-def run-web-get()
-    var thread-id (web.serve 7778 "testscripts/www-text.lin")
+def run-web-get(port)
+    var thread-id (web.serve port "testscripts/www-text.lin")
     sleep 2000
     var result (readPage "http://localhost:7778/")
-    kill thread-id
-    result
-
-def run-web-static-get()
-    var thread-id (web.serve-static 7779 ".")
-    sleep 2000
-    var result (readPage "http://localhost:7779/LICENSE")
     kill thread-id
     result
 
@@ -40,8 +33,4 @@ var overall-result
 
     t.test "Spawn and HTTP Get"
          t.given (run-web-get 7778) expect 15
-
-    t.test "Static server and HTTP Get"
-         t.given (run-web-static-get 7779) expect 1558
-
 or overall-result (raise "Web Suite Failed")

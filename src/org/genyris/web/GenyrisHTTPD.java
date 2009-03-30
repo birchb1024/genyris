@@ -28,7 +28,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     Dictionary HttpRequestClazz, AlistClazz;
 
-    ServerSocket serverSocket = null;
+    ServerSocket ss = null;
 
     public GenyrisHTTPD(int port, String filename) throws GenyrisException {
         myTcpPort = port;
@@ -45,7 +45,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
         AlistClazz = (Dictionary)interpreter.lookupGlobalFromString("Alist");
 
         try {
-            serverSocket = new ServerSocket(myTcpPort);
+            ss = new ServerSocket(myTcpPort);
         }
         catch (IOException e1) {
             throw new GenyrisException("GenyrisHTTPD: Port " + myTcpPort + " " + e1.getMessage());
@@ -57,7 +57,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
             public void run() {
                 try {
                     while (true) {
-                        HTTPSession session = new HTTPSession(serverSocket.accept());
+                        HTTPSession session = new HTTPSession(ss.accept());
                         session.run();
                     }
                 }
@@ -66,8 +66,8 @@ public class GenyrisHTTPD extends NanoHTTPD {
                 }
                 finally {
                     try {
-                        if (serverSocket != null)
-                            serverSocket.close();
+                        if (ss != null)
+                            ss.close();
                     }
                     catch (IOException e) {
                     }
