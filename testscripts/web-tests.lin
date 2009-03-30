@@ -14,17 +14,23 @@ def readPage(url)
     u.format "~%Read ~a bytes~%" count
     count
 
+def run-web(port)
+    var thread-id (web.serve port "testscripts/www-text.lin")
+    sleep 2000
+    kill thread-id
+
+def run-web-get(port)
+    var thread-id (web.serve port "testscripts/www-text.lin")
+    sleep 2000
+    var result (readPage "http://localhost:7778/")
+    kill thread-id
+    result
 
 var overall-result
   t.test "Web Server"
     t.test "Spawn and Kill"
-        t.given (web.serve 7777 "testscripts/www-text.lin") expect 8
-        t.given (sleep 2000) expect nil
-        t.given (kill 7) expect "Interrupted ReaderThread"
+        t.given (run-web 7777) expect "Interrupted GenyrisHTTPD-7777"
 
     t.test "Spawn and HTTP Get"
-        t.given (web.serve 7778 "testscripts/www-text.lin") expect 9
-        t.given (sleep 2000) expect nil
-        t.given (readPage "http://localhost:7777/") expect 15
-        kill 8
+         t.given (run-web-get 7778) expect 15
 or overall-result (raise "Web Suite Failed")
