@@ -133,35 +133,6 @@ public class StandardEnvironment extends AbstractEnvironment {
 		}
 	}
 
-	public Exp lookupDynamicVariableValue(DynamicSymbol symbol)
-			throws UnboundException {
-		if (_parent instanceof DynamicEnvironment) {
-			return _parent.lookupDynamicVariableValue(symbol);
-		}
-		throw new UnboundException(
-				"no dynamic variable in standard environments: " + symbol);
-	}
-
-	public void defineDynamicVariable(DynamicSymbol symbol, Exp valu)
-			throws GenyrisException {
-		if (_parent instanceof DynamicEnvironment) {
-			_parent.defineDynamicVariable(symbol, valu);
-		}
-		throw new GenyrisException(
-				"defineDynamicVariable: no dynamic variable in environment: "
-						+ symbol);
-
-	}
-
-	public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu)
-			throws UnboundException {
-		if (_parent instanceof DynamicEnvironment) {
-			_parent.setDynamicVariableValue(symbol, valu);
-		}
-		throw new UnboundException(
-				"setDynamicVariableValue: no lexical variable in environment: "
-						+ symbol);
-	}
 
 	public Exp lookupLexicalVariableValue(SimpleSymbol symbol)
 			throws UnboundException {

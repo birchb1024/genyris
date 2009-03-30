@@ -20,7 +20,7 @@ public class ClassicFunction extends ApplicableFunction {
     public ClassicFunction(String name, Interpreter interp) {
         super(interp, name, true);
     }
-    public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment envForBindOperations)
+    public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment dynamicEnv)
             throws GenyrisException {
         // TODO clean it up what a right royal mess
     	if(!(closure instanceof AbstractClosure)) {
@@ -81,7 +81,7 @@ public class ClassicFunction extends ApplicableFunction {
 
         // Use the procedure's frame to get lexical scope
         // and the dynamic environment for the object stuff.
-        Environment newEnv = new StandardEnvironment(proc.getEnv(), bindings);
+        Environment newEnv = new DynamicEnvironment(proc.getEnv(), bindings, dynamicEnv);
         Exp result = proc.getBody().evalSequence(newEnv);
         StandardClass returnClass = proc.getReturnClassOrNull();
         if(returnClass != null) {
