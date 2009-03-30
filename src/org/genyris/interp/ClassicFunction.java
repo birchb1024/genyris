@@ -81,7 +81,7 @@ public class ClassicFunction extends ApplicableFunction {
 
         // Use the procedure's frame to get lexical scope
         // and the dynamic environment for the object stuff.
-        Environment newEnv = new DynamicEnvironment(proc.getEnv(), bindings, envForBindOperations);
+        Environment newEnv = new StandardEnvironment(proc.getEnv(), bindings);
         Exp result = proc.getBody().evalSequence(newEnv);
         StandardClass returnClass = proc.getReturnClassOrNull();
         if(returnClass != null) {
