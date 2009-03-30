@@ -71,8 +71,7 @@ public class ExecMethod extends AbstractMethod {
         }
         try {
             if (child.waitFor() != 0) {
-                lines = new Pair(new StrinG("exec return value = "
-                        + child.exitValue()), lines);
+            	throw new GenyrisException("exec failed, return is: " + new Integer(child.exitValue()).toString());
             }
         } catch (InterruptedException e) {
             throw new GenyrisException("exec failed, message is: "

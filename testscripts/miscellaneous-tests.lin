@@ -2,16 +2,14 @@
 ; Miscellaneous tests
 ;
 
-
-; only windows:
-;Sound(!play "testscripts/welcome.wav"))
 var properties (System(!getProperties))
 var OS-name (properties!|os.name|)
 cond
     (OS-name(!match "Windows.*"))
+        Sound(!play "testscripts/welcome.wav")
         System(!exec "c:\\winnt\\system32\\cmd.exe" "/c" "date" "/t")
     (OS-name(!match "Linux.*"))
-        System(!exec "sh" "-e" "date")
+        System(!exec "/bin/date")
     else
         error "unknown operating system"
 
