@@ -52,13 +52,19 @@ import java.net.*;
  */
 public class NanoHTTPD {
 
+	public class NanoException extends Exception {
+		private static final long serialVersionUID = 8521291173564816199L;
+
+		public NanoException() {} 
+	}
+
 	protected int myTcpPort;
 
 	File myFileDir;
 
 	private final String rootdir;
 
-	private ServerSocket ss;
+	protected ServerSocket ss;
 
 	public NanoHTTPD() {
 		rootdir = "no root";
@@ -195,15 +201,17 @@ public class NanoHTTPD {
 	public Thread run() throws IOException {
 		Thread t = new Thread(new Runnable() {
 			public void run() {
+				boolean terminating = false;
 				try {
-					while (true) {
+					while (!terminating) {
 						HTTPSession session = new HTTPSession(ss.accept(),
 								rootdir);
-						session.run();
+						session.handleRequest();
 					}
 				} catch (IOException ioe) {
 					System.out.println("NanoHTTPD: Port " + myTcpPort + " "
 							+ ioe.getMessage());
+				} catch (NanoException e) {
 				} finally {
 					try {
 						if (ss != null)
@@ -267,7 +275,7 @@ public class NanoHTTPD {
 	 * Handles one session, i.e. parses the HTTP request and returns the
 	 * response.
 	 */
-	class HTTPSession implements Runnable {
+	class HTTPSession {
 		private String rootdir;
 
 		public HTTPSession(Socket s, String rootdir) {
@@ -282,7 +290,7 @@ public class NanoHTTPD {
 			mySocket = socket;
 		}
 
-		public void run() {
+		public void handleRequest() throws NanoException {
 			try {
 				InputStream is = mySocket.getInputStream();
 				if (is == null)
@@ -367,8 +375,6 @@ public class NanoHTTPD {
 									+ ioe.getMessage());
 				} catch (Throwable t) {
 				}
-			} catch (InterruptedException ie) {
-				// Thrown by sendError, ignore and exit the thread.
 			}
 		}
 
@@ -376,7 +382,7 @@ public class NanoHTTPD {
 		 * Decodes the percent encoding scheme. <br/> For example:
 		 * "an+example%20string" -> "an example string"
 		 */
-		private String decodePercent(String str) throws InterruptedException {
+		private String decodePercent(String str) throws NanoException {
 			try {
 				StringBuffer sb = new StringBuffer();
 				for (int i = 0; i < str.length(); i++) {
@@ -408,7 +414,7 @@ public class NanoHTTPD {
 		 * Properties.
 		 */
 		private void decodeParms(String parms, Properties p)
-				throws InterruptedException {
+				throws NanoException {
 			if (parms == null)
 				return;
 
@@ -427,10 +433,10 @@ public class NanoHTTPD {
 		 * GenyrisInterruptedException to stop furhter request processing.
 		 */
 		private void sendError(String status, String msg)
-				throws InterruptedException {
+				throws NanoException {
 			sendResponse(status, MIME_PLAINTEXT, null,
 					new ByteArrayInputStream(msg.getBytes()));
-			throw new InterruptedException();
+			throw new NanoException();
 		}
 
 		/**
