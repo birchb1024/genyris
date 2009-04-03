@@ -36,7 +36,7 @@ public class SpawnNanoHTTPDFunction extends ApplicableFunction {
 			Thread t = httpd1.run();
 			return new Bignum(t.getId());
 		} catch (IOException e) {
-			return new StrinG(e.getMessage());
+			throw new GenyrisException(e.getMessage());
 		}
 
 	}

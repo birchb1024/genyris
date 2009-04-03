@@ -46,7 +46,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
 		try {
 			ss = new ServerSocket(myTcpPort);
-			ss.setSoTimeout(1000);
+			ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
 		} catch (IOException e1) {
 			throw new GenyrisException("GenyrisHTTPD: Port " + myTcpPort + " "
 					+ e1.getMessage());

@@ -52,6 +52,8 @@ import java.net.*;
  */
 public class NanoHTTPD {
 
+	protected static final int SERVER_SOCKET_TIMEOUT = 1000;
+
 	public class NanoException extends Exception {
 		private static final long serialVersionUID = 8521291173564816199L;
 
@@ -196,28 +198,32 @@ public class NanoHTTPD {
 		myTcpPort = port;
 		this.rootdir = root;
 		ss = new ServerSocket(myTcpPort);
+		ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
 	}
 
 	public Thread run() throws IOException {
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				boolean terminating = false;
-				try {
-					while (!terminating) {
-						HTTPSession session = new HTTPSession(ss.accept(),
-								rootdir);
-						session.handleRequest();
-					}
-				} catch (IOException ioe) {
-					System.out.println("NanoHTTPD: Port " + myTcpPort + " "
-							+ ioe.getMessage());
-				} catch (NanoException e) {
-				} finally {
+				while (!terminating) {
 					try {
-						if (ss != null)
-							ss.close();
-					} catch (IOException e) {
+						HTTPSession session = new HTTPSession(ss.accept(), rootdir);
+						session.handleRequest();
+					} catch (InterruptedIOException e) {
+						if (Thread.currentThread().isInterrupted()) {
+							terminating = true;
+						}
+						continue;
+					} catch (IOException ioe) {
+						System.out.println("NanoHTTPD: Port " + myTcpPort + " "
+								+ ioe.getMessage());
+					} catch (NanoException e) {
 					}
+				}
+				try {
+					if (ss != null)
+						ss.close();
+				} catch (IOException e) {
 				}
 
 			}
