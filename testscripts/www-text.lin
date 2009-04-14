@@ -1,4 +1,4 @@
 df httpd-serve (request)
-   print request
+   ; print request
    list 200 "text/plain" "Hello World"
 

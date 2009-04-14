@@ -88,9 +88,9 @@ public class NanoHTTPD {
 	 * @parm parms Parsed, percent decoded parameters from URI and, in case of
 	 *       POST, data.
 	 * @parm header Header entries, percent decoded
-	 * @return HTTP response, see class Response for details
+	 * @return HTTP response, see class NanoResponse for details
 	 */
-	public Response serve(String uri, String method, Properties header,
+	public NanoResponse serve(String uri, String method, Properties header,
 			Properties parms, String rootdir) {
 		if (false) { //unwanted.
 			System.out.println(method + " '" + uri + "' ");
@@ -114,18 +114,18 @@ public class NanoHTTPD {
 	/**
 	 * HTTP response. Return one of these from serve().
 	 */
-	public class Response {
+	public class NanoResponse {
 		/**
 		 * Default constructor: response = HTTP_OK, data = mime = 'null'
 		 */
-		public Response() {
+		public NanoResponse() {
 			this.status = HTTP_OK;
 		}
 
 		/**
 		 * Basic constructor.
 		 */
-		public Response(String status, String mimeType, InputStream data) {
+		public NanoResponse(String status, String mimeType, InputStream data) {
 			this.status = status;
 			this.mimeType = mimeType;
 			this.data = data;
@@ -134,7 +134,7 @@ public class NanoHTTPD {
 		/**
 		 * Convenience method that makes an InputStream out of given text.
 		 */
-		public Response(String status, String mimeType, String txt) {
+		public NanoResponse(String status, String mimeType, String txt) {
 			this.status = status;
 			this.mimeType = mimeType;
 			this.data = new ByteArrayInputStream(txt.getBytes());
@@ -207,8 +207,7 @@ public class NanoHTTPD {
 				boolean terminating = false;
 				while (!terminating) {
 					try {
-						HTTPSession session = new HTTPSession(ss.accept(), rootdir);
-						session.handleRequest();
+						new HTTPSession(ss.accept(), rootdir);
 					} catch (InterruptedIOException e) {
 						if (Thread.currentThread().isInterrupted()) {
 							terminating = true;
@@ -217,7 +216,6 @@ public class NanoHTTPD {
 					} catch (IOException ioe) {
 						System.out.println("NanoHTTPD: Port " + myTcpPort + " "
 								+ ioe.getMessage());
-					} catch (NanoException e) {
 					}
 				}
 				try {
@@ -281,19 +279,30 @@ public class NanoHTTPD {
 	 * Handles one session, i.e. parses the HTTP request and returns the
 	 * response.
 	 */
-	class HTTPSession {
+	class HTTPSession  implements Runnable {
 		private String rootdir;
 
-		public HTTPSession(Socket s, String rootdir) {
+		public HTTPSession(Socket s, String rootdir){
 			mySocket = s;
 			this.rootdir = rootdir;
-			// Thread t = new Thread(this);
-			// t.setDaemon(true);
-			// t.start();
+			Thread t = new Thread(this);
+			t.setDaemon(true);
+			t.start();
 		}
 
 		public HTTPSession(Socket socket) {
 			mySocket = socket;
+			Thread t = new Thread(this);
+			t.setDaemon(true);
+			t.start();
+		}
+		public void run() {
+			try {
+				handleRequest();
+			} catch (NanoException e) {
+				System.out.println(e.getMessage());
+			}
+			
 		}
 
 		public void handleRequest() throws NanoException {
@@ -366,7 +375,7 @@ public class NanoHTTPD {
 				}
 
 				// Ok, now do the serve()
-				Response r = serve(uri, method, header, parms, rootdir);
+				NanoResponse r = serve(uri, method, header, parms, rootdir);
 				if (r == null)
 					sendError(HTTP_INTERNALERROR,
 							"SERVER INTERNAL ERROR: Serve() returned a null response.");
@@ -499,6 +508,7 @@ public class NanoHTTPD {
 		}
 
 		private Socket mySocket;
+
 	};
 
 	/**
@@ -534,11 +544,11 @@ public class NanoHTTPD {
 	 * Serves file from homeDir and its subdirectories (only). Uses only URI,
 	 * ignores all headers and HTTP parameters.
 	 */
-	public Response serveFile(String uri, Properties header, File homeDir,
+	public NanoResponse serveFile(String uri, Properties header, File homeDir,
 			boolean allowDirectoryListing) {
 		// Make sure we won't die of an exception later
 		if (!homeDir.isDirectory())
-			return new Response(HTTP_INTERNALERROR, MIME_PLAINTEXT,
+			return new NanoResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT,
 					"INTERNAL ERRROR: serveFile(): given homeDir is not a directory.");
 
 		// Remove URL arguments
@@ -549,12 +559,12 @@ public class NanoHTTPD {
 		// Prohibit getting out of current directory
 		if (uri.startsWith("..") || uri.endsWith("..")
 				|| uri.indexOf("../") >= 0)
-			return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT,
+			return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
 					"FORBIDDEN: Won't serve ../ for security reasons.");
 
 		File f = new File(homeDir, uri);
 		if (!f.exists())
-			return new Response(HTTP_NOTFOUND, MIME_PLAINTEXT,
+			return new NanoResponse(HTTP_NOTFOUND, MIME_PLAINTEXT,
 					"Error 404, file not found.");
 
 		// List the directory, if necessary
@@ -563,7 +573,7 @@ public class NanoHTTPD {
 			// directory, send a redirect.
 			if (!uri.endsWith("/")) {
 				uri += "/";
-				Response r = new Response(HTTP_REDIRECT, MIME_HTML,
+				NanoResponse r = new NanoResponse(HTTP_REDIRECT, MIME_HTML,
 						"<html><body>Redirected: <a href=\"" + uri + "\">"
 								+ uri + "</a></body></html>");
 				r.addHeader("Location", uri);
@@ -621,9 +631,9 @@ public class NanoHTTPD {
 					if (dir)
 						msg += "</b>";
 				}
-				return new Response(HTTP_OK, MIME_HTML, msg);
+				return new NanoResponse(HTTP_OK, MIME_HTML, msg);
 			} else {
-				return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT,
+				return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
 						"FORBIDDEN: No directory listing.");
 			}
 		}
@@ -656,13 +666,13 @@ public class NanoHTTPD {
 
 			FileInputStream fis = new FileInputStream(f);
 			fis.skip(startFrom);
-			Response r = new Response(HTTP_OK, mime, fis);
+			NanoResponse r = new NanoResponse(HTTP_OK, mime, fis);
 			r.addHeader("Content-length", "" + (f.length() - startFrom));
 			r.addHeader("Content-range", "" + startFrom + "-"
 					+ (f.length() - 1) + "/" + f.length());
 			return r;
 		} catch (IOException ioe) {
-			return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT,
+			return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
 					"FORBIDDEN: Reading file failed.");
 		}
 	}

@@ -59,8 +59,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 				boolean terminating = false;
 				while (!terminating) {
 					try {
-						HTTPSession session = new HTTPSession(ss.accept());
-						session.handleRequest();
+						 new HTTPSession(ss.accept());
 					} catch (InterruptedIOException e) {
 						if (Thread.currentThread().isInterrupted()) {
 							terminating = true;
@@ -68,7 +67,6 @@ public class GenyrisHTTPD extends NanoHTTPD {
 						continue;
 					} catch (IOException ioe) {
 						System.out.println("GenyrisHTTPD: IOException " + ioe.getMessage());
-					} catch (NanoException e) {
 					}
 				}
 				try {
@@ -85,7 +83,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 		return t;
 	}
 
-	public Response serve(String uri, String method, Properties header,
+	public synchronized NanoResponse  serve(String uri, String method, Properties header,
 			Properties parms, String rootdir) {
 		Exp request = NIL;
 		// System.out.println(method + " '" + uri + "' ");
@@ -141,18 +139,18 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			result.acceptVisitor(formatter);
 			output.flush();
 
-			return new Response(status, mime, new ByteArrayInputStream(buffer
+			return new NanoResponse(status, mime, new ByteArrayInputStream(buffer
 					.toByteArray()));
 
 		} catch (GenyrisException ey) {
 			System.out.println("*** Error: " + ey.getMessage());
-			return new Response(HTTP_OK, "text/plain", "*** Error: "
+			return new NanoResponse(HTTP_OK, "text/plain", "*** Error: "
 					+ ey.getMessage());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
-		return new Response();
+		return new NanoResponse();
 
 	}
 }
