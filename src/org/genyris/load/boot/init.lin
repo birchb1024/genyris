@@ -43,6 +43,7 @@ def null? (sexp)
 load "org/genyris/load/boot/assert.lin"
 load "org/genyris/load/boot/pair.lin"
 load "org/genyris/load/boot/alist.lin"
+load "org/genyris/load/boot/parse.lin"
 load "org/genyris/load/boot/object.lin"
 load "org/genyris/load/boot/listoflines.lin"
 load "org/genyris/load/boot/file.lin"

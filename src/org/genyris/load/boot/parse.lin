@@ -1,0 +1,8 @@
+;;
+;;  Useful parsing and convertion functions.
+;;
+;;
+def parse (string)
+   ; parse a string returning the expression
+   (ParenParser(!new string))
+      !read
