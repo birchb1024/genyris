@@ -1,4 +1,4 @@
-#LyX 1.5.3 created this file. For more info see http://www.lyx.org/
+#LyX 1.5.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 276
 \begin_document
 \begin_header
@@ -4850,183 +4850,155 @@ The validator here checks whether the object has
  
 \end_layout
 
-\begin_layout Standard
-A simple nominative approach could be used to designate a non-validating
- 'semantic' class for the interface and tag the objects which allegedly
- met the requirements.
- For example:
-\end_layout
-
-\begin_layout LyX-Code
-@prefix streams "http://myproject.org/interfaces/2008/streams/"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-class streams.IStream()
-\end_layout
-
-\begin_layout LyX-Code
-'streams.open
-\end_layout
-
-\begin_layout LyX-Code
-   var !dc.Description "A stream open method"
-\end_layout
-
-\begin_layout LyX-Code
-   var !rdf.Type 'genyris.Method
-\end_layout
-
-\begin_layout Standard
-Usage in another file:
-\end_layout
-
-\begin_layout LyX-Code
-@prefix str "http://myproject.org/interfaces/2008/streams/"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-class MyStream(str.IStream)  ; class declaration ignored at run time - duck
- typing
-\end_layout
-
-\begin_layout LyX-Code
-   def !str.open()           ; prefix on method name resolves ambiguity at
- run-time
-\end_layout
-
-\begin_layout LyX-Code
-       etc ...
-\end_layout
-
-\begin_layout Standard
-An IStream class is defined and the base symbols declares meta-data describing
- the interface.
- A user then tags an object with a derived class, the tagger needs to be
- honest to ensure the interface is actually present in the tagged objects.
- Users of the objects could type-check based on the base class 
-\emph on
-streams.IStream
-\emph default
-, but this is unlikely.
- Duck typing relies on the existance of the correct method names.
- The use of the prefixed method names helps to avoid ambiguity between semantica
-lly different but identically named methods.
- Hence the 
-\emph on
-MyStream open
-\emph default
- method is not just any 
-\emph on
-open
-\emph default
-, it was declared as 
-\emph on
-http://myproject.org/interfaces/2008/streams/open
-\emph default
-.
-\end_layout
-
 \begin_layout Section
-Semantics and The Secret Life of Symbols
+Symbols and Semantic Triples 
 \end_layout
 
 \begin_layout Standard
-As you my have deduced by now, symbols in Genyris are also Dictionaries
- and can hence have associated bound properties.
- For example our 
+To be completed
+\end_layout
+
+\begin_layout Subsection
+Triples
+\end_layout
+
+\begin_layout Subsubsection
+Creating triples with 
 \emph on
-file
-\emph default
- module might contain the symbol 
+triple
+\end_layout
+
+\begin_layout Subsubsection
+Accessing parts of a triple with 
 \emph on
-genyris:/files/ 
+!subject,
 \emph default
-(aka 
+ 
 \emph on
-file.
+!predicate
 \emph default
-) with some attached meta-data :
+ and 
+\emph on
+!object
+\end_layout
+
+\begin_layout Subsubsection
+Triple Equality
+\end_layout
+
+\begin_layout Subsubsection
+Accessing Type Information
 \end_layout
 
 \begin_layout LyX-Code
-@prefix file "genyris:/files/"
+(23(!asTripleSet))(!asTriples)
+\end_layout
+
+\begin_layout Subsection
+TripleSets
+\end_layout
+
+\begin_layout Subsubsection
+Creating triplesets with 
+\emph on
+tripleset
+\end_layout
+
+\begin_layout Subsubsection
+Tripleset equality
+\end_layout
+
+\begin_layout Subsubsection
+Adding Triples with 
+\emph on
+!add
+\end_layout
+
+\begin_layout Subsubsection
+Removing Triples 
+\emph on
+!asTriples
+\end_layout
+
+\begin_layout Subsubsection
+Selecting Triples with 
+\emph on
+!select
+\end_layout
+
+\begin_layout Subsubsection
+Converting dictionaries to triplesets
 \end_layout
 
 \begin_layout LyX-Code
-'file.
+defvar 'thedict (dict(!a:3)(!b:5))
 \end_layout
 
 \begin_layout LyX-Code
-    var !name    "File Handling Functions"
+thedict(!asTripleSet)
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+!asTriples
+\end_layout
+
+\begin_layout Subsection
+The Global TripleSet
 \end_layout
 
 \begin_layout LyX-Code
-    var !version "1.2"
-\end_layout
-
-\begin_layout Standard
-The symbol's properties can be accessed as usual:
-\end_layout
-
-\begin_layout LyX-Code
-display ('file.!version)
-\end_layout
-
-\begin_layout Standard
-Because symbols have properties, and properties can have prefixes, we can
- use symbols to define the semantics of programs.
- The additional meta-data required for semantics are added to the symbols.
- Properties (in the RDF use of the term) can be defined.
- Here is a fragment of code which creates a Dictionary containing facts
- about a Wikipedia article:
-\end_layout
-
-\begin_layout LyX-Code
-@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-\end_layout
-
-\begin_layout LyX-Code
-@prefix dc "http://purl.org/dc/elements/1.1/"
-\end_layout
-
-\begin_layout LyX-Code
-dict
-\end_layout
-
-\begin_layout LyX-Code
-   !rdf.about    : "http-//en.wikipedia.org/wiki/Tony-Benn"
-\end_layout
-
-\begin_layout LyX-Code
-   !dc.Title     : "Tony Benn"
-\end_layout
-
-\begin_layout LyX-Code
-   !dc.Publisher : "Wikipedia"
-\end_layout
-
-\begin_layout Standard
-The properties of the dictionary are defined by globally published RDF URIs.
- Here we are invoking the Dublin Core meta-data and the RDF definitions.
- This allows the programmer to unambiguiously identify the properties of
- an object.
- By using the meta-data (such as Domain and Range) associated with symbol
- properties the programmer can even write software to make deductions about
- the correctness of the program data, add documentation or other do meta-program
-ming.
+> |http://www.genyris.org/lang/types#Descriptions|(!asTriples)
 \end_layout
 
 \begin_layout Part
 Reference
+\end_layout
+
+\begin_layout Section
+Compiling From Source
+\end_layout
+
+\begin_layout Standard
+To compile from source you need Ant (I used version 1.7.1).
+ Obtain a copy of the source release file 
+\emph on
+genyris-source-NNN-DDDDDDD.zip , 
+\emph default
+unzip the file to a working directory.
+ Change directory to the root of the unpacked directory.
+ Then run the following command to build the program:
+\end_layout
+
+\begin_layout LyX-Code
+$ ant
+\end_layout
+
+\begin_layout Standard
+test the program via the self-test-runner function from within the interpreter
+ session:
+\end_layout
+
+\begin_layout LyX-Code
+> self-test-runner
+\end_layout
+
+\begin_layout Standard
+At the end of the run you should see a summary of tests:
+\end_layout
+
+\begin_layout LyX-Code
+Tests run: 157, Failures: 0, Errors: 0
+\end_layout
+
+\begin_layout Standard
+On some platforms the static web server gives inconsistent results and may
+ generate an error.
+\end_layout
+
+\begin_layout Subsection
+Using a Mercurial Repository
 \end_layout
 
 \begin_layout Section
@@ -5222,7 +5194,66 @@ load
 \end_layout
 
 \begin_layout Subsection
-Running Multiple Interpreters in the Same Process
+Running Multiple Interpreters in the Same Process with 
+\emph on
+spawn
+\end_layout
+
+\begin_layout LyX-Code
+spawn "testscripts/spawn-example.lin" 1 2 3 4 5
+\end_layout
+
+\begin_layout Standard
+The file contains
+\end_layout
+
+\begin_layout LyX-Code
+@prefix sys "http://www.genyris.org/lang/system#"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+while true
+\end_layout
+
+\begin_layout LyX-Code
+   print sys.argv
+\end_layout
+
+\begin_layout LyX-Code
+   sleep 5000
+\end_layout
+
+\begin_layout Standard
+The output is:
+\end_layout
+
+\begin_layout LyX-Code
+"examples/spawn-example.lin" "1" "2" "3" "4" "5"
+\end_layout
+
+\begin_layout LyX-Code
+"examples/spawn-example.lin" "1" "2" "3" "4" "5"
+\end_layout
+
+\begin_layout LyX-Code
+"examples/spawn-example.lin" "1" "2" "3" "4" "5"
+\end_layout
+
+\begin_layout Standard
+Termination with 
+\family typewriter
+\emph on
+kill
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+kill <thread id>
 \end_layout
 
 \begin_layout Subsection
@@ -5240,7 +5271,7 @@ Starting a web server
 \end_layout
 
 \begin_layout Standard
-The server can be started with the serve function:
+A Genyris server can be started with the serve function:
 \end_layout
 
 \begin_layout LyX-Code
@@ -5384,7 +5415,112 @@ Http Responses in HTML list structures
 \end_layout
 
 \begin_layout Standard
-The response .....
+The response must be in the XML format as used by the 
+\emph on
+%x
+\emph default
+ directive in the 
+\emph on
+format
+\emph default
+ function.
+ This format requires XML tags to be symbols, followed by an attribute list.
+ Strings an sub-tags are interleaved.
+ The structure is converted to the corresponding XML string.
+ The 
+\emph on
+verbatim
+\emph default
+ pseudo-tag passes text transparently.
+ For example (from 
+\emph on
+examples/notification-server.lin
+\emph default
+):
+\end_layout
+
+\begin_layout LyX-Code
+template
+\end_layout
+
+\begin_layout LyX-Code
+   html()
+\end_layout
+
+\begin_layout LyX-Code
+      head()
+\end_layout
+
+\begin_layout LyX-Code
+         title() "Lamp Server"
+\end_layout
+
+\begin_layout LyX-Code
+      body()
+\end_layout
+
+\begin_layout LyX-Code
+         form()
+\end_layout
+
+\begin_layout LyX-Code
+            input((name:"op") (size:"100") (value: ,operation)) ""
+\end_layout
+
+\begin_layout LyX-Code
+            verbatim() "&nbsp;&nbsp;&nbsp;"
+\end_layout
+
+\begin_layout LyX-Code
+            input((type:"submit") (value:"Go"))
+\end_layout
+
+\begin_layout LyX-Code
+         table()
+\end_layout
+
+\begin_layout LyX-Code
+              ,(BuildNotification(!getLog))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+Refer to 
+\emph on
+examples/www-demo.lin
+\emph default
+ for a simpler example.
+\end_layout
+
+\begin_layout Subsubsection
+Starting a static web server
+\end_layout
+
+\begin_layout Standard
+A static page web server can be started with the 
+\emph on
+serve-static
+\emph default
+ function:
+\end_layout
+
+\begin_layout LyX-Code
+@prefix web "http://www.genyris.org/lang/web#"
+\end_layout
+
+\begin_layout LyX-Code
+web.serve-static <port> <path to root directory>
+\end_layout
+
+\begin_layout Standard
+For example (Windows):
+\end_layout
+
+\begin_layout LyX-Code
+web.serve-static 80 "c:/"
 \end_layout
 
 \begin_layout Section

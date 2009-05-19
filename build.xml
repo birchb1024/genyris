@@ -1,4 +1,4 @@
-<project name="Genyris" default="binary-release" basedir=".">
+<project name="Genyris" default="all" basedir=".">
 
     <property name="needed.lib.dir" value="needed" />
     <property name="junit.lib.dir" value="needed" />
@@ -27,6 +27,10 @@
         description="Create war file, always compile."/>
     <target name="ear" depends="war, only-ear"
         description="Create ear file, compile as needed."/>
+    <target name="src-release" depends="only-hg-version, only-source-release"
+        description="Zip source code."/>
+    <target name="all" depends="binary-release, src-release"
+        description="Build all"/>
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -56,7 +60,7 @@
     <fileset id="junit.libs" file="${junit.lib.dir}/junit.jar" />
 
 
-	<!-- ================================================================== -->
+  <!-- ================================================================== -->
     <!--                        Classpaths                                  -->
     <!-- ================================================================== -->
     <path id="src.compile.classpath">
@@ -74,12 +78,12 @@
     </target>
 
     <target name="only-hg-version">
-     <exec executable="hg" outputproperty="hg.tip">
+     <exec executable="hg" outputproperty="hg.tip" errorproperty="hg.error" failonerror="false">
             <arg value="tip"/>
             <arg value="--template"/>
             <arg value="{rev}-{node|short}"/>
         </exec>
-     <exec executable="hg" outputproperty="hg.tip.date">
+     <exec executable="hg" outputproperty="hg.tip.date" errorproperty="hg.error" failonerror="false">
             <arg value="tip"/>
             <arg value="--template"/>
             <arg value="{date|date}"/>
@@ -127,6 +131,30 @@ defvar 'v.tipdate "${hg.tip.date}"
         </exec>
     </target>
 
+
+    <target name="only-source-release" depends="only-hg-version"
+        description="Make a source release">
+        <tstamp/>
+
+        <zip destfile="rel/genyris-source-${hg.tip}.zip"
+                duplicate="fail"
+                defaultexcludes="no">
+            <fileset dir="${basedir}">
+                <include name="LICENSE"/>
+                <include name="README"/>
+                <include name="build.xml"/>
+                <include name="doc/**/*.lyx"/>
+                <include name="doc/**/*.odp"/>
+                <include name="examples/**/*"/>
+                <include name="needed/**/*"/>
+                <include name="src/**/*.java"/>
+                <include name="src/**/*.properties"/>
+                <include name="src/**/*.lin"/>
+                <include name="testscripts/**/*"/>
+                <include name="web/**/*"/>
+            </fileset>
+        </zip>
+    </target>
 
     <target name="only-binary-release" depends="binary-jar, ear"
         description="Make a binary release">
