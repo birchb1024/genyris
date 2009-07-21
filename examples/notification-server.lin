@@ -1,9 +1,9 @@
-load "examples/classify.lin"
-display "Loading UsbLamp.lin\n"
+@prefix u "http://www.genyris.org/lang/utilities#"
+include "/workspace/genyris/examples/classify.lin"
 var log '()
 
 class UsbLamp()
-   var exePath "C:\\workspace\\usblamp\\USBDOSAP.EXE"
+   var exePath "C:\\WINNT\\system32\\cmd.exe"
    var operations
       tag Alist
          quote
@@ -34,7 +34,8 @@ class UsbLamp()
    def call-lamp(codes)
       System
          apply !exec
-            cons exePath (codes(!split))
+            template
+                ,exePath "/c" "C:\\workspace\\notifications\\USBDOSAP.BAT " ,@(codes(!split))
 
    def change((op : String))
        var codes (operations (!lookup op))
@@ -80,7 +81,7 @@ class NullMessage(StringMessage)
   def !valid?(str)
      equal? str ""
   def !log(context)
-    
+
 class UsbMessage(StringMessage)
   def !valid?(str)
      (UsbLamp!isValidOperation?) str
@@ -126,6 +127,10 @@ class BuildMessage(Message)
    !pattern ".*build-.*"
    !style "background:lightblue;"
 
+class CheckMessage(Message)
+   !pattern ".*check-.*"
+   !style "background:lightblue;"
+
 class DeployMessage(Message)
    !pattern ".*deploy-.*"
 
@@ -147,6 +152,12 @@ class BuildFailed(BuildMessage)
    !sounds "Ringin.wav"
    !style "background:red;"
 
+class CheckFailed(CheckMessage)
+   !pattern ".*check-failed.*"
+   !lights "alloff" "redon"
+   !sounds "Ringin.wav"
+   !style "background:palered;"
+
 class BuildComplete(BuildMessage)
    !pattern ".*build-complete.*"
    !lights "blueflashoff" "bluenon"
@@ -154,14 +165,20 @@ class BuildComplete(BuildMessage)
 
 class DeployStart(DeployMessage)
    !pattern ".*deploy-start.*"
-   !lights "alloff" "greenon"
-   !style "background:lightgreen;"
+   !lights "alloff" "blueon"
+   !style "background:lightblue;"
 
 class DeployComplete(DeployMessage)
    !pattern ".*deploy-complete.*"
-   !lights "alloff" "blueon"
+   !lights "alloff" "greenon"
    !sounds "tada.wav"
-   !style "background:lightblue;"
+   !style "background:lightgreen;"
+
+class DeployFailed(DeployMessage)
+   !pattern ".*deploy-failed.*"
+   !lights "alloff" "redon"
+   !sounds "Ringin.wav"
+   !style "background:red;"
 
 
 class BuildNotification()
@@ -174,6 +191,7 @@ class BuildNotification()
 
   def addToLog(message style)
     setq lastmessage message
+    u.format "~a ~a ~%" (u.getLocalTime) message
     setq log (cons (template (tr() (td() ,(u.getLocalTime)) (td((style:,style)) ,message))) log)
 
   def !addToLog(message style)
@@ -183,11 +201,11 @@ class BuildNotification()
     cond
       (not(equal? message lastmessage))
          addToLog message style
-         
+
   def !alertUsers(operation)
     classify StringMessage operation
-    u.format "operation => ~a~%" operation
-    u.format "operation types: ~a~%" (operation!classes)
+    ;u.format "operation => ~a~%" operation
+    ;u.format "operation types: ~a~%" (operation!classes)
     operation
           !log BuildNotification
           !update-lamp
@@ -213,6 +231,12 @@ df httpd-serve (request)
                    input((name:"op") (size:"100") (value: ,operation)) ""
                    verbatim() "&nbsp;&nbsp;&nbsp;"
                    input((type:"submit") (value:"Go"))
+                form()
+                    input((type:"submit") (value:"Refresh"))
+                a((href:"/?op=alloff")) "All Off  |"
+                a((href:"/?op=greenon")) "  Green  |"
+                a((href:"/?op=redon")) "  Red  |"
+                a((href:"/?op=blueon")) "  Blue  "
                 table()
                     ,(BuildNotification(!getLog))
    result

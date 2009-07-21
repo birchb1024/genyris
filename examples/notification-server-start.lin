@@ -1,0 +1,8 @@
+@prefix u   "http://www.genyris.org/lang/utilities#"
+@prefix t   "http://www.genyris.org/lib/gunit#"
+@prefix web "http://www.genyris.org/lang/web#"
+web.serve 8080 "C:/workspace/notifications/notification-server.lin"
+while true
+     u.format "~a ~%" (u.getLocalTime)
+     sleep (* 5 60 1000)
+
