@@ -35,8 +35,7 @@ public class ExecMethod extends AbstractMethod {
         String[] result = new String[expArray.length];
         for (int i = 0; i < expArray.length; i++) {
             if (!(expArray[i] instanceof StrinG)) {
-                throw new GenyrisException("Non-string passed to "
-                        + Constants.EXEC);
+              throw new GenyrisException(Constants.EXEC + " Non-string: " + expArray[i]);
             } else {
                 result[i] = ((StrinG) expArray[i]).toString();
             }
@@ -71,7 +70,7 @@ public class ExecMethod extends AbstractMethod {
         }
         try {
             if (child.waitFor() != 0) {
-            	throw new GenyrisException("exec failed, return is: " + new Integer(child.exitValue()).toString());
+              throw new GenyrisException("exec failed, return is: " + new Integer(child.exitValue()).toString());
             }
         } catch (InterruptedException e) {
             throw new GenyrisException("exec failed, message is: "
