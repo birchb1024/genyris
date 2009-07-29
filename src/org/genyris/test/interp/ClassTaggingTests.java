@@ -94,7 +94,7 @@ public class ClassTaggingTests extends TestCase {
 
         excerciseEval("(def fn (a : Bignum) a)", "<EagerProc: <fn>>");
         excerciseEval("(fn 42)", "42");
-        exceptionEval("(fn 'x42)", "return type class Bignum validator error for object x42");
+        exceptionEval("(fn 'x42)", "return type validator error: object x42 is not tagged with Bignum");
 
         excerciseEval("(class A)", "<class A (Thing) ()>");
         excerciseEval("(class B1(A))", "<class B1 (A) ()>");
@@ -103,12 +103,17 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
+        excerciseEval("(class CC() (def !valid?(x) true))", "<class CC (Thing) ()>");
+        excerciseEval("(12 : CC)", "12");
+        excerciseEval("(class XX() (def !valid?(x) nil))", "<class XX (Thing) ()>");
+        exceptionEval("(12 : XX)", "class XX validator error for object 12");
+
         excerciseEval("(def fn((a:A) : Bignum) 42)", "<EagerProc: <fn>>");
         exceptionEval("(fn 23)", "Type mismatch in function call for a");
         excerciseEval("(fn x)", "42");
 
         excerciseEval("(def fn1((a:Bignum) : String) 42)", "<EagerProc: <fn1>>");
-        exceptionEval("(fn1 x)", "return type class String validator error for object 42");
+        exceptionEval("(fn1 x)", "return type validator error: object 42 is not tagged with String");
         excerciseEval("(def fn2((a:Builtin): Bignum) 42)", "<EagerProc: <fn2>>");
         excerciseEval("(fn2 x)", "42");
         excerciseEval("(def fn3((a:Thing): Builtin) a)", "<EagerProc: <fn3>>");

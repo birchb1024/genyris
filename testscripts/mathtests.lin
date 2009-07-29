@@ -9,6 +9,11 @@ load "testscripts/gunit.lin"
 
 ;; Test built-in maths functions
 
+
+assertEqual (abs 0) 0
+assertEqual (abs -1) 1
+assertEqual (abs 1) 1
+
 var overall-result
   t.test "Maths Suite"
     t.test "Integer Additions"

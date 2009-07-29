@@ -10,14 +10,14 @@
 class g.Keyword(SimpleSymbol)
 tag g.Keyword 'function
 ; Some aliases
-defmacro define (var valu) (template (defvar ',var ,valu))
+defmacro define (variable valu) (template (defvar ',variable ,valu))
 define function lambda
 define var define
 defmacro df (name args &rest body)
     template
         defvar ',name (lambdaq ,args ,@body)
 
-defmacro setq (var valu) (template (set ',var ,valu))
+defmacro setq (variable valu) (template (set ',variable ,valu))
 
 defmacro if (test success-result failure-result)
    template
@@ -36,6 +36,11 @@ def null? (sexp)
    cond
       sexp nil
       else true
+
+def abs (x)
+  cond
+    (< x 0) (- x)
+    else x
 
 ;
 ; Load source functions and classes
