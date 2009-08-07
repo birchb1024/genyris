@@ -107,7 +107,7 @@ class Message(StringMessage)
 
    !pattern ".+"
    !lights nil
-   !sounds "Windows XP Print complete.wav"
+   !sounds "boing_1.wav"
 
    def !update-lamp()
      (UsbLamp!changes) !light-exp
@@ -134,10 +134,16 @@ class CheckMessage(Message)
 class DeployMessage(Message)
    !pattern ".*deploy-.*"
 
+class MonitorMessage(Message)
+   !pattern ".*monitor-failed.*"
+   !lights "alloff" "redflash"
+   !sounds "chimpanzee_1.wav"
+   !style "background:red;"
+
 class BuildStartMessage(BuildMessage)
    !pattern ".*build-start.*"
    !lights "alloff" "blueflash"
-   !sounds "notify.wav"
+   !sounds "bird1.wav"
 
 class BuildOK(BuildMessage)
    !pattern ".*build-ok.*"
@@ -149,13 +155,13 @@ class BuildOK(BuildMessage)
 class BuildFailed(BuildMessage)
    !pattern ".*build-failed.*"
    !lights "alloff" "redon"
-   !sounds "Ringin.wav"
+   !sounds "awh_man.wav"
    !style "background:red;"
 
 class CheckFailed(CheckMessage)
    !pattern ".*check-failed.*"
    !lights "alloff" "redon"
-   !sounds "Ringin.wav"
+   !sounds "compute.wav"
    !style "background:palered;"
 
 class BuildComplete(BuildMessage)
@@ -166,18 +172,19 @@ class BuildComplete(BuildMessage)
 class DeployStart(DeployMessage)
    !pattern ".*deploy-start.*"
    !lights "alloff" "blueon"
+   !sounds "bird2.wav"
    !style "background:lightblue;"
 
 class DeployComplete(DeployMessage)
    !pattern ".*deploy-complete.*"
    !lights "alloff" "greenon"
-   !sounds "tada.wav"
+   !sounds "transfer_data.wav"
    !style "background:lightgreen;"
 
 class DeployFailed(DeployMessage)
    !pattern ".*deploy-failed.*"
    !lights "alloff" "redon"
-   !sounds "Ringin.wav"
+   !sounds "compute.wav"
    !style "background:red;"
 
 

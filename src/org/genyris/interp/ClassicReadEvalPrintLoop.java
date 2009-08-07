@@ -112,6 +112,7 @@ public class ClassicReadEvalPrintLoop {
 	private void setInitialPrefixes(Parser parser) throws GenyrisException {
 		parser.addPrefix("u", Constants.PREFIX_UTIL);
 		parser.addPrefix("web", Constants.PREFIX_WEB);
+		parser.addPrefix("email", Constants.PREFIX_EMAIL);
 		parser.addPrefix("g", Constants.PREFIX_SYNTAX);
 		parser.addPrefix("sys", Constants.PREFIX_SYSTEM);
 		parser.addPrefix("ver", Constants.PREFIX_VERSION);

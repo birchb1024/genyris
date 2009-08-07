@@ -77,6 +77,7 @@ public class Constants {
         public static final String GENYRIS = "http://www.genyris.org/lang/";
         public static final String ARGS = "argv";
         public static final String WEB = GENYRIS + "web#";
+        public static final String EMAIL = GENYRIS + "mail#";
         public static final char SYMBOLESCAPE = '|';
         public static final String SYMBOL = "Symbol";
         public static final String FALSE = "false";
@@ -88,6 +89,7 @@ public class Constants {
 
         public static final String PREFIX_UTIL = "http://www.genyris.org/lang/utilities#";
         public static final String PREFIX_WEB = "http://www.genyris.org/lang/web#";
+        public static final String PREFIX_EMAIL = "http://www.genyris.org/lang/email#";
         public static final String PREFIX_SYNTAX = "http://www.genyris.org/lang/syntax#";
         public static final String PREFIX_SYSTEM = "http://www.genyris.org/lang/system#";
         public static final String PREFIX_VERSION = "http://www.genyris.org/lang/version#";

@@ -38,6 +38,12 @@
         <include name="commons-logging-1.1.jar" />
         <include name="servlet-api.jar" />
         <include name="junit.jar" />
+        <include name="dsn.jar" />
+	    <include name="imap.jar" />
+	    <include name="mail.jar" />
+	    <include name="mailapi.jar" />
+	    <include name="pop3.jar" />
+	    <include name="smtp.jar" />
     </fileset>
 
     <!-- Libraries required in the web classpath. -->

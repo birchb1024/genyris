@@ -15,7 +15,7 @@ assert
 ; change to
 defmacro setq (var valu) (template (define ,var ,valu))
 ;
-; 004 set not working in methods
+; 2579718 set not working in methods
 ;
 class C(Object)
    def !init()
@@ -23,6 +23,8 @@ class C(Object)
    def !f()
       set '!v 34
 define c (C(!new nil))
+c(!f)
+assert (equal? 34 (c!v)
 
 ; Defect with QualifiedSymbols not being understood
 defvar (intern "http://foo/bar#quux") 34
