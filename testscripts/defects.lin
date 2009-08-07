@@ -24,7 +24,7 @@ class C(Object)
       set '!v 34
 define c (C(!new nil))
 c(!f)
-assert (equal? 34 (c!v)
+assert (equal? 34 (c!v))
 
 ; Defect with QualifiedSymbols not being understood
 defvar (intern "http://foo/bar#quux") 34

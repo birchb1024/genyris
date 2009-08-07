@@ -5155,8 +5155,41 @@ Genyris commands can be typed at the prompt, using two carriage returns
  This allows the user to verify the correct classes have been returned.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsubsection
+Running a script in the command line
+\end_layout
 
+\begin_layout LyX-Code
+DOS> genyris -eval "(print 
+\backslash
+"hello world
+\backslash
+")"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+unix$ genyris -eval '(print "hello world")'
+\end_layout
+
+\begin_layout Standard
+If the return value of the expression is NIL, the process exits with a 0
+ status, otherwise 1.
+\end_layout
+
+\begin_layout Subsubsection
+Specify a file to run on the command line
+\end_layout
+
+\begin_layout LyX-Code
+$ genyris -file examples/queens.lin 5
+\end_layout
+
+\begin_layout Standard
+Arguments are passed after the file name.
 \end_layout
 
 \begin_layout Subsection

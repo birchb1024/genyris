@@ -6,6 +6,7 @@
 package org.genyris.interp;
 
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.Writer;
 
 import org.genyris.core.Constants;
@@ -22,6 +23,7 @@ import org.genyris.io.IndentStream;
 import org.genyris.io.LexException;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
+import org.genyris.io.ReaderInStream;
 import org.genyris.io.StdioInStream;
 import org.genyris.io.UngettableInStream;
 import org.genyris.load.SourceLoader;
@@ -31,29 +33,61 @@ public class ClassicReadEvalPrintLoop {
 	private Interpreter _interpreter;
 
 	public static void main(String[] args) {
-		if (args.length > 0) {
-			String filename = args[0];
-			try {
-				Interpreter interpreter = new Interpreter();
-				interpreter.init(false);
-				Writer output = new PrintWriter(System.out);
-				setArgs(args, interpreter);
-				SourceLoader.loadScriptFromFile(interpreter, filename, output);
-			} catch (GenyrisException e) {
-				System.out.println("*** Error in file : " + filename + " "
-						+ e.getMessage());
-				System.exit(-1);
-			}
+		if (args.length == 0) {
+			new ClassicReadEvalPrintLoop().run(args);
 		} else {
-			ClassicReadEvalPrintLoop loop = new ClassicReadEvalPrintLoop();
-			loop.run(args);
+			if( args[0].equals("-eval") && args.length == 2 ) {
+				evalString(args[1]);
+			} else if (args[0].equals("-file")) {
+				evalFileWithArguments(args[1], 1, args);				
+			} else {
+				usage();
+			}	
 		}
 	}
 
-	private static void setArgs(String[] args, Interpreter interpreter) throws GenyrisException {
+	private static void evalFileWithArguments(String filename, int startFrom, String[] args) {
+		try {
+			Interpreter interpreter = new Interpreter();
+			interpreter.init(false);
+			Writer output = new PrintWriter(System.out);
+			setArgs(args, startFrom, interpreter);
+			SourceLoader.loadScriptFromFile(interpreter, filename, output);
+		} catch (GenyrisException e) {
+			System.out.println("*** Error in file : " + filename + " "
+					+ e.getMessage());
+			System.exit(-1);
+		}
+	}
+
+	private static void evalString(String script) {
+		Interpreter interp;
+		try {
+			interp = new Interpreter();
+			interp.init(false);
+			InStream is = new UngettableInStream(new ReaderInStream(new StringReader(script)));
+			Parser parser = new Parser(interp.getSymbolTable(), is, Constants.LISPCDRCHAR);
+
+			Exp expression = parser.read();
+			Exp result = interp.evalInGlobalEnvironment(expression);
+			System.exit(result == interp.NIL ? 0 : 1);
+			
+
+		} catch (GenyrisException e) {
+			System.out.println("*** " + e.getMessage());
+			System.exit(-1);
+		}
+	}
+
+	private static void usage() {
+		System.out.println("Usage: genyris [-eval (expression)]  [-file filename args... ] ");
+		System.exit(-1);
+	}
+
+	private static void setArgs(String[] args, int startFrom, Interpreter interpreter) throws GenyrisException {
 		Symbol ARGS = interpreter.intern(Constants.GENYRIS + "system#"
 				+ Constants.ARGS);
-		Exp argsAlist = makeArgList(interpreter.getSymbolTable().NIL(),args);
+		Exp argsAlist = makeListOfStrings(interpreter.getSymbolTable().NIL(),args, startFrom);
 		interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
 	}
 
@@ -68,7 +102,7 @@ public class ClassicReadEvalPrintLoop {
 			Writer output = new PrintWriter(System.out);
 			Formatter formatter = new IndentedFormatter(output, 1);
 			Exp EOF = _interpreter.getSymbolTable().EOF();
-			setArgs(args, _interpreter);
+			setArgs(args, 0, _interpreter);
 
 			setInitialPrefixes(parser);
 			SourceLoader
@@ -119,9 +153,9 @@ public class ClassicReadEvalPrintLoop {
 		parser.addPrefix("types", Constants.PREFIX_TYPES);
 	}
 
-	private static Exp makeArgList(Symbol NIL, String[] args) {
+	private static Exp makeListOfStrings(Symbol NIL, String[] args, int startFrom) {
 		Exp arglist = NIL;
-		for (int i = args.length - 1; i >= 0; i--) {
+		for (int i = args.length - 1; i >= startFrom; i--) {
 			arglist = new Pair(new StrinG(args[i]), arglist);
 		}
 		return arglist;

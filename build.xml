@@ -29,7 +29,7 @@
         description="Create ear file, compile as needed."/>
     <target name="src-release" depends="only-hg-version, only-source-release"
         description="Zip source code."/>
-    <target name="all" depends="binary-release, src-release"
+    <target name="all" depends="binary-release, src-release, test"
         description="Build all"/>
 
     <!-- Libraries required  -->
@@ -165,7 +165,11 @@ defvar 'v.tipdate "${hg.tip.date}"
     <target name="only-binary-release" depends="binary-jar, ear"
         description="Make a binary release">
         <tstamp/>
-
+		<copy todir="dist" verbose="true">
+	        <fileset dir="${basedir}">
+	            <include name="needed/**/*jar"/>
+	        </fileset>
+		</copy>
         <zip destfile="rel/genyris-binary-${hg.tip}.zip"
                 duplicate="fail"
                 defaultexcludes="no">
@@ -207,13 +211,21 @@ defvar 'v.tipdate "${hg.tip.date}"
             <fileset dir="${src.dir}" includes="**/*.properties" />
             <fileset dir="${basedir}" includes="testscripts/*.lin testscripts/*.lsp" />
             <manifest>
-            <attribute name="Built-By" value="Peter William Birch"/>
-            <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
+	            <attribute name="Built-By" value="Peter William Birch"/>
+	            <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
+                <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar"/>
             </manifest>
         </jar>
     </target>
 
-
+    <target name="test" depends="binary-release">
+    	  <exec executable="java" failonerror="true">
+    	    <arg value="-jar"/>
+    	    <arg value="dist/genyris-bin-${hg.tip}.jar"/>
+    	    <arg value="-eval"/>
+            <arg value="(self-test-runner)"/>
+     	  </exec>
+	</target>
 
     <target name="only-war">
         <delete file="${output.war}"/>

@@ -55,7 +55,7 @@ public class InterpretedTests extends TestCase {
     public void testParseAndConvert() throws GenyrisException {
         useSourceLoader("parsetests.lin");
     }
-    public void testWeb() throws GenyrisException {
-        useSourceLoader("web-tests.lin");
-    }
+//    public void testWeb() throws GenyrisException {
+//        useSourceLoader("web-tests.lin");
+//    }
 }
