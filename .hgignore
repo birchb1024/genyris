@@ -12,3 +12,12 @@ dist
 CVS
 idebuild
 genyris-bin.jar
+
+syntax: regexp
+^src/org/genyris/load/boot/hglog\.txt$
+syntax: glob
+dist/*
+syntax: regexp
+^doc/reference/manual\.tex$
+syntax: regexp
+^rel$

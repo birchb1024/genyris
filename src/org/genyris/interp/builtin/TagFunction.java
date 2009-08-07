@@ -5,11 +5,10 @@
 //
 package org.genyris.interp.builtin;
 
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.SimpleSymbol;
-import org.genyris.core.DynamicSymbol;
 import org.genyris.core.StandardClass;
-import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -53,7 +52,7 @@ public class TagFunction extends ApplicableFunction {
         }
         Exp args[] = new Exp[1];
         args[0] = object;
-        Exp result = validator.applyFunction(environment, args);
+        Exp result = validator.applyFunction(klassobject, args);
         if (result == NIL) {
             throw new GenyrisException("class " + klassobject.getClassName()
                     + " validator error for object " + object);
@@ -75,7 +74,7 @@ public class TagFunction extends ApplicableFunction {
         if (validator != null) {
             Exp args[] = new Exp[1];
             args[0] = object;
-            Exp result = validator.applyFunction(environment, args);
+            Exp result = validator.applyFunction(klassobject, args);
             if (result == NIL) {
                 throw new GenyrisException("class " + klassobject.getClassName()
                         + " validator error for object " + object);
