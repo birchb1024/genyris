@@ -84,7 +84,7 @@ public class Constants {
         public static final String QUOTE = "quote";
         public static final String BACKQUOTE = "backquote";
         public static final String TRIPLE = "Triple";
-        public static final String TRIPLESET = "TripleSet";
+        public static final String TRIPLESTORE = "Triplestore";
         public static final String TYPE = "type";
 
         public static final String PREFIX_UTIL = "http://www.genyris.org/lang/utilities#";

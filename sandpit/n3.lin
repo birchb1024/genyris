@@ -11,7 +11,7 @@ person.fred
   p.hasEmail : "mailto:fred@example.com"
 
 var fred
-  tripleset
+  triplestore
    '(person.fred p.GivenName "Fred")
    '(person.fred p.hasEmail "mailto:fred@example.com")
    ;

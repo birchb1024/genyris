@@ -8,10 +8,10 @@
 ;  About triples...
 ;
 df tripleq (s p o) (triple s p o)
-var *global-tripleset* (tripleset)
+var *global-triplestore* (triplestore)
 df description(&rest body)
     while body
         var t (left body)
-        *global-tripleset*
+        *global-triplestore*
            !add (triple (car t) (car (cdr t)) (car (cdr (cdr t))))
         setq body (cdr body)

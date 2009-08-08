@@ -29,7 +29,7 @@ def test-equality()
 test-equality
 
 def test-remove()
-   var ts (tripleset)
+   var ts (triplestore)
    ts
      !add (triple 's 'd 'f)
    assert
@@ -58,7 +58,7 @@ def test-remove()
 def test-select()
    var joe "Joe"
    var ts
-      tripleset :
+      triplestore :
          '(joe age three) :
           '(joe age ten) :
             '("John" age 22) :
@@ -71,11 +71,11 @@ def test-select()
    assert
       equal?
          result
-         tripleset '(joe age three) '(joe age ten)
+         triplestore '(joe age three) '(joe age ten)
    assert
       equal?
          result
-         tripleset  '(joe age ten)  '(joe age three)
+         triplestore  '(joe age ten)  '(joe age three)
 
 test-remove
 test-select

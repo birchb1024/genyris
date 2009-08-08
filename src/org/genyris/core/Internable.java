@@ -42,7 +42,7 @@ public interface Internable {
 	public SimpleSymbol DICTIONARY();
 	public SimpleSymbol URISYMBOL();
 	public SimpleSymbol TRIPLE();
-	public SimpleSymbol TRIPLESET();
+	public SimpleSymbol TRIPLESTORE();
     public SimpleSymbol TYPE();
     public SimpleSymbol DESCRIPTIONS();
 	public SimpleSymbol SUBCLASSOF();

@@ -18,15 +18,15 @@ import org.genyris.interp.builtin.ObjectFunction.AbstractDictionaryMethod;
 
 public class ThingMethods {
 
-    public static class AsTripleSetMethod extends ApplicableFunction {
-        public AsTripleSetMethod(Interpreter interp) {
-            super(interp, "asTripleSet", true);
+    public static class AsTripleStoreMethod extends ApplicableFunction {
+        public AsTripleStoreMethod(Interpreter interp) {
+            super(interp, "asTripleStore", true);
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
             checkArguments(arguments, 0);
-            TripleSet ts = new TripleSet();
+            TripleStore ts = new TripleStore();
             ExpWithEmbeddedClasses self = (ExpWithEmbeddedClasses) env
                     .getSelf();
             Exp classes = self.getClasses(env);
@@ -64,7 +64,7 @@ public class ThingMethods {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethodInstance("Thing", new AsTripleSetMethod(interpreter));
+        interpreter.bindMethodInstance("Thing", new AsTripleStoreMethod(interpreter));
         interpreter.bindMethodInstance("Thing", new AsTriplesMethod(interpreter));
     }
 

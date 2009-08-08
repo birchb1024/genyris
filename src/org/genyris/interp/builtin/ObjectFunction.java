@@ -13,7 +13,7 @@ import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
-import org.genyris.dl.TripleSet;
+import org.genyris.dl.TripleStore;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.ApplicableFunction;
@@ -86,10 +86,10 @@ public class ObjectFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class AsTripleSetMethod extends AbstractDictionaryMethod {
+	public static class AsTripleStoreMethod extends AbstractDictionaryMethod {
 
-		public AsTripleSetMethod(Interpreter interp) {
-			super(interp, "asTripleSet");
+		public AsTripleStoreMethod(Interpreter interp) {
+			super(interp, "asTripleStore");
 		}
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -99,7 +99,7 @@ public class ObjectFunction extends ApplicableFunction {
 			// TODO move this code int Dictionary
 			// TODO also collect ExpWithEmbeddedClasses classes triples.
 			Exp alist = self.asAlist().cdr();
-			TripleSet results = new TripleSet();
+			TripleStore results = new TripleStore();
 			while (alist != NIL) {
 				results.add(new Triple(self, (SimpleSymbol) (alist.car().car()),
 						alist.car().cdr()));
@@ -114,6 +114,6 @@ public class ObjectFunction extends ApplicableFunction {
 		interpreter.bindMethodInstance(Constants.DICTIONARY,
 				new ObjectFunction.AsTriplesMethod(interpreter));
 		interpreter.bindMethodInstance(Constants.DICTIONARY,
-				new ObjectFunction.AsTripleSetMethod(interpreter));
+				new ObjectFunction.AsTripleStoreMethod(interpreter));
 	}
 }

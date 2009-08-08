@@ -12,15 +12,15 @@ class Age
 
 var twenty 20
 
-;; make staments about this object
+;; make statements about this object
 var statements
-   tripleset 
+   triplestore 
       `(,twenty units ,Years)
       `(,twenty type |http://people.org/type#age|)
 statements(!asTriples)
 
 df description(&rest body)
-    `(tripleset ,@body)
+    `(triplestore ,@body)
 description
     |http://people.org/type#age| |http://people.org/type#age| |http://people.org/type#age|
     

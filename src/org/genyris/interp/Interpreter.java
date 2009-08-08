@@ -20,7 +20,7 @@ import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StandardClass;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
-import org.genyris.dl.TripleSet;
+import org.genyris.dl.TripleStore;
 import org.genyris.exception.GenyrisException;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
@@ -36,7 +36,7 @@ public class Interpreter {
 
     StandardEnvironment _globalEnvironment;
     SymbolTable _table;
-    TripleSet _globalDescriptions;
+    TripleStore _globalDescriptions;
 
     Writer _defaultOutput;
 
@@ -47,7 +47,7 @@ public class Interpreter {
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
-        _globalDescriptions = new TripleSet();
+        _globalDescriptions = new TripleStore();
         Dictionary SYMBOL = new Dictionary(_globalEnvironment);
         _defaultOutput = new OutputStreamWriter(System.out);
         {
@@ -219,7 +219,7 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
 		StandardClass.mkClass(Constants.SOUND, env, builtin);
 		StandardClass.mkClass(Constants.TRIPLE, env, builtin);
-		StandardClass.mkClass(Constants.TRIPLESET, env, builtin);
+		StandardClass.mkClass(Constants.TRIPLESTORE, env, builtin);
 
 		StandardClass symbol = StandardClass.mkClass(Constants.SYMBOL, env, builtin);
 		StandardClass closure = StandardClass.mkClass(Constants.CLOSURE, env, builtin);

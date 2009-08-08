@@ -16,50 +16,50 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
-public class TripleSetFunction extends ApplicableFunction {
+public class TripleStoreFunction extends ApplicableFunction {
 
-    public TripleSetFunction(Interpreter interp) {
-        super(interp, "tripleset", true);
+    public TripleStoreFunction(Interpreter interp) {
+        super(interp, "triplestore", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        TripleSet ts = new TripleSet();
+        TripleStore ts = new TripleStore();
         for (int i = 0; i < arguments.length; i++) {
             addTripleFromList(ts, arguments[i]);
         }
         return ts;
     }
 
-    private void addTripleFromList(TripleSet ts, Exp exp) throws GenyrisException {
+    private void addTripleFromList(TripleStore ts, Exp exp) throws GenyrisException {
         ts.add(Triple.mkTripleFromList(exp));
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedureInstance(new TripleSetFunction(interpreter));
-        interpreter.bindMethodInstance(Constants.TRIPLESET, new AddMethod(interpreter));
-        interpreter.bindMethodInstance(Constants.TRIPLESET, new SelectMethod(interpreter));
-        interpreter.bindMethodInstance(Constants.TRIPLESET, new AsTriplesMethod(interpreter));
-        interpreter.bindMethodInstance(Constants.TRIPLESET, new RemoveMethod(interpreter));
+        interpreter.bindGlobalProcedureInstance(new TripleStoreFunction(interpreter));
+        interpreter.bindMethodInstance(Constants.TRIPLESTORE, new AddMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.TRIPLESTORE, new SelectMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.TRIPLESTORE, new AsTriplesMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.TRIPLESTORE, new RemoveMethod(interpreter));
     }
-    public static abstract class AbstractTripleSetMethod extends AbstractMethod {
+    public static abstract class AbstractTripleStoreMethod extends AbstractMethod {
 
-        public AbstractTripleSetMethod(Interpreter interp, String name) {
+        public AbstractTripleStoreMethod(Interpreter interp, String name) {
             super(interp, name);
         }
 
-        protected TripleSet getSelfTS(Environment env) throws GenyrisException {
+        protected TripleStore getSelfTS(Environment env) throws GenyrisException {
             getSelf(env);
-            if (!(_self instanceof TripleSet)) {
+            if (!(_self instanceof TripleStore)) {
                 throw new GenyrisException(
-                        "Non-TripleSet passed to a TripleSet method.");
+                        "Non-TripleStore passed to a TripleStore method.");
             } else {
-                return (TripleSet) _self;
+                return (TripleStore) _self;
             }
         }
     }
 
-    public static class AddMethod extends AbstractTripleSetMethod {
+    public static class AddMethod extends AbstractTripleStoreMethod {
 
         public AddMethod(Interpreter interp) {
             super(interp, "add");
@@ -67,7 +67,7 @@ public class TripleSetFunction extends ApplicableFunction {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            TripleSet self = getSelfTS(env);
+            TripleStore self = getSelfTS(env);
             checkArguments(arguments, 1);
             Class[] types = { Triple.class };
             checkArgumentTypes(types, arguments);
@@ -76,7 +76,7 @@ public class TripleSetFunction extends ApplicableFunction {
         }
     }
 
-    public static class SelectMethod extends AbstractTripleSetMethod {
+    public static class SelectMethod extends AbstractTripleStoreMethod {
 
         public SelectMethod(Interpreter interp) {
             super(interp, "select");
@@ -85,7 +85,7 @@ public class TripleSetFunction extends ApplicableFunction {
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
             Closure closure = null;
-            TripleSet self = getSelfTS(env);
+            TripleStore self = getSelfTS(env);
             checkMinArguments(arguments, 3);
             Class[] types = { Exp.class, Symbol.class, Exp.class};
             checkArgumentTypes(types, arguments);
@@ -110,7 +110,7 @@ public class TripleSetFunction extends ApplicableFunction {
         }
     }
 
-    public static class AsTriplesMethod extends AbstractTripleSetMethod {
+    public static class AsTriplesMethod extends AbstractTripleStoreMethod {
 
         public AsTriplesMethod(Interpreter interp) {
             super(interp, "asTriples");
@@ -118,11 +118,11 @@ public class TripleSetFunction extends ApplicableFunction {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            TripleSet self = getSelfTS(env);
+            TripleStore self = getSelfTS(env);
             return self.asTripleList(NIL);
         }
     }
-    public static class RemoveMethod extends AbstractTripleSetMethod {
+    public static class RemoveMethod extends AbstractTripleStoreMethod {
 
         public RemoveMethod(Interpreter interp) {
             super(interp, "remove");
@@ -130,7 +130,7 @@ public class TripleSetFunction extends ApplicableFunction {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            TripleSet self = getSelfTS(env);
+            TripleStore self = getSelfTS(env);
             checkArguments(arguments, 1);
             Class[] types = { Triple.class };
             checkArgumentTypes(types, arguments);
