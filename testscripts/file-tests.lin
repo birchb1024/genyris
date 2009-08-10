@@ -98,12 +98,15 @@ assert
         equal? (in(!getline)) "Joe,type,person"
         equal? (in(!getline)) "Joe,owns,Ford"
         equal? (in(!getline)) "Joe,worksAt,office"
-fi (!close)
+in (!close)
 define in
    fi (!open 'read)
 define $line ""
 while (not (equal? EOF (setq $line (in(!getline)))))
-    print $line
+    define aslist ($line(!split ","))
+    define tr (triple (parse (car aslist)) (parse (cadr aslist)) (parse (cadr (cdr aslist))))
+    print tr
+in (!close)
 dump
 parse-file
 parse-sfs-file
