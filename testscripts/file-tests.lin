@@ -86,6 +86,24 @@ def eval-sfs-file()
      display exp
   parser(!close)
 
+;;;;;;
+define CSVFILE "testscripts/fixtures/test.csv"
+define fi
+   File(!new CSVFILE)
+define in
+   fi (!open 'read)
+assert
+    and
+        equal? (in(!getline)) "#subject,object,predicate"
+        equal? (in(!getline)) "Joe,type,person"
+        equal? (in(!getline)) "Joe,owns,Ford"
+        equal? (in(!getline)) "Joe,worksAt,office"
+fi (!close)
+define in
+   fi (!open 'read)
+define $line ""
+while (not (equal? EOF (setq $line (in(!getline)))))
+    print $line
 dump
 parse-file
 parse-sfs-file

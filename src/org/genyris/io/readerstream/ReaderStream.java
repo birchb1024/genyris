@@ -12,6 +12,7 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
+import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
@@ -88,6 +89,31 @@ public class ReaderStream extends Atom {
             return new Bignum(self._input.readNext());
         }
     }
+    public static class GetLineMethod extends AbstractReaderMethod {
+
+        public GetLineMethod(Interpreter interp) {
+            super(interp, "getline");
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            ReaderStream self = getSelfReader(env);
+            StringBuffer buf = new StringBuffer();
+            if(!self._input.hasData()) {
+            	return env.getSymbolTable().EOF();
+            }
+            do {
+            	int ch = self._input.readNext();
+            	if(ch == '\r') continue;
+            	if( ch == '\n' ) {
+            		break;
+            	} else {
+            		buf.append((char)ch);
+            	}
+            }  while(self._input.hasData());
+    		return new StrinG(buf.toString());
+        }
+    }
     public static class HasDataMethod extends AbstractReaderMethod {
 
         public HasDataMethod(Interpreter interp) {
@@ -121,6 +147,7 @@ public class ReaderStream extends Atom {
         interpreter.bindMethodInstance(Constants.READER, new HasDataMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new ReadMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new CloseMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.READER, new GetLineMethod(interpreter));
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
