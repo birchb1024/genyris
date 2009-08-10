@@ -19,6 +19,7 @@ public abstract class BuiltinFunction  extends ApplicableFunction {
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindGlobalProcedureInstance(new ApplyFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new AsStringFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new BackquoteFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new BoundFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new CarFunction(interpreter));

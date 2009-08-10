@@ -1,0 +1,59 @@
+@prefix u "http://www.genyris.org/lang/utilities#"
+
+define CSVFILE "testscripts/fixtures/test.csv"
+define fi
+   File(!new CSVFILE)
+define in
+   fi (!open 'read)
+var store (triplestore)
+define $line ""
+while (not (equal? EOF (setq $line (in(!getline)))))
+    define aslist ($line(!split ","))
+    define subject (parse (car aslist))
+    define predicate (parse (cadr aslist))
+    define object (parse (cadr (cdr aslist)))
+    define tr (triple subject object predicate)
+    store
+       !add tr
+in (!close)
+
+print
+   store(!asTriples)
+
+def searchStore(str)
+    setq str (str (!+ ".*"))
+    setq str (".*" (!+ str))
+    print str
+    def matchFunc(s o p)
+        u.format "~s ~s ~s ~s~%" s o p str
+        or
+          (asString s) (!match str)
+          (asString p) (!match str)
+          (asString o) (!match str)
+    store(!select nil nil nil matchFunc)
+
+
+df httpd-serve (request)
+   var params (request(!getParameters))
+   var operation ""
+   cond
+     params
+        setq operation (params (!lookup "op"))
+        ; BuildNotification(!alertUsers operation)
+   var result
+    list 200 "text/html"
+      template
+          html()
+             head()
+               title() "TripleSearch"
+             body()
+                form()
+                   input((name:"op") (size:"100") (value: ,operation)) ""
+                   verbatim() "&nbsp;&nbsp;&nbsp;"
+                   input((type:"submit") (value:"Search"))
+                form()
+                    input((type:"submit") (value:"Refresh"))
+                pre()
+                    ,((searchStore operation)(!asTriples))
+   result
+

@@ -2,9 +2,6 @@
 
 @prefix file "genyris:/files/"
 
-'file.
-    var !name    "File Handling Functions"
-    var !version "1.2"
 
 def !file.copy(from to) ...
 def !file.delete(filename) ...
