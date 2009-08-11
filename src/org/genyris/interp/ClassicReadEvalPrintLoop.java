@@ -67,6 +67,7 @@ public class ClassicReadEvalPrintLoop {
 			interp.init(false);
 			InStream is = new UngettableInStream(new ReaderInStream(new StringReader(script)));
 			Parser parser = new Parser(interp.getSymbolTable(), is, Constants.LISPCDRCHAR);
+			setInitialPrefixes(parser);
 
 			Exp expression = parser.read();
 			Exp result = interp.evalInGlobalEnvironment(expression);
@@ -143,7 +144,7 @@ public class ClassicReadEvalPrintLoop {
 
 	}
 
-	private void setInitialPrefixes(Parser parser) throws GenyrisException {
+	private static void setInitialPrefixes(Parser parser) throws GenyrisException {
 		parser.addPrefix("u", Constants.PREFIX_UTIL);
 		parser.addPrefix("web", Constants.PREFIX_WEB);
 		parser.addPrefix("email", Constants.PREFIX_EMAIL);

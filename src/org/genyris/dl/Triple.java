@@ -9,7 +9,7 @@ import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
-public class Triple extends Atom {
+public class Triple extends Atom implements Comparable {
 
     public final Exp subject;
     public final SimpleSymbol predicate;
@@ -59,6 +59,10 @@ public class Triple extends Atom {
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
+	}
+
+	public int compareTo(Object arg0) {
+		return this.toString().compareTo(((Triple)arg0).toString());
 	}
 
 }

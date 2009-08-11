@@ -1,5 +1,7 @@
 package org.genyris.dl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -142,7 +144,9 @@ public class TripleStore extends Atom {
 
 	public Exp asTripleList(Exp NIL) {
 		Exp result = NIL;
-		Iterator iter = triples.iterator();
+		List sorted = new ArrayList(triples);
+		Collections.sort(sorted);
+		Iterator iter = sorted.iterator();
 		while(iter.hasNext()) {
 			Triple item = (Triple)iter.next();
 			result = new Pair(new Triple(item.subject, (SimpleSymbol) item.predicate, item.object ), result);

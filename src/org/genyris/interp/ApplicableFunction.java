@@ -76,7 +76,7 @@ public abstract class ApplicableFunction {
         for (int i = 0; i < types.length; i++) {
             if (!types[i].isInstance(args[i])) {
                 throw new GenyrisException(getName() + " expects a "
-                        + types[i].getName() + " at position " + i + " got a " + args[i].getClass().getName());
+                        + types[i].getName() + " at position " + i + " got <" + args[i] + "> a " + args[i].getClass().getName());
             }
         }
     }

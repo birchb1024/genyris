@@ -1,6 +1,22 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 
-define CSVFILE "testscripts/fixtures/test.csv"
+; web.serve 80 "examples/triple-browser.lin"
+
+def tryToParseSymbol (str)
+    define result  
+       catch $errors (parse (str))
+    if $errors 
+        intern str
+        result
+
+def tryToParse (str)
+    define result  
+       catch $errors (parse (str))
+    if (equal? (asString result) str)
+        result
+        str
+
+define CSVFILE "/downloads/CMP_CMDB.csv"
 define fi
    File(!new CSVFILE)
 define in
@@ -8,11 +24,19 @@ define in
 var store (triplestore)
 define $line ""
 while (not (equal? EOF (setq $line (in(!getline)))))
+    ;print $line
     define aslist ($line(!split ","))
-    define subject (parse (car aslist))
-    define predicate (parse (cadr aslist))
-    define object (parse (cadr (cdr aslist)))
-    define tr (triple subject object predicate)
+    define subject (tryToParseSymbol (car aslist))
+    define predicate (tryToParseSymbol (cadr aslist))
+    if (equal? 2 (length aslist))
+        define object ""
+        define object (tryToParse (cadr (cdr aslist)))
+        
+    catch $error 
+       define tr (triple subject predicate object)
+    cond
+       $error
+          u.format "~s ~s ~s ~s~%" $error subject predicate object
     store
        !add tr
 in (!close)
@@ -20,40 +44,82 @@ in (!close)
 print
    store(!asTriples)
 
-def searchStore(str)
-    setq str (str (!+ ".*"))
-    setq str (".*" (!+ str))
+def convertToRegex (str)
+    cond
+       (str(!match "\".*\""))
+            ; exact
+            setq str 
+                (cadr (str(!split "\"")))
+                    !toLowerCase
+       else     
+            setq str (str(!toLowerCase))
+            setq str (str (!+ ".*"))
+            setq str (".*" (!+ str))
     print str
+    str
+    
+def searchStore(str)
+    setq str (convertToRegex str)
     def matchFunc(s o p)
-        u.format "~s ~s ~s ~s~%" s o p str
+       ;u.format "~s ~s ~s ~s~%" s o p str
         or
-          (asString s) (!match str)
-          (asString p) (!match str)
-          (asString o) (!match str)
+          ((asString s)(!toLowerCase)) (!match str)
+          ((asString p)(!toLowerCase)) (!match str)
+          ((asString o)(!toLowerCase)) (!match str)
     store(!select nil nil nil matchFunc)
 
+def searchURL (str)
+   "/?op="(!+ str)
 
+def renderTriple (t)
+   define s (asString(t(!subject)))
+   define p (asString(t(!predicate)))
+   define o (asString(t(!object)))
+   template
+      tr()
+         td() 
+            a((href: ,(searchURL s))) ,s
+         td() 
+            a((href : ,(searchURL p))) ,p
+         td() 
+            a((href: ,(searchURL o))) ,o
+
+def renderTripleList (ts)
+    define result nil
+    while ts
+        ;display (car ts)
+        setq result (cons (renderTriple (car ts)) result)
+        setq ts (right ts)
+    template
+            table() ,result
+define DEFAULT "\"Environment\""
 df httpd-serve (request)
    var params (request(!getParameters))
-   var operation ""
+   define operation DEFAULT
    cond
      params
         setq operation (params (!lookup "op"))
-        ; BuildNotification(!alertUsers operation)
+        cond
+           (equal? operation "")
+               setq operation DEFAULT      
+        define searchResults 
+            (searchStore operation)(!asTriples)
+        define renderedResults 
+            renderTripleList searchResults
+        ;print searchResults
    var result
     list 200 "text/html"
       template
           html()
              head()
-               title() "TripleSearch"
+               title() "CMP CMDB Search"
              body()
+                h2() "CMP CMDB Search"
                 form()
                    input((name:"op") (size:"100") (value: ,operation)) ""
                    verbatim() "&nbsp;&nbsp;&nbsp;"
                    input((type:"submit") (value:"Search"))
-                form()
-                    input((type:"submit") (value:"Refresh"))
-                pre()
-                    ,((searchStore operation)(!asTriples))
+                div()
+                    ,renderedResults
    result
 
