@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import junit.framework.TestCase;
 
 import org.genyris.core.Exp;
+import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
@@ -20,23 +21,22 @@ import org.genyris.io.UngettableInStream;
 
 public class BuiltinInterpreterTests extends TestCase {
 
-    private Interpreter interpreter;
+    private TestUtilities interpreter;
 
     protected void setUp() throws Exception {
         super.setUp();
-        interpreter = new Interpreter();
+        interpreter = new TestUtilities();
     }
 
-    void excerciseEval(String exp, String expected) throws Exception {
-        InStream input = new UngettableInStream( new StringInStream(exp));
-        Parser parser = interpreter.newParser(input);
-        Exp expression = parser.read();
-        Exp result = interpreter.evalInGlobalEnvironment(expression);
+    private void excerciseEval(String exp, String expected) throws Exception {
+        assertEquals(expected,  interpreter.eval(exp));
+    }
 
-        StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out);
-        result.acceptVisitor(formatter);
-        assertEquals(expected, out.getBuffer().toString());
+    private void excerciseBadEval(String exp) {
+        try {
+            interpreter.eval(exp);
+            fail();
+        } catch (GenyrisException e) {}
     }
 
     public void testExcerciseEval() throws Exception {
@@ -44,6 +44,13 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseEval("foo", "23");
     }
 
+    public void testNth() throws Exception {
+        excerciseEval("(nth 0 '(a b c))", "a");
+        excerciseEval("(nth 1 '(a b c))", "b");
+        excerciseEval("(nth 2 '(a b c))", "c");
+        excerciseBadEval("(nth 22 '(a b c))");
+        excerciseBadEval("(nth -1 '(a b c))");
+    }
     public void testEquality() throws Exception {
         excerciseEval("(equal? 1 1)", "true");
         excerciseEval("(equal? 1.2e4 1.2e4)", "true");
