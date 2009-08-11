@@ -1,0 +1,15 @@
+;
+; Examples with catch
+;
+; catch resultvar <expression> 
+
+define result
+    catch exceptions (kjhkjhkjh)
+cond 
+   exceptions
+       u.format "Caught an exception ~s~%" exceptions
+   else 
+       print "All OK"
+       
+
+   

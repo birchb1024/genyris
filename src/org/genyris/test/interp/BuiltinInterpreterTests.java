@@ -1,23 +1,13 @@
-// Copyright 2008 Peter William Birch <birchb@genyis.org>
+// Copyright 2009 Peter William Birch <birchb@genyis.org>
 //
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
 package org.genyris.test.interp;
 
-import java.io.StringWriter;
-
 import junit.framework.TestCase;
 
-import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
-import org.genyris.format.BasicFormatter;
-import org.genyris.format.Formatter;
-import org.genyris.interp.Interpreter;
-import org.genyris.io.InStream;
-import org.genyris.io.Parser;
-import org.genyris.io.StringInStream;
-import org.genyris.io.UngettableInStream;
 
 public class BuiltinInterpreterTests extends TestCase {
 

@@ -9,8 +9,7 @@
 ;
 define left car
 define right cdr
-def cadr (x) (car (cdr x))
-def caadr (x) (car (car (cdr x)))
+def cadr (x) (nth 1 x)
 def cadar (x) (car (cdr (car x)))
 def caar (x) (car (car x))
 
