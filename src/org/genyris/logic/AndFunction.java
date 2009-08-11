@@ -21,14 +21,14 @@ public class AndFunction extends AbstractLogicFunction {
             throws GenyrisException {
         if (arguments.length < 2)
             throw new GenyrisException("Too few arguments to and: " + arguments.length);
-
+        Exp result = NIL;
         for (int i = 0; i < arguments.length; i++) {
-            Exp result = arguments[i].eval(envForBindOperations);
+            result = arguments[i].eval(envForBindOperations);
             if (result == NIL) {
                 return NIL;
             }
         }
-        return TRUE;
+        return result;
 
     }
 

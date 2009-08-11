@@ -54,5 +54,10 @@ public class StringTests extends TestCase {
         checkEvalBad("(\"A\"(!match 34))");
         checkEval("(\"http://www.genyris.org/path/index.html\"(!match \"http://[^/]+/.*\"))", "true");
     }
+    public void testStringToLowerCase() throws GenyrisException {
+    	checkEval("(\"\"(!toLowerCase))", "\"\"");
+        checkEval("(\"\"(!toLowerCase))", "\"\"");
+        checkEval("(\"ABCDEFGH\"(!toLowerCase))", "\"abcdefgh\"");
+    }
 
 }

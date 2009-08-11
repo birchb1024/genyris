@@ -23,6 +23,7 @@ public abstract class BuiltinFunction  extends ApplicableFunction {
         interpreter.bindGlobalProcedureInstance(new BackquoteFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new BoundFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new CarFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new CatchFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new CdrFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new ConditionalFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new ConsFunction(interpreter));

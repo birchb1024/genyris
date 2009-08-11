@@ -56,6 +56,7 @@ public class Constants {
         public static final String RIGHT = "right";
 
         public static final String SPLIT = "split";
+        public static final String TOLOWERCASE = "toLowerCase";
         public static final String CONCAT = "+";
         public static final String MATCH = "match";
         public static final String LENGTH = "length";

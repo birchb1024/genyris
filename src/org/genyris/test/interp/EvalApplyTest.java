@@ -130,5 +130,11 @@ public class EvalApplyTest extends TestCase {
         excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2)))", "(1 : 2)");
         excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2) 44))", "44");
         }
+    public void testCatch() throws Exception {
+        excerciseEval("(catch x (+ 9 1))", "10");
+        excerciseEval("(catch x (++ 9 1))", "nil");
+        excerciseEval("(catch x qweqweqwe)", "nil");
+        excerciseEval("(or (catch x qweqweqwe) x)", "\"unbound variable: qweqweqwe\"");
+        }
 
 }

@@ -22,12 +22,12 @@ public class OrFunction extends ApplicableFunction {
             throws GenyrisException {
         if (arguments.length < 2)
             throw new GenyrisException("Too few arguments to or: " + arguments.length);
-
+        Exp result = NIL;
         for (int i = 0; i < arguments.length; i++) {
-            Exp result = arguments[i].eval(envForBindOperations);
+            result = arguments[i].eval(envForBindOperations);
 
             if (result != NIL) {
-                return TRUE;
+                return result;
             }
             else {
                 continue;
