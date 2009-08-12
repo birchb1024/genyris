@@ -40,8 +40,14 @@ public class ClassicReadEvalPrintLoop {
 			if (args.length == 0) {
 				new ClassicReadEvalPrintLoop().run(args);
 			} else {
-				if (args[0].equals("-eval") && args.length == 2) {
-					evalString(args[1]);
+				if (args[0].equals("-eval")) {
+					String expression = "";
+					for(int i=1; i< args.length; i++) {
+						expression += args[i] + " ";
+					}
+					expression += "\n\n";
+					System.out.println(expression);
+					evalString(expression);
 				} else if (args[0].equals("-file")) {
 					evalFileWithArguments(args[1], 1, args);
 				} else {
@@ -75,10 +81,12 @@ public class ClassicReadEvalPrintLoop {
 		try {
 			interp = new Interpreter();
 			interp.init(false);
-			InStream is = new UngettableInStream(new ReaderInStream(
-					new StringReader(script)));
-			Parser parser = new Parser(interp.getSymbolTable(), is,
-					Constants.LISPCDRCHAR);
+			InStream is = new UngettableInStream(new ConvertEofInStream(
+					new IndentStream(
+							new UngettableInStream(new ReaderInStream(
+					new StringReader(script))), true)));
+			
+			Parser parser = interp.newParser(is);
 			setInitialPrefixes(parser);
 
 			Exp expression = parser.read();
@@ -91,13 +99,14 @@ public class ClassicReadEvalPrintLoop {
 
 		} catch (GenyrisException e) {
 			output.write("*** Error in script: " + e.getData());
+			output.flush();
 			System.exit(-1);
 		}
 	}
 
 	private static void usage() {
 		System.out
-				.println("Usage: genyris [-eval (expression)]  [-file filename args... ] ");
+				.println("Usage: genyris [-eval (expression) args...]  [-file filename args... ] ");
 		System.exit(-1);
 	}
 
