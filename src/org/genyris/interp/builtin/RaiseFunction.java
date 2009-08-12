@@ -21,7 +21,7 @@ public class RaiseFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		checkArguments(arguments, 1);
-        throw new GenyrisUserException( arguments[0] );
+        throw new GenyrisUserException( arguments[0], envForBindOperations );
     }
 
 }

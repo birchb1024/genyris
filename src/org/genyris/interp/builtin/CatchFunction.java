@@ -6,7 +6,6 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -28,7 +27,7 @@ public class CatchFunction extends ApplicableFunction {
         try {
         	retval = body.eval(env);
         } catch (GenyrisException e) {
-        	env.setVariableValue(errorVar, new StrinG(e.getMessage()));
+        	env.setVariableValue(errorVar, e.getData());
         }       
         return retval;
     }
