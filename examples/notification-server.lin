@@ -80,7 +80,6 @@ class StringMessage(String)
    def !update-lamp()
    def !play-sounds()
    def !send-email()
-       u.format "default send-message~%"
    def !custom-action(context)
    def !log(context)
      (context!addToLog) !self !style-exp
@@ -107,7 +106,7 @@ class Message(StringMessage)
       cond
         ((UsbMessage!valid?) str) nil ; Message and UsbMessage mutually exclusive
         else
-          (function(pat) (str (!match pat))) !pattern-exp
+           (function(pat) (str (!match pat))) !pattern-exp
 
    def !pattern (str)
       var !pattern-exp str
@@ -130,7 +129,6 @@ class Message(StringMessage)
           (Noises!play) (left !sound-exp)
 
    def !send-email()
-      u.format "send-mail: " 
       cond
         !email-recipients
           (Email!send) !email-recipients !self
@@ -161,7 +159,8 @@ class CheckMessage(Message)
 
 class DeployMessage(Message)
    !pattern ".*deploy-.*"
-
+   !email '("birchb@genyris.org")
+   
 class MonitorMessage(Message)
    !pattern ".*monitor-failed.*"
    !lights "alloff" "redflash"
@@ -214,7 +213,6 @@ class DeployFailed(DeployMessage)
    !lights "alloff" "redon"
    !sounds "compute.wav"
    !style "background:red;"
-
 
 class BuildNotification()
   ; singleton
