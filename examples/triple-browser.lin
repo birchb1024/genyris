@@ -1,5 +1,6 @@
-@prefix u "http://www.genyris.org/lang/utilities#"
+@prefix u   "http://www.genyris.org/lang/utilities#"
 @prefix web "http://www.genyris.org/lang/web#"
+@prefix sys "http://www.genyris.org/lang/system#"
 
 ; web.serve 80 "examples/triple-browser.lin" 
 
@@ -74,7 +75,11 @@ def searchURL (str)
 def renderTriple (t)
    define s (asString(t(!subject)))
    define p (asString(t(!predicate)))
-   define o (asString(t(!object)))
+   cond
+        (p (!match ".*_password.*"))
+            define o "XXXXXXXXX"
+        else
+            define o (asString(t(!object)))
    template
       tr()
          td() 
@@ -101,29 +106,33 @@ def renderTripleList (ts)
                         strong() "Object"
                     ,result
 define DEFAULT "\"Environment\""
+
+
 df httpd-serve (request)
    var params (request(!getParameters))
    define query DEFAULT
    define operation "Search"
    define searchResults nil
    define renderedResults ""
+   setq operation (params (!lookup "op"))
+   setq query (params (!lookup "query"))
    cond
-     params
-        setq operation (params (!lookup "op"))
-        setq query (params (!lookup "query"))
-        cond
-           (equal? operation "Reload")
-                loadDataFromCSV CSVURL
-                setq renderedResults ("Reloaded from "(!+ CSVURL))
-           (equal? operation "Search")
-                cond
-                   (equal? query "")
-                       setq query DEFAULT      
-                setq searchResults 
-                    (searchStore query)(!asTriples)
-                setq renderedResults 
-                    renderTripleList searchResults
-                ;print searchResults
+       (or (null? query) (equal? query ""))
+           setq query DEFAULT      
+   cond
+       (equal? operation "Reload")
+            loadDataFromCSV CSVURL
+            setq renderedResults 
+               template
+                   "Reloaded from "
+                      a((href : ,CSVURL))
+                         ,CSVURL
+                      
+       else
+            setq searchResults 
+                (searchStore query)(!asTriples)
+            setq renderedResults 
+                renderTripleList searchResults
    var result
     list 200 "text/html"
       template
@@ -141,6 +150,5 @@ df httpd-serve (request)
                     ,renderedResults
    result
 
-print sys.argv
-define CSVURL (nth sys.argv 0)
-loadDataFromCSV CSVURL <url goes here>
+define CSVURL (nth 1 sys.argv)
+loadDataFromCSV CSVURL 

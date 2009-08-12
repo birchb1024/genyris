@@ -46,7 +46,6 @@ public class ClassicReadEvalPrintLoop {
 						expression += args[i] + " ";
 					}
 					expression += "\n\n";
-					System.out.println(expression);
 					evalString(expression);
 				} else if (args[0].equals("-file")) {
 					evalFileWithArguments(args[1], 1, args);

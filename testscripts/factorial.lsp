@@ -7,6 +7,10 @@
 ;  Factorial function
 ;
 
+(@prefix u "http://www.genyris.org/lang/utilities#")
+; next line not yet supported
+;(u.format "Factorial")
+
 (def factorial (n)
   (if (< n 2) 1
     (* n

@@ -5160,11 +5160,11 @@ Running a script in the command line
 \end_layout
 
 \begin_layout LyX-Code
-DOS> genyris -eval "(print 
+DOS> genyris -eval print 
 \backslash
 "hello world
 \backslash
-")"
+"
 \end_layout
 
 \begin_layout LyX-Code
@@ -5172,12 +5172,20 @@ DOS> genyris -eval "(print
 \end_layout
 
 \begin_layout LyX-Code
-unix$ genyris -eval '(print "hello world")'
+unix$ genyris -eval print 
+\backslash
+"hello world
+\backslash
+"
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Standard
-If the return value of the expression is NIL, the process exits with a 0
- status, otherwise 1.
+If the return value of the expression is printed, the process exits with
+ a 0 status, otherwise 1.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5312,11 +5320,11 @@ A Genyris server can be started with the serve function:
 \end_layout
 
 \begin_layout LyX-Code
-web.serve <port> <path to source file>
+web.serve <port> <path to source file> [args...]
 \end_layout
 
 \begin_layout Standard
-The server function takes two parameters:
+The server function takes parameters:
 \end_layout
 
 \begin_layout Itemize
@@ -5325,6 +5333,12 @@ the path of a Genyris source file to load and run
 
 \begin_layout Itemize
 the TCP/IP port number on whicch the server will listen for requests.
+\end_layout
+
+\begin_layout Itemize
+all the remaining parameters are collected in a list and bound to 
+\emph on
+sys.argv
 \end_layout
 
 \begin_layout Standard
@@ -5352,7 +5366,7 @@ Example
 \end_layout
 
 \begin_layout LyX-Code
-web.serve 777 "examples/www-demo.lin"
+web.serve 777 "examples/www-demo.lin" 1 2 3 4 5
 \end_layout
 
 \begin_layout Subsubsection
