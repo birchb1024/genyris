@@ -5454,6 +5454,10 @@ The request parameter is an object of class HttpRequest.
 \end_layout
 
 \begin_layout Description
+!getClient() gives a Pair containing the client's IP address and hostname
+\end_layout
+
+\begin_layout Description
 !toHTML() a method returning an HTML list structure in %x format.
 \end_layout
 
@@ -5481,53 +5485,45 @@ verbatim
  pseudo-tag passes text transparently.
  For example (from 
 \emph on
-examples/notification-server.lin
+examples/www-demo.lin
 \emph default
 ):
 \end_layout
 
 \begin_layout LyX-Code
-template
+df httpd-serve (request)
 \end_layout
 
 \begin_layout LyX-Code
-   html()
+   list 200 "text/html"
 \end_layout
 
 \begin_layout LyX-Code
-      head()
+      template
 \end_layout
 
 \begin_layout LyX-Code
-         title() "Lamp Server"
+          html()
 \end_layout
 
 \begin_layout LyX-Code
-      body()
+             head()
 \end_layout
 
 \begin_layout LyX-Code
-         form()
+                title() "Genyris demo"
 \end_layout
 
 \begin_layout LyX-Code
-            input((name:"op") (size:"100") (value: ,operation)) ""
+             body()
 \end_layout
 
 \begin_layout LyX-Code
-            verbatim() "&nbsp;&nbsp;&nbsp;"
+                pre() ,sys.argv
 \end_layout
 
 \begin_layout LyX-Code
-            input((type:"submit") (value:"Go"))
-\end_layout
-
-\begin_layout LyX-Code
-         table()
-\end_layout
-
-\begin_layout LyX-Code
-              ,(BuildNotification(!getLog))
+                ,(request (!toHTML))
 \end_layout
 
 \begin_layout LyX-Code
@@ -5537,9 +5533,9 @@ template
 \begin_layout Standard
 Refer to 
 \emph on
-examples/www-demo.lin
+examples/notification-server.lin
 \emph default
- for a simpler example.
+ for a more complex example.
 \end_layout
 
 \begin_layout Subsubsection

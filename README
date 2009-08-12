@@ -8,7 +8,7 @@ INSTALLATION
 
 Refer to the installation instructions in doc/reference/manual.pdf. Otherwise read on:
 
-You need Java 1.5 JRE to run the Genyris interpreter. Check with your JRE
+You need Java 1.6 JRE to run the Genyris interpreter. Check with your JRE
 version with:
 
   $ java -version

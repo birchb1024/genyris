@@ -9,6 +9,8 @@ class HttpRequest()
     def !getHeaders() (nth 2 !self)
     def !getParameters() (nth 3 !self)
     def !getClient() (nth 4 !self)
+    def !getClientIP() (left (nth 4 !self))
+    def !getClientHostname() (right (nth 4 !self))
     def !toHTML ()
        template
           div()
