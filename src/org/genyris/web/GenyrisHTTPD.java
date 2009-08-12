@@ -10,10 +10,12 @@ import java.net.ServerSocket;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.BasicFormatter;
 import org.genyris.format.Formatter;
@@ -25,16 +27,20 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
 	Interpreter interpreter;
 
-	Exp NIL;
+	Symbol NIL;
 
 	Dictionary HttpRequestClazz, AlistClazz;
 
-	public GenyrisHTTPD(int port, String filename) throws GenyrisException {
+	public GenyrisHTTPD(int port, String filename, Exp[] argv) throws GenyrisException {
 		myTcpPort = port;
 
 		interpreter = new Interpreter();
 		interpreter.init(false);
+		Symbol ARGS = interpreter.intern(Constants.GENYRIS + "system#"
+				+ Constants.ARGS);
 		NIL = interpreter.NIL;
+		interpreter.getGlobalEnv().defineVariable(ARGS, makeListOfArray(NIL,argv));
+		
 		Writer output = new PrintWriter(System.out);
 		SourceLoader.loadScriptFromClasspath(interpreter,
 				"org/genyris/load/boot/httpd-serve.lin", output);
@@ -51,6 +57,15 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			throw new GenyrisException("GenyrisHTTPD: Port " + myTcpPort + " "
 					+ e1.getMessage());
 		}
+	}
+
+	private static Exp makeListOfArray(Symbol NIL, Exp[] args) {
+		// TODO DRY - repeated in evaluater somewhere...
+		Exp arglist = NIL;
+		for (int i = args.length - 1; i > 0; i--) {
+			arglist = new Pair(args[i], arglist);
+		}
+		return arglist;
 	}
 
 	public Thread run() throws IOException {
