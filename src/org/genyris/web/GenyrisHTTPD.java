@@ -84,7 +84,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 	}
 
 	public synchronized NanoResponse  serve(String uri, String method, Properties header,
-			Properties parms, String rootdir) {
+			Properties parms, String rootdir, String clientIP, String clientName) {
 		Exp request = NIL;
 		// System.out.println(method + " '" + uri + "' ");
 
@@ -110,6 +110,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 		}
 		parameters.addClass(this.AlistClazz);
 
+		request = new Pair(new Pair(new StrinG(clientIP), new StrinG(clientName)), request);
 		request = new Pair(parameters, request);
 		request = new Pair(headers, request);
 		request = new Pair(new StrinG(uri), request);

@@ -1,8 +1,26 @@
 package org.genyris.web;
 
-import java.io.*;
-import java.util.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.URLEncoder;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 server in Java
@@ -91,7 +109,7 @@ public class NanoHTTPD {
 	 * @return HTTP response, see class NanoResponse for details
 	 */
 	public NanoResponse serve(String uri, String method, Properties header,
-			Properties parms, String rootdir) {
+			Properties parms, String rootdir, String IP, String name) {
 		return serveFile(uri, header, new File(rootdir), true);
 	}
 
@@ -292,6 +310,8 @@ public class NanoHTTPD {
 		public void handleRequest() throws NanoException {
 			try {
 				InputStream is = mySocket.getInputStream();
+				String clientIP = mySocket.getInetAddress().getHostAddress();
+				String clientName = mySocket.getInetAddress().getCanonicalHostName();
 				if (is == null)
 					return;
 				BufferedReader in = new BufferedReader(
@@ -359,7 +379,7 @@ public class NanoHTTPD {
 				}
 
 				// Ok, now do the serve()
-				NanoResponse r = serve(uri, method, header, parms, rootdir);
+				NanoResponse r = serve(uri, method, header, parms, rootdir, clientIP, clientName);
 				if (r == null)
 					sendError(HTTP_INTERNALERROR,
 							"SERVER INTERNAL ERROR: Serve() returned a null response.");

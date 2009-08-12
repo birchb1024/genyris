@@ -4,6 +4,7 @@ df httpd-serve (request)
       template
           html()
              head()
+                title() "Genyris demo"
              body()
                 ,(request (!toHTML))
 
