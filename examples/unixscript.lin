@@ -1,0 +1,5 @@
+#!/usr/bin/sh /opt/home/birchb/workspace/genyris/bin/genyris
+@prefix sys "http://www.genyris.org/lang/system#"
+
+print sys.argv
+display "Hello World"
