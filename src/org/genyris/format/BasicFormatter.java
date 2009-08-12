@@ -5,6 +5,7 @@
 //
 package org.genyris.format;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import org.genyris.core.Bignum;
@@ -101,5 +102,9 @@ public class BasicFormatter extends  AbstractFormatter {
     public void visitExpWithEmbeddedClasses(ExpWithEmbeddedClasses exp) throws GenyrisException {
        write("[Exp: " + exp.toString() + "]");
     }
+
+	public void print(String message) throws GenyrisException, IOException {
+		write(message);	
+	}
 
 }

@@ -44,5 +44,6 @@ public interface Formatter extends Visitor {
     public abstract void visitStandardClass(StandardClass klass) throws GenyrisException;
 
     public abstract void printClassNames(Exp item, Interpreter interp)  throws AccessException, IOException, UnboundException, GenyrisException ;
+    public abstract void print(String message)  throws GenyrisException, IOException ;
 
 }

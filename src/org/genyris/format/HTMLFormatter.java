@@ -150,4 +150,8 @@ public class HTMLFormatter extends AbstractFormatter {
 		emit(exp.toString());
 	}
 
+	public void print(String message) throws GenyrisException {
+		emit(message);
+	}
+
 }

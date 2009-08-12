@@ -160,4 +160,9 @@ public class IndentedFormatter extends AbstractFormatter {
         writeAtom(exp);
     }
 
+	public void print(String message) throws GenyrisException, IOException {
+		_output.write(message);
+		
+	}
+
 }
