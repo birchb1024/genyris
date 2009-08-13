@@ -2126,6 +2126,105 @@ lambdaq
 \end_layout
 
 \begin_layout Subsection
+Executable Comments
+\end_layout
+
+\begin_layout Standard
+Sometimes it's necessary to temporarily 'comment out' functions or provide
+ in-line text.
+ This is done via the function 
+\emph on
+'#' 
+\emph default
+which is a lazy unction that ignores it's arguments and return 
+\emph on
+nil
+\emph default
+.
+ It is defined as:
+\end_layout
+
+\begin_layout LyX-Code
+df # (&rest body)
+\end_layout
+
+\begin_layout Standard
+and can be used as follows:
+\end_layout
+
+\begin_layout LyX-Code
+#!/usr/bin/sh /opt/home/birchb/workspace/genyris/bin/genyris
+\end_layout
+
+\begin_layout LyX-Code
+; as the first line of a Unix script.
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+# def allcommentedout(arg) ; to comment out an entire function
+\end_layout
+
+\begin_layout LyX-Code
+  lambda (x)
+\end_layout
+
+\begin_layout LyX-Code
+    cond
+\end_layout
+
+\begin_layout LyX-Code
+      (eq? nil (cdr x))
+\end_layout
+
+\begin_layout LyX-Code
+         car x
+\end_layout
+
+\begin_layout LyX-Code
+      else
+\end_layout
+
+\begin_layout LyX-Code
+         last (cdr x)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+def myfun()
+\end_layout
+
+\begin_layout LyX-Code
+   # "in-line  documentation"
+\end_layout
+
+\begin_layout LyX-Code
+   +
+\end_layout
+
+\begin_layout LyX-Code
+      # + 1      ; however this causes an error because # returns nil.
+\end_layout
+
+\begin_layout LyX-Code
+          + 34
+\end_layout
+
+\begin_layout LyX-Code
+          + 45
+\end_layout
+
+\begin_layout LyX-Code
+      99
+\end_layout
+
+\begin_layout Subsection
 Defining Macros
 \end_layout
 
@@ -5193,11 +5292,44 @@ Specify a file to run on the command line
 \end_layout
 
 \begin_layout LyX-Code
-$ genyris -file examples/queens.lin 5
+$ genyris examples/queens.lin 5
 \end_layout
 
 \begin_layout Standard
 Arguments are passed after the file name.
+\end_layout
+
+\begin_layout Subsubsection
+Making a script executable (Unix)
+\end_layout
+
+\begin_layout Standard
+If a script begins with 
+\emph on
+#!
+\emph default
+ it allows the Unix kernel to run the script directly.
+ Here's an example script:
+\end_layout
+
+\begin_layout LyX-Code
+#!/usr/bin/sh /opt/home/birchb/workspace/genyris/bin/genyris
+\end_layout
+
+\begin_layout LyX-Code
+display "Hello World"
+\end_layout
+
+\begin_layout Standard
+if the script is made executable it can be run directly:
+\end_layout
+
+\begin_layout LyX-Code
+$ chmod u+x myscript.lin
+\end_layout
+
+\begin_layout LyX-Code
+$ ./myscript.lin
 \end_layout
 
 \begin_layout Subsection
