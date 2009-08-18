@@ -32,6 +32,8 @@ public class Lex {
 	public Symbol COMMA_TOKEN;
 
 	public Symbol LEFT_PAREN_TOKEN, RIGHT_PAREN_TOKEN, COLON_TOKEN;
+	public Symbol LEFT_SQUARE_TOKEN, RIGHT_SQUARE_TOKEN;
+	public Symbol LEFT_CURLY_TOKEN, RIGHT_CURLY_TOKEN;
 
 	private void init(InStream inputSource, Internable table, char cdrChar) {
 		_mapper = new PrefixMapper();
@@ -47,6 +49,10 @@ public class Lex {
 		EOF_TOKEN = new SimpleSymbol("EOF_TOKEN");
 		LEFT_PAREN_TOKEN = new SimpleSymbol("leftParenToken");
 		RIGHT_PAREN_TOKEN = new SimpleSymbol("righParenToken");
+		LEFT_SQUARE_TOKEN = new SimpleSymbol("leftSquareToken");
+		RIGHT_SQUARE_TOKEN = new SimpleSymbol("rightSquareToken");
+		LEFT_CURLY_TOKEN = new SimpleSymbol("leftCurlyToken");
+		RIGHT_CURLY_TOKEN = new SimpleSymbol("rightCurlyToken");
 		COLON_TOKEN = new SimpleSymbol("pair-delimiterToken");
 	}
 
@@ -130,6 +136,10 @@ public class Lex {
 		case '\r':
 		case '(':
 		case ')':
+		case '[':
+		case ']':
+		case '{':
+		case '}':
 		case Constants.DYNAMICSCOPECHAR2:
 		case Constants.COMMENTCHAR:
 		case Constants.BQUOTECHAR:
@@ -240,6 +250,14 @@ public class Lex {
 				return LEFT_PAREN_TOKEN;
 			case ')':
 				return RIGHT_PAREN_TOKEN;
+			case '[':
+				return LEFT_SQUARE_TOKEN;
+			case ']':
+				return RIGHT_SQUARE_TOKEN;
+			case '{':
+				return LEFT_CURLY_TOKEN;
+			case '}':
+				return RIGHT_CURLY_TOKEN;
 			case Constants.DYNAMICSCOPECHAR2:
 				return DYNAMIC_TOKEN;
 			case Constants.QUOTECHAR:

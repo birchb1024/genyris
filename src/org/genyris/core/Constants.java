@@ -36,6 +36,8 @@ public class Constants {
         public static final String STANDARDCLASS = "StandardClass";
         public static final String EOF = "EOF";
         public static final String TEMPLATE = "template";
+        public static final String SQUARE = "squareBracket";
+        public static final String CURLY = "curlyBracket";
 
         public static final String THING = "Thing";
         public static final String SIMPLESYMBOL = "SimpleSymbol";

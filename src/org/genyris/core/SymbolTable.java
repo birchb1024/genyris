@@ -36,6 +36,8 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _lambdam;
 	private SimpleSymbol _eof;
 	private SimpleSymbol _template;
+	private SimpleSymbol _square;
+	private SimpleSymbol _curly;
 	private SimpleSymbol _quote;
 	private SimpleSymbol _comma;
 	private SimpleSymbol _comma_at;
@@ -90,6 +92,8 @@ public class SymbolTable implements Internable {
 
       _eof = bindKeyword(Constants.EOF);
       _template = bindKeyword(Constants.TEMPLATE);
+      _square = bindKeyword(Constants.SQUARE);
+      _curly = bindKeyword(Constants.CURLY);
       _quote = bindKeyword(Constants.QUOTE);
       _comma = bindKeyword(String.valueOf(Constants.COMMA));
       _comma_at = bindKeyword(String.valueOf(Constants.COMMA_AT));
@@ -252,6 +256,12 @@ public class SymbolTable implements Internable {
 
 	public SimpleSymbol EOF() {
 		return _eof;
+	}
+	public SimpleSymbol SQUARE() {
+		return _square;
+	}
+	public SimpleSymbol CURLY() {
+		return _curly;
 	}
 	public SimpleSymbol TEMPLATE() {
 		return _template;

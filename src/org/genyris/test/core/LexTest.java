@@ -265,5 +265,24 @@ public class LexTest extends TestCase {
     public void testSpecialLexCommaAt() throws Exception {
         excerciseSpecialParsing(",@12", "(comma-at 12)");
     }
-
+    public void testSquarebracket() throws Exception {
+        excerciseSpecialParsing("[]", "(squareBracket)");
+        excerciseSpecialParsing("[1]", "(squareBracket 1)");
+        excerciseSpecialParsing("[1 2]", "(squareBracket 1 2)");
+        excerciseSpecialParsing("['1]", "(squareBracket (quote 1))");
+        excerciseSpecialParsing("[[2]3]", "(squareBracket (squareBracket 2) 3)");
+        excerciseSpecialParsing("[\"foo\"]", "(squareBracket \"foo\")");
+        excerciseSpecialParsing("[w 'e]", "(squareBracket w (quote e))");
+        excerciseSpecialParsing("[(1 2 3)]", "(squareBracket (1 2 3))");
+    }
+    public void testCurlybracket() throws Exception {
+        excerciseSpecialParsing("{}", "(curlyBracket)");
+        excerciseSpecialParsing("{1}", "(curlyBracket 1)");
+        excerciseSpecialParsing("{1 2}", "(curlyBracket 1 2)");
+        excerciseSpecialParsing("{'1}", "(curlyBracket (quote 1))");
+        excerciseSpecialParsing("{{2}3}", "(curlyBracket (curlyBracket 2) 3)");
+        excerciseSpecialParsing("{\"foo\"}", "(curlyBracket \"foo\")");
+        excerciseSpecialParsing("{w 'e}", "(curlyBracket w (quote e))");
+        excerciseSpecialParsing("{(1 2 3)}", "(curlyBracket (1 2 3))");
+    }
 }

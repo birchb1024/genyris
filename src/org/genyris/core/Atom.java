@@ -23,7 +23,7 @@ public abstract class Atom extends ExpWithEmbeddedClasses {
 	}
 
 	public Exp nth(int number, Symbol NIL) throws AccessException {
-		throw new AccessException("attempt to take nth of atom: "
+		throw new AccessException("attempt to take nth " + number + " of atom: "
 				+ this.toString());
 	}
 

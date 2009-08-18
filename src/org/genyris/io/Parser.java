@@ -92,6 +92,10 @@ public class Parser {
 		nextsym();
 		if (cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
 			tree = NIL;
+		} else if(cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
+			tree = NIL;
+		} else if(cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
+			tree = NIL;
 		} else if (cursym.equals(_lexer.COLON_TOKEN)) {
 			return _lexer.COLON_TOKEN;
 		} else {
@@ -123,9 +127,21 @@ public class Parser {
 		if (cursym.equals(_lexer.LEFT_PAREN_TOKEN)) {
 			tree = parseList();
 			if (!cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
-				throw new ParseException("missing right paren");
+				throw new ParseException("missing right paren - found: " + cursym);
 			}
-		} else if (cursym == _lexer.BACKQUOTE_TOKEN) {
+		} else if (cursym.equals(_lexer.LEFT_SQUARE_TOKEN)) {
+			tree = parseList();
+			tree = new Pair(_table.SQUARE(), tree);
+			if (!cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
+				throw new ParseException("missing right square brace - found: " + cursym);
+			}						
+		} else if (cursym.equals(_lexer.LEFT_CURLY_TOKEN)) { // TOD DRY - SQUARE
+			tree = parseList();
+			tree = new Pair(_table.CURLY(), tree);
+			if (!cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
+				throw new ParseException("missing right curly brace - found: " + cursym);
+			}						
+		} else	if (cursym == _lexer.BACKQUOTE_TOKEN) {
 			nextsym();
 			tree = new Pair(_table.TEMPLATE(), new Pair(parseExpression(), NIL));
 		} else if (cursym == _lexer.QUOTE_TOKEN) {

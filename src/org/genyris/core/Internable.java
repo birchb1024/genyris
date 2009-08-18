@@ -25,6 +25,8 @@ public interface Internable {
 	public SimpleSymbol LAMBDAM();
 	public SimpleSymbol EOF();
 	public SimpleSymbol NIL();
+	public SimpleSymbol SQUARE();
+	public SimpleSymbol CURLY();
 	public SimpleSymbol TEMPLATE();
 	public SimpleSymbol QUOTE();
 	public SimpleSymbol COMMA_AT();
