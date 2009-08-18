@@ -60,6 +60,8 @@ load "org/genyris/load/boot/util.lin"
 load "org/genyris/load/boot/version.lin"
 load "org/genyris/load/boot/set.lin"
 load "org/genyris/load/boot/triple.lin"
+Thing
+   def !valid?(obj) true
 
 @prefix ver "http://www.genyris.org/lang/version#"
 ; u.format "Version: ~a~%Date: ~a~%" ver.tip ver.tipdate

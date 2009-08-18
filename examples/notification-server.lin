@@ -3,6 +3,17 @@
 @prefix email "http://www.genyris.org/lang/email#"
 
 include "/workspace/genyris/examples/classify.lin"
+
+def usage()
+    u.format "Usage: <scriptname> <client IP regular expression> <rules file>~%"
+    u.format "You supplied ~s~%" sys.argv 
+    System(!exit 1)
+
+if (equal? 3 (length sys.argv)) nil (usage)
+
+define *client-id-regex* (nth 1 sys.argv) ; client IP regular expression
+define *rule-file* (nth 2 sys.argv)       ; more classes for messages
+
 var log '()
 
 class UsbLamp()
@@ -138,81 +149,8 @@ Message
    !sounds "boing_1.wav"
    !email '()
 
-
-class Mail(Message)
-   !pattern ".*send-mail.*"
-   !email '("birchb@anz.com")
-   !style "background:lightyellow;"
-
-class Reset(Message)
-   !pattern ".*reset-log.*"
-   def !custom-action(context)
-      context(!reset-log)
-
-class BuildMessage(Message)
-   !pattern ".*build-.*"
-   !style "background:lightblue;"
-
-class CheckMessage(Message)
-   !pattern ".*check-.*"
-   !style "background:lightblue;"
-
-class DeployMessage(Message)
-   !pattern ".*deploy-.*"
-   !email '("birchb@genyris.org")
-   
-class MonitorMessage(Message)
-   !pattern ".*monitor-failed.*"
-   !lights "alloff" "redflash"
-   !sounds "bunny_troubles.wav"
-   !style "background:red;"
-
-class BuildStartMessage(BuildMessage)
-   !pattern ".*build-start.*"
-   !lights "alloff" "blueflash"
-   !sounds "bird1.wav"
-
-class BuildOK(BuildMessage)
-   !pattern ".*build-ok.*"
-   !lights "redoff" "redflashoff" "blueon"
-   !sounds nil
-   def !log(context)
-     (context!addToLogIfNew) !self "background:lightblue;"
-
-class BuildFailed(BuildMessage)
-   !pattern ".*build-failed.*"
-   !lights "alloff" "redon"
-   !sounds "awh_man.wav"
-   !style "background:red;"
-
-class CheckFailed(CheckMessage)
-   !pattern ".*check-failed.*"
-   !lights "alloff" "redon"
-   !sounds "compute.wav"
-   !style "background:palered;"
-
-class BuildComplete(BuildMessage)
-   !pattern ".*build-complete.*"
-   !lights "blueflashoff" "bluenon"
-   !style "background:lightblue;"
-
-class DeployStart(DeployMessage)
-   !pattern ".*deploy-start.*"
-   !lights "alloff" "blueon"
-   !sounds "bird2.wav"
-   !style "background:lightblue;"
-
-class DeployComplete(DeployMessage)
-   !pattern ".*deploy-complete.*"
-   !lights "alloff" "greenon"
-   !sounds "transfer_data.wav"
-   !style "background:lightgreen;"
-
-class DeployFailed(DeployMessage)
-   !pattern ".*deploy-failed.*"
-   !lights "alloff" "redon"
-   !sounds "compute.wav"
-   !style "background:red;"
+u.format "Loading ~s~%" *rule-file*
+include *rule-file*
 
 class BuildNotification()
   ; singleton
