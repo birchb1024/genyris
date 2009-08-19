@@ -79,7 +79,7 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
         excerciseEval("(def fn((a :A)) 42)", "<EagerProc: <fn>>");
-        exceptionEval("(fn 23)", "Type mismatch in function call for a");
+        exceptionEval("(fn 23)", "Type mismatch in function call for (a : A) because validator error: object 23 is not tagged with A");
         excerciseEval("(fn x)", "42");
 
         excerciseEval("(def fn1((a :Bignum)) 42)", "<EagerProc: <fn1>>");
@@ -109,7 +109,7 @@ public class ClassTaggingTests extends TestCase {
         exceptionEval("(12 : XX)", "class XX validator error for object 12");
 
         excerciseEval("(def fn((a :A) : Bignum) 42)", "<EagerProc: <fn>>");
-        exceptionEval("(fn 23)", "Type mismatch in function call for a");
+        exceptionEval("(fn 23)", "Type mismatch in function call for (a : A) because validator error: object 23 is not tagged with A");
         excerciseEval("(fn x)", "42");
 
         excerciseEval("(def fn1((a :Bignum) : String) 42)", "<EagerProc: <fn1>>");
