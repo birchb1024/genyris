@@ -111,10 +111,23 @@ public class StreamParser extends Atom {
             }
         }
     }
+    public static class PrefixMethod extends AbstractParserMethod {
+        public PrefixMethod(Interpreter interp) {
+            super(interp, "prefix");
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+        	checkArguments(arguments, 2);
+        	getSelfParser(env)._parser.addPrefix(arguments[0].toString(), arguments[1].toString());
+        	return NIL;
+        }
+    }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.NewMethod(interpreter));
         interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.ReadMethod(interpreter));
         interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.CloseMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.PARENPARSER, new StreamParser.PrefixMethod(interpreter));
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;

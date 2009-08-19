@@ -11,7 +11,7 @@ def readPage(url)
          setq count (+ count 1)
          write (wstream(!read)) '-
     wstream(!close)
-    u.format "~%Read ~a bytes~%" count
+    u:format "~%Read ~a bytes~%" count
     count
 
 def run-web()
@@ -34,16 +34,16 @@ def run-web-static-get()
     result
 
 var overall-result
-  t.test "Web Server"
-    t.test "Spawn and Kill"
-        t.given (run-web) expect "Terminated GenyrisHTTPD-7777"
-        t.given (run-web) expect "Terminated GenyrisHTTPD-7777"
+  t:test "Web Server"
+    t:test "Spawn and Kill"
+        t:given (run-web) expect "Terminated GenyrisHTTPD-7777"
+        t:given (run-web) expect "Terminated GenyrisHTTPD-7777"
 
-    t.test "Spawn and HTTP Get"
-         t.given (run-web-get) expect 15
-         t.given (run-web-get) expect 15
+    t:test "Spawn and HTTP Get"
+         t:given (run-web-get) expect 15
+         t:given (run-web-get) expect 15
 
-    t.test "Spawn static and HTTP Get"
-         t.given (run-web-static-get) expect 2017
-         t.given (run-web-static-get) expect 2017
+    t:test "Spawn static and HTTP Get"
+         t:given (run-web-static-get) expect 2017
+         t:given (run-web-static-get) expect 2017
 or overall-result (raise "Web Suite Failed")

@@ -3,15 +3,15 @@
 @prefix file "genyris:/files/"
 
 
-def !file.copy(from to) ...
-def !file.delete(filename) ...
-def !file.zip(file) ...
+def !file:copy(from to) ...
+def !file:delete(filename) ...
+def !file:zip(file) ...
 
 
 ;; Use of the file module
 @prefix f "genyris:/files/"
 
 def archive(filename)
-    f.copy filename "/tmp/foo"
-    f.zip "/tmp/foo"
-    f.delete filename
+    f:copy filename "/tmp/foo"
+    f:zip "/tmp/foo"
+    f:delete filename

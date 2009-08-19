@@ -9,7 +9,7 @@
 ;
 File
     def !new((filename : String))
-        tag File (dict (!filename: filename))
+        tag File (dict (!filename : filename))
     
     def !open((mode : SimpleSymbol))
        !static-open !filename mode 

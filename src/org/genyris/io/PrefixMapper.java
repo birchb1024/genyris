@@ -16,7 +16,8 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public class PrefixMapper {
-    private Map         _prefixes;
+    private static final String PREFIXCHAR = ":";
+	private Map         _prefixes;
 
     public PrefixMapper() {
         _prefixes = new HashMap();
@@ -24,7 +25,7 @@ public class PrefixMapper {
 
 
     public void addprefix(String prefix, String uri) throws GenyrisException {
-    	if(prefix.equals(".")) {
+    	if(prefix.equals(PREFIXCHAR)) {
     		prefix = "";
     	}
         try {
@@ -46,20 +47,20 @@ public class PrefixMapper {
     }
 
     private static boolean hasPrefix(String symbol) {
-        return symbol.contains(".");
+        return symbol.contains(PREFIXCHAR);
     }
 
     private static String getPrefix(String symbol) {
-        return symbol.substring(0, symbol.indexOf("."));
+        return symbol.substring(0, symbol.indexOf(PREFIXCHAR));
     }
 
     private static String getSuffix(String symbol) {
-        return symbol.substring(symbol.indexOf(".") + 1);
+        return symbol.substring(symbol.indexOf(PREFIXCHAR) + 1);
     }
 
     public SimpleSymbol symbolFactory(String news) throws GenyrisException {
         String prefix;
-        if(news.equals(".") || !hasPrefix(news) ) {
+        if(news.equals(PREFIXCHAR) || !hasPrefix(news) ) {
             return Symbol.symbolFactory(news, false);
         }
         else {
@@ -73,7 +74,7 @@ public class PrefixMapper {
     }
     public String getCannonicalSymbol(String news) throws GenyrisException {
         String prefix;
-        if(news.equals(".") || !hasPrefix(news) ) {
+        if(news.equals(PREFIXCHAR) || !hasPrefix(news) ) {
             return news;
         }
         else {

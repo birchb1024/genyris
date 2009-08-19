@@ -9,18 +9,18 @@ defvar 'Account
             lambda () (list $global !balance)
 
 Account
-    defvar '.new
+    defvar '!new
         lambda (initial-balance)
           dict
-            .classes (cons Account nil)
-            .balance initial-balance
+            !classes (cons Account nil)
+            !balance initial-balance
 
 defvar 'bb 
-  Account (.new 1000) 
+  Account (!new 1000) 
 
-bb(.print)
+bb(!print)
 
-bb((lambda () .balance))
+bb((lambda () !balance))
 
 
 

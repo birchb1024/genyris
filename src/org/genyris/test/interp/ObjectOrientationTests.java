@@ -48,8 +48,8 @@ public class ObjectOrientationTests extends TestCase {
             "(defvar '!new " +
                 "(lambda (initial-balance) " +
                 "(dict " +
-                    "(!classes: (cons Account nil)) " +
-                    "(!balance:  initial-balance))))) ",
+                    "(!classes : (cons Account nil)) " +
+                    "(!balance :  initial-balance))))) ",
                     "<EagerProc: <anonymous lambda>>" );
 
         checkEval("(defvar 'bb  (Account (!new 1000)))"
@@ -67,8 +67,8 @@ public class ObjectOrientationTests extends TestCase {
 
         checkEval("(defvar 'Base-1 " +
             "(dict " +
-                "(!classes: (cons Standard-Class nil)) " +
-                "(!toString: \"Base-1 toString\"))) "
+                "(!classes : (cons Standard-Class nil)) " +
+                "(!toString : \"Base-1 toString\"))) "
                 , "(dict (toString : \"Base-1 toString\"))" );
 
         checkEval("(Base-1 !toString)", "\"Base-1 toString\"");
@@ -85,20 +85,20 @@ public class ObjectOrientationTests extends TestCase {
                 "(dict " +
                     "(!classes : (cons Standard-Class nil)) " +
                     "(!superclasses : (cons Base-1 nil)) " +
-                    "(!print: \"Class-1 print\")"  +
-                    "(!new: " +
+                    "(!print : \"Class-1 print\")"  +
+                    "(!new : " +
                         "(lambda (!a) " +
                             "(dict " +
-                                "(!classes: (cons Class-1 nil)) " +
-                                "(!a: !a)))))) " );
+                                "(!classes : (cons Class-1 nil)) " +
+                                "(!a : !a)))))) " );
         checkEval("(Class-1 !print)", "\"Class-1 print\"");
         checkEval("(Class-1 !toString)", "\"Base-1 toString\"");
 
         eval("(defvar 'Class-2 " +
             "(dict" +
-                "(!classes: (cons Standard-Class nil))" +
-                "(!superclasses: (cons Base-2 nil))" +
-                "(!draw: \"Class-2 draw\")))" );
+                "(!classes : (cons Standard-Class nil))" +
+                "(!superclasses : (cons Base-2 nil))" +
+                "(!draw : \"Class-2 draw\")))" );
 
         checkEval("(Class-2 !draw)", "\"Class-2 draw\"");
         checkEval("(Class-2 !log)", "\"Base-2 log\"");

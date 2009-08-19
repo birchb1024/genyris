@@ -1,18 +1,18 @@
 @prefix l "http://www.measures.org/length#"
 
-class l.Inches(Bignum)
+class l:Inches(Bignum)
    def !toMeters()
       * !self 0.0254
 
 define a-foot
-   tag l.Inches 12
+   tag l:Inches 12
 
 assert
    equal?
        a-foot (!toMeters)
        0.3048
 
-class l.l.Length()
+class l:l.Length()
    def !toMeters()
       raise "Oops - you invoked an abstract class!"
 

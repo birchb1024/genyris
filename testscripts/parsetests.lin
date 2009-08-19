@@ -10,13 +10,13 @@ load "testscripts/gunit.lin"
 ;; Test parsing & conversion functions
 
 var overall-result
-  t.test "Parsing"
-    t.test "Parsing Strings"
-        t.given (parse "123")       expect 123
-        t.given (parse "(123 (123))")     expect (123 (123))
-        t.given (equal? (parse "qwe") 'qwe)     expect true
-        t.given (equal? (parse "|wqeqwe|") '|wqeqwe|) expect true
-        t.given (parse "\"22\"")        expect "22"
+  t:test "Parsing"
+    t:test "Parsing Strings"
+        t:given (parse "123")       expect 123
+        t:given (parse "(123 (123))")     expect (123 (123))
+        t:given (equal? (parse "qwe") 'qwe)     expect true
+        t:given (equal? (parse "|wqeqwe|") '|wqeqwe|) expect true
+        t:given (parse "\"22\"")        expect "22"
 
 or overall-result (raise "Parsing Suite Failed")
 

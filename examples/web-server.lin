@@ -10,12 +10,12 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 
 cond
-   (not (equal? (length sys.argv) 3))
+   (not (equal? (length sys:argv) 3))
        error "Usage: web-server.lin <port> <root directory>"
 
-var port (parse (cadr sys.argv))
-var rootdir (cadr (cdr sys.argv))
-u.format "Serving web pages on port ~a from ~a~%" port rootdir
+var port (parse (cadr sys:argv))
+var rootdir (cadr (cdr sys:argv))
+u:format "Serving web pages on port ~a from ~a~%" port rootdir
 web.serve-static port rootdir
 while true
    sleep (* 1000 60)

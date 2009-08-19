@@ -76,8 +76,7 @@ public class Parser {
 				_lexer.addprefix(((SimpleSymbol) arg0).getPrintName(), arg1
 						.toString());
 			} else {
-				// Use empty string as prefix
-				_lexer.addprefix("", arg0.toString());
+				throw new GenyrisException("bad prefix in " + input);
 			}
 		} catch (AccessException e) {
 			return false;

@@ -1,5 +1,5 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 
 while true
-   print sys.argv
+   print sys:argv
    sleep 5000

@@ -2,18 +2,28 @@
 @prefix web "http://www.genyris.org/lang/web#"
 @prefix sys "http://www.genyris.org/lang/system#"
 
-; web.serve 80 "examples/triple-browser.lin" 
+; web:serve 80 "examples/triple-browser.lin" 
+
+def myparse (string)
+   ; parse a string returning the expression
+   
+   (ParenParser(!new string))
+      !prefix "rdf" "http://w3c/rdf#"
+      !prefix "rdfs" "http://w3c/rdfs#"
+      !read
 
 def tryToParseSymbol (str)
     define result  
-       catch $errors (parse (str))
+       catch $errors (myparse (str))
     if $errors 
-        intern str
+        do
+            print $errors
+            intern str
         result
 
 def tryToParse (str)
     define result  
-       catch $errors (parse (str))
+       catch $errors (myparse (str))
     if (equal? (asString result) str)
         result
         str
@@ -21,25 +31,25 @@ def tryToParse (str)
 define store nil
 
 def loadDataFromCSV(url)
-    var in (web.get url)       
+    var in (web:get url)       
     setq store (triplestore)
     define $line ""
     while (not (equal? EOF (setq $line (in(!getline)))))
         define aslist ($line(!split ","))
         cond 
             (equal? (length aslist) 1)
-                u.format "~s - ~s ~a~%" (length aslist) $line aslist
+                u:format "~s - ~s ~a~%" (length aslist) $line aslist
             else
                 if (equal? (length aslist) 2)
                     define object ""
-                    define object (tryToParse (nth 2 aslist))
+                    define object (tryToParseSymbol (nth 2 aslist))
                 define subject (tryToParseSymbol (nth 0 aslist))
                 define predicate (tryToParseSymbol (nth 1 aslist))
                 catch $error 
                    define tr (triple subject predicate object)
                 cond
                    $error
-                      u.format "triple error: ~s ~s ~s ~s~%" $error subject predicate object
+                      u:format "triple error: ~s ~s ~s ~s~%" $error subject predicate object
                 store
                    !add tr
             
@@ -62,7 +72,7 @@ def convertToRegex (str)
 def searchStore(str)
     setq str (convertToRegex str)
     def matchFunc(s o p)
-       ;u.format "~s ~s ~s ~s~%" s o p str
+       ;u:format "~s ~s ~s ~s~%" s o p str
         or
           ((asString s)(!toLowerCase)) (!match str)
           ((asString p)(!toLowerCase)) (!match str)
@@ -83,11 +93,11 @@ def renderTriple (t)
    template
       tr()
          td() 
-            a((href: ,(searchURL s))) ,s
+            a((href : ,(searchURL s))) ,s
          td() 
             a((href : ,(searchURL p))) ,p
          td() 
-            a((href: ,(searchURL o))) ,o
+            a((href : ,(searchURL o))) ,o
 
 def renderTripleList (ts)
     define result nil
@@ -142,13 +152,13 @@ df httpd-serve (request)
              body()
                 h2() "CMP CMDB Search"
                 form()
-                   input((name:"query") (size:"100") (value: ,query)) ""
+                   input((name :"query") (size :"100") (value : ,query)) ""
                    verbatim() "&nbsp;&nbsp;&nbsp;"
-                   input((type:"submit") (name:"op") (value:"Search"))
-                   input((type:"submit") (name:"op") (value:"Reload"))
+                   input((type :"submit") (name :"op") (value :"Search"))
+                   input((type :"submit") (name :"op") (value :"Reload"))
                 div()
                     ,renderedResults
    result
 
-define CSVURL (nth 1 sys.argv)
+define CSVURL (nth 1 sys:argv)
 loadDataFromCSV CSVURL 

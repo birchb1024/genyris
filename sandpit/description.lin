@@ -9,18 +9,18 @@ description Person
   type Dictionary
 
 description
-  rdf.about ,Person
-  rdf.type rdf.Class
+  rdf:about ,Person
+  rdf:type rdf:Class
 
 description
-  rdf.about Person
-  rdf.type rdf.Class
+  rdf:about Person
+  rdf:type rdf:Class
 
 description
-  rdf.about Age
-  rdf.type rdfs.property
-  rfds.range Bignum
-  rdfs.domain Person
+  rdf:about Age
+  rdf:type rdfs:property
+  rdfs:range Bignum
+  rdfs:domain Person
 
 description Age
   type Property
@@ -28,18 +28,18 @@ description Age
   domain Person
 
 description |http://example.org/courses/6.001|
-  s.students
-     rdf.Bag
-        s.Amy
+  s:students
+     rdf:Bag
+        s:Amy
         |http://example.org/students/Mohamed|
         |http://example.org/students/Johann|
         |http://example.org/students/Maria|
         |http://example.org/students/Phuong|
 
 description
-  rdf.about
-  s.DistributionSite
-    rdf.Alt
+  rdf:about
+  s:DistributionSite
+    rdf:Alt
         |ftp://ftp1.example.org/|
         |ftp://ftp2.example.org/|
         |ftp://ftp3.example.org/|
@@ -48,19 +48,19 @@ description
 @prefix p "http://mine.org/person#"
 
 description
-   p.Name
+   p:Name
       type Property
       range String
-   p.Age
+   p:Age
       type Property
       range Bignum
 
-class p.Person(Thing)
+class p:Person(Thing)
    !description
       ; type Class ; implicit
       ; subclassOf Thing ; implicit
-      hasProperty p.Name
-      hasProperty p.Age
+      hasProperty p:Name
+      hasProperty p:Age
 
 description
    Month

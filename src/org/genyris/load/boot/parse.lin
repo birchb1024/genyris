@@ -1,5 +1,5 @@
 ;;
-;;  Useful parsing and convertion functions.
+;;  Useful parsing and conversion functions.
 ;;
 ;;
 def parse (string)

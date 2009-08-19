@@ -12,27 +12,27 @@ def between (low it high)
       < it high
       > it low
 
-class p.Person ()
+class p:Person ()
    def !valid? (obj)
       obj
          bound? !age
 
-class p.Kid (p.Person)
+class p:Kid (p:Person)
    def !valid? (obj)
       obj
          < !age 15
 
-class p.Senior (p.Person)
+class p:Senior (p:Person)
    def !valid? (obj)
       obj
          between 60 !age 120
 
-class p.Boomer (p.Person)
+class p:Boomer (p:Person)
    def !valid? (obj)
       obj
          between 45 !age 60
 
-class p.Hippie (p.Boomer)
+class p:Hippie (p:Boomer)
    def !valid? (obj)
       obj
          bound? !bong
@@ -43,9 +43,9 @@ var noel
      !age: 49
      !has-bong: true
 
-classify p.Person noel
+classify p:Person noel
 
 assert
-  is-instance? noel p.Hippie
+  is-instance? noel p:Hippie
 
 noel

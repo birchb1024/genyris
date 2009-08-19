@@ -43,10 +43,16 @@ Genyris User Manual
 \end_layout
 
 \begin_layout Date
-502
+19 August 2009 
 \end_layout
 
-\begin_layout Author
+\begin_layout Standard
+\align center
+Build 503
+\end_layout
+
+\begin_layout Standard
+\align center
 Peter William Birch
 \end_layout
 
@@ -741,7 +747,7 @@ Symbols are a group of any printable characters with the following exceptions:
 \noindent
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="2">
+<lyxtabular version="3" rows="10" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -783,29 +789,6 @@ comma
 
 \begin_layout Standard
 exclamation
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-
-\family typewriter
-\series bold
-:
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-colon
 \end_layout
 
 \end_inset
@@ -913,7 +896,7 @@ at sign
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
@@ -933,7 +916,7 @@ square
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
@@ -953,7 +936,7 @@ brackets
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
@@ -973,7 +956,7 @@ curly
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
@@ -3764,7 +3747,7 @@ http://my.org/2008/spells/accio
 \end_layout
 
 \begin_layout LyX-Code
-'magic.accio
+'magic:accio
 \end_layout
 
 \begin_layout LyX-Code
@@ -3784,15 +3767,15 @@ Here is the previous example re-worked using a namespace:
 \end_layout
 
 \begin_layout LyX-Code
-def file.copy(from to) ...
+def file:copy(from to) ...
 \end_layout
 
 \begin_layout LyX-Code
-def file.delete(filename) ...
+def file:delete(filename) ...
 \end_layout
 
 \begin_layout LyX-Code
-def file.zip(file) ...
+def file:zip(file) ...
 \end_layout
 
 \begin_layout LyX-Code
@@ -3812,15 +3795,15 @@ def archive(filename)
 \end_layout
 
 \begin_layout LyX-Code
-    f.copy filename "/tmp/foo"
+    f:copy filename "/tmp/foo"
 \end_layout
 
 \begin_layout LyX-Code
-    f.zip "/tmp/foo"
+    f:zip "/tmp/foo"
 \end_layout
 
 \begin_layout LyX-Code
-    f.delete filename
+    f:delete filename
 \end_layout
 
 \begin_layout Standard
@@ -5602,7 +5585,7 @@ while true
 \end_layout
 
 \begin_layout LyX-Code
-   print sys.argv
+   print sys:argv
 \end_layout
 
 \begin_layout LyX-Code
@@ -5661,7 +5644,7 @@ A Genyris server can be started with the serve function:
 \end_layout
 
 \begin_layout LyX-Code
-web.serve <port> <path to source file> [args...]
+web:serve <port> <path to source file> [args...]
 \end_layout
 
 \begin_layout Standard
@@ -5707,7 +5690,7 @@ Example
 \end_layout
 
 \begin_layout LyX-Code
-web.serve 777 "examples/www-demo.lin" 1 2 3 4 5
+web:serve 777 "examples/www-demo.lin" 1 2 3 4 5
 \end_layout
 
 \begin_layout Subsubsection
@@ -5723,7 +5706,7 @@ The server's thread can be stoped with the kill function:
 \end_layout
 
 \begin_layout LyX-Code
-web.kill <id>
+web:kill <id>
 \end_layout
 
 \begin_layout Standard
@@ -5896,7 +5879,7 @@ serve-static
 \end_layout
 
 \begin_layout LyX-Code
-web.serve-static <port> <path to root directory>
+web:serve-static <port> <path to root directory>
 \end_layout
 
 \begin_layout Standard
@@ -5904,7 +5887,7 @@ For example (Windows):
 \end_layout
 
 \begin_layout LyX-Code
-web.serve-static 80 "c:/"
+web:serve-static 80 "c:/"
 \end_layout
 
 \begin_layout Section
@@ -6130,6 +6113,10 @@ comma-at ,@
 
 \begin_layout Subsection
 backquote `
+\end_layout
+
+\begin_layout Subsection
+[] and {}
 \end_layout
 
 \begin_layout Subsection
@@ -7138,11 +7125,11 @@ version#>
 \end_layout
 
 \begin_layout Subsubsection
-v.tipdate
+v:tipdate
 \end_layout
 
 \begin_layout Subsubsection
-v.tip
+v:tip
 \end_layout
 
 \begin_layout Subsection

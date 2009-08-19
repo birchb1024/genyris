@@ -243,10 +243,10 @@ public class LexTest extends TestCase {
         // excerciseSpecialParsing(":", "raises error");
         excerciseSpecialParsing("'(1:2)", "(quote (1 : 2))");
         excerciseSpecialParsing("'(1 :2)", "(quote (1 : 2))");
-        excerciseSpecialParsing("'(a:b)", "(quote (a : b))");
         excerciseSpecialParsing("'(a :b)", "(quote (a : b))");
-        excerciseSpecialParsing("'(a: b)", "(quote (a : b))");
-        excerciseSpecialParsing("'(a: (3))", "(quote (a : (3)))");
+        excerciseSpecialParsing("'(a :b)", "(quote (a : b))");
+        excerciseSpecialParsing("'(a : b)", "(quote (a : b))");
+        excerciseSpecialParsing("'(a : (3))", "(quote (a : (3)))");
     }
 
     public void testSpecialLexBackQuote() throws Exception {

@@ -5,14 +5,14 @@
 include "/workspace/genyris/examples/classify.lin"
 
 def usage()
-    u.format "Usage: <scriptname> <client IP regular expression> <rules file>~%"
-    u.format "You supplied ~s~%" sys.argv 
+    u:format "Usage: <scriptname> <client IP regular expression> <rules file>~%"
+    u:format "You supplied ~s~%" sys:argv 
     System(!exit 1)
 
-if (equal? 3 (length sys.argv)) nil (usage)
+if (equal? 3 (length sys:argv)) nil (usage)
 
-define *client-id-regex* (nth 1 sys.argv) ; client IP regular expression
-define *rule-file* (nth 2 sys.argv)       ; more classes for messages
+define *client-id-regex* (nth 1 sys:argv) ; client IP regular expression
+define *rule-file* (nth 2 sys:argv)       ; more classes for messages
 
 var log '()
 
@@ -81,8 +81,8 @@ class Noises()
 class Email()
     var server "exgau182frm07.oceania.corp.anz.com"
     def !send(addresses message)
-        u.format "sending ~s ~s ~s ~s ~s" addresses message message "birchb@anz.com" server
-        email.send addresses message message "birchb@anz.com" server
+        u:format "sending ~s ~s ~s ~s ~s" addresses message message "birchb@anz.com" server
+        email:send addresses message message "birchb@anz.com" server
 
 class StringMessage(String)
    def !valid?(str)
@@ -112,7 +112,7 @@ class UsbMessage(StringMessage)
 class Message(StringMessage)
 
    def !valid?(str)
-      ;u.format "!valid? ~s ~s~%" !self str
+      ;u:format "!valid? ~s ~s~%" !self str
       ;print str
       cond
         ((UsbMessage!valid?) str) nil ; Message and UsbMessage mutually exclusive
@@ -149,7 +149,7 @@ Message
    !sounds "boing_1.wav"
    !email '()
 
-u.format "Loading ~s~%" *rule-file*
+u:format "Loading ~s~%" *rule-file*
 include *rule-file*
 
 class BuildNotification()
@@ -163,8 +163,8 @@ class BuildNotification()
 
   def addToLog(message style client)
     setq lastmessage message
-    u.format "~a ~a ~a ~%" (u.getLocalTime) client message
-    setq log (cons (template (tr() (td() ,(u.getLocalTime)) (td((style:,style)) ,message)(td(()) ,client))) log)
+    u:format "~a ~a ~a ~%" (u:getLocalTime) client message
+    setq log (cons (template (tr() (td() ,(u:getLocalTime)) (td((style:,style)) ,message)(td(()) ,client))) log)
 
   def !addToLog(message style)
     addToLog message style client
@@ -177,8 +177,8 @@ class BuildNotification()
   def !alertUsers(operation nextclient)
     setq client nextclient
     classify StringMessage operation
-    ;u.format "operation => ~a~%" operation
-    ;u.format "operation types: ~a~%" (operation!classes)
+    ;u:format "operation => ~a~%" operation
+    ;u:format "operation types: ~a~%" (operation!classes)
     operation
           !log BuildNotification
           !update-lamp
@@ -188,14 +188,14 @@ class BuildNotification()
 
 def authorised?(req)
     (req(!getClientIP))
-         !match (nth 1 sys.argv)
+         !match (nth 1 sys:argv)
 
 df httpd-serve (request)
    cond
      (authorised? request)
           process-request request
      else
-        u.format "~a Unauthorised hit from ~a~%" (u.getLocalTime) (request(!getClient))
+        u:format "~a Unauthorised hit from ~a~%" (u:getLocalTime) (request(!getClient))
         list 403 "text/html"
               template
                   html()
@@ -220,15 +220,15 @@ def process-request (request)
                title() "Lamp Server"
              body()
                 form()
-                   input((name:"op") (size:"100") (value: ,operation)) ""
+                   input((name :"op") (size :"100") (value : ,operation)) ""
                    verbatim() "&nbsp;&nbsp;&nbsp;"
-                   input((type:"submit") (value:"Go"))
+                   input((type :"submit") (value :"Go"))
                 form()
-                    input((type:"submit") (value:"Refresh"))
-                a((href:"/?op=alloff")) "All Off  |"
-                a((href:"/?op=greenon")) "  Green  |"
-                a((href:"/?op=redon")) "  Red  |"
-                a((href:"/?op=blueon")) "  Blue  "
+                    input((type :"submit") (value :"Refresh"))
+                a((href :"/?op=alloff")) "All Off  |"
+                a((href :"/?op=greenon")) "  Green  |"
+                a((href :"/?op=redon")) "  Red  |"
+                a((href :"/?op=blueon")) "  Blue  "
                 table()
                     ,(BuildNotification(!getLog))
    result

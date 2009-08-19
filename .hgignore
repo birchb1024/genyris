@@ -21,3 +21,5 @@ syntax: regexp
 ^doc/reference/manual\.tex$
 syntax: regexp
 ^rel$
+syntax: regexp
+^src/org/genyris/load/boot/version\.lin$

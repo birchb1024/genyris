@@ -9,7 +9,7 @@ def getSubClassesOf(super)
 
 def dum(list)
     while list
-        u.format "~a ~a ~a~%" 
+        u:format "~a ~a ~a~%" 
             (car list)(!subject)
             (car list)(!predicate)
             (car list)(!object)

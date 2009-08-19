@@ -3,6 +3,6 @@
 ;;;
 
 @prefix m "MyMixin#"
-class m.Mixin()
-   def !m.aMethod() "aMixinMethod"
+class m:Mixin()
+   def !m:aMethod() "aMixinMethod"
 

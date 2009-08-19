@@ -49,6 +49,6 @@ class Alist()
 
    def !toHTML()
       template
-          table ((border:1) (cellpadding:0))
+          table ((border : 1) (cellpadding : 0))
              ,@(renderRows !self)
 
