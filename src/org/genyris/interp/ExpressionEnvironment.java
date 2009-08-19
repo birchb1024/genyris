@@ -25,7 +25,7 @@ public class ExpressionEnvironment extends StandardEnvironment {
 
 	public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
 			throws UnboundException {
-		throw new UnboundException("unbound symbol " + symbol.toString());
+		throw new UnboundException("unbound symbol " + symbol.toString() + " in environment " + _theExpression);
 	}
 
 	protected Exp lookupInClasses(DynamicSymbol symbol) throws UnboundException {
@@ -44,7 +44,7 @@ public class ExpressionEnvironment extends StandardEnvironment {
 				throw new UnboundException("bad classes list in object");
 			}
 		}
-		throw new UnboundException("unbound symbol: " + symbol.toString());
+		throw new UnboundException(" unbound symbol: " + symbol.toString() + " in environment " + _theExpression);
 	}
 
 	public void defineDynamicVariable(DynamicSymbol sym, Exp valu)

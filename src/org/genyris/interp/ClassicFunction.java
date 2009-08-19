@@ -64,7 +64,7 @@ public class ClassicFunction extends ApplicableFunction {
                         TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (StandardClass)klass);
                     }
                     catch (GenyrisException e) {
-                        throw new GenyrisException("Type mismatch in function call for " + left);
+                        throw new GenyrisException("Type mismatch in function call for (" + left + " : " + right +  ") because " + e.getMessage());
                     }
                     bindings.put((Symbol)left, arguments[i]);
                 }

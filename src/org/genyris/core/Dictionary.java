@@ -132,8 +132,8 @@ public class Dictionary extends Atom implements Environment {
 				throw new UnboundException("bad classes list in object");
 			}
 		}
-		throw new UnboundException("dict does not contain key: "
-				+ symbol.toString());
+		throw new UnboundException("key " + symbol.toString() + 
+				" not found in dict: " + this);
 	}
 
 	public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
@@ -164,8 +164,8 @@ public class Dictionary extends Atom implements Environment {
 				throw new UnboundException("bad classes list in object");
 			}
 		}
-		throw new UnboundException("dict does not contain key: "
-				+ symbol.toString());
+		throw new UnboundException("key " + symbol.toString() + 
+				" not found in dict: " + this);
 	}
 
 	public void setVariableValue(Symbol symbol, Exp valu) throws UnboundException {
@@ -203,8 +203,8 @@ public class Dictionary extends Atom implements Environment {
 		} else if (_dict.containsKey(symbol)) {
 			return (Exp) _dict.get(symbol);
 		} else {
-			throw new UnboundException("dict does not contain key: "
-					+ symbol.toString());
+			throw new UnboundException("key " + symbol.toString() + 
+					" not found in dict: " + this);
 		}
 	}
 
@@ -257,7 +257,11 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public Exp lookupVariableValue(Symbol symbol) throws UnboundException {
-		return symbol.lookupVariableValue(this);
+		try {
+			return symbol.lookupVariableValue(this);
+		} catch (UnboundException e) {
+			throw new UnboundException("variable " + symbol + " unbound in " + this);
+		}
 	}
 	public Exp lookupDynamicVariableValue(DynamicSymbol dsymbol) throws UnboundException {
 		Symbol symbol = ((DynamicSymbol)dsymbol).getRealSymbol();
@@ -283,7 +287,7 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public Exp lookupLexicalVariableValue(SimpleSymbol symbol) throws UnboundException {
-		throw new UnboundException("no lexical symbols in Dictionary: " + symbol);
+		throw new UnboundException("no lexical symbols in Dictionary: " + this);
 	}
 
 	public void defineLexicalVariable(SimpleSymbol symbol, Exp valu) throws GenyrisException {

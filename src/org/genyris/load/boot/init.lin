@@ -60,7 +60,6 @@ load "org/genyris/load/boot/util.lin"
 load "org/genyris/load/boot/version.lin"
 load "org/genyris/load/boot/set.lin"
 load "org/genyris/load/boot/triple.lin"
-Thing
-   def !valid?(obj) true
+
 
 

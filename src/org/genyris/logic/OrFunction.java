@@ -25,11 +25,9 @@ public class OrFunction extends ApplicableFunction {
         Exp result = NIL;
         for (int i = 0; i < arguments.length; i++) {
             result = arguments[i].eval(envForBindOperations);
-
             if (result != NIL) {
                 return result;
-            }
-            else {
+            } else {
                 continue;
             }
         }
