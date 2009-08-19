@@ -43,8 +43,8 @@ class Tree(ParametricClass)
            null? obj
            and
                 Tree(!valid? (lhs obj))
-                T(!valid? (value obj))
                 Tree(!valid? (rhs obj))             
+                is-instance? (value obj) T
     def !valid? (obj)
         !parametric-valid? !T obj               
     def !replaceAll ((value : !T))

@@ -46,13 +46,6 @@ def abs (x)
     (< x 0) (- x)
     else x
 
-;
-; Default validator 
-;
-Thing
-    def !valid? (obj)
-         is-instance? obj !self 
-
 
 ;
 ; Load source functions and classes
