@@ -47,6 +47,14 @@ def abs (x)
     else x
 
 ;
+; Default validator 
+;
+Thing
+    def !valid? (obj)
+         is-instance? obj !self 
+
+
+;
 ; Load source functions and classes
 ;
 load "org/genyris/load/boot/assert.lin"
