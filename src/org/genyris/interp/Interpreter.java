@@ -159,8 +159,7 @@ public class Interpreter {
             Class toInitialise = Class.forName(classname);
             Method binder = findMethod(BIND_FUNCTIONS_AND_METHODS, toInitialise);
             if (binder == null) {
-                throw new GenyrisException("Method not found: "
-                        + BIND_FUNCTIONS_AND_METHODS);
+                throw new GenyrisException("Method not found: " + BIND_FUNCTIONS_AND_METHODS);
             }
             binder.invoke(null, new Object[] { this });
 
@@ -211,6 +210,7 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.STRING, env, builtin);
 		StandardClass.mkClass(Constants.DOUBLE, env, builtin);
 		StandardClass.mkClass(Constants.FILE, env, builtin);
+		StandardClass.mkClass(Constants.CSV, env, builtin);
 		StandardClass.mkClass(Constants.READER, env, builtin);
 		StandardClass.mkClass(Constants.WRITER, env, builtin);
 		StandardClass.mkClass(Constants.SYSTEM, env, builtin);

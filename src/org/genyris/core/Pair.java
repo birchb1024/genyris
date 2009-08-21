@@ -121,5 +121,21 @@ public class Pair extends ExpWithEmbeddedClasses {
 	public Environment makeEnvironment(Environment parent) throws GenyrisException {
 		return new PairEnvironment(parent, this);
 	}
+	public static Exp reverse(Exp list, Exp NIL) throws GenyrisException {
+		if(list.isNil()) {
+			return list;
+		}
+		if(list instanceof Pair) {
+			Exp rev_result = NIL;
+
+			while (list != NIL) {
+				rev_result = new Pair(list.car(), rev_result);
+				list = list.cdr();
+			}
+			return (rev_result);
+		} else {
+			throw new GenyrisException("reverse: not a list: " + list);
+		}
+	}
 
 }

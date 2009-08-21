@@ -22,14 +22,7 @@ public class ReverseFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		checkArguments(arguments, 1);
-		Exp rev_result = NIL;
-		Exp s = arguments[0];
-
-		while (s != NIL) {
-			rev_result = new Pair(s.car(), rev_result);
-			s = s.cdr();
-		}
-		return (rev_result);
+		return Pair.reverse(arguments[0], NIL);
 
 	}
 
