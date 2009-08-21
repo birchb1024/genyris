@@ -13,9 +13,9 @@
 class Person ()
    def !new (name date-of-birth)
       dict
-         !name : name
-         !dob : date-of-birth
-         !classes : (list Person)
+         !name = name
+         !dob = date-of-birth
+         !classes = (list Person)
 
 
 define jo
@@ -40,7 +40,7 @@ define fred
 class Manager (Employee)
 
   def !new (employee grade)
-     employee : Employee
+     employee = Employee
      employee
         define !managment-grade grade
      tag Manager employee

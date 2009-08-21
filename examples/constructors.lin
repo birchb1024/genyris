@@ -32,7 +32,7 @@ assert
 ;
 class PersonTraditional (Object)
 
-   def !init((name:String) (age: Bignum))
+   def !init((name=String) (age = Bignum))
       define !name name
       define !age age
 
@@ -40,14 +40,15 @@ class PersonTraditional (Object)
 class PersonModern ()
 
    def !valid?(obj)
-      (obj!name) : String
-      (obj!age) : Bignum
+      (obj!name) = String
+      (obj!age) = Bignum
 
    def !new(name age)
       (dict)                             ; create the object
          define !name name               ; add the data
          define !age age
-         !self : PersonModern             ; check type now
+         !self = PersonModern             ; check type now
          tag PersonModern !self           ; ok, so add the class
          !self
 
+s

@@ -30,7 +30,7 @@ do
 ;;;
 ;;; Wrap an object (views) with different perspectives. 
 ;;;
-class Complex () ; expects !self to be a wrapped pair ((N:N))
+class Complex () ; expects !self to be a wrapped pair ((N=N))
     def !toString()
         list "real: " (car (car !self)) "imaginary: " (cdr (car !self))
 
@@ -38,9 +38,9 @@ class Point ()
     def !toString()
         list "x: " (car (car !self)) "y: " (cdr (car !self))
 
-define model '(12:13)
-define math-view ((list model):Complex)
-define plot-view ((list model):Point)
+define model '(12=13)
+define math-view ((list model)=Complex)
+define plot-view ((list model)=Point)
 math-view (!toString)
 plot-view (!toString)
 

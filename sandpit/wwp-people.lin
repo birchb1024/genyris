@@ -39,9 +39,9 @@ class p:Hippie (p:Boomer)
 
 var noel
   dict
-     !name: "Noel"
-     !age: 49
-     !has-bong: true
+     !name = "Noel"
+     !age = 49
+     !has-bong = true
 
 classify p:Person noel
 

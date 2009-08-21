@@ -3,10 +3,10 @@
 
 var boston                   ; variable declaration
   dict                       ; new dictionary object
-    !us.location : "Boston"
-    !us.zip : "02110"
-    !us.location-lat : 42.37
-    !us.location-long : 71.03
+    !us.location = "Boston"
+    !us.zip = "02110"
+    !us.location-lat = 42.37
+    !us.location-long = 71.03
 
 ; Library from culturevulture.org
 @prefix c "http://culturevulture.org/styles#"

@@ -36,7 +36,7 @@ public class EvalApplyTest extends TestCase {
         StringWriter out = new StringWriter();
         Formatter formatter = new BasicFormatter(out);
         result.acceptVisitor(formatter);
-        assertEquals("(23 : 23)", out.getBuffer().toString());
+        assertEquals("(23 = 23)", out.getBuffer().toString());
     }
 
     void excerciseEval(String exp, String expected) throws Exception {
@@ -73,45 +73,45 @@ public class EvalApplyTest extends TestCase {
         excerciseEval("alpha", "23");
         excerciseEval("bravo", "45");
         excerciseEval("(quote alpha)", "alpha");
-        excerciseEval("(cons alpha bravo)", "(23 : 45)");
+        excerciseEval("(cons alpha bravo)", "(23 = 45)");
         excerciseEval("(cons alpha (cons bravo nil))", "(23 45)");
         }
 
     public void testLambdaBuitins() throws Exception {
-        excerciseEval("(cons 4 5)", "(4 : 5)");
+        excerciseEval("(cons 4 5)", "(4 = 5)");
         excerciseEval("(cons 4 (cons 5 nil))", "(4 5)");
         excerciseEval("(cons 4 nil)", "(4)");
         excerciseEval("(quote 99)", "99");
         excerciseEval("(quote (34)))", "(34)");
         excerciseEval("(quote (foo)))", "(foo)");
-        excerciseEval("(car (quote (1 : 2)))", "1");
-        excerciseEval("(cdr (quote (1 : 2)))", "2");
-        excerciseEval("(rplaca (quote (1 : 2)) 99)", "(99 : 2)");
-        excerciseEval("(rplacd (quote (1 : 2)) 100)", "(1 : 100)");
+        excerciseEval("(car (quote (1 = 2)))", "1");
+        excerciseEval("(cdr (quote (1 = 2)))", "2");
+        excerciseEval("(rplaca (quote (1 = 2)) 99)", "(99 = 2)");
+        excerciseEval("(rplacd (quote (1 = 2)) 100)", "(1 = 100)");
         excerciseEval("(quote (foo)))", "(foo)");
         }
 
     public void testLambdaArguments() throws Exception {
-        excerciseEval("((lambda () (cons 44 44)))", "(44 : 44)");
-        excerciseEval("((lambda (x y) (cons x x)) 23)", "(23 : 23)", 
+        excerciseEval("((lambda () (cons 44 44)))", "(44 = 44)");
+        excerciseEval("((lambda (x y) (cons x x)) 23)", "(23 = 23)", 
         		"Too few arguments supplied to proc: anonymous lambda");
     }
 
     public void testLambda2() throws Exception {
-        excerciseEval("((lambda () (cons 44 44)))", "(44 : 44)");
-        excerciseEval("((lambda (x) (cons x x)) 23)", "(23 : 23)");
+        excerciseEval("((lambda () (cons 44 44)))", "(44 = 44)");
+        excerciseEval("((lambda (x) (cons x x)) 23)", "(23 = 23)");
         excerciseEval("((lambda (x y) (cons x y)) 5 nil)", "(5)");
         excerciseEval("((lambda (x y) (quote x)) 23 45)", "x");
     }
 
     public void testLambdaq1() throws Exception {
-        excerciseEval("((lambdaq (s) (cons 1 s)) foo)", "(1 : foo)");
+        excerciseEval("((lambdaq (s) (cons 1 s)) foo)", "(1 = foo)");
         excerciseEval("((lambdaq (s) (cons 1 s)) (cons foo bar))", "(1 cons foo bar)");
     }
 
     public void testSequence() throws Exception {
-        excerciseEval("((lambda (x) (cons x x) (cons 3 4)) 23)", "(3 : 4)");
-        excerciseEval("((lambda (x y) (cons x x) (cons y x)) 23 45)", "(45 : 23)");
+        excerciseEval("((lambda (x) (cons x x) (cons 3 4)) 23)", "(3 = 4)");
+        excerciseEval("((lambda (x y) (cons x x) (cons y x)) 23 45)", "(45 = 23)");
     }
 
     public void testDefine() throws Exception {
@@ -120,14 +120,14 @@ public class EvalApplyTest extends TestCase {
 
     public void testSet() throws Exception {
         excerciseEval("(set (quote alpha) 99)", "99");
-        excerciseEval("((lambda (x) (set (quote x) 99) (cons x x)) 23)", "(99 : 99)");
+        excerciseEval("((lambda (x) (set (quote x) 99) (cons x x)) 23)", "(99 = 99)");
     }
 
     public void testCond() throws Exception {
         excerciseEval("(cond)", "nil");
         excerciseEval("(cond (true 2))", "2");
         excerciseEval("(cond (nil 2))", "nil");
-        excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2)))", "(1 : 2)");
+        excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2)))", "(1 = 2)");
         excerciseEval("(cond (nil (cons 8 9)) (22 (cons 1 2) 44))", "44");
         }
     public void testCatch() throws Exception {
@@ -142,12 +142,12 @@ public class EvalApplyTest extends TestCase {
         excerciseEval("(or (catch x (raise 'w)) x)", "w");
         excerciseEval("(or (catch x (raise '(1))) x)", "(1)");
         excerciseEval("(or (catch x (raise 23.45)) x)", "23.45");
-        excerciseEval("(or (catch x (raise (dict (!a :3)))) x)", "(dict (a : 3))");
+        excerciseEval("(or (catch x (raise (dict (!a =3)))) x)", "(dict (a = 3))");
         excerciseEval("(or (catch x (raise 1)) x)", "1");
         excerciseEval("(or (catch x (raise 'w)) x)", "w");
         excerciseEval("(or (catch x (raise '(1))) x)", "(1)");
         excerciseEval("(or (catch x (raise 23.45)) x)", "23.45");
-        excerciseEval("(or (catch x (raise (dict (!a :3)))) x)", "(dict (a : 3))");
+        excerciseEval("(or (catch x (raise (dict (!a =3)))) x)", "(dict (a = 3))");
         }
 
 }

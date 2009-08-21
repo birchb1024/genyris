@@ -4,8 +4,8 @@ defvar 'Standard-Class (dict)
 
 defvar 'Account
     dict
-        !classes : (list Standard-Class)
-        !print:
+        !classes = (list Standard-Class)
+        !print =
             lambda () (list $global !balance)
 
 Account

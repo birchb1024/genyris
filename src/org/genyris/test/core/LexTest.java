@@ -195,26 +195,26 @@ public class LexTest extends TestCase {
         excerciseListParsing("(1 (2) 3)");
         excerciseListParsing("(1 (2) 3 (4 (5 (6))))");
 
-        excerciseListParsing("(1 : 2)");
-        excerciseListParsing("(1 2 : 3)");
+        excerciseListParsing("(1 = 2)");
+        excerciseListParsing("(1 2 = 3)");
 
         excerciseListParsing("(\"a\" 1.2 30000 foo)");
-        excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 : 3))");
-        excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 : 3) (1 (2) 3 (4 (5 (6)))))");
+        excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 = 3))");
+        excerciseListParsing("(\"a\" 1.2 30000 foo (1 2 = 3) (1 (2) 3 (4 (5 (6)))))");
         excerciseListParsing("(defun my-func (x) (cons x x))");
     }
 
     public void testListsLisp() throws Exception {
 
-        excerciseListParsingLisp("(1 . 2)", "(1 : 2)");
-        excerciseListParsingLisp("(1 2 . 3)", "(1 2 : 3)");
+        excerciseListParsingLisp("(1 . 2)", "(1 = 2)");
+        excerciseListParsingLisp("(1 2 . 3)", "(1 2 = 3)");
 
         excerciseListParsingLisp("(\"a\" 1.2 30000 foo)"
                                , "(\"a\" 1.2 30000 foo)");
         excerciseListParsingLisp("(\"a\" 1.2 30000 foo (1 2 . 3))"
-                            , "(\"a\" 1.2 30000 foo (1 2 : 3))");
+                            , "(\"a\" 1.2 30000 foo (1 2 = 3))");
         excerciseListParsingLisp("(\"a\" 1.2 30000 foo (1 2 . 3) (1 (2) 3 (4 (5 (6)))))"
-                               , "(\"a\" 1.2 30000 foo (1 2 : 3) (1 (2) 3 (4 (5 (6)))))");
+                               , "(\"a\" 1.2 30000 foo (1 2 = 3) (1 (2) 3 (4 (5 (6)))))");
     }
 
     private void excerciseSpecialParsing(String toParse, String expected) throws Exception {
@@ -237,25 +237,25 @@ public class LexTest extends TestCase {
         excerciseSpecialParsing("'12.34", "(quote 12.34)");
         excerciseSpecialParsing("'\"str\"", "(quote \"str\")");
         excerciseSpecialParsing("'(1 2)", "(quote (1 2))");
-        excerciseSpecialParsing("'(1 : 2)", "(quote (1 : 2))");
-        // excerciseSpecialParsing("'(: 2)", "(quote (1 : 2))");
-        // excerciseSpecialParsing("'(:)", "(quote (1 : 2))");
-        // excerciseSpecialParsing(":", "raises error");
-        excerciseSpecialParsing("'(1:2)", "(quote (1 : 2))");
-        excerciseSpecialParsing("'(1 :2)", "(quote (1 : 2))");
-        excerciseSpecialParsing("'(a :b)", "(quote (a : b))");
-        excerciseSpecialParsing("'(a :b)", "(quote (a : b))");
-        excerciseSpecialParsing("'(a : b)", "(quote (a : b))");
-        excerciseSpecialParsing("'(a : (3))", "(quote (a : (3)))");
+        excerciseSpecialParsing("'(1 = 2)", "(quote (1 = 2))");
+        // excerciseSpecialParsing("'(= 2)", "(quote (1 = 2))");
+        // excerciseSpecialParsing("'(=)", "(quote (1 = 2))");
+        // excerciseSpecialParsing("=", "raises error");
+        excerciseSpecialParsing("'(1=2)", "(quote (1 = 2))");
+        excerciseSpecialParsing("'(1 =2)", "(quote (1 = 2))");
+        excerciseSpecialParsing("'(a =b)", "(quote (a = b))");
+        excerciseSpecialParsing("'(a =b)", "(quote (a = b))");
+        excerciseSpecialParsing("'(a = b)", "(quote (a = b))");
+        excerciseSpecialParsing("'(a = (3))", "(quote (a = (3)))");
     }
 
     public void testSpecialLexBackQuote() throws Exception {
         excerciseSpecialParsing("`12.34", "(template 12.34)");
         excerciseSpecialParsing("`\"str\"", "(template \"str\")");
         excerciseSpecialParsing("`(1 2)", "(template (1 2))");
-        excerciseSpecialParsing("`(1 : 2)", "(template (1 : 2))");
-        excerciseSpecialParsing("``(1 : 2)", "(template (template (1 : 2)))");
-        excerciseSpecialParsing("`(1 : 2)`", "(template (1 : 2))");
+        excerciseSpecialParsing("`(1 = 2)", "(template (1 = 2))");
+        excerciseSpecialParsing("``(1 = 2)", "(template (template (1 = 2)))");
+        excerciseSpecialParsing("`(1 = 2)`", "(template (1 = 2))");
     }
 
     public void testSpecialLexComma() throws Exception {

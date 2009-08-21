@@ -48,7 +48,7 @@ describe
     ex:author "Fred Nurke"
 
 tag Alist
-    rdf:about : (intern "http://publisher/books#12312")
-    ex:author : "Fred Nurke"
-    ex:author : "Fred Nurke"
+    rdf:about = (intern "http://publisher/books#12312")
+    ex:author = "Fred Nurke"
+    ex:author = "Fred Nurke"
     

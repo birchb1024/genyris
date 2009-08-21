@@ -125,8 +125,8 @@ public class Lex {
 	}
 
 	private boolean isIdentCharacter(char c) {
-//		if (c == _cdrCharacter)
-//			return false;
+		if (c == _cdrCharacter)
+			return false;
 
 		switch (c) {
 		case '\f':

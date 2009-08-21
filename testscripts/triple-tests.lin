@@ -8,9 +8,9 @@ def test-equality()
           triple 'X 'O 89
    assert
       equal?
-          triple '(1:2) 'O '(w : 45)
-          triple '(1:2) 'O '(w : 45)
-   var someDict (dict (!a : 3))
+          triple '(1=2) 'O '(w = 45)
+          triple '(1=2) 'O '(w = 45)
+   var someDict (dict (!a = 3))
    assert
       equal?
           triple someDict 'O 89
@@ -58,10 +58,10 @@ def test-remove()
 def test-select()
    var joe "Joe"
    var ts
-      triplestore :
-         '(joe age three) :
-          '(joe age ten) :
-            '("John" age 22) :
+      triplestore =
+         '(joe age three) =
+          '(joe age ten) =
+            '("John" age 22) =
                '("John" height 223)
    var result
       ts

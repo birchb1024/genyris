@@ -8,7 +8,7 @@ class WikiPageName
 
 class WikiPage ()
    def !new (name)
-       (dict (!name : name) (!content : nil)) : WikiPage
+       (dict (!name = name) (!content = nil)) = WikiPage
    def !toHTML () !content
 
-WikiPage (!new ("start" : wikiPageName))
+WikiPage (!new ("start" = wikiPageName))

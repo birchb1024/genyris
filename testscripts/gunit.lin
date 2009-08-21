@@ -20,7 +20,7 @@ df t:test (id &rest cases)
 
 defmacro t:given (expression keyword result)
     var actual (eval expression)
-    ;;u:format "given: ~a got: ~a expected: ~a~%" :
+    ;;u:format "given: ~a got: ~a expected: ~a~%" =
         expression actual result
     template
       cond

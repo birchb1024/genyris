@@ -6,9 +6,9 @@ define out
 out (!format "Hello\n")
 out (!format "World\n")
 out
-  !format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" :
-      "GONZO\n" :
-       "ALONZO\n" :
+  !format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" =
+      "GONZO\n" =
+       "ALONZO\n" =
         33
 out (!close)
 

@@ -72,7 +72,7 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(defvar 'x -1)", "-1");
         excerciseEval("(defvar 'mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <anonymous lambda>>");
         excerciseEval("(mk-func 10)", "<EagerProc: <anonymous lambda>>");
-        excerciseEval("((mk-func 10) 88)", "(10 : 88)");
+        excerciseEval("((mk-func 10) 88)", "(10 = 88)");
     }
 
     public void testRestArgs() throws Exception {
@@ -85,35 +85,35 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 
         excerciseEval("(defvar 'fnq (lambdam (x &rest body) body))", "<LazyProcedure: <anonymous lambdam>>");
-        excerciseEval("(fnq 12 cons 1 2)", "(1 : 2)");
+        excerciseEval("(fnq 12 cons 1 2)", "(1 = 2)");
     }
     public void testFrame() throws Exception {
-        excerciseEval("(dict (!a : 1) (!b :2) (!c :3))",
-                "(dict (a : 1) (b : 2) (c : 3))");
-        excerciseEval("(eq? (dict (!a : 1) (!b : 2) (!c : 3)) (dict (!a : 1) (!b : 2) (!c : 3)))", "nil");
-        excerciseEval("(equal? (dict (!a : 1) (!b : 2) (!c : 3)) (dict (!a : 1) (!b : 2) (!c : 3)))", "nil");
+        excerciseEval("(dict (!a = 1) (!b = 2) (!c = 3))",
+                "(dict (a = 1) (b = 2) (c = 3))");
+        excerciseEval("(eq? (dict (!a = 1) (!b = 2) (!c = 3)) (dict (!a = 1) (!b = 2) (!c = 3)))", "nil");
+        excerciseEval("(equal? (dict (!a = 1) (!b = 2) (!c = 3)) (dict (!a = 1) (!b = 2) (!c = 3)))", "nil");
     }
 
     public void testEnvCapture() throws Exception {
         excerciseEval("(defvar 'mk-fn  (lambda (x) (defvar 'bal x) (defvar 'fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <anonymous lambda>>");
         excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <anonymous lambda>>");
-        excerciseEval("(ff 99)", "(44 : 99)");
+        excerciseEval("(ff 99)", "(44 = 99)");
     }
     public void testEnvCaptureWithDef() throws Exception {
         excerciseEval("(def mk-fn (x) (defvar 'bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <mk-fn>>");
         excerciseEval("(defvar 'ff (mk-fn 44))","<EagerProc: <fn>>");
-        excerciseEval("(ff 99)", "(44 : 99)");
+        excerciseEval("(ff 99)", "(44 = 99)");
     }
 
 
     public void testLeftRight() throws Exception {
-        excerciseEval("(defvar 'p (cons 1 2))", "(1 : 2)");
+        excerciseEval("(defvar 'p (cons 1 2))", "(1 = 2)");
         excerciseEval("(p !left)", "1");
         excerciseEval("(p !right)", "2");
         excerciseEval("(p (set '!left 99))", "99");
-        excerciseEval("p", "(99 : 2)");
+        excerciseEval("p", "(99 = 2)");
         excerciseEval("(p (set '!right 98))", "98");
-        excerciseEval("p", "(99 : 98)");
+        excerciseEval("p", "(99 = 98)");
     }
 
     public void testDynamicVariablesWithDef() throws Exception {
@@ -128,7 +128,7 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(defvar 'd (dict))", "(dict)");
         excerciseEval("(d (defvar '!x 11111))", "11111");
         excerciseEval("(def define-some-global-y (x) (defvar '!y \"global !y\") (cons !x !y))", "<EagerProc: <define-some-global-y>>");
-        excerciseEval("(d (define-some-global-y 33))", "(11111 : \"global !y\")");
+        excerciseEval("(d (define-some-global-y 33))", "(11111 = \"global !y\")");
     }
     public void testMagicEnv() throws Exception {
         excerciseEval("(23 !self)", "23");

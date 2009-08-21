@@ -8,6 +8,7 @@ package org.genyris.interp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StandardClass;
@@ -64,7 +65,7 @@ public class ClassicFunction extends ApplicableFunction {
                         TagFunction.validateObjectInClass(proc.getEnv(), arguments[i], (StandardClass)klass);
                     }
                     catch (GenyrisException e) {
-                        throw new GenyrisException("Type mismatch in function call for (" + left + " : " + right +  ") because " + e.getMessage());
+                        throw new GenyrisException("Type mismatch in function call for (" + left + " " + Constants.CDRCHAR + " " + right +  ") because " + e.getMessage());
                     }
                     bindings.put((Symbol)left, arguments[i]);
                 }

@@ -14,7 +14,7 @@ public class Constants {
         public static final char QUOTECHAR = '\'';
         public static final char COMMACHAR = ',';
         public static final char ATCHAR = '@';
-        public static final char CDRCHAR = ':';
+        public static final char CDRCHAR = '=';
         public static final char LISPCDRCHAR = '.';
     // Language Keywords
         public static final String NIL = "nil";
@@ -32,7 +32,7 @@ public class Constants {
         public static final String COMMA = "comma";
         public static final String COMMA_AT = "comma-at";
         public static final String REST = "&rest";
-        public static final String PRINTWITHCOLON = "PRINTWITHCOLON";
+        public static final String PRINTWITHEQ = "PRINTWITHEQ";
         public static final String STANDARDCLASS = "StandardClass";
         public static final String EOF = "EOF";
         public static final String TEMPLATE = "template";

@@ -3,21 +3,19 @@
 ;;;; problem 11-9
 ;;;;
 
-define = equal?
-
 def queens (size)
   queen-aux nil 0 size
 
 def queen-aux (board n size)               ; start on next row
    cond
-      (= n size)
+      (equal? n size)
          board-print (reverse board)
       else
          queen-sub board n 0 size
 
 def queen-sub (board n m size)
    cond
-      (= m size)
+      (equal? m size)
       else
          cond
             (conflict n m board)
@@ -32,10 +30,10 @@ def conflict (cn cm cboard)
 
 def threat (i j a b)
    or
-      = i a
-      = j b
-      = (- i j) (- a b)
-      = (+ i j) (+ a b)
+      equal? i a
+      equal? j b
+      equal? (- i j) (- a b)
+      equal? (+ i j) (+ a b)
 
 
 def board-print (board)
@@ -51,10 +49,10 @@ def board-print-aux (board size)
 
 def board-print-sub (column n size)
    cond
-      (= n size)
+      (equal? n size)
       else
          cond
-            (= column n)
+            (equal? column n)
                display 'Q
             else
                display '.
@@ -65,5 +63,5 @@ def board-print-sub (column n size)
 @prefix sys "http://www.genyris.org/lang/system#"
 cond
     (and (bound? sys:argv) sys:argv)
-        var size-of=board ((ParenParser(!new (cadr sys:argv)))(!read))
-        queens size-of=board
+        var size-of-board ((ParenParser(!new (cadr sys:argv)))(!read))
+        queens size-of-board

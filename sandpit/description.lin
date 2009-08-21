@@ -65,7 +65,7 @@ class p:Person(Thing)
 description
    Month
       type Class
-      range (1 : 12)
+      range (1 = 12)
       range
          Alt
              January

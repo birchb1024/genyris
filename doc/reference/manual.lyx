@@ -43,12 +43,12 @@ Genyris User Manual
 \end_layout
 
 \begin_layout Date
-19 August 2009 
+21 August 2009 
 \end_layout
 
 \begin_layout Standard
 \align center
-Build 503
+Build 509
 \end_layout
 
 \begin_layout Standard
@@ -370,19 +370,19 @@ def threat (i j a b)
 \end_layout
 
 \begin_layout LyX-Code
-      = i a
+      equal? i a
 \end_layout
 
 \begin_layout LyX-Code
-      = j b
+      equal? j b
 \end_layout
 
 \begin_layout LyX-Code
-      = (- i j) (- a b)
+      equal? (- i j) (- a b)
 \end_layout
 
 \begin_layout LyX-Code
-      = (+ i j) (+ a b)
+      equal? (+ i j) (+ a b)
 \end_layout
 
 \begin_layout Standard
@@ -747,7 +747,7 @@ Symbols are a group of any printable characters with the following exceptions:
 \noindent
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="10" columns="2">
+<lyxtabular version="3" rows="11" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -966,6 +966,26 @@ brackets
 \end_inset
 </cell>
 </row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+=
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+equal sign
+\end_layout
+
+\end_inset
+</cell>
+</row>
 </lyxtabular>
 
 \end_inset
@@ -990,7 +1010,7 @@ _age
 \end_layout
 
 \begin_layout LyX-Code
-+=
++$
 \end_layout
 
 \begin_layout LyX-Code
@@ -1127,12 +1147,12 @@ Lisp Cons cells
 \emph on
 Pair
 \emph default
- can be delimited with the colon : character, an infix operator.
+ can be delimited with the equals = character, an infix operator.
  For example: 
 \end_layout
 
 \begin_layout LyX-Code
-(1 : 2) 
+(1 = 2) 
 \end_layout
 
 \begin_layout Standard
@@ -1157,7 +1177,7 @@ is shorthand for, and exactly the same as :
 \end_layout
 
 \begin_layout LyX-Code
-(A : (B : (C : (D : nil))))
+(A = (B = (C = (D = nil))))
 \end_layout
 
 \begin_layout Standard
@@ -1187,7 +1207,7 @@ This is the same as
 \end_layout
 
 \begin_layout LyX-Code
-(Alpha : ((Beta : nil) : nil))
+(Alpha = ((Beta = nil) = nil))
 \end_layout
 
 \begin_layout Standard
@@ -1209,7 +1229,7 @@ nil
 \end_layout
 
 \begin_layout LyX-Code
-(A B : C) 
+(A B = C) 
 \end_layout
 
 \begin_layout Standard
@@ -1383,7 +1403,7 @@ Sometimes long expressions become unwieldy and must be continued on following
 \end_layout
 
 \begin_layout LyX-Code
-list 1 2 4 5 : 
+list 1 2 4 5 = 
 \end_layout
 
 \begin_layout LyX-Code
@@ -1399,7 +1419,7 @@ This is equivalent to:
 \begin_layout LyX-Code
 list 1 2 4 5 
 \series bold
-: (6 7 8)
+= (6 7 8)
 \end_layout
 
 \begin_layout Standard
@@ -3107,7 +3127,7 @@ cons
 \end_layout
 
 \begin_layout LyX-Code
-"A" : "B" ; Pair
+"A" = "B" ; Pair
 \end_layout
 
 \begin_layout Standard
@@ -3239,7 +3259,7 @@ To help view
 \emph on
 Pairs
 \emph default
- explicitly, a list can be tagged with the PRINTWITHCOLON class, which forces
+ explicitly, a list can be tagged with the PRINTWITHEQ class, which forces
  the printer to display the full tree structure.
  The parser does this automatically, so Pairs which the user types with
  a colon are printed the same way.
@@ -3247,7 +3267,7 @@ Pairs
 \end_layout
 
 \begin_layout LyX-Code
-> '("A" : ("B" : ("C" )))
+> '("A" = ("B" = ("C" )))
 \end_layout
 
 \begin_layout LyX-Code
@@ -3255,7 +3275,7 @@ Pairs
 \end_layout
 
 \begin_layout LyX-Code
-"A" : ("B" : ("C")) ; PRINTWITHCOLON 
+"A" = ("B" = ("C")) ; Pair 
 \end_layout
 
 \begin_layout Subsection
@@ -3310,19 +3330,19 @@ dict
 \begin_layout LyX-Code
 
 \series bold
-    !name  : "Willam Pitt"
+    !name  = "Willam Pitt"
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-    !title : "Prime Minister"
+    !title = "Prime Minister"
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-    !date-of-birth   : "28 May 1759"
+    !date-of-birth   = "28 May 1759"
 \end_layout
 
 \begin_layout Standard
@@ -3344,11 +3364,11 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-     <dynamic symbol1> : <initial value1>
+     <dynamic symbol1> = <initial value1>
 \end_layout
 
 \begin_layout LyX-Code
-     <dynamic symbol2> : <initial value2>
+     <dynamic symbol2> = <initial value2>
 \end_layout
 
 \begin_layout LyX-Code
@@ -3390,11 +3410,11 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-      !bar : nil
+      !bar = nil
 \end_layout
 
 \begin_layout LyX-Code
-      !foo : nil ; Dictionary      
+      !foo = nil ; Dictionary      
 \end_layout
 
 \begin_layout Standard
@@ -3502,7 +3522,7 @@ magic
 \end_layout
 
 \begin_layout LyX-Code
-!date-of-birth !father !name !title !vars ; Pair
+date-of-birth father name title vars ; Pair
 \end_layout
 
 \begin_layout Subsection
@@ -3529,19 +3549,19 @@ define jeb
 \begin_layout LyX-Code
 
 \series bold
-      !firstName: "Joe" 
+      !firstName= "Joe" 
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-      !middleName: "E."
+      !middleName= "E."
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-      !lastName: "Brown"
+      !lastName= "Brown"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3617,11 +3637,11 @@ define file
 \end_layout
 
 \begin_layout LyX-Code
-    !name  : "File Handling Functions"
+    !name  = "File Handling Functions"
 \end_layout
 
 \begin_layout LyX-Code
-    !version : "1.2"
+    !version = "1.2"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3763,7 +3783,7 @@ Here is the previous example re-worked using a namespace:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix file "genyris:/files/"
+@prefix file "http://my/files/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3787,7 +3807,7 @@ def file:zip(file) ...
 \end_layout
 
 \begin_layout LyX-Code
-@prefix f "genyris:/files/"
+@prefix f "http://my/files/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3875,27 +3895,11 @@ Thing
 \end_layout
 
 \begin_layout LyX-Code
-            Bignum
-\end_layout
-
-\begin_layout LyX-Code
-            String
-\end_layout
-
-\begin_layout LyX-Code
             Pair
 \end_layout
 
 \begin_layout LyX-Code
-                PRINTWITHCOLON
-\end_layout
-
-\begin_layout LyX-Code
-            Dictionary
-\end_layout
-
-\begin_layout LyX-Code
-                Symbol
+                    PRINTWITHEQ
 \end_layout
 
 \begin_layout LyX-Code
@@ -3908,6 +3912,82 @@ Thing
 
 \begin_layout LyX-Code
                 EagerProcedure
+\end_layout
+
+\begin_layout LyX-Code
+            Symbol
+\end_layout
+
+\begin_layout LyX-Code
+                   DynamicSymbolRef
+\end_layout
+
+\begin_layout LyX-Code
+                   URISymbol
+\end_layout
+
+\begin_layout LyX-Code
+                   SimpleSymbol
+\end_layout
+
+\begin_layout LyX-Code
+            Triplestore
+\end_layout
+
+\begin_layout LyX-Code
+            Triple
+\end_layout
+
+\begin_layout LyX-Code
+            Sound
+\end_layout
+
+\begin_layout LyX-Code
+            StringFormatStream
+\end_layout
+
+\begin_layout LyX-Code
+            ParenParser
+\end_layout
+
+\begin_layout LyX-Code
+            Parser
+\end_layout
+
+\begin_layout LyX-Code
+            System
+\end_layout
+
+\begin_layout LyX-Code
+            Writer
+\end_layout
+
+\begin_layout LyX-Code
+            Reader
+\end_layout
+
+\begin_layout LyX-Code
+            CSV
+\end_layout
+
+\begin_layout LyX-Code
+            File
+\end_layout
+
+\begin_layout LyX-Code
+            String
+\end_layout
+
+\begin_layout LyX-Code
+            Bignum
+\end_layout
+
+\begin_layout LyX-Code
+            Dictionary
+\end_layout
+
+\begin_layout LyX-Code
+                     StandardClass
 \end_layout
 
 \begin_layout LyX-Code
@@ -4392,7 +4472,7 @@ Genyris supports type annotations found in most statically typed languages.
 \end_layout
 
 \begin_layout LyX-Code
-def safe-call ((a : Bignum) (b : Bignum) : Bignum) 
+def safe-call ((a = Bignum) (b = Bignum) = Bignum) 
 \end_layout
 
 \begin_layout LyX-Code
@@ -4440,7 +4520,7 @@ def fails()
 \end_layout
 
 \begin_layout LyX-Code
-    x : String
+    x = String
 \end_layout
 
 \begin_layout Standard
@@ -4633,15 +4713,15 @@ class Person ()
 \end_layout
 
 \begin_layout LyX-Code
-         !name : name
+         !name = name
 \end_layout
 
 \begin_layout LyX-Code
-         !dob : date-of-birth
+         !dob = date-of-birth
 \end_layout
 
 \begin_layout LyX-Code
-         !classes : (list Person)
+         !classes = (list Person)
 \end_layout
 
 \begin_layout LyX-Code
@@ -4686,7 +4766,7 @@ class PersonTraditional (Object)
 \end_layout
 
 \begin_layout LyX-Code
-   def !init((name:String) (age: Bignum))
+   def !init((name = String) (age = Bignum))
 \end_layout
 
 \begin_layout LyX-Code
@@ -4718,11 +4798,11 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-      !age : 99
+      !age = 99
 \end_layout
 
 \begin_layout LyX-Code
-      !name : "Abe" ; PersonTraditional Dictionary
+      !name = "Abe" ; PersonTraditional Dictionary
 \end_layout
 
 \begin_layout Standard
@@ -4912,11 +4992,11 @@ define kevin
 \end_layout
 
 \begin_layout LyX-Code
-     !name: "Kevin"
+     !name= "Kevin"
 \end_layout
 
 \begin_layout LyX-Code
-     !age: 49
+     !age= 49
 \end_layout
 
 \begin_layout LyX-Code
@@ -4946,11 +5026,11 @@ dict
 \end_layout
 
 \begin_layout LyX-Code
-      !age : 49
+      !age = 49
 \end_layout
 
 \begin_layout LyX-Code
-      !name : "Kevin" ; Boomer Dictionary
+      !name = "Kevin" ; Boomer Dictionary
 \end_layout
 
 \begin_layout LyX-Code
@@ -5182,21 +5262,29 @@ Accessing Type Information
 \end_layout
 
 \begin_layout LyX-Code
-(23(!asTripleSet))(!asTriples)
+> (23(!asTripleStore))(!asTriples)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(triple 23 type <class Bignum (Builtin) ()>) ; Pair
 \end_layout
 
 \begin_layout Subsection
-TripleSets
+TripleStores
 \end_layout
 
 \begin_layout Subsubsection
-Creating triplesets with 
+Creating TripleStores with 
 \emph on
-tripleset
+TripleStore
 \end_layout
 
 \begin_layout Subsubsection
-Tripleset equality
+TripleStore equality
 \end_layout
 
 \begin_layout Subsubsection
@@ -5218,7 +5306,7 @@ Selecting Triples with
 \end_layout
 
 \begin_layout Subsubsection
-Converting dictionaries to triplesets
+Converting dictionaries to TripleStores
 \end_layout
 
 \begin_layout LyX-Code
@@ -5226,7 +5314,7 @@ defvar 'thedict (dict(!a:3)(!b:5))
 \end_layout
 
 \begin_layout LyX-Code
-thedict(!asTripleSet)
+thedict(!asTripleStore)
 \end_layout
 
 \begin_layout Subsubsection
@@ -5236,7 +5324,7 @@ thedict(!asTripleSet)
 \end_layout
 
 \begin_layout Subsection
-The Global TripleSet
+The Global TripleStore
 \end_layout
 
 \begin_layout LyX-Code
@@ -6088,7 +6176,7 @@ Single Quote'
 \end_layout
 
 \begin_layout Subsection
-Colon :
+Equals =
 \end_layout
 
 \begin_layout Subsection
@@ -6140,7 +6228,7 @@ apply <closure> <parameter list>
 \end_layout
 
 \begin_layout Subsection
-Type Checks with : 
+Type Checks with = 
 \end_layout
 
 \begin_layout Subsection
@@ -6316,7 +6404,7 @@ name "lambda"
 
 \begin_layout LyX-Code
 lambda ([arg1]...
- [&rest restargs] [: return-validator]) [body]
+ [&rest restargs] [= return-validator]) [body]
 \end_layout
 
 \begin_layout Standard
@@ -6361,7 +6449,7 @@ The function body - a list of expressions - is executed each expression
 \end_layout
 
 \begin_layout LyX-Code
-(arg-name : validator)
+(arg-name = validator)
 \end_layout
 
 \begin_layout Standard
@@ -6419,7 +6507,7 @@ returns a procedure with one mandatory and one rest argument
 \end_layout
 
 \begin_layout LyX-Code
-lambda ((i : Bignum) (j : Bignum) : Bignum) (+ i j)
+lambda ((i = Bignum) (j = Bignum) = Bignum) (+ i j)
 \end_layout
 
 \begin_layout Standard
@@ -6694,7 +6782,7 @@ Example:
 
 \end_deeper
 \begin_layout LyX-Code
-stdout(!format "~s ~a ~x ~%" "Hello" "World" '(img ((width: 23))))
+stdout(!format "~s ~a ~x ~%" "Hello" "World" '(img ((width= 23))))
 \end_layout
 
 \begin_layout LyX-Code

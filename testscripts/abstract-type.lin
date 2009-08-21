@@ -27,7 +27,7 @@ print (my-queue!vars)
 print (my-queue!classes)
 print
    AbstractQueue(!valid? my-queue)
-my-queue : AbstractQueue
+my-queue = AbstractQueue
 assert
    classify AbstractQueue my-queue
 my-queue

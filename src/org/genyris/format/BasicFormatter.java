@@ -66,7 +66,7 @@ public class BasicFormatter extends  AbstractFormatter {
         write("(");
 		cons.car().acceptVisitor(this);
 		if (cons instanceof PairWithcolons) {
-		    write(" : ");
+		    write(" " + Constants.CDRCHAR + " ");
 		    cons.cdr().acceptVisitor(this);
 		}
 		else {

@@ -21,22 +21,22 @@ class UsbLamp()
    var operations
       tag Alist
          quote
-            ("allflashoff"    : "10 20 7 0")
-               "alldark"      : "10 12 0 7"
-               "allon"        : "10 12 7 0"
-               "blueflash"    : "10 20 0 4"
-               "blueflashoff" : "10 20 4 0"
-               "blueoff"      : "10 12 0 4"
-               "blueon"       : "10 12 4 0"
-               "greenflash"   : "10 20 0 1"
-               "greenflashoff": "10 20 1 0"
-               "greenoff"     : "10 12 0 1"
-               "greenon"      : "10 12 1 0"
-               "redflash"     : "10 20 0 2"
-               "redflashoff"  : "10 20 2 0"
-               "redoff"       : "10 12 0 2"
-               "redon"        : "10 12 2 0"
-               "alloff"       : "meta"
+            ("allflashoff"    = "10 20 7 0")
+               "alldark"      = "10 12 0 7"
+               "allon"        = "10 12 7 0"
+               "blueflash"    = "10 20 0 4"
+               "blueflashoff" = "10 20 4 0"
+               "blueoff"      = "10 12 0 4"
+               "blueon"       = "10 12 4 0"
+               "greenflash"   = "10 20 0 1"
+               "greenflashoff"= "10 20 1 0"
+               "greenoff"     = "10 12 0 1"
+               "greenon"      = "10 12 1 0"
+               "redflash"     = "10 20 0 2"
+               "redflashoff"  = "10 20 2 0"
+               "redoff"       = "10 12 0 2"
+               "redon"        = "10 12 2 0"
+               "alloff"       = "meta"
 
    def !isValidOperation?(code)
       member? code
@@ -51,7 +51,7 @@ class UsbLamp()
             template
                 ,exePath "/c" "C:\\workspace\\notifications\\USBDOSAP.BAT " ,@(codes(!split))
 
-   def change((op : String))
+   def change((op = String))
        var codes (operations (!lookup op))
        cond
          (equal? op "alloff")
@@ -164,7 +164,7 @@ class BuildNotification()
   def addToLog(message style client)
     setq lastmessage message
     u:format "~a ~a ~a ~%" (u:getLocalTime) client message
-    setq log (cons (template (tr() (td() ,(u:getLocalTime)) (td((style:,style)) ,message)(td(()) ,client))) log)
+    setq log (cons (template (tr() (td() ,(u:getLocalTime)) (td((style = ,style)) ,message)(td(()) ,client))) log)
 
   def !addToLog(message style)
     addToLog message style client
@@ -220,15 +220,15 @@ def process-request (request)
                title() "Lamp Server"
              body()
                 form()
-                   input((name :"op") (size :"100") (value : ,operation)) ""
+                   input((name="op") (size="100") (value = ,operation)) ""
                    verbatim() "&nbsp;&nbsp;&nbsp;"
-                   input((type :"submit") (value :"Go"))
+                   input((type="submit") (value="Go"))
                 form()
-                    input((type :"submit") (value :"Refresh"))
-                a((href :"/?op=alloff")) "All Off  |"
-                a((href :"/?op=greenon")) "  Green  |"
-                a((href :"/?op=redon")) "  Red  |"
-                a((href :"/?op=blueon")) "  Blue  "
+                    input((type ="submit") (value ="Refresh"))
+                a((href ="/?op=alloff")) "All Off  |"
+                a((href ="/?op=greenon")) "  Green  |"
+                a((href ="/?op=redon")) "  Red  |"
+                a((href ="/?op=blueon")) "  Blue  "
                 table()
                     ,(BuildNotification(!getLog))
    result

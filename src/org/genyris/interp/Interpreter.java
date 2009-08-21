@@ -224,7 +224,7 @@ public class Interpreter {
 		StandardClass symbol = StandardClass.mkClass(Constants.SYMBOL, env, builtin);
 		StandardClass closure = StandardClass.mkClass(Constants.CLOSURE, env, builtin);
 		StandardClass pair = StandardClass.mkClass("Pair", env, builtin);
-		StandardClass.mkClass(Constants.PRINTWITHCOLON, env, pair);
+		StandardClass.mkClass(Constants.PRINTWITHEQ, env, pair);
 		StandardClass.mkClass(Constants.SIMPLESYMBOL, env, symbol);
 		StandardClass.mkClass(Constants.URISYMBOL, env, symbol);
 		StandardClass.mkClass(Constants.EAGERPROCEDURE, env, closure);

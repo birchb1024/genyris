@@ -37,14 +37,14 @@ class Hippie (Boomer)
 
 define noel
   dict
-     !name: "Noel"
-     !age: 49
-     !bong: true
+     !name="Noel"
+     !age = 49
+     !bong= true
 
 define kevin
   dict
-     !name: "Kevin"
-     !age: 49
+     !name = "Kevin"
+     !age  = 49
 
 classify Person noel
 classify Person kevin

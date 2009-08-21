@@ -10,8 +10,8 @@ This language feature only applies to statically-typed languages.
 ; two expressions of type "a" and returns a result with the same type: 
 ;
 def times (a x y)
-  x : a                 ; checks
-  y : a
+  x = a                 ; checks
+  y = a
   tag a (* x y)
 
 ;
@@ -24,7 +24,7 @@ def squareBracket(type)
          
 class ParametricClass()
     define !T Thing
-    def !squareBracket ((type : StandardClass))
+    def !squareBracket ((type = StandardClass))
         define !T type
         def !valid? (obj)
             !parametric-valid? !T obj  
@@ -47,7 +47,7 @@ class Tree(ParametricClass)
                 is-instance? (value obj) T
     def !valid? (obj)
         !parametric-valid? !T obj               
-    def !replaceAll ((value : !T))
+    def !replaceAll ((value = !T))
         replace !self value       
         cond 
            (lhs !self)

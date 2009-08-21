@@ -1,6 +1,6 @@
 ;dict
-;   |http://purl.org/dc/elements/1.1/#Title|  : "A Book About Something"
-;   |http://purl.org/dc/elements/1.1/#Author| : "A.N. Author"
+;   |http://purl.org/dc/elements/1.1/#Title|  = "A Book About Something"
+;   |http://purl.org/dc/elements/1.1/#Author| = "A.N. Author"
 
 @prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 @prefix dc "http://purl.org/dc/elements/1.1/"

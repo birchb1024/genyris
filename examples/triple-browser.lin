@@ -93,11 +93,11 @@ def renderTriple (t)
    template
       tr()
          td() 
-            a((href : ,(searchURL s))) ,s
+            a((href = ,(searchURL s))) ,s
          td() 
-            a((href : ,(searchURL p))) ,p
+            a((href = ,(searchURL p))) ,p
          td() 
-            a((href : ,(searchURL o))) ,o
+            a((href = ,(searchURL o))) ,o
 
 def renderTripleList (ts)
     define result nil
@@ -135,7 +135,7 @@ df httpd-serve (request)
             setq renderedResults 
                template
                    "Reloaded from "
-                      a((href : ,CSVURL))
+                      a((href = ,CSVURL))
                          ,CSVURL
                       
        else
@@ -152,10 +152,10 @@ df httpd-serve (request)
              body()
                 h2() "CMP CMDB Search"
                 form()
-                   input((name :"query") (size :"100") (value : ,query)) ""
+                   input((name ="query") (size ="100") (value = ,query)) ""
                    verbatim() "&nbsp;&nbsp;&nbsp;"
-                   input((type :"submit") (name :"op") (value :"Search"))
-                   input((type :"submit") (name :"op") (value :"Reload"))
+                   input((type ="submit") (name ="op") (value ="Search"))
+                   input((type ="submit") (name ="op") (value ="Reload"))
                 div()
                     ,renderedResults
    result
