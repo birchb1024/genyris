@@ -142,12 +142,12 @@ public class EvalApplyTest extends TestCase {
         excerciseEval("(or (catch x (raise 'w)) x)", "w");
         excerciseEval("(or (catch x (raise '(1))) x)", "(1)");
         excerciseEval("(or (catch x (raise 23.45)) x)", "23.45");
-        excerciseEval("(or (catch x (raise (dict (!a =3)))) x)", "(dict (a = 3))");
+        excerciseEval("(or (catch x (raise (dict (!a =3)))) x)", "(dict (!a = 3))");
         excerciseEval("(or (catch x (raise 1)) x)", "1");
         excerciseEval("(or (catch x (raise 'w)) x)", "w");
         excerciseEval("(or (catch x (raise '(1))) x)", "(1)");
         excerciseEval("(or (catch x (raise 23.45)) x)", "23.45");
-        excerciseEval("(or (catch x (raise (dict (!a =3)))) x)", "(dict (a = 3))");
+        excerciseEval("(or (catch x (raise (dict (!a =3)))) x)", "(dict (!a = 3))");
         }
 
 }

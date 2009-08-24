@@ -89,7 +89,7 @@ public class ComplexInterpreterTests extends TestCase {
     }
     public void testFrame() throws Exception {
         excerciseEval("(dict (!a = 1) (!b = 2) (!c = 3))",
-                "(dict (a = 1) (b = 2) (c = 3))");
+                "(dict (!a = 1) (!b = 2) (!c = 3))");
         excerciseEval("(eq? (dict (!a = 1) (!b = 2) (!c = 3)) (dict (!a = 1) (!b = 2) (!c = 3)))", "nil");
         excerciseEval("(equal? (dict (!a = 1) (!b = 2) (!c = 3)) (dict (!a = 1) (!b = 2) (!c = 3)))", "nil");
     }

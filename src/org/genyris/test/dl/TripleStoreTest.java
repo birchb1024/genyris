@@ -77,7 +77,7 @@ public class TripleStoreTest extends TestCase {
         eval("(triple \"X\" 'b \"west\")", "(triple \"X\" b \"west\")");
         eval("(triple \"X\" 'b 123)", "(triple \"X\" b 123)");
         eval("(triple '(2=3) 'b 123)", "(triple (2 = 3) b 123)");
-        eval("(triple '(2=3) 'b (dict (!z =99)))", "(triple (2 = 3) b (dict (z = 99)))");
+        eval("(triple '(2=3) 'b (dict (!z =99)))", "(triple (2 = 3) b (dict (!z = 99)))");
         eval("(triple '(2=3) 'b (list 1 2 3 4 5))", "(triple (2 = 3) b (1 2 3 4 5))");
     }
     public void testInterpStore() throws Exception {
@@ -190,8 +190,8 @@ public class TripleStoreTest extends TestCase {
     public void testInterpTripleDict() throws Exception {
         eval(
                 "((dict(!a = 3)(!b = 5))(!asTriples))",
-                "((triple (dict (a = 3) (b = 5)) b 5) (triple (dict (a = 3) (b = 5)) a 3))");
-        eval("(defvar 'thedict (dict(!a =3)(!b =5)))", "(dict (a = 3) (b = 5))");
+                "((triple (dict (!a = 3) (!b = 5)) b 5) (triple (dict (!a = 3) (!b = 5)) a 3))");
+        eval("(defvar 'thedict (dict(!a =3)(!b =5)))", "(dict (!a = 3) (!b = 5))");
         eval("(thedict(!asTripleStore))", "(triplestore)");
         eval("(defvar 'ts (thedict(!asTripleStore)))", "(triplestore)");
         eval("((SetList!equal?) (ts(!asTriples)) (list (triple thedict 'a 3) (triple thedict 'b 5)))", "true");

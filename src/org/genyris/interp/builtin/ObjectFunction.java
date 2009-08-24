@@ -10,7 +10,6 @@ import org.genyris.core.Dictionary;
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
 import org.genyris.dl.TripleStore;
@@ -78,7 +77,7 @@ public class ObjectFunction extends ApplicableFunction {
 			Exp results = NIL;
 			while (alist != NIL) {
 				results = new Pair(new Triple(self,
-						(SimpleSymbol) (alist.car().car()), alist.car().cdr()),
+						((DynamicSymbol) (alist.car().car())).getRealSymbol(), alist.car().cdr()),
 						results);
 				alist = alist.cdr();
 			}
@@ -101,7 +100,7 @@ public class ObjectFunction extends ApplicableFunction {
 			Exp alist = self.asAlist().cdr();
 			TripleStore results = new TripleStore();
 			while (alist != NIL) {
-				results.add(new Triple(self, (SimpleSymbol) (alist.car().car()),
+				results.add(new Triple(self, ((DynamicSymbol) (alist.car().car())).getRealSymbol(),
 						alist.car().cdr()));
 				alist = alist.cdr();
 			}

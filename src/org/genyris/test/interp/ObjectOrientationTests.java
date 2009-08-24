@@ -40,9 +40,9 @@ public class ObjectOrientationTests extends TestCase {
         checkEval("$global", "999");
 
         eval("(defvar 'Standard-Class (dict (!classname = 'Standard-Class)))");
-        checkEval("Standard-Class", "(dict (classname = Standard-Class))");
+        checkEval("Standard-Class", "(dict (!classname = Standard-Class))");
         checkEval("(defvar 'Account (dict (!classes = (list Standard-Class)) (!print = (lambda () (cons $global !balance))) ))",
-                "(dict (print = <EagerProc: <anonymous lambda>>))");
+                "(dict (!print = <EagerProc: <anonymous lambda>>))");
 
         checkEval("(Account " +
             "(defvar '!new " +
@@ -53,7 +53,7 @@ public class ObjectOrientationTests extends TestCase {
                     "<EagerProc: <anonymous lambda>>" );
 
         checkEval("(defvar 'bb  (Account (!new 1000)))"
-                ,"(dict (balance = 1000))");
+                ,"(dict (!balance = 1000))");
 
         checkEval("(bb(!print))", "(999 = 1000)");
 
@@ -69,7 +69,7 @@ public class ObjectOrientationTests extends TestCase {
             "(dict " +
                 "(!classes = (cons Standard-Class nil)) " +
                 "(!toString = \"Base-1 toString\"))) "
-                , "(dict (toString = \"Base-1 toString\"))" );
+                , "(dict (!toString = \"Base-1 toString\"))" );
 
         checkEval("(Base-1 !toString)", "\"Base-1 toString\"");
 
@@ -77,7 +77,7 @@ public class ObjectOrientationTests extends TestCase {
             "(dict " +
                 "(!classes = (cons Standard-Class nil)) " +
                 "(!log = \"Base-2 log\"))) ",
-                "(dict (log = \"Base-2 log\"))");
+                "(dict (!log = \"Base-2 log\"))");
 
         checkEval("(Base-2 !log)", "\"Base-2 log\"");
 
