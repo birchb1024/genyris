@@ -593,7 +593,7 @@ public class NanoHTTPD {
 			// No index file, list the directory
 			else if (allowDirectoryListing) {
 				String[] files = f.list();
-				String msg = "<html><body><h1>Directory " + uri + "</h1><br/>";
+				String msg = "<html><head><title>"+uri+"</title></head><body><h1>Directory " + uri + "</h1><br/>";
 
 				if (uri.length() > 1) {
 					String u = uri.substring(0, uri.length() - 1);
@@ -635,6 +635,7 @@ public class NanoHTTPD {
 					if (dir)
 						msg += "</b>";
 				}
+				msg += "</body></html>";
 				return new NanoResponse(HTTP_OK, MIME_HTML, msg);
 			} else {
 				return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
