@@ -100,10 +100,13 @@ public class Pair extends ExpWithEmbeddedClasses {
 		Exp tmp = this;
 		int count = 0;
 
-		while (tmp != NIL) {
+		while (tmp != NIL && (tmp instanceof Pair)) {
 			tmp = tmp.cdr();
 			count++;
 		}
+//		if (tmp != NIL && !(tmp instanceof Pair)) {
+//			count++;
+//		}
 		return count;
 	}
 	public Exp nth(int number, Symbol NIL) throws AccessException {

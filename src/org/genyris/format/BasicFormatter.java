@@ -14,7 +14,7 @@ import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Pair;
-import org.genyris.core.PairWithcolons;
+import org.genyris.core.PairEquals;
 import org.genyris.core.StrinG;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -65,7 +65,7 @@ public class BasicFormatter extends  AbstractFormatter {
     public void visitPair(Pair cons)  throws GenyrisException {
         write("(");
 		cons.car().acceptVisitor(this);
-		if (cons instanceof PairWithcolons) {
+		if (cons instanceof PairEquals) {
 		    write(" " + Constants.CDRCHAR + " ");
 		    cons.cdr().acceptVisitor(this);
 		}

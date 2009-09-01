@@ -1,15 +1,15 @@
 ;; File Handling Module (using prefixes)
 
-@prefix file "genyris:/files/"
+@prefix file "http://files.org/"
 
 
-def !file:copy(from to) ...
-def !file:delete(filename) ...
-def !file:zip(file) ...
+def file:copy(from to) ...
+def file:delete(filename) ...
+def file:zip(file) ...
 
 
 ;; Use of the file module
-@prefix f "genyris:/files/"
+@prefix f "http://files.org/"
 
 def archive(filename)
     f:copy filename "/tmp/foo"

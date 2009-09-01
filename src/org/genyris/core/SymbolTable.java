@@ -46,6 +46,7 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _EAGERPROC;
 	private SimpleSymbol _LAZYPROC;
 	private SimpleSymbol _PAIR;
+	private SimpleSymbol _PAIREQUAL;
 	private SimpleSymbol _PARENPARSER;
 	private SimpleSymbol _READER;
 	private SimpleSymbol _SIMPLESYMBOL;
@@ -103,6 +104,7 @@ public class SymbolTable implements Internable {
 	_EAGERPROC = bindKeyword(String.valueOf(Constants.EAGERPROCEDURE));
 	_LAZYPROC = bindKeyword(String.valueOf(Constants.LAZYPROCEDURE));
 	_PAIR = bindKeyword(String.valueOf(Constants.PAIR));
+	_PAIREQUAL = bindKeyword(String.valueOf(Constants.PAIREQUAL));
 
 	_PARENPARSER = bindKeyword(String.valueOf(Constants.PARENPARSER));
 	_READER = bindKeyword(String.valueOf(Constants.READER));
@@ -295,6 +297,10 @@ public class SymbolTable implements Internable {
 
 	public SimpleSymbol PAIR() {
 		return _PAIR;
+	}
+
+	public SimpleSymbol PAIREQUAL() {
+		return _PAIREQUAL;
 	}
 
 	public SimpleSymbol PARENPARSER() {

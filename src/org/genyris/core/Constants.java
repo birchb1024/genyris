@@ -46,6 +46,7 @@ public class Constants {
         public static final String EAGERPROCEDURE = "EagerProcedure";
         public static final String BIGNUM = "Bignum";
         public static final String PAIR = "Pair";
+        public static final String PAIREQUAL = "PairEqual";
         public static final String DOUBLE = "Double";
         public static final String INTEGER = "Integer";
         public static final String STRING = "String";

@@ -1,8 +1,8 @@
-;
-;
-;
-
-
+;; Copyright 2009 Peter William Birch <birchb@genyis.org>
+;;
+;; This software may be used and distributed according to the terms
+;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+;;
 ;
 ; As an array lookup index
 ;
@@ -15,10 +15,27 @@ assert
         array[3]
         4
 
+;;--------------------------
+; Like Python list declarations
+;
+
+def squareBracket(&rest args)
+    args
+
+assert (equal? [1 2 3] (list 1 2 3) )
+
+;;--------------------------
+; For polymorphic types
+;
 def squareBracket(type)
     define !T type
 
 class C(Object)[String]
-    def !method() 1231
+    def !method() (list 1231 !T)
 
-class C()(define !X 23)
+define c (C(!new))
+assert
+   equal?
+      c(!method)
+      list 1231 String
+

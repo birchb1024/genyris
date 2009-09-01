@@ -1,1 +1,1 @@
-spawn "testscripts/spawn-example.lin" 1 2 3 4 5
+spawn "examples/spawn-example.lin" 1 2 3 4 5

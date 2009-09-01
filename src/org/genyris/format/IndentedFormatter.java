@@ -15,7 +15,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Pair;
-import org.genyris.core.PairWithcolons;
+import org.genyris.core.PairEquals;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.core.URISymbol;
@@ -46,7 +46,7 @@ public class IndentedFormatter extends AbstractFormatter {
         _consDepth += 1;
         Exp head = cons;
         int countOfRight = 0;
-        if (cons instanceof PairWithcolons) {
+        if (cons instanceof PairEquals) {
             printSpaces(_consDepth);
             cons.car().acceptVisitor(_basic);
             _output.write(" " + Constants.CDRCHAR + " ");

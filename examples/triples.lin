@@ -8,19 +8,15 @@
 ;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ;;
 class Years
-class Age
 
+;; make statements about this object:
 var twenty 20
-
-;; make statements about this object
 var statements
    triplestore 
       `(,twenty units ,Years)
       `(,twenty type |http://people.org/type#age|)
-statements(!asTriples)
+assertEqual
+   statements(!asTriples)
+   list (triple 20 'units Years) (triple 20 'type '|http://people.org/type#age|)
 
-df description(&rest body)
-    `(triplestore ,@body)
-description
-    |http://people.org/type#age| |http://people.org/type#age| |http://people.org/type#age|
     

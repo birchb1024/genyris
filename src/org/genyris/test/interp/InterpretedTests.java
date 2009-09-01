@@ -49,14 +49,17 @@ public class InterpretedTests extends TestCase {
     public void testTriples() throws GenyrisException {
         useSourceLoader("triple-tests.lin");
     }
-    public void testMiscellaneous() throws GenyrisException {
-        useSourceLoader("miscellaneous-tests.lin");
-    }
     public void testParseAndConvert() throws GenyrisException {
         useSourceLoader("parsetests.lin");
     }
     public void testCSV() throws GenyrisException {
         useSourceLoader("csv-tests.lin");
+    }
+    public void testExamples() throws GenyrisException {
+        useSourceLoader("examples-as-tests.lin");
+    }
+    public void testMiscellaneous() throws GenyrisException {
+    	useSourceLoader("miscellaneous-tests.lin");
     }
 //    public void testWeb() throws GenyrisException {
 //        useSourceLoader("web-tests.lin");

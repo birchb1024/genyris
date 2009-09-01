@@ -58,11 +58,11 @@ def test-remove()
 def test-select()
    var joe "Joe"
    var ts
-      triplestore =
-         '(joe age three) =
-          '(joe age ten) =
-            '("John" age 22) =
-               '("John" height 223)
+      triplestore 
+         ~ '(joe age three)
+         ~ '(joe age ten)
+         ~ '("John" age 22)
+         ~ '("John" height 223)
    var result
       ts
         !select 'joe nil nil

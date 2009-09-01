@@ -12,12 +12,18 @@ class C ()
         > obj 23
 
 ; call the validator directly from the class env
-C (!valid? 34)   ; => true
-C (!valid? 21)   ; => nil
+assertEqual 
+    C (!valid? 34)
+    true
+assertEqual 
+    C (!valid? 21)
+    nil
 
 
 ; mark the number 24 as a member of class 'C'
 tag C 24      ; => ~ 24 ; Bignum C
-24 = C        ; => ~ 24 ; Bignum
+is? 24 C        ; => ~ 24 ; Bignum
 
-22 = C      ; => *** Error: class validator error for object 22
+catch error
+   is? 22 C
+assertEqual error "class C validator error for object 22"

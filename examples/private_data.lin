@@ -22,27 +22,28 @@ class Person ()
       tag !self
          (dict)
             define age 25
-            def !getAge () age
-            def !setAge (val) (set 'age val)
+            def !getAge() age
+            def !setAge(val) (set 'age val)
             !self
 
 define p
    Person(!new)
-p (!getAge)    ; = 25
-p (!setAge 26) ; = 26
+assertEqual 25 (p (!getAge))
+assertEqual 26 (p (!setAge 26))
 
 ;;
 ;; Example of a class with a private method.
 ;;
 class Foo ()
-    def privateFunc () "I am private. You cannot call me directly"
-    def !publicFunc ()
+    def privateFunc() "I am private. You cannot call me directly"
+    def !publicFunc()
        list (privateFunc) "called by !publicFunc"
 
 define f (tag Foo (dict))
-f (privateFunc) ; = error
-f (!publicFunc) ; OK
+assertEqual 
+    f (!publicFunc)
+    list "I am private. You cannot call me directly" "called by !publicFunc"
+catch error
+   f (privateFunc) ; = error
+assertEqual error "unbound variable: privateFunc"
 
-Foo
-  print !vars "\n"
-  print !self

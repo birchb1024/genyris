@@ -67,7 +67,7 @@ public class Dictionary extends Atom implements Environment {
 		while (iter.hasNext()) {
 			Exp key = (Exp)iter.next();
 			Exp value = (Exp)  _dict.get(key);
-			Exp tmp = new PairWithcolons( new DynamicSymbol((SimpleSymbol)key), value);
+			Exp tmp = new PairEquals( new DynamicSymbol((SimpleSymbol)key), value);
 			result = new Pair(tmp, result);
 		}
 		return new Pair(_parent.getSymbolTable().DICT(), result);

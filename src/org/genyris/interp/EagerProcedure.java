@@ -26,11 +26,14 @@ public class EagerProcedure extends AbstractClosure  {
         Symbol NIL = env.getNil();
         int i = 0;
         Exp[] result = new Exp[exp.length(NIL)];
-        while( exp != NIL) {
+        while( exp.isPair() ) {
             result[i] = exp.car().eval(env);
             exp = exp.cdr();
             i++;
         }
+//        if(exp != NIL) {
+//        	result[i] = exp.eval(env);
+//        }
         return result;
     }
 

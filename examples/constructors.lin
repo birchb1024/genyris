@@ -40,15 +40,15 @@ class PersonTraditional (Object)
 class PersonModern ()
 
    def !valid?(obj)
-      (obj!name) = String
-      (obj!age) = Bignum
+      is? (obj!name) String
+      is? (obj!age) Bignum
 
    def !new(name age)
       (dict)                             ; create the object
          define !name name               ; add the data
          define !age age
-         !self = PersonModern             ; check type now
+         is? !self PersonModern           ; check type now
          tag PersonModern !self           ; ok, so add the class
          !self
 
-s
+define fred (PersonModern (!new "fred" 23))

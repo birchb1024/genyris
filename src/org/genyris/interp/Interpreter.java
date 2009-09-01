@@ -223,7 +223,8 @@ public class Interpreter {
 
 		StandardClass symbol = StandardClass.mkClass(Constants.SYMBOL, env, builtin);
 		StandardClass closure = StandardClass.mkClass(Constants.CLOSURE, env, builtin);
-		StandardClass pair = StandardClass.mkClass("Pair", env, builtin);
+		StandardClass pair = StandardClass.mkClass(Constants.PAIR, env, builtin);
+		StandardClass.mkClass(Constants.PAIREQUAL, env, builtin);
 		StandardClass.mkClass(Constants.PRINTWITHEQ, env, pair);
 		StandardClass.mkClass(Constants.SIMPLESYMBOL, env, symbol);
 		StandardClass.mkClass(Constants.URISYMBOL, env, symbol);

@@ -104,9 +104,9 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
         excerciseEval("(class CC() (def !valid?(x) true))", "<class CC (Thing) ()>");
-        excerciseEval("(12 = CC)", "12");
+//        excerciseEval("(12 = CC)", "12");
         excerciseEval("(class XX() (def !valid?(x) nil))", "<class XX (Thing) ()>");
-        exceptionEval("(12 = XX)", "class XX validator error for object 12");
+//        exceptionEval("(12 = XX)", "class XX validator error for object 12");
 
         excerciseEval("(def fn((a =A) = Bignum) 42)", "<EagerProc: <fn>>");
         exceptionEval("(fn 23)", "Type mismatch in function call for (a = A) because validator error: object 23 is not tagged with A");

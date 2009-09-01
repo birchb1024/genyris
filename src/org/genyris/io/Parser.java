@@ -10,7 +10,7 @@ import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Pair;
-import org.genyris.core.PairWithcolons;
+import org.genyris.core.PairEquals;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.exception.AccessException;
@@ -104,7 +104,7 @@ public class Parser {
 				nextsym();
 				restOfList = parseExpression();
 				nextsym();
-				tree = new PairWithcolons(tree, restOfList);
+				tree = new PairEquals(tree, restOfList);
 				return tree;
 			}
 			tree = new Pair(tree, restOfList);

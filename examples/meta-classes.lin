@@ -38,13 +38,13 @@ class MyMetaClass()
       define klass (dict)
       klass
          define !classname name
-         tag !self MyMetaClass
+         tag MyMetaClass !self 
          define !subclasses nil
          define !superclasses
             map-left superclasses symbol-value
          add-to-subclasses superclasses klass
          eval body
-        def !new()
+         def !new()
             define !wheat nil
       template
          define ,name ,klass

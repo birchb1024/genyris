@@ -20,7 +20,8 @@ class Person ()
 
 define jo
    (Person!new) "Jo" 23
-
+assert
+   equal? (jo!name) "Jo"
 ;;
 ;;  Derived class calls super-class constructor
 ;;
@@ -32,20 +33,23 @@ class Employee (Person)
           !self
 
 define fred
-   (Employee!new) "Fred Smith" 45 123123123
+   (Employee!new) "Fred Smith" "1/1/1900" 123123123
 
+assert
+   equal? (fred!dob) "1/1/1900"
 ;;
 ;; Add to an existing object to make it belong to a new class.
 ;;
 class Manager (Employee)
 
   def !new (employee grade)
-     employee = Employee
+     is? employee Employee
      employee
         define !managment-grade grade
      tag Manager employee
 
 ; promote fred
-(Manager!new) fred "project mangler"
+(Manager!new) fred "Project Mangler"
 
-
+assert
+   equal? (fred!managment-grade) "Project Mangler"

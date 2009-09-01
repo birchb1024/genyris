@@ -22,14 +22,9 @@ public class LengthFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		checkArguments(arguments, 1);
-		int counter = 0;
 		Exp s = arguments[0];
 
-		while (s != NIL) {
-			counter += 1;
-			s = s.cdr();
-		}
-		return (new Bignum(counter));
+		return (new Bignum(s.length(NIL)));
 
 	}
 

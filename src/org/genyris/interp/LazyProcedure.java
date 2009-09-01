@@ -36,6 +36,9 @@ public class LazyProcedure extends AbstractClosure {
             exp = exp.cdr();
             i++;
         }
+//        if (exp != NIL){
+//        	result[i] = exp;
+//        }
         return result;
     }
 

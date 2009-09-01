@@ -199,7 +199,7 @@ public class TripleStoreTest extends TestCase {
     public void testInterpTriplesClasses() throws Exception {
         eval("(23(!asTriples))","((triple 23 type <class Bignum (Builtin) ()>))");
         eval("(\"X\"(!asTriples))","((triple \"X\" type <class String (Builtin) ()>))");
-        eval("('(a =e)(!asTriples))","((triple (a = e) type <class Pair (Builtin) (ListOfLines PRINTWITHEQ)>))");
+        eval("('(a =e)(!asTriples))","((triple (a = e) type <class PairEqual (Builtin) ()>))");
         eval("('sym(!asTriples))","((triple sym type <class SimpleSymbol (Symbol) (|http://www.genyris.org/lang/syntax#Keyword|)>))");
 
         }

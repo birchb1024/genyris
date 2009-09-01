@@ -21,7 +21,8 @@ def make-env ()
       if true 11 22
   the run-example
 
-(make-env) ; => 11 "env-OK" ; Pair
+assert 
+    equal? ((make-env)) (list 11 "env-OK")
 
 ;------------------------------------------------------
 ;
@@ -37,10 +38,11 @@ context
           ,test (list ,success-result "OK")
           true (list ,failure-result "Fail")
 
-context
-    !if nil "A" "B"            ; call the macro.
-
-; => "B" "Fail" ; Pair
+assert
+   equal?
+      context
+           !if nil "A" "B"            ; call the macro.
+      list "B" "Fail"
 
 ;------------------------------------------------------
 ;
@@ -60,10 +62,10 @@ class MyClass (MySuperClass)       ; sub-class it
 define my-instance                 ; create an instance
    tag MyClass (dict)
 
-
-my-instance              ; use the instance as an execution environment
-   !if nil "A" "B"
-
-; => "B" "my-Fail" ; Pair
+assert
+    equal?
+        list "B" "my-Fail"
+        my-instance              ; use the instance as an execution environment
+           !if nil "A" "B"
 
 

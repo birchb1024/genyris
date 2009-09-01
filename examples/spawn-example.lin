@@ -2,4 +2,4 @@
 
 while true
    print sys:argv
-   sleep 5000
+   sleep 500

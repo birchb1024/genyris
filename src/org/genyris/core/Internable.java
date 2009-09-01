@@ -36,6 +36,7 @@ public interface Internable {
 	public SimpleSymbol EAGERPROC();
 	public SimpleSymbol LAZYPROC();
 	public SimpleSymbol PAIR();
+	public SimpleSymbol PAIREQUAL();
 	public SimpleSymbol STRING();
 	public SimpleSymbol READER();
 	public SimpleSymbol SIMPLESYMBOL();
