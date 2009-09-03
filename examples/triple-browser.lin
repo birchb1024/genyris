@@ -32,9 +32,9 @@ define store nil
 
 def loadDataFromCSV(url)
     var in (web:get url)       
-    setq store (triplestore)
+    store = (triplestore)
     define $line ""
-    while (not (equal? EOF (setq $line (in(!getline)))))
+    while (not (equal? EOF ($line = (in(!getline)))))
         define aslist ($line(!split ","))
         cond 
             (equal? (length aslist) 1)
@@ -59,18 +59,18 @@ def convertToRegex (str)
     cond
        (str(!match "\".*\""))
             ; exact
-            setq str 
+            str =
                 (cadr (str(!split "\"")))
                     !toLowerCase
        else     
-            setq str (str(!toLowerCase))
-            setq str (str (!+ ".*"))
-            setq str (".*" (!+ str))
+            str = (str(!toLowerCase))
+            str = (str (!+ ".*"))
+            str = (".*" (!+ str))
     print str
     str
     
 def searchStore(str)
-    setq str (convertToRegex str)
+    str = (convertToRegex str)
     def matchFunc(s o p)
        ;u:format "~s ~s ~s ~s~%" s o p str
         or
@@ -103,8 +103,8 @@ def renderTripleList (ts)
     define result nil
     while ts
         ;display (car ts)
-        setq result (cons (renderTriple (car ts)) result)
-        setq ts (right ts)
+        result = (cons (renderTriple (car ts)) result)
+        ts = (right ts)
     template
             table() 
                 tr()
@@ -124,25 +124,22 @@ df httpd-serve (request)
    define operation "Search"
    define searchResults nil
    define renderedResults ""
-   setq operation (params (!lookup "op"))
-   setq query (params (!lookup "query"))
+   operation = (params (!lookup "op"))
+   query = (params (!lookup "query"))
    cond
        (or (null? query) (equal? query ""))
-           setq query DEFAULT      
+           query = DEFAULT      
    cond
        (equal? operation "Reload")
             loadDataFromCSV CSVURL
-            setq renderedResults 
+            renderedResults =
                template
                    "Reloaded from "
                       a((href = ,CSVURL))
-                         ,CSVURL
-                      
+                         ,CSVURL                      
        else
-            setq searchResults 
-                (searchStore query)(!asTriples)
-            setq renderedResults 
-                renderTripleList searchResults
+            searchResults = ((searchStore query)(!asTriples))
+            renderedResults = (renderTripleList searchResults)
    var result
     list 200 "text/html"
       template
