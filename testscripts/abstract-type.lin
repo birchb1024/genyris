@@ -16,10 +16,10 @@ class XYZqueue(Object)
     def !init()
         var !items ()
     def !enqueue(object)
-        setq !items (cons object !items)
+        !items = (cons object !items)
     def !dequeue()
         var tmp  (car !items)
-        setq !items (cdr !items)
+        !items = (cdr !items)
         tmp
 
 var my-queue (XYZqueue(!new))
@@ -27,7 +27,7 @@ print (my-queue!vars)
 print (my-queue!classes)
 print
    AbstractQueue(!valid? my-queue)
-my-queue = AbstractQueue
+is? my-queue AbstractQueue
 assert
    classify AbstractQueue my-queue
 my-queue

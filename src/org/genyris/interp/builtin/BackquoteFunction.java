@@ -8,6 +8,7 @@ package org.genyris.interp.builtin;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
+import org.genyris.core.PairEquals;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -53,7 +54,10 @@ public class BackquoteFunction extends ApplicableFunction {
         if( l1 == NIL) {
             return l2;
         }
-        else {
+        if(l1 instanceof PairEquals) {
+            return new PairEquals( l1.car(), append(l1.cdr(), l2));
+        	
+        } else {
             return new Pair( l1.car(), append(l1.cdr(), l2));
         }
     }

@@ -7,14 +7,14 @@ df t:test (id &rest cases)
    var number-of-tests 0
    var result true
    while cases
-       setq number-of-tests (+ 1 number-of-tests)
+       number-of-tests = (+ 1 number-of-tests)
       ;;u:format "condition:  ~s~%" (left cases)
-       setq result
+       result =
             and (eval (left cases)) result
-       setq cases (right cases)
+       cases = (right cases)
        cond
           result
-            setq passed-count (+ passed-count 1)
+            passed-count = (+ passed-count 1)
    u:format "Tests ~a ~a/~a passed~%" id passed-count number-of-tests
    result
 

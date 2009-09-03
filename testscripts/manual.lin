@@ -8,7 +8,7 @@ assert
     equal? (pitt!name) "Willam Pitt"
     
 pitt
-   setq !name "William Pitt The Younger"
+   !name = "William Pitt The Younger"
 pitt 
    define !father "William Pitt the Elder"
 assert

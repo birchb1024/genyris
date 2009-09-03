@@ -14,11 +14,11 @@ class SetList()
          (equal? (length A) (length B))
             var result true
             while A
-                 setq result
+                 result =
                     and
                        member? (car A) B
                        result
-                 setq A (cdr A)
+                 A = (cdr A)
             result
 
    assert
