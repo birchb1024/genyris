@@ -31,7 +31,7 @@ public class Lex {
 
 	public Symbol COMMA_TOKEN;
 
-	public Symbol LEFT_PAREN_TOKEN, RIGHT_PAREN_TOKEN, COLON_TOKEN;
+	public Symbol LEFT_PAREN_TOKEN, RIGHT_PAREN_TOKEN, CDR_TOKEN;
 	public Symbol LEFT_SQUARE_TOKEN, RIGHT_SQUARE_TOKEN;
 	public Symbol LEFT_CURLY_TOKEN, RIGHT_CURLY_TOKEN;
 
@@ -53,7 +53,7 @@ public class Lex {
 		RIGHT_SQUARE_TOKEN = new SimpleSymbol("rightSquareToken");
 		LEFT_CURLY_TOKEN = new SimpleSymbol("leftCurlyToken");
 		RIGHT_CURLY_TOKEN = new SimpleSymbol("rightCurlyToken");
-		COLON_TOKEN = new SimpleSymbol("pair-delimiterToken");
+		CDR_TOKEN = new SimpleSymbol("pair-delimiterToken");
 	}
 
 	public Lex(InStream inputSource, Internable table, char cdrChar) {
@@ -200,7 +200,7 @@ public class Lex {
 			}
 			ch = _input.readNext();
 			if (ch == this._cdrCharacter)
-				return COLON_TOKEN;
+				return CDR_TOKEN;
 
 			switch (ch) {
 			case '\f':

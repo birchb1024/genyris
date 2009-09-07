@@ -95,12 +95,12 @@ public class Parser {
 			tree = NIL;
 		} else if(cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
 			tree = NIL;
-		} else if (cursym.equals(_lexer.COLON_TOKEN)) {
-			return _lexer.COLON_TOKEN;
+		} else if (cursym.equals(_lexer.CDR_TOKEN)) {
+			return _lexer.CDR_TOKEN;
 		} else {
 			tree = parseExpression();
 			Exp restOfList = parseList();
-			if (restOfList == _lexer.COLON_TOKEN) {
+			if (restOfList == _lexer.CDR_TOKEN) {
 				nextsym();
 				restOfList = parseExpression();
 				nextsym();
@@ -114,8 +114,8 @@ public class Parser {
 
 	public Exp parseExpression() throws GenyrisException {
 		Exp tree = NIL;
-		if (cursym.equals(_lexer.COLON_TOKEN)) {
-			throw new ParseException("unexpected colon");
+		if (cursym.equals(_lexer.CDR_TOKEN)) {
+			throw new ParseException("unexpected =");
 		}
 		if (cursym.equals(_lexer.EOF_TOKEN)) {
 			throw new ParseException("unexpected End of File");
