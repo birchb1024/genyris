@@ -19,7 +19,7 @@ defmacro df (name args &rest body)
     template
         defvar ',name (lambdaq ,args ,@body)
 
-df # (&rest ignore)
+df // (&rest ignore)
 
 defmacro setq (variable valu) (template (set ',variable ,valu))
 
