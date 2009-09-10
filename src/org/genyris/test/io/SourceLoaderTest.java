@@ -24,7 +24,7 @@ public class SourceLoaderTest extends TestCase {
         interp.init(false);
         StringReader in = new StringReader(input);
         StringWriter out = new StringWriter();
-        SourceLoader.executeScript(".lin", interp, in, out);
+        SourceLoader.executeScript(interp.getGlobalEnv(),".lin", interp.getSymbolTable(), in, out);
          assertEquals(expected, out.toString());
 
     }
@@ -40,18 +40,18 @@ public class SourceLoaderTest extends TestCase {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp, "org/genyris/load/boot/init.lin", out);
+        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "org/genyris/load/boot/init.lin", out);
     }
     public void testSourceLoader3() throws GenyrisException {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp, "testscripts/factorial.lin", out);
+        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "testscripts/factorial.lin", out);
     }
     public void testSourceLoaderLisp() throws GenyrisException {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp, "testscripts/factorial.lsp", out);
+        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "testscripts/factorial.lsp", out);
     }
 }

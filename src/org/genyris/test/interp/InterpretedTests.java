@@ -20,7 +20,7 @@ public class InterpretedTests extends TestCase {
         interp.init(false);
         StringWriter out = new StringWriter();
         try {
-            SourceLoader.loadScriptFromClasspath(interp, "testscripts/" + filename, out);
+            SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "testscripts/" + filename, out);
         } finally {
             System.out.println(out.getBuffer());
         }
@@ -60,6 +60,9 @@ public class InterpretedTests extends TestCase {
     }
     public void testMiscellaneous() throws GenyrisException {
     	useSourceLoader("miscellaneous-tests.lin");
+    }
+    public void testImport() throws GenyrisException {
+    	useSourceLoader("test-import.lin");
     }
 //    public void testWeb() throws GenyrisException {
 //        useSourceLoader("web-tests.lin");

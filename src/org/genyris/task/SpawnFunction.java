@@ -53,7 +53,7 @@ public class SpawnFunction extends ApplicableFunction {
 				Writer output = new PrintWriter(System.out);
 				SimpleSymbol ARGS = interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
 				interpreter.getGlobalEnv().defineVariable(ARGS, arrayToExpList(interpreter.NIL, arguments));
-				SourceLoader.loadScriptFromFile(interpreter, filename, output);
+				SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
 			} catch (GenyrisException e) {
 				if(e instanceof GenyrisInterruptedException) 
 					return;

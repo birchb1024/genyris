@@ -1,0 +1,15 @@
+;
+; Test nested imports.
+;
+@prefix sys "http://www.genyris.org/lang/system#"
+
+(var module1 (dict))
+    sys:import "testscripts/test-module1.lin"
+  
+assertEqual 
+    module1(!public1)
+    list 'public1 'private1 123 145
+    
+assertEqual 
+    module1(!public2)
+    list 'public2 'private2 222 444

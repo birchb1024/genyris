@@ -65,7 +65,7 @@ public class ClassicReadEvalPrintLoop {
 			Interpreter interpreter = new Interpreter();
 			interpreter.init(false);
 			setArgs(args, interpreter);
-			SourceLoader.loadScriptFromFile(interpreter, filename, output);
+			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
 		} catch (GenyrisException e) {
 			output.write("*** Error in file : " + filename + " " + e.getData());
 			output.flush();
@@ -133,7 +133,7 @@ public class ClassicReadEvalPrintLoop {
 
 			setInitialPrefixes(parser);
 			SourceLoader
-					.loadScriptFromClasspath(_interpreter,
+					.loadScriptFromClasspath(_interpreter.getGlobalEnv(), _interpreter.getSymbolTable(),
 							"org/genyris/load/boot/repl.lin",
 							(Writer) new NullWriter());
 			Exp expression = null;
