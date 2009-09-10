@@ -115,4 +115,4 @@
 
 *** Error: unbound variable: .z
 
-(dict (.z "temp .z")) (defvar 'fo (lambda () .z)) ((lambda () (fo))) ; ==> "temp .z"
+(dict (.z "temp .z")) (defvar 'fo (lambda () .z)) ((lambda () (fo))) # ==> "temp .z"

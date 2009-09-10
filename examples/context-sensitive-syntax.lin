@@ -1,16 +1,16 @@
-;; Copyright 2008 Peter William Birch <birchb@genyis.org>
-;;
-;; This software may be used and distributed according to the terms
-;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
-;;
-;;;
-;;; Examples of context sensitive macros (also object-oriented macros)
-;;;
+## Copyright 2008 Peter William Birch <birchb@genyis.org>
+##
+## This software may be used and distributed according to the terms
+## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+##
+###
+### Examples of context sensitive macros (also object-oriented macros)
+###
 
-;------------------------------------------------------
-;
-;  Define a macro in a private closure
-;
+#------------------------------------------------------
+#
+#  Define a macro in a private closure
+#
 def make-env ()
   defmacro if (test success-result failure-result)
     template
@@ -24,14 +24,14 @@ def make-env ()
 assert 
     equal? ((make-env)) (list 11 "env-OK")
 
-;------------------------------------------------------
-;
-; simple macro defined by an un-classed object
-;
+#------------------------------------------------------
+#
+# simple macro defined by an un-classed object
+#
 define context (dict)
 
 context
-  ; define a macro in the environment of this object
+  # define a macro in the environment of this object
   defmacro !if (test success-result failure-result)
     template
        cond
@@ -41,13 +41,13 @@ context
 assert
    equal?
       context
-           !if nil "A" "B"            ; call the macro.
+           !if nil "A" "B"            # call the macro.
       list "B" "Fail"
 
-;------------------------------------------------------
-;
-; Now a macro belonging to a class.
-;
+#------------------------------------------------------
+#
+# Now a macro belonging to a class.
+#
 class MySuperClass ()
   defmacro !if (test success-result failure-result)
     template
@@ -56,16 +56,16 @@ class MySuperClass ()
           true (list ,failure-result "my-Fail")
 
 
-class MyClass (MySuperClass)       ; sub-class it
+class MyClass (MySuperClass)       # sub-class it
 
 
-define my-instance                 ; create an instance
+define my-instance                 # create an instance
    tag MyClass (dict)
 
 assert
     equal?
         list "B" "my-Fail"
-        my-instance              ; use the instance as an execution environment
+        my-instance              # use the instance as an execution environment
            !if nil "A" "B"
 
 

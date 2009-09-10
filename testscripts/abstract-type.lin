@@ -1,6 +1,6 @@
-;
-; Rosetta Code
-;
+#
+# Rosetta Code
+#
 include "examples/classify.lin"
 
 class AbstractQueue()

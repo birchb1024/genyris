@@ -1,6 +1,6 @@
-;;
-;;
-;;
+##
+##
+##
 include "examples/mixin.lin"
 @prefix m "MyMixin#"
 

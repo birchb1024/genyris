@@ -34,7 +34,7 @@ d !x
 
 (lambda (z) (c z) 67
 (lambda (z) (c z)) 88
-(lambda (z) (c (cons z !x))) 90   ; 90 ! 99
+(lambda (z) (c (cons z !x))) 90   # 90 ! 99
 
 defvar 'Person ((lambda (!name) (closure)) 'Person)
 Person (defvar '!new (lambda (!name) (defvar '!class !self) (closure)))

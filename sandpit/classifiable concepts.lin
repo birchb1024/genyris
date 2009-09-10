@@ -6,5 +6,5 @@ defvar 'str "Bently"
 add-class str Luxury-Car
 
 do str
-    ; !self bound to str
-    print   ; => A luxury car: Bently
+    # !self bound to str
+    print   # => A luxury car: Bently

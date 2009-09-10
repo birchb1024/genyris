@@ -11,8 +11,8 @@ def usage()
 
 if (equal? 3 (length sys:argv)) nil (usage)
 
-define *client-id-regex* (nth 1 sys:argv) ; client IP regular expression
-define *rule-file* (nth 2 sys:argv)       ; more classes for messages
+define *client-id-regex* (nth 1 sys:argv) # client IP regular expression
+define *rule-file* (nth 2 sys:argv)       # more classes for messages
 
 var log '()
 
@@ -58,7 +58,7 @@ class UsbLamp()
              change "allflashoff"
              change "alldark"
          (null? codes)
-             "no-op" ;raise "UsbLamp sent bad op-code."
+             "no-op" #raise "UsbLamp sent bad op-code."
          else
              call-lamp codes
    def !changes(list-of-strings)
@@ -96,7 +96,7 @@ class StringMessage(String)
      (context!addToLog) !self !style-exp
    def !style(str)
       define !style-exp str
-   !style "background: white;border 1px;"
+   !style "background: white#border 1px#"
 
 class NullMessage(StringMessage)
   def !valid?(str)
@@ -112,10 +112,10 @@ class UsbMessage(StringMessage)
 class Message(StringMessage)
 
    def !valid?(str)
-      ;u:format "!valid? ~s ~s~%" !self str
-      ;print str
+      #u:format "!valid? ~s ~s~%" !self str
+      #print str
       cond
-        ((UsbMessage!valid?) str) nil ; Message and UsbMessage mutually exclusive
+        ((UsbMessage!valid?) str) nil # Message and UsbMessage mutually exclusive
         else
            (function(pat) (str (!match pat))) !pattern-exp
 
@@ -153,7 +153,7 @@ u:format "Loading ~s~%" *rule-file*
 include *rule-file*
 
 class BuildNotification()
-  ; singleton
+  # singleton
   var log nil
   var lastmessage nil
   define client "unknown"
@@ -177,8 +177,8 @@ class BuildNotification()
   def !alertUsers(operation nextclient)
     setq client nextclient
     classify StringMessage operation
-    ;u:format "operation => ~a~%" operation
-    ;u:format "operation types: ~a~%" (operation!classes)
+    #u:format "operation => ~a~%" operation
+    #u:format "operation types: ~a~%" (operation!classes)
     operation
           !log BuildNotification
           !update-lamp
@@ -221,7 +221,7 @@ def process-request (request)
              body()
                 form()
                    input((name="op") (size="100") (value = ,operation)) ""
-                   verbatim() "&nbsp;&nbsp;&nbsp;"
+                   verbatim() "&nbsp#&nbsp#&nbsp#"
                    input((type="submit") (value="Go"))
                 form()
                     input((type ="submit") (value ="Refresh"))

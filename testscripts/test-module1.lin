@@ -1,6 +1,6 @@
-;
-;
-;
+#
+#
+#
 @prefix sys "http://www.genyris.org/lang/system#"
 
 define private-var1 123
@@ -12,5 +12,5 @@ def !public1()
     list 'public1 (private1) private-var1 !public-var1
 
 
-; nested import
+# nested import
 sys:import "testscripts/test-module2.lin"

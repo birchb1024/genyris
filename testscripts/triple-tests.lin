@@ -1,6 +1,6 @@
-;
-; Tests on triples
-;
+#
+# Tests on triples
+#
 def test-equality()
    assert
       equal?

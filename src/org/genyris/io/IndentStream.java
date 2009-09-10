@@ -5,6 +5,7 @@
 //
 package org.genyris.io;
 
+import org.genyris.core.Constants;
 import org.genyris.exception.GenyrisException;
 
 public class IndentStream implements InStreamEOF {
@@ -29,6 +30,7 @@ public class IndentStream implements InStreamEOF {
 
 	private static final int NEXTLINE = 7;
 
+	private static final int IN_SYMBOL = 8;
 	InStream _instream;
 
 	int _parseState;
@@ -162,7 +164,7 @@ public class IndentStream implements InStreamEOF {
 				if (ch == ' ') {
 					_numberOfLeadingSpaces++;
 					break;
-				} else if (ch == ';') {
+				} else if (ch == Constants.COMMENTCHAR) {
 					_parseState = STRIP_COMMENT;
 					break;
 				} else if (ch == '\r') {
@@ -249,6 +251,23 @@ public class IndentStream implements InStreamEOF {
 				_parseState = IN_STRING;
 				return (ch);
 
+			case IN_SYMBOL:
+				if (!_instream.hasData()) {
+					finish();
+					break;
+				}
+				input();
+
+				switch (ch) {
+
+				case '|':
+					_parseState = IN_STATEMENT;
+					return (ch);
+
+				default:
+					return (ch);
+				}
+
 			case IN_STRING:
 				if (!_instream.hasData()) {
 					finish();
@@ -282,7 +301,11 @@ public class IndentStream implements InStreamEOF {
 					_parseState = IN_STRING;
 					return (ch);
 
-				case ';':
+				case '|':
+					_parseState = IN_SYMBOL;
+					return (ch);
+
+				case Constants.COMMENTCHAR:
 					_parseState = STRIP_COMMENT;
 					break;
 

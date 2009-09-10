@@ -1,10 +1,10 @@
-;;
-;;  Simple script to start a static web server.
-;; Arguments:
-;; port - e.g. 80
-;; root path directory name - e.g. "F:\\foo\\bar\\"
-;;
-;;
+##
+##  Simple script to start a static web server.
+## Arguments:
+## port - e.g. 80
+## root path directory name - e.g. "F:\\foo\\bar\\"
+##
+##
 @prefix web "http://www.genyris.org/lang/web#"
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"

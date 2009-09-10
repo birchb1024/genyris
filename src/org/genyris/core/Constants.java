@@ -9,7 +9,7 @@ package org.genyris.core;
 public class Constants {
 
     // Lexical marks
-        public static final char COMMENTCHAR = ';';
+        public static final char COMMENTCHAR = '#';
         public static final char BQUOTECHAR = '`';
         public static final char QUOTECHAR = '\'';
         public static final char COMMACHAR = ',';

@@ -1,9 +1,9 @@
-;
-; Rosetta Code
-;
-;
-; finding of the greatest common divisor of two integers.
-;
+#
+# Rosetta Code
+#
+#
+# finding of the greatest common divisor of two integers.
+#
 
 def gcd_test()
   assertEqual (gcd 0 0) 0

@@ -1,6 +1,6 @@
-;;;
-;;; Mixins
-;;;
+###
+### Mixins
+###
 
 @prefix m "MyMixin#"
 class m:Mixin()

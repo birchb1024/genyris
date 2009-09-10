@@ -1,6 +1,6 @@
-;
-; Class Methods example from "Design Patterns in Ruby", Russ Olsen.
-;
+#
+# Class Methods example from "Design Patterns in Ruby", Russ Olsen.
+#
 class ClassMethodTester(Object)
     define class-variable "hello from the class method\n"
     def !class-method()

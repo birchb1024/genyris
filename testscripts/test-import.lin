@@ -1,6 +1,6 @@
-;
-; Test nested imports.
-;
+#
+# Test nested imports.
+#
 @prefix sys "http://www.genyris.org/lang/system#"
 
 (var modulex (dict))

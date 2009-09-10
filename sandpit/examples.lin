@@ -27,10 +27,10 @@ do
    tak 18 12 6
    the tak-log
 
-;;;
-;;; Wrap an object (views) with different perspectives. 
-;;;
-class Complex () ; expects !self to be a wrapped pair ((N=N))
+###
+### Wrap an object (views) with different perspectives. 
+###
+class Complex () # expects !self to be a wrapped pair ((N=N))
     def !toString()
         list "real: " (car (car !self)) "imaginary: " (cdr (car !self))
 

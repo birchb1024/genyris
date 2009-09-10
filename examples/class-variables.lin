@@ -1,6 +1,6 @@
-;
-; Class Variables example from "Design Patterns in Ruby", Russ Olsen.
-;
+#
+# Class Variables example from "Design Patterns in Ruby", Russ Olsen.
+#
 class ClassVariableTester (Object)
    define class_count 0
 

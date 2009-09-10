@@ -1,12 +1,12 @@
-;;;;
-;;;; Taken from "Lisp" by Winston & Horn 2nd edition
-;;;; problem 11-9
-;;;;
+####
+#### Taken from "Lisp" by Winston & Horn 2nd edition
+#### problem 11-9
+####
 
 def queens (size)
   queen-aux nil 0 size
 
-def queen-aux (board n size)               ; start on next row
+def queen-aux (board n size)               # start on next row
    cond
       (equal? n size)
          board-print (reverse board)
@@ -58,8 +58,8 @@ def board-print-sub (column n size)
                display '.
          board-print-sub column (+ n 1) size
 
-;;
-;; If invoked as a script use first arg as size of board
+##
+## If invoked as a script use first arg as size of board
 @prefix sys "http://www.genyris.org/lang/system#"
 cond
     (and (bound? 'sys:argv) sys:argv)

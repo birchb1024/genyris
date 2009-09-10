@@ -1,6 +1,6 @@
-;;;
-;;;  Use of lambda to define a function
-;;;
+###
+###  Use of lambda to define a function
+###
 defvar 'last
   lambda (x)
     cond
@@ -11,8 +11,8 @@ defvar 'last
 
 
 cond
-   (equal (last '(1 2 3 4 5 6)) 6) =            ; list line continuation
+   (equal (last '(1 2 3 4 5 6)) 6) =            # list line continuation
       "PASSED"
    else
-      ~ "FAILED"                                ; line continuation with ~ syntax
+      ~ "FAILED"                                # line continuation with ~ syntax
 

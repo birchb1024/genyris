@@ -1,4 +1,4 @@
-;; File Handling Module (using prefixes)
+## File Handling Module (using prefixes)
 
 @prefix file "http://files.org/"
 
@@ -8,7 +8,7 @@ def file:delete(filename) ...
 def file:zip(file) ...
 
 
-;; Use of the file module
+## Use of the file module
 @prefix f "http://files.org/"
 
 def archive(filename)

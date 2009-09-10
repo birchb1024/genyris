@@ -1,6 +1,6 @@
-;
-; Miscellaneous tests
-;
+#
+# Miscellaneous tests
+#
 
 var properties (System(!getProperties))
 var OS-name (properties!|os.name|)

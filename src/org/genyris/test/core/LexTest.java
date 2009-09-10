@@ -124,9 +124,9 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new SimpleSymbol("--"), "--");
     }
     public void testLexCommentStrip() throws Exception {
-        excerciseNextTokenExp(new SimpleSymbol("X"), "X ; foo");
-        excerciseNextTokenExp(new SimpleSymbol("Y"), "; stripped \nY");
-        excerciseNextTokenExp(new Bignum(12), "   \n\t\f      ; stripped \n12");
+        excerciseNextTokenExp(new SimpleSymbol("X"), "X # foo");
+        excerciseNextTokenExp(new SimpleSymbol("Y"), "# stripped \nY");
+        excerciseNextTokenExp(new Bignum(12), "   \n\t\f      # stripped \n12");
         }
 
 

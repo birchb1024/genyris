@@ -57,8 +57,8 @@ description
 
 class p:Person(Thing)
    !description
-      ; type Class ; implicit
-      ; subclassOf Thing ; implicit
+      # type Class # implicit
+      # subclassOf Thing # implicit
       hasProperty p:Name
       hasProperty p:Age
 

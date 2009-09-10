@@ -2,10 +2,10 @@
 @prefix web "http://www.genyris.org/lang/web#"
 @prefix sys "http://www.genyris.org/lang/system#"
 
-; web:serve 80 "examples/triple-browser.lin" 
+# web:serve 80 "examples/triple-browser.lin" 
 
 def myparse (string)
-   ; parse a string returning the expression
+   # parse a string returning the expression
    
    (ParenParser(!new string))
       !prefix "rdf" "http://w3c/rdf#"
@@ -58,7 +58,7 @@ def loadDataFromCSV(url)
 def convertToRegex (str)
     cond
        (str(!match "\".*\""))
-            ; exact
+            # exact
             setq str 
                 (cadr (str(!split "\"")))
                     !toLowerCase
@@ -72,7 +72,7 @@ def convertToRegex (str)
 def searchStore(str)
     setq str (convertToRegex str)
     def matchFunc(s o p)
-       ;u:format "~s ~s ~s ~s~%" s o p str
+       #u:format "~s ~s ~s ~s~%" s o p str
         or
           ((asString s)(!toLowerCase)) (!match str)
           ((asString p)(!toLowerCase)) (!match str)
@@ -102,7 +102,7 @@ def renderTriple (t)
 def renderTripleList (ts)
     define result nil
     while ts
-        ;display (car ts)
+        #display (car ts)
         setq result (cons (renderTriple (car ts)) result)
         setq ts (right ts)
     template
@@ -153,7 +153,7 @@ df httpd-serve (request)
                 h2() "CMP CMDB Search"
                 form()
                    input((name ="query") (size ="100") (value = ,query)) ""
-                   verbatim() "&nbsp;&nbsp;&nbsp;"
+                   verbatim() "&nbsp#&nbsp#&nbsp#"
                    input((type ="submit") (name ="op") (value ="Search"))
                    input((type ="submit") (name ="op") (value ="Reload"))
                 div()

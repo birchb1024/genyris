@@ -86,7 +86,7 @@ def eval-sfs-file()
      display exp
   parser(!close)
 
-;;;;;;
+######
 define CSVFILE "testscripts/fixtures/test.csv"
 define fi
    File(!new CSVFILE)
