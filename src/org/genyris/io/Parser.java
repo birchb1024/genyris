@@ -28,12 +28,12 @@ public class Parser {
 	Internable _table;
 
 	public Parser(Internable table, InStream stream) {
-		this(table, stream, Constants.CDRCHAR);
+		this(table, stream, Constants.CDRCHAR, Constants.COMMENTCHAR);
 	}
 
-	public Parser(Internable table, InStream stream, char cdrCharacter) {
+	public Parser(Internable table, InStream stream, char cdrCharacter, char commentChar) {
 		_table = table;
-		_lexer = new Lex(stream, table, cdrCharacter);
+		_lexer = new Lex(stream, table, cdrCharacter, commentChar);
 		NIL = table.NIL();
 		_prefix = table.PREFIX();
 	}

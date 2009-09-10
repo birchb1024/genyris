@@ -12,7 +12,7 @@ import org.genyris.interp.UnboundException;
 public class BoundFunction extends ApplicableFunction {
 
     public BoundFunction(Interpreter interp) {
-    	super(interp, "bound?", false);
+    	super(interp, "bound?", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException  {

@@ -1,7 +1,7 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 def u:format(&rest args)
    stdout
-      apply !format args
+      apply .format args
 
 defmacro u:debug(thing)
   template
@@ -9,9 +9,9 @@ defmacro u:debug(thing)
 
 def u:getLocalTime()
    System
-      !exec "cmd.exe" "/c" "echo %date% %time%"
+      .exec "cmd.exe" "/c" "echo %date% %time%"
 
 def u:printSymbolTable()
   (symlist)
-    !each (x)
-      (stdout (!format "~a~%" x))
+    .each (x)
+      (stdout (.format "~a~%" x))

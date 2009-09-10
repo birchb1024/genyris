@@ -56,9 +56,9 @@ description
       range Bignum
 
 class p:Person(Thing)
-   !description
-      ; type Class ; implicit
-      ; subclassOf Thing ; implicit
+   .description
+      # type Class # implicit
+      # subclassOf Thing # implicit
       hasProperty p:Name
       hasProperty p:Age
 

@@ -92,7 +92,7 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new SimpleSymbol("foo*bar"), "foo\\*bar");
         excerciseNextTokenExp(new SimpleSymbol("quux"), "\n\nquux");
         excerciseNextTokenExp(new EscapedSymbol("123"), "  \t|123|");
-        excerciseNextTokenExp(new SimpleSymbol("DYNAMIC_TOKEN"), "  \t !x");
+        excerciseNextTokenExp(new SimpleSymbol("DYNAMIC_TOKEN"), "  \t .x");
 
     }
     public void testLexIdentEscaped() throws Exception {
@@ -124,9 +124,9 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new SimpleSymbol("--"), "--");
     }
     public void testLexCommentStrip() throws Exception {
-        excerciseNextTokenExp(new SimpleSymbol("X"), "X ; foo");
-        excerciseNextTokenExp(new SimpleSymbol("Y"), "; stripped \nY");
-        excerciseNextTokenExp(new Bignum(12), "   \n\t\f      ; stripped \n12");
+        excerciseNextTokenExp(new SimpleSymbol("X"), "X # foo");
+        excerciseNextTokenExp(new SimpleSymbol("Y"), "# stripped \nY");
+        excerciseNextTokenExp(new Bignum(12), "   \n\t\f      # stripped \n12");
         }
 
 
@@ -179,7 +179,7 @@ public class LexTest extends TestCase {
         SymbolTable table = new SymbolTable();
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));
-        Parser parser = new Parser(table, input, '.');
+        Parser parser = new Parser(table, input, '.', ';');
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();

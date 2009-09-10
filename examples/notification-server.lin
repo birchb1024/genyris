@@ -7,12 +7,12 @@ include "/workspace/genyris/examples/classify.lin"
 def usage()
     u:format "Usage: <scriptname> <client IP regular expression> <rules file>~%"
     u:format "You supplied ~s~%" sys:argv 
-    System(!exit 1)
+    System(.exit 1)
 
 if (equal? 3 (length sys:argv)) nil (usage)
 
-define *client-id-regex* (nth 1 sys:argv) ; client IP regular expression
-define *rule-file* (nth 2 sys:argv)       ; more classes for messages
+define *client-id-regex* (nth 1 sys:argv) # client IP regular expression
+define *rule-file* (nth 2 sys:argv)       # more classes for messages
 
 var log '()
 
@@ -38,30 +38,30 @@ class UsbLamp()
                "redon"        = "10 12 2 0"
                "alloff"       = "meta"
 
-   def !isValidOperation?(code)
+   def .isValidOperation?(code)
       member? code
-        operations(!getKeys)
+        operations(.getKeys)
 
-   def !getOperationCodeList()
-      operations(!getKeys)
+   def .getOperationCodeList()
+      operations(.getKeys)
 
    def call-lamp(codes)
       System
-         apply !exec
+         apply .exec
             template
-                ,exePath "/c" "C:\\workspace\\notifications\\USBDOSAP.BAT " ,@(codes(!split))
+                ,exePath "/c" "C:\\workspace\\notifications\\USBDOSAP.BAT " ,@(codes(.split))
 
    def change((op = String))
-       var codes (operations (!lookup op))
+       var codes (operations (.lookup op))
        cond
          (equal? op "alloff")
              change "allflashoff"
              change "alldark"
          (null? codes)
-             "no-op" ;raise "UsbLamp sent bad op-code."
+             "no-op" #raise "UsbLamp sent bad op-code."
          else
              call-lamp codes
-   def !changes(list-of-strings)
+   def .changes(list-of-strings)
       cond
         (left list-of-strings)
             map-left list-of-strings change
@@ -69,96 +69,96 @@ class UsbLamp()
 class Noises()
     define mediaStore "c:\\WINNT\\Media\\"
 
-    def !play(soundfile-name)
+    def .play(soundfile-name)
        cond
          (null? soundfile-name)
          (equal? "beep" soundfile-name)
                display "\a \a"
          else
-            Sound(!play (mediaStore (!+ soundfile-name)))
+            Sound(.play (mediaStore (.+ soundfile-name)))
             the soundfile-name
 
 class Email()
     var server "exgau182frm07.oceania.corp.anz.com"
-    def !send(addresses message)
+    def .send(addresses message)
         u:format "sending ~s ~s ~s ~s ~s" addresses message message "birchb@anz.com" server
         email:send addresses message message "birchb@anz.com" server
 
 class StringMessage(String)
-   def !valid?(str)
+   def .valid?(str)
       is-instance? str String
-   def !render-log-line() !self
-   def !update-lamp()
-   def !play-sounds()
-   def !send-email()
-   def !custom-action(context)
-   def !log(context)
-     (context!addToLog) !self !style-exp
-   def !style(str)
-      define !style-exp str
-   !style "background: white;border 1px;"
+   def .render-log-line() .self
+   def .update-lamp()
+   def .play-sounds()
+   def .send-email()
+   def .custom-action(context)
+   def .log(context)
+     (context.addToLog) .self .style-exp
+   def .style(str)
+      define .style-exp str
+   .style "background: white#border 1px#"
 
 class NullMessage(StringMessage)
-  def !valid?(str)
+  def .valid?(str)
      equal? str ""
-  def !log(context)
+  def .log(context)
 
 class UsbMessage(StringMessage)
-  def !valid?(str)
-     (UsbLamp!isValidOperation?) str
-  def !update-lamp()
-    (UsbLamp!changes) (list !self)
+  def .valid?(str)
+     (UsbLamp.isValidOperation?) str
+  def .update-lamp()
+    (UsbLamp.changes) (list .self)
 
 class Message(StringMessage)
 
-   def !valid?(str)
-      ;u:format "!valid? ~s ~s~%" !self str
-      ;print str
+   def .valid?(str)
+      #u:format ".valid? ~s ~s~%" .self str
+      #print str
       cond
-        ((UsbMessage!valid?) str) nil ; Message and UsbMessage mutually exclusive
+        ((UsbMessage.valid?) str) nil # Message and UsbMessage mutually exclusive
         else
-           (function(pat) (str (!match pat))) !pattern-exp
+           (function(pat) (str (.match pat))) .pattern-exp
 
-   def !pattern (str)
-      var !pattern-exp str
+   def .pattern (str)
+      var .pattern-exp str
 
-   def !lights (&rest light-codes)
-      var !light-exp light-codes
+   def .lights (&rest light-codes)
+      var .light-exp light-codes
 
-   def !sounds (&rest sound-files)
-      var !sound-exp sound-files
+   def .sounds (&rest sound-files)
+      var .sound-exp sound-files
 
-   def !email (list)
-      var !email-recipients list
+   def .email (list)
+      var .email-recipients list
 
-   def !update-lamp()
-     (UsbLamp!changes) !light-exp
+   def .update-lamp()
+     (UsbLamp.changes) .light-exp
 
-   def !play-sounds()
+   def .play-sounds()
       cond
-        !sound-exp
-          (Noises!play) (left !sound-exp)
+        .sound-exp
+          (Noises.play) (left .sound-exp)
 
-   def !send-email()
+   def .send-email()
       cond
-        !email-recipients
-          (Email!send) !email-recipients !self
+        .email-recipients
+          (Email.send) .email-recipients .self
 Message
-   !pattern ".+"
-   !lights nil
-   !sounds "boing_1.wav"
-   !email '()
+   .pattern ".+"
+   .lights nil
+   .sounds "boing_1.wav"
+   .email '()
 
 u:format "Loading ~s~%" *rule-file*
 include *rule-file*
 
 class BuildNotification()
-  ; singleton
+  # singleton
   var log nil
   var lastmessage nil
   define client "unknown"
-  def !getLog() log
-  def !reset-log()
+  def .getLog() log
+  def .reset-log()
       log = nil
 
   def addToLog(message style client)
@@ -166,36 +166,36 @@ class BuildNotification()
     u:format "~a ~a ~a ~%" (u:getLocalTime) client message
     log = (cons (template (tr() (td() ,(u:getLocalTime)) (td((style = ,style)) ,message)(td(()) ,client))) log)
 
-  def !addToLog(message style)
+  def .addToLog(message style)
     addToLog message style client
 
-  def !addToLogIfNew(message style)
+  def .addToLogIfNew(message style)
     cond
       (not(equal? message lastmessage))
          addToLog message style
 
-  def !alertUsers(operation nextclient)
+  def .alertUsers(operation nextclient)
     client = nextclient
     classify StringMessage operation
-    ;u:format "operation => ~a~%" operation
-    ;u:format "operation types: ~a~%" (operation!classes)
+    #u:format "operation => ~a~%" operation
+    #u:format "operation types: ~a~%" (operation.classes)
     operation
-          !log BuildNotification
-          !update-lamp
-          !play-sounds
-          !send-email
-          !custom-action BuildNotification
+          .log BuildNotification
+          .update-lamp
+          .play-sounds
+          .send-email
+          .custom-action BuildNotification
 
 def authorised?(req)
-    (req(!getClientIP))
-         !match (nth 1 sys:argv)
+    (req(.getClientIP))
+         .match (nth 1 sys:argv)
 
 df httpd-serve (request)
    cond
      (authorised? request)
           process-request request
      else
-        u:format "~a Unauthorised hit from ~a~%" (u:getLocalTime) (request(!getClient))
+        u:format "~a Unauthorised hit from ~a~%" (u:getLocalTime) (request(.getClient))
         list 403 "text/html"
               template
                   html()
@@ -205,13 +205,13 @@ df httpd-serve (request)
                          h1() "403 Unauthorised"
         
 def process-request (request)
-   var params (request(!getParameters))
-   var client (request(!getClient))
+   var params (request(.getParameters))
+   var client (request(.getClient))
    var operation ""
    cond
      params
-        operation = (params (!lookup "op"))
-        BuildNotification(!alertUsers operation client)
+        operation = (params (.lookup "op"))
+        BuildNotification(.alertUsers operation client)
    var result
     list 200 "text/html"
       template
@@ -221,7 +221,7 @@ def process-request (request)
              body()
                 form()
                    input((name="op") (size="100") (value = ,operation)) ""
-                   verbatim() "&nbsp;&nbsp;&nbsp;"
+                   verbatim() "&nbsp#&nbsp#&nbsp#"
                    input((type="submit") (value="Go"))
                 form()
                     input((type ="submit") (value ="Refresh"))
@@ -230,7 +230,7 @@ def process-request (request)
                 a((href ="/?op=redon")) "  Red  |"
                 a((href ="/?op=blueon")) "  Blue  "
                 table()
-                    ,(BuildNotification(!getLog))
+                    ,(BuildNotification(.getLog))
    result
 
 

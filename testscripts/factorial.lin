@@ -1,18 +1,18 @@
-;; Copyright 2008 Peter William Birch <birchb@genyis.org>
-;;
-;; This software may be used and distributed according to the terms
-;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
-;;
-;
-;  Factorial function
-;
+## Copyright 2008 Peter William Birch <birchb@genyis.org>
+##
+## This software may be used and distributed according to the terms
+## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+##
+#
+#  Factorial function
+#
 
 def factorial (n)
   if (< n 2) 1
     * n
       factorial (- n 1)
 
-;Unit test
+#Unit test
 define pass
   and
     equal? (factorial 0)     1

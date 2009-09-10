@@ -2,6 +2,6 @@
 @prefix ver "http://www.genyris.org/lang/version#"
 
 u:format "*** Welcome ~a, Genyris version ~a is listening...~%" =
-    ((System(!getProperties))!|user.name|) =
+    ((System(.getProperties)).|user.name|) =
        ver:tip
 

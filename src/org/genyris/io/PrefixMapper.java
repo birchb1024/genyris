@@ -35,7 +35,7 @@ public class PrefixMapper {
             throw new GenyrisException("prefix is not mapped to a valid URL: " + uri);
         }
         if(prefix.startsWith(String.valueOf(Constants.DYNAMICSCOPECHAR2))) {
-            throw new GenyrisException("cannot start a prefix with ! in parse: " + prefix);
+            throw new GenyrisException("cannot start a prefix with . in parse: " + prefix);
         }
         if (_prefixes.containsKey(prefix)) {
             if(!_prefixes.get(prefix).equals(uri)) {

@@ -1,8 +1,8 @@
-;; Copyright 2008 Peter William Birch <birchb@genyis.org>
-;;
-;; This software may be used and distributed according to the terms
-;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
-;;
+## Copyright 2008 Peter William Birch <birchb@genyis.org>
+##
+## This software may be used and distributed according to the terms
+## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+##
 @prefix g "http://www.genyris.org/lang/syntax#"
 @prefix s "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
@@ -11,7 +11,7 @@ class g:Keyword(SimpleSymbol)
 tag g:Keyword 'function
 
 
-; Some aliases
+# Some aliases
 defmacro define (variable valu) (template (defvar ',variable ,valu))
 define function lambda
 define var define
@@ -19,7 +19,7 @@ defmacro df (name args &rest body)
     template
         defvar ',name (lambdaq ,args ,@body)
 
-df # (&rest ignore)
+df // (&rest ignore)
 
 defmacro setq (variable valu) (template (set ',variable ,valu))
 
@@ -47,9 +47,9 @@ def abs (x)
     else x
 
 
-;
-; Load source functions and classes
-;
+#
+# Load source functions and classes
+#
 load "org/genyris/load/boot/assert.lin"
 load "org/genyris/load/boot/pair.lin"
 load "org/genyris/load/boot/alist.lin"
@@ -61,6 +61,7 @@ load "org/genyris/load/boot/util.lin"
 load "org/genyris/load/boot/version.lin"
 load "org/genyris/load/boot/set.lin"
 load "org/genyris/load/boot/triple.lin"
+load "org/genyris/load/boot/import.lin"
 
 
 

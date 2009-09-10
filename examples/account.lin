@@ -1,10 +1,10 @@
-;; Copyright 2009 Peter William Birch <birchb@genyis.org>
-;;
-;; This software may be used and distributed according to the terms
-;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
-;;
+## Copyright 2009 Peter William Birch <birchb@genyis.org>
+##
+## This software may be used and distributed according to the terms
+## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+##
 
-; Example from SICP Section 3.2.3
+# Example from SICP Section 3.2.3
 def make-withdraw (balance)
    lambda (amount)
       balance = (- balance amount)

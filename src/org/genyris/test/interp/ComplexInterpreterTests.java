@@ -88,10 +88,10 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(fnq 12 cons 1 2)", "(1 = 2)");
     }
     public void testFrame() throws Exception {
-        excerciseEval("(dict (!a = 1) (!b = 2) (!c = 3))",
-                "(dict (!a = 1) (!b = 2) (!c = 3))");
-        excerciseEval("(eq? (dict (!a = 1) (!b = 2) (!c = 3)) (dict (!a = 1) (!b = 2) (!c = 3)))", "nil");
-        excerciseEval("(equal? (dict (!a = 1) (!b = 2) (!c = 3)) (dict (!a = 1) (!b = 2) (!c = 3)))", "nil");
+        excerciseEval("(dict (.a = 1) (.b = 2) (.c = 3))",
+                "(dict (.a = 1) (.b = 2) (.c = 3))");
+        excerciseEval("(eq? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
+        excerciseEval("(equal? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
     }
 
     public void testEnvCapture() throws Exception {
@@ -108,38 +108,38 @@ public class ComplexInterpreterTests extends TestCase {
 
     public void testLeftRight() throws Exception {
         excerciseEval("(defvar 'p (cons 1 2))", "(1 = 2)");
-        excerciseEval("(p !left)", "1");
-        excerciseEval("(p !right)", "2");
-        excerciseEval("(p (set '!left 99))", "99");
+        excerciseEval("(p .left)", "1");
+        excerciseEval("(p .right)", "2");
+        excerciseEval("(p (set '.left 99))", "99");
         excerciseEval("p", "(99 = 2)");
-        excerciseEval("(p (set '!right 98))", "98");
+        excerciseEval("(p (set '.right 98))", "98");
         excerciseEval("p", "(99 = 98)");
     }
 
     public void testDynamicVariablesWithDef() throws Exception {
         excerciseEval("(defvar 'd (dict))", "(dict)");
-        excerciseEval("(def function-which-declares-dynamic-var () (defvar '!x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
-        excerciseEval("(def function-which-uses-dynamic-var () (list !x !x))", "<EagerProc: <function-which-uses-dynamic-var>>");
+        excerciseEval("(def function-which-declares-dynamic-var () (defvar '.x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
+        excerciseEval("(def function-which-uses-dynamic-var () (list .x .x))", "<EagerProc: <function-which-uses-dynamic-var>>");
         excerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
-        excerciseEval("(bound? !x)","nil");
+        excerciseEval("(bound? '.x)","nil");
     }
 
     public void testDynamicVariablesWithDef2() throws Exception {
         excerciseEval("(defvar 'd (dict))", "(dict)");
-        excerciseEval("(d (defvar '!x 11111))", "11111");
-        excerciseEval("(def define-some-global-y (x) (defvar '!y \"global !y\") (cons !x !y))", "<EagerProc: <define-some-global-y>>");
-        excerciseEval("(d (define-some-global-y 33))", "(11111 = \"global !y\")");
+        excerciseEval("(d (defvar '.x 11111))", "11111");
+        excerciseEval("(def define-some-global-y (x) (defvar '.y \"global .y\") (cons .x .y))", "<EagerProc: <define-some-global-y>>");
+        excerciseEval("(d (define-some-global-y 33))", "(11111 = \"global .y\")");
     }
     public void testMagicEnv() throws Exception {
-        excerciseEval("(23 !self)", "23");
+        excerciseEval("(23 .self)", "23");
         excerciseEval("(23 (defvar 'x 43) x)", "43");
         excerciseEval("(23 (defvar 'x 43) (set 'x 99)x)", "99");
-        excerciseEval("(23 (defvar '!classes (list Bignum)) 3)", "3");
-        excerciseBadEval("(23 (defvar '!self 3)");
-        excerciseBadEval("(23 (setq !left 3)");
-        excerciseBadEval("(23 (setq !right 3)");
+        excerciseEval("(23 (defvar '.classes (list Bignum)) 3)", "3");
+        excerciseBadEval("(23 (defvar '.self 3)");
+        excerciseBadEval("(23 (setq .left 3)");
+        excerciseBadEval("(23 (setq .right 3)");
     }
 	public void testParseAString() throws Exception {
-		excerciseEval("((ParenParser(!new \"(+ 1 2 3)\"))(!read))", "(+ 1 2 3)");
+		excerciseEval("((ParenParser(.new \"(+ 1 2 3)\"))(.read))", "(+ 1 2 3)");
 	}
 }

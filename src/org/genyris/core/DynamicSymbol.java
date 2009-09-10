@@ -22,7 +22,7 @@ public class DynamicSymbol extends Symbol {
 		return table.DYNAMICSYMBOLREF();
 	}
 	public String getPrintName() {
-		return "!" + _realSymbol.getPrintName();
+		return "."+ _realSymbol.getPrintName();
 	}
 	public SimpleSymbol getRealSymbol() {
 		return _realSymbol;

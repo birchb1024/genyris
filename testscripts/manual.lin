@@ -1,64 +1,64 @@
 define pitt
   dict 
-    !name  = "Willam Pitt"
-    !title = "Prime Minister"
-    !date-of-birth   = "28 May 1759"
+    .name  = "Willam Pitt"
+    .title = "Prime Minister"
+    .date-of-birth   = "28 May 1759"
 
 assert 
-    equal? (pitt!name) "Willam Pitt"
+    equal? (pitt.name) "Willam Pitt"
     
 pitt
-   !name = "William Pitt The Younger"
+   .name = "William Pitt The Younger"
 pitt 
-   define !father "William Pitt the Elder"
+   define .father "William Pitt the Elder"
 assert
     equal? 
-        pitt!vars
+        pitt.vars
         '(father title name date-of-birth vars)
 
 define jeb
    dict
-      !firstName= "Joe" 
-      !middleName= "E."
-      !lastName= "Brown"
+      .firstName= "Joe" 
+      .middleName= "E."
+      .lastName= "Brown"
 jeb 
-   def !displayName()
-       list !firstName !middleName !lastName
+   def .displayName()
+       list .firstName .middleName .lastName
 assert
     equal? 
-        jeb (!displayName)
+        jeb (.displayName)
         list "Joe" "E." "Brown"
 
 define d2
   dict
-   !foo
-   !bar
-assert equal? nil (d1!foo)
-assert equal? nil (d1!bar)
+   .foo
+   .bar
+assert equal? nil (d1.foo)
+assert equal? nil (d1.bar)
 
 define file
   dict 
-    !name  = "File Handling Functions"
-    !version = "1.2"
+    .name  = "File Handling Functions"
+    .version = "1.2"
 
 file
-   def !copy(from to) ...
-   def !delete(filename) ...
-   def !zip(file) ...
+   def .copy(from to) ...
+   def .delete(filename) ...
+   def .zip(file) ...
 
-;; Use of the file module
+## Use of the file module
 
 def archive(filename)
-    (file!copy) filename "/tmp/foo"
-    (file!zip) "/tmp/foo"
-    (file!delete) filename
+    (file.copy) filename "/tmp/foo"
+    (file.zip) "/tmp/foo"
+    (file.delete) filename
       
 @prefix file "http://my/files/"
 def file:copy(from to) ...
 def file:delete(filename) ...
 def file:zip(file) ...
 
-;; Use of the file module
+## Use of the file module
 @prefix f "http://my/files/"
 def archive(filename)
     f:copy filename "/tmp/foo"

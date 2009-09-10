@@ -2,15 +2,14 @@
 @prefix web "http://www.genyris.org/lang/web#"
 @prefix sys "http://www.genyris.org/lang/system#"
 
-; web:serve 80 "examples/triple-browser.lin" 
+# web:serve 80 "examples/triple-browser.lin" 
 
 def myparse (string)
-   ; parse a string returning the expression
-   
-   (ParenParser(!new string))
-      !prefix "rdf" "http://w3c/rdf#"
-      !prefix "rdfs" "http://w3c/rdfs#"
-      !read
+   # parse a string returning the expression
+   (ParenParser(.new string))
+      .prefix "rdf" "http://w3c/rdf#"
+      .prefix "rdfs" "http://w3c/rdfs#"
+      .read
 
 def tryToParseSymbol (str)
     define result  
@@ -34,8 +33,8 @@ def loadDataFromCSV(url)
     var in (web:get url)       
     store = (triplestore)
     define $line ""
-    while (not (equal? EOF ($line = (in(!getline)))))
-        define aslist ($line(!split ","))
+    while (not (equal? EOF ($line = (in(.getline)))))
+        define aslist ($line(.split ","))
         cond 
             (equal? (length aslist) 1)
                 u:format "~s - ~s ~a~%" (length aslist) $line aslist
@@ -51,45 +50,45 @@ def loadDataFromCSV(url)
                    $error
                       u:format "triple error: ~s ~s ~s ~s~%" $error subject predicate object
                 store
-                   !add tr
+                   .add tr
             
-    in (!close)
+    in (.close)
 
 def convertToRegex (str)
     cond
-       (str(!match "\".*\""))
-            ; exact
+       (str(.match "\".*\""))
+            # exact
             str =
-                (cadr (str(!split "\"")))
-                    !toLowerCase
+                (cadr (str(.split "\"")))
+                    .toLowerCase
        else     
-            str = (str(!toLowerCase))
-            str = (str (!+ ".*"))
-            str = (".*" (!+ str))
+            str = (str(.toLowerCase))
+            str = (str (.+ ".*"))
+            str = (".*" (.+ str))
     print str
     str
     
 def searchStore(str)
     str = (convertToRegex str)
     def matchFunc(s o p)
-       ;u:format "~s ~s ~s ~s~%" s o p str
+       #u:format "~s ~s ~s ~s~%" s o p str
         or
-          ((asString s)(!toLowerCase)) (!match str)
-          ((asString p)(!toLowerCase)) (!match str)
-          ((asString o)(!toLowerCase)) (!match str)
-    store(!select nil nil nil matchFunc)
+          ((asString s)(.toLowerCase)) (.match str)
+          ((asString p)(.toLowerCase)) (.match str)
+          ((asString o)(.toLowerCase)) (.match str)
+    store(.select nil nil nil matchFunc)
 
 def searchURL (str)
-   "/?op=Search&query="(!+ str)
+   "/?op=Search&query="(.+ str)
 
 def renderTriple (t)
-   define s (asString(t(!subject)))
-   define p (asString(t(!predicate)))
+   define s (asString(t(.subject)))
+   define p (asString(t(.predicate)))
    cond
-        (p (!match ".*_password.*"))
+        (p (.match ".*_password.*"))
             define o "XXXXXXXXX"
         else
-            define o (asString(t(!object)))
+            define o (asString(t(.object)))
    template
       tr()
          td() 
@@ -102,7 +101,7 @@ def renderTriple (t)
 def renderTripleList (ts)
     define result nil
     while ts
-        ;display (car ts)
+        #display (car ts)
         result = (cons (renderTriple (car ts)) result)
         ts = (right ts)
     template
@@ -119,13 +118,13 @@ define DEFAULT "\"Environment\""
 
 
 df httpd-serve (request)
-   var params (request(!getParameters))
+   var params (request(.getParameters))
    define query DEFAULT
    define operation "Search"
    define searchResults nil
    define renderedResults ""
-   operation = (params (!lookup "op"))
-   query = (params (!lookup "query"))
+   operation = (params (.lookup "op"))
+   query = (params (.lookup "query"))
    cond
        (or (null? query) (equal? query ""))
            query = DEFAULT      
@@ -138,7 +137,7 @@ df httpd-serve (request)
                       a((href = ,CSVURL))
                          ,CSVURL                      
        else
-            searchResults = ((searchStore query)(!asTriples))
+            searchResults = ((searchStore query)(.asTriples))
             renderedResults = (renderTripleList searchResults)
    var result
     list 200 "text/html"
@@ -150,7 +149,7 @@ df httpd-serve (request)
                 h2() "CMP CMDB Search"
                 form()
                    input((name ="query") (size ="100") (value = ,query)) ""
-                   verbatim() "&nbsp;&nbsp;&nbsp;"
+                   verbatim() "&nbsp#&nbsp#&nbsp#"
                    input((type ="submit") (name ="op") (value ="Search"))
                    input((type ="submit") (name ="op") (value ="Reload"))
                 div()

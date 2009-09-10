@@ -1,13 +1,13 @@
-;
-; Rosetta Code
-;
-; The Y combinator is itself a stateless function that, when applied to another
-; stateless function, returns a recursive version of the function.
-; The Y combinator is the simplest of the class of such functions, called fixed-point combinators.
-;
-; The task is to define the stateless Y combinator and use it to compute factorials
-; and Fibonacci numbers from other stateless functions or lambda expressions.
-;
+#
+# Rosetta Code
+#
+# The Y combinator is itself a stateless function that, when applied to another
+# stateless function, returns a recursive version of the function.
+# The Y combinator is the simplest of the class of such functions, called fixed-point combinators.
+#
+# The task is to define the stateless Y combinator and use it to compute factorials
+# and Fibonacci numbers from other stateless functions or lambda expressions.
+#
 def fac (f)
     lambda (n)
       if (equal? n 0) 1

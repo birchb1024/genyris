@@ -7,6 +7,7 @@ package org.genyris.load;
 
 import java.io.Writer;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
@@ -16,32 +17,26 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.NullWriter;
 
-public class LoadFunction extends ApplicableFunction {
+public class ImportFunction extends ApplicableFunction {
 
-    public LoadFunction(Interpreter interp) {
-        super(interp, "load", true);
+    public ImportFunction(Interpreter interp) {
+    	super(interp, Constants.PREFIX_SYSTEM + "import", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp result;
-        checkMinArguments(arguments, 1);
         Writer out = new NullWriter();
+        this.checkArguments(arguments, 1, 2);
         if( !( arguments[0] instanceof StrinG) ) {
-            throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
+            throw new GenyrisException("non-String argument passed to sys:import: " + arguments[0].toString());
         }
         if( arguments.length > 1 ) {
             if( arguments[1] == TRUE) {
                 out = _interp.getDefaultOutputWriter();
             }
         }
-        result = SourceLoader.loadScriptFromClasspath(_interp.getGlobalEnv(), _interp.getSymbolTable(), arguments[0].toString(), out);
+        result = SourceLoader.loadScriptFromFile(env, _interp.getSymbolTable(), arguments[0].toString(), out);
 
         return result;
-    }
-
-    public static void bindFunctionsAndMethods(Interpreter interpreter) throws GenyrisException {
-        interpreter.bindGlobalProcedureInstance(new LoadFunction(interpreter));
-        interpreter.bindGlobalProcedureInstance(new IncludeFunction(interpreter));
-        interpreter.bindGlobalProcedureInstance(new ImportFunction(interpreter));
     }
 }

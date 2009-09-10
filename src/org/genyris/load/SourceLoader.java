@@ -18,7 +18,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.Interpreter;
+import org.genyris.interp.Environment;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
@@ -38,16 +38,16 @@ public class SourceLoader {
 
 		} else if (filename.endsWith(".lsp")) {
 			InStream is = new UngettableInStream(new ReaderInStream(input));
-			return new Parser(table, is, Constants.LISPCDRCHAR);
+			return new Parser(table, is, Constants.LISPCDRCHAR, Constants.LISPCOMMENTCHAR);
 		} else {
 			throw new GenyrisException("unknown file suffix in : " + filename);
 		}
 	}
 
-	private static void execAndClose(Interpreter _interp, InputStream in,
+	private static void execAndClose(Environment env, Internable table, InputStream in,
 			String filename, Writer writer) throws GenyrisException {
 		try {
-			executeScript(filename, _interp, new InputStreamReader(in), writer);
+			executeScript(env, filename, table, new InputStreamReader(in), writer);
 		} finally {
 			try {
 				in.close();
@@ -58,7 +58,7 @@ public class SourceLoader {
 		}
 	}
 
-	public static Exp loadScriptFromClasspath(Interpreter _interp,
+	public static Exp loadScriptFromClasspath(Environment env, Internable table,
 			String filename, Writer writer) throws GenyrisException {
 
 		InputStream in = SourceLoader.class.getClassLoader()
@@ -69,11 +69,11 @@ public class SourceLoader {
 		}
 		String url = SourceLoader.class.getClassLoader().getResource(filename)
 				.toString();
-		execAndClose(_interp, in, url, writer);
+		execAndClose(env, table, in, url, writer);
 		return new StrinG(url);
 	}
 
-	public static Exp loadScriptFromFile(Interpreter _interp, String filename,
+	public static Exp loadScriptFromFile(Environment env, Internable table, String filename,
 			Writer writer) throws GenyrisException {
 
 		InputStream in;
@@ -82,21 +82,21 @@ public class SourceLoader {
 		} catch (FileNotFoundException e) {
 			throw new GenyrisException("loadScriptFromFile: " + e.getMessage());
 		}
-		execAndClose(_interp, in, filename, writer);
+		execAndClose(env, table, in, filename, writer);
 		return new StrinG(filename);
 	}
 
-	public static Exp executeScript(String filename, Interpreter interp,
+	public static Exp executeScript(Environment env, String filename, Internable table,
 			Reader reader, Writer output) throws GenyrisException {
-		Parser parser = parserFactory(filename, reader, interp.getSymbolTable());
+		Parser parser = parserFactory(filename, reader, table);
 		Exp expression = null;
 		Exp result = null;
 		do {
 			expression = parser.read();
-			if (expression.equals(interp.getSymbolTable().EOF())) {
+			if (expression.equals(table.EOF())) {
 				break;
 			}
-			result = interp.evalInGlobalEnvironment(expression);
+			result = expression.eval(env);
 		} while (true);
 		return result;
 	}

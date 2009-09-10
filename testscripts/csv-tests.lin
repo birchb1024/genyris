@@ -1,9 +1,9 @@
-;
-;
-;
+#
+#
+#
 
 define results
-   CSV(!read "testscripts/fixtures/test.csv")
+   CSV(.read "testscripts/fixtures/test.csv")
 
 assert
    equal? results

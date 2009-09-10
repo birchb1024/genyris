@@ -1,6 +1,6 @@
-;
-;
-;
+#
+#
+#
 load "testscripts/gunit.lin"
 @prefix t "http://www.genyris.org/lib/gunit#"
 @prefix myprefix "http://foo/#"
@@ -8,8 +8,8 @@ load "testscripts/gunit.lin"
 var myprefix:foo 0
 
 @prefix p1 "http://p1/#"
-;assert
-;    equal? (intern "http://foo/#foo") 'p1:foo
+#assert
+#    equal? (intern "http://foo/#foo") 'p1:foo
 var overall-result
   t:test "prefixes"
     t:test "basic prefixes"

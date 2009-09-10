@@ -54,10 +54,9 @@ public class JavaWrapperTest extends TestCase {
         Exp wrapped = new JavaWrapper(_interpreter.getGlobalEnv(), item);
         _env.defineVariable(_env.internString("item"), wrapped);
         excerciseEval("item", "<JavaObject: item>");
-        excerciseEval("(item !classes)", "(<java class java.lang.String> <class JavaObject (Builtin) ()>)");
-        excerciseEval("(item !fields)", "(_CASE_INSENSITIVE_ORDER)");
-        // excerciseEval("(item !methods)", "(_notifyAll _notify _wait _wait _wait _getClass _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _trim _toUpperCase _toUpperCase _toLowerCase _toLowerCase _toCharArray _substring _substring _subSequence _startsWith _startsWith _split _split _replaceFirst _replaceAll _replace _replace _regionMatches _regionMatches _offsetByCodePoints _matches _length _lastIndexOf _lastIndexOf _lastIndexOf _lastIndexOf _intern _getChars _getBytes _getBytes _getBytes _format _format _equalsIgnoreCase _endsWith _copyValueOf _copyValueOf _contentEquals _contentEquals _contains _concat _compareToIgnoreCase _codePointCount _codePointBefore _codePointAt _charAt _toString _equals _indexOf _indexOf _indexOf _indexOf _compareTo _compareTo _hashCode)");
+        excerciseEval("(item .classes)", "(<java class java.lang.String> <class JavaObject (Builtin) ()>)");
+        excerciseEval("(item .fields)", "(_CASE_INSENSITIVE_ORDER)");
+        // excerciseEval("(item .methods)", "(_notifyAll _notify _wait _wait _wait _getClass _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _valueOf _trim _toUpperCase _toUpperCase _toLowerCase _toLowerCase _toCharArray _substring _substring _subSequence _startsWith _startsWith _split _split _replaceFirst _replaceAll _replace _replace _regionMatches _regionMatches _offsetByCodePoints _matches _length _lastIndexOf _lastIndexOf _lastIndexOf _lastIndexOf _intern _getChars _getBytes _getBytes _getBytes _format _format _equalsIgnoreCase _endsWith _copyValueOf _copyValueOf _contentEquals _contentEquals _contains _concat _compareToIgnoreCase _codePointCount _codePointBefore _codePointAt _charAt _toString _equals _indexOf _indexOf _indexOf _indexOf _compareTo _compareTo _hashCode)");
     }
 
 }
-!

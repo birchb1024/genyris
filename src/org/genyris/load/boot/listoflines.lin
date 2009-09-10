@@ -1,18 +1,18 @@
-;; Copyright 2008 Peter William Birch <birchb@genyis.org>
-;;
-;; This software may be used and distributed according to the terms
-;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
-;;
+## Copyright 2008 Peter William Birch <birchb@genyis.org>
+##
+## This software may be used and distributed according to the terms
+## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+##
 
-;
-;  An ordered list of strings
-;
+#
+#  An ordered list of strings
+#
 ListOfLines
 
-   def !toHTML()
+   def .toHTML()
       template
           pre()
-             ,@(renderLines !self)
+             ,@(renderLines .self)
 
    def renderLine(aLine)
       template
@@ -23,8 +23,8 @@ ListOfLines
           (null? lines) nil
           else
              cons
-                renderLine (lines!left)
-                renderLines (lines!right)
+                renderLine (lines.left)
+                renderLines (lines.right)
 
-; var x
-;   tag ListOfLines '("1" "2" "3")
+# var x
+#   tag ListOfLines '("1" "2" "3")

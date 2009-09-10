@@ -33,7 +33,7 @@ public class IncludeFunction extends ApplicableFunction {
                 out = _interp.getDefaultOutputWriter();
             }
         }
-        result = SourceLoader.loadScriptFromFile(_interp, arguments[0].toString(), out);
+        result = SourceLoader.loadScriptFromFile(_interp.getGlobalEnv(), _interp.getSymbolTable(), arguments[0].toString(), out);
 
         return result;
     }
