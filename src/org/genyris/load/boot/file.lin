@@ -13,3 +13,11 @@ File
     
     def !open((mode = SimpleSymbol))
        !static-open !filename mode 
+       
+    def !exists((filename = String))
+        catch error
+            define fd ((File!static-open) filename 'read)
+            fd(!close)
+        if (equal? error nil)
+            true
+            nil

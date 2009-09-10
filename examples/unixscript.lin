@@ -2,5 +2,5 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 
 cond
-    (bound? sys:argv)
+    (bound? 'sys:argv)
         print sys:argv

@@ -20,7 +20,7 @@ import org.genyris.io.NullWriter;
 public class ImportFunction extends ApplicableFunction {
 
     public ImportFunction(Interpreter interp) {
-    	super(interp, Constants.PREFIX_SYSTEM + "import", false);
+    	super(interp, Constants.PREFIX_SYSTEM + "import", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

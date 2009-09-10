@@ -13,7 +13,7 @@ def between (low it high)
 class Person ()
    def !valid? (obj)
       obj
-         bound? !age
+         bound? '!age
 
 class Kid (Person)
    def !valid? (obj)
@@ -33,7 +33,7 @@ class Boomer (Person)
 class Hippie (Boomer)
    def !valid? (obj)
       obj
-         bound? !bong
+         bound? '!bong
 
 define noel
   dict

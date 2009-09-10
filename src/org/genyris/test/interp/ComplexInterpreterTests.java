@@ -121,7 +121,7 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseEval("(def function-which-declares-dynamic-var () (defvar '!x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
         excerciseEval("(def function-which-uses-dynamic-var () (list !x !x))", "<EagerProc: <function-which-uses-dynamic-var>>");
         excerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
-        excerciseEval("(bound? !x)","nil");
+        excerciseEval("(bound? '!x)","nil");
     }
 
     public void testDynamicVariablesWithDef2() throws Exception {
