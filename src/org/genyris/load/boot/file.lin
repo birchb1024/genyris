@@ -8,16 +8,16 @@
 #  Add simple methods to the builtin File class
 #
 File
-    def !new((filename = String))
-        tag File (dict (!filename = filename))
+    def .new((filename = String))
+        tag File (dict (.filename = filename))
     
-    def !open((mode = SimpleSymbol))
-       !static-open !filename mode 
+    def .open((mode = SimpleSymbol))
+       .static-open .filename mode 
        
-    def !exists((filename = String))
+    def .exists((filename = String))
         catch error
-            define fd ((File!static-open) filename 'read)
-            fd(!close)
+            define fd ((File.static-open) filename 'read)
+            fd(.close)
         if (equal? error nil)
             true
             nil

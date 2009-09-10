@@ -9,10 +9,10 @@
 #
 ListOfLines
 
-   def !toHTML()
+   def .toHTML()
       template
           pre()
-             ,@(renderLines !self)
+             ,@(renderLines .self)
 
    def renderLine(aLine)
       template
@@ -23,8 +23,8 @@ ListOfLines
           (null? lines) nil
           else
              cons
-                renderLine (lines!left)
-                renderLines (lines!right)
+                renderLine (lines.left)
+                renderLines (lines.right)
 
 # var x
 #   tag ListOfLines '("1" "2" "3")

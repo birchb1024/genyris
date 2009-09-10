@@ -6,6 +6,6 @@
 
 StandardClass
   # method to dump out the class hierarchy of the class
-  def !getClassTree()
-    cons !classname
-        map-left !subclasses getClassTree
+  def .getClassTree()
+    cons .classname
+        map-left .subclasses getClassTree

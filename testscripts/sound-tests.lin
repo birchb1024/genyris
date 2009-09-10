@@ -1,1 +1,1 @@
-Sound(!play "c:\\workspace\\Genyris\\testscripts\\boing.wav")
+Sound(.play "c:\\workspace\\Genyris\\testscripts\\boing.wav")

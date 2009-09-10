@@ -92,7 +92,7 @@ public class LexTest extends TestCase {
         excerciseNextTokenExp(new SimpleSymbol("foo*bar"), "foo\\*bar");
         excerciseNextTokenExp(new SimpleSymbol("quux"), "\n\nquux");
         excerciseNextTokenExp(new EscapedSymbol("123"), "  \t|123|");
-        excerciseNextTokenExp(new SimpleSymbol("DYNAMIC_TOKEN"), "  \t !x");
+        excerciseNextTokenExp(new SimpleSymbol("DYNAMIC_TOKEN"), "  \t .x");
 
     }
     public void testLexIdentEscaped() throws Exception {

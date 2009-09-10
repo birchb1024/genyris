@@ -4,19 +4,19 @@
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
 #
-# How the !valid? method is called by the tagging operator and tag
+# How the .valid? method is called by the tagging operator and tag
 #
 
 class C ()
-    def !valid? (obj)
+    def .valid? (obj)
         > obj 23
 
 # call the validator directly from the class env
 assertEqual 
-    C (!valid? 34)
+    C (.valid? 34)
     true
 assertEqual 
-    C (!valid? 21)
+    C (.valid? 21)
     nil
 
 

@@ -26,29 +26,29 @@ def import-aux (moduleName)
    define tmp sys:path
    define result nil
    while tmp
-       define file-path ((left tmp)(!+ "/" (asString moduleName) ".lin"))
+       define file-path ((left tmp)(.+ "/" (asString moduleName) ".lin"))
        cond
-           ((File!exists) file-path)
+           ((File.exists) file-path)
                  tmp = nil
                  result = (do-import moduleName file-path)
            else
                  tmp = (right tmp)
    if (null? result)
-        raise ("Unable to import "(!+ (asString moduleName)))
+        raise ("Unable to import "(.+ (asString moduleName)))
         result
  
 def sys:mk-module (path)                  
-     define themodule (dict (!filename = path))
+     define themodule (dict (.filename = path))
      tag Module themodule
      themodule (sys:import path)
      themodule
 
 def reload (module)
-    sys:mk-module module (module!filename)   
+    sys:mk-module module (module.filename)   
     
 defmacro reload (module)
    # macro ensures module binding is create in the scope of caller
-   define themodule (sys:mk-module ((eval module)!filename))
+   define themodule (sys:mk-module ((eval module).filename))
    template
        define ,module ,themodule
        

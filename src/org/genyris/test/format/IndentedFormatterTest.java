@@ -55,10 +55,10 @@ public class IndentedFormatterTest extends TestCase {
         excerciseFormatter("(1 (symbol) (sym2) (sym3))", "1 (symbol) (sym2)\n   sym3", 3);
     }
     public void test2() throws Exception {
-        excerciseFormatter("(1 2.3 (nil nil 23 45 . 89))", "1 2.3\n   nil nil 23 45 . 89", 2);
+        excerciseFormatter("(1 2.3 (nil nil 23 45 = 89))", "1 2.3\n   nil nil 23 45 = 89", 2);
     }
     public void test3() throws Exception {
-        excerciseFormatter("(45 . 89)", "45 . 89", 3);
+        excerciseFormatter("(45 = 89)", "45 = 89", 3);
     }
     public void test4() throws Exception {
         excerciseFormatter("(1 2.3 \"str\" (symbol))", "1 2.3 \"str\" (symbol)", 4);

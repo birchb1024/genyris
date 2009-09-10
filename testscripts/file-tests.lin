@@ -1,112 +1,112 @@
 define fixture "foo.txt"
 define fi
-   File(!new fixture)
+   File(.new fixture)
 define out
-   fi (!open 'write)
-out (!format "Hello\n")
-out (!format "World\n")
+   fi (.open 'write)
+out (.format "Hello\n")
+out (.format "World\n")
 out
-  !format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" =
+  .format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" =
       "GONZO\n" =
        "ALONZO\n" =
         33
-out (!close)
+out (.close)
 
 define fi
-   File(!new fixture)
+   File(.new fixture)
 define in
-   fi (!open 'read)
-print (in(!read))
+   fi (.open 'read)
+print (in(.read))
 
-in(!close)
+in(.close)
 
 def dump()
-  var fi (File(!new fixture))
-  var in (fi (!open 'read))
+  var fi (File(.new fixture))
+  var in (fi (.open 'read))
   var ch nil
   var count 0
-  while (in(!hasData))
+  while (in(.hasData))
      setq count (+ count 1)
-     write (in(!read)) '-
-  in(!close)
+     write (in(.read)) '-
+  in(.close)
   print "\n" count
 
 
 def parse-string()
   var script "343 (cons 1 2) (list 1 2 3 4 5)"
-  var parser (ParenParser(!new script))
+  var parser (ParenParser(.new script))
   var exp nil
   while
      not
         equal? EOF
-           setq exp (parser(!read))
+           setq exp (parser(.read))
      write exp
      display "\n"
-  parser(!close)
+  parser(.close)
 
 def parse-file()
-  var fi (File(!new "testscripts/factorial.lsp"))
-  var in (fi (!open 'read))
-  var parser (ParenParser(!new in))
+  var fi (File(.new "testscripts/factorial.lsp"))
+  var in (fi (.open 'read))
+  var parser (ParenParser(.new in))
   var exp nil
   while
      not
         equal? EOF
-           setq exp (parser(!read))
+           setq exp (parser(.read))
      write exp
      display "\n"
-  parser(!close)
+  parser(.close)
 
 
 def parse-sfs-file()
-  var fi (File(!new "testscripts/test.sfs"))
-  var in (fi (!open 'read))
-  var sfs (StringFormatStream(!new in))
-  var parser (ParenParser(!new sfs))
+  var fi (File(.new "testscripts/test.sfs"))
+  var in (fi (.open 'read))
+  var sfs (StringFormatStream(.new in))
+  var parser (ParenParser(.new sfs))
   var exp nil
   while
      not
         equal? EOF
-           setq exp (parser(!read))
+           setq exp (parser(.read))
      write exp
      display "\n"
-  parser(!close)
+  parser(.close)
 
 
 def eval-sfs-file()
-  var fi (File(!new "testscripts/test.sfs"))
-  var in (fi (!open 'read))
-  var sfs (StringFormatStream(!new in))
-  var parser (ParenParser(!new sfs))
+  var fi (File(.new "testscripts/test.sfs"))
+  var in (fi (.open 'read))
+  var sfs (StringFormatStream(.new in))
+  var parser (ParenParser(.new sfs))
   var exp nil
   while
      not
         equal? EOF
-           setq exp (eval (parser(!read)))
+           setq exp (eval (parser(.read)))
      display exp
-  parser(!close)
+  parser(.close)
 
 ######
 define CSVFILE "testscripts/fixtures/test.csv"
 define fi
-   File(!new CSVFILE)
+   File(.new CSVFILE)
 define in
-   fi (!open 'read)
+   fi (.open 'read)
 assert
     and
-        equal? (in(!getline)) "#subject,object,predicate"
-        equal? (in(!getline)) "Joe,type,person"
-        equal? (in(!getline)) "Joe,owns,Ford"
-        equal? (in(!getline)) "Joe,worksAt,office"
-in (!close)
+        equal? (in(.getline)) "#subject,object,predicate"
+        equal? (in(.getline)) "Joe,type,person"
+        equal? (in(.getline)) "Joe,owns,Ford"
+        equal? (in(.getline)) "Joe,worksAt,office"
+in (.close)
 define in
-   fi (!open 'read)
+   fi (.open 'read)
 define $line ""
-while (not (equal? EOF (setq $line (in(!getline)))))
-    define aslist ($line(!split ","))
+while (not (equal? EOF (setq $line (in(.getline)))))
+    define aslist ($line(.split ","))
     define tr (triple (parse (car aslist)) (parse (cadr aslist)) (parse (cadr (cdr aslist))))
     print tr
-in (!close)
+in (.close)
 dump
 parse-file
 parse-sfs-file

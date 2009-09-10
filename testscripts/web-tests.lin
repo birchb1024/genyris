@@ -7,10 +7,10 @@ include "testscripts/gunit.lin"
 def readPage(url)
     var wstream (web.get url)
     var count 0
-    while (wstream(!hasData))
+    while (wstream(.hasData))
          setq count (+ count 1)
-         write (wstream(!read)) '-
-    wstream(!close)
+         write (wstream(.read)) '-
+    wstream(.close)
     u:format "~%Read ~a bytes~%" count
     count
 

@@ -2,6 +2,7 @@
 #### Taken from "Lisp" by Winston & Horn 2nd edition
 #### problem 11-9
 ####
+@prefix sys "http://www.genyris.org/lang/system#"
 
 def queens (size)
   queen-aux nil 0 size
@@ -55,13 +56,12 @@ def board-print-sub (column n size)
             (equal? column n)
                display 'Q
             else
-               display '.
+               display "."
          board-print-sub column (+ n 1) size
 
 ##
 ## If invoked as a script use first arg as size of board
-@prefix sys "http://www.genyris.org/lang/system#"
 cond
-    (and (bound? 'sys:argv) sys:argv)
-        var size-of-board ((ParenParser(!new (cadr sys:argv)))(!read))
+    (and (bound? ' sys:argv) sys:argv)
+        var size-of-board ((ParenParser(.new (cadr sys:argv)))(.read))
         queens size-of-board

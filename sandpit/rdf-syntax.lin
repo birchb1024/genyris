@@ -12,11 +12,11 @@ rdf:description # a macro
 
 @prefix w "http-//en.wikipedia.org/wiki#Tony-Benn"
 'w:Tony-Benn
-   !triples
+   .triples
        'rdf:Type 'rdf:Property
 
-'dc:Title !vars
-'dc:Title !rdf:Type
+'dc:Title .vars
+'dc:Title .rdf:Type
 
 def rdf:makeDocument(rdf:Title rdf:Publisher) 23
 

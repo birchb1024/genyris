@@ -5,14 +5,14 @@
 
 
 def getSubClassesOf(super)
-    (types.Descriptions (!select nil 'subClassOf super))(!asTriples)
+    (types.Descriptions (.select nil 'subClassOf super))(.asTriples)
 
 def dum(list)
     while list
         u:format "~a ~a ~a~%" 
-            (car list)(!subject)
-            (car list)(!predicate)
-            (car list)(!object)
+            (car list)(.subject)
+            (car list)(.predicate)
+            (car list)(.object)
         setq list (cdr list)
 
 dum (getSubClassesOf 'Builtin)

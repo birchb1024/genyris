@@ -1,4 +1,4 @@
-#!/usr/bin/sh /opt/home/birchb/workspace/genyris/bin/genyris
+#./usr/bin/sh /opt/home/birchb/workspace/genyris/bin/genyris
 
 df // (&rest body) 
     print body  # debug version 

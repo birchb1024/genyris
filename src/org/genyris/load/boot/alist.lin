@@ -20,16 +20,16 @@ class Alist()
           (null? alist) nil
           else
              cons
-                renderRow (alist!left)
-                renderRows (alist!right)
+                renderRow (alist.left)
+                renderRows (alist.right)
 
    def lookup(key list)
       cond
           (null? list) nil
-          (equal? key ((list!left)!left))
-             (list!left)!right
+          (equal? key ((list.left).left))
+             (list.left).right
           else
-              lookup key (list!right)
+              lookup key (list.right)
 
    def mapKeys(alist)
       cond
@@ -38,17 +38,17 @@ class Alist()
              left(left alist)
              mapKeys (right alist)
 
-   def !lookup(key)
-      lookup key !self
+   def .lookup(key)
+      lookup key .self
 
-   def !getKeys()
-      mapKeys(!self)
+   def .getKeys()
+      mapKeys(.self)
 
-   def !hasKey(key)
-      member? key (!getKeys)
+   def .hasKey(key)
+      member? key (.getKeys)
 
-   def !toHTML()
+   def .toHTML()
       template
           table ((border = 1) (cellpadding = 0))
-             ,@(renderRows !self)
+             ,@(renderRows .self)
 

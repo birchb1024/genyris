@@ -10,7 +10,7 @@ def test-equality()
       equal?
           triple '(1=2) 'O '(w = 45)
           triple '(1=2) 'O '(w = 45)
-   var someDict (dict (!a = 3))
+   var someDict (dict (.a = 3))
    assert
       equal?
           triple someDict 'O 89
@@ -31,28 +31,28 @@ test-equality
 def test-remove()
    var ts (triplestore)
    ts
-     !add (triple 's 'd 'f)
+     .add (triple 's 'd 'f)
    assert
       equal?
-         ts(!asTriples)
+         ts(.asTriples)
          list (triple 's 'd 'f)
 
-   ts(!add (triple 'z'x'c))
+   ts(.add (triple 'z'x'c))
    print
-      ts(!asTriples)
+      ts(.asTriples)
    print
-      ts(!asTriples)
+      ts(.asTriples)
    print
-      ts(!asTriples)
+      ts(.asTriples)
    assert
-      (SetList!equal?)
-         ts(!asTriples)
+      (SetList.equal?)
+         ts(.asTriples)
          list (triple 's 'd 'f) (triple 'z 'x 'c)
 
-   ts(!remove (triple 's 'd 'f))
+   ts(.remove (triple 's 'd 'f))
    assert
       equal?
-         ts(!asTriples)
+         ts(.asTriples)
          list (triple 'z 'x 'c)
 
 def test-select()
@@ -65,9 +65,9 @@ def test-select()
          ~ '("John" height 223)
    var result
       ts
-        !select 'joe nil nil
+        .select 'joe nil nil
    print
-       result(!asTriples)
+       result(.asTriples)
    assert
       equal?
          result

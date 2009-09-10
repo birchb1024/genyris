@@ -12,9 +12,9 @@
 #
 def classify(klass thing)
    cond
-     (klass (and (bound? '!valid?) (!valid? thing))) # is the thing a member of this class?
+     (klass (and (bound? '.valid?) (.valid? thing))) # is the thing a member of this class?
         define subclass-results nil                    # analyse sub-classes for matches
-        map-left (klass!subclasses)
+        map-left (klass.subclasses)
            lambda (subklass)
               setq subclass-results
                 or subclass-results

@@ -3,9 +3,9 @@
 @prefix file "http://files.org/"
 
 
-def file:copy(from to) ...
-def file:delete(filename) ...
-def file:zip(file) ...
+def file:copy(from to) etc
+def file:delete(filename) etc
+def file:zip(file) etc
 
 
 ## Use of the file module

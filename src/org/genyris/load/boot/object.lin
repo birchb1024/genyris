@@ -8,13 +8,13 @@
 #  A base class for traditional construction activities
 #
 class Object (Dictionary)
-   # generic !new method
-   # expects every class to have an !init method
-   def !new(&rest args)
-      (tag !self (dict))
-         apply !init args
-         !self
+   # generic .new method
+   # expects every class to have an .init method
+   def .new(&rest args)
+      (tag .self (dict))
+         apply .init args
+         .self
 
-   # NOOP !init method
-   def !init(&rest args)
-      !self
+   # NOOP .init method
+   def .init(&rest args)
+      .self

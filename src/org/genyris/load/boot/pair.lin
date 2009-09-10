@@ -38,8 +38,8 @@ def member? (item list)
 
 
 Pair
-   defmacro !each (args &rest body)
+   defmacro .each (args &rest body)
        template
-          loop-left !self (lambda (,(left args)) ,@body)
+          loop-left .self (lambda (,(left args)) ,@body)
 
 

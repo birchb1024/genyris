@@ -7,19 +7,19 @@
     sys:import "testscripts/test-module1.lin"
   
 assertEqual 
-    modulex(!public1)
+    modulex(.public1)
     list 'public1 'private1 123 145
     
 assertEqual 
-    modulex(!public2)
+    modulex(.public2)
     list 'public2 'private2 222 444
 
 sys:path = (cons "testscripts" sys:path)
 import test-module1
 assertEqual 
-    test-module1(!public1)
+    test-module1(.public1)
     list 'public1 'private1 123 145
 assertEqual 
-    test-module1(!public2)
+    test-module1(.public2)
     list 'public2 'private2 222 444
     

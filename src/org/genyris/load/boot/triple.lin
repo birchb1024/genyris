@@ -13,5 +13,5 @@ df description(&rest body)
     while body
         var t (left body)
         *global-triplestore*
-           !add (triple (car t) (car (cdr t)) (car (cdr (cdr t))))
+           .add (triple (car t) (car (cdr t)) (car (cdr (cdr t))))
         setq body (cdr body)

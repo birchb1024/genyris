@@ -7,7 +7,7 @@
 # As an array lookup index
 #
 def squareBracket(index)
-    nth index !self
+    nth index .self
 
 var array '(1 2 3 4 5)
 assert 
@@ -28,14 +28,14 @@ assert (equal? [1 2 3] (list 1 2 3) )
 # For polymorphic types
 #
 def squareBracket(type)
-    define !T type
+    define .T type
 
 class C(Object)[String]
-    def !method() (list 1231 !T)
+    def .method() (list 1231 .T)
 
-define c (C(!new))
+define c (C(.new))
 assert
    equal?
-      c(!method)
+      c(.method)
       list 1231 String
 

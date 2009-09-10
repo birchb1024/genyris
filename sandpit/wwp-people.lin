@@ -13,35 +13,35 @@ def between (low it high)
       > it low
 
 class p:Person ()
-   def !valid? (obj)
+   def .valid? (obj)
       obj
-         bound? '!age
+         bound? '.age
 
 class p:Kid (p:Person)
-   def !valid? (obj)
+   def .valid? (obj)
       obj
-         < !age 15
+         < .age 15
 
 class p:Senior (p:Person)
-   def !valid? (obj)
+   def .valid? (obj)
       obj
-         between 60 !age 120
+         between 60 .age 120
 
 class p:Boomer (p:Person)
-   def !valid? (obj)
+   def .valid? (obj)
       obj
-         between 45 !age 60
+         between 45 .age 60
 
 class p:Hippie (p:Boomer)
-   def !valid? (obj)
+   def .valid? (obj)
       obj
-         bound? '!bong
+         bound? '.bong
 
 var noel
   dict
-     !name = "Noel"
-     !age = 49
-     !has-bong = true
+     .name = "Noel"
+     .age = 49
+     .has-bong = true
 
 classify p:Person noel
 

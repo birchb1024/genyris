@@ -10,13 +10,13 @@
 # method in both Rectangle and Mouse, which method should be called?
 
 class Obj()
-  def !equals () "Obj.foo"
+  def .equals () "Obj.foo"
 class Rectangle(Obj)
-  def !equals () "B.foo"
+  def .equals () "B.foo"
 class Mouse(Obj)
-  def !equals () "C.foo"
+  def .equals () "C.foo"
 class Button(Rectangle Mouse)
 
 var it (tag Button (dict))
 
-it(!equals)
+it(.equals)

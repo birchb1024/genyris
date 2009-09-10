@@ -32,7 +32,7 @@ define context (dict)
 
 context
   # define a macro in the environment of this object
-  defmacro !if (test success-result failure-result)
+  defmacro .if (test success-result failure-result)
     template
        cond
           ,test (list ,success-result "OK")
@@ -41,7 +41,7 @@ context
 assert
    equal?
       context
-           !if nil "A" "B"            # call the macro.
+           .if nil "A" "B"            # call the macro.
       list "B" "Fail"
 
 #------------------------------------------------------
@@ -49,7 +49,7 @@ assert
 # Now a macro belonging to a class.
 #
 class MySuperClass ()
-  defmacro !if (test success-result failure-result)
+  defmacro .if (test success-result failure-result)
     template
        cond
           ,test (list ,success-result "my-OK")
@@ -66,6 +66,6 @@ assert
     equal?
         list "B" "my-Fail"
         my-instance              # use the instance as an execution environment
-           !if nil "A" "B"
+           .if nil "A" "B"
 
 

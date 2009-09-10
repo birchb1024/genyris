@@ -28,14 +28,14 @@ def times (a x y)
 #
 
 def squareBracket(type)
-    !squareBracket type
+    .squareBracket type
          
 class ParametricClass()
-    define !T Thing
-    def !squareBracket ((type = StandardClass))
-        define !T type
-        def !valid? (obj)
-            !parametric-valid? !T obj  
+    define .T Thing
+    def .squareBracket ((type = StandardClass))
+        define .T type
+        def .valid? (obj)
+            .parametric-valid? .T obj  
       
 class Tree(ParametricClass)
     def value (obj) (nth 0 obj)
@@ -43,62 +43,62 @@ class Tree(ParametricClass)
     def rhs (obj) (nth 2 obj)
     def replace (this value)
         rplaca this value 
-    def !new (v l r)
-        tag !self
+    def .new (v l r)
+        tag .self
             list v l r
-    def !parametric-valid? (T obj)
+    def .parametric-valid? (T obj)
         or
            null? obj
            and
-                Tree(!valid? (lhs obj))
-                Tree(!valid? (rhs obj))             
+                Tree(.valid? (lhs obj))
+                Tree(.valid? (rhs obj))             
                 is-instance? (value obj) T
-    def !valid? (obj)
-        !parametric-valid? !T obj               
-    def !replaceAll ((value = !T))
-        replace !self value       
+    def .valid? (obj)
+        .parametric-valid? .T obj               
+    def .replaceAll ((value = .T))
+        replace .self value       
         cond 
-           (lhs !self)
-              (lhs !self) (!replaceAll value)
+           (lhs .self)
+              (lhs .self) (.replaceAll value)
         cond 
-           (rhs !self)
-              (rhs !self) (!replaceAll value)
-        !self
+           (rhs .self)
+              (rhs .self) (.replaceAll value)
+        .self
 
 class BignumTree(Tree)[Bignum]
 
 
-BignumTree(!valid? '(1 nil nil))
+BignumTree(.valid? '(1 nil nil))
 BignumTree
-        !new 111 nil nil            
+        .new 111 nil nil            
 define someTree 
     BignumTree
-        !new 23
-            !new 22 nil nil
-            !new 24 nil nil
+        .new 23
+            .new 22 nil nil
+            .new 24 nil nil
 
-someTree(!replaceAll 99)
+someTree(.replaceAll 99)
 assert 
    equal?
        someTree
        BignumTree
-            !new 99
-                !new 99 nil nil
-                !new 99 nil nil
+            .new 99
+                .new 99 nil nil
+                .new 99 nil nil
        
 
 class StringTree(Tree)[String]
 StringTree
-    !new "str" nil nil
+    .new "str" nil nil
 
 #error cases
 catch error
   BignumTree
-    !new "str" nil nil
+    .new "str" nil nil
 
 catch error
    StringTree
-     !new 234 nil nil
+     .new 234 nil nil
 
    
 
