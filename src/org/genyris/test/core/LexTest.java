@@ -179,7 +179,7 @@ public class LexTest extends TestCase {
         SymbolTable table = new SymbolTable();
         table.init(NIL);
         InStream input = new UngettableInStream( new StringInStream(toParse));
-        Parser parser = new Parser(table, input, '.');
+        Parser parser = new Parser(table, input, '.', ';');
         Exp result = parser.read();
 
         StringWriter out = new StringWriter();

@@ -10,12 +10,15 @@ public class Constants {
 
     // Lexical marks
         public static final char COMMENTCHAR = '#';
+        public static final char LISPCOMMENTCHAR = ';';
         public static final char BQUOTECHAR = '`';
         public static final char QUOTECHAR = '\'';
         public static final char COMMACHAR = ',';
         public static final char ATCHAR = '@';
         public static final char CDRCHAR = '=';
         public static final char LISPCDRCHAR = '.';
+        public static final char DYNAMICSCOPECHAR2 = '!';
+        public static final char SYMBOLESCAPE = '|';
     // Language Keywords
         public static final String NIL = "nil";
         public static final String CLASSNAME = "classname";
@@ -77,13 +80,11 @@ public class Constants {
         public static final String STDIN = "stdin";
         public static final String SOUND = "Sound";
         public static final String PREFIX = "@prefix";
-        public static final char DYNAMICSCOPECHAR2 = '!';
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";
         public static final String GENYRIS = "http://www.genyris.org/lang/";
         public static final String ARGS = "argv";
         public static final String WEB = GENYRIS + "web#";
         public static final String EMAIL = GENYRIS + "mail#";
-        public static final char SYMBOLESCAPE = '|';
         public static final String SYMBOL = "Symbol";
         public static final String FALSE = "false";
         public static final String QUOTE = "quote";

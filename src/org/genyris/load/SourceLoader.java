@@ -38,7 +38,7 @@ public class SourceLoader {
 
 		} else if (filename.endsWith(".lsp")) {
 			InStream is = new UngettableInStream(new ReaderInStream(input));
-			return new Parser(table, is, Constants.LISPCDRCHAR);
+			return new Parser(table, is, Constants.LISPCDRCHAR, Constants.LISPCOMMENTCHAR);
 		} else {
 			throw new GenyrisException("unknown file suffix in : " + filename);
 		}

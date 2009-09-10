@@ -24,7 +24,7 @@ public class Lex {
 
 	private Internable _symbolTable;
 
-	private char _cdrCharacter;
+	private char _cdrCharacter, _commentCharacter;
 
 	public Symbol EOF_TOKEN, QUOTE_TOKEN, DYNAMIC_TOKEN, BACKQUOTE_TOKEN,
 			COMMA_AT_TOKEN;
@@ -35,11 +35,12 @@ public class Lex {
 	public Symbol LEFT_SQUARE_TOKEN, RIGHT_SQUARE_TOKEN;
 	public Symbol LEFT_CURLY_TOKEN, RIGHT_CURLY_TOKEN;
 
-	private void init(InStream inputSource, Internable table, char cdrChar) {
+	private void init(InStream inputSource, Internable table, char cdrChar, char commentChar) {
 		_mapper = new PrefixMapper();
 		_input = inputSource;
 		_symbolTable = table;
 		_cdrCharacter = cdrChar;
+		_commentCharacter = commentChar;
 
 		QUOTE_TOKEN = new SimpleSymbol("QuoteToken");
 		BACKQUOTE_TOKEN = new SimpleSymbol("BackquoteToken");
@@ -56,12 +57,12 @@ public class Lex {
 		COLON_TOKEN = new SimpleSymbol("pair-delimiterToken");
 	}
 
-	public Lex(InStream inputSource, Internable table, char cdrChar) {
-		init(inputSource, table, cdrChar);
+	public Lex(InStream inputSource, Internable table, char cdrChar, char commentChar) {
+		init(inputSource, table, cdrChar, commentChar);
 	}
 
 	public Lex(InStream inputSource, SymbolTable table) {
-		init(inputSource, table, Constants.CDRCHAR);
+		init(inputSource, table, Constants.CDRCHAR, Constants.COMMENTCHAR);
 	}
 
 	public BigDecimal parseDecimalNumber() throws LexException {
@@ -128,6 +129,9 @@ public class Lex {
 		if (c == _cdrCharacter)
 			return false;
 
+		if (c == _commentCharacter)
+			return false;
+
 		switch (c) {
 		case '\f':
 		case '\n':
@@ -141,7 +145,6 @@ public class Lex {
 		case '{':
 		case '}':
 		case Constants.DYNAMICSCOPECHAR2:
-		case Constants.COMMENTCHAR:
 		case Constants.BQUOTECHAR:
 		case Constants.QUOTECHAR:
 		case '"':
@@ -202,6 +205,15 @@ public class Lex {
 			if (ch == this._cdrCharacter)
 				return COLON_TOKEN;
 
+			if (ch == this._commentCharacter) {
+				while (_input.hasData()) {
+					ch = _input.readNext();
+					if (ch == '\n') {
+						break;
+					}
+				}
+			}
+
 			switch (ch) {
 			case '\f':
 			case '\n':
@@ -223,14 +235,6 @@ public class Lex {
 					_input.unGet('-');
 					return parseIdent();
 				}
-			case Constants.COMMENTCHAR:
-				while (_input.hasData()) {
-					ch = _input.readNext();
-					if (ch == '\n') {
-						break;
-					}
-				}
-				break;
 			case '"':
 				_input.unGet(ch);
 				return parseString();
