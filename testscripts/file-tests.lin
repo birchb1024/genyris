@@ -6,7 +6,7 @@ define out
 out (.format "Hello\n")
 out (.format "World\n")
 out
-  .format "  A: ~a~%  S: ~s~%  C: ~c ~~\n" =
+  .format "  A: %a%n  S: %s%n  C: ~c ~~\n" =
       "GONZO\n" =
        "ALONZO\n" =
         33

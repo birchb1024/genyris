@@ -5,8 +5,8 @@
 include "/workspace/genyris/examples/classify.lin"
 
 def usage()
-    u:format "Usage: <scriptname> <client IP regular expression> <rules file> <mailserver> <reply-to email address>~%"
-    u:format "You supplied ~s~%" sys:argv 
+    u:format "Usage: <scriptname> <client IP regular expression> <rules file> <mailserver> <reply-to email address>%n"
+    u:format "You supplied %s\n" sys:argv 
     (System.exit) 1
 
 if (equal? 5 (length sys:argv)) nil (usage)
@@ -83,7 +83,7 @@ class Noises()
 
 class Email()
     def .send(addresses message)
-        u:format "sending ~s ~s ~s ~s ~s" addresses message message "birchb@anz.com" server
+        u:format "sending %s %s %s %s %s" addresses message message *reply-to* *mail-server*
         email:send addresses message message *reply-to* *mail-server*
 
 class StringMessage(String)
@@ -114,7 +114,7 @@ class UsbMessage(StringMessage)
 class Message(StringMessage)
 
    def .valid?(str)
-      #u:format ".valid? ~s ~s~%" .self str
+      #u:format ".valid? %s %s\n" .self str
       #print str
       cond
         ((UsbMessage.valid?) str) nil # Message and UsbMessage mutually exclusive
@@ -151,7 +151,7 @@ Message
    .sounds "boing_1.wav"
    .email ^()
 
-u:format "Loading ~s~%" *rule-file*
+u:format "Loading %s%n" *rule-file*
 include *rule-file*
 
 class BuildNotification()
@@ -165,7 +165,7 @@ class BuildNotification()
 
   def addToLog(message style client)
     lastmessage = message
-    u:format "~a ~a ~a ~%" (u:getLocalTime) client message
+    u:format "%a %a %a %n" (u:getLocalTime) client message
     log = (cons (template (tr() (td() ,(u:getLocalTime)) (td((style = ,style)) ,message)(td(()) ,client))) log)
 
   def .addToLog(message style)
@@ -179,8 +179,8 @@ class BuildNotification()
   def .alertUsers(operation nextclient)
     client = nextclient
     classify StringMessage operation
-    #u:format "operation => ~a~%" operation
-    #u:format "operation types: ~a~%" (operation.classes)
+    #u:format "operation => %a%n" operation
+    #u:format "operation types: %a%n" (operation.classes)
     operation
           .log BuildNotification
           .update-lamp
@@ -197,7 +197,7 @@ df httpd-serve (request)
      (authorised? request)
           process-request request
      else
-        u:format "~a Unauthorised hit from ~a~%" (u:getLocalTime) (request(.getClient))
+        u:format "%a Unauthorised hit from %a%n" (u:getLocalTime) (request(.getClient))
         list 403 "text/html"
               template
                   html()

@@ -11,7 +11,7 @@ def readPage(url)
          count = (+ count 1)
          write (wstream(.read)) ^-
     wstream(.close)
-    u:format "~%Read ~a bytes~%" count
+    u:format "%nRead %a bytes%n" count
     count
 
 def run-web()

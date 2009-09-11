@@ -37,7 +37,7 @@ def loadDataFromCSV(url)
         define aslist ($line(.split ","))
         cond 
             (equal? (length aslist) 1)
-                u:format "~s - ~s ~a~%" (length aslist) $line aslist
+                u:format "%s - %s %a%n" (length aslist) $line aslist
             else
                 if (equal? (length aslist) 2)
                     define object ""
@@ -48,7 +48,7 @@ def loadDataFromCSV(url)
                    define tr (triple subject predicate object)
                 cond
                    $error
-                      u:format "triple error: ~s ~s ~s ~s~%" $error subject predicate object
+                      u:format "triple error: %s %s %s %s%n" $error subject predicate object
                 store
                    .add tr
             
@@ -71,7 +71,7 @@ def convertToRegex (str)
 def searchStore(str)
     str = (convertToRegex str)
     def matchFunc(s o p)
-       #u:format "~s ~s ~s ~s~%" s o p str
+       #u:format "%s %s %s %s%n" s o p str
         or
           ((asString s)(.toLowerCase)) (.match str)
           ((asString p)(.toLowerCase)) (.match str)

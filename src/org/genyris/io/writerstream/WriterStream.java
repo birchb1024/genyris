@@ -57,13 +57,13 @@ public class WriterStream extends Atom {
     public Exp format(StrinG formatString, Exp[] args, Environment env) throws GenyrisException {
         StringBuffer format = new StringBuffer(formatString.toString());
         int argCounter = 1;
+        char escape = '%';
         try {
             for (int i = 0; i < format.length(); i++) {
-                if ((format.charAt(i) == '~') && (i == format.length())) {
-                    _value.append('~');
-                    break;
+                if ((format.charAt(i) == escape) && (i == format.length()-1)) {
+                	throw new GenyrisException("Bad format: " + format);
                 }
-                if (format.charAt(i) == '~' && format.charAt(i + 1) == 'a') {
+                if (format.charAt(i) == escape && format.charAt(i + 1) == 'a') {
                     // display - TODO DRY
                     i++;
                     if (argCounter > args.length) {
@@ -71,7 +71,7 @@ public class WriterStream extends Atom {
                     }
                     Formatter formatter = new DisplayFormatter(_value);
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == '~' && format.charAt(i + 1) == 's') {
+                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 's') {
                     // write - TODO DRY
                     i++;
                     if (argCounter > args.length) {
@@ -79,7 +79,7 @@ public class WriterStream extends Atom {
                     }
                     Formatter formatter = new BasicFormatter(_value);
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == '~' && format.charAt(i + 1) == 'x') {
+                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'x') {
                     // write - TODO DRY
                     i++;
                     if (argCounter > args.length) {
@@ -87,16 +87,19 @@ public class WriterStream extends Atom {
                     }
                     Formatter formatter = new HTMLFormatter(_value);
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == '~' && format.charAt(i + 1) == '%') {
+                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'n') {
                     i++;
                     _value.append('\n');
-                } else if (format.charAt(i) == '~' && format.charAt(i + 1) == '~') {
+                } else if (format.charAt(i) == escape && format.charAt(i + 1) == escape) {
                     i++;
-                    _value.append('~');
+                    _value.append(escape);
                 } else {
                     _value.append(format.charAt(i));
                 }
             }
+        }
+        catch (StringIndexOutOfBoundsException e) {
+            throw new GenyrisException("Bad format: " + format + " " + e.getMessage());
         }
         catch (IOException e) {
             throw new GenyrisException(e.getMessage());

@@ -15,7 +15,7 @@ cond
 
 var port (parse (cadr sys:argv))
 var rootdir (cadr (cdr sys:argv))
-u:format "Serving web pages on port ~a from ~a~%" port rootdir
+u:format "Serving web pages on port %a from %a%n" port rootdir
 web.serve-static port rootdir
 while true
    sleep (* 1000 60)
