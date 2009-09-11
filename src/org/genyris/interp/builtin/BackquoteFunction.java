@@ -62,39 +62,3 @@ public class BackquoteFunction extends ApplicableFunction {
         }
     }
 }
-/*
- * (df backquote (_s)
- *  (_bq1 _s) )
- *
- *
- *(defun _bq1 (_s1)
- *  (cond
- *      ((or (null _s1) (atom _s1)) _s1)
- *      ((equal (car _s1) 'comma) (eval (cadr _s1)))
- *      ((and (not (atom (car _s1))) (equal (caar _s1) 'comma-at))
- *          (append (eval (cadar _s1)) (_bq1 (cdr _s1))))
- *
- *      (t (cons (_bq1 (car _s1)) (_bq1 (cdr _s1)))) ) )
- *
- */
-
-//EXP backquote_fn( EXP s)
-//{
-//    lif(lor(null(s), atom(s))){
-//        return(s);
-//    }
-//    else lif(equal(car(s), comma))  {
-//        return(eval(car(cdr(s))));
-//    }
-//    else lif(land(lnot(atom(car(s))),equal(car(car(s)),comma_at))) {
-//        EXP hold = reference(car(cdr(car(s))));
-//        EXP tmp = reference(eval(hold));
-//        EXP result = reference(append(tmp, backquote_fn(cdr(s))));
-//        purge(tmp);
-//        dereference(result); dereference(hold);
-//        return(result);
-//    }
-//    else {
-//        return(cons(backquote_fn(car(s)),backquote_fn(cdr(s))));
-//    }
-//}

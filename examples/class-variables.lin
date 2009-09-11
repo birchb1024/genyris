@@ -20,9 +20,9 @@ var c1
 var c2
   ClassVariableTester(.new)
 assert
-    equal? (c1(.increment)) '(1 1)
+    equal? (c1(.increment)) ^(1 1)
 assert
-    equal? (c2(.increment)) '(2 1)
+    equal? (c2(.increment)) ^(2 1)
 
 
 

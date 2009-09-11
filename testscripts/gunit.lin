@@ -25,9 +25,9 @@ defmacro t:given (expression keyword result)
     template
       cond
         (equal? ,actual ,result)
-           ##u:format "   Passed: ~a~%" ',expression
+           ##u:format "   Passed: ~a~%" ^,expression
             true
         else
-            u:format "  Condition ~a failed. ~%     given   ~a~%     expected: ~a ~%     got: ~a~%" id ',expression ',result ,actual
+            u:format "  Condition ~a failed. ~%     given   ~a~%     expected: ~a ~%     got: ~a~%" id ^,expression ^,result ,actual
             nil
 

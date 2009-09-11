@@ -21,7 +21,7 @@ class C(Object)
    def .init()
       define .v 99
    def .f()
-      set '.v 34
+      set ^.v 34
 define c (C(.new nil))
 c(.f)
 assert (equal? 34 (c.v))

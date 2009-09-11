@@ -23,7 +23,7 @@ class Person ()
          (dict)
             define age 25
             def .getAge() age
-            def .setAge(val) (set 'age val)
+            def .setAge(val) (set ^age val)
             .self
 
 define p

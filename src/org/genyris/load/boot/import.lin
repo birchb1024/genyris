@@ -5,7 +5,7 @@
 ##
 @prefix sys "http://www.genyris.org/lang/system#"
 
-define sys:path '(".")
+define sys:path ^(".")
 
 class Module
 

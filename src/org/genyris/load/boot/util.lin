@@ -5,7 +5,7 @@ def u:format(&rest args)
 
 defmacro u:debug(thing)
   template
-    u:format "~a => ~a~%" ',thing ,thing
+    u:format "~a => ~a~%" ^,thing ,thing
 
 def u:getLocalTime()
    System

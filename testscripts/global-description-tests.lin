@@ -5,7 +5,7 @@
 
 
 def getSubClassesOf(super)
-    (types.Descriptions (.select nil 'subClassOf super))(.asTriples)
+    (types.Descriptions (.select nil ^subClassOf super))(.asTriples)
     
 def dump(list)
     while list
@@ -15,4 +15,4 @@ def dump(list)
             (car list)(.object)
         list = (cdr list)
 
-dump (getSubClassesOf 'Builtin)
+dump (getSubClassesOf ^Builtin)

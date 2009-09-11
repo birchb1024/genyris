@@ -68,7 +68,7 @@ class Tree(ParametricClass)
 class BignumTree(Tree)[Bignum]
 
 
-BignumTree(.valid? '(1 nil nil))
+BignumTree(.valid? ^(1 nil nil))
 BignumTree
         .new 111 nil nil            
 define someTree 

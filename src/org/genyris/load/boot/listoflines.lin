@@ -27,4 +27,4 @@ ListOfLines
                 renderLines (lines.right)
 
 # var x
-#   tag ListOfLines '("1" "2" "3")
+#   tag ListOfLines ^("1" "2" "3")

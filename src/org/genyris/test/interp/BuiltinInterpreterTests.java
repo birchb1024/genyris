@@ -35,30 +35,30 @@ public class BuiltinInterpreterTests extends TestCase {
     }
 
     public void testNth() throws Exception {
-        excerciseEval("(nth 0 '(a b c))", "a");
-        excerciseEval("(nth 1 '(a b c))", "b");
-        excerciseEval("(nth 2 '(a b c))", "c");
-        excerciseBadEval("(nth 22 '(a b c))");
-        excerciseBadEval("(nth -1 '(a b c))");
+        excerciseEval("(nth 0 ^(a b c))", "a");
+        excerciseEval("(nth 1 ^(a b c))", "b");
+        excerciseEval("(nth 2 ^(a b c))", "c");
+        excerciseBadEval("(nth 22 ^(a b c))");
+        excerciseBadEval("(nth -1 ^(a b c))");
     }
     public void testEquality() throws Exception {
         excerciseEval("(equal? 1 1)", "true");
         excerciseEval("(equal? 1.2e4 1.2e4)", "true");
         excerciseEval("(equal? \"foo\" \"foo\")", "true");
-        excerciseEval("(equal? 'sym 'sym)", "true");
+        excerciseEval("(equal? ^sym ^sym)", "true");
     }
     public void testEqu() throws Exception {
-        excerciseEval("(defvar 'var 23)", "23");
+        excerciseEval("(defvar ^var 23)", "23");
         excerciseEval("(eq? 1 1)", "nil");
         excerciseEval("(eq? 1.2e4 1.2e4)", "nil");
         excerciseEval("(eq? \"foo\" \"foo\")", "nil");
-        excerciseEval("(eq? 'sym 'sym)", "true");
+        excerciseEval("(eq? ^sym ^sym)", "true");
         excerciseEval("(eq? var var)", "true");
     }
     public void testDict() throws Exception {
         excerciseEval("(dict (.a = 1) (.b = 2))","(dict (.a = 1) (.b = 2))");
         excerciseEval("(dict (.a) (.b = 2))", "(dict (.a = nil) (.b = 2))");
-        excerciseEval("(dict (.a = '(1)) (.b = 2))", "(dict (.a = (1)) (.b = 2))");
+        excerciseEval("(dict (.a = ^(1)) (.b = 2))", "(dict (.a = (1)) (.b = 2))");
     }
 
 }

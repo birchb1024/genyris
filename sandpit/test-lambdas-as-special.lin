@@ -1,30 +1,30 @@
-> defvar 'f1 (.x) (cons .x .x)
+> defvar ^f1 (.x) (cons .x .x)
 
 *** Error: unbound variable: .x
 
-> defvar 'f1 (lambda (.x) (cons .x .x))
+> defvar ^f1 (lambda (.x) (cons .x .x))
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
 > f1 3
 
 *** Error: unbound variable: .x
 
-> defvar '.x "global .x"
+> defvar ^.x "global .x"
 
 ~ "global .x"
 > f1 3
 
 "global .x" ^ "global .x"
-> defvar 'f2 (lambda (x) (defvar '.y "my .y") (cons .x .y))
+> defvar ^f2 (lambda (x) (defvar ^.y "my .y") (cons .x .y))
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
 > f2 22
 
 "global .x" ^ "my .y"
-> defvar 'f2 (lambda (x) (defvar '.y "my .y") (cons .y (f3)))
+> defvar ^f2 (lambda (x) (defvar ^.y "my .y") (cons .y (f3)))
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
-> defvar 'f3 (lambda () .y)
+> defvar ^f3 (lambda () .y)
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
 > f2 44
@@ -40,7 +40,7 @@
 > ((dict (.y "yyyyy")) f3)
 
 ~ "my .y"
-> defvar 'd (dict (.y "yyyyy"))
+> defvar ^d (dict (.y "yyyyy"))
 
 ~ <CallableEnvironment<dict ((.y "yyyyy"))>>
 > d(f3)
@@ -82,10 +82,10 @@
 > the .y
 
 ~ "my .y"
-> defvar 'f4 (lambda (.x) (cons .x (f5)))
+> defvar ^f4 (lambda (.x) (cons .x (f5)))
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
-> defvar 'f5 (lambda () .x)
+> defvar ^f5 (lambda () .x)
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
 > f5
@@ -98,21 +98,21 @@
 
 ~ "global .x"
 > 
-> d (defvar '.x ".x in d")
+> d (defvar ^.x ".x in d")
 
 ~ ".x in d"
 > the d
 
 ~ <CallableEnvironment<dict ((.y "yyyyy") (.a 34) (.x ".x in d"))>>
 
-> defvar 'f6 (lambda (.z) (f7))
+> defvar ^f6 (lambda (.z) (f7))
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
-> defvar 'f7 (lambda () .z)
+> defvar ^f7 (lambda () .z)
 
 ~ <org.lispin.jlispin.interp.ClassicFunction>
 > f6 4545
 
 *** Error: unbound variable: .z
 
-(dict (.z "temp .z")) (defvar 'fo (lambda () .z)) ((lambda () (fo))) # ==> "temp .z"
+(dict (.z "temp .z")) (defvar ^fo (lambda () .z)) ((lambda () (fo))) # ==> "temp .z"

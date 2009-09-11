@@ -5,7 +5,7 @@ class ex:BarError(ex:Error)
 try
   do
     System
-      apply _exec '("cmd.exe" "/c" "dir")
+      apply _exec ^("cmd.exe" "/c" "dir")
   catch ex:FooError
     stuff
   catch ex:BarError

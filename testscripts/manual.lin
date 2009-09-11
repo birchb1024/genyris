@@ -14,7 +14,7 @@ pitt
 assert
     equal? 
         pitt.vars
-        '(father title name date-of-birth vars)
+        ^(father title name date-of-birth vars)
 
 define jeb
    dict

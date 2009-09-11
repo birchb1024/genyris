@@ -12,7 +12,7 @@ public class Constants {
         public static final char COMMENTCHAR = '#';
         public static final char LISPCOMMENTCHAR = ';';
         public static final char BQUOTECHAR = '`';
-        public static final char QUOTECHAR = '\'';
+        public static final char QUOTECHAR = '^';
         public static final char COMMACHAR = ',';
         public static final char ATCHAR = '@';
         public static final char CDRCHAR = '=';

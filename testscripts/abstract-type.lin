@@ -7,9 +7,9 @@ class AbstractQueue()
    def .valid?(object)
       object
          and
-            bound? '.enqueue
+            bound? ^.enqueue
             is-instance? .enqueue Closure
-            bound? '.dequeue
+            bound? ^.dequeue
             is-instance? .dequeue Closure
 
 class XYZqueue(Object)

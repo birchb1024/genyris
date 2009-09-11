@@ -233,20 +233,20 @@ public class LexTest extends TestCase {
     }
 
     public void testSpecialLexQuote() throws Exception {
-        excerciseSpecialParsing("'a", "(quote a)");
-        excerciseSpecialParsing("'12.34", "(quote 12.34)");
-        excerciseSpecialParsing("'\"str\"", "(quote \"str\")");
-        excerciseSpecialParsing("'(1 2)", "(quote (1 2))");
-        excerciseSpecialParsing("'(1 = 2)", "(quote (1 = 2))");
-        // excerciseSpecialParsing("'(= 2)", "(quote (1 = 2))");
-        // excerciseSpecialParsing("'(=)", "(quote (1 = 2))");
+        excerciseSpecialParsing("^a", "(quote a)");
+        excerciseSpecialParsing("^12.34", "(quote 12.34)");
+        excerciseSpecialParsing("^\"str\"", "(quote \"str\")");
+        excerciseSpecialParsing("^(1 2)", "(quote (1 2))");
+        excerciseSpecialParsing("^(1 = 2)", "(quote (1 = 2))");
+        // excerciseSpecialParsing("^(= 2)", "(quote (1 = 2))");
+        // excerciseSpecialParsing("^(=)", "(quote (1 = 2))");
         // excerciseSpecialParsing("=", "raises error");
-        excerciseSpecialParsing("'(1=2)", "(quote (1 = 2))");
-        excerciseSpecialParsing("'(1 =2)", "(quote (1 = 2))");
-        excerciseSpecialParsing("'(a =b)", "(quote (a = b))");
-        excerciseSpecialParsing("'(a =b)", "(quote (a = b))");
-        excerciseSpecialParsing("'(a = b)", "(quote (a = b))");
-        excerciseSpecialParsing("'(a = (3))", "(quote (a = (3)))");
+        excerciseSpecialParsing("^(1=2)", "(quote (1 = 2))");
+        excerciseSpecialParsing("^(1 =2)", "(quote (1 = 2))");
+        excerciseSpecialParsing("^(a =b)", "(quote (a = b))");
+        excerciseSpecialParsing("^(a =b)", "(quote (a = b))");
+        excerciseSpecialParsing("^(a = b)", "(quote (a = b))");
+        excerciseSpecialParsing("^(a = (3))", "(quote (a = (3)))");
     }
 
     public void testSpecialLexBackQuote() throws Exception {
@@ -269,20 +269,20 @@ public class LexTest extends TestCase {
         excerciseSpecialParsing("[]", "(squareBracket)");
         excerciseSpecialParsing("[1]", "(squareBracket 1)");
         excerciseSpecialParsing("[1 2]", "(squareBracket 1 2)");
-        excerciseSpecialParsing("['1]", "(squareBracket (quote 1))");
+        excerciseSpecialParsing("[^1]", "(squareBracket (quote 1))");
         excerciseSpecialParsing("[[2]3]", "(squareBracket (squareBracket 2) 3)");
         excerciseSpecialParsing("[\"foo\"]", "(squareBracket \"foo\")");
-        excerciseSpecialParsing("[w 'e]", "(squareBracket w (quote e))");
+        excerciseSpecialParsing("[w ^e]", "(squareBracket w (quote e))");
         excerciseSpecialParsing("[(1 2 3)]", "(squareBracket (1 2 3))");
     }
     public void testCurlybracket() throws Exception {
         excerciseSpecialParsing("{}", "(curlyBracket)");
         excerciseSpecialParsing("{1}", "(curlyBracket 1)");
         excerciseSpecialParsing("{1 2}", "(curlyBracket 1 2)");
-        excerciseSpecialParsing("{'1}", "(curlyBracket (quote 1))");
+        excerciseSpecialParsing("{^1}", "(curlyBracket (quote 1))");
         excerciseSpecialParsing("{{2}3}", "(curlyBracket (curlyBracket 2) 3)");
         excerciseSpecialParsing("{\"foo\"}", "(curlyBracket \"foo\")");
-        excerciseSpecialParsing("{w 'e}", "(curlyBracket w (quote e))");
+        excerciseSpecialParsing("{w ^e}", "(curlyBracket w (quote e))");
         excerciseSpecialParsing("{(1 2 3)}", "(curlyBracket (1 2 3))");
     }
 }

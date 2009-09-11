@@ -1,7 +1,7 @@
 class luxury-Car (Car)
     def print () (format t "A luxury car: %S" .self)
     
-defvar 'str "Bently"
+defvar ^str "Bently"
 
 add-class str Luxury-Car
 

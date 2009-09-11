@@ -9,7 +9,7 @@ def readPage(url)
     var count 0
     while (wstream(.hasData))
          count = (+ count 1)
-         write (wstream(.read)) '-
+         write (wstream(.read)) ^-
     wstream(.close)
     u:format "~%Read ~a bytes~%" count
     count

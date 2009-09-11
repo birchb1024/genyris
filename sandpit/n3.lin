@@ -12,7 +12,7 @@ person:fred
 
 var fred
   triplestore
-   '(person:fred p:GivenName "Fred")
-   '(person:fred p:hasEmail "mailto:fred@example.com")
+   ^(person:fred p:GivenName "Fred")
+   ^(person:fred p:hasEmail "mailto:fred@example.com")
    #
 

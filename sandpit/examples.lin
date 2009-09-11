@@ -16,7 +16,7 @@ def factorial (n)
 do
    define tak-log nil
    def tak (x y z)
-        set 'tak-log (cons (list x y z) log)
+        set ^tak-log (cons (list x y z) log)
         cond 
            (< y x)
               tak 
@@ -38,7 +38,7 @@ class Point ()
     def .toString()
         list "x: " (car (car .self)) "y: " (cdr (car .self))
 
-define model '(12=13)
+define model ^(12=13)
 define math-view ((list model)=Complex)
 define plot-view ((list model)=Point)
 math-view (.toString)

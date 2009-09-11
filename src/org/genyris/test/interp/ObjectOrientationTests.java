@@ -36,23 +36,23 @@ public class ObjectOrientationTests extends TestCase {
     }
 
     public void testExcerciseEval() throws GenyrisException {
-        eval("(defvar '$global 999)");
+        eval("(defvar ^$global 999)");
         checkEval("$global", "999");
 
-        eval("(defvar 'Standard-Class (dict (.classname = 'Standard-Class)))");
+        eval("(defvar ^Standard-Class (dict (.classname = ^Standard-Class)))");
         checkEval("Standard-Class", "(dict (.classname = Standard-Class))");
-        checkEval("(defvar 'Account (dict (.classes = (list Standard-Class)) (.print = (lambda () (cons $global .balance))) ))",
+        checkEval("(defvar ^Account (dict (.classes = (list Standard-Class)) (.print = (lambda () (cons $global .balance))) ))",
                 "(dict (.print = <EagerProc: <anonymous lambda>>))");
 
         checkEval("(Account " +
-            "(defvar '.new " +
+            "(defvar ^.new " +
                 "(lambda (initial-balance) " +
                 "(dict " +
                     "(.classes = (cons Account nil)) " +
                     "(.balance =  initial-balance))))) ",
                     "<EagerProc: <anonymous lambda>>" );
 
-        checkEval("(defvar 'bb  (Account (.new 1000)))"
+        checkEval("(defvar ^bb  (Account (.new 1000)))"
                 ,"(dict (.balance = 1000))");
 
         checkEval("(bb(.print))", "(999 = 1000)");
@@ -63,9 +63,9 @@ public class ObjectOrientationTests extends TestCase {
 
     public void testInheritance() throws GenyrisException {
 
-        eval("(defvar 'Standard-Class (dict))");
+        eval("(defvar ^Standard-Class (dict))");
 
-        checkEval("(defvar 'Base-1 " +
+        checkEval("(defvar ^Base-1 " +
             "(dict " +
                 "(.classes = (cons Standard-Class nil)) " +
                 "(.toString = \"Base-1 toString\"))) "
@@ -73,7 +73,7 @@ public class ObjectOrientationTests extends TestCase {
 
         checkEval("(Base-1 .toString)", "\"Base-1 toString\"");
 
-        checkEval("(defvar 'Base-2 " +
+        checkEval("(defvar ^Base-2 " +
             "(dict " +
                 "(.classes = (cons Standard-Class nil)) " +
                 "(.log = \"Base-2 log\"))) ",
@@ -81,7 +81,7 @@ public class ObjectOrientationTests extends TestCase {
 
         checkEval("(Base-2 .log)", "\"Base-2 log\"");
 
-        eval("(defvar 'Class-1 " +
+        eval("(defvar ^Class-1 " +
                 "(dict " +
                     "(.classes  =  (cons Standard-Class nil)) " +
                     "(.superclasses  =  (cons Base-1 nil)) " +
@@ -94,7 +94,7 @@ public class ObjectOrientationTests extends TestCase {
         checkEval("(Class-1 .print)", "\"Class-1 print\"");
         checkEval("(Class-1 .toString)", "\"Base-1 toString\"");
 
-        eval("(defvar 'Class-2 " +
+        eval("(defvar ^Class-2 " +
             "(dict" +
                 "(.classes  =  (cons Standard-Class nil))" +
                 "(.superclasses  =  (cons Base-2 nil))" +
@@ -103,7 +103,7 @@ public class ObjectOrientationTests extends TestCase {
         checkEval("(Class-2 .draw)", "\"Class-2 draw\"");
         checkEval("(Class-2 .log)", "\"Base-2 log\"");
 
-        eval("(defvar 'object " +
+        eval("(defvar ^object " +
                 "(dict" +
                 "(.classes  =  (cons Class-1 (cons Class-2 nil)))))" );
         checkEval("(object .log)", "\"Base-2 log\"");
@@ -111,13 +111,13 @@ public class ObjectOrientationTests extends TestCase {
         checkEval("(object .print)", "\"Class-1 print\"");
         checkEval("(object .toString)", "\"Base-1 toString\"");
 
-        checkEval("(object (defvar '.local 23))", "23");
+        checkEval("(object (defvar ^.local 23))", "23");
         checkEval("(object .local)", "23");
-        checkEval("(object (set '.local 900))", "900");
+        checkEval("(object (set ^.local 900))", "900");
         checkEval("(object .local)", "900");
 
-        checkEvalBad("(object (set '.log 757))");
-        checkEval("(object (defvar '.log 757))", "757");
+        checkEvalBad("(object (set ^.log 757))");
+        checkEval("(object (defvar ^.log 757))", "757");
         checkEval("(Base-2 .log)", "\"Base-2 log\"");
         checkEval("(object .log)", "757");
     }

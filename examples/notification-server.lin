@@ -5,16 +5,18 @@
 include "/workspace/genyris/examples/classify.lin"
 
 def usage()
-    u:format "Usage: <scriptname> <client IP regular expression> <rules file>~%"
+    u:format "Usage: <scriptname> <client IP regular expression> <rules file> <mailserver> <reply-to email address>~%"
     u:format "You supplied ~s~%" sys:argv 
-    System(.exit 1)
+    (System.exit) 1
 
-if (equal? 3 (length sys:argv)) nil (usage)
+if (equal? 5 (length sys:argv)) nil (usage)
 
 define *client-id-regex* (nth 1 sys:argv) # client IP regular expression
 define *rule-file* (nth 2 sys:argv)       # more classes for messages
+define *mail-server* (nth 3 sys:argv)       
+define *reply-to* (nth 4 sys:argv)       
 
-var log '()
+var log ^()
 
 class UsbLamp()
    var exePath "C:\\WINNT\\system32\\cmd.exe"
@@ -46,11 +48,12 @@ class UsbLamp()
       operations(.getKeys)
 
    def call-lamp(codes)
-      System
-         apply .exec
-            template
-                ,exePath "/c" "C:\\workspace\\notifications\\USBDOSAP.BAT " ,@(codes(.split))
-
+      catch ignore # the naughty dos program gives 1 status
+          System
+             apply .exec
+                template
+                    ,exePath "/c" "C:\\workspace\\notifications\\usblamp\\USBDOSAP.EXE " ,@(codes(.split))
+      
    def change((op = String))
        var codes (operations (.lookup op))
        cond
@@ -79,10 +82,9 @@ class Noises()
             the soundfile-name
 
 class Email()
-    var server "exgau182frm07.oceania.corp.anz.com"
     def .send(addresses message)
         u:format "sending ~s ~s ~s ~s ~s" addresses message message "birchb@anz.com" server
-        email:send addresses message message "birchb@anz.com" server
+        email:send addresses message message *reply-to* *mail-server*
 
 class StringMessage(String)
    def .valid?(str)
@@ -96,7 +98,7 @@ class StringMessage(String)
      (context.addToLog) .self .style-exp
    def .style(str)
       define .style-exp str
-   .style "background: white#border 1px#"
+   .style "background: white;border 1px;"
 
 class NullMessage(StringMessage)
   def .valid?(str)
@@ -147,7 +149,7 @@ Message
    .pattern ".+"
    .lights nil
    .sounds "boing_1.wav"
-   .email '()
+   .email ^()
 
 u:format "Loading ~s~%" *rule-file*
 include *rule-file*
@@ -221,7 +223,7 @@ def process-request (request)
              body()
                 form()
                    input((name="op") (size="100") (value = ,operation)) ""
-                   verbatim() "&nbsp#&nbsp#&nbsp#"
+                   verbatim() "&nbsp;&nbsp;&nbsp;"
                    input((type="submit") (value="Go"))
                 form()
                     input((type ="submit") (value ="Refresh"))

@@ -9,7 +9,7 @@
 def squareBracket(index)
     nth index .self
 
-var array '(1 2 3 4 5)
+var array ^(1 2 3 4 5)
 assert 
     equal? 
         array[3]

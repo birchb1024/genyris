@@ -15,7 +15,7 @@ def between (low it high)
 class p:Person ()
    def .valid? (obj)
       obj
-         bound? '.age
+         bound? ^.age
 
 class p:Kid (p:Person)
    def .valid? (obj)
@@ -35,7 +35,7 @@ class p:Boomer (p:Person)
 class p:Hippie (p:Boomer)
    def .valid? (obj)
       obj
-         bound? '.bong
+         bound? ^.bong
 
 var noel
   dict

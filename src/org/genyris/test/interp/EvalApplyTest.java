@@ -128,7 +128,7 @@ public class EvalApplyTest extends TestCase {
         excerciseEval("(bravo = 888)", "888");
         excerciseEval("(bravo = (+ 1 2))", "3");
         excerciseEval("(bravo = (alpha = (- 222 100)))", "122");
-        excerciseEval("(bravo = '(1 = 2))", "(1 = 2)");
+        excerciseEval("(bravo = ^(1 = 2))", "(1 = 2)");
     }
     public void testCond() throws Exception {
         excerciseEval("(cond)", "nil");
@@ -146,13 +146,13 @@ public class EvalApplyTest extends TestCase {
 
     public void testRaise() throws Exception {
         excerciseEval("(or (catch x (raise 1)) x)", "1");
-        excerciseEval("(or (catch x (raise 'w)) x)", "w");
-        excerciseEval("(or (catch x (raise '(1))) x)", "(1)");
+        excerciseEval("(or (catch x (raise ^w)) x)", "w");
+        excerciseEval("(or (catch x (raise ^(1))) x)", "(1)");
         excerciseEval("(or (catch x (raise 23.45)) x)", "23.45");
         excerciseEval("(or (catch x (raise (dict (.a =3)))) x)", "(dict (.a = 3))");
         excerciseEval("(or (catch x (raise 1)) x)", "1");
-        excerciseEval("(or (catch x (raise 'w)) x)", "w");
-        excerciseEval("(or (catch x (raise '(1))) x)", "(1)");
+        excerciseEval("(or (catch x (raise ^w)) x)", "w");
+        excerciseEval("(or (catch x (raise ^(1))) x)", "(1)");
         excerciseEval("(or (catch x (raise 23.45)) x)", "23.45");
         excerciseEval("(or (catch x (raise (dict (.a =3)))) x)", "(dict (.a = 3))");
         }
