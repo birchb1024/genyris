@@ -54,9 +54,9 @@ public class WriterStream extends Atom {
         }
     }
 
-    public Exp format(StrinG formatString, Exp[] args, Environment env) throws GenyrisException {
+    public Exp format(StrinG formatString, int offset, Exp[] args, Environment env) throws GenyrisException {
         StringBuffer format = new StringBuffer(formatString.toString());
-        int argCounter = 1;
+        int argCounter = offset;
         char escape = '%';
         try {
             for (int i = 0; i < format.length(); i++) {
@@ -70,6 +70,9 @@ public class WriterStream extends Atom {
                         break;
                     }
                     Formatter formatter = new DisplayFormatter(_value);
+                    if(argCounter == args.length) {
+                        throw new GenyrisException("Bad format: " + format + " too few real arguments.");                    	
+                    }
                     args[argCounter++].acceptVisitor(formatter);
                 } else if (format.charAt(i) == escape && format.charAt(i + 1) == 's') {
                     // write - TODO DRY
@@ -78,6 +81,9 @@ public class WriterStream extends Atom {
                         break;
                     }
                     Formatter formatter = new BasicFormatter(_value);
+                    if(argCounter == args.length) {
+                        throw new GenyrisException("Bad format: " + format + " too few real arguments.");                    	
+                    }
                     args[argCounter++].acceptVisitor(formatter);
                 } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'x') {
                     // write - TODO DRY
@@ -86,6 +92,9 @@ public class WriterStream extends Atom {
                         break;
                     }
                     Formatter formatter = new HTMLFormatter(_value);
+                    if(argCounter == args.length) {
+                        throw new GenyrisException("Bad format: " + format + " too few real arguments.");                    	
+                    }
                     args[argCounter++].acceptVisitor(formatter);
                 } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'n') {
                     i++;
@@ -97,6 +106,12 @@ public class WriterStream extends Atom {
                     _value.append(format.charAt(i));
                 }
             }
+            if(argCounter != args.length) {
+                throw new GenyrisException("Bad format: " + format + " too many real arguments.");                    	            	
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            throw new GenyrisException("Bad format: " + format + " " + e.getMessage());
         }
         catch (StringIndexOutOfBoundsException e) {
             throw new GenyrisException("Bad format: " + format + " " + e.getMessage());
@@ -147,7 +162,7 @@ public class WriterStream extends Atom {
                     throw new GenyrisException("Non string passed to FormatMethod");
                 }
                 WriterStream self = getSelfWriter(env);
-                Exp retval = self.format((StrinG)arguments[0], arguments, env);
+                Exp retval = self.format((StrinG)arguments[0], 1, arguments, env);
                 if(self == STDOUT) {
                     try {
                         self._value.flush();

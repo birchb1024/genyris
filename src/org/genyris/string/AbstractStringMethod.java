@@ -34,6 +34,7 @@ public abstract class AbstractStringMethod extends AbstractMethod {
         interpreter.bindMethodInstance(Constants.STRING, new MatchMethod(interpreter));
         interpreter.bindMethodInstance(Constants.STRING, new LengthMethod(interpreter));
         interpreter.bindMethodInstance(Constants.STRING, new ToLowerCaseMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.STRING, new StringFormatMethod(interpreter));
     }
 
 }

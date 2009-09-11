@@ -58,5 +58,15 @@ public class StringTests extends TestCase {
     	checkEval("(''(.toLowerCase))", "''");
         checkEval("('ABCDEFGH'(.toLowerCase))", "'abcdefgh'");
     }
+    
+    public void testFormat() throws GenyrisException {
+    	checkEval("(''(.format))", "''");
+    	checkEval("('%s'(.format))", "'%s'");
+    	checkEvalBad("('%s%s'(.format 9))");
+    	checkEvalBad("('%s%s'(.format 9 10 11))");
+    	checkEval("('a=%s b=%s'(.format (+ 3 4) (* 7 8)))", "'a=7 b=56'");
+    	checkEval("('a=%a b=%s %n'(.format 'x' (* 7 8)))", "'a=x b=56 \\n'");
+    }
 
+    
 }

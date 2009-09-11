@@ -6,9 +6,9 @@
 package org.genyris.core;
 
 import java.util.regex.PatternSyntaxException;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-import org.genyris.core.Bignum;
 
 public class StrinG extends Atom {
 
@@ -28,6 +28,7 @@ public class StrinG extends Atom {
 	public char getQuoteChar() {
 		return _quoteWith;
 	}
+
 	public String toString() {
 		return _value;
 	}
@@ -75,6 +76,7 @@ public class StrinG extends Atom {
 		else
 			return _value.equals(((StrinG) compare)._value);
 	}
+
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
 	}

@@ -29,8 +29,6 @@ public abstract class Exp implements Classifiable, Closure {
 		throw new GenyrisException("Callto abstract evalSequence.");
 	}
 
-
-
 	public Exp applyFunction(Environment environment, Exp[] arguments)
 			throws GenyrisException {
 		if (arguments[0].isNil()) {

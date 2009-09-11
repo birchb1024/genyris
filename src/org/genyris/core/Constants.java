@@ -104,5 +104,6 @@ public class Constants {
         public static final String DESCRIPTIONS = PREFIX_TYPES + "Descriptions";
 		public static final String SUBCLASSOF = "subClassOf";
 		public static final String DYNAMICSYMBOLREF = "DynamicSymbolRef";
+		public static final String FORMAT = "format";
 
 }
