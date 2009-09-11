@@ -147,6 +147,7 @@ public class Lex {
 		case Constants.DYNAMICSCOPECHAR2:
 		case Constants.BQUOTECHAR:
 		case Constants.QUOTECHAR:
+		case '\'':
 		case '"':
 			return false;
 		default:
@@ -237,7 +238,10 @@ public class Lex {
 				}
 			case '"':
 				_input.unGet(ch);
-				return parseString();
+				return parseString('"');
+			case '\'':
+				_input.unGet(ch);
+				return parseString('\'');
 			case '0':
 			case '1':
 			case '2':
@@ -296,13 +300,13 @@ public class Lex {
 		} while (true);
 	}
 
-	public Exp parseString() throws LexException {
+	public Exp parseString(char quotechar) throws LexException {
 		char ch;
 		String collect = "";
 		ch = _input.readNext();
 		while (_input.hasData()) {
 			ch = _input.readNext();
-			if (ch == '"') {
+			if (ch == quotechar) {
 				break;
 			} else {
 				if (ch == '\\') {
@@ -342,7 +346,7 @@ public class Lex {
 				collect += ch;
 			}
 		}
-		return new StrinG(collect);
+		return new StrinG(collect, quotechar);
 	}
 
 	public void addprefix(String prefix, String uri) throws GenyrisException {

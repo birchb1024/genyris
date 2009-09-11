@@ -118,7 +118,7 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(fn2 x)", "42");
         excerciseEval("(def fn3((a =Thing)= Builtin) a)", "<EagerProc: <fn3>>");
         excerciseEval("(fn3 42)", "42");
-        excerciseEval("(fn3 \"x\")", "\"x\"");
+        excerciseEval("(fn3 'x')", "'x'");
         excerciseEval("(fn3 ^x)", "x");
         excerciseEval("(fn3 ^(3))", "(3)");
 

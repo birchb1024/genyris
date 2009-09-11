@@ -73,9 +73,9 @@ public class TripleStoreTest extends TestCase {
     }
 
     public void testFormatting() throws Exception {
-        eval("(triple ^a ^b \"west\")", "(triple a b \"west\")");
-        eval("(triple \"X\" ^b \"west\")", "(triple \"X\" b \"west\")");
-        eval("(triple \"X\" ^b 123)", "(triple \"X\" b 123)");
+        eval("(triple ^a ^b 'west')", "(triple a b 'west')");
+        eval("(triple 'X' ^b 'west')", "(triple 'X' b 'west')");
+        eval("(triple 'X' ^b 123)", "(triple 'X' b 123)");
         eval("(triple ^(2=3) ^b 123)", "(triple (2 = 3) b 123)");
         eval("(triple ^(2=3) ^b (dict (.z =99)))", "(triple (2 = 3) b (dict (.z = 99)))");
         eval("(triple ^(2=3) ^b (list 1 2 3 4 5))", "(triple (2 = 3) b (1 2 3 4 5))");
@@ -198,13 +198,13 @@ public class TripleStoreTest extends TestCase {
     }
     public void testInterpTriplesClasses() throws Exception {
         eval("(23(.asTriples))","((triple 23 type <class Bignum (Builtin) ()>))");
-        eval("(\"X\"(.asTriples))","((triple \"X\" type <class String (Builtin) ()>))");
+        eval("('X'(.asTriples))","((triple 'X' type <class String (Builtin) ()>))");
         eval("(^(a =e)(.asTriples))","((triple (a = e) type <class PairEqual (Builtin) ()>))");
         eval("(^sym(.asTriples))","((triple sym type <class SimpleSymbol (Symbol) (|http://www.genyris.org/lang/syntax#Keyword|)>))");
 
         }
     public void testInterpTripleStoreClasses() throws Exception {
         eval("((23(.asTripleStore))(.asTriples))","((triple 23 type <class Bignum (Builtin) ()>))");
-        eval("((\"X\"(.asTripleStore))(.asTriples))","((triple \"X\" type <class String (Builtin) ()>))");
+        eval("(('X'(.asTripleStore))(.asTriples))","((triple 'X' type <class String (Builtin) ()>))");
     }
 }

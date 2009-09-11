@@ -141,7 +141,7 @@ public class EvalApplyTest extends TestCase {
         excerciseEval("(catch x (+ 9 1))", "10");
         excerciseEval("(catch x (++ 9 1))", "nil");
         excerciseEval("(catch x qweqweqwe)", "nil");
-        excerciseEval("(or (catch x qweqweqwe) x)", "\"unbound variable: qweqweqwe\"");
+        excerciseEval("(or (catch x qweqweqwe) x)", "'unbound variable: qweqweqwe'");
         }
 
     public void testRaise() throws Exception {

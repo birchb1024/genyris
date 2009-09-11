@@ -46,10 +46,10 @@ public class IndentedFormatterTest extends TestCase {
         excerciseFormatter("foo", "~ foo", 2);
     }
     public void testAtom5() throws Exception {
-        excerciseFormatter("\"string\"", "~ \"string\"", 2);
+        excerciseFormatter("'string'", "~ 'string'", 2);
     }
     public void test1() throws Exception {
-        excerciseFormatter("(1 2.3 \"str\" (symbol))", "1 2.3 \"str\"\n   symbol", 2);
+        excerciseFormatter("(1 2.3 'str' (symbol))", "1 2.3 'str'\n   symbol", 2);
     }
     public void test11() throws Exception {
         excerciseFormatter("(1 (symbol) (sym2) (sym3))", "1 (symbol) (sym2)\n   sym3", 3);
@@ -61,7 +61,7 @@ public class IndentedFormatterTest extends TestCase {
         excerciseFormatter("(45 = 89)", "45 = 89", 3);
     }
     public void test4() throws Exception {
-        excerciseFormatter("(1 2.3 \"str\" (symbol))", "1 2.3 \"str\" (symbol)", 4);
+        excerciseFormatter("(1 2.3 'str' (symbol))", "1 2.3 'str' (symbol)", 4);
     }
     public void test5() throws Exception {
         excerciseFormatter("(1 2 3 4 (23 45))", "1 2 3 4\n   23 45", 2);

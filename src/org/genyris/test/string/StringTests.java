@@ -28,36 +28,35 @@ public class StringTests extends TestCase {
     }
 
     public void testStringSplit() throws GenyrisException {
-        checkEval("(\"\"(.split))", "(\"\")");
-        checkEval("(\"1 2 3 4 5\"(.split))", "(\"1\" \"2\" \"3\" \"4\" \"5\")");
-        checkEval("(\"1,2,3,4,5\"(.split \",\"))", "(\"1\" \"2\" \"3\" \"4\" \"5\")");
-        checkEval("(\"1    2 \t3  4 5\"(.split \"[ \\t]+\"))", "(\"1\" \"2\" \"3\" \"4\" \"5\")");
+        checkEval("(''(.split))", "('')");
+        checkEval("('1 2 3 4 5'(.split))", "('1' '2' '3' '4' '5')");
+        checkEval("('1,2,3,4,5'(.split ','))", "('1' '2' '3' '4' '5')");
+        checkEval("('1    2 \t3  4 5'(.split '[ \\t]+'))", "('1' '2' '3' '4' '5')");
 
-        checkEvalBad("((String.split) \"A\" \"B\")");
+        checkEvalBad("((String.split) 'A' 'B')");
 
-        checkEval("(\"http://www.genyris.org/path/index.html\"(.split \"http://\"))", "(\"\" \"www.genyris.org/path/index.html\")");
+        checkEval("('http://www.genyris.org/path/index.html'(.split 'http://'))", "('' 'www.genyris.org/path/index.html')");
 
     }
 
     public void testStringConcat() throws GenyrisException {
-        checkEval("(\"\"(.+))", "\"\"");
-        checkEval("(\"A\"(.+))", "\"A\"");
-        checkEval("(\"A\"(.+ \"B\"))", "\"AB\"");
-        checkEval("(\"A\"(.+ \"B\" \"C\"))", "\"ABC\"");
+        checkEval("(''(.+))", "''");
+        checkEval("('A'(.+))", "'A'");
+        checkEval("('A'(.+ 'B'))", "'AB'");
+        checkEval("('A'(.+ 'B' 'C'))", "'ABC'");
     }
     public void testStringMatch() throws GenyrisException {
-        checkEval("(\"abc\"(.match \"a.c\"))", "true");
-        checkEval("(\"abc\"(.match \"a.d\"))", "nil");
-        checkEval("(\"\"(.match \"\"))", "true");
-        checkEvalBad("(3(.match \"\"))");
-        checkEvalBad("(\"A\"(.match))");
-        checkEvalBad("(\"A\"(.match 34))");
-        checkEval("(\"http://www.genyris.org/path/index.html\"(.match \"http://[^/]+/.*\"))", "true");
+        checkEval("('abc'(.match 'a.c'))", "true");
+        checkEval("('abc'(.match 'a.d'))", "nil");
+        checkEval("(''(.match ''))", "true");
+        checkEvalBad("(3(.match ''))");
+        checkEvalBad("('A'(.match))");
+        checkEvalBad("('A'(.match 34))");
+        checkEval("('http://www.genyris.org/path/index.html'(.match 'http://[^/]+/.*'))", "true");
     }
     public void testStringToLowerCase() throws GenyrisException {
-    	checkEval("(\"\"(.toLowerCase))", "\"\"");
-        checkEval("(\"\"(.toLowerCase))", "\"\"");
-        checkEval("(\"ABCDEFGH\"(.toLowerCase))", "\"abcdefgh\"");
+    	checkEval("(''(.toLowerCase))", "''");
+        checkEval("('ABCDEFGH'(.toLowerCase))", "'abcdefgh'");
     }
 
 }

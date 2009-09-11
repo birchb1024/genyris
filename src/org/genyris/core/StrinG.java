@@ -13,11 +13,21 @@ import org.genyris.core.Bignum;
 public class StrinG extends Atom {
 
 	private String _value;
+	private char _quoteWith;
 
 	public StrinG(String str) {
 		_value = str;
+		_quoteWith = '\'';
 	}
 
+	public StrinG(String str, char quote) {
+		_value = str;
+		_quoteWith = quote;
+	}
+
+	public char getQuoteChar() {
+		return _quoteWith;
+	}
 	public String toString() {
 		return _value;
 	}

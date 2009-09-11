@@ -61,6 +61,8 @@ public class IndentStream implements InStreamEOF {
 
 	private int _maxTab;
 
+	private char _stringType;
+
 	public IndentStream(InStream in, boolean interactiveMode) {
 		_instream = in;
 		_tabs = new int[MAX_TAB_DEPTH];
@@ -232,8 +234,8 @@ public class IndentStream implements InStreamEOF {
 						bufferit('(');
 						removeTabsAfter(_lineLevel);
 					}
-					if (ch == '"') {
-						_instream.unGet('"');
+					if (ch == '"' || ch == '\'') {
+						_instream.unGet(ch);
 					} else {
 						bufferit(ch);
 					}
@@ -274,15 +276,14 @@ public class IndentStream implements InStreamEOF {
 					break;
 				}
 				input();
-
+				if(ch == _stringType) {
+					_parseState = IN_STATEMENT;
+					return (ch);					
+				}
 				switch (ch) {
 
 				case '\\':
 					_parseState = IN_STRING_ESC;
-					return (ch);
-
-				case '"':
-					_parseState = IN_STATEMENT;
 					return (ch);
 
 				default:
@@ -297,8 +298,10 @@ public class IndentStream implements InStreamEOF {
 				input();
 				switch (ch) {
 
+				case '\'':
 				case '"':
 					_parseState = IN_STRING;
+					_stringType = ch;
 					return (ch);
 
 				case '|':

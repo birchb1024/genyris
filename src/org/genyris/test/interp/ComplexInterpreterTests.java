@@ -127,8 +127,8 @@ public class ComplexInterpreterTests extends TestCase {
     public void testDynamicVariablesWithDef2() throws Exception {
         excerciseEval("(defvar ^d (dict))", "(dict)");
         excerciseEval("(d (defvar ^.x 11111))", "11111");
-        excerciseEval("(def define-some-global-y (x) (defvar ^.y \"global .y\") (cons .x .y))", "<EagerProc: <define-some-global-y>>");
-        excerciseEval("(d (define-some-global-y 33))", "(11111 = \"global .y\")");
+        excerciseEval("(def define-some-global-y (x) (defvar ^.y 'global .y') (cons .x .y))", "<EagerProc: <define-some-global-y>>");
+        excerciseEval("(d (define-some-global-y 33))", "(11111 = 'global .y')");
     }
     public void testMagicEnv() throws Exception {
         excerciseEval("(23 .self)", "23");
@@ -140,6 +140,6 @@ public class ComplexInterpreterTests extends TestCase {
         excerciseBadEval("(23 (setq .right 3)");
     }
 	public void testParseAString() throws Exception {
-		excerciseEval("((ParenParser(.new \"(+ 1 2 3)\"))(.read))", "(+ 1 2 3)");
+		excerciseEval("((ParenParser(.new '(+ 1 2 3)'))(.read))", "(+ 1 2 3)");
 	}
 }

@@ -56,10 +56,10 @@ def loadDataFromCSV(url)
 
 def convertToRegex (str)
     cond
-       (str(.match "\".*\""))
+       (str(.match '".*"'))
             # exact
             str =
-                (cadr (str(.split "\"")))
+                (cadr (str(.split '"')))
                     .toLowerCase
        else     
             str = (str(.toLowerCase))
