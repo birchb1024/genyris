@@ -1,5 +1,12 @@
 @prefix sys "http://www.genyris.org/lang/system#"
-
-while true
-   print sys:argv
+defmacro -- (varname)
+   template
+       setq ,varname (- ,varname 1)
+   
+define count 5
+while (> count 0) 
+   print
+       '%s %s'
+           .format sys:argv count
    sleep 500
+   -- count
