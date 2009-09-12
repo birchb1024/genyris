@@ -46,7 +46,13 @@ def abs (x)
     (< x 0) (- x)
     else x
 
+defmacro -- (varname)
+   template
+       setq ,varname (- ,varname 1)
 
+defmacro ++ (varname)
+   template
+       setq ,varname (+ ,varname 1)
 #
 # Load source functions and classes
 #
