@@ -1,12 +1,9 @@
 @prefix sys "http://www.genyris.org/lang/system#"
-defmacro -- (varname)
-   template
-       setq ,varname (- ,varname 1)
    
 define count 5
 while (> count 0) 
    print
-       '%s %s'
-           .format sys:argv count
-   sleep 500
+       'spawn-example: %s %s'
+           .format count sys:argv 
+   sleep 1000
    -- count
