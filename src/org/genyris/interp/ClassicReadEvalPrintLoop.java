@@ -90,7 +90,7 @@ public class ClassicReadEvalPrintLoop {
 			Exp expression = parser.read();
 			Exp result = interp.evalInGlobalEnvironment(expression);
 			result.acceptVisitor(formatter);
-			output.write(" ;");
+			output.write(" " + Constants.COMMENTCHAR);
 			formatter.printClassNames(result, interp);
 			output.write("\n");
 			output.flush();
@@ -152,14 +152,14 @@ public class ClassicReadEvalPrintLoop {
 
 					result.acceptVisitor(formatter);
 
-					output.write(" ;");
+					output.write(" " + Constants.COMMENTCHAR);
 					formatter.printClassNames(result, _interpreter);
 					output.flush();
 				} catch (LexException e) {
 					formatter.print("*** Error: " + e.getMessage() + "\n");
 					parser.resetAfterError();
 				} catch (GenyrisException e) {
-					formatter.print("*** Error: " + e.getData() + " ; ");
+					formatter.print("*** Error: " + e.getData() +" " + Constants.COMMENTCHAR);
 					formatter.printClassNames(e.getData(), _interpreter);
 					output.flush();
 				} catch (Exception e) {
