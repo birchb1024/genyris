@@ -15,7 +15,11 @@
     <property name="ear.project.root" value="web/ear" />
     <property name="installed.apps.war" value="C:\ibm\WebSphere\profiles\wp_profile\installedApps\w0019\Genyris.ear\genyris.war" />
 
-    <target name="clean" depends="only-clean" />
+    <tstamp>
+        <format property="TODAY" pattern="dd/MM/yyyy HH:mm:ss" />
+    </tstamp>
+	
+	<target name="clean" depends="only-clean" />
 
     <target name="compile" depends="only-clean, only-hg-version, only-init, only-compile"
         description="Compile the Java"/>
@@ -215,6 +219,8 @@ defvar ^v:tipdate "${hg.tip.date}"
 	            <attribute name="Built-By" value="Peter William Birch"/>
 	            <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
                 <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar"/>
+                <attribute name="Implementation-Version" value="${hg.tip}"/>
+                <attribute name="Built-Date" value="${TODAY}"/>
             </manifest>
         </jar>
     </target>
