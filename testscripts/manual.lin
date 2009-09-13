@@ -1,3 +1,20 @@
+assert
+    equal? (+ 42 37) 79
+self-test-runner
+
+def threat (i j a b)
+   or
+      equal? i a
+      equal? j b
+      equal? (- i j) (- a b)
+      equal? (+ i j) (+ a b)
+      
+include "examples/queens.lin"
+queens 8
+
+# mark the number 24 as a member of class 'C'
+tag C 24     # => ~ 24 ; Bignum C
+
 define pitt
   dict 
     .name  = "Willam Pitt"

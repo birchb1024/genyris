@@ -159,8 +159,9 @@ public class ClassicReadEvalPrintLoop {
 					formatter.print("*** Error: " + e.getMessage() + "\n");
 					parser.resetAfterError();
 				} catch (GenyrisException e) {
-					formatter.print("*** Error: " + e.getData() +" " + Constants.COMMENTCHAR);
+					formatter.print("*** Error");
 					formatter.printClassNames(e.getData(), _interpreter);
+                    formatter.print(" : "+ e.getData());
 					output.flush();
 				} catch (Exception e) {
 					e.printStackTrace();

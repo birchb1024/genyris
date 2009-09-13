@@ -6,7 +6,7 @@
 #
 # As an array lookup index
 #
-def squareBracket(index):
+def squareBracket(index)
     nth index .self
 
 var array ^(1 2 3 4 5)
