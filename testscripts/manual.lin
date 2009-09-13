@@ -1,6 +1,5 @@
 assert
     equal? (+ 42 37) 79
-self-test-runner
 
 def threat (i j a b)
    or
@@ -12,8 +11,99 @@ def threat (i j a b)
 include "examples/queens.lin"
 queens 8
 
-# mark the number 24 as a member of class 'C'
-tag C 24     # => ~ 24 ; Bignum C
+# This whole line is a comment 
+- 4 3    # this comment goes to the end
+
+list ^Wednesday-12 ^_age ^*global* ^+$ ^<variable!name>
+
+list -3 23.78 -100.0089  34.45e7
+
+'"After all," said the young man, "golf is only a game."'
+
+assertEqual
+        ^(A = (B = (C = (D = nil))))
+        ^(A B C D)
+
+assertEqual
+   list 1 2 4 5 = 
+      6 7 8
+   list 1 2 4 5 6 7 8
+   
+assertEqual
+    ^(1 2 (3) 22 (99))
+    ^
+       1 2
+          3
+          ~ 22
+          99
+assertEqual
+    ^(1 2 (3) (22) (99))
+    ^
+       1 2
+          3
+          22
+          99
+
+assertEqual 12 (+ 6 6)
+
+assertEqual 12 (+ (* 2 3) (+ 2 4))
+
+assertEqual 12 (+ 2 2 2 2 2 2)
+
+assertEqual
+    list (* 34 8) 'pears' (/ 34 5) 'kilos'
+    ^
+       272 'pears' 6.8 'kilos'
+
+
+def factorial (n) 
+   if (< n 2) 1 
+      * n 
+        factorial (- n 1)
+assertEqual (factorial 5) 120 
+
+assertEqual
+    (function (x) (* x x)) 3
+    9
+
+assertEqual
+    (lambdaq (x) (list x 'World')) (+ 'Hello')
+    ^
+      (+ 'Hello') 'World' 
+
+defmacro trace(&rest body)
+  print body
+  body
+  
+trace (+ 1 2)
+
+defmacro my-if (test success-result failure-result)
+   template
+      cond
+         ,test ,success-result
+         else ,failure-result
+         
+define test 3        # binding in the caller's environment
+assertEqual
+    my-if (equal? test 3) 1 2  
+    1  
+assertEqual
+   12 (+ 33 44) (- 4 3)
+   1
+assertEqual
+    12 (+ .self .self) 
+    24
+assertEqual
+    999
+    12
+      define foo 987
+      + foo .self
+
+12
+  print .self .classes
+'What am I?'.classes
+^a-symbol.classes
+^(3).classes
 
 define pitt
   dict 
@@ -28,10 +118,10 @@ pitt
    .name = "William Pitt The Younger"
 pitt 
    define .father "William Pitt the Elder"
-assert
-    equal? 
-        pitt.vars
-        ^(father title name date-of-birth vars)
+
+#assertEqual
+#        pitt.vars
+#        ^(title father date-of-birth name vars)
 
 define jeb
    dict
@@ -59,9 +149,9 @@ define file
     .version = "1.2"
 
 file
-   def .copy(from to) ...
-   def .delete(filename) ...
-   def .zip(file) ...
+   def .copy(from to) etc
+   def .delete(filename) etc
+   def .zip(file) etc
 
 ## Use of the file module
 
@@ -71,9 +161,10 @@ def archive(filename)
     (file.delete) filename
       
 @prefix file "http://my/files/"
-def file:copy(from to) ...
-def file:delete(filename) ...
-def file:zip(file) ...
+
+def file:copy(from to) etc
+def file:delete(filename) etc
+def file:zip(file) etc
 
 ## Use of the file module
 @prefix f "http://my/files/"

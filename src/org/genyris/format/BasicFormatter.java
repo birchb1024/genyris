@@ -76,8 +76,6 @@ public class BasicFormatter extends AbstractFormatter {
 
 	public void visitBignum(Bignum bignum) throws GenyrisException {
 		BigDecimal value = bignum.bigDecimalValue();
-		BigDecimal x = value.remainder(new BigDecimal(1));
-		int y = x.compareTo(new BigDecimal(0));
 		if(value.remainder(new BigDecimal(1)).compareTo(new BigDecimal(0)) > 0) {
 			String padded = value.toPlainString();	
 			write(trim(padded,'0'));

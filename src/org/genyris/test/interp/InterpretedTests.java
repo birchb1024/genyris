@@ -55,14 +55,17 @@ public class InterpretedTests extends TestCase {
     public void testCSV() throws GenyrisException {
         useSourceLoader("csv-tests.lin");
     }
-    public void testExamples() throws GenyrisException {
-        useSourceLoader("examples-as-tests.lin");
+    public void testManual() throws GenyrisException {
+        useSourceLoader("manual.lin");
     }
     public void testMiscellaneous() throws GenyrisException {
     	useSourceLoader("miscellaneous-tests.lin");
     }
     public void testImport() throws GenyrisException {
     	useSourceLoader("test-import.lin");
+    }
+    public void testExamples() throws GenyrisException {
+    	useSourceLoader("examples-as-tests.lin");
     }
 //    public void testWeb() throws GenyrisException {
 //        useSourceLoader("web-tests.lin");
