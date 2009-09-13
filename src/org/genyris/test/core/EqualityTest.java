@@ -14,6 +14,7 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Dictionary;
 import org.genyris.core.NilSymbol;
 import org.genyris.core.Pair;
+import org.genyris.core.PairEquals;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.core.SymbolTable;
@@ -37,6 +38,10 @@ public class EqualityTest extends TestCase {
     public void testCons() throws Exception {
         assertTrue(new Pair(new StrinG("hello"), new Bignum(12)).equals(new Pair(new StrinG("hello"), new Bignum(12))));
         assertFalse(new Pair(new StrinG("hello"), new StrinG("no way")).equals(new Pair(new StrinG("hello"), new Bignum(12))));
+    }
+    public void testPairEqual() throws Exception {
+        assertTrue(new Pair(new StrinG("hello"), new Bignum(12)).equals(new PairEquals(new StrinG("hello"), new Bignum(12))));
+        assertFalse(new Pair(new StrinG("hello"), new StrinG("no way")).equals(new PairEquals(new StrinG("hello"), new Bignum(12))));
     }
     public void testSymbol() throws Exception {
         SymbolTable sym = new SymbolTable();

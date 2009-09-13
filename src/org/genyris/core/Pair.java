@@ -32,7 +32,7 @@ public class Pair extends ExpWithEmbeddedClasses {
     }
 
     public boolean equals(Object compare) {
-        if (compare.getClass() != this.getClass())
+        if (!(compare instanceof Pair))
             return false;
         else
             return this._car.equals(((Pair)compare)._car)
