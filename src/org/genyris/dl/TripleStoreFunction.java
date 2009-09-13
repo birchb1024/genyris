@@ -101,7 +101,7 @@ public class TripleStoreFunction extends ApplicableFunction {
             if(arguments[2] == NIL) {
                 object = null;
             }
-            if(arguments.length == 4) {
+            if(arguments.length == 4 && arguments[3] != NIL) {
                 if(arguments[3] instanceof Closure) {
                     closure = (Closure) arguments[3];
                 }

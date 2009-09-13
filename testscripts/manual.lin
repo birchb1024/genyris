@@ -172,3 +172,14 @@ def archive(filename)
     f:copy filename "/tmp/foo"
     f:zip "/tmp/foo"
     f:delete filename
+
+@prefix sys "http://www.genyris.org/lang/system#"
+sys:path = (cons 'examples' sys:path)
+import file
+reload file
+
+Bignum
+   def .square() (* .self .self)
+assertEqual
+    4234389 (.square)
+    ~ 17930050203321

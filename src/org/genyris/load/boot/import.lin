@@ -6,49 +6,67 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 
 define sys:path ^(".")
+define sys:modules (triplestore)
 
 class Module
 
 defmacro import (moduleName)
    # macro ensures module binding is create in the scope of caller
    define themodule (import-aux moduleName)
-   template
-       define ,moduleName ,themodule
+   if themodule 
+       template
+           define ,moduleName ,themodule
+       '%s already defined'
+            .format moduleName
                
-
+def sys:module-defined? (moduleName)
+    define answer 
+        sys:modules(.select moduleName ^sys:hasModule nil)
+    answer(.asTriples)
+    
 def import-aux (moduleName)
-   def do-import(moduleName path)
+    define existing (sys:module-defined? moduleName)
+    cond
+        existing
+            (left existing)(.object)
+        else
+            define path (sys:search-path moduleName)
+            if path
+                 sys:mk-module moduleName path
+                 raise ("Unable to locate import "(.+ (asString moduleName)))
+
+def sys:search-path(moduleName)
+    define tmp sys:path
+    define result nil
+    while tmp
+        define file-path ((left tmp)(.+ "/" (asString moduleName) ".lin"))
         cond
-             (bound? moduleName)
-                nil
-             else
-                 sys:mk-module path
-   define tmp sys:path
-   define result nil
-   while tmp
-       define file-path ((left tmp)(.+ "/" (asString moduleName) ".lin"))
-       cond
-           ((File.exists) file-path)
-                 tmp = nil
-                 result = (do-import moduleName file-path)
-           else
-                 tmp = (right tmp)
-   if (null? result)
-        raise ("Unable to import "(.+ (asString moduleName)))
-        result
- 
-def sys:mk-module (path)                  
-     define themodule (dict (.filename = path))
+            ((File.exists) file-path)
+                  tmp = nil
+                  result = file-path
+            else
+                  tmp = (right tmp)
+    result
+
+def sys:mk-module (moduleName path)                  
+     define themodule (dict (.name = moduleName)(.filename = path))
      tag Module themodule
+     sys:modules 
+        .add (triple moduleName ^sys:hasModule themodule)
      themodule (sys:import path)
      themodule
-
-def reload (module)
-    sys:mk-module module (module.filename)   
     
-defmacro reload (module)
+defmacro reload (moduleName)
    # macro ensures module binding is create in the scope of caller
-   define themodule (sys:mk-module ((eval module).filename))
-   template
-       define ,module ,themodule
+   define notNew (sys:module-defined? moduleName)
+   cond 
+    (notNew)
+        define oldmodule ((left notNew)(.object))
+        sys:modules
+            .remove (left notNew)
+        define themodule (sys:mk-module moduleName(oldmodule.filename))
+        template
+            define ,moduleName ,themodule
+    else
+         raise ('%s was not loaded yet'(.format moduleName))
        

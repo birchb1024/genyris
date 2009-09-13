@@ -3616,15 +3616,7 @@ jeb
 \begin_layout Standard
 A dict can be used a mechanism for organisation.
  Consider the following fictional example - a set of functions organised
- in a 
-\begin_inset Quotes eld
-\end_inset
-
-module
-\begin_inset Quotes erd
-\end_inset
-
- called 
+ in a dictionary called 
 \emph on
 file
 \emph default
@@ -3632,7 +3624,7 @@ file
 \end_layout
 
 \begin_layout LyX-Code
-## File Handling Module
+## File Handling code
 \end_layout
 
 \begin_layout LyX-Code
@@ -3658,19 +3650,19 @@ file
 \begin_layout LyX-Code
    
 \series bold
-def .copy(from to) ...
+def .copy(from to) etc
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-   def .delete(filename) ...
+   def .delete(filename) etc
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-   def .zip(file) ...
+   def .zip(file) etc
 \end_layout
 
 \begin_layout LyX-Code
@@ -3714,9 +3706,170 @@ Here we define three functions bound to a single dict object.
 file
 \emph default
  object.
- While it is handy to be able to add behaviour to objects, it does not scale
- when there are many objects which require the same behaviour.
- For this we need namespaces or classes.
+ 
+\end_layout
+
+\begin_layout Section
+Modules
+\end_layout
+
+\begin_layout Standard
+The previous example shows how names can be grouped within a Dictionary
+ object.
+ This idea is made easier in the langugae through modules.
+ A module is simply a dictionary into which the contents of a source file
+ have been bound.
+ Continuing with our example, first we provide a file of functions and definitio
+ns called 'file.lin
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+#
+\end_layout
+
+\begin_layout LyX-Code
+# File Handling Module
+\end_layout
+
+\begin_layout LyX-Code
+#
+\end_layout
+
+\begin_layout LyX-Code
+define .doc 'File Handling Functions'
+\end_layout
+
+\begin_layout LyX-Code
+define .version '1.2'
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+def .copy(from to) 
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   etc
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+def .delete(filename)
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   etc
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+def .zip(file)
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+   etc
+\end_layout
+
+\begin_layout LyX-Code
+def helperFunction(args)
+\end_layout
+
+\begin_layout LyX-Code
+   etc
+\end_layout
+
+\begin_layout Standard
+Notice we don't need to declare a dictionary since this is provided by the
+ user of the module.
+ To use the module we first need to tell the interpreter where to find the
+ file containing the module's code.
+ This is done by adding to the 
+\emph on
+sys:path
+\emph default
+ global variable which is a list of directories to search:
+\end_layout
+
+\begin_layout LyX-Code
+sys:path = (cons 'examples' sys:path
+\end_layout
+
+\begin_layout Standard
+Now we read the source code:
+\end_layout
+
+\begin_layout LyX-Code
+import file
+\end_layout
+
+\begin_layout Standard
+This creates a variable 
+\emph on
+file
+\emph default
+ in the environment of the caller (not necessarily the global environment).
+ Using the module's dictionary we can now access the functions in the module:
+\end_layout
+
+\begin_layout LyX-Code
+## Use of the file module
+\end_layout
+
+\begin_layout LyX-Code
+import file
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+(file.copy) filename '/tmp/foo'
+\end_layout
+
+\begin_layout Standard
+Note that 
+\emph on
+helperFunction
+\emph default
+ is defined with a normal lexical variable.
+ It cannot be reached from outside the module since only dynamic symbols
+ can be de-reference via adictionary.
+ Use this to create private variables and functions inside modules.
+\end_layout
+
+\begin_layout Standard
+If we change the source code of 
+\emph on
+file.lin
+\emph default
+and need to load the new code, we must use the 
+\emph on
+reload
+\emph default
+ macro, since import checks to see if the module already is in memory, and
+ uses the already loaded module.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> reload file
+\end_layout
+
+\begin_layout LyX-Code
+etc...
 \end_layout
 
 \begin_layout Section
@@ -3724,8 +3877,8 @@ Namespaces
 \end_layout
 
 \begin_layout Standard
-A way to prevent name clashes between modules is to use symbol prefixes
- to define 'namespaces' for symbols.
+A way to prevent name clashes is to use symbol prefixes to define 'namespaces'
+ for symbols.
  A namespace can be defined with a Parser Directive 
 \begin_inset Quotes eld
 \end_inset
@@ -3778,7 +3931,7 @@ http://my.org/2008/spells/accio
 \end_layout
 
 \begin_layout LyX-Code
-~ http://my.org/2008/spells/accio # Symbol
+~ http://my.org/2008/spells/accio # URISymbol
 \end_layout
 
 \begin_layout Standard
@@ -3864,24 +4017,24 @@ Object-Oriented
  The standard classes all have the following variables:
 \end_layout
 
-\begin_layout Itemize
-.classes 
+\begin_layout Description
+.classes The list of classes to which the object belongs.
 \end_layout
 
-\begin_layout Itemize
-.vars 
+\begin_layout Description
+.vars List of variable names.
 \end_layout
 
-\begin_layout Itemize
-.classname 
+\begin_layout Description
+.classname The String name of the class.
 \end_layout
 
-\begin_layout Itemize
-.superclasses
+\begin_layout Description
+.superclasses The list of classes from which the class inherits.
 \end_layout
 
-\begin_layout Itemize
-.subclasses
+\begin_layout Description
+.subclasses The list of classes which inherit from this class.
 \end_layout
 
 \begin_layout Standard
@@ -4081,7 +4234,8 @@ We would get an error.
 \emph default
  function but then applying it in the context of the caller.
  This is most likely not what was intended.
- In general, methods should always be called in the first way as in:
+ In general, methods should almost always be called in the first way as
+ in:
 \end_layout
 
 \begin_layout LyX-Code
@@ -5793,7 +5947,7 @@ The server's thread can be stoped with the kill function:
 \end_layout
 
 \begin_layout LyX-Code
-web:kill <id>
+kill <id>
 \end_layout
 
 \begin_layout Standard
@@ -6136,8 +6290,9 @@ The
 \emph on
 include
 \emph default
- function reads and executes files of scripts, the <path to filename> parameter
- refers to a normal operating system file path.
+ function reads and executes files of scripts in the global environment.
+ The <path to filename> parameter refers to a normal operating system file
+ path.
  Examples:
 \end_layout
 
@@ -6146,12 +6301,124 @@ include 'examples/people.lin'   # relative path
 \end_layout
 
 \begin_layout LyX-Code
-include 'c:/workspace/genyris/examples/queens.lin'   # absolute path - Windows
+include 'c:/workspace/genyris/examples/queens.lin'  # absolute path - Windows
 \end_layout
 
 \begin_layout Standard
 The return value is a string with the actual file path loaded.
  If the file cannot be found an exception is raised.
+\end_layout
+
+\begin_layout Subsection
+sys:import <filename name>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+sys:import
+\emph default
+ function is similar to the include function in that it reads and executes
+ a file of Genyris source code.
+ However the code is executed
+\emph on
+ in the environment of the caller
+\emph default
+.
+ Therefore in a lexical environment, new bindings created by 
+\emph on
+define
+\emph default
+ and 
+\emph on
+def 
+\emph default
+et.
+ al.
+ will be created locally.
+ In a deynamic environment such as in a Dictionary, the dynamic bindings
+ in the top level of the file will affect the caller's object.
+ This function is used by the 
+\emph on
+import
+\emph default
+ facility to define modules.
+ 
+\end_layout
+
+\begin_layout Subsection
+import <module name>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+import
+\emph default
+ macro uses 
+\emph on
+sys:import
+\emph default
+ to create dictionaries in which the file's bindings are held.
+ To allow users to have multipe calls to 
+\emph on
+import
+\emph default
+, yet all refer to the same object, 
+\emph on
+import
+\emph default
+ stores all module dictionaries in the 
+\emph on
+sys:modules
+\emph default
+ triplestore.
+ This triplestore contains a binding between the module name and the module
+ object.
+ When the import is called it checks to see if the module has already been
+ loaded, if so it binds the module to a variable of the same name in the
+ caller's environment.
+ Hence there may be many bindings of the module name to the same physical
+ object.
+\end_layout
+
+\begin_layout Standard
+To simplify loading, the 
+\emph on
+import
+\emph default
+ macro searches for a file with the name of the module plus the 
+\emph on
+'.lin'
+\emph default
+ suffix.
+ It uses the list of directories in the 
+\emph on
+sys:path
+\emph default
+ variable for the search path and uses the first matching file it finds.
+\end_layout
+
+\begin_layout Subsection
+reload <module name>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+reload
+\emph default
+ macro uses the existing module's filename to reload the source code of
+ the module.
+ If there are multiple bindings to the module, only the caller will have
+ a binding to the new module.
+ The binding in the 
+\emph on
+sys:modules
+\emph default
+ triplestore is replace with the new object.
+ Other references to the module will still refer to the old module.
+ 
 \end_layout
 
 \begin_layout Section
