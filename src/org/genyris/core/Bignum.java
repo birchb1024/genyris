@@ -50,7 +50,7 @@ public class Bignum extends Atom {
 		if (compare.getClass() != this.getClass())
 			return false;
 		else
-			return _value.equals(((Bignum)compare)._value);
+			return _value.compareTo(((Bignum)compare)._value) == 0;
 	}
     public Bignum divide(Bignum other) {
     	return new Bignum(_value.divide(other._value, 150, BigDecimal.ROUND_HALF_UP));
