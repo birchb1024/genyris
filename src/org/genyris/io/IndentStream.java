@@ -266,6 +266,10 @@ public class IndentStream implements InStreamEOF {
 					_parseState = IN_STATEMENT;
 					return (ch);
 
+				case '\n':
+					startLine();
+					break;
+					
 				default:
 					return (ch);
 				}
@@ -297,7 +301,6 @@ public class IndentStream implements InStreamEOF {
 				}
 				input();
 				switch (ch) {
-
 				case '\'':
 				case '"':
 					_parseState = IN_STRING;
@@ -337,6 +340,9 @@ public class IndentStream implements InStreamEOF {
 					_parseState = IN_STATEMENT;
 				} else {
 					int result = bufferitReadNext();
+					if (bufferitEmpty() && result == Constants.SYMBOLESCAPE) {
+						_parseState = IN_SYMBOL;
+					}
 					return result;
 				}
 				break;

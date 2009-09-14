@@ -122,6 +122,10 @@ public class IndentStreamTest extends TestCase {
 		excerciseIndent("0 1 |23#45|", "(0 1 |23#45|)");
 	}
 
+	public void testIndentStream15b() throws LexException {
+		excerciseIndent("|http://foo/23#45|", "(|http://foo/23#45|)");
+	}
+
 	public void testIndentStream16() throws LexException {
 		excerciseIndent("0 1 2 3 4", "(0 1 2 3 4)");
 	}
