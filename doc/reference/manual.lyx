@@ -3793,8 +3793,11 @@ def helperFunction(args)
 \end_layout
 
 \begin_layout Standard
-Notice we don't need to declare a dictionary since this is provided by the
- user of the module.
+Notice we don't need to declare a dictionary since this is provided by 
+\emph on
+import
+\emph default
+.
  To use the module we first need to tell the interpreter where to find the
  file containing the module's code.
  This is done by adding to the 
@@ -3805,7 +3808,7 @@ sys:path
 \end_layout
 
 \begin_layout LyX-Code
-sys:path = (cons 'examples' sys:path
+sys:path = (cons 'examples' sys:path)
 \end_layout
 
 \begin_layout Standard
