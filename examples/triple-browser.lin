@@ -2,8 +2,13 @@
 @prefix web "http://www.genyris.org/lang/web#"
 @prefix sys "http://www.genyris.org/lang/system#"
 
-# web:serve 80 "examples/triple-browser.lin" 
-
+#
+# Start with:
+# web:serve 80 'examples/triple-browser.lin' 'http://<server>:<port>/<path to triples file>.csv'
+#
+# Windows example:
+#
+#
 def myparse (string)
    # parse a string returning the expression
    (ParenParser(.new string))
@@ -12,16 +17,16 @@ def myparse (string)
       .read
 
 def tryToParseSymbol (str)
-    define result  
+    define result
        catch $errors (myparse (str))
-    if $errors 
+    if $errors
         do
             print $errors
             intern str
         result
 
 def tryToParse (str)
-    define result  
+    define result
        catch $errors (myparse (str))
     if (equal? (asString result) str)
         result
@@ -30,28 +35,27 @@ def tryToParse (str)
 define store nil
 
 def loadDataFromCSV(url)
-    var in (web:get url)       
+    var in (web:get url)
     store = (triplestore)
     define $line ""
     while (not (equal? EOF ($line = (in(.getline)))))
         define aslist ($line(.split ","))
-        cond 
+        cond
             (equal? (length aslist) 1)
                 u:format "%s - %s %a%n" (length aslist) $line aslist
             else
                 if (equal? (length aslist) 2)
                     define object ""
-                    define object (tryToParseSymbol (nth 2 aslist))
+                    define object (nth 2 aslist)
                 define subject (tryToParseSymbol (nth 0 aslist))
                 define predicate (tryToParseSymbol (nth 1 aslist))
-                catch $error 
+                catch $error
                    define tr (triple subject predicate object)
                 cond
                    $error
                       u:format "triple error: %s %s %s %s%n" $error subject predicate object
                 store
                    .add tr
-            
     in (.close)
 
 def convertToRegex (str)
@@ -61,13 +65,13 @@ def convertToRegex (str)
             str =
                 (cadr (str(.split '"')))
                     .toLowerCase
-       else     
+       else
             str = (str(.toLowerCase))
             str = (str (.+ ".*"))
             str = (".*" (.+ str))
     print str
     str
-    
+
 def searchStore(str)
     str = (convertToRegex str)
     def matchFunc(s o p)
@@ -91,11 +95,11 @@ def renderTriple (t)
             define o (asString(t(.object)))
    template
       tr()
-         td() 
+         td()
             a((href = ,(searchURL s))) ,s
-         td() 
+         td()
             a((href = ,(searchURL p))) ,p
-         td() 
+         td()
             a((href = ,(searchURL o))) ,o
 
 def renderTripleList (ts)
@@ -105,13 +109,13 @@ def renderTripleList (ts)
         result = (cons (renderTriple (car ts)) result)
         ts = (right ts)
     template
-            table() 
+            table()
                 tr()
-                    td() 
+                    td()
                         strong() "Subject"
-                    td() 
+                    td()
                         strong() "Property"
-                    td() 
+                    td()
                         strong() "Object"
                     ,result
 define DEFAULT "\"Environment\""
@@ -127,7 +131,7 @@ df httpd-serve (request)
    query = (params (.lookup "query"))
    cond
        (or (null? query) (equal? query ""))
-           query = DEFAULT      
+           query = DEFAULT
    cond
        (equal? operation "Reload")
             loadDataFromCSV CSVURL
@@ -135,7 +139,7 @@ df httpd-serve (request)
                template
                    "Reloaded from "
                       a((href = ,CSVURL))
-                         ,CSVURL                      
+                         ,CSVURL
        else
             searchResults = ((searchStore query)(.asTriples))
             renderedResults = (renderTripleList searchResults)
@@ -149,12 +153,15 @@ df httpd-serve (request)
                 h2() "CMP CMDB Search"
                 form()
                    input((name ="query") (size ="100") (value = ,query)) ""
-                   verbatim() "&nbsp#&nbsp#&nbsp#"
+                   verbatim() '&nbsp;&nbsp;&nbsp;'
                    input((type ="submit") (name ="op") (value ="Search"))
                    input((type ="submit") (name ="op") (value ="Reload"))
                 div()
                     ,renderedResults
    result
-
-define CSVURL (nth 1 sys:argv)
-loadDataFromCSV CSVURL 
+catch errors
+  define CSVURL (nth 1 sys:argv)
+if errors
+   u:format 'Usage: %s missing URL to CSV file' sys:argv
+   nil
+loadDataFromCSV CSVURL

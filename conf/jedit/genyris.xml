@@ -1,23 +1,29 @@
 <?xml version="1.0"?>
 <!DOCTYPE MODE SYSTEM "xmode.dtd"><MODE>
     <PROPS>
-        <PROPERTY NAME="commentStart" VALUE="#|"/>
-        <PROPERTY NAME="commentEnd" VALUE="|#"/>
-        <PROPERTY NAME="lineComment" VALUE=";"/>
-        <PROPERTY NAME="noWordSep" VALUE="_-$+?"/>
+        <PROPERTY NAME="lineComment" VALUE="#"/>
+        <PROPERTY NAME="noWordSep" VALUE="_-$+?,@!%*|\;:/"/>
     </PROPS>
     <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
-	<WHITESPACE> </WHITESPACE>
+  <WHITESPACE> </WHITESPACE>
         <SPAN TYPE="COMMENT1">
-            <BEGIN>#|</BEGIN>
-            <END>|#</END>
+            <BEGIN>[</BEGIN>
+            <END>]</END>
         </SPAN>
-        <SEQ TYPE="NULL">'(</SEQ>
-	<SEQ TYPE="NULL">(</SEQ>
-	<SEQ TYPE="NULL">)</SEQ>
-        <MARK_FOLLOWING TYPE="LITERAL2">'</MARK_FOLLOWING>
-        <MARK_FOLLOWING TYPE="LITERAL2">!</MARK_FOLLOWING>
-        <EOL_SPAN TYPE="COMMENT1">;</EOL_SPAN>
+        <SPAN TYPE="COMMENT1">
+            <BEGIN>[</BEGIN>
+            <END>]</END>
+        </SPAN>
+        <SEQ TYPE="NULL">^(</SEQ>
+        <SEQ TYPE="NULL">(</SEQ>
+        <SEQ TYPE="NULL">)</SEQ>
+        <MARK_FOLLOWING TYPE="LITERAL2">^</MARK_FOLLOWING>
+        <MARK_FOLLOWING TYPE="LITERAL2">.</MARK_FOLLOWING>
+        <EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+        <SPAN TYPE="LITERAL1">
+            <BEGIN>'</BEGIN>
+            <END>'</END>
+        </SPAN>
         <SPAN TYPE="LITERAL1">
             <BEGIN>"</BEGIN>
             <END>"</END>
@@ -38,18 +44,20 @@
             <KEYWORD1>else</KEYWORD1>
             <KEYWORD1>class</KEYWORD1>
             <KEYWORD1>if</KEYWORD1>
+            <KEYWORD1>unless</KEYWORD1>
+            <KEYWORD1>while</KEYWORD1>
             <KEYWORD1>tag</KEYWORD1>
-            <KEYWORD1>lambda</KEYWORD1>
+            <KEYWORD1>function</KEYWORD1>
             <KEYWORD1>lambdaq</KEYWORD1>
             <KEYWORD1>quote</KEYWORD1>
             <KEYWORD1>template</KEYWORD1>
             <KEYWORD1>list</KEYWORD1>
             <KEYWORD1>print</KEYWORD1>
+            <KEYWORD1>display</KEYWORD1>
             <KEYWORD1>the</KEYWORD1>
             <KEYWORD1>raise</KEYWORD1>
-            <KEYWORD1>self</KEYWORD1>
             <KEYWORD1>set</KEYWORD1>
-            <KEYWORD1>set!</KEYWORD1>
+            <KEYWORD1>set</KEYWORD1>
             <KEYWORD1>setq</KEYWORD1>
             <KEYWORD1>car</KEYWORD1>
             <KEYWORD1>cdr</KEYWORD1>
@@ -58,8 +66,11 @@
             <KEYWORD1>eval</KEYWORD1>
             <KEYWORD1>var</KEYWORD1>
             <KEYWORD1>apply</KEYWORD1>
-            <KEYWORD1>tripleset</KEYWORD1>
+            <KEYWORD1>triplestore</KEYWORD1>
             <KEYWORD1>triple</KEYWORD1>
+            <KEYWORD1>catch</KEYWORD1>
+            <KEYWORD1>format</KEYWORD1>
+            <KEYWORD1>@prefix</KEYWORD1>
 
             <KEYWORD2>Bignum</KEYWORD2>
             <KEYWORD2>Pair</KEYWORD2>
@@ -80,11 +91,12 @@
             <KEYWORD3>null?</KEYWORD3>
             <KEYWORD3>Alist</KEYWORD3>
 
-            <KEYWORD3>!vars</KEYWORD3>
-            <KEYWORD3>!classes</KEYWORD3>
-            <KEYWORD3>!superclasses</KEYWORD3>
-            <KEYWORD3>!subclasses</KEYWORD3>
-            <KEYWORD3>!classname</KEYWORD3>
+            <KEYWORD1>.self</KEYWORD1>
+            <KEYWORD3>.vars</KEYWORD3>
+            <KEYWORD3>.classes</KEYWORD3>
+            <KEYWORD3>.superclasses</KEYWORD3>
+            <KEYWORD3>.subclasses</KEYWORD3>
+            <KEYWORD3>.classname</KEYWORD3>
 
             <LITERAL1>true</LITERAL1>
             <LITERAL1>nil</LITERAL1>
