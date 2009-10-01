@@ -1,7 +1,7 @@
 ##
 ##
 ##
-include "examples/mixin.lin"
+include "examples/mixin.g"
 @prefix m "MyMixin#"
 
 class Mixee(m:Mixin)

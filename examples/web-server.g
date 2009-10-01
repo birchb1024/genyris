@@ -11,7 +11,7 @@
 
 cond
    (not (equal? (length sys:argv) 3))
-       error "Usage: web-server.lin <port> <root directory>"
+       error "Usage: web-server.g <port> <root directory>"
 
 var port (parse (cadr sys:argv))
 var rootdir (cadr (cdr sys:argv))

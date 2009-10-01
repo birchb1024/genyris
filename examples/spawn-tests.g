@@ -1,0 +1,1 @@
+spawn "examples/spawn-example.g" 1 2 3 4 5

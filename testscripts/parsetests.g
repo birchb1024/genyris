@@ -3,7 +3,7 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-load "testscripts/gunit.lin"
+load "testscripts/gunit.g"
 @prefix t "http://www.genyris.org/lib/gunit#"
 @prefix u "http://www.genyris.org/lang/utilities#"
 

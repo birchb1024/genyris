@@ -2,7 +2,7 @@
 @prefix t   "http://www.genyris.org/lib/gunit#"
 @prefix web "http://www.genyris.org/lang/web#"
 
-include "testscripts/gunit.lin"
+include "testscripts/gunit.g"
 
 def readPage(url)
     var wstream (web.get url)
@@ -15,12 +15,12 @@ def readPage(url)
     count
 
 def run-web()
-    var thread-id (web.serve 7777 "testscripts/www-text.lin")
+    var thread-id (web.serve 7777 "testscripts/www-text.g")
     sleep 2000
     kill thread-id
 
 def run-web-get()
-    var thread-id (web.serve 7778 "testscripts/www-text.lin")
+    var thread-id (web.serve 7778 "testscripts/www-text.g")
     sleep 2000
     var result (readPage "http://localhost:7778/")
     kill thread-id

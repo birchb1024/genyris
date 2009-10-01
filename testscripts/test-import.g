@@ -4,7 +4,7 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 
 (var modulex (dict))
-    sys:import "testscripts/test-module1.lin"
+    sys:import "testscripts/test-module1.g"
   
 assertEqual 
     modulex(.public1)

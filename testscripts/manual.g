@@ -8,7 +8,7 @@ def threat (i j a b)
       equal? (- i j) (- a b)
       equal? (+ i j) (+ a b)
       
-include "examples/queens.lin"
+include "examples/queens.g"
 queens 8
 
 # This whole line is a comment 

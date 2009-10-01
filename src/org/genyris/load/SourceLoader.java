@@ -30,7 +30,7 @@ public class SourceLoader {
 
 	public static Parser parserFactory(String filename, Reader input,
 			Internable table) throws GenyrisException {
-		if (filename.endsWith(".lin")) {
+		if (filename.endsWith(".g")) {
 			InStream is = new UngettableInStream(new ConvertEofInStream(
 					new IndentStream(new UngettableInStream(new ReaderInStream(
 							input)), false)));

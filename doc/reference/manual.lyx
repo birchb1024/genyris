@@ -44,7 +44,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 542
+Build 549
 \end_layout
 
 \begin_layout Standard
@@ -321,7 +321,7 @@ Eight Queens
 \begin_layout LyX-Code
 > 
 \series bold
-include 'examples/queens.lin'
+include 'examples/queens.g'
 \end_layout
 
 \begin_layout LyX-Code
@@ -329,7 +329,7 @@ include 'examples/queens.lin'
 \end_layout
 
 \begin_layout LyX-Code
-~ 'file:/home/birchb/workspace/Genyris/examples/queens.lin' # String 
+~ 'file:/home/birchb/workspace/Genyris/examples/queens.g' # String 
 \end_layout
 
 \begin_layout LyX-Code
@@ -3720,7 +3720,7 @@ The previous example shows how names can be grouped within a Dictionary
  A module is simply a dictionary into which the contents of a source file
  have been bound.
  Continuing with our example, first we provide a file of functions and definitio
-ns called 'file.lin
+ns called 'file.g
 \begin_inset Quotes erd
 \end_inset
 
@@ -3856,7 +3856,7 @@ helperFunction
 \begin_layout Standard
 If we change the source code of 
 \emph on
-file.lin
+file.g
 \emph default
 and need to load the new code, we must use the 
 \emph on
@@ -5091,7 +5091,7 @@ Validators provide a way to automatically categorize unknown objects - an
 \end_layout
 
 \begin_layout Standard
-The Genyris distribution includes file "examples/classify.lin" which shows
+The Genyris distribution includes file "examples/classify.g" which shows
  this pattern.
  It defines a simple 
 \emph on
@@ -5132,7 +5132,7 @@ jar
 \series bold
 load
 \series default
- 'examples/people.lin'
+ 'examples/people.g'
 \end_layout
 
 \begin_layout Standard
@@ -5728,7 +5728,7 @@ Specify a file to run on the command line
 \end_layout
 
 \begin_layout LyX-Code
-$ genyris examples/queens.lin 5
+$ genyris examples/queens.g 5
 \end_layout
 
 \begin_layout Standard
@@ -5761,11 +5761,11 @@ if the script is made executable it can be run directly:
 \end_layout
 
 \begin_layout LyX-Code
-$ chmod u+x myscript.lin
+$ chmod u+x myscript.g
 \end_layout
 
 \begin_layout LyX-Code
-$ ./myscript.lin
+$ ./myscript.g
 \end_layout
 
 \begin_layout Subsection
@@ -5781,7 +5781,7 @@ Regardless of the enclosing main class, the interpreter boot sequence is
 
 
 \emph on
-org/genyris/load/boot/init.lin
+org/genyris/load/boot/init.g
 \emph default
 
 \begin_inset Quotes erd
@@ -5799,7 +5799,7 @@ org/genyris/load/boot/init.lin
 \series bold
 load
 \series default
- 'org/genyris/load/boot/init.lin'
+ 'org/genyris/load/boot/init.g'
 \end_layout
 
 \begin_layout Subsection
@@ -5809,7 +5809,7 @@ spawn
 \end_layout
 
 \begin_layout LyX-Code
-spawn 'testscripts/spawn-example.lin' 1 2 3 4 5
+spawn 'testscripts/spawn-example.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout Standard
@@ -5841,15 +5841,15 @@ The output is:
 \end_layout
 
 \begin_layout LyX-Code
-'examples/spawn-example.lin' '1' '2' '3' '4' '5'
+'examples/spawn-example.g' '1' '2' '3' '4' '5'
 \end_layout
 
 \begin_layout LyX-Code
-'examples/spawn-example.lin' '1' '2' '3' '4' '5'
+'examples/spawn-example.g' '1' '2' '3' '4' '5'
 \end_layout
 
 \begin_layout LyX-Code
-'examples/spawn-example.lin' '1' '2' '3' '4' '5'
+'examples/spawn-example.g' '1' '2' '3' '4' '5'
 \end_layout
 
 \begin_layout Standard
@@ -5934,7 +5934,7 @@ Example
 \end_layout
 
 \begin_layout LyX-Code
-web:serve 777 'examples/www-demo.lin' 1 2 3 4 5
+web:serve 777 'examples/www-demo.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout Subsubsection
@@ -6053,7 +6053,7 @@ verbatim
  pseudo-tag passes text transparently.
  For example (from 
 \emph on
-examples/www-demo.lin
+examples/www-demo.g
 \emph default
 ):
 \end_layout
@@ -6101,7 +6101,7 @@ df httpd-serve (request)
 \begin_layout Standard
 Refer to 
 \emph on
-examples/notification-server.lin
+examples/notification-server.g
 \emph default
  for a more complex example.
 \end_layout
@@ -6279,7 +6279,7 @@ jar
 \series bold
 load
 \series default
- 'examples/people.lin'
+ 'examples/people.g'
 \end_layout
 
 \begin_layout Subsection
@@ -6300,11 +6300,11 @@ include
 \end_layout
 
 \begin_layout LyX-Code
-include 'examples/people.lin'   # relative path
+include 'examples/people.g'   # relative path
 \end_layout
 
 \begin_layout LyX-Code
-include 'c:/workspace/genyris/examples/queens.lin'  # absolute path - Windows
+include 'c:/workspace/genyris/examples/queens.g'  # absolute path - Windows
 \end_layout
 
 \begin_layout Standard
@@ -6392,7 +6392,7 @@ import
 \emph default
  macro searches for a file with the name of the module plus the 
 \emph on
-'.lin'
+'.g'
 \emph default
  suffix.
  It uses the list of directories in the 

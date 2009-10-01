@@ -26,48 +26,48 @@ public class InterpretedTests extends TestCase {
         }
     }
     public void testMath() throws GenyrisException {
-        useSourceLoader("mathtests.lin");
+        useSourceLoader("mathtests.g");
     }
     public void testFactorial() throws GenyrisException {
-        useSourceLoader("factorial.lin");
+        useSourceLoader("factorial.g");
     }
     public void testTak() throws GenyrisException {
-        useSourceLoader("tak.lin");
+        useSourceLoader("tak.g");
     }
     public void testDefects() throws GenyrisException {
-        useSourceLoader("defects.lin");
+        useSourceLoader("defects.g");
     }
     public void testIntern() throws GenyrisException {
-        useSourceLoader("intern-tests.lin");
+        useSourceLoader("intern-tests.g");
    }
     public void testPrefix() throws GenyrisException {
-         useSourceLoader("prefix-tests.lin");
+         useSourceLoader("prefix-tests.g");
     }
     public void testFileIO() throws GenyrisException {
-        useSourceLoader("file-tests.lin");
+        useSourceLoader("file-tests.g");
    }
     public void testTriples() throws GenyrisException {
-        useSourceLoader("triple-tests.lin");
+        useSourceLoader("triple-tests.g");
     }
     public void testParseAndConvert() throws GenyrisException {
-        useSourceLoader("parsetests.lin");
+        useSourceLoader("parsetests.g");
     }
     public void testCSV() throws GenyrisException {
-        useSourceLoader("csv-tests.lin");
+        useSourceLoader("csv-tests.g");
     }
     public void testManual() throws GenyrisException {
-        useSourceLoader("manual.lin");
+        useSourceLoader("manual.g");
     }
     public void testMiscellaneous() throws GenyrisException {
-    	useSourceLoader("miscellaneous-tests.lin");
+    	useSourceLoader("miscellaneous-tests.g");
     }
     public void testImport() throws GenyrisException {
-    	useSourceLoader("test-import.lin");
+    	useSourceLoader("test-import.g");
     }
     public void testExamples() throws GenyrisException {
-    	useSourceLoader("examples-as-tests.lin");
+    	useSourceLoader("examples-as-tests.g");
     }
 //    public void testWeb() throws GenyrisException {
-//        useSourceLoader("web-tests.lin");
+//        useSourceLoader("web-tests.g");
 //    }
 }

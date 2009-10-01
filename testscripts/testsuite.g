@@ -9,7 +9,7 @@
 define genyris
    (dict)
       def .run-all-tests()
-         load "examples/queens.lin"
+         load "examples/queens.g"
          queens 4
          self-test-runner
       .self

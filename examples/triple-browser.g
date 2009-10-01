@@ -4,7 +4,7 @@
 
 #
 # Start with:
-# web:serve 80 'examples/triple-browser.lin' 'http://<server>:<port>/<path to triples file>.csv'
+# web:serve 80 'examples/triple-browser.g' 'http://<server>:<port>/<path to triples file>.csv'
 #
 # Windows example:
 #

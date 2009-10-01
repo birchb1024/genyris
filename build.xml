@@ -99,7 +99,7 @@
             <arg value="--template"/>
             <arg value="{date|date}"/>
         </exec>
-<echo file="${version.dir}/version.lin" append="false">
+<echo file="${version.dir}/version.g" append="false">
 @prefix v "http://www.genyris.org/lang/version#"
 defvar ^v:tip "${hg.tip}"
 defvar ^v:tipdate "${hg.tip.date}"
@@ -160,7 +160,7 @@ defvar ^v:tipdate "${hg.tip.date}"
                 <include name="needed/**/*"/>
                 <include name="src/**/*.java"/>
                 <include name="src/**/*.properties"/>
-                <include name="src/**/*.lin"/>
+                <include name="src/**/*.g"/>
                 <include name="testscripts/**/*"/>
                 <include name="web/**/*"/>
             </fileset>
@@ -212,9 +212,9 @@ defvar ^v:tipdate "${hg.tip.date}"
             <fileset dir="${build.dir}" includes="version/**/*" />
             <fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
             <fileset dir="${needed.lib.dir}" includes="junit/**/*" />
-            <fileset dir="${src.dir}" includes="**/*.lin" />
+            <fileset dir="${src.dir}" includes="**/*.g" />
             <fileset dir="${src.dir}" includes="**/*.properties" />
-            <fileset dir="${basedir}" includes="testscripts/*.lin testscripts/*.lsp" />
+            <fileset dir="${basedir}" includes="testscripts/*.g testscripts/*.lsp" />
             <manifest>
 	            <attribute name="Built-By" value="Peter William Birch"/>
 	            <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>

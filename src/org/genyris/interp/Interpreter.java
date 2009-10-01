@@ -109,12 +109,12 @@ public class Interpreter {
 
     public Exp bindAllJavaFunctionsFromScript() throws GenyrisException {
         return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this.getSymbolTable(),
-                "org/genyris/load/boot/bind-compiled-functions.lin", (Writer) new NullWriter());
+                "org/genyris/load/boot/bind-compiled-functions.g", (Writer) new NullWriter());
     }
 
     public Exp init(boolean verbose) throws GenyrisException {
         return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this.getSymbolTable(),
-                "org/genyris/load/boot/init.lin", verbose ? _defaultOutput
+                "org/genyris/load/boot/init.g", verbose ? _defaultOutput
                         : (Writer) new NullWriter());
     }
 

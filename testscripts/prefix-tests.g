@@ -1,7 +1,7 @@
 #
 #
 #
-load "testscripts/gunit.lin"
+load "testscripts/gunit.g"
 @prefix t "http://www.genyris.org/lib/gunit#"
 @prefix myprefix "http://foo/#"
 
@@ -17,6 +17,6 @@ var overall-result
         t:given ^(intern "http://null/prefix#foo") expect ^|http://null/prefix#foo|
 
     t:test "nested prefixes"
-        load "testscripts/prefix-test-nested.lin"
+        load "testscripts/prefix-test-nested.g"
         t:given myprefix:foo expect 0
 or overall-result (raise "Prefixes Failed")

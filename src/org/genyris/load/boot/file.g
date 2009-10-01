@@ -14,6 +14,12 @@ File
     def .open((mode = SimpleSymbol))
        .static-open .filename mode 
        
+    def .list()
+       .static-list-dir .filename 
+       
+    def .abs-path()
+       .static-abs-path .filename 
+       
     def .exists((filename = String))
         catch error
             define fd ((File.static-open) filename ^read)

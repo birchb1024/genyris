@@ -3,7 +3,7 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-load "examples/classify.lin"
+load "examples/classify.g"
 
 @prefix p "http://www.humans.org/people#"
 

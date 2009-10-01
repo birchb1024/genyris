@@ -134,7 +134,7 @@ public class ClassicReadEvalPrintLoop {
 			setInitialPrefixes(parser);
 			SourceLoader
 					.loadScriptFromClasspath(_interpreter.getGlobalEnv(), _interpreter.getSymbolTable(),
-							"org/genyris/load/boot/repl.lin",
+							"org/genyris/load/boot/repl.g",
 							(Writer) new NullWriter());
 			Exp expression = null;
 			do {

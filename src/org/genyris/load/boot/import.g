@@ -39,7 +39,7 @@ def sys:search-path(moduleName)
     define tmp sys:path
     define result nil
     while tmp
-        define file-path ((left tmp)(.+ "/" (asString moduleName) ".lin"))
+        define file-path ((left tmp)(.+ "/" (asString moduleName) ".g"))
         cond
             ((File.exists) file-path)
                   tmp = nil

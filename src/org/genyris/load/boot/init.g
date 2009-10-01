@@ -56,18 +56,18 @@ defmacro ++ (varname)
 #
 # Load source functions and classes
 #
-load "org/genyris/load/boot/assert.lin"
-load "org/genyris/load/boot/pair.lin"
-load "org/genyris/load/boot/alist.lin"
-load "org/genyris/load/boot/parse.lin"
-load "org/genyris/load/boot/object.lin"
-load "org/genyris/load/boot/listoflines.lin"
-load "org/genyris/load/boot/file.lin"
-load "org/genyris/load/boot/util.lin"
-load "org/genyris/load/boot/version.lin"
-load "org/genyris/load/boot/set.lin"
-load "org/genyris/load/boot/triple.lin"
-load "org/genyris/load/boot/import.lin"
+load "org/genyris/load/boot/assert.g"
+load "org/genyris/load/boot/pair.g"
+load "org/genyris/load/boot/alist.g"
+load "org/genyris/load/boot/parse.g"
+load "org/genyris/load/boot/object.g"
+load "org/genyris/load/boot/listoflines.g"
+load "org/genyris/load/boot/file.g"
+load "org/genyris/load/boot/util.g"
+load "org/genyris/load/boot/version.g"
+load "org/genyris/load/boot/set.g"
+load "org/genyris/load/boot/triple.g"
+load "org/genyris/load/boot/import.g"
 
 
 
