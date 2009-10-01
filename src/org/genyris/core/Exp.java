@@ -9,7 +9,6 @@ import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
-import org.genyris.interp.builtin.TagFunction;
 
 //
 // Exp is short for 'Expression'
@@ -38,19 +37,10 @@ public abstract class Exp implements Classifiable, Closure {
 		if (arguments[0].isPair()) {
 			return arguments[0].evalSequence(newEnv);
 		} else {
-			try {
-				Exp result = arguments[0].eval(newEnv);
-				StandardClass.assertIsThisObjectAClass(result);
-				// call validator if it exists
-				TagFunction.validateObjectInClass(environment, this, (StandardClass)result);
-				return this;
-			} catch (ClassCastException e) {
-				throw new GenyrisException("type tag failure: " + arguments[0]
-						+ " is not a class");
-			}
+			throw new GenyrisException("Arguments to " + this + " must be a list.");
 		}
 	}
-
+	
 	public abstract Environment  makeEnvironment(Environment parent) throws GenyrisException;
 
 	public boolean isNil() {

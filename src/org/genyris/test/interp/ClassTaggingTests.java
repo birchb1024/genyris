@@ -104,9 +104,9 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
         excerciseEval("(class CC() (def !valid?(x) true))", "<class CC (Thing) ()>");
-//        excerciseEval("(12 = CC)", "12");
+        exceptionEval("(12 = CC)", "Cannot assign <class CC (Thing) ()> to non-Symbol 12");
         excerciseEval("(class XX() (def !valid?(x) nil))", "<class XX (Thing) ()>");
-//        exceptionEval("(12 = XX)", "class XX validator error for object 12");
+        exceptionEval("(12 = XX)", "Cannot assign <class XX (Thing) ()> to non-Symbol 12");
 
         excerciseEval("(def fn((a =A) = Bignum) 42)", "<EagerProc: <fn>>");
         exceptionEval("(fn 23)", "Type mismatch in function call for (a = A) because validator error: object 23 is not tagged with A");
@@ -122,5 +122,13 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(fn3 ^x)", "x");
         excerciseEval("(fn3 ^(3))", "(3)");
 
+    }
+    public void testTypeDefect() throws Exception {
+
+        excerciseEval("(define west 23)", "23");
+        exceptionEval("(eval (cons ^west 12))", "Arguments to 23 must be a list.");
+        excerciseEval("(define d (dict))", "(dict)");
+        exceptionEval("(eval (cons ^d 12))", "Arguments to <dict (dict)> must be a list.");
+        
     }
 }

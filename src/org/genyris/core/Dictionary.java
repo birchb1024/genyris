@@ -12,10 +12,9 @@ import java.util.TreeMap;
 
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.Environment;
 import org.genyris.interp.DynamicEnvironment;
+import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
-import org.genyris.interp.builtin.TagFunction;
 
 public class Dictionary extends Atom implements Environment {
 	private Map _dict;
@@ -220,17 +219,8 @@ public class Dictionary extends Atom implements Environment {
 		if (arguments[0].isPair()) {
 			return arguments[0].evalSequence(newEnv);
 		} else {
-			try {
-				Exp result = arguments[0].eval(newEnv);
-				StandardClass.assertIsThisObjectAClass(result);
-				TagFunction.validateObjectInClass(environment, this, (StandardClass) result);
-				return this;
-			} catch (ClassCastException e) {
-				throw new GenyrisException("type tag failure: " + arguments[0]
-						+ " is not a class");
-			}
+			throw new GenyrisException("Arguments to " + this + " must be a list.");
 		}
-
 	}
 
 	public SimpleSymbol getNil() {
