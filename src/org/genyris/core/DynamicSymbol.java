@@ -21,6 +21,9 @@ public class DynamicSymbol extends Symbol {
 	public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.DYNAMICSYMBOLREF();
 	}
+    public String toString() {
+        return "."+ _realSymbol.toString();
+    }
 	public String getPrintName() {
 		return "."+ _realSymbol.getPrintName();
 	}

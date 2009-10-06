@@ -44,6 +44,6 @@ public class BasicFormatterTest extends TestCase {
         excerciseFormatter("(45 : 89)");
     }
     public void testSymbols() throws Exception {
-        excerciseFormatter("(quux |fo:o| |http://foo/bar#|)");
+        excerciseFormatter("(quux |fo:o| |http://foo/bar#| .|http://www.genyris.org/lang/system#foo|)");
     }
 }

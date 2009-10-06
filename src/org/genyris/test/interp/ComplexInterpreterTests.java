@@ -142,4 +142,8 @@ public class ComplexInterpreterTests extends TestCase {
 	public void testParseAString() throws Exception {
 		excerciseEval("((ParenParser(.new '(+ 1 2 3)'))(.read))", "(+ 1 2 3)");
 	}
+	public void testprefixeddynamic() throws Exception {
+		excerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".|http://foo/sys#foo|");
+	}
+	
 }

@@ -263,9 +263,6 @@ public class LexTest extends TestCase {
 		excerciseSpecialParsing("^'str'", "(quote 'str')");
 		excerciseSpecialParsing("^(1 2)", "(quote (1 2))");
 		excerciseSpecialParsing("^(1 = 2)", "(quote (1 = 2))");
-		// excerciseSpecialParsing("^(= 2)", "(quote (1 = 2))");
-		// excerciseSpecialParsing("^(=)", "(quote (1 = 2))");
-		// excerciseSpecialParsing("=", "raises error");
 		excerciseSpecialParsing("^(1=2)", "(quote (1 = 2))");
 		excerciseSpecialParsing("^(1 =2)", "(quote (1 = 2))");
 		excerciseSpecialParsing("^(a =b)", "(quote (a = b))");
@@ -296,7 +293,6 @@ public class LexTest extends TestCase {
 	public void testSpecialLexCommaAt() throws Exception {
 		excerciseSpecialParsing(",@12", "(comma-at 12)");
 	}
-
 	public void testSquarebracket() throws Exception {
 		excerciseSpecialParsing("[]", "(squareBracket)");
 		excerciseSpecialParsing("[1]", "(squareBracket 1)");
