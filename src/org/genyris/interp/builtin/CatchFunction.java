@@ -23,9 +23,9 @@ public class CatchFunction extends ApplicableFunction {
         this.checkMinArguments(arguments, 2);
         Symbol errorVar = (Symbol)arguments[0];
     	env.defineVariable(errorVar, NIL);
-        Exp body = arguments[1];
+        Exp body = arrayToList(arguments).cdr();
         try {
-        	retval = body.eval(env);
+        	retval = body.evalSequence(env);
         } catch (GenyrisException e) {
         	env.setVariableValue(errorVar, e.getData());
         }       
