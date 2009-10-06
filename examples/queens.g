@@ -3,8 +3,16 @@
 #### problem 11-9
 ####
 @prefix sys "http://www.genyris.org/lang/system#"
+@prefix rdf "http://www.genyris.org/rdf#"
 
-def queens (size)
+# public module-level code
+cond 
+    (bound? ^.self) # are we being loaded in a module?
+        def .queens (size)
+            run-queens size
+
+# private code if loaded as a module
+def run-queens (size)
   queen-aux nil 0 size
 
 def queen-aux (board n size)               # start on next row

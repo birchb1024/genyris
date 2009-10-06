@@ -6,15 +6,14 @@
 #
 #  Python-style modules using a dictionary for scope
 #
-(define file (dict))
-    define .name  "File Handling Functions"
-    define .version "1.2"
-    def .copy (from to) etc
-    def .delete (filename) etc
-    def .zip (file) etc
+define .name  "File Handling Functions"
+define .version "1.2"
+def .copy (from to) etc
+def .delete (filename) etc
+def .zip (file) etc
 
 # usage
-def archive(filename)
-    (file.copy) filename "/tmp/foo"
-    (file.zip) "/tmp/foo"
-    (file.delete) filename
+#def archive(filename)
+#    (file.copy) filename "/tmp/foo"
+#    (file.zip) "/tmp/foo"
+#    (file.delete) filename

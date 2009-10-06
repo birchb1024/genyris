@@ -44,7 +44,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 549
+Build 553
 \end_layout
 
 \begin_layout Standard
@@ -335,7 +335,7 @@ include 'examples/queens.g'
 \begin_layout LyX-Code
 > 
 \series bold
-queens 8
+run-queens 8
 \end_layout
 
 \begin_layout Section
@@ -6400,6 +6400,19 @@ import
 sys:path
 \emph default
  variable for the search path and uses the first matching file it finds.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+sys:path = (cons 'examples' sys:path)
+\end_layout
+
+\begin_layout LyX-Code
+import queens
+\end_layout
+
+\begin_layout LyX-Code
+(queens.queens) 5  # call the module's public function
 \end_layout
 
 \begin_layout Subsection

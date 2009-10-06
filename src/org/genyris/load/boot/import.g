@@ -50,10 +50,10 @@ def sys:search-path(moduleName)
 
 def sys:mk-module (moduleName path)                  
      define themodule (dict (.name = moduleName)(.filename = path))
+     themodule (sys:import path)
      tag Module themodule
      sys:modules 
         .add (triple moduleName ^sys:hasModule themodule)
-     themodule (sys:import path)
      themodule
     
 defmacro reload (moduleName)

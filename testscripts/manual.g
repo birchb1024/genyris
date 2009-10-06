@@ -1,3 +1,5 @@
+@prefix sys "http://www.genyris.org/lang/system#"
+
 assert
     equal? (+ 42 37) 79
 
@@ -9,7 +11,12 @@ def threat (i j a b)
       equal? (+ i j) (+ a b)
       
 include "examples/queens.g"
-queens 8
+run-queens 8
+
+sys:path = (cons 'examples' sys:path)
+import queens
+(queens.queens) 3
+
 
 # This whole line is a comment 
 - 4 3    # this comment goes to the end
