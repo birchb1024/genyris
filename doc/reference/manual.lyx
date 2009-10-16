@@ -3996,6 +3996,67 @@ Prefixes apply to all symbols seen by the parser in the current parse, and
   
 \end_layout
 
+\begin_layout Subsection
+Using Namespaces for Semantic Markup
+\end_layout
+
+\begin_layout Standard
+Namespaces are compatible with RDF and allow you to embed the semantics
+ of the information within the program.
+ This can be used either for human consumption (to nail the meaning of the
+ information) or for subsequent processing and linkage with external programs
+ which also understand RDF.
+ Here's an example:
+\end_layout
+
+\begin_layout LyX-Code
+> @prefix us "http://places.org/usa#"
+\end_layout
+
+\begin_layout LyX-Code
+var boston                   # variable declaration
+\end_layout
+
+\begin_layout LyX-Code
+  dict                       # new dictionary object
+\end_layout
+
+\begin_layout LyX-Code
+    .us:location = "Boston"
+\end_layout
+
+\begin_layout LyX-Code
+    .us:zip = "02110"
+\end_layout
+
+\begin_layout LyX-Code
+    .us:location-lat = 42.37
+\end_layout
+
+\begin_layout LyX-Code
+    .us:location-long = 71.03
+\end_layout
+
+\begin_layout LyX-Code
+dict
+\end_layout
+
+\begin_layout LyX-Code
+      .|http://places.org/usa#location| = "Boston"
+\end_layout
+
+\begin_layout LyX-Code
+      .|http://places.org/usa#location-lat| = 42.37
+\end_layout
+
+\begin_layout LyX-Code
+      .|http://places.org/usa#location-long| = 71.03
+\end_layout
+
+\begin_layout LyX-Code
+      .|http://places.org/usa#zip| = "02110" # Dictionary
+\end_layout
+
 \begin_layout Section
 Using Classes to Organise Behaviour
 \end_layout
