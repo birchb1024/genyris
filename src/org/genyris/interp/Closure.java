@@ -14,4 +14,6 @@ public interface Closure { // TODO rename this to "Applyable"
 
     public abstract Exp applyFunction(Environment environment, Exp[] arguments) throws GenyrisException;
     
+    public abstract String toString();
+    
 }

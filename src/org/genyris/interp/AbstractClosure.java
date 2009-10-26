@@ -13,8 +13,7 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
-public abstract class AbstractClosure extends Atom implements
-		Closure {
+public abstract class AbstractClosure extends Atom implements Closure {
 
 	final Environment _env;
 	final Exp _lambdaExpression;
@@ -74,7 +73,8 @@ public abstract class AbstractClosure extends Atom implements
 
 	public Exp applyFunction(Environment environment, Exp[] arguments)
 			throws GenyrisException {
-		return _functionToApply.bindAndExecute(this, arguments, environment); // double
+		
+		return _functionToApply.bindAndExecuteAux(this, arguments, environment); // double
 		// dispatch
 	}
 

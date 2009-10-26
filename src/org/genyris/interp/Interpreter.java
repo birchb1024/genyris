@@ -5,6 +5,7 @@
 //
 package org.genyris.interp;
 
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -16,12 +17,16 @@ import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.NilSymbol;
+import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StandardClass;
+import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.dl.TripleStore;
+import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.format.Formatter;
 import org.genyris.io.InStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
@@ -41,7 +46,10 @@ public class Interpreter {
     Writer _defaultOutput;
 
     public NilSymbol NIL;
+	private Exp _debugStack = NIL;
 
+    
+    
     public Interpreter() throws GenyrisException {
         NIL = new NilSymbol();
         _table = new SymbolTable();
@@ -64,6 +72,8 @@ public class Interpreter {
         ClassloaderFunctions.bindFunctionsAndMethods(this);
 
         bindAllJavaFunctionsFromScript();
+        _debugStack = NIL;
+        
     }
 
     private void defineConstantSymbols() throws GenyrisException {
@@ -232,6 +242,51 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.LAZYPROCEDURE, env, closure);
 		StandardClass.mkClass(Constants.LISTOFLINES, env, pair);
 		StandardClass.mkClass(Constants.DYNAMICSYMBOLREF, env, symbol);
+	}
+
+	public void debugStackPush(Closure proc) {
+		_debugStack = new Pair(new StrinG(proc.toString()), _debugStack);		
+	}
+	public void debugStackPop(Closure proc) {
+		try {
+			_debugStack = _debugStack.cdr();
+		} catch (AccessException ignore) {
+		}
+	}
+
+	public Exp getDebugBackTrace() {
+		return _debugStack;
+	}
+    
+	public Exp resetDebugBackTrace() {
+		return _debugStack = NIL;
+	}
+    
+	public void printDebugBackTrace(Formatter formatter) {
+		try {
+			if( _debugStack.length(NIL) <= 0) {
+				return;
+			}
+			formatter.print("Backtrace: \n");
+		} catch (GenyrisException ignore) {
+		} catch (IOException ignore) {
+		}
+		printDebugBackTraceAux(_debugStack, formatter);
+	}
+	public void printDebugBackTraceAux(Exp stack, Formatter formatter) {
+		try {
+			for(int i =0; i< stack.length(NIL); i++)
+				formatter.print(" ");
+			stack.car().acceptVisitor(formatter);
+			formatter.print("\n");
+			if (stack.cdr() == NIL) {
+				return;
+			}
+			printDebugBackTraceAux(stack.cdr(), formatter);
+		} catch (AccessException ignore) {
+		} catch (GenyrisException ignore) {
+		} catch (IOException ignore) {
+		}
 	}
     
     

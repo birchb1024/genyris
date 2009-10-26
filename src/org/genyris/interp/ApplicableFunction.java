@@ -32,6 +32,14 @@ public abstract class ApplicableFunction {
         REST = interp.getSymbolTable().REST();
     }
 
+    public Exp bindAndExecuteAux(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException {
+        _interp.debugStackPush(proc);
+    	Exp result = bindAndExecute(proc, arguments, envForBindOperations);
+    	_interp.debugStackPop(proc);
+    	return result;
+    }
+
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException;
 
@@ -44,6 +52,10 @@ public abstract class ApplicableFunction {
     }
 
     public String getName() {
+        return _name;
+    }
+
+    public String toString() {
         return _name;
     }
 

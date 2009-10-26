@@ -24,6 +24,7 @@ public class ClassicFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure closure, Exp[] arguments, Environment runtimeEnviron)
             throws GenyrisException {
         // TODO clean it up what a right royal mess
+    	
     	if(!(closure instanceof AbstractClosure)) {
     		throw new GenyrisException("type missmatch - was expecting an AbstractClosure");
     	}
