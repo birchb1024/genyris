@@ -207,22 +207,6 @@ public class Dictionary extends Atom implements Environment {
 		}
 	}
 
-	public Exp applyFunction(Environment environment, Exp[] arguments)
-			throws GenyrisException {
-		if (arguments[0].isNil()) {
-			return this;
-		}
-		Map bindings = mapFactory();
-		bindings.put(SELF(), this);
-		DynamicEnvironment newEnv = new DynamicEnvironment(environment,
-				bindings, this);
-		if (arguments[0].isPair()) {
-			return arguments[0].evalSequence(newEnv);
-		} else {
-			throw new GenyrisException("Arguments to " + this + " must be a list.");
-		}
-	}
-
 	public SimpleSymbol getNil() {
 		return _parent.getNil();
 	}
@@ -286,6 +270,11 @@ public class Dictionary extends Atom implements Environment {
 
 	public void defineVariable(Symbol symbol, Exp valu) throws GenyrisException {
 			symbol.defineVariable(this, valu);
+	}
+	public Environment  makeEnvironment(Environment parent) throws GenyrisException {
+		Map bindings = mapFactory();
+		bindings.put(SELF(), this);
+		return new DynamicEnvironment(parent, bindings, this);
 	}
 
 
