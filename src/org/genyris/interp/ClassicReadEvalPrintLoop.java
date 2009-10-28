@@ -24,7 +24,6 @@ import org.genyris.io.IndentStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReaderInStream;
-import org.genyris.io.StdioInStream;
 import org.genyris.io.UngettableInStream;
 import org.genyris.load.SourceLoader;
 
@@ -64,7 +63,8 @@ public class ClassicReadEvalPrintLoop {
 			Interpreter interpreter = new Interpreter();
 			interpreter.init(false);
 			setArgs(args, interpreter);
-			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
+			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(),
+					interpreter.getSymbolTable(), filename, output);
 		} catch (GenyrisException e) {
 			output.write("*** Error in file : " + filename + " " + e.getData());
 			output.flush();
@@ -121,24 +121,17 @@ public class ClassicReadEvalPrintLoop {
 		try {
 			_interpreter = new Interpreter();
 			_interpreter.init(false);
-//			InStream input = new UngettableInStream(new ConvertEofInStream(
-//					new IndentStream(
-//							new UngettableInStream(new StdioInStream()), true)));
-//			Parser parser = _interpreter.newParser(input);
 			setArgs(args, _interpreter);
 
-//			parser.setUsualPrefixes();
-			SourceLoader
-					.loadScriptFromClasspath(_interpreter.getGlobalEnv(), _interpreter.getSymbolTable(),
-							"org/genyris/load/boot/repl.g",
-							(Writer) new NullWriter());
+			SourceLoader.loadScriptFromClasspath(_interpreter.getGlobalEnv(),
+					_interpreter.getSymbolTable(),
+					"org/genyris/load/boot/repl.g", (Writer) new NullWriter());
 		} catch (GenyrisException e1) {
 			e1.printStackTrace();
 			System.exit(-1);
 		}
 
 	}
-
 
 	private static Exp makeListOfStrings(Symbol NIL, String[] args,
 			int startFrom) {
