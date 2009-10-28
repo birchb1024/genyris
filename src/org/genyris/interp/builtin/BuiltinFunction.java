@@ -58,6 +58,8 @@ public abstract class BuiltinFunction  extends ApplicableFunction {
         interpreter.bindGlobalProcedureInstance(new SymListFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new TagFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new WhileFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new BackTraceFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new UseFunction(interpreter));
     }
 
 }

@@ -21,7 +21,6 @@ import org.genyris.format.IndentedFormatter;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
-import org.genyris.io.LexException;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
 import org.genyris.io.ReaderInStream;
@@ -85,7 +84,7 @@ public class ClassicReadEvalPrintLoop {
 							new StringReader(script))), true)));
 
 			Parser parser = interp.newParser(is);
-			setInitialPrefixes(parser);
+			parser.setUsualPrefixes();
 
 			Exp expression = parser.read();
 			Exp result = interp.evalInGlobalEnvironment(expression);
@@ -122,53 +121,17 @@ public class ClassicReadEvalPrintLoop {
 		try {
 			_interpreter = new Interpreter();
 			_interpreter.init(false);
-			InStream input = new UngettableInStream(new ConvertEofInStream(
-					new IndentStream(
-							new UngettableInStream(new StdioInStream()), true)));
-			Parser parser = _interpreter.newParser(input);
-			Writer output = new PrintWriter(System.out);
-			Formatter formatter = new IndentedFormatter(output, 1);
-			Exp EOF = _interpreter.getSymbolTable().EOF();
+//			InStream input = new UngettableInStream(new ConvertEofInStream(
+//					new IndentStream(
+//							new UngettableInStream(new StdioInStream()), true)));
+//			Parser parser = _interpreter.newParser(input);
 			setArgs(args, _interpreter);
 
-			setInitialPrefixes(parser);
+//			parser.setUsualPrefixes();
 			SourceLoader
 					.loadScriptFromClasspath(_interpreter.getGlobalEnv(), _interpreter.getSymbolTable(),
 							"org/genyris/load/boot/repl.g",
 							(Writer) new NullWriter());
-			Exp expression = null;
-			do {
-				try {
-					output.write("\n> ");
-					output.flush();
-					expression = parser.read();
-					if (expression.equals(EOF)) {
-						formatter.print("Bye..\n");
-						break;
-					}
-
-					Exp result = _interpreter
-							.evalInGlobalEnvironment(expression);
-
-					result.acceptVisitor(formatter);
-
-					output.write(" " + Constants.COMMENTCHAR);
-					formatter.printClassNames(result, _interpreter);
-					output.flush();
-				} catch (LexException e) {
-					formatter.print("*** Error: " + e.getMessage() + "\n");
-					parser.resetAfterError();
-				} catch (GenyrisException e) {
-					formatter.print("*** Error");
-					formatter.printClassNames(e.getData(), _interpreter);
-                    formatter.print(" : "+ e.getData() + ". ");
-                    _interpreter.printDebugBackTrace(formatter);
-                    _interpreter.resetDebugBackTrace();
-					output.flush();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} while (true);
 		} catch (GenyrisException e1) {
 			e1.printStackTrace();
 			System.exit(-1);
@@ -176,16 +139,6 @@ public class ClassicReadEvalPrintLoop {
 
 	}
 
-	private static void setInitialPrefixes(Parser parser)
-			throws GenyrisException {
-		parser.addPrefix("u", Constants.PREFIX_UTIL);
-		parser.addPrefix("web", Constants.PREFIX_WEB);
-		parser.addPrefix("email", Constants.PREFIX_EMAIL);
-		parser.addPrefix("g", Constants.PREFIX_SYNTAX);
-		parser.addPrefix("sys", Constants.PREFIX_SYSTEM);
-		parser.addPrefix("ver", Constants.PREFIX_VERSION);
-		parser.addPrefix("types", Constants.PREFIX_TYPES);
-	}
 
 	private static Exp makeListOfStrings(Symbol NIL, String[] args,
 			int startFrom) {

@@ -31,7 +31,8 @@ public class Parser {
 		this(table, stream, Constants.CDRCHAR, Constants.COMMENTCHAR);
 	}
 
-	public Parser(Internable table, InStream stream, char cdrCharacter, char commentChar) {
+	public Parser(Internable table, InStream stream, char cdrCharacter,
+			char commentChar) {
 		_table = table;
 		_lexer = new Lex(stream, table, cdrCharacter, commentChar);
 		NIL = table.NIL();
@@ -91,9 +92,9 @@ public class Parser {
 		nextsym();
 		if (cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
 			tree = NIL;
-		} else if(cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
+		} else if (cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
 			tree = NIL;
-		} else if(cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
+		} else if (cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
 			tree = NIL;
 		} else if (cursym.equals(_lexer.CDR_TOKEN)) {
 			return _lexer.CDR_TOKEN;
@@ -126,21 +127,24 @@ public class Parser {
 		if (cursym.equals(_lexer.LEFT_PAREN_TOKEN)) {
 			tree = parseList();
 			if (!cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
-				throw new ParseException("missing right paren - found: " + cursym);
+				throw new ParseException("missing right paren - found: "
+						+ cursym);
 			}
 		} else if (cursym.equals(_lexer.LEFT_SQUARE_TOKEN)) {
 			tree = parseList();
 			tree = new Pair(_table.SQUARE(), tree);
 			if (!cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
-				throw new ParseException("missing right square brace - found: " + cursym);
-			}						
+				throw new ParseException("missing right square brace - found: "
+						+ cursym);
+			}
 		} else if (cursym.equals(_lexer.LEFT_CURLY_TOKEN)) { // TOD DRY - SQUARE
 			tree = parseList();
 			tree = new Pair(_table.CURLY(), tree);
 			if (!cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
-				throw new ParseException("missing right curly brace - found: " + cursym);
-			}						
-		} else	if (cursym == _lexer.BACKQUOTE_TOKEN) {
+				throw new ParseException("missing right curly brace - found: "
+						+ cursym);
+			}
+		} else if (cursym == _lexer.BACKQUOTE_TOKEN) {
 			nextsym();
 			tree = new Pair(_table.TEMPLATE(), new Pair(parseExpression(), NIL));
 		} else if (cursym == _lexer.QUOTE_TOKEN) {
@@ -155,7 +159,7 @@ public class Parser {
 		} else if (cursym == _lexer.DYNAMIC_TOKEN) {
 			nextsym();
 			tree = new DynamicSymbol((SimpleSymbol) cursym); // todo validate
-																// cast
+			// cast
 		} else {
 			tree = cursym;
 		}
@@ -176,6 +180,17 @@ public class Parser {
 	}
 
 	public void resetAfterError() {
-		_lexer.resetAfterError();	
+		_lexer.resetAfterError();
 	}
+
+	public void setUsualPrefixes() throws GenyrisException {
+		addPrefix("u", Constants.PREFIX_UTIL);
+		addPrefix("web", Constants.PREFIX_WEB);
+		addPrefix("email", Constants.PREFIX_EMAIL);
+		addPrefix("g", Constants.PREFIX_SYNTAX);
+		addPrefix("sys", Constants.PREFIX_SYSTEM);
+		addPrefix("ver", Constants.PREFIX_VERSION);
+		addPrefix("types", Constants.PREFIX_TYPES);
+	}
+
 }

@@ -68,6 +68,10 @@ public abstract class AbstractClosure extends Atom implements Closure {
 		return _lambdaExpression.cdr().cdr();
 	}
 
+	public Exp getCode() throws AccessException {
+		return _lambdaExpression;
+	}
+
 	public abstract Exp[] computeArguments(Environment env, Exp exp)
 			throws GenyrisException;
 
@@ -137,6 +141,9 @@ public abstract class AbstractClosure extends Atom implements Closure {
 			return (_returnClass = (StandardClass)possibleReturnClass);			
 		}
 		throw new GenyrisException(possibleReturnClass + " return class not a class.");
+	}
+	public Environment makeEnvironment(Environment parent) throws GenyrisException {
+		return new ProcEnvironment(parent, this);
 	}
 
 }

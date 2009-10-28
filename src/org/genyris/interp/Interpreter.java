@@ -99,10 +99,10 @@ public class Interpreter {
         Symbol nameSymbol = _table.internString(proc.getName());
 
         if (proc.isEager()) {
-            env.defineVariable(nameSymbol, new EagerProcedure(env, null,
+            env.defineVariable(nameSymbol, new EagerProcedure(env, NIL,
                     (ApplicableFunction) proc));
         } else {
-            env.defineVariable(nameSymbol, new LazyProcedure(env, null,
+            env.defineVariable(nameSymbol, new LazyProcedure(env, NIL,
                     (ApplicableFunction) proc));
         }
     }
@@ -113,7 +113,7 @@ public class Interpreter {
                 .lookupVariableValue(_table.internString(className));
         SimpleSymbol nameSymbol = _table.internString(proc.getName());
             stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(
-                    stringClass, null, (ApplicableFunction) proc));
+                    stringClass, NIL, (ApplicableFunction) proc));
 
     }
 
