@@ -275,8 +275,6 @@ public class Interpreter {
 	}
 	public void printDebugBackTraceAux(Exp stack, Formatter formatter) {
 		try {
-			for(int i =0; i< stack.length(NIL); i++)
-				formatter.print(" ");
 			stack.car().acceptVisitor(formatter);
 			formatter.print("\n");
 			if (stack.cdr() == NIL) {
