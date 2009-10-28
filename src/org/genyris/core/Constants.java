@@ -105,5 +105,7 @@ public class Constants {
 		public static final String SUBCLASSOF = "subClassOf";
 		public static final String DYNAMICSYMBOLREF = "DynamicSymbolRef";
 		public static final String FORMAT = "format";
+		public static final String NAME = "name";
+		public static final String SOURCE = "source";
 
 }

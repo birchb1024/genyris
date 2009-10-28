@@ -50,5 +50,7 @@ public interface Internable {
     public SimpleSymbol DESCRIPTIONS();
 	public SimpleSymbol SUBCLASSOF();
 	public SimpleSymbol DYNAMICSYMBOLREF();
+	public SimpleSymbol SOURCE();
+	public SimpleSymbol NAME();
 
 }

@@ -60,6 +60,8 @@ public class SymbolTable implements Internable {
     private SimpleSymbol _DESCRIPTIONS;
 	private SimpleSymbol _SUBCLASSOF;
 	private SimpleSymbol _DYNAMICSYMBOLREF;
+	private SimpleSymbol _SOURCE;
+	private SimpleSymbol _NAME;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -120,6 +122,8 @@ public class SymbolTable implements Internable {
     
     _SUBCLASSOF = bindKeyword(String.valueOf(Constants.SUBCLASSOF));
     _DYNAMICSYMBOLREF = bindKeyword(String.valueOf(Constants.DYNAMICSYMBOLREF));
+    _NAME = bindKeyword(String.valueOf(Constants.NAME));
+    _SOURCE = bindKeyword(String.valueOf(Constants.SOURCE));
     }
 
 	private SimpleSymbol bindKeyword(String name) {
@@ -348,4 +352,11 @@ public class SymbolTable implements Internable {
 	public SimpleSymbol DYNAMICSYMBOLREF() {
 		return _DYNAMICSYMBOLREF;
 	}
+	public SimpleSymbol SOURCE() {
+		return _SOURCE;
+	}
+	public SimpleSymbol NAME() {
+		return _NAME;
+	}
+
 }
