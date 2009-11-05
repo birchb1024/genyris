@@ -68,6 +68,7 @@ load "org/genyris/load/boot/version.g"
 load "org/genyris/load/boot/set.g"
 load "org/genyris/load/boot/triple.g"
 load "org/genyris/load/boot/import.g"
+load "org/genyris/load/boot/for.g"
 
 
 

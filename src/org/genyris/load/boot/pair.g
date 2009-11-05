@@ -39,6 +39,10 @@ def member? (item list)
 Pair
    defmacro .each (args &rest body)
        template
-          loop-left .self (lambda (,(left args)) ,@body)
+          loop-left .self (function (,(left args)) ,@body)
+   # Example:
+   # ^(1 2 3 4)
+   #   .each (f)
+   #      print f
 
 
