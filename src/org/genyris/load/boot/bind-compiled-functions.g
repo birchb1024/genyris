@@ -20,6 +20,7 @@ s:load-class-by-name "org.genyris.dl.ThingMethods"
 s:load-class-by-name "org.genyris.io.sound.Sound$PlayMethod"
 s:load-class-by-name "org.genyris.system.ExecMethod"
 s:load-class-by-name "org.genyris.system.SystemPropertiesMethod"
+s:load-class-by-name "org.genyris.system.SystemGetenvMethod"
 
 s:load-class-by-name "org.genyris.interp.builtin.ObjectFunction"
 s:load-class-by-name "org.genyris.dl.TripleFunctions"
