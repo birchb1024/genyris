@@ -66,6 +66,7 @@ public class StringTests extends TestCase {
     	checkEvalBad("('%s%s'(.format 9 10 11))");
     	checkEval("('a=%s b=%s'(.format (+ 3 4) (* 7 8)))", "'a=7 b=56'");
     	checkEval("('a=%a b=%s %n'(.format 'x' (* 7 8)))", "'a=x b=56 \\n'");
+    	checkEval("('%u'(.format 'A @!#$^%@#$&'))", "'A+%40%21%23%24%5E%25%40%23%24%26'");
     }
 
     
