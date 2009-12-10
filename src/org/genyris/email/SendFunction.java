@@ -54,6 +54,7 @@ public class SendFunction extends ApplicableFunction {
         for (int i = 0; i < addressTo.length; i++) {
         
             addressTo[i] = new InternetAddress(recipients.car().toString());
+            recipients = recipients.cdr();
         }
         msg.setRecipients(Message.RecipientType.TO, addressTo);
        
