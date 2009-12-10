@@ -5,6 +5,7 @@
 //
 package org.genyris.interp.builtin;
 
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -20,9 +21,12 @@ public class RemoveTagFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		checkArguments(arguments, 2);
-        Exp object = arguments[0];
-        Exp newClass = arguments[1];
+        Class[] types = {Dictionary.class, Exp.class};
+        checkArgumentTypes(types, arguments);
+
+        Exp object = arguments[1];
+        Exp newClass = arguments[0];
         object.removeClass(newClass);
-        return NIL;
+        return object;
     }
 }
