@@ -47,6 +47,13 @@ public class ReaderStream extends Atom {
         _input = new UngettableInStream( new StringInStream(script));
     }
 
+	public Reader getReader() {
+		if (_input instanceof ReaderInStream) {
+			return ((ReaderInStream)_input).getReader();
+		}
+		return null;
+	}
+	
     public InStream getInStream() {
         return _input;
     }
@@ -152,5 +159,6 @@ public class ReaderStream extends Atom {
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
 	}
+
 
 }

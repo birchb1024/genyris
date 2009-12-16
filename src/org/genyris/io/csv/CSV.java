@@ -6,8 +6,8 @@
 package org.genyris.io.csv;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
@@ -18,13 +18,14 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
+import org.genyris.io.readerstream.ReaderStream;
 
 import au.com.bytecode.opencsv.CSVReader;
 
 public class CSV {
 	
 	public static class ReadCSVFileMethod extends AbstractMethod {
-		private static Class[] types = { StrinG.class };
+		private static Class[] types = { ReaderStream.class };
 
 		public ReadCSVFileMethod(Interpreter interp) {
 			super(interp, "read");
@@ -37,7 +38,11 @@ public class CSV {
 			CSVReader reader = null;
 			Exp retval = NIL;
 			try {
-				reader = new CSVReader(new FileReader(arguments[0].toString()));
+				Reader fr = ((ReaderStream)arguments[0]).getReader();
+				if (fr == null) {
+					throw new GenyrisException("read expects a stream with an underlying Java Reader");					
+				}
+				reader = new CSVReader(fr);
 				String[] nextLine;
 				Exp row = NIL;
 				while ((nextLine = reader.readNext()) != null) {

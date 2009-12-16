@@ -1,9 +1,9 @@
 #
 #
 #
-
+define fd (File(.new "testscripts/fixtures/test.csv"))
 define results
-   CSV(.read "testscripts/fixtures/test.csv")
+   CSV(.read (fd (.open ^read)))
 
 assert
    equal? results

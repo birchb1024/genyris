@@ -19,6 +19,10 @@ public class ReaderInStream implements InStream {
     public ReaderInStream(Reader reader) {
         _reader = new PushbackReader(reader);
     }
+    
+    public Reader getReader() {
+    	return _reader;
+    }
 
 
     public void unGet(char x) throws LexException {
