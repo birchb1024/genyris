@@ -17,6 +17,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.web.NanoHTTPD;
+import org.genyris.web.NanoHTTPD.NanoException;
 
 public class SpawnNanoHTTPDFunction extends ApplicableFunction {
 
@@ -36,6 +37,8 @@ public class SpawnNanoHTTPDFunction extends ApplicableFunction {
 			Thread t = httpd1.run();
 			return new Bignum(t.getId());
 		} catch (IOException e) {
+			throw new GenyrisException(e.getMessage());
+		} catch (NanoException e) {
 			throw new GenyrisException(e.getMessage());
 		}
 

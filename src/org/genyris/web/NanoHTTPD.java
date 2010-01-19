@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -75,7 +76,11 @@ public class NanoHTTPD {
 	public class NanoException extends Exception {
 		private static final long serialVersionUID = 8521291173564816199L;
 
-		public NanoException() {} 
+		public NanoException() {}
+
+		public NanoException(String string) {
+			super(string);
+		} 
 	}
 
 	protected int myTcpPort;
@@ -195,10 +200,15 @@ public class NanoHTTPD {
 	 * Starts a HTTP server to given port.
 	 * <p>
 	 * Throws an IOException if the socket is already in use
+	 * @throws NanoException 
 	 */
-	public NanoHTTPD(int port, final String root) throws IOException {
+	public NanoHTTPD(int port, final String root) throws IOException, NanoException {
 		myTcpPort = port;
 		this.rootdir = root;
+		File homeDir = new File(root);
+		if (!homeDir.exists())
+			throw new NanoException("INTERNAL ERRROR: serveFile(): '" +  homeDir.getAbsolutePath() +  "' does not exist.");
+
 		ss = new ServerSocket(myTcpPort);
 		ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
 	}
@@ -261,7 +271,10 @@ public class NanoHTTPD {
 		try {
 			nh = new NanoHTTPD(port, ".");
 		} catch (IOException ioe) {
-			System.err.println("Couldn't start server:\n" + ioe);
+			System.err.println("Couldn't start server: " + ioe);
+			System.exit(-1);
+		} catch (NanoException e) {
+			System.err.println("Couldn't start server: " + e.getMessage());
 			System.exit(-1);
 		}
 		nh.myFileDir = new File("");
@@ -551,6 +564,9 @@ public class NanoHTTPD {
 	public NanoResponse serveFile(String uri, Properties header, File homeDir,
 			boolean allowDirectoryListing) {
 		// Make sure we won't die of an exception later
+		if (!homeDir.exists())
+			return new NanoResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT,
+					"INTERNAL ERRROR: serveFile(): '" +  homeDir.getAbsolutePath() +  "' does not exist.");
 		if (!homeDir.isDirectory())
 			return new NanoResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT,
 					"INTERNAL ERRROR: serveFile(): given homeDir is not a directory.");
@@ -593,6 +609,11 @@ public class NanoHTTPD {
 			// No index file, list the directory
 			else if (allowDirectoryListing) {
 				String[] files = f.list();
+				if (files == null) {
+					return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
+					"FORBIDDEN: No directory listing.");
+				}
+				Arrays.sort(files);
 				String msg = "<html><head><title>"+uri+"</title></head><body><h1>Directory " + uri + "</h1><br/>";
 
 				if (uri.length() > 1) {
@@ -615,22 +636,22 @@ public class NanoHTTPD {
 							+ files[i] + "</a>";
 
 					// Show file size
-					if (curFile.isFile()) {
-						long len = curFile.length();
-						msg += " &nbsp;<font size=2>(";
-						if (len < 1024)
-							msg += curFile.length() + " bytes";
-						else if (len < 1024 * 1024)
-							msg += curFile.length() / 1024 + "."
-									+ (curFile.length() % 1024 / 10 % 100)
-									+ " KB";
-						else
-							msg += curFile.length() / (1024 * 1024) + "."
-									+ curFile.length() % (1024 * 1024) / 10
-									% 100 + " MB";
-
-						msg += ")</font>";
-					}
+//					if (curFile.isFile()) {
+//						long len = curFile.length();
+//						msg += " &nbsp;<font size=2>(";
+//						if (len < 1024)
+//							msg += curFile.length() + " bytes";
+//						else if (len < 1024 * 1024)
+//							msg += curFile.length() / 1024 + "."
+//									+ (curFile.length() % 1024 / 10 % 100)
+//									+ " KB";
+//						else
+//							msg += curFile.length() / (1024 * 1024) + "."
+//									+ curFile.length() % (1024 * 1024) / 10
+//									% 100 + " MB";
+//
+//						msg += ")</font>";
+//					}
 					msg += "<br/>";
 					if (dir)
 						msg += "</b>";
