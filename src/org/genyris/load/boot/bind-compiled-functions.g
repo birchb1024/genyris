@@ -34,5 +34,7 @@ s:load-class-by-name "org.genyris.classification.IsInstanceFunction"
 s:load-class-by-name "org.genyris.test.JunitRunnerFunction"
 s:load-class-by-name "org.genyris.email.SendFunction"
 s:load-class-by-name "org.genyris.system.ExitMethod"
+s:load-class-by-name "org.genyris.system.SystemTicksMethod"
 s:load-class-by-name "org.genyris.io.csv.CSV"
+s:load-class-by-name "org.genyris.datetime.AbstractDateTimeFunction"
 

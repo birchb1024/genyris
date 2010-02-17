@@ -8,8 +8,7 @@ defmacro u:debug(thing)
     u:format "%a => %a%n" ^,thing ,thing
 
 def u:getLocalTime()
-   System
-      .exec "cmd.exe" "/c" "echo %date% %time%"
+   format-date ((System.ticks)) "dd MMM yyyy HH:mm:ss"
 
 def u:printSymbolTable()
   (symlist)
