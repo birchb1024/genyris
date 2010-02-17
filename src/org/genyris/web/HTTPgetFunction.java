@@ -9,8 +9,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
@@ -38,13 +40,25 @@ public class HTTPgetFunction extends ApplicableFunction {
 
         try {
             URL url = new URL(URI);
-            BufferedReader in = new BufferedReader(new InputStreamReader(url
-                    .openStream()));
+            URLConnection conn = url.openConnection();
+            if(conn instanceof HttpURLConnection) {
+            	HttpURLConnection httpConn = (HttpURLConnection)conn;
+            	httpConn.connect();
+            	if (httpConn.getResponseCode() != 200) {
+                	throw new GenyrisException("Server returned non 200 Respose Code: " + Integer.toString(httpConn.getResponseCode()));
+                }
+            }
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             return new ReaderStream((Reader)in);
         } catch (MalformedURLException e1) {
             throw new GenyrisException(e1.getMessage());
         } catch (IOException e) {
             throw new GenyrisException(e.getMessage());
+        } catch (java.lang.RuntimeException e) {
+        	if(e.getMessage().equals("java.lang.IllegalArgumentException: protocol = http host = null"))	
+        		throw new GenyrisException("Proably got a 302 redirection to a bad URL?" + e.getMessage());
+        	else
+        		throw e;
         }
     }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
