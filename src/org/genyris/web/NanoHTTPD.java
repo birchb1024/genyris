@@ -238,7 +238,7 @@ public class NanoHTTPD {
 
 			}
 		});
-		t.setName("NanoHTTPD-" + myTcpPort);
+		t.setName(this.getClass().getName() + " " + myTcpPort + " " + this.rootdir);
 		t.setDaemon(true);
 		t.start();
 		return t;

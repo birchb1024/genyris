@@ -26,6 +26,7 @@ import org.genyris.load.SourceLoader;
 public class GenyrisHTTPD extends NanoHTTPD {
 
 	Interpreter interpreter;
+	String filename;
 
 	Symbol NIL;
 
@@ -33,7 +34,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
 	public GenyrisHTTPD(int port, String filename, Exp[] argv) throws GenyrisException {
 		myTcpPort = port;
-
+		this.filename = filename;
 		interpreter = new Interpreter();
 		interpreter.init(false);
 		Symbol ARGS = interpreter.intern(Constants.GENYRIS + "system#"
@@ -92,7 +93,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
 			}
 		});
-		t.setName("GenyrisHTTPD-" + myTcpPort);
+		t.setName(this.getClass().getName() + " " + myTcpPort + " " + this.filename);
 		t.setDaemon(true);
 		t.start();
 		return t;

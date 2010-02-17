@@ -85,6 +85,9 @@ public abstract class ApplicableFunction {
 
     protected void checkArgumentTypes(Class[] types, Exp[] args)
             throws GenyrisException {
+    	if( args.length < types.length ) {
+    		throw new GenyrisException(getName() + " not enough arguments.");
+    	}
         for (int i = 0; i < types.length; i++) {
             if (!types[i].isInstance(args[i])) {
                 throw new GenyrisException(getName() + " expects a "
