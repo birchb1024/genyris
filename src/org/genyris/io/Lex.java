@@ -89,7 +89,7 @@ public class Lex {
 		try {
 			return new BigDecimal(collect.toString());
 		} catch (NumberFormatException e) {
-			throw new LexException(e.getMessage());
+			throw new LexException("NumberFormatException on " + collect.toString());
 		}
 	}
 

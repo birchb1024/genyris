@@ -15,7 +15,7 @@ public class GenyrisException extends Exception {
 
 	public GenyrisException(String message) {
 		super(message);
-		this._reason = null;
+		this._reason = new StrinG(message);
 	}
 
 	public GenyrisException(Exp data) {

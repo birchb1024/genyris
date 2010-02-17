@@ -17,6 +17,9 @@ public class StrinG extends Atom {
 
 	public StrinG(String str) {
 		_value = str;
+		if (str == null) {
+			throw new java.lang.IllegalArgumentException("null passed to String constructor");
+		}
 		_quoteWith = '\'';
 	}
 
