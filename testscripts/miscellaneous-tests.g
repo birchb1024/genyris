@@ -1,7 +1,7 @@
 #
 # Miscellaneous tests
 #
-
+include 'testscripts/test-load-time-runner.g'
 var properties (System(.getProperties))
 var OS-name (properties.|os.name|)
 print OS-name
