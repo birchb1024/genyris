@@ -21,7 +21,7 @@ import queens
 # This whole line is a comment 
 - 4 3    # this comment goes to the end
 
-list ^Wednesday-12 ^_age ^*global* ^+$ ^<variable!name>
+list ^Wednesday-12 ^_age ^*global* ^+$ ^<variablename>
 
 list -3 23.78 -100.0089  34.45e7
 

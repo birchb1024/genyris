@@ -13,6 +13,7 @@ import org.genyris.core.Pair;
 import org.genyris.core.PairEquals;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
+import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 
@@ -27,6 +28,8 @@ public class Parser {
 
 	Internable _table;
 
+	private Exp pushback;
+
 	public Parser(Internable table, InStream stream) {
 		this(table, stream, Constants.CDRCHAR, Constants.COMMENTCHAR);
 	}
@@ -40,9 +43,23 @@ public class Parser {
 	}
 
 	public void nextsym() throws GenyrisException {
-		cursym = _lexer.nextToken();
+		if (pushback == null) {
+			cursym = _lexer.nextToken();
+		} else {
+			cursym = pushback;
+			pushback = null;
+		}
+		
 	}
 
+	public void pushbacksym(Exp token) throws GenyrisException {
+		if (pushback == null) {
+			pushback = token;
+		} else {
+			throw new GenyrisException("Attempt to pushback to many: " + token.toString());
+		}
+		
+	}
 	private Exp readAux() throws GenyrisException {
 		Exp retval = NIL;
 		nextsym();
@@ -163,7 +180,25 @@ public class Parser {
 		} else {
 			tree = cursym;
 		}
-		return (tree);
+		Exp old = cursym;
+		if ( tree instanceof Symbol ) {
+			boolean looping = true;
+			while (looping) {
+				nextsym();
+				if (cursym == _lexer.PLING_TOKEN) {
+					nextsym();
+					if(!(cursym instanceof Symbol)) {
+						throw new GenyrisException("Bad indirection: " + cursym.toString());
+					}
+					tree = new Pair(tree, new Pair(new DynamicSymbol((SimpleSymbol) cursym),NIL));
+				} else {
+					pushbacksym(cursym);
+					cursym = old;
+					break;
+				}
+			}
+		}
+		return tree;
 	}
 
 	public void addPrefix(String prefix, String expansion)

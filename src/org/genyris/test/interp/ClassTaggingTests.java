@@ -111,9 +111,9 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
-        excerciseEval("(class CC() (def !valid?(x) true))", "<class CC (Thing) ()>");
+        excerciseEval("(class CC() (def .valid?(x) true))", "<class CC (Thing) ()>");
         exceptionEval("(12 = CC)", "Cannot assign <class CC (Thing) ()> to non-Symbol 12");
-        excerciseEval("(class XX() (def !valid?(x) nil))", "<class XX (Thing) ()>");
+        excerciseEval("(class XX() (def .valid?(x) nil))", "<class XX (Thing) ()>");
         exceptionEval("(12 = XX)", "Cannot assign <class XX (Thing) ()> to non-Symbol 12");
 
         excerciseEval("(def fn((a =A) = Bignum) 42)", "<EagerProc: <fn>>");

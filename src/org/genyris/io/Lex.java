@@ -34,6 +34,7 @@ public class Lex {
 	public Symbol LEFT_PAREN_TOKEN, RIGHT_PAREN_TOKEN, CDR_TOKEN;
 	public Symbol LEFT_SQUARE_TOKEN, RIGHT_SQUARE_TOKEN;
 	public Symbol LEFT_CURLY_TOKEN, RIGHT_CURLY_TOKEN;
+	public Symbol PLING_TOKEN;
 
 	private void init(InStream inputSource, Internable table, char cdrChar, char commentChar) {
 		_mapper = new PrefixMapper();
@@ -55,6 +56,7 @@ public class Lex {
 		LEFT_CURLY_TOKEN = new SimpleSymbol("leftCurlyToken");
 		RIGHT_CURLY_TOKEN = new SimpleSymbol("rightCurlyToken");
 		CDR_TOKEN = new SimpleSymbol("pair-delimiterToken");
+		PLING_TOKEN = new SimpleSymbol("plingToken");
 	}
 
 	public Lex(InStream inputSource, Internable table, char cdrChar, char commentChar) {
@@ -149,6 +151,7 @@ public class Lex {
 		case Constants.QUOTECHAR:
 		case '\'':
 		case '"':
+		case '!':
 			return false;
 		default:
 			return true;
@@ -254,6 +257,8 @@ public class Lex {
 			case '9':
 				_input.unGet(ch);
 				return parseNumber();
+			case '!':
+				return PLING_TOKEN;
 			case '(':
 				return LEFT_PAREN_TOKEN;
 			case ')':
