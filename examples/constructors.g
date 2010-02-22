@@ -15,7 +15,6 @@
 #  A class which does it's own construction but checks nothing
 #
 class BasicPerson ()
-
     def .new (name age)
       (tag .self (dict))
         define .name name
@@ -26,23 +25,20 @@ assert
    and
      is-instance? ((BasicPerson.new) "w" 2) BasicPerson
      equal? 2
-       ((BasicPerson.new) "w" 2).age
+       (BasicPerson (.new "w" 2)) .age
 #
 #  A class which uses the .new in Object, and adds type checking
 #
 class PersonTraditional (Object)
-
    def .init((name=String) (age = Bignum))
       define .name name
       define .age age
 
 
 class PersonModern ()
-
    def .valid?(obj)
-      is? (obj.name) String
-      is? (obj.age) Bignum
-
+      is? obj!name String
+      is? obj!age Bignum
    def .new(name age)
       (dict)                             # create the object
          define .name name               # add the data
@@ -56,4 +52,4 @@ define fred ((PersonModern.new) "fred" 23)
 assert
    and
      is-instance? fred PersonModern
-     equal? (fred.age) 23
+     equal? fred!age 23
