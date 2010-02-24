@@ -335,8 +335,16 @@ public class LexTest extends TestCase {
 	public void testPling() throws Exception {
 		excerciseSpecialParsing("a!b", "(a .b)");
 		excerciseSpecialParsing("a!b!c", "((a .b) .c)");
-		excerciseBadSpecialParsing("a!1}");
-//		excerciseBadSpecialParsing("2!w}"); TODO THIS TEST FAILS - FIX THE CODE!
-//		excerciseBadSpecialParsing("2!3"); TODO THIS TEST FAILS - FIX THE CODE!
+		excerciseSpecialParsing("a!b!c!d!e!f!g", "((((((a .b) .c) .d) .e) .f) .g)");
+		excerciseSpecialParsing(".f!g", "(.f .g)");
+
+		excerciseBadSpecialParsing(".f!.g");
+		excerciseBadSpecialParsing("x!.y");
+		excerciseBadSpecialParsing("a!1");
+	/*
+	 * TODO THESE TESTS FAIL - WHY? - FIX THE CODE!
+	  	excerciseBadSpecialParsing("quote 2!w"); 
+		excerciseBadSpecialParsing("2!3"); 
+		*/
 	}
 }

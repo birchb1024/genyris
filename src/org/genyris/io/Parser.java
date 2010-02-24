@@ -192,6 +192,8 @@ public class Parser {
 					nextsym();
 					if(!(cursym instanceof Symbol)) {
 						throw new ParseException("Bad indirection: " + cursym.toString());
+					} else if (cursym == _lexer.DYNAMIC_TOKEN) {
+						throw new ParseException("Bad indirection: " + cursym.toString());
 					}
 					tree = new Pair(tree, new Pair(new DynamicSymbol((SimpleSymbol) cursym),NIL));
 				} else {

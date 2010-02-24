@@ -44,7 +44,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 553
+Build 576
 \end_layout
 
 \begin_layout Standard
@@ -336,6 +336,19 @@ include 'examples/queens.g'
 > 
 \series bold
 run-queens 8
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+\begin_inset Formula $\hookleftarrow$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -716,7 +729,7 @@ Symbols are a group of any printable characters with the following exceptions:
 \noindent
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="12" columns="2">
+<lyxtabular version="3" rows="13" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -975,6 +988,26 @@ equal sign
 \end_inset
 </cell>
 </row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+!
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+exclamation
+\end_layout
+
+\end_inset
+</cell>
+</row>
 </lyxtabular>
 
 \end_inset
@@ -1003,7 +1036,7 @@ _age
 \end_layout
 
 \begin_layout LyX-Code
-<variable!name>
+<variable-name>
 \end_layout
 
 \begin_layout Standard
@@ -3709,6 +3742,204 @@ file
  
 \end_layout
 
+\begin_layout Subsection
+More Synactic Sugar - Using the exclamation mark
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+The choice of this syntax is a tribute to Martin Richards.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The exclamation mark, ! (aka pling) provides a shorthand way of accessing
+ the properties of a dictionary.
+ This is implemented in the parser like quotes, hence can only be used with
+ symbols.
+ Here are some examples
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+	Tra
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+Input Quote Sequence
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+Translated Expression
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+a!b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(a .b)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+a!b!c
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+((a .b) .c)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(f).a!b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(f)(.a .b)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+.x!y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(.x .y)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The previous example can be written succinctly:
+\end_layout
+
+\begin_layout LyX-Code
+def archive(filename)
+\end_layout
+
+\begin_layout LyX-Code
+    
+\series bold
+file!copy filename '/tmp/foo'
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+    file!zip '/tmp/foo'
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+    file!delete filename
+\end_layout
+
 \begin_layout Section
 Modules
 \end_layout
@@ -3839,7 +4070,7 @@ import file
 \begin_layout LyX-Code
 
 \series bold
-(file.copy) filename '/tmp/foo'
+file!copy filename '/tmp/foo'
 \end_layout
 
 \begin_layout Standard
@@ -5864,6 +6095,10 @@ load
 \end_layout
 
 \begin_layout Subsection
+Multiple Threads of Execution
+\end_layout
+
+\begin_layout Subsubsection
 Running Multiple Interpreters in the Same Process with 
 \emph on
 spawn
@@ -5913,7 +6148,7 @@ The output is:
 'examples/spawn-example.g' '1' '2' '3' '4' '5'
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsubsection
 Termination with 
 \family typewriter
 \emph on
@@ -5924,6 +6159,14 @@ kill
 
 \begin_layout LyX-Code
 kill <thread id>
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+ps
+\emph default
+ - list current running threads
 \end_layout
 
 \begin_layout Subsection
@@ -6473,7 +6716,7 @@ import queens
 \end_layout
 
 \begin_layout LyX-Code
-(queens.queens) 5  # call the module's public function
+queens!queens 5  # call the module's public function
 \end_layout
 
 \begin_layout Subsection
@@ -6668,6 +6911,18 @@ Looping
 
 \begin_layout Subsubsection
 while
+\end_layout
+
+\begin_layout Subsubsection
+for
+\end_layout
+
+\begin_layout LyX-Code
+for <var> in <expression>
+\end_layout
+
+\begin_layout LyX-Code
+<body>
 \end_layout
 
 \begin_layout Subsection
@@ -7112,6 +7367,10 @@ ring.
 \end_layout
 
 \begin_layout Description
+%u Outputs the argument as a URL encoded string suitable for HTTP URLS
+\end_layout
+
+\begin_layout Description
 %n Outputs a linefeed
 \end_layout
 
@@ -7246,6 +7505,10 @@ print
 format
 \end_layout
 
+\begin_layout Subsubsection
+web:get
+\end_layout
+
 \begin_layout Section
 File
 \end_layout
@@ -7279,6 +7542,58 @@ File
 \end_layout
 
 \begin_layout Section
+Time and Dates
+\end_layout
+
+\begin_layout Subsection
+System.ticks - Current system time in milliseconds since the epoch
+\end_layout
+
+\begin_layout LyX-Code
+> System!ticks
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+1266995579117 # Bignum
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> format-date 0 "dd MMM yyyy HH:mm:ss Z" 'GMT'
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+'01 Jan 1970 00:00:00 +0000' # String
+\end_layout
+
+\begin_layout Subsection
+format-date <epoch milliseconds> <format String> <timezone>
+\end_layout
+
+\begin_layout LyX-Code
+> format-date (System!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+'24 Feb 2010 18:11:41 EST' # String  
+\end_layout
+
+\begin_layout Section
 Classification
 \end_layout
 
@@ -7291,7 +7606,7 @@ tag
 \end_layout
 
 \begin_layout Subsection
-remove-tag
+remove-tag <class> <object>
 \end_layout
 
 \begin_layout Subsection
@@ -7532,6 +7847,10 @@ System
 
 \begin_layout Subsubsection
 .exec
+\end_layout
+
+\begin_layout Subsubsection
+.getenv
 \end_layout
 
 \begin_layout Subsection

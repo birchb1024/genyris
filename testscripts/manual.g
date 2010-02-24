@@ -163,9 +163,9 @@ file
 ## Use of the file module
 
 def archive(filename)
-    (file.copy) filename "/tmp/foo"
-    (file.zip) "/tmp/foo"
-    (file.delete) filename
+    file!copy filename "/tmp/foo"
+    file!zip "/tmp/foo"
+    file!delete filename
       
 @prefix file "http://my/files/"
 
