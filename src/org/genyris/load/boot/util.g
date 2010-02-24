@@ -7,8 +7,10 @@ defmacro u:debug(thing)
   template
     u:format "%a => %a%n" ^,thing ,thing
 
+class ShortDateTimeString(String)
 def u:getLocalTime()
-   format-date ((System.ticks)) "dd MMM yyyy HH:mm:ss"
+   tag ShortDateTimeString
+      format-date ((System.ticks)) "dd MMM yyyy HH:mm:ss"
 
 def u:printSymbolTable()
   (symlist)
