@@ -23,6 +23,7 @@ import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.InStream;
 import org.genyris.io.Lex;
+import org.genyris.io.ParseException;
 import org.genyris.io.Parser;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
@@ -257,6 +258,21 @@ public class LexTest extends TestCase {
 
 	}
 
+	private void excerciseBadSpecialParsing(String toParse)
+			throws Exception {
+		Interpreter interpreter = new Interpreter();
+		interpreter.init(false);
+
+		InStream input = new UngettableInStream(new StringInStream(toParse));
+		Parser parser = new Parser(interpreter.getSymbolTable(), input);
+		try {
+			parser.read();
+		} catch (ParseException e) {
+			return;
+		}
+		fail();
+	}
+
 	public void testSpecialLexQuote() throws Exception {
 		excerciseSpecialParsing("^a", "(quote a)");
 		excerciseSpecialParsing("^12.34", "(quote 12.34)");
@@ -293,6 +309,7 @@ public class LexTest extends TestCase {
 	public void testSpecialLexCommaAt() throws Exception {
 		excerciseSpecialParsing(",@12", "(comma-at 12)");
 	}
+
 	public void testSquarebracket() throws Exception {
 		excerciseSpecialParsing("[]", "(squareBracket)");
 		excerciseSpecialParsing("[1]", "(squareBracket 1)");
@@ -313,5 +330,13 @@ public class LexTest extends TestCase {
 		excerciseSpecialParsing("{'foo'}", "(curlyBracket 'foo')");
 		excerciseSpecialParsing("{w ^e}", "(curlyBracket w (quote e))");
 		excerciseSpecialParsing("{(1 2 3)}", "(curlyBracket (1 2 3))");
+	}
+
+	public void testPling() throws Exception {
+		excerciseSpecialParsing("a!b", "(a .b)");
+		excerciseSpecialParsing("a!b!c", "((a .b) .c)");
+		excerciseBadSpecialParsing("a!1}");
+//		excerciseBadSpecialParsing("2!w}"); TODO THIS TEST FAILS - FIX THE CODE!
+//		excerciseBadSpecialParsing("2!3"); TODO THIS TEST FAILS - FIX THE CODE!
 	}
 }

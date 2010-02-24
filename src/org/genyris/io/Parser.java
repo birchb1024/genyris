@@ -132,6 +132,9 @@ public class Parser {
 
 	public Exp parseExpression() throws GenyrisException {
 		Exp tree = NIL;
+		if (cursym.equals(_lexer.PLING_TOKEN)) {
+			throw new ParseException("unexpected !");
+		}
 		if (cursym.equals(_lexer.CDR_TOKEN)) {
 			throw new ParseException("unexpected =");
 		}
@@ -188,7 +191,7 @@ public class Parser {
 				if (cursym == _lexer.PLING_TOKEN) {
 					nextsym();
 					if(!(cursym instanceof Symbol)) {
-						throw new GenyrisException("Bad indirection: " + cursym.toString());
+						throw new ParseException("Bad indirection: " + cursym.toString());
 					}
 					tree = new Pair(tree, new Pair(new DynamicSymbol((SimpleSymbol) cursym),NIL));
 				} else {
