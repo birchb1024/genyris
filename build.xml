@@ -230,7 +230,7 @@ defvar ^v:tipdate "${hg.tip.date}"
     	    <arg value="-jar"/>
     	    <arg value="dist/genyris-bin-${hg.tip}.jar"/>
     	    <arg value="-eval"/>
-            <arg value="(cond ((self-test-runner) (System(!exit 1))))"/>
+            <arg value="(cond ((self-test-runner) (System(.exit 1))))"/>
      	  </exec>
 	</target>
 
