@@ -13,6 +13,7 @@ define example-files
     ~ 'examples/class-methods.g'
     ~ 'examples/class-variables.g'
     ~ 'examples/context-sensitive-syntax.g'
+    ~ 'examples/constructors.g'
     ~ 'examples/cps.g'
     ~ 'examples/executable-comments.g'
     ~ 'examples/file-module-prefixes.g'

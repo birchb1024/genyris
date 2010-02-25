@@ -16,16 +16,16 @@
 #
 class BasicPerson ()
     def .new (name age)
-      (tag .self (dict))
+      (tag BasicPerson (dict))
         define .name name
         define .age age
         .self
 
 assert
    and
-     is-instance? ((BasicPerson.new) "w" 2) BasicPerson
+     is-instance? (BasicPerson!new "w" 2) BasicPerson
      equal? 2
-       (BasicPerson (.new "w" 2)) .age
+       (BasicPerson!new "w" 2).age
 #
 #  A class which uses the .new in Object, and adds type checking
 #
@@ -47,7 +47,7 @@ class PersonModern ()
          tag PersonModern .self           # ok, so add the class
          .self
 
-define fred ((PersonModern.new) "fred" 23)
+define fred (PersonModern!new "fred" 23)
 
 assert
    and
