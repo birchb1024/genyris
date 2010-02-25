@@ -49,17 +49,19 @@ public class Parser {
 			cursym = pushback;
 			pushback = null;
 		}
-		
+
 	}
 
 	public void pushbacksym(Exp token) throws GenyrisException {
 		if (pushback == null) {
 			pushback = token;
 		} else {
-			throw new GenyrisException("Attempt to pushback to many: " + token.toString());
+			throw new GenyrisException("Attempt to pushback to many: "
+					+ token.toString());
 		}
-		
+
 	}
+
 	private Exp readAux() throws GenyrisException {
 		Exp retval = NIL;
 		nextsym();
@@ -104,7 +106,28 @@ public class Parser {
 		return true;
 	}
 
-	public Exp parseList() throws GenyrisException {
+	private Exp collectPlings(Exp tree) throws GenyrisException {
+		Exp old = cursym;
+		nextsym();
+		if (!(cursym instanceof Symbol)) {
+			throw new ParseException("Bad indirection: " + cursym.toString());
+		} else if (cursym == _lexer.DYNAMIC_TOKEN) {
+			throw new ParseException("Bad indirection: " + cursym.toString());
+		}
+		tree = new Pair(tree, new Pair(
+				new DynamicSymbol((SimpleSymbol) cursym), NIL));
+		old = cursym;
+		nextsym();
+		if (cursym == _lexer.PLING_TOKEN) {
+			return collectPlings(tree);
+		} else {
+			pushbacksym(cursym);
+			cursym = old;
+		}
+		return tree;
+	}
+
+	public Exp parseList(Exp lhs) throws GenyrisException {
 		Exp tree;
 		nextsym();
 		if (cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
@@ -117,7 +140,25 @@ public class Parser {
 			return _lexer.CDR_TOKEN;
 		} else {
 			tree = parseExpression();
-			Exp restOfList = parseList();
+			Exp old = cursym;
+			nextsym();
+			if (cursym.equals(_lexer.PLING_TOKEN)) {
+				Exp plings = collectPlings(tree);
+				Exp restOfList = parseList(plings);
+				if (restOfList == _lexer.CDR_TOKEN) {
+					nextsym();
+					restOfList = parseExpression();
+					nextsym();
+					tree = new PairEquals(plings, restOfList);
+					return tree;
+				}
+				tree = new Pair(plings, restOfList);
+				return tree;
+			} else {
+				pushbacksym(cursym);
+				cursym = old;				
+			}
+			Exp restOfList = parseList(tree);
 			if (restOfList == _lexer.CDR_TOKEN) {
 				nextsym();
 				restOfList = parseExpression();
@@ -145,20 +186,20 @@ public class Parser {
 			throw new ParseException("unexpected right paren");
 		}
 		if (cursym.equals(_lexer.LEFT_PAREN_TOKEN)) {
-			tree = parseList();
+			tree = parseList(NIL);
 			if (!cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
 				throw new ParseException("missing right paren - found: "
 						+ cursym);
 			}
 		} else if (cursym.equals(_lexer.LEFT_SQUARE_TOKEN)) {
-			tree = parseList();
+			tree = parseList(NIL);
 			tree = new Pair(_table.SQUARE(), tree);
 			if (!cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
 				throw new ParseException("missing right square brace - found: "
 						+ cursym);
 			}
 		} else if (cursym.equals(_lexer.LEFT_CURLY_TOKEN)) { // TOD DRY - SQUARE
-			tree = parseList();
+			tree = parseList(NIL);
 			tree = new Pair(_table.CURLY(), tree);
 			if (!cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
 				throw new ParseException("missing right curly brace - found: "
@@ -182,26 +223,6 @@ public class Parser {
 			// cast
 		} else {
 			tree = cursym;
-		}
-		Exp old = cursym;
-		if ( tree instanceof Symbol ) {
-			boolean looping = true;
-			while (looping) {
-				nextsym();
-				if (cursym == _lexer.PLING_TOKEN) {
-					nextsym();
-					if(!(cursym instanceof Symbol)) {
-						throw new ParseException("Bad indirection: " + cursym.toString());
-					} else if (cursym == _lexer.DYNAMIC_TOKEN) {
-						throw new ParseException("Bad indirection: " + cursym.toString());
-					}
-					tree = new Pair(tree, new Pair(new DynamicSymbol((SimpleSymbol) cursym),NIL));
-				} else {
-					pushbacksym(cursym);
-					cursym = old;
-					break;
-				}
-			}
 		}
 		return tree;
 	}

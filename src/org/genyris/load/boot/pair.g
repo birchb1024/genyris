@@ -37,6 +37,9 @@ def member? (item list)
 
 
 Pair
+   def .nth (x) (nth x .self)
+   # example: 
+   # (^(a b c)(.nth 1))
    defmacro .each (args &rest body)
        template
           loop-left .self (function (,(left args)) ,@body)

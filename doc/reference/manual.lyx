@@ -3759,8 +3759,7 @@ The choice of this syntax is a tribute to Martin Richards.
 \begin_layout Standard
 The exclamation mark, ! (aka pling) provides a shorthand way of accessing
  the properties of a dictionary.
- This is implemented in the parser like quotes, hence can only be used with
- symbols.
+ This is implemented in the parser like quotes.
  Here are some examples
 \end_layout
 
@@ -3774,7 +3773,7 @@ The exclamation mark, ! (aka pling) provides a shorthand way of accessing
 \bar no
 \noun off
 \color none
-	Tra
+Tra
 \family default
 \series default
 \shape default
@@ -3785,7 +3784,7 @@ The exclamation mark, ! (aka pling) provides a shorthand way of accessing
 \color inherit
 
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
+<lyxtabular version="3" rows="7" columns="2">
 <features>
 <column alignment="center" valignment="top" leftline="true" width="0">
 <column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
@@ -3857,7 +3856,7 @@ a!b!c
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
@@ -3877,11 +3876,51 @@ a!b!c
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Standard
 (f)(.a .b)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(dict)!self
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+((dict) .self)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+a!b(var .x 23)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+(a .b)(var .x 23)
 \end_layout
 
 \end_inset

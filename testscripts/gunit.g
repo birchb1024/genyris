@@ -1,6 +1,8 @@
 @prefix t "http://www.genyris.org/lib/gunit#"
 @prefix u "http://www.genyris.org/lang/utilities#"
 
+# TODO rewrite
+
 df t:test (id &rest cases)
    #u:format "testing %a%n" id
    var passed-count 0

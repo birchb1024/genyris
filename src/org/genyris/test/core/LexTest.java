@@ -333,18 +333,20 @@ public class LexTest extends TestCase {
 	}
 
 	public void testPling() throws Exception {
-		excerciseSpecialParsing("a!b", "(a .b)");
-		excerciseSpecialParsing("a!b!c", "((a .b) .c)");
-		excerciseSpecialParsing("a!b!c!d!e!f!g", "((((((a .b) .c) .d) .e) .f) .g)");
-		excerciseSpecialParsing(".f!g", "(.f .g)");
+		excerciseSpecialParsing("(a!b)", "((a .b))");
+		excerciseSpecialParsing("(a!b!c)", "(((a .b) .c))");
+		excerciseSpecialParsing("(a!b!c!d!e!f!g)", "(((((((a .b) .c) .d) .e) .f) .g))");
+		excerciseSpecialParsing("(.f!g)", "((.f .g))");
 
-		excerciseBadSpecialParsing(".f!.g");
-		excerciseBadSpecialParsing("x!.y");
-		excerciseBadSpecialParsing("a!1");
-	/*
-	 * TODO THESE TESTS FAIL - WHY? - FIX THE CODE!
-	  	excerciseBadSpecialParsing("quote 2!w"); 
-		excerciseBadSpecialParsing("2!3"); 
-		*/
+		excerciseSpecialParsing("((f)!g)", "(((f) .g))");
+		excerciseSpecialParsing("((f)!g!h!i)", "(((((f) .g) .h) .i))");
+		excerciseSpecialParsing("((f(g(h)))!i!j)", "((((f (g (h))) .i) .j))");
+		excerciseSpecialParsing("(quote 2!w)", "(quote (2 .w))"); 
+		excerciseSpecialParsing("(a!x = 33)", "((a .x) = 33)"); 
+
+		excerciseBadSpecialParsing("(.f!.g)");
+		excerciseBadSpecialParsing("(x!.y)");
+		excerciseBadSpecialParsing("(a!1)");
+		excerciseBadSpecialParsing("(2!3)"); 
 	}
 }

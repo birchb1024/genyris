@@ -18,3 +18,9 @@ def archive(filename)
     (file.copy) filename "/tmp/foo"
     (file.zip) "/tmp/foo"
     (file.delete) filename
+
+def archive2(filename)
+    file!copy filename "/tmp/foo"
+    file!zip "/tmp/foo"
+    file!delete filename
+    

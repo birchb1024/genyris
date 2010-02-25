@@ -13,10 +13,10 @@ class C ()
 
 # call the validator directly from the class env
 assertEqual 
-    C (.valid? 34)
+    C!valid? 34
     true
 assertEqual 
-    C (.valid? 21)
+    C!valid? 21
     nil
 
 

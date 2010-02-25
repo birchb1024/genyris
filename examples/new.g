@@ -33,10 +33,10 @@ class Employee (Person)
           .self
 
 define fred
-   (Employee.new) "Fred Smith" "1/1/1900" 123123123
+   Employee!new "Fred Smith" "1/1/1900" 123123123
 
 assert
-   equal? (fred.dob) "1/1/1900"
+   equal? fred!dob "1/1/1900"
 ##
 ## Add to an existing object to make it belong to a new class.
 ##
@@ -49,7 +49,7 @@ class Manager (Employee)
      tag Manager employee
 
 # promote fred
-(Manager.new) fred "Project Mangler"
+Manager!new fred "Project Mangler"
 
 assert
-   equal? (fred.managment-grade) "Project Mangler"
+   equal? fred!managment-grade "Project Mangler"
