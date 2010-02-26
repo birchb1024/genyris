@@ -5,10 +5,8 @@
 //
 package org.genyris.task;
 
-import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -20,21 +18,13 @@ public class ListTaskFunction extends TaskFunction {
         super(interp, "ps", true);
     }
 
-    private Exp getThreadAsList( Thread tr) {
-    	return
-    		new Pair(new StrinG(tr.getState().toString()),
-    		new Pair(new StrinG(tr.getName()),
-    		new Pair(new Bignum(tr.getId()),NIL)));
-    }
-
-
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
         final Thread[] threads = new Thread[Thread.activeCount()];
         Thread.enumerate(threads);
         Exp threadList = NIL;
         for ( int i=0 ; i < threads.length; i++) {
-            threadList = new Pair(getThreadAsList(threads[i]), threadList);
+            threadList = new Pair(getThreadAsDictionary(threads[i], envForBindOperations), threadList);
         }
         return threadList;
     }

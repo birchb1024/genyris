@@ -8,20 +8,18 @@ package org.genyris.task;
 import java.io.IOException;
 
 import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.web.GenyrisHTTPD;
 
-public class SpawnHTTPDFunction extends ApplicableFunction {
+public class SpawnHTTPDFunction extends TaskFunction {
 
 	public SpawnHTTPDFunction(Interpreter interp) {
-		super(interp, Constants.WEB + "serve", true);
+		super(interp, "httpd", true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
@@ -33,7 +31,7 @@ public class SpawnHTTPDFunction extends ApplicableFunction {
 		GenyrisHTTPD httpd1 = new GenyrisHTTPD(port, filename, arguments);
 		try {
 			Thread t = httpd1.run();
-			return new Bignum(t.getId());
+			return getThreadAsDictionary(t,envForBindOperations);
 		} catch (IOException e) {
 			throw new GenyrisException(e.getMessage());
 		}

@@ -44,7 +44,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 576
+Build 584
 \end_layout
 
 \begin_layout Standard
@@ -6134,7 +6134,7 @@ load
 \end_layout
 
 \begin_layout Subsection
-Multiple Threads of Execution
+Tasks - Multiple Threads of Execution
 \end_layout
 
 \begin_layout Subsubsection
@@ -6144,11 +6144,43 @@ spawn
 \end_layout
 
 \begin_layout LyX-Code
+spawn <source file to include> <args ...>
+\end_layout
+
+\begin_layout Standard
+Spawn creates a new Genyris interpreter instance which is then executed
+ by a seperate Java thread.
+ No memory or data is shared between interpreters, however they all share
+ the same operating system interfaces, files, sockets etc since they are
+ running in the same process.
+ The function returns a 
+\emph on
+Task
+\emph default
+ object, which is a Dictionary containing, the name, id and state of the
+ underlying Java thread.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
 spawn 'testscripts/spawn-example.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout Standard
-The file contains
+returns:
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.id = 9) (.name = 'examples/spawn-example.g') (.state = 'RUNNABLE'))
+ # Task Dictionary
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+spawn-example.g 
+\emph default
+file contains:
 \end_layout
 
 \begin_layout LyX-Code
@@ -6187,6 +6219,10 @@ The output is:
 'examples/spawn-example.g' '1' '2' '3' '4' '5'
 \end_layout
 
+\begin_layout LyX-Code
+...
+\end_layout
+
 \begin_layout Subsubsection
 Termination with 
 \family typewriter
@@ -6196,8 +6232,39 @@ kill
 :
 \end_layout
 
+\begin_layout Standard
+Tasks and the underlying Java threads are killed with the
+\emph on
+ task:kill
+\emph default
+ function.
+ This is also available as the 
+\emph on
+.kill
+\emph default
+ method in the 
+\emph on
+Task
+\emph default
+ class.
+ A string is returned after completion.
+ Note there is no guarantee from java that the thread will be terminated.
+\end_layout
+
 \begin_layout LyX-Code
-kill <thread id>
+<Thread>(.kill)
+\end_layout
+
+\begin_layout Standard
+or
+\end_layout
+
+\begin_layout LyX-Code
+@prefix task 'http://www.genyris.org/lang/task#'
+\end_layout
+
+\begin_layout LyX-Code
+task:kill <integer Java thread id>
 \end_layout
 
 \begin_layout Subsubsection
@@ -6208,13 +6275,25 @@ ps
  - list current running threads
 \end_layout
 
+\begin_layout Standard
+The 
+\emph on
+ps
+\emph default
+ function returns a list containg 
+\emph on
+Task
+\emph default
+ objects for each of the current Java threads.
+\end_layout
+
 \begin_layout Subsection
 Running Web Servers
 \end_layout
 
 \begin_layout Standard
-Genyris can run multiple a single-threaded HTTP servers which can be run
- in their own threads in the background.
+Genyris can run multiple a single-threaded HTTP servers run in Tasks in
+ the background.
  
 \end_layout
 
@@ -6223,19 +6302,23 @@ Starting a web server
 \end_layout
 
 \begin_layout Standard
-A Genyris server can be started with the serve function:
+A Genyris server can be started with the 
+\emph on
+httpd
+\emph default
+ function:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix web 'http://www.genyris.org/lang/web#'
-\end_layout
-
-\begin_layout LyX-Code
-web:serve <port> <path to source file> [args...]
+httpd <port> <path to source file> [args...]
 \end_layout
 
 \begin_layout Standard
-The server function takes parameters:
+The 
+\emph on
+httpd
+\emph default
+ function takes parameters:
 \end_layout
 
 \begin_layout Itemize
@@ -6253,7 +6336,11 @@ sys.argv
 \end_layout
 
 \begin_layout Standard
-The return value is the unique ID of the thread for the web server.
+The return value is a 
+\emph on
+Task
+\emph default
+ object web server.
  Many web servers can be started in the same JVM, each server is allocated
  a unique interpreter instance, there is no sharing between interpreters.
 \end_layout
@@ -6273,11 +6360,11 @@ Example
 \end_layout
 
 \begin_layout LyX-Code
-@prefix web 'http://www.genyris.org/lang/web#'
+
 \end_layout
 
 \begin_layout LyX-Code
-web:serve 777 'examples/www-demo.g' 1 2 3 4 5
+httpd 777 'examples/www-demo.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout Subsubsection
@@ -6285,29 +6372,11 @@ Stopping a web server
 \end_layout
 
 \begin_layout Standard
-The server's thread can be stoped with the kill function:
-\end_layout
-
-\begin_layout LyX-Code
-@prefix web 'http://www.genyris.org/lang/web#'
-\end_layout
-
-\begin_layout LyX-Code
-kill <id>
-\end_layout
-
-\begin_layout Standard
-The function takes one parameters:
-\end_layout
-
-\begin_layout Itemize
-the unique id of the thread as returned from
+The server's thread can be stopped with the 
 \emph on
- web.serve
-\end_layout
-
-\begin_layout Itemize
-the TCP/IP port number on whicch the server will listen for requests.
+kill
+\emph default
+ functions described above.
 \end_layout
 
 \begin_layout Subsubsection
@@ -6344,7 +6413,11 @@ HttpRequest class
 \end_layout
 
 \begin_layout Standard
-The request parameter is an object of class HttpRequest.
+The request parameter is an object of class 
+\emph on
+HttpRequest
+\emph default
+.
  The class has the following methods which return components of the request:
 \end_layout
 
@@ -6456,25 +6529,23 @@ Starting a static web server
 \begin_layout Standard
 A static page web server can be started with the 
 \emph on
-serve-static
+httpd-static
 \emph default
  function:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix web 'http://www.genyris.org/lang/web#'
-\end_layout
-
-\begin_layout LyX-Code
-web:serve-static <port> <path to root directory>
+httpd-static <port> <path to root directory>
 \end_layout
 
 \begin_layout Standard
-For example (Windows):
+The function starts a very simple server with directory listings enabled
+ and no security or logging.
+ For example (Windows):
 \end_layout
 
 \begin_layout LyX-Code
-web:serve-static 80 'c:/'
+httpd-static 80 'c:/'
 \end_layout
 
 \begin_layout Section

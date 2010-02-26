@@ -8,21 +8,19 @@ package org.genyris.task;
 import java.io.IOException;
 
 import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.web.NanoHTTPD;
 import org.genyris.web.NanoHTTPD.NanoException;
 
-public class SpawnNanoHTTPDFunction extends ApplicableFunction {
+public class SpawnNanoHTTPDFunction extends TaskFunction {
 
 	public SpawnNanoHTTPDFunction(Interpreter interp) {
-		super(interp, Constants.WEB + "serve-static", true);
+		super(interp, "httpd-static", true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
@@ -35,7 +33,7 @@ public class SpawnNanoHTTPDFunction extends ApplicableFunction {
 		try {
 			NanoHTTPD httpd1 = new NanoHTTPD(port, rootpath);
 			Thread t = httpd1.run();
-			return new Bignum(t.getId());
+			return getThreadAsDictionary(t,envForBindOperations);
 		} catch (IOException e) {
 			throw new GenyrisException(e.getMessage());
 		} catch (NanoException e) {

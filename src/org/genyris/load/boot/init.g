@@ -69,6 +69,7 @@ load "org/genyris/load/boot/set.g"
 load "org/genyris/load/boot/triple.g"
 load "org/genyris/load/boot/import.g"
 load "org/genyris/load/boot/for.g"
+load "org/genyris/load/boot/task.g"
 
 
 

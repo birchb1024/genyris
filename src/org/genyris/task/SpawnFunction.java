@@ -8,7 +8,6 @@ package org.genyris.task;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
@@ -16,13 +15,12 @@ import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.exception.GenyrisInterruptedException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
-public class SpawnFunction extends ApplicableFunction {
+public class SpawnFunction extends TaskFunction {
 
 	public SpawnFunction(Interpreter interp) {
 		super(interp, "spawn", true);
@@ -30,22 +28,23 @@ public class SpawnFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
+		
 		BackGroundInterpreter task = new BackGroundInterpreter(arrayToStringArray(arguments));
 		Thread thread = new Thread(task);
-		thread.setName(arguments[0].toString());
+		if( arguments.length > 0 )
+			thread.setName(arguments[0].toString());
 		thread.start();
 
-        return new Bignum(thread.getId());
+        return getThreadAsDictionary(thread, envForBindOperations);
 	}
 	
 
     public static class BackGroundInterpreter implements Runnable {
     	private final String[] arguments;
-    	public BackGroundInterpreter(String[] args) {
+    	public BackGroundInterpreter(String[] args) throws GenyrisException {
     		arguments = args;
     	}
         public void run() {
-        	String filename = arguments[0].toString();
             Interpreter interpreter;
 			try {
 				interpreter = new Interpreter();
@@ -53,7 +52,10 @@ public class SpawnFunction extends ApplicableFunction {
 				Writer output = new PrintWriter(System.out);
 				SimpleSymbol ARGS = interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
 				interpreter.getGlobalEnv().defineVariable(ARGS, arrayToExpList(interpreter.NIL, arguments));
-				SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
+	    		if( arguments.length != 0) {
+	    			String filename = arguments[0].toString();
+	    			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
+	    		}
 			} catch (GenyrisException e) {
 				if(e instanceof GenyrisInterruptedException) 
 					return;

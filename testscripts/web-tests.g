@@ -5,7 +5,7 @@
 include "testscripts/gunit.g"
 
 def readPage(url)
-    var wstream (web.get url)
+    var wstream (web:get url)
     var count 0
     while (wstream(.hasData))
          count = (+ count 1)
@@ -15,35 +15,24 @@ def readPage(url)
     count
 
 def run-web()
-    var thread-id (web.serve 7777 "testscripts/www-text.g")
-    sleep 2000
-    kill thread-id
+    var thread (httpd 7777 "testscripts/www-text.g")
+    sleep 1000
+    thread(.kill)
 
 def run-web-get()
-    var thread-id (web.serve 7778 "testscripts/www-text.g")
-    sleep 2000
+    var thread (httpd 7778 "testscripts/www-text.g")
+    sleep 1000
     var result (readPage "http://localhost:7778/")
-    kill thread-id
+    thread(.kill)
     result
 
 def run-web-static-get()
-    var thread-id (web.serve-static 7778 ".")
-    sleep 2000
+    var thread (httpd-static 7778 ".")
+    sleep 1000
     var result (readPage "http://localhost:7778/")
-    kill thread-id
+    thread(.kill)
     result
 
-var overall-result
-  t:test "Web Server"
-    t:test "Spawn and Kill"
-        t:given (run-web) expect "Terminated GenyrisHTTPD-7777"
-        t:given (run-web) expect "Terminated GenyrisHTTPD-7777"
-
-    t:test "Spawn and HTTP Get"
-         t:given (run-web-get) expect 15
-         t:given (run-web-get) expect 15
-
-    t:test "Spawn static and HTTP Get"
-         t:given (run-web-static-get) expect 2017
-         t:given (run-web-static-get) expect 2017
-or overall-result (raise "Web Suite Failed")
+run-web
+run-web-get
+run-web-static-get

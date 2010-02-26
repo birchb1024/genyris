@@ -276,6 +276,9 @@ public class Dictionary extends Atom implements Environment {
 		bindings.put(SELF(), this);
 		return new DynamicEnvironment(parent, bindings, this);
 	}
-
-
+	public Dictionary addProperty(Environment env, String name, Exp value) throws GenyrisException {
+    	defineDynamicVariable(new DynamicSymbol((SimpleSymbol) env.internString(name)), 
+    			value);
+		return this;
+	}
 }

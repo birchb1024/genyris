@@ -251,6 +251,7 @@ public class Parser {
 		addPrefix("g", Constants.PREFIX_SYNTAX);
 		addPrefix("sys", Constants.PREFIX_SYSTEM);
 		addPrefix("ver", Constants.PREFIX_VERSION);
+		addPrefix("task", Constants.PREFIX_TASK);
 		addPrefix("types", Constants.PREFIX_TYPES);
 	}
 
