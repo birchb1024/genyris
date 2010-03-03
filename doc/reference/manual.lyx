@@ -3319,7 +3319,7 @@ Pairs
 \end_layout
 
 \begin_layout Subsection
-Dictionaries - Your Garden Variety Objects
+Dictionaries - Your Everyday Objects
 \end_layout
 
 \begin_layout Standard
@@ -4381,7 +4381,23 @@ Thing
 \end_layout
 
 \begin_layout LyX-Code
-Thing
+ Thing
+\end_layout
+
+\begin_layout LyX-Code
+    Task
+\end_layout
+
+\begin_layout LyX-Code
+    Module
+\end_layout
+
+\begin_layout LyX-Code
+    SetList
+\end_layout
+
+\begin_layout LyX-Code
+    Alist
 \end_layout
 
 \begin_layout LyX-Code
@@ -4389,99 +4405,119 @@ Thing
 \end_layout
 
 \begin_layout LyX-Code
-            Pair
+       PairEqual
 \end_layout
 
 \begin_layout LyX-Code
-                    PairEqual
+       Pair
 \end_layout
 
 \begin_layout LyX-Code
-            Closure
+          ListOfLines
 \end_layout
 
 \begin_layout LyX-Code
-                LazyProcedure
+          PRINTWITHEQ
 \end_layout
 
 \begin_layout LyX-Code
-                EagerProcedure
+       Closure
 \end_layout
 
 \begin_layout LyX-Code
-            Symbol
+          LazyProcedure
 \end_layout
 
 \begin_layout LyX-Code
-                   DynamicSymbolRef
+          EagerProcedure
 \end_layout
 
 \begin_layout LyX-Code
-                   URISymbol
+       Symbol
 \end_layout
 
 \begin_layout LyX-Code
-                   SimpleSymbol
+          DynamicSymbolRef
 \end_layout
 
 \begin_layout LyX-Code
-            Triplestore
+          URISymbol
 \end_layout
 
 \begin_layout LyX-Code
-            Triple
+          SimpleSymbol
 \end_layout
 
 \begin_layout LyX-Code
-            Sound
+             |http://www.genyris.org/lang/syntax#Keyword|
 \end_layout
 
 \begin_layout LyX-Code
-            StringFormatStream
+       Triplestore
 \end_layout
 
 \begin_layout LyX-Code
-            ParenParser
+       Triple
 \end_layout
 
 \begin_layout LyX-Code
-            Parser
+       Sound
 \end_layout
 
 \begin_layout LyX-Code
-            System
+       StringFormatStream
 \end_layout
 
 \begin_layout LyX-Code
-            Writer
+       ParenParser
 \end_layout
 
 \begin_layout LyX-Code
-            Reader
+       Parser
 \end_layout
 
 \begin_layout LyX-Code
-            CSV
+       System
 \end_layout
 
 \begin_layout LyX-Code
-            File
+       Writer
 \end_layout
 
 \begin_layout LyX-Code
-            String
+       Reader
 \end_layout
 
 \begin_layout LyX-Code
-            Bignum
+       CSV
 \end_layout
 
 \begin_layout LyX-Code
-            Dictionary
+       File
 \end_layout
 
 \begin_layout LyX-Code
-                     StandardClass
+       String
+\end_layout
+
+\begin_layout LyX-Code
+          ShortDateTimeString
+\end_layout
+
+\begin_layout LyX-Code
+       Bignum
+\end_layout
+
+\begin_layout LyX-Code
+       Dictionary
+\end_layout
+
+\begin_layout LyX-Code
+          Object
+\end_layout
+
+\begin_layout LyX-Code
+          StandardClass
 \end_layout
 
 \begin_layout LyX-Code
@@ -5734,6 +5770,14 @@ Creating triples with
 triple
 \end_layout
 
+\begin_layout LyX-Code
+> triple ^Lewis ^hasMother ^Mae
+\end_layout
+
+\begin_layout LyX-Code
+(triple Lewis hasMother Mae) # Triple 
+\end_layout
+
 \begin_layout Subsubsection
 Accessing parts of a triple with 
 \emph on
@@ -5746,6 +5790,26 @@ Accessing parts of a triple with
  and 
 \emph on
 .object
+\end_layout
+
+\begin_layout LyX-Code
+var l 
+\end_layout
+
+\begin_layout LyX-Code
+   triple ^Lewis ^hasMother ^Mae
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+l.subject
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsubsection

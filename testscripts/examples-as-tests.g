@@ -2,6 +2,7 @@
 # Examples run as tests
 #
 @prefix sys "http://www.genyris.org/lang/system#"
+@prefix u "http://www.genyris.org/lang/utilities#"
 
 sys:path = (cons 'examples' sys:path)
 
@@ -32,9 +33,13 @@ define example-files
     ~ 'examples/url.g'
     ~ 'examples/validate.g'
     ~ 'examples/queens.g'
+    ~ 'examples/allclasses.g'
+    
+    
 define pass nil
 define results ()
 while example-files
+    u:format '------------------ %a -----------------------\n' (left example-files)
     catch errors
         include (left example-files)
     if errors

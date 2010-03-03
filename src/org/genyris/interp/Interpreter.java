@@ -215,10 +215,8 @@ public class Interpreter {
 		StandardClass builtin = StandardClass.mkClass("Builtin", env, THING);
 		StandardClass dictionary = StandardClass.mkClass(Constants.DICTIONARY, env, builtin);
 		standardClassDict.addSuperClass(dictionary);
-		StandardClass.mkClass(Constants.INTEGER, env, builtin);
 		StandardClass.mkClass(Constants.BIGNUM, env, builtin);
 		StandardClass.mkClass(Constants.STRING, env, builtin);
-		StandardClass.mkClass(Constants.DOUBLE, env, builtin);
 		StandardClass.mkClass(Constants.FILE, env, builtin);
 		StandardClass.mkClass(Constants.CSV, env, builtin);
 		StandardClass.mkClass(Constants.READER, env, builtin);
