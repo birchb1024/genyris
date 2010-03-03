@@ -30,7 +30,7 @@ public class TripleEnvironment extends ExpressionEnvironment {
 	public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu)
 			throws UnboundException {
 		throw new UnboundException("Attempt to alter immutable triple: "
-				+ this.toString());
+				+ _theExpression.toString());
 	}
 
 	public Exp lookupDynamicVariableValue(DynamicSymbol dsym)
