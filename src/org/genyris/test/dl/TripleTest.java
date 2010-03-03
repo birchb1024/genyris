@@ -76,15 +76,15 @@ public class TripleTest extends TestCase {
 
     }
     public void testTripleAccessorsFunction() throws Exception {
-        excerciseEval("((triple 1 ^s 34)(.subject))", "1");
-        excerciseEval("((triple 1 ^s 34)(.predicate))", "s");
-        excerciseEval("((triple 1 ^s 34)(.object))", "34");
+        excerciseEval("((triple 1 ^s 34).subject)", "1");
+        excerciseEval("((triple 1 ^s 34).predicate)", "s");
+        excerciseEval("((triple 1 ^s 34).object)", "34");
     }
         public void testTripleAccessorsOnClassFunction() throws Exception {
         excerciseEval("(defvar ^t (triple ^a ^s ^d))", "(triple a s d)");
-        excerciseEval("(t(.subject))", "a");
-        excerciseEval("(t(.predicate))", "s");
-        excerciseEval("(t(.object))", "d");
+        excerciseEval("(t.subject)", "a");
+        excerciseEval("(t.predicate)", "s");
+        excerciseEval("(t.object)", "d");
     }
 
 }

@@ -106,5 +106,8 @@ public class Constants {
 		public static final String FORMAT = "format";
 		public static final String NAME = "name";
 		public static final String SOURCE = "source";
+		public static final String SUBJECT = "subject";
+		public static final String PREDICATE = "predicate";
+		public static final String OBJECT = "object";
 
 }

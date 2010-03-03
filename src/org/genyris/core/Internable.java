@@ -52,5 +52,8 @@ public interface Internable {
 	public SimpleSymbol DYNAMICSYMBOLREF();
 	public SimpleSymbol SOURCE();
 	public SimpleSymbol NAME();
+	public SimpleSymbol SUBJECT();
+	public SimpleSymbol OBJECT();
+	public SimpleSymbol PREDICATE();
 
 }

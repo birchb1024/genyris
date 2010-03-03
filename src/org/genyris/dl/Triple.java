@@ -33,6 +33,11 @@ public class Triple extends Atom implements Comparable {
         guest.visitTriple(this);
 
     }
+    
+	public Environment makeEnvironment(Environment parent) throws GenyrisException {
+		return new TripleEnvironment(parent, this);
+	}
+
 
     public String toString() {
         return "(triple " + subject + " " + predicate +  " " + object + ")";

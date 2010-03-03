@@ -47,53 +47,9 @@ public class TripleFunctions extends ApplicableFunction {
         }
     }
 
-    public static class SubjectMethod extends AbstractTripleMethod {
-
-        public SubjectMethod(Interpreter interp) {
-            super(interp, "subject");
-        }
-
-        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-                throws GenyrisException {
-            Triple self = getSelfAsTriple(env);
-            checkArguments(arguments, 0);
-            return self.subject;
-        }
-    }
-
-    public static class PredicateMethod extends AbstractTripleMethod {
-
-        public PredicateMethod(Interpreter interp) {
-            super(interp, "predicate");
-        }
-
-        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-                throws GenyrisException {
-            Triple self = getSelfAsTriple(env);
-            checkArguments(arguments, 0);
-            return self.predicate;
-        }
-    }
-
-    public static class ObjectMethod extends AbstractTripleMethod {
-
-        public ObjectMethod(Interpreter interp) {
-            super(interp, "object");
-        }
-
-        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-                throws GenyrisException {
-            Triple self = getSelfAsTriple(env);
-            checkArguments(arguments, 0);
-            return self.object;
-        }
-    }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindGlobalProcedureInstance(new TripleFunctions(interpreter));
-        interpreter.bindMethodInstance("Thing", new SubjectMethod(interpreter));
-        interpreter.bindMethodInstance("Thing", new PredicateMethod(interpreter));
-        interpreter.bindMethodInstance("Thing", new ObjectMethod(interpreter));
     }
 
 }
