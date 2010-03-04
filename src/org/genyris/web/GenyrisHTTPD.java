@@ -146,7 +146,21 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			Exp result = interpreter.evalInGlobalEnvironment(expression);
 			String status = result.car().toString();
 			result = result.cdr();
-			String mime = result.car().toString();
+			String mime = "text/html";
+			Exp responseHeaders = NIL;
+			if ( result.car() instanceof StrinG) {
+			   	mime = result.car().toString();
+			}
+			else {
+			   responseHeaders = result.car();
+			}
+			Exp tmp = responseHeaders;
+			while (tmp != NIL) {
+			   if( tmp.car().car().toString().equals("Content-Type")) {
+			      mime = tmp.car().cdr().toString();
+			   }
+			   tmp = tmp.cdr();
+			}
 			if (mime.equals("text/html")) {
 				formatter = new HTMLFormatter(output);
 			} else {
@@ -155,9 +169,14 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			result = result.cdr();
 			result.acceptVisitor(formatter);
 			output.flush();
-
-			return new NanoResponse(status, mime, new ByteArrayInputStream(buffer
+			NanoResponse response = new NanoResponse(status, mime, new ByteArrayInputStream(buffer
 					.toByteArray()));
+			Exp tmph = responseHeaders;
+			while (tmph != NIL) {
+			   response.addHeader(tmph.car().car().toString(), tmph.car().cdr().toString());
+			   tmph = tmph.cdr();
+			}
+			return response;
 
 		} catch (GenyrisException ey) {
 			System.out.println("*** Error: " + ey.getMessage());

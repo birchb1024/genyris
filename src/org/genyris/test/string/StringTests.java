@@ -75,6 +75,7 @@ public class StringTests extends TestCase {
         checkEval("(':'(.toBase64))", "'Og=='");
     	checkEval("('Zm9vOmJhcg=='(.fromBase64))", "'foo:bar'");
         checkEval("('foo:bar'(.toBase64))", "'Zm9vOmJhcg=='");
+        checkEval("('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'(.toBase64))", "'enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eno='");
     }
     
 
