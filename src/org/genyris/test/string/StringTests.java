@@ -69,5 +69,14 @@ public class StringTests extends TestCase {
     	checkEval("('%u'(.format 'A @!#$^%@#$&'))", "'A+%40%21%23%24%5E%25%40%23%24%26'");
     }
 
+    public void testBase64() throws GenyrisException {
+    	checkEval("(''(.fromBase64))", "''");
+    	checkEval("(''(.toBase64))", "''");
+        checkEval("(':'(.toBase64))", "'Og=='");
+    	checkEval("('Zm9vOmJhcg=='(.fromBase64))", "'foo:bar'");
+        checkEval("('foo:bar'(.toBase64))", "'Zm9vOmJhcg=='");
+    }
+    
+
     
 }

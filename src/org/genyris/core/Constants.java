@@ -109,5 +109,7 @@ public class Constants {
 		public static final String SUBJECT = "subject";
 		public static final String PREDICATE = "predicate";
 		public static final String OBJECT = "object";
+		public static final String TOBASE64 = "toBase64";
+		public static final String FROMBASE64 = "fromBase64";
 
 }
