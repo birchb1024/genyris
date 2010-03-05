@@ -33,14 +33,19 @@ public class HTTPgetFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        checkArguments(arguments, 1);
+        checkArguments(arguments, 1, 2);
         Class[] types = {StrinG.class};
         checkArgumentTypes(types, arguments);
         String URI = arguments[0].toString();
+        Exp headers = (arguments.length == 2 ? arguments[1] : NIL);
 
         try {
             URL url = new URL(URI);
             URLConnection conn = url.openConnection();
+            while (headers != NIL) {
+            	conn.addRequestProperty(headers.car().car().toString(), headers.car().cdr().toString());
+            	headers = headers.cdr();
+            }
             if(conn instanceof HttpURLConnection) {
             	HttpURLConnection httpConn = (HttpURLConnection)conn;
             	httpConn.connect();
