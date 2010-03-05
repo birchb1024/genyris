@@ -11,6 +11,25 @@ class HttpRequest()
     def .getClient() (nth 4 .self)
     def .getClientIP() (left (nth 4 .self))
     def .getClientHostname() (right (nth 4 .self))
+    def .getBasicUsernamePassword()
+      # Returns a dictionary with username and password strings.
+      var headers (.getHeaders)
+      cond 
+         (not (headers (.hasKey 'authorization')))
+             dict (.username = '')(.password = '')
+         else
+               var auth (headers (.lookup 'authorization'))
+               var splits (auth(.split))
+               var decoded 
+                  (nth 1 splits )(.fromBase64)
+               var up (decoded(.split ':'))
+               cond
+                   up
+                       dict
+                           .username = (nth 0 up)
+                           .password = (nth 1 up)
+                   else
+                        dict (.username = '')(.password = '')
     def .toHTML ()
        template
           div()
