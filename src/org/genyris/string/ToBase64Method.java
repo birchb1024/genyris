@@ -7,6 +7,7 @@ package org.genyris.string;
 
 import com.ostermiller.util.Base64;
 import org.genyris.core.Constants;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
@@ -30,6 +31,8 @@ public class ToBase64Method extends AbstractStringMethod {
 			}		
 		}
 		StrinG theString = getSelfString(env);
-		return new StrinG(Base64.encode(theString.toString()));
+		Exp response = new StrinG(Base64.encode(theString.toString()));
+		response.addClass((Dictionary)env.lookupVariableValue(env.internString("Base64EncodedString")));
+		return response;
 	}
 }
