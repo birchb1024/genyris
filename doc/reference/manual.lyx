@@ -5485,7 +5485,7 @@ The
 load
 \emph default
  function reads an executes the source file from the Java classpath.
- Genyris source files are stored within the Java 
+ Genyris initialization code source files are stored within the Java 
 \begin_inset Quotes eld
 \end_inset
 
@@ -5493,7 +5493,7 @@ jar
 \begin_inset Quotes erd
 \end_inset
 
- file including some initialization code and a handful of examples.
+ file.
 \end_layout
 
 \end_inset
@@ -5504,7 +5504,7 @@ jar
 \begin_layout LyX-Code
 
 \series bold
-load
+include
 \series default
  'examples/people.g'
 \end_layout
@@ -5764,8 +5764,18 @@ Symbols and Semantic Triples
 \end_layout
 
 \begin_layout Standard
-RDF concepts such as triples and triplestores are available in Genyris as
- part of the language.
+RDF
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Resouce Description Framework
+\end_layout
+
+\end_inset
+
+ concepts such as triples and triplestores are available in Genyris as part
+ of the language.
  Although these were invented for the Semantic Web these concepts can be
  used in general programming.
  The Genyris implementation removes some of the constraints of RDF and allows
@@ -6038,12 +6048,7 @@ At the end of the run you should see a summary of tests:
 \end_layout
 
 \begin_layout LyX-Code
-Tests run: 157, Failures: 0, Errors: 0
-\end_layout
-
-\begin_layout Standard
-On some platforms the static web server gives inconsistent results and may
- generate an error.
+OK (212 tests)
 \end_layout
 
 \begin_layout Subsection
