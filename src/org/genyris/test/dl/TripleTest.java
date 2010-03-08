@@ -68,7 +68,7 @@ public class TripleTest extends TestCase {
         excerciseEval("(triple 1 ^s 34)", "(triple 1 s 34)");
         excerciseBadEval("(triple 1 \"s\" 34)");
         excerciseEval("(triple 1 ^|http://foo/| 23)", "(triple 1 |http://foo/| 23)");
-        excerciseEval("((triple 1 ^|http://foo/| 23).classes)", "(<class Triple (Builtin) ()>)");
+        excerciseEval("((triple 1 ^|http://foo/| 23).classes)", "(<class Triple (Builtin)>)");
         excerciseEval("(equal? (triple 1 ^S 23) (triple 1 ^S 23))", "true");
         excerciseEval("(equal? (triple ^s ^S 23) (triple ^s ^S 23))", "true");
         excerciseEval("(equal? (triple ^S ^P ^O) (triple ^S ^P ^O))", "true");

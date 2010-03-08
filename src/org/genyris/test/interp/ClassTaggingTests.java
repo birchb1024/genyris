@@ -32,28 +32,28 @@ public class ClassTaggingTests extends TestCase {
     }
 
     public void testDefineClass() throws Exception {
-        excerciseEval("(class C)", "<class C (Thing) ()>");
-        excerciseEval("(class C1 (C))" , "<class C1 (C) ()>");
-        excerciseEval("C" , "<class C (Thing) (C1)>");
+        excerciseEval("(class C)", "<class C (Thing)>");
+        excerciseEval("(class C1 (C))" , "<class C1 (C)>");
+        excerciseEval("C" , "<class C (Thing)>");
         }
 
     public void testTagWithTag() throws Exception {
-        excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
+        excerciseEval("(class Miles)", "<class Miles (Thing)>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag Miles x)", "45");
-        excerciseEval("(x .classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
+        excerciseEval("(x .classes)", "(<class Miles (Thing)> <class Bignum (Builtin)>)");
         }
     public void testRemoveTag() throws Exception {
-        excerciseEval("(class Miles)", "<class Miles (Thing) ()>");
+        excerciseEval("(class Miles)", "<class Miles (Thing)>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag Miles x)", "45");
-        excerciseEval("(x .classes)", "(<class Miles (Thing) ()> <class Bignum (Builtin) ()>)");
+        excerciseEval("(x .classes)", "(<class Miles (Thing)> <class Bignum (Builtin)>)");
         excerciseEval("(remove-tag Miles x)", "45");
-        excerciseEval("(x .classes)", "(<class Bignum (Builtin) ()>)");
+        excerciseEval("(x .classes)", "(<class Bignum (Builtin)>)");
         }
     public void testIsInstance() throws Exception {
-        excerciseEval("(class A)", "<class A (Thing) ()>");
-        excerciseEval("(class B(A))", "<class B (A) ()>");
+        excerciseEval("(class A)", "<class A (Thing)>");
+        excerciseEval("(class B(A))", "<class B (A)>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag B x)", "45");
         excerciseEval("(is-instance? x Thing)", "true");
@@ -63,11 +63,11 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(is-instance? x A)", "true");
         }
     public void testIsInstanceMultipleInheritance() throws Exception {
-        excerciseEval("(class A)", "<class A (Thing) ()>");
-        excerciseEval("(class B1(A))", "<class B1 (A) ()>");
-        excerciseEval("(class B2(A))", "<class B2 (A) ()>");
-        excerciseEval("(class B3(A))", "<class B3 (A) ()>");
-        excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
+        excerciseEval("(class A)", "<class A (Thing)>");
+        excerciseEval("(class B1(A))", "<class B1 (A)>");
+        excerciseEval("(class B2(A))", "<class B2 (A)>");
+        excerciseEval("(class B3(A))", "<class B3 (A)>");
+        excerciseEval("(class C(B1 B2))", "<class C (B2 B1)>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
         excerciseEval("(is-instance? x Thing)", "true");
@@ -79,11 +79,11 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(is-instance? x C)", "true");
         }
     public void testTypeCheckedFunctions() throws Exception {
-        excerciseEval("(class A)", "<class A (Thing) ()>");
-        excerciseEval("(class B1(A))", "<class B1 (A) ()>");
-        excerciseEval("(class B2(A))", "<class B2 (A) ()>");
-        excerciseEval("(class B3(A))", "<class B3 (A) ()>");
-        excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
+        excerciseEval("(class A)", "<class A (Thing)>");
+        excerciseEval("(class B1(A))", "<class B1 (A)>");
+        excerciseEval("(class B2(A))", "<class B2 (A)>");
+        excerciseEval("(class B3(A))", "<class B3 (A)>");
+        excerciseEval("(class C(B1 B2))", "<class C (B2 B1)>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
         excerciseEval("(def fn((a =A)) 42)", "<EagerProc: <fn>>");
@@ -104,17 +104,17 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(fn 42)", "42");
         exceptionEval("(fn ^x42)", "return type validator error: object x42 is not tagged with Bignum");
 
-        excerciseEval("(class A)", "<class A (Thing) ()>");
-        excerciseEval("(class B1(A))", "<class B1 (A) ()>");
-        excerciseEval("(class B2(A))", "<class B2 (A) ()>");
-        excerciseEval("(class B3(A))", "<class B3 (A) ()>");
-        excerciseEval("(class C(B1 B2))", "<class C (B2 B1) ()>");
+        excerciseEval("(class A)", "<class A (Thing)>");
+        excerciseEval("(class B1(A))", "<class B1 (A)>");
+        excerciseEval("(class B2(A))", "<class B2 (A)>");
+        excerciseEval("(class B3(A))", "<class B3 (A)>");
+        excerciseEval("(class C(B1 B2))", "<class C (B2 B1)>");
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
-        excerciseEval("(class CC() (def .valid?(x) true))", "<class CC (Thing) ()>");
-        exceptionEval("(12 = CC)", "Cannot assign <class CC (Thing) ()> to non-Symbol 12");
-        excerciseEval("(class XX() (def .valid?(x) nil))", "<class XX (Thing) ()>");
-        exceptionEval("(12 = XX)", "Cannot assign <class XX (Thing) ()> to non-Symbol 12");
+        excerciseEval("(class CC() (def .valid?(x) true))", "<class CC (Thing)>");
+        exceptionEval("(12 = CC)", "Cannot assign <class CC (Thing)> to non-Symbol 12");
+        excerciseEval("(class XX() (def .valid?(x) nil))", "<class XX (Thing)>");
+        exceptionEval("(12 = XX)", "Cannot assign <class XX (Thing)> to non-Symbol 12");
 
         excerciseEval("(def fn((a =A) = Bignum) 42)", "<EagerProc: <fn>>");
         exceptionEval("(fn 23)", "Type mismatch in function call for (a = A) because validator error: object 23 is not tagged with A");

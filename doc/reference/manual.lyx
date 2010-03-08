@@ -1,8 +1,9 @@
-#LyX 1.5.5 created this file. For more info see http://www.lyx.org/
-\lyxformat 276
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass article
+\use_default_options false
 \language english
 \inputencoding auto
 \font_roman default
@@ -13,8 +14,10 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \paperfontsize default
+\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -44,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 584
+Build 598
 \end_layout
 
 \begin_layout Standard
@@ -63,13 +66,15 @@ This document is the user manual for the Genyris scripting language.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
 
-\newpage
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset LatexCommand tableofcontents
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
 
 \end_inset
 
@@ -104,8 +109,9 @@ fixed-font
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
 
-\newpage
 
 \end_layout
 
@@ -203,7 +209,8 @@ nnn-xxxxxxxxx
 
 \begin_layout Standard
 Refer to section 
-\begin_inset LatexCommand eqref
+\begin_inset CommandInset ref
+LatexCommand eqref
 reference "sec:Running-Genyris"
 
 \end_inset
@@ -521,10 +528,10 @@ Other escape sequences are encoded as follows:
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="bottom" width="0">
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -535,10 +542,10 @@ n
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 New Line
 \end_layout
 
@@ -546,10 +553,10 @@ New Line
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -560,10 +567,10 @@ r
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Carriage Return
 \end_layout
 
@@ -571,10 +578,10 @@ Carriage Return
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -585,10 +592,10 @@ f
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Form Feed
 \end_layout
 
@@ -596,10 +603,10 @@ Form Feed
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -612,10 +619,10 @@ Form Feed
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Backslash
 \end_layout
 
@@ -623,10 +630,10 @@ Backslash
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -637,10 +644,10 @@ t
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Tab
 \end_layout
 
@@ -648,10 +655,10 @@ Tab
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -666,10 +673,10 @@ Tab
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Quote
 \end_layout
 
@@ -677,10 +684,10 @@ Quote
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 
@@ -690,10 +697,10 @@ a
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Bell
 \end_layout
 
@@ -734,10 +741,10 @@ Symbols are a group of any printable characters with the following exceptions:
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -746,10 +753,10 @@ Symbols are a group of any printable characters with the following exceptions:
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 comma
 \end_layout
 
@@ -757,19 +764,19 @@ comma
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 ^
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 carat
 \end_layout
 
@@ -777,19 +784,19 @@ carat
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 .
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 period
 \end_layout
 
@@ -797,10 +804,10 @@ period
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -809,10 +816,10 @@ period
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 single quote
 \end_layout
 
@@ -820,10 +827,10 @@ single quote
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -832,10 +839,10 @@ single quote
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 double quote
 \end_layout
 
@@ -843,10 +850,10 @@ double quote
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -855,10 +862,10 @@ double quote
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 backquote
 \end_layout
 
@@ -866,10 +873,10 @@ backquote
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family typewriter
 \series bold
@@ -878,10 +885,10 @@ backquote
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 at sign
 \end_layout
 
@@ -889,19 +896,19 @@ at sign
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 [
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 square
 \end_layout
 
@@ -909,19 +916,19 @@ square
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 ]
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 brackets
 \end_layout
 
@@ -929,19 +936,19 @@ brackets
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 {
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 curly
 \end_layout
 
@@ -949,19 +956,19 @@ curly
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 }
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 brackets
 \end_layout
 
@@ -969,19 +976,19 @@ brackets
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 =
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 equal sign
 \end_layout
 
@@ -989,19 +996,19 @@ equal sign
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 !
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 exclamation
 \end_layout
 
@@ -1156,7 +1163,7 @@ Within Genyris lists are composed of pairs of references to objects
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Lisp Cons cells
 \end_layout
 
@@ -1282,7 +1289,7 @@ Lists and atoms can be quoted in Genyris.
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \emph on
 list
@@ -1530,10 +1537,10 @@ function, but can be used for anything else.
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 Input Quote Sequence
@@ -1541,10 +1548,10 @@ Input Quote Sequence
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 Translated Expression
@@ -1554,19 +1561,19 @@ Translated Expression
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 ,<exp>
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (comma <exp>)
 \end_layout
 
@@ -1574,19 +1581,19 @@ Translated Expression
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 ,@<exp>
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (comma-at <exp>)
 \end_layout
 
@@ -1594,19 +1601,19 @@ Translated Expression
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 `<exp>
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (template <exp>)
 \end_layout
 
@@ -1639,10 +1646,10 @@ The square [] and curly {} brackets are parsed specially so they can be
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 Input Sequence
@@ -1650,10 +1657,10 @@ Input Sequence
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 Translated Expression
@@ -1663,10 +1670,10 @@ Translated Expression
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \emph on
 [<list>]
@@ -1674,10 +1681,10 @@ Translated Expression
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \emph on
 (squareBracket <list>)
@@ -1687,10 +1694,10 @@ Translated Expression
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \emph on
 {<listL}
@@ -1698,10 +1705,10 @@ Translated Expression
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \emph on
 (curlyBracket <list>)
@@ -1711,19 +1718,19 @@ Translated Expression
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
  [1 2 3]
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (squareBracket 1 2 3)
 \end_layout
 
@@ -1731,19 +1738,19 @@ Translated Expression
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
  {a b c}
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (curlyBracket a b c)
 \end_layout
 
@@ -2619,7 +2626,7 @@ Genyris is "lexically scoped" - when a function is defined it remembers
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 refer to Abelson and Sussmans' book 
 \begin_inset Quotes eld
 \end_inset
@@ -3087,7 +3094,7 @@ Bignum,
 \end_layout
 
 \begin_layout LyX-Code
-<class String (Builtin) ()> # Pair
+<class String (Builtin)> # Pair
 \end_layout
 
 \begin_layout Standard
@@ -3105,7 +3112,7 @@ However where symbols are concerned, the evaluator always looks up the value
 \end_layout
 
 \begin_layout LyX-Code
-<class Symbol (Dictionary) ()> # Pair
+<class Symbol (Dictionary)> # Pair
 \end_layout
 
 \begin_layout Standard
@@ -3122,7 +3129,7 @@ Likewise the interpreter assumes a list is a normal function call so a quote
 \end_layout
 
 \begin_layout LyX-Code
-<class Pair (Builtin) (PRINTWITHCOLON)> # Pair
+<class Pair (Builtin)> # Pair
 \end_layout
 
 \begin_layout Standard
@@ -3747,7 +3754,7 @@ More Synactic Sugar - Using the exclamation mark
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The choice of this syntax is a tribute to Martin Richards.
 \end_layout
 
@@ -3786,13 +3793,13 @@ Tra
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="2">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family roman
 \series medium
@@ -3807,10 +3814,10 @@ Input Quote Sequence
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \family roman
 \series medium
@@ -3826,11 +3833,11 @@ Translated Expression
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 a!b
 \end_layout
 
@@ -3839,18 +3846,18 @@ a!b
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (a .b)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 a!b!c
 \end_layout
 
@@ -3859,18 +3866,18 @@ a!b!c
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 ((a .b) .c)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (f).a!b
 \end_layout
 
@@ -3879,18 +3886,18 @@ a!b!c
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (f)(.a .b)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 (dict)!self
 \end_layout
 
@@ -3899,39 +3906,19 @@ a!b!c
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 ((dict) .self)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 a!b(var .x 23)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-(a .b)(var .x 23)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-.x!y
 \end_layout
 
 \end_inset
@@ -3939,7 +3926,27 @@ a!b(var .x 23)
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
+(a .b)(var .x 23)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+.x!y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 (.x .y)
 \end_layout
 
@@ -4658,7 +4665,7 @@ class
 \end_layout
 
 \begin_layout LyX-Code
-<class Inches (Thing) ()> # StandardClass Dictionary
+<class Inches (Thing)> # StandardClass Dictionary
 \end_layout
 
 \begin_layout Standard
@@ -5073,7 +5080,7 @@ nominative
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Genyris supports both 
 \begin_inset Quotes eld
 \end_inset
@@ -5111,7 +5118,7 @@ The inheritance mechanism in Genyris works by searching on object's classes
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This order is listed when the classes are printed by the command-line interprete
 r.
 \end_layout
@@ -5472,7 +5479,7 @@ classify
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The 
 \emph on
 load
@@ -5753,15 +5760,119 @@ The validator here checks whether the object has
 \end_layout
 
 \begin_layout Section
-Symbols and Semantic Triples 
+Symbols and Semantic Triples
 \end_layout
 
 \begin_layout Standard
-To be completed
+RDF concepts such as triples and triplestores are available in Genyris as
+ part of the language.
+ Although these were invented for the Semantic Web these concepts can be
+ used in general programming.
+ The Genyris implementation removes some of the constraints of RDF and allows
+ these ideas to applied at the program object level.
+ The goal is for all developers to be beneficiaries of these elegent data
+ structures and algorithms, not just those concerned with Semantic Web problems.
+ 
+\end_layout
+
+\begin_layout Standard
+Triples and triplestores which are derived from Description Logic also form
+ the foundation for the Genyris 
+\emph on
+type system
+\emph default
+.
+ The type system will allow data, classes and functions to be 'marked-up'
+ with meta-data describing their allowed properties and behaviours.
+ 
+\end_layout
+
+\begin_layout Standard
+Description Logic techniques allow great flexibilty and power in the addition
+ of meta-data and inference.
+ We hope in time Genyris developers will have access to higher-order tools
+ which are available for RDF and OWL within the context of their Genyris
+ application programming.
 \end_layout
 
 \begin_layout Subsection
 Triples
+\end_layout
+
+\begin_layout Standard
+Genyris includes triples as a first-class system object.
+ Triples are described in the W3C RDF Primer document, amongst others.
+ A triple consists of three atoms, a 
+\emph on
+Subject
+\emph default
+ , 
+\emph on
+Predicate
+\emph default
+ and 
+\emph on
+Object
+\emph default
+.
+ Each triple is a simple descriptive statement about the relationships between
+ objects or their properties.
+ For example the triple:
+\end_layout
+
+\begin_layout LyX-Code
+UnixBox1 hasUser root
+\end_layout
+
+\begin_layout Standard
+Says that the machine UnixBox1 has a user account 'root'.
+ 
+\end_layout
+
+\begin_layout Standard
+In Genyris the 
+\emph on
+Subject
+\emph default
+ of a triple may be any language object, including atoms.
+ This allows statements to be made about any object in the system.
+ Another way of viewing this is that any object in the system may have arbitrary
+ properties, stored in triples.
+ 
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+Predicate
+\emph default
+ of a triple however, must be a symbol.
+ This ensures that the statement is at least, readable.
+\end_layout
+
+\begin_layout Standard
+Any language item may be the 
+\emph on
+Object
+\emph default
+ of a triple.
+ This allows relationships between any two language items to be recorded.
+ 
+\end_layout
+
+\begin_layout Standard
+Triples alone are not particularly useful without a way of comparing them
+ and managing them.
+ 
+\emph on
+Triplestores 
+\emph default
+(as the name suggests) are in-memory sets of triples with functions for
+ searching for, adding and removing triples.
+ Because Genyris triples may have any object as their subjects, Triplestores
+ are used where other languages may rely on hash-tables.
+ Triplestores in their turn can be used as sets, with comparison, intersection
+ and union functions.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5829,7 +5940,7 @@ Accessing Type Information
 \end_layout
 
 \begin_layout LyX-Code
-(triple 23 type <class Bignum (Builtin) ()>) # Pair
+(triple 23 type <class Bignum (Builtin)>) # Pair
 \end_layout
 
 \begin_layout Subsection
@@ -5941,7 +6052,8 @@ Using a Mercurial Repository
 
 \begin_layout Section
 Running Genyris
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sec:Running-Genyris"
 
 \end_inset
@@ -6626,43 +6738,43 @@ Functions are provided to allow files of source code to be read and executed.
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="3">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 suffix
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Parser Class
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Syntax
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 lin
 \end_layout
 
@@ -6671,7 +6783,7 @@ lin
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Parser
 \end_layout
 
@@ -6680,36 +6792,36 @@ Parser
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Genyris indented syntax
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 lsp
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 ParenParser
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Free format LISP Syntax with parentheses in place of indentation.
 \end_layout
 
@@ -7152,8 +7264,12 @@ equal?
 \end_layout
 
 \begin_layout Subsection
-\begin_inset LatexCommand index
-name "null?"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+null?
+\end_layout
 
 \end_inset
 
@@ -7166,8 +7282,12 @@ Closures
 
 \begin_layout Subsection
 function
-\begin_inset LatexCommand index
-name "lambda"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+lambda
+\end_layout
 
 \end_inset
 
@@ -7352,8 +7472,12 @@ Global Output Functions
 \end_layout
 
 \begin_layout Paragraph
-\begin_inset LatexCommand index
-name "print"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+print
+\end_layout
 
 \end_inset
 
@@ -7393,8 +7517,12 @@ n'
 \end_layout
 
 \begin_layout Paragraph
-\begin_inset LatexCommand index
-name "write"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+write
+\end_layout
 
 \end_inset
 
@@ -7422,8 +7550,12 @@ write ^(1 2 (e) 'w')
 \end_layout
 
 \begin_layout Paragraph
-\begin_inset LatexCommand index
-name "display"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+display
+\end_layout
 
 \end_inset
 
@@ -7460,8 +7592,12 @@ Global Input Functions
 \end_layout
 
 \begin_layout Paragraph
-\begin_inset LatexCommand index
-name "read"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+read
+\end_layout
 
 \end_inset
 
@@ -7474,8 +7610,12 @@ Reads an expression from the standard input.
 
 \begin_layout Subsubsection
 Class 
-\begin_inset LatexCommand index
-name "Writer"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+Writer
+\end_layout
 
 \end_inset
 
@@ -7492,8 +7632,12 @@ Methods
 
 \begin_layout Description
 .
-\begin_inset LatexCommand index
-name "close"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+close
+\end_layout
 
 \end_inset
 
@@ -7502,8 +7646,12 @@ close() Closes the current output stream.
 
 \begin_layout Description
 .
-\begin_inset LatexCommand index
-name "flush"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+flush
+\end_layout
 
 \end_inset
 
@@ -7512,8 +7660,12 @@ flush() Forces all buffered output to be written to the device.
 
 \begin_layout Description
 .
-\begin_inset LatexCommand index
-name "format"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+format
+\end_layout
 
 \end_inset
 
@@ -7574,8 +7726,12 @@ Global Variables
 \end_layout
 
 \begin_layout Description
-\begin_inset LatexCommand index
-name "stdout"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+stdout
+\end_layout
 
 \end_inset
 
@@ -7595,8 +7751,12 @@ Globals
 \end_layout
 
 \begin_layout Description
-\begin_inset LatexCommand index
-name "stdin"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+stdin
+\end_layout
 
 \end_inset
 
@@ -7612,7 +7772,8 @@ Reader
 \end_layout
 
 \begin_layout LyX-Code
-\begin_inset LatexCommand printindex
+\begin_inset CommandInset index_print
+LatexCommand printindex
 
 \end_inset
 
@@ -7657,6 +7818,36 @@ StringFormatStream
 
 \begin_layout Subsubsection
 .new
+\end_layout
+
+\begin_layout Subsection
+Fetching HTTP Pages
+\end_layout
+
+\begin_layout Subsubsection
+web:get <url> [<request headers>]
+\end_layout
+
+\begin_layout Standard
+Content can be fetched from web servers using the web: get function.
+ This takes as input a URL string and an option alist of request headers.
+ It sends the GET request to web server and the returns the response content
+ in a Reader stream.
+ The response must have the 200 'OK' status code otherwise an exception
+ is raised.
+\end_layout
+
+\begin_layout Standard
+Example, fetching the root file from the localhost server on port 80, providing
+ a 'Basic' authentication header.
+\end_layout
+
+\begin_layout LyX-Code
+web:get 'http://localhost:8080/' =
+\end_layout
+
+\begin_layout LyX-Code
+        ^(('authorization' = 'Basic Zm9vOmJhcg=='))
 \end_layout
 
 \begin_layout Section
@@ -7805,8 +7996,12 @@ Thing
 
 \begin_layout Subsubsection
 .vars
-\begin_inset LatexCommand index
-name "!vars"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!vars
+\end_layout
 
 \end_inset
 
@@ -7815,8 +8010,12 @@ name "!vars"
 
 \begin_layout Subsubsection
 .self
-\begin_inset LatexCommand index
-name "!self"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!self
+\end_layout
 
 \end_inset
 
@@ -7825,8 +8024,12 @@ name "!self"
 
 \begin_layout Subsubsection
 .classes
-\begin_inset LatexCommand index
-name "!classes"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!classes
+\end_layout
 
 \end_inset
 
@@ -7835,8 +8038,12 @@ name "!classes"
 
 \begin_layout Subsubsection
 .valid?
-\begin_inset LatexCommand index
-name "!valid?"
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!valid?
+\end_layout
 
 \end_inset
 
@@ -7885,6 +8092,58 @@ String
 
 \begin_layout Subsubsection
 .+
+\end_layout
+
+\begin_layout Subsubsection
+.toBase64
+\end_layout
+
+\begin_layout Standard
+Returns the string converted into a Base64 encoded string.
+ The returned string is tagged with the class string 
+\emph on
+Base64EncodedString.
+
+\emph default
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> 'foo:bar'(.toBase64)
+\end_layout
+
+\begin_layout LyX-Code
+'Zm9vOmJhcg==' # Base64EncodedString String
+\end_layout
+
+\begin_layout Subsubsection
+.fromBase64
+\end_layout
+
+\begin_layout Standard
+Decodes a Base 64 encoded string into the binary original.
+ This is also available in the 
+\emph on
+Base64EncodedString
+\emph default
+ class
+\emph on
+ 
+\emph default
+as the 
+\emph on
+.decode
+\emph default
+ method.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> 'Zm9vOmJhcg=='(.fromBase64)
+\end_layout
+
+\begin_layout LyX-Code
+'foo:bar' # String
 \end_layout
 
 \begin_layout Subsection

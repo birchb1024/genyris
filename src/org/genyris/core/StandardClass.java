@@ -68,7 +68,7 @@ public class StandardClass extends Dictionary {
 		result += getClassName();
 		try {
 			result += classListToString(getSuperClasses());
-			result += classListToString(getSubClasses());
+//			result += classListToString(getSubClasses());
 		} catch (AccessException e) {
 			return this.getClassName() + " toString():  " + e.getMessage();
 		}

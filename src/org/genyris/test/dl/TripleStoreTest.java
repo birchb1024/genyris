@@ -83,7 +83,7 @@ public class TripleStoreTest extends TestCase {
     public void testInterpStore() throws Exception {
         eval("(null? (member? ^asTriples ((car ((triplestore).classes)).vars)))","nil");
         eval("(defvar ^ts (triplestore))", "(triplestore)");
-        eval("(ts.classes)", "(<class Triplestore (Builtin) ()>)");
+        eval("(ts.classes)", "(<class Triplestore (Builtin)>)");
         eval("(ts(.add (triple ^s ^p ^o)))", "(triplestore)");
         excerciseBadEval("(ts(.add (triple ^s 3 ^o)))");
         eval("(ts(.select ^s nil nil)))", "(triplestore)");
@@ -100,7 +100,7 @@ public class TripleStoreTest extends TestCase {
     public void testInterpStoreMulti() throws Exception {
         eval("(null? (member? ^asTriples ((car ((triplestore).classes)).vars)))","nil");
         eval("(defvar ^ts (triplestore))", "(triplestore)");
-        eval("(ts.classes)", "(<class Triplestore (Builtin) ()>)");
+        eval("(ts.classes)", "(<class Triplestore (Builtin)>)");
         eval("(ts(.add (triple ^s ^p ^o1)))", "(triplestore)");
         eval("(ts(.add (triple ^s ^p ^o2)))", "(triplestore)");
         eval("(ts(.add (triple ^x ^p ^z)))", "(triplestore)");
@@ -197,14 +197,14 @@ public class TripleStoreTest extends TestCase {
         eval("((SetList.equal?) (ts(.asTriples)) (list (triple thedict ^a 3) (triple thedict ^b 5)))", "true");
     }
     public void testInterpTriplesClasses() throws Exception {
-        eval("(23(.asTriples))","((triple 23 type <class Bignum (Builtin) ()>))");
-        eval("('X'(.asTriples))","((triple 'X' type <class String (Builtin) (Base64EncodedString ShortDateTimeString)>))");
-        eval("(^(a =e)(.asTriples))","((triple (a = e) type <class PairEqual (Builtin) ()>))");
-        eval("(^sym(.asTriples))","((triple sym type <class SimpleSymbol (Symbol) (|http://www.genyris.org/lang/syntax#Keyword|)>))");
+        eval("(23(.asTriples))","((triple 23 type <class Bignum (Builtin)>))");
+        eval("('X'(.asTriples))","((triple 'X' type <class String (Builtin)>))");
+        eval("(^(a =e)(.asTriples))","((triple (a = e) type <class PairEqual (Builtin)>))");
+        eval("(^sym(.asTriples))","((triple sym type <class SimpleSymbol (Symbol)>))");
 
         }
     public void testInterpTripleStoreClasses() throws Exception {
-        eval("((23(.asTripleStore))(.asTriples))","((triple 23 type <class Bignum (Builtin) ()>))");
-        eval("(('X'(.asTripleStore))(.asTriples))","((triple 'X' type <class String (Builtin) (Base64EncodedString ShortDateTimeString)>))");
+        eval("((23(.asTripleStore))(.asTriples))","((triple 23 type <class Bignum (Builtin)>))");
+        eval("(('X'(.asTripleStore))(.asTriples))","((triple 'X' type <class String (Builtin)>))");
     }
 }
