@@ -5267,7 +5267,7 @@ class Person ()
 \end_layout
 
 \begin_layout LyX-Code
-(Person.new) 'Jo' 23
+Person!new 'Jo' 23
 \end_layout
 
 \begin_layout Standard
