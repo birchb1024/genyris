@@ -1,14 +1,15 @@
 @prefix sys "http://www.genyris.org/lang/system#"
+@prefix u "http://www.genyris.org/lang/utilities#"
 
-var *user* 'foo'
-var *password* 'bar'
+def valid-logon?(username password)
+   # redefine to suit
+   (and (equal? username 'foo') (equal? password 'bar')) 
 
 def authenticate(request)
    #  Check the username and password
    var userpass (request (.getBasicUsernamePassword))
    cond
-        (and (equal? userpass!username *user*) (equal? userpass!password *password*)) 
-           userpass
+        (valid-logon? userpass!username userpass!password) userpass
         else nil
 
 df httpd-serve (request)
@@ -39,12 +40,14 @@ def raw-serve (request)
    var userpass (authenticate request)
    cond
       userpass
-         echo request userpass!username
+         u:format "%a Request from %a for %s\n" (u:getLocalTime) userpass!username (request(.getPath))
+         handle-authenticated-request request userpass!username
       else
-           login request
+         u:format "%a Invalid basic auth in %s\n" (u:getLocalTime) (request (.getBasicUsernamePassword))
+         login request
 
-def echo(request username)
-   # success page
+def handle-authenticated-request(request username)
+   # success page-override as needed.
    list 200 'text/html'
             template
                 html()
