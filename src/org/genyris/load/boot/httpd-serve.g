@@ -23,11 +23,16 @@ class HttpRequest()
                var decoded 
                   (nth 1 splits )(.fromBase64)
                var up (decoded(.split ':'))
+               var result (dict)
                cond
-                   up
+                   (equal? (length up) 2)
                        dict
                            .username = (nth 0 up)
                            .password = (nth 1 up)
+                   (equal? (length up) 1)
+                       dict
+                           .username = (nth 0 up)
+                           .password = ''
                    else
                         dict (.username = '')(.password = '')
     def .toHTML ()
