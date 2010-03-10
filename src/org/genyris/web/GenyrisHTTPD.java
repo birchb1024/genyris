@@ -2,6 +2,7 @@ package org.genyris.web;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
@@ -144,7 +145,15 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			// formatter = new IndentedFormatter(output, 1, interpreter);
 			// expression.acceptVisitor(formatter);
 			Exp result = interpreter.evalInGlobalEnvironment(expression);
-			String status = result.car().toString();
+			String status = result.nth(0, NIL).toString();
+			if( status.equals("SERVE-FILE") ) {
+				// This response from Genyris means web server serves a static file
+				String rootDirectory = result.nth(1, NIL).toString();
+				String filePath = result.nth(2, NIL).toString();
+				boolean directoryListing = result.nth(3, NIL).toString().equals("ls");
+				
+				return serveFile(filePath, header, new File(rootDirectory), directoryListing);
+			}
 			result = result.cdr();
 			String mime = "text/html";
 			Exp responseHeaders = NIL;
