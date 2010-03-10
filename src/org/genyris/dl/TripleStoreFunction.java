@@ -5,6 +5,7 @@
 //
 package org.genyris.dl;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Symbol;
@@ -41,6 +42,7 @@ public class TripleStoreFunction extends ApplicableFunction {
         interpreter.bindMethodInstance(Constants.TRIPLESTORE, new SelectMethod(interpreter));
         interpreter.bindMethodInstance(Constants.TRIPLESTORE, new AsTriplesMethod(interpreter));
         interpreter.bindMethodInstance(Constants.TRIPLESTORE, new RemoveMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.TRIPLESTORE, new LengthMethod(interpreter));
     }
     public static abstract class AbstractTripleStoreMethod extends AbstractMethod {
 
@@ -76,6 +78,18 @@ public class TripleStoreFunction extends ApplicableFunction {
         }
     }
 
+    public static class LengthMethod extends AbstractTripleStoreMethod {
+
+        public LengthMethod(Interpreter interp) {
+            super(interp, "length");
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            TripleStore self = getSelfTS(env);
+            return new Bignum(self.length());
+        }
+    }
     public static class SelectMethod extends AbstractTripleStoreMethod {
 
         public SelectMethod(Interpreter interp) {

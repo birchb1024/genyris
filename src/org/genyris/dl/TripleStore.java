@@ -69,6 +69,9 @@ public class TripleStore extends Atom {
 		return triples.hashCode();
 	}
 
+	public int length() {
+		return triples.size();
+	}
 
 	public boolean contains(Exp subject, Exp predicate, Exp object) {
 		Iterator iter = triples.iterator();
