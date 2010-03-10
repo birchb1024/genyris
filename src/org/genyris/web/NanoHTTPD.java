@@ -623,7 +623,7 @@ public class NanoHTTPD {
 						msg += "<b><a href=\"" + uri.substring(0, slash + 1)
 								+ "\">..</a></b><br/>";
 				}
-
+				msg += "<ul>";
 				for (int i = 0; i < files.length; ++i) {
 					File curFile = new File(f, files[i]);
 					boolean dir = curFile.isDirectory();
@@ -632,8 +632,8 @@ public class NanoHTTPD {
 						files[i] += "/";
 					}
 
-					msg += "<a href=\"" + encodeUri(uri + files[i]) + "\">"
-							+ files[i] + "</a>";
+					msg += "<li><a href=\"" + encodeUri(uri + files[i]) + "\">"
+							+ files[i] + "</a></li>";
 
 					// Show file size
 //					if (curFile.isFile()) {
@@ -652,11 +652,10 @@ public class NanoHTTPD {
 //
 //						msg += ")</font>";
 //					}
-					msg += "<br/>";
 					if (dir)
 						msg += "</b>";
 				}
-				msg += "</body></html>";
+				msg += "</ul></body></html>";
 				return new NanoResponse(HTTP_OK, MIME_HTML, msg);
 			} else {
 				return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
@@ -709,6 +708,7 @@ public class NanoHTTPD {
 	private static Hashtable theMimeTypes = new Hashtable();
 	static {
 		StringTokenizer st = new StringTokenizer("htm        text/html "
+				+ "xml        text/xml " 
 				+ "html        text/html " + "txt        text/plain "
 				+ "asc        text/plain " + "gif        image/gif "
 				+ "jpg        image/jpeg " + "jpeg        image/jpeg "
