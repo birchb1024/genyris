@@ -7948,6 +7948,14 @@ System.ticks - Current system time in milliseconds since the epoch
 \end_layout
 
 \begin_layout Subsection
+now - Current system time in milliseconds since the epoch
+\end_layout
+
+\begin_layout Standard
+Convenience function.
+\end_layout
+
+\begin_layout Subsection
 format-date <epoch milliseconds> <format String> <timezone>
 \end_layout
 
