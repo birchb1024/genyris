@@ -28,6 +28,7 @@ public abstract class AbstractDateTimeFunction extends ApplicableFunction {
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindGlobalProcedureInstance(new FormatDateFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new DetailedDateTimeFunction(interpreter));
 
     }
 

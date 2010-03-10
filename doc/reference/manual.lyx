@@ -1,4 +1,4 @@
-#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -7951,6 +7951,10 @@ System.ticks - Current system time in milliseconds since the epoch
 format-date <epoch milliseconds> <format String> <timezone>
 \end_layout
 
+\begin_layout Standard
+For example:
+\end_layout
+
 \begin_layout LyX-Code
 > format-date (System!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
 \end_layout
@@ -7961,6 +7965,163 @@ format-date <epoch milliseconds> <format String> <timezone>
 
 \begin_layout LyX-Code
 '24 Feb 2010 18:11:41 EST' # String  
+\end_layout
+
+\begin_layout Subsection
+calendar <epoch milliseconds> <timezone>
+\end_layout
+
+\begin_layout Standard
+Returns a Calendar (dictionary) with the following properties:
+\end_layout
+
+\begin_layout Description
+.am-pm = symbol indicating AM or PM
+\end_layout
+
+\begin_layout Description
+.day-of-month = Integer day of the month starting with 1.
+\end_layout
+
+\begin_layout Description
+.day-of-week = Integer day of the week starting with Sunday which is 1.
+\end_layout
+
+\begin_layout Description
+.day-of-week-in-month = Ordinal number of the day of the week within the
+ current month.
+\end_layout
+
+\begin_layout Description
+.day-of-year = The day number within the current year starting with 1.
+\end_layout
+
+\begin_layout Description
+.dst-offset = Daylight savings offset in milliseconds
+\end_layout
+
+\begin_layout Description
+.era = symbol AD or BC
+\end_layout
+
+\begin_layout Description
+.hour = Hour of the day (12 hour clock)
+\end_layout
+
+\begin_layout Description
+.hour-of-day = Hour of the day (24 hour clock)
+\end_layout
+
+\begin_layout Description
+.millisecond = e.g.
+ 93
+\end_layout
+
+\begin_layout Description
+.minute = e.g.
+ 2
+\end_layout
+
+\begin_layout Description
+.month = Integer month starting with January, which is 0
+\end_layout
+
+\begin_layout Description
+.second = e.g.
+ 42
+\end_layout
+
+\begin_layout Description
+.week-of-month = Week in the month starting from 1.
+\end_layout
+
+\begin_layout Description
+.week-of-year = Week number in the year starting from 1.
+\end_layout
+
+\begin_layout Description
+.year = e.g.
+ 2010
+\end_layout
+
+\begin_layout Description
+.zone-offset = Timezone offset in milliseconds from GMT
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout LyX-Code
+> print (calendar (System!ticks))
+\end_layout
+
+\begin_layout LyX-Code
+dict (.am-pm = pm)
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-month = 10
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-week = 4
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-week-in-month = 2
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-year = 69
+\end_layout
+
+\begin_layout LyX-Code
+.dst-offset = 1
+\end_layout
+
+\begin_layout LyX-Code
+.era = AD
+\end_layout
+
+\begin_layout LyX-Code
+.hour = 10
+\end_layout
+
+\begin_layout LyX-Code
+.hour-of-day = 22
+\end_layout
+
+\begin_layout LyX-Code
+.millisecond = 93
+\end_layout
+
+\begin_layout LyX-Code
+.minute = 2
+\end_layout
+
+\begin_layout LyX-Code
+.month = 2
+\end_layout
+
+\begin_layout LyX-Code
+.second = 42
+\end_layout
+
+\begin_layout LyX-Code
+.week-of-month = 2
+\end_layout
+
+\begin_layout LyX-Code
+.week-of-year = 11
+\end_layout
+
+\begin_layout LyX-Code
+.year = 2010
+\end_layout
+
+\begin_layout LyX-Code
+.zone-offset = 10
 \end_layout
 
 \begin_layout Section

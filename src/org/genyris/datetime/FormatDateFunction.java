@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.genyris.core.Bignum;
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
@@ -15,7 +16,7 @@ import org.genyris.interp.Interpreter;
 public class FormatDateFunction extends AbstractDateTimeFunction {
 
     public FormatDateFunction(Interpreter interp) {
-		super(interp, "format-date");
+		super(interp, Constants.PREFIX_DATE + "format-date");
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

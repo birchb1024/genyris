@@ -6,6 +6,7 @@
 @prefix g "http://www.genyris.org/lang/syntax#"
 @prefix s "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
+@prefix date "http://www.genyris.org/lang/date#"
 
 class g:Keyword(SimpleSymbol)
 tag g:Keyword ^function
@@ -75,5 +76,13 @@ class Base64EncodedString(String)
     def .decode() (.fromBase64)
     # example: ('Pumpkin'(.toBase64))(.decode)
 
+class ShortDateTimeString(String)
+def format-date(epoch format)
+   tag ShortDateTimeString
+      date:format-date epoch format
+def now() (System!ticks)
 
+class Calendar
+def calendar(epochmilliseconds)
+    tag Calendar (date:calendar  epochmilliseconds)
 

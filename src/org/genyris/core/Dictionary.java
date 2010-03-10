@@ -5,6 +5,7 @@
 //
 package org.genyris.core;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -280,5 +281,16 @@ public class Dictionary extends Atom implements Environment {
     	defineDynamicVariable(new DynamicSymbol((SimpleSymbol) env.internString(name)), 
     			value);
 		return this;
+	}
+
+	public void defineInt(String name, int i) throws GenyrisException {
+		defineDynamicVariable(new DynamicSymbol((SimpleSymbol) internString(name)), new Bignum(i));	
+	}
+
+	public void defineString(String name, String string2) throws GenyrisException {
+		defineDynamicVariable(new DynamicSymbol((SimpleSymbol) internString(name)), new StrinG(string2));	
+	}
+	public void defineSymbol(String name, String string2) throws GenyrisException {
+		defineDynamicVariable(new DynamicSymbol((SimpleSymbol) internString(name)), internString(string2));	
 	}
 }

@@ -1,4 +1,6 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
+@prefix date "http://www.genyris.org/lang/date#"
+
 def u:format(&rest args)
    stdout
       apply .format args
@@ -7,10 +9,9 @@ defmacro u:debug(thing)
   template
     u:format "%a => %a%n" ^,thing ,thing
 
-class ShortDateTimeString(String)
 def u:getLocalTime()
    tag ShortDateTimeString
-      format-date ((System.ticks)) "dd MMM yyyy HH:mm:ss"
+      date:format-date ((System.ticks)) "dd MMM yyyy HH:mm:ss"
 
 def u:printSymbolTable()
   (symlist)

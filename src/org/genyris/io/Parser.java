@@ -253,6 +253,7 @@ public class Parser {
 		addPrefix("ver", Constants.PREFIX_VERSION);
 		addPrefix("task", Constants.PREFIX_TASK);
 		addPrefix("types", Constants.PREFIX_TYPES);
+		addPrefix("date", Constants.PREFIX_DATE);
 	}
 
 }
