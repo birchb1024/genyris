@@ -708,6 +708,7 @@ public class NanoHTTPD {
 	private static Hashtable theMimeTypes = new Hashtable();
 	static {
 		StringTokenizer st = new StringTokenizer("htm        text/html "
+				+ "ico        image/vnd.microsoft.icon " 
 				+ "xml        text/xml " 
 				+ "html        text/html " + "txt        text/plain "
 				+ "asc        text/plain " + "gif        image/gif "
