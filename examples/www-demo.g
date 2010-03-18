@@ -8,6 +8,7 @@ df httpd-serve (request)
              head()
                 title() "Genyris demo"
              body()
-                pre() ,sys:argv
+                pre() 
+                    verbatim() ,sys:argv
                 ,(request (.toHTML))
 
