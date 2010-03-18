@@ -6,11 +6,15 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 @prefix sys "http://www.genyris.org/lang/system#"
 
-define now ((System.ticks))
-define start (parse(nth 1 sys:argv))
+#print sys:argv
+stdout(.flush)
+define now (System!ticks)
+define start (nth 1 sys:argv)
 u:format "Interpreter started in %a milliseconds\n" (- now start)
-define count (- (parse(nth 2 sys:argv)) 1)
+define count (- (nth 2 sys:argv) 1)
+#print count
+stdout(.flush)
 if (equal? count 0) nil
-   spawn 'testscripts/test-load-time-child.g' ((System.ticks)) count
+   spawn 'testscripts/test-load-time-child.g' (System!ticks) count
 
 

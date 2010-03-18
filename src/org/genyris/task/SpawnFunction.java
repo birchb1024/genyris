@@ -12,7 +12,6 @@ import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.exception.GenyrisInterruptedException;
 import org.genyris.interp.Closure;
@@ -29,7 +28,7 @@ public class SpawnFunction extends TaskFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		
-		BackGroundInterpreter task = new BackGroundInterpreter(arrayToStringArray(arguments));
+		BackGroundInterpreter task = new BackGroundInterpreter(arguments);
 		Thread thread = new Thread(task);
 		if( arguments.length > 0 )
 			thread.setName(arguments[0].toString());
@@ -40,8 +39,8 @@ public class SpawnFunction extends TaskFunction {
 	
 
     public static class BackGroundInterpreter implements Runnable {
-    	private final String[] arguments;
-    	public BackGroundInterpreter(String[] args) throws GenyrisException {
+    	private final Exp[] arguments;
+    	public BackGroundInterpreter(Exp[] args) throws GenyrisException {
     		arguments = args;
     	}
         public void run() {
@@ -73,10 +72,10 @@ public class SpawnFunction extends TaskFunction {
         }
         return result;
     }
-	public static Exp arrayToExpList(Exp NIL, String[] array) {
+	public static Exp arrayToExpList(Exp NIL, Exp[] array) {
 		Exp result = NIL;
 		for (int i = array.length-1; i >= 0; i--) {
-            result = new Pair(new StrinG(array[i]), result);
+            result = new Pair(array[i], result);
         }
         return result;
     }

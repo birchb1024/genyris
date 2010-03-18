@@ -30,7 +30,6 @@ public abstract class TaskFunction extends ApplicableFunction {
         interpreter.bindGlobalProcedureInstance(new SpawnFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new KillTaskFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new SpawnHTTPDFunction(interpreter));
-        interpreter.bindGlobalProcedureInstance(new SpawnNanoHTTPDFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new ListTaskFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new CurrentTaskFunction(interpreter));               
     }
