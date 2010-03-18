@@ -175,7 +175,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			} else {
 				formatter = new BasicFormatter(output);
 			}
-			result = result.cdr();
+			result = result.cdr().car();
 			result.acceptVisitor(formatter);
 			output.flush();
 			NanoResponse response = new NanoResponse(status, mime, new ByteArrayInputStream(buffer

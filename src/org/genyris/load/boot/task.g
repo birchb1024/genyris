@@ -17,10 +17,6 @@ def httpd(&rest args)
     tag Task
         apply task:httpd args
 
-def httpd-static(&rest args)
-    tag Task
-        apply task:httpd-static args
-
 def ps()
     # Tag all items as Tasks
     var result (task:ps)

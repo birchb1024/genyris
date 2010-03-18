@@ -27,9 +27,9 @@ def run-web-get()
     result
 
 def run-web-static-get()
-    var thread (httpd-static 7778 ".")
+    var thread (httpd 7778 "testscripts/www-static.g" ".")
     sleep 1000
-    var result (readPage "http://localhost:7778/")
+    var result (readPage "http://localhost:7778/LICENSE")
     thread(.kill)
     result
 

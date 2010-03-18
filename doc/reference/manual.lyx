@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 598
+Build 611
 \end_layout
 
 \begin_layout Standard
@@ -5891,6 +5891,23 @@ Creating triples with
 triple
 \end_layout
 
+\begin_layout Standard
+Triple objects are created by the 
+\emph on
+triple
+\emph default
+ function which takes three arguments, the 
+\emph on
+subject, predicate
+\emph default
+ and 
+\emph on
+object.
+ 
+\emph default
+Example:
+\end_layout
+
 \begin_layout LyX-Code
 > triple ^Lewis ^hasMother ^Mae
 \end_layout
@@ -5911,6 +5928,11 @@ Accessing parts of a triple with
  and 
 \emph on
 .object
+\end_layout
+
+\begin_layout Standard
+The components of the triples can be accessed with the above dynamic symbols.
+ Fr
 \end_layout
 
 \begin_layout LyX-Code
@@ -6483,7 +6505,7 @@ Starting a web server
 \end_layout
 
 \begin_layout Standard
-A Genyris server can be started with the 
+A Genyris new interpreter can be started as a server with the 
 \emph on
 httpd
 \emph default
@@ -6507,7 +6529,7 @@ the path of a Genyris source file to load and run
 \end_layout
 
 \begin_layout Itemize
-the TCP/IP port number on whicch the server will listen for requests.
+the TCP/IP port number on which the server will listen for requests.
 \end_layout
 
 \begin_layout Itemize
@@ -6521,7 +6543,7 @@ The return value is a
 \emph on
 Task
 \emph default
- object web server.
+ object for the web server.
  Many web servers can be started in the same JVM, each server is allocated
  a unique interpreter instance, there is no sharing between interpreters.
 \end_layout
@@ -6545,7 +6567,7 @@ Example
 \end_layout
 
 \begin_layout LyX-Code
-httpd 777 'examples/www-demo.g' 1 2 3 4 5
+httpd 7777 'examples/www-demo.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout Subsubsection
@@ -6565,15 +6587,15 @@ Processing Web Requests
 \end_layout
 
 \begin_layout Standard
-The web server expects to fnd a function called 
+The web server main loop expects to fnd a function called 
 \emph on
 httpd-serve 
 \emph default
-which it calls for each web GET or POST request.
+which it calls for each web GET or POST request recieved from clients.
  The request from the remote client is passed to the function as a single
  parameter.
- The return from the function all must contain the response to be sent to
- the browser.
+ The return from the function call must contain the response to be sent
+ to the browser.
  
 \end_layout
 
@@ -6590,7 +6612,7 @@ df httpd-serve (request)
 \end_layout
 
 \begin_layout Paragraph
-HttpRequest class
+Requests - HttpRequest class
 \end_layout
 
 \begin_layout Standard
@@ -6611,11 +6633,19 @@ HttpRequest
 \end_layout
 
 \begin_layout Description
-.getHeaders() an AList containing the headers
+.getHeaders() an 
+\emph on
+AList
+\emph default
+ containing the headers
 \end_layout
 
 \begin_layout Description
-.getParameters() an aList containing GET or POST parameters
+.getParameters() an 
+\emph on
+aList
+\emph default
+ containing GET or POST parameters
 \end_layout
 
 \begin_layout Description
@@ -6623,15 +6653,113 @@ HttpRequest
 \end_layout
 
 \begin_layout Description
+.getBasicUsernamePassword() Returns the Basic Authentication scheme header
+ as a dictionary with 
+\emph on
+.username
+\emph default
+ and 
+\emph on
+.password
+\emph default
+ strings.
+ If no auth is present, the username and passwords are empty strings.
+\end_layout
+
+\begin_layout Description
 .toHTML() a method returning an HTML list structure in %x format.
 \end_layout
 
 \begin_layout Paragraph
-Http Responses in HTML list structures
+Responses
 \end_layout
 
 \begin_layout Standard
-The response must be in the XML format as used by the 
+The return value from the 
+\emph on
+httpd-serve 
+\emph default
+function is anlaysed by the web server and executed as required.
+ There are two types of response:
+\end_layout
+
+\begin_layout Itemize
+Instruction to serve a file from the file system as a 'static' page
+\end_layout
+
+\begin_layout Itemize
+A data structure to be converted to XHTML and transmittted
+\end_layout
+
+\begin_layout Paragraph
+Static Pages
+\end_layout
+
+\begin_layout Standard
+If the return value is a list of the form:
+\end_layout
+
+\begin_layout LyX-Code
+SERVE-FILE <root Directory Path> <Path to File> [<list directory flag>]
+\end_layout
+
+\begin_layout Standard
+Then the file referred to by the path <root Directory Path>/<Path to File>
+ is served to the client.
+ If the file is a directory, and the <list directory flag> is the symbol
+ 
+\emph on
+ls
+\emph default
+, then the directory listing is returned to the client in HTML.
+ The following function provides a simple static web server:
+\end_layout
+
+\begin_layout LyX-Code
+df httpd-serve (request)
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+list ^SERVE-FILE '/' (request(.getPath)) ^ls
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Http Responses in XML list structures
+\end_layout
+
+\begin_layout Standard
+If the response is a list of the form:
+\end_layout
+
+\begin_layout LyX-Code
+<integer status code> <mime type> <tree>
+\end_layout
+
+\begin_layout Standard
+then the web server converts <tree> into the relevant encoding and transmits
+ it to the client.
+ The conversion depends on the <mime type>.
+ 
+\end_layout
+
+\begin_layout Subparagraph
+text/plain
+\end_layout
+
+\begin_layout Standard
+This type of response uses the parenthesised Genyris output formatter to
+ display the <tree>.
+ It is equivalent to the %s directive in the %format instruction.
+\end_layout
+
+\begin_layout Subparagraph
+text/html
+\end_layout
+
+\begin_layout Standard
+This type of response must be in the XML format as used by the 
 \emph on
 %x
 \emph default
@@ -6642,17 +6770,84 @@ format
  function.
  This format requires XML tags to be symbols, followed by an attribute list.
  Strings an sub-tags are interleaved.
- The structure is converted to the corresponding XML string.
- The 
+ The general grammar is:
+\end_layout
+
+\begin_layout LyX-Code
+xml=tree :== html-tag ((attribute = 'value')...)
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+['inner text' |<xml-tree> ] ...
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+For example, the expression:
+\end_layout
+
+\begin_layout LyX-Code
+u:format '%x'
+\end_layout
+
+\begin_layout LyX-Code
+   quote
+\end_layout
+
+\begin_layout LyX-Code
+     html()
+\end_layout
+
+\begin_layout LyX-Code
+      head()
+\end_layout
+
+\begin_layout LyX-Code
+        title() "Lamp Server"
+\end_layout
+
+\begin_layout LyX-Code
+          body()
+\end_layout
+
+\begin_layout LyX-Code
+             form()
+\end_layout
+
+\begin_layout LyX-Code
+                input((name="op") (size="100") (value =none)) ""
+\end_layout
+
+\begin_layout LyX-Code
+                   verbatim() "&nbsp;&nbsp;&nbsp;"
+\end_layout
+
+\begin_layout LyX-Code
+                   input((type="submit") (value="Go"))
+\end_layout
+
+\begin_layout Standard
+Is converted to the corresponding XML string:
+\end_layout
+
+\begin_layout LyX-Code
+<html><head><title>Lamp Server<body><form><input name="op" size="100" value="non
+e">&nbsp;&nbsp;&nbsp;<input type="submit" value="Go"/></input></form></body></ti
+tle></head></html> 
+\end_layout
+
+\begin_layout Standard
+The 
 \emph on
 verbatim
 \emph default
  pseudo-tag passes text transparently.
- For example (from 
+ This example (from 
 \emph on
 examples/www-demo.g
 \emph default
-):
+) echoes the input request in HTML:
 \end_layout
 
 \begin_layout LyX-Code
@@ -6691,18 +6886,6 @@ df httpd-serve (request)
                 ,(request (.toHTML))
 \end_layout
 
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Standard
-Refer to 
-\emph on
-examples/notification-server.g
-\emph default
- for a more complex example.
-\end_layout
-
 \begin_layout Subsubsection
 Starting a static web server
 \end_layout
@@ -6710,23 +6893,13 @@ Starting a static web server
 \begin_layout Standard
 A static page web server can be started with the 
 \emph on
-httpd-static
+www-static
 \emph default
- function:
+ script:
 \end_layout
 
 \begin_layout LyX-Code
-httpd-static <port> <path to root directory>
-\end_layout
-
-\begin_layout Standard
-The function starts a very simple server with directory listings enabled
- and no security or logging.
- For example (Windows):
-\end_layout
-
-\begin_layout LyX-Code
-httpd-static 80 'c:/'
+httpd <port> "testscripts/www-static.g" <root directory>
 \end_layout
 
 \begin_layout Section
@@ -6852,7 +7025,8 @@ The
 load
 \emph default
  function reads and executes a source file from the Java classpath.
- Some source files are stored within the distributed binary Java 
+ Some initialization code files are stored within the distributed binary
+ Java 
 \begin_inset Quotes eld
 \end_inset
 
@@ -6860,7 +7034,7 @@ jar
 \begin_inset Quotes erd
 \end_inset
 
- file including some initialization code and a handful of examples.
+ file .
  The 
 \emph on
 <java resource name>
