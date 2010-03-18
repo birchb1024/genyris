@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 611
+Build 615
 \end_layout
 
 \begin_layout Standard
@@ -6353,9 +6353,9 @@ spawn <source file to include> <args ...>
 \begin_layout Standard
 Spawn creates a new Genyris interpreter instance which is then executed
  by a seperate Java thread.
- No memory or data is shared between interpreters, however they all share
- the same operating system interfaces, files, sockets etc since they are
- running in the same process.
+ Only the objects passed as parameters are shared between interpreter threads.
+ They all share the same operating system interfaces, files, sockets etc
+ since they are running in the same process.
  The function returns a 
 \emph on
 Task
@@ -6411,15 +6411,11 @@ The output is:
 \end_layout
 
 \begin_layout LyX-Code
-'examples/spawn-example.g' '1' '2' '3' '4' '5'
+'examples/spawn-example.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout LyX-Code
-'examples/spawn-example.g' '1' '2' '3' '4' '5'
-\end_layout
-
-\begin_layout LyX-Code
-'examples/spawn-example.g' '1' '2' '3' '4' '5'
+'examples/spawn-example.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout LyX-Code
