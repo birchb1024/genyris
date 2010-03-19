@@ -58,7 +58,7 @@ public class SpawnFunction extends TaskFunction {
 			} catch (GenyrisException e) {
 				if(e instanceof GenyrisInterruptedException) 
 					return;
-				e.printStackTrace();
+				System.out.println("*** Error in thread " + Thread.currentThread().getName() + ' ' + e.getMessage());
 			}
 
         }
