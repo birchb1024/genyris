@@ -142,7 +142,7 @@ public class TripleStoreTest extends TestCase {
         eval("(result(.asTriples))", "((triple s p 99))");
         eval("(defvar ^result (ts(.select ^s ^p 99 isObject99))))",
                 "(triplestore)");
-        eval("(result(.asTriples))", "nil");
+        eval("(result(.asTriples))", "((triple s p 99))");
     }
 
     public void testInterpConditionWithVar() throws Exception {

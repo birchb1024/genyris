@@ -54,7 +54,7 @@ public class Triple extends Atom implements Comparable {
     public boolean equals(Object compare) {
         if (compare instanceof Triple) {
             Triple t = (Triple) compare;
-            return subject.equals(t.subject)
+            return subject == t.subject // subject.equals(t.subject)
                 && predicate == t.predicate
                 && object.equals(t.object);
         }

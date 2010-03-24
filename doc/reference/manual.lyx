@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 616
+Build 617
 \end_layout
 
 \begin_layout Standard
@@ -2498,7 +2498,7 @@ Defining Macros
 
 \begin_layout Standard
 Macros are lazy functions which are very handy for extending the syntax
- of the language or creating DSLs (Domain-Specific Languages).
+ of the language or creating Domain-Specific Languages (DSLs).
  Macros re-evaluate the returned value in the environment of the caller.
  Here's an example:
 \end_layout
@@ -2535,7 +2535,7 @@ body
 \end_layout
 
 \begin_layout Standard
-It prints the expession and the result is calculated:
+It prints the expression and the result is calculated:
 \end_layout
 
 \begin_layout LyX-Code
@@ -2591,7 +2591,7 @@ comma
 \end_layout
 
 \begin_layout LyX-Code
-define test 3                 # binding in the caller's environment
+define test 3    # binding in the caller's environment
 \end_layout
 
 \begin_layout LyX-Code
@@ -3112,7 +3112,7 @@ However where symbols are concerned, the evaluator always looks up the value
 \end_layout
 
 \begin_layout LyX-Code
-<class Symbol (Dictionary)> # Pair
+(<class SimpleSymbol (Symbol)>) # Pair 
 \end_layout
 
 \begin_layout Standard
@@ -3174,7 +3174,7 @@ cons
 \end_layout
 
 \begin_layout LyX-Code
-'A' = 'B' # Pair
+('A' = 'B') # Pair
 \end_layout
 
 \begin_layout Standard
@@ -3204,7 +3204,7 @@ left
 \end_layout
 
 \begin_layout LyX-Code
-~ 'A' # String
+'A' # String
 \end_layout
 
 \begin_layout Standard
@@ -3234,7 +3234,7 @@ right
 \end_layout
 
 \begin_layout LyX-Code
-~ 'B' # String
+'B' # String
 \end_layout
 
 \begin_layout LyX-Code
@@ -3298,7 +3298,8 @@ Pair
 \emph on
 Pair
 \emph default
-? 
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -3322,7 +3323,7 @@ Pairs
 \end_layout
 
 \begin_layout LyX-Code
-'A' = ('B' = ('C')) # Pair 
+('A' = ('B' = ('C'))) # Pair 
 \end_layout
 
 \begin_layout Subsection
@@ -5905,7 +5906,16 @@ subject, predicate
 object.
  
 \emph default
-Example:
+The 
+\emph on
+predicate 
+\emph default
+must be a Symbol.
+
+\emph on
+ Example
+\emph default
+s:
 \end_layout
 
 \begin_layout LyX-Code
@@ -5913,7 +5923,15 @@ Example:
 \end_layout
 
 \begin_layout LyX-Code
-(triple Lewis hasMother Mae) # Triple 
+(triple Lewis hasMother Mae) # Triple
+\end_layout
+
+\begin_layout LyX-Code
+> triple 23 ^hasUnits ^Inches
+\end_layout
+
+\begin_layout LyX-Code
+(triple 23 hasUnits Inches) # Triple
 \end_layout
 
 \begin_layout Subsubsection
@@ -5932,11 +5950,11 @@ Accessing parts of a triple with
 
 \begin_layout Standard
 The components of the triples can be accessed with the above dynamic symbols.
- Fr
+ For example:
 \end_layout
 
 \begin_layout LyX-Code
-var l 
+> var l 
 \end_layout
 
 \begin_layout LyX-Code
@@ -5944,27 +5962,92 @@ var l
 \end_layout
 
 \begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-l.subject
+(triple Lewis hasMother Mae) # Triple
 \end_layout
 
 \begin_layout LyX-Code
 
+\end_layout
+
+\begin_layout LyX-Code
+> l.subjectlist l!object l!subject l!predicate
+\end_layout
+
+\begin_layout LyX-Code
+(Mae Lewis hasMother) # Pair
 \end_layout
 
 \begin_layout Subsubsection
 Triple Equality
 \end_layout
 
-\begin_layout Subsubsection
-Accessing Type Information
+\begin_layout Standard
+Two triples are considered 
+\emph on
+equal?
+\emph default
+ if the subjects and predicates are 
+\emph on
+eq? 
+\emph default
+and the objects are 
+\emph on
+equal?.
+ 
+\emph default
+The 
+\emph on
+equal?
+\emph default
+ test for the 
+\emph on
+object
+\emph default
+ means that strings, integers and lists which look the same will be treated
+ as equal.
+ Refer also to the definitions of 
+\emph on
+eq?
+\emph default
+ and 
+\emph on
+equal?
+\emph default
+.
+ This style is designed to allow simple literals to be used as objects such
+ as 
+\emph on
+12.3
+\emph default
+ and 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Joe
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+.
+ If networks of triples are required in an application, then the objects
+ are also subjects.
+ In this case Dictionaries or Symbols are recommended since their equality
+ is specific.
+\end_layout
+
+\begin_layout Standard
+For example:
 \end_layout
 
 \begin_layout LyX-Code
-> (23(.asTripleStore))(.asTriples)
+> equal? (triple ^S ^P 12.3) (triple ^S ^P 12.3)
+\end_layout
+
+\begin_layout LyX-Code
+true # SimpleSymbol
 \end_layout
 
 \begin_layout LyX-Code
@@ -5972,17 +6055,43 @@ Accessing Type Information
 \end_layout
 
 \begin_layout LyX-Code
-(triple 23 type <class Bignum (Builtin)>) # Pair
+> equal? (triple 123 ^p "yes") (triple 123 ^p "yes")
+\end_layout
+
+\begin_layout LyX-Code
+nil # SimpleSymbol
 \end_layout
 
 \begin_layout Subsection
 TripleStores
 \end_layout
 
+\begin_layout Standard
+Genyris provides a special container class for triples, the 'triplestore'.
+ Triplestores are really a set of triples, since all triples with the store
+ are unequal.
+ Triplestores are not persisted (saved on disk) the are purely in-memory
+ objects.
+ Triplestores are used as lookup tables (instead of a hashtable) and they
+ are used for more complex comparisons between sets of triples.
+\end_layout
+
 \begin_layout Subsubsection
 Creating TripleStores with 
 \emph on
 TripleStore
+\end_layout
+
+\begin_layout LyX-Code
+triplestore 
+\end_layout
+
+\begin_layout LyX-Code
+   ^(joe age three) 
+\end_layout
+
+\begin_layout LyX-Code
+   ^(joe age ten) 
 \end_layout
 
 \begin_layout Subsubsection
@@ -6017,6 +6126,28 @@ defvar ^thedict (dict(.a=3)(.b=5))
 
 \begin_layout LyX-Code
 thedict(.asTripleStore)
+\end_layout
+
+\begin_layout Subsubsection
+Accessing Type Information
+\end_layout
+
+\begin_layout Standard
+All objects in Genyris can be converted into a series of triples depending
+ on their type.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> (23(.asTripleStore))(.asTriples)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(triple 23 type <class Bignum (Builtin)>) # Pair
 \end_layout
 
 \begin_layout Subsubsection

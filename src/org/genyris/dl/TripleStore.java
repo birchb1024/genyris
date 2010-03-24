@@ -77,7 +77,7 @@ public class TripleStore extends Atom {
 		Iterator iter = triples.iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
-			if(rec.subject.equals(subject)
+			if(rec.subject == subject
 					&& rec.predicate == predicate
 					&& rec.object.equals(object)) {
 				return true;
@@ -90,7 +90,7 @@ public class TripleStore extends Atom {
 		Iterator iter = triples.iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
-			if(rec.subject.equals(subject)
+			if(rec.subject == subject
 					&& rec.predicate == predicate
 					&& rec.object.equals(object)) {
 				triples.remove(rec);
@@ -102,7 +102,7 @@ public class TripleStore extends Atom {
 		Iterator iter = triples.iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
-			if(rec.subject.equals(t.subject)
+			if(rec.subject == t.subject
 					&& rec.predicate == t.predicate
 					&& rec.object.equals(t.object)) {
 				return;
@@ -119,7 +119,7 @@ public class TripleStore extends Atom {
 			Triple item = (Triple)iter.next();
  			if (   (subject   != null && item.subject   != subject) 
 				|| (predicate != null && item.predicate != predicate)
-				|| (object    != null && item.object    != object)) {
+				|| (object    != null && (!item.object.equals(object)))) {
 					continue; // no match so try next triple				
 			}
 			if (condition != null) {

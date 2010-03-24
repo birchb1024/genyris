@@ -17,6 +17,6 @@ var statements
       `(,twenty type |http://people.org/type#age|)
 assertEqual
    statements(.asTriples)
-   list (triple 20 ^units Years) (triple 20 ^type ^|http://people.org/type#age|)
+   list (triple twenty ^units Years) (triple twenty ^type ^|http://people.org/type#age|)
 
     

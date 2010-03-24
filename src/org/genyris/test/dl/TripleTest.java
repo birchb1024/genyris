@@ -53,7 +53,7 @@ public class TripleTest extends TestCase {
                 new Triple(subject, predicate, new StrinG("foo"))));
         assertTrue(new Triple(subject, predicate, new Pair(new StrinG("foo"),new Bignum(99))).equals(
                 new Triple(subject, predicate, new Pair(new StrinG("foo"),new Bignum(99)))));
-        assertTrue(new Triple(new Pair(subject, subject), predicate, new Pair(new StrinG("foo"),new Bignum(99))).equals(
+        assertFalse(new Triple(new Pair(subject, subject), predicate, new Pair(new StrinG("foo"),new Bignum(99))).equals(
                 new Triple(new Pair(subject, subject), predicate, new Pair(new StrinG("foo"),new Bignum(99)))));
     }
 
@@ -69,10 +69,10 @@ public class TripleTest extends TestCase {
         excerciseBadEval("(triple 1 \"s\" 34)");
         excerciseEval("(triple 1 ^|http://foo/| 23)", "(triple 1 |http://foo/| 23)");
         excerciseEval("((triple 1 ^|http://foo/| 23).classes)", "(<class Triple (Builtin)>)");
-        excerciseEval("(equal? (triple 1 ^S 23) (triple 1 ^S 23))", "true");
+        excerciseEval("(equal? (triple 1 ^S 23) (triple 1 ^S 23))", "nil");
         excerciseEval("(equal? (triple ^s ^S 23) (triple ^s ^S 23))", "true");
         excerciseEval("(equal? (triple ^S ^P ^O) (triple ^S ^P ^O))", "true");
-        excerciseEval("(equal? (triple (cons 1 2) ^P ^O) (triple (cons 1 2) ^P ^O))", "true");
+        excerciseEval("(equal? (triple (cons 1 2) ^P ^O) (triple (cons 1 2) ^P ^O))", "nil");
 
     }
     public void testTripleAccessorsFunction() throws Exception {

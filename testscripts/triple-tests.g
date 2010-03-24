@@ -7,9 +7,10 @@ def test-equality()
           triple ^X ^O 89
           triple ^X ^O 89
    assert
-      equal?
-          triple ^(1=2) ^O ^(w = 45)
-          triple ^(1=2) ^O ^(w = 45)
+      not
+          equal?
+              triple ^(1=2) ^O ^(w = 45)
+              triple ^(1=2) ^O ^(w = 45)
    var someDict (dict (.a = 3))
    assert
       equal?
