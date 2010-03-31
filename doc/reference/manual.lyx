@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 617
+Build 618
 \end_layout
 
 \begin_layout Standard
@@ -8407,6 +8407,61 @@ File
 
 \begin_layout Subsection
 .static-open
+\end_layout
+
+\begin_layout Section
+Loading Data in Comma-Separated-Value Files
+\end_layout
+
+\begin_layout Standard
+The builtin 
+\emph on
+CSV
+\emph default
+ class is provided for reading data from CSV files.
+ 
+\end_layout
+
+\begin_layout Subsection
+.read <InStream> field-separator quote-char
+\end_layout
+
+\begin_layout Standard
+The CSV class has a single static method 
+\emph on
+.read 
+\emph default
+which takes an input stream as it's first parameter.
+ Despite the name CSV files can come in a variety of formats, hence the
+ method expects the field-seperator character and field quote character
+ as parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+The result is a list of rows.
+ Each row is itself a list of the fields parsed.
+\end_layout
+
+\begin_layout Standard
+Example.
+ Read a comma-delimited file:
+\end_layout
+
+\begin_layout LyX-Code
+CSV
+\end_layout
+
+\begin_layout LyX-Code
+   .read ((File(.new 'my file')) (.open ^read)) = 
+\end_layout
+
+\begin_layout LyX-Code
+       ',' '
+\begin_inset Quotes erd
+\end_inset
+
+'
 \end_layout
 
 \begin_layout Section

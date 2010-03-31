@@ -25,7 +25,7 @@ import au.com.bytecode.opencsv.CSVReader;
 public class CSV {
 	
 	public static class ReadCSVFileMethod extends AbstractMethod {
-		private static Class[] types = { ReaderStream.class };
+		private static Class[] types = { ReaderStream.class, StrinG.class, StrinG.class };
 
 		public ReadCSVFileMethod(Interpreter interp) {
 			super(interp, "read");
@@ -33,8 +33,11 @@ public class CSV {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			checkMinArguments(arguments, 1);
+			checkMinArguments(arguments, 3);
 			checkArgumentTypes(types, arguments);
+			String fieldSeperator = arguments[1].toString();
+			String quoteChar = arguments[2].toString();
+			
 			CSVReader reader = null;
 			Exp retval = NIL;
 			try {
@@ -42,7 +45,7 @@ public class CSV {
 				if (fr == null) {
 					throw new GenyrisException("read expects a stream with an underlying Java Reader");					
 				}
-				reader = new CSVReader(fr);
+				reader = new CSVReader(fr, fieldSeperator.charAt(0), quoteChar.charAt(0));
 				String[] nextLine;
 				Exp row = NIL;
 				while ((nextLine = reader.readNext()) != null) {

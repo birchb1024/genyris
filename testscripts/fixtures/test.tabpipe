@@ -1,0 +1,4 @@
+#subject	object	predicate
+Joe	type	person
+Joe	owns	|Ford, Falcon|
+Joe	worksAt	office

@@ -93,7 +93,7 @@ assert
     and
         equal? (in(.getline)) "#subject,object,predicate"
         equal? (in(.getline)) "Joe,type,person"
-        equal? (in(.getline)) "Joe,owns,Ford"
+        equal? (in(.getline)) 'Joe,owns,"Ford, Falcon"'
         equal? (in(.getline)) "Joe,worksAt,office"
 in (.close)
 define in
