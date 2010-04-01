@@ -5,8 +5,6 @@
 //
 package org.genyris.dl;
 
-import java.lang.reflect.Method;
-
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;

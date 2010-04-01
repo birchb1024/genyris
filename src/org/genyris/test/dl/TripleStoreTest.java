@@ -191,7 +191,10 @@ public class TripleStoreTest extends TestCase {
         StrinG object2 = new StrinG("$2");
         
         ts.add(new Triple(subject, predicate, object1));
+        ts.add(new Triple(subject, predicate, object1));
         ts.add(new Triple(subject, predicate, object2));
+        ts.add(new Triple(subject, predicate, object2));
+        ts.put(subject, predicate, object2);
         ts.put(subject, predicate, object2);
 		try {
 			assertEquals(ts.get(subject, predicate), object2);
