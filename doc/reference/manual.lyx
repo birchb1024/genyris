@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 618
+Build 619
 \end_layout
 
 \begin_layout Standard
@@ -6114,6 +6114,115 @@ Removing Triples
 Selecting Triples with 
 \emph on
 .select
+\end_layout
+
+\begin_layout Subsubsection
+Retrieving unique values with 
+\emph on
+.get subject predicate
+\end_layout
+
+\begin_layout Standard
+Often triplestores will contain unique triples, when there is only one triple
+ with the same 
+\emph on
+subject
+\emph default
+ and 
+\emph on
+object
+\emph default
+.
+ The 
+\emph on
+.get 
+\emph default
+method retrieves the 
+\emph on
+object
+\emph default
+ of this triple.
+ If there is more than one matching triple, or none an error is raised.
+ 
+\end_layout
+
+\begin_layout Standard
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+<triplestore> (.get subject object)
+\end_layout
+
+\begin_layout Subsubsection
+Retrieving multiple values with 
+\emph on
+.get-list subject predicate
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+.get-list 
+\emph default
+method retrieves a list containing all the 
+\emph on
+object
+\emph default
+ of the triples which have the 
+\emph on
+subject
+\emph default
+ and 
+\emph on
+object
+\emph default
+ specified.
+ If there is no matching triple 
+\emph on
+NIL
+\emph default
+ is returned.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Updating with 
+\emph on
+.put
+\emph default
+ 
+\emph on
+subject predicate object
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+put
+\emph default
+ method removes all triples from the triplestore with the matching 
+\emph on
+subject
+\emph default
+ and 
+\emph on
+predicate
+\emph default
+, then adds a single triple with the 
+\emph on
+subject predicate object 
+\emph default
+specified
+\emph on
+.
+ 
+\emph default
+If there are no matching triples no error is raised, the triple is simply
+ added.
+ This operation is intended to support the pattern of a unique triples.
+ where it serves as an update operation.
+ 
 \end_layout
 
 \begin_layout Subsubsection

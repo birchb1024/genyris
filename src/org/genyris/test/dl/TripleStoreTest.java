@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
+import org.genyris.core.NilSymbol;
+import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.dl.Triple;
@@ -70,6 +72,153 @@ public class TripleStoreTest extends TestCase {
         ts.remove(new Triple(subject, predicate, object));
 
         assertEquals(ts.empty(), false);
+    }
+    public void testGetOK() {
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        StrinG object = new StrinG("$");
+        ts.add(new Triple(subject, predicate, object));
+        ts.add(new Triple(subject, new SimpleSymbol("s"), new StrinG("$")));
+
+        assertEquals(ts.empty(), false);
+
+        try {
+			assertEquals(ts.get(subject, predicate), object);
+		} catch (GenyrisException e) {
+			fail();
+		}
+
+        assertEquals(ts.empty(), false);
+    }
+
+    public void testGetNone() {
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        try {
+        	ts.get(subject, predicate);
+			fail();
+		} catch (GenyrisException e) {
+		}
+    }
+
+    public void testGetTooMany() {
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        StrinG object = new StrinG("$1");
+        ts.add(new Triple(subject, predicate, object));
+        ts.add(new Triple(subject, predicate, new StrinG("$2")));
+        ts.add(new Triple(subject, new SimpleSymbol("s"), new StrinG("$")));
+
+        assertEquals(ts.empty(), false);
+
+        try {
+        	ts.get(subject, predicate);
+			fail();
+		} catch (GenyrisException e) {
+		}
+
+        assertEquals(ts.empty(), false);
+    }
+
+    public void testGetListOne() {
+    	Exp NIL = new NilSymbol();
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        StrinG object = new StrinG("$");
+        ts.add(new Triple(subject, predicate, object));
+        assertEquals(ts.getList(subject, predicate, NIL), new Pair(object, NIL));
+    }
+
+    public void testGetListNone() {
+    	Exp NIL = new NilSymbol();
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        StrinG object = new StrinG("$");
+        ts.add(new Triple(subject, predicate, object));
+        assertEquals(ts.getList(new SimpleSymbol("s2"), predicate, NIL), NIL);
+    }
+
+    public void testGetListMany() {
+    	Exp NIL = new NilSymbol();
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        StrinG object1 = new StrinG("$1");
+        StrinG object2 = new StrinG("$2");
+        ts.add(new Triple(subject, predicate, object1));
+        ts.add(new Triple(subject, predicate, object2));
+        if (ts.getList(subject, predicate, NIL)
+        	.equals(new Pair(object1, new Pair(object2 , NIL)))
+        	|| ts.getList(subject, predicate, NIL)
+        	.equals(new Pair(object2, new Pair(object1 , NIL)))) {
+        	;
+        } else {
+        	fail();
+        }
+    }
+
+    public void testPutOK() {
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        StrinG object1 = new StrinG("$1");
+        StrinG object2 = new StrinG("$2");
+        
+        ts.add(new Triple(subject, predicate, object1));
+        ts.add(new Triple(subject, predicate, object2));
+        ts.put(subject, predicate, object2);
+		try {
+			assertEquals(ts.get(subject, predicate), object2);
+			assertEquals(ts.length(), 1);
+		} catch (GenyrisException e) {
+			fail();
+		}
+
+    }
+
+    public void testPutWasEmpty() {
+        TripleStore ts = new TripleStore();
+        assertEquals(ts, ts);
+        assertEquals(ts.empty(), true);
+
+        Bignum subject = new Bignum(12);
+        SimpleSymbol predicate = new SimpleSymbol("s");
+        StrinG object = new StrinG("$2");
+        
+        ts.put(subject, predicate, object);
+		try {
+			assertEquals(ts.get(subject, predicate), object);
+			assertEquals(ts.length(), 1);
+		} catch (GenyrisException e) {
+			fail();
+		}
+
     }
 
     public void testFormatting() throws Exception {

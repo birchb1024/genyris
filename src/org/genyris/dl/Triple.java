@@ -12,12 +12,12 @@ import org.genyris.interp.Environment;
 public class Triple extends Atom implements Comparable {
 
     public final Exp subject;
-    public final SimpleSymbol predicate;
+    public final Symbol predicate;
     public final Exp object;
 
-    public Triple(Exp subject, SimpleSymbol predicate, Exp object) {
+    public Triple(Exp subject, Symbol arguments, Exp object) {
         this.subject = subject;
-        this.predicate = predicate;
+        this.predicate = arguments;
         this.object = object;
     }
 

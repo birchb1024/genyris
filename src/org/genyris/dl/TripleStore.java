@@ -137,6 +137,39 @@ public class TripleStore extends Atom {
 		return results;
 	}
 
+	public Exp get(Exp subject, Exp predicate) throws GenyrisException {
+		Exp result = null;
+		Iterator iter = triples.iterator();
+		while (iter.hasNext()) {
+			Triple item = (Triple)iter.next();
+ 			if (   (item.subject   == subject) 
+				&& (item.predicate == predicate)) {
+ 					if(result != null) {
+ 						throw new GenyrisException("More than one triple in triplestore matching " + subject.toString() + " " + predicate.toString());
+ 					} else {
+ 						result = item.object;	
+ 					}
+			}
+		}
+		if( result == null ) {
+				throw new GenyrisException("No triple in triplestore matching " + subject.toString() + " " + predicate.toString());
+		}
+		return result;
+	}
+
+	public Exp getList(Exp subject, Symbol predicate, Exp NIL) {
+		Exp result = NIL;
+		Iterator iter = triples.iterator();
+		while (iter.hasNext()) {
+			Triple item = (Triple)iter.next();
+ 			if (   (item.subject   == subject) 
+				&& (item.predicate == predicate)) {
+ 					result = new Pair(item.object, result);	
+			}
+		}
+		return result;
+	}
+	
 	public boolean empty() {
 		return triples.isEmpty();
 	}
@@ -168,6 +201,18 @@ public class TripleStore extends Atom {
 	}
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
+	}
+
+	public void put(Exp subject, Symbol arguments, Exp object) {
+		Iterator iter = triples.iterator();
+		while(iter.hasNext()) {
+			Triple rec = (Triple) iter.next();
+			if(rec.subject == subject
+					&& rec.predicate == arguments) {
+				triples.remove(rec);
+			}
+		}
+		add(new Triple(subject, arguments, object));
 	}
 
 

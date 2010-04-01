@@ -78,5 +78,47 @@ def test-select()
          result
          triplestore  ^(joe age ten)  ^(joe age three)
 
+def test-get()
+   var ts
+      triplestore 
+         ~ ^(joe age ten)
+         ~ ^(joe height 22)
+         ~ ^("John" age 223)
+   var result
+      ts
+        .get ^joe ^age
+   assert (equal? result ^ten)
+
+def test-get-list()
+   var ts
+      triplestore 
+         ~ ^(joe friend adam)
+         ~ ^(joe height 22)
+         ~ ^(joe friend bruce)
+   var result
+      ts
+        .get-list ^joe ^friend
+   assert 
+        or
+            equal? result ^(adam bruce)
+            equal? result ^(bruce adam)
+
+def test-put()
+   var ts
+      triplestore 
+         ~ ^(joe age ten)
+         ~ ^(joe age 11)
+         ~ ^(joe age 12)
+         ~ ^(joe age 13)
+         ~ ^(joe height 22)
+         ~ ^("John" age 223)
+   var result
+      ts
+        .put ^joe ^age 98
+   assert (equal? (ts(.length)) 3)
+
 test-remove
 test-select
+test-get
+test-get-list
+test-put
