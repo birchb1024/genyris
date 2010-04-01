@@ -10,6 +10,7 @@ import org.genyris.dl.TripleStore;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
+import org.genyris.java.JavaWrapper;
 
 public interface Visitor {
 	public void visitPair(Pair cons) throws GenyrisException;
@@ -40,4 +41,6 @@ public interface Visitor {
 	public void visitTripleStore(TripleStore store) throws GenyrisException;
 
 	public void visitDynamicSymbol(DynamicSymbol symbol)  throws GenyrisException;
+
+	public void visitJavaWrapper(JavaWrapper javaWrapper)  throws GenyrisException;
 }

@@ -112,5 +112,7 @@ public class Constants {
 		public static final String OBJECT = "object";
 		public static final String TOBASE64 = "toBase64";
 		public static final String FROMBASE64 = "fromBase64";
+		public static final String JAVA = "Java";
+		public static final String JAVAWRAPPER = "JavaWrapper";
 
 }

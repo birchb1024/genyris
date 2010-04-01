@@ -38,3 +38,4 @@ s:load-class-by-name "org.genyris.system.SystemTicksMethod"
 s:load-class-by-name "org.genyris.io.csv.CSV"
 s:load-class-by-name "org.genyris.datetime.AbstractDateTimeFunction"
 
+s:load-class-by-name "org.genyris.java.AbstractJavaMethod"

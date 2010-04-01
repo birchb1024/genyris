@@ -55,5 +55,6 @@ public interface Internable {
 	public SimpleSymbol SUBJECT();
 	public SimpleSymbol OBJECT();
 	public SimpleSymbol PREDICATE();
+	public SimpleSymbol JAVAWRAPPER();
 
 }
