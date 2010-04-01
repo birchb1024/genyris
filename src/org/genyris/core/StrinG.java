@@ -84,4 +84,8 @@ public class StrinG extends Atom {
 		return this;
 	}
 
+	public Exp replace(StrinG regex, StrinG replacement) {
+		return new StrinG(_value.replace(regex.toString(), replacement.toString()));
+	}
+
 }
