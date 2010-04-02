@@ -63,6 +63,7 @@ public abstract class Exp implements Classifiable, Closure {
         }
 	}
 
-
-
+	public Exp dir(Internable table) {
+		return Pair.cons3(table.SELF(), table.VARS(), table.CLASSES(), table.NIL());
+	}
 }

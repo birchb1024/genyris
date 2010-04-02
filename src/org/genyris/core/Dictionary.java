@@ -102,9 +102,9 @@ public class Dictionary extends Atom implements Environment {
 		return _parent.getSymbolTable().VARS();
 	}
 
-	private Exp getVarsList() {
+	public Exp dir(Internable table) {
 		Iterator iter = _dict.keySet().iterator();
-		Exp result = new Pair(VARS(), _parent.getNil());
+		Exp result = Pair.cons3(table.SELF(), table.VARS(), table.CLASSES(), table.NIL());
 		while (iter.hasNext()) {
 			Exp key = (Exp) iter.next();
 			result = new Pair(key, result);
@@ -245,7 +245,7 @@ public class Dictionary extends Atom implements Environment {
 		} else if (symbol == CLASSES()) {
 			return getClasses(_parent);
 		} else if (symbol == VARS()) {
-			return getVarsList();
+			return dir(_parent.getSymbolTable());
 		} else if (_dict.containsKey(symbol)) {
 			return (Exp) _dict.get(symbol);
 		}

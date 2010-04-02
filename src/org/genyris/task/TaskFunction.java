@@ -18,7 +18,6 @@ public abstract class TaskFunction extends ApplicableFunction {
 
     protected Dictionary getThreadAsDictionary( Thread tr, Environment env) throws GenyrisException {
     	Dictionary result = new Dictionary(env);
-    	// TODO write a method to convert an arbitrary Java object into a Dictionary with reflection?
     	result.addProperty(env, "state", new StrinG(tr.getState().toString()));
      	result.addProperty(env, "name", new StrinG(tr.getName()));
      	result.addProperty(env, "id", new Bignum(tr.getId()));

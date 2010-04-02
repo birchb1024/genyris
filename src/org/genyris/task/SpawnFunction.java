@@ -32,9 +32,9 @@ public class SpawnFunction extends TaskFunction {
 		Thread thread = new Thread(task);
 		if( arguments.length > 0 )
 			thread.setName(arguments[0].toString());
+		Exp result = getThreadAsDictionary(thread, envForBindOperations);
 		thread.start();
-
-        return getThreadAsDictionary(thread, envForBindOperations);
+        return result;
 	}
 	
 

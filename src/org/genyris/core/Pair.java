@@ -140,5 +140,23 @@ public class Pair extends ExpWithEmbeddedClasses {
 			throw new GenyrisException("reverse: not a list: " + list);
 		}
 	}
+	
+	public static Exp cons(Exp a, Exp b) {
+		return new Pair(a, b);
+	}
+
+	public static Exp cons2(Exp a, Exp b, Exp NIL) {
+		return new Pair(a, new Pair(b, NIL));
+	}
+
+	public static Exp cons3(Exp a, Exp b, Exp c, Exp NIL) {
+		return new Pair(a, new Pair(b, new Pair(c, NIL)));
+	}
+
+	public Exp dir(Internable table) {
+		return Pair.cons2(table.LEFT(), 
+				table.RIGHT(), 
+				Pair.cons2(table.VARS(), table.CLASSES(), table.NIL()));
+	}
 
 }

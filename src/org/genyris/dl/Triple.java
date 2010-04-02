@@ -3,6 +3,7 @@ package org.genyris.dl;
 import org.genyris.core.Atom;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
+import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
@@ -69,5 +70,13 @@ public class Triple extends Atom implements Comparable {
 	public int compareTo(Object arg0) {
 		return this.toString().compareTo(((Triple)arg0).toString());
 	}
+	
+	public Exp dir(Internable table) {
+		return Pair.cons3(table.SUBJECT(), 
+				table.PREDICATE(), 
+				table.OBJECT(), 
+				Pair.cons2(table.VARS(), table.CLASSES(), table.NIL()));
+	}
+
 
 }

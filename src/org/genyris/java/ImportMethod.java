@@ -8,7 +8,6 @@ import org.genyris.core.DynamicSymbol;
 import org.genyris.core.EscapedSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;

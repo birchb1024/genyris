@@ -75,9 +75,10 @@ public class ExpressionEnvironment extends StandardEnvironment {
 		Symbol sym = dsym.getRealSymbol();
 		if (sym == _classes) {
 			return _theExpression.getClasses(_parent);
-		} 
-		else if (sym == _self) {
+		}  else if (sym == _self) {
 			return _theExpression;
+		} else if (sym == _vars) {
+			return _theExpression.dir(this.getSymbolTable());
 		} else {
 			return lookupInClasses(dsym);
 		}

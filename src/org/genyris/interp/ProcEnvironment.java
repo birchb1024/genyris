@@ -34,6 +34,8 @@ public class ProcEnvironment extends ExpressionEnvironment {
 			}
 		} else if (sym == NAME) {
 			return new StrinG(((AbstractClosure)_theExpression).getName());
+		} else if (sym == _vars) {
+			return _theExpression.dir(this.getSymbolTable());
 		} else {
 			return super.lookupDynamicVariableValue(dsym);
 		}

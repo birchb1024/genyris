@@ -25,7 +25,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 
 	protected SimpleSymbol NIL;
 
-	protected Symbol _self, _classes, _superclasses, _classname;
+	protected Symbol _self, _classes, _superclasses, _classname, _vars;
 
 	protected Symbol _left, _right, _dynamic;
 
@@ -48,6 +48,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 		if (table == null)
 			return;
 		_self = table.SELF();
+		_vars = table.VARS();
 		_classes = table.CLASSES();
 		_superclasses = table.SUPERCLASSES();
 		_classname = table.CLASSNAME();
