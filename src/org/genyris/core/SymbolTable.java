@@ -66,6 +66,9 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _PREDICATE;
 	private SimpleSymbol _OBJECT;
 	private SimpleSymbol _JAVAWRAPPER;
+	private SimpleSymbol _JAVACTOR;
+	private SimpleSymbol _JAVAMETHOD;
+	private SimpleSymbol _JAVASTATICMETHOD;
 
     public SymbolTable() {
         _table = new HashMap();
@@ -133,6 +136,9 @@ public class SymbolTable implements Internable {
     _PREDICATE = bindKeyword(String.valueOf(Constants.PREDICATE));
     _OBJECT = bindKeyword(String.valueOf(Constants.OBJECT));
     _JAVAWRAPPER = bindKeyword(String.valueOf(Constants.JAVAWRAPPER));
+    _JAVACTOR = bindKeyword(String.valueOf(Constants.JAVACTOR));
+    _JAVAMETHOD = bindKeyword(String.valueOf(Constants.JAVAMETHOD));
+    _JAVASTATICMETHOD = bindKeyword(String.valueOf(Constants.JAVASTATICMETHOD));
         }
 
 	private SimpleSymbol bindKeyword(String name) {
@@ -378,6 +384,18 @@ public class SymbolTable implements Internable {
 	}
 	public SimpleSymbol JAVAWRAPPER() {
 		return _JAVAWRAPPER;
+	}
+
+	public SimpleSymbol JAVACTOR() {
+		return _JAVACTOR;
+	}
+
+	public SimpleSymbol JAVAMETHOD() {
+		return _JAVAMETHOD;
+	}
+
+	public SimpleSymbol JAVASTATICMETHOD() {
+		return _JAVASTATICMETHOD;
 	}
 
 }

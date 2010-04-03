@@ -4,18 +4,21 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.genyris.core.Bignum;
+import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.interp.UnboundException;
 
 public class JavaMethod extends AbstractJavaMethod {
 
-	private Method method;
-	private Class[] params;
+	protected Method method;
+	protected Class[] params;
 
 	public JavaMethod(Interpreter interp, String name, Method method,
 			Class[] params) throws GenyrisException {
@@ -24,22 +27,56 @@ public class JavaMethod extends AbstractJavaMethod {
 		this.params = params;
 	}
 
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.JAVAMETHOD();
+	}
+
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		try {
-			JavaWrapper result = 
-				new JavaWrapper(method.invoke(getSelfJava(envForBindOperations).getValue(), toJavaArray(params, arguments)));
-			return result;
+			Object rawResult = method.invoke(getSelfJava(envForBindOperations)
+					.getValue(), toJavaArray(params, arguments));
+			return reverseCoerce(envForBindOperations, rawResult);
+
 		} catch (IllegalArgumentException e) {
-			throw new GenyrisException("Java IllegalArgumentException " + e.getMessage());
+
+			throw new GenyrisException("Java IllegalArgumentException "
+					+ e.getMessage());
 		} catch (IllegalAccessException e) {
-			throw new GenyrisException("Java IllegalAccessException " + e.getMessage());
+			throw new GenyrisException("Java IllegalAccessException "
+					+ e.getMessage());
 		} catch (InvocationTargetException e) {
-			throw new GenyrisException("Java InvocationTargetException " + e.getMessage());
+			throw new GenyrisException("Java InvocationTargetException "
+					+ e.getMessage());
 		}
 	}
 
-	private Object[] toJavaArray(Class[] params, Exp[] arguments) {
+	private Exp reverseCoerce(Environment envForBindOperations, Object rawResult) {
+		if( rawResult instanceof String) {
+			return new StrinG((String)rawResult);
+		} else if ( rawResult instanceof Integer) { // TODO move this into factopry in Bignum?
+			return new Bignum((Integer)rawResult);
+		} else if ( rawResult instanceof Long) {
+			return new Bignum((Long)rawResult);
+		} else if ( rawResult instanceof Double) {
+			return new Bignum((Double)rawResult);
+		} else if ( rawResult instanceof Float) {
+			return new Bignum((Float)rawResult);
+		}
+		JavaWrapper result = new JavaWrapper(rawResult);
+		try {
+			Class resultClass = rawResult.getClass();
+			Exp klass = envForBindOperations
+					.lookupVariableValue(envForBindOperations
+							.internString(resultClass.getName()));
+			result.addClass((Dictionary) klass);
+		} catch (UnboundException e) {
+			;
+		}
+		return result;
+	}
+
+	public static Object[] toJavaArray(Class[] params, Exp[] arguments) {
 		Object[] result = new Object[params.length];
 		for (int i = 0; i < params.length; i++) {
 			result[i] = convertToJava(arguments[i]);
@@ -47,7 +84,7 @@ public class JavaMethod extends AbstractJavaMethod {
 		return result;
 	}
 
-	private Object convertToJava(Exp exp) {
+	public static Object convertToJava(Exp exp) {
 		// TODO use visitor and desired java type
 		if (exp instanceof JavaWrapper) {
 			return ((JavaWrapper) exp).getValue();
@@ -57,7 +94,7 @@ public class JavaMethod extends AbstractJavaMethod {
 			return exp.toString();
 		} else if (exp instanceof Symbol) {
 			return exp.toString();
-		}else
+		} else
 			return exp.toString();
 	}
 

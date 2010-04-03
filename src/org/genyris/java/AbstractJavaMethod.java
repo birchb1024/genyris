@@ -21,9 +21,7 @@ public abstract class AbstractJavaMethod extends AbstractMethod {
 	protected JavaWrapper getSelfJava(Environment env) throws GenyrisException {
 		getSelf(env);
 		if (!(_self instanceof JavaWrapper)) {
-			throw new GenyrisException(
-					"getSelfJava expected JavaWrapper, got: "
-							+ _self.toString());
+			return new JavaWrapper(_self);
 		} else {
 			JavaWrapper theJava = (JavaWrapper) _self;
 			return theJava;

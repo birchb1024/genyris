@@ -240,6 +240,9 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.URISYMBOL, env, symbol);
 		StandardClass.mkClass(Constants.EAGERPROCEDURE, env, closure);
 		StandardClass.mkClass(Constants.LAZYPROCEDURE, env, closure);
+		StandardClass.mkClass(Constants.JAVACTOR, env, closure);
+		StandardClass.mkClass(Constants.JAVAMETHOD, env, closure);
+		StandardClass.mkClass(Constants.JAVASTATICMETHOD, env, closure);
 		StandardClass.mkClass(Constants.LISTOFLINES, env, pair);
 		StandardClass.mkClass(Constants.DYNAMICSYMBOLREF, env, symbol);
 	}

@@ -51,8 +51,6 @@ public class Constants {
         public static final String PAIR = "Pair";
         public static final String PAIREQUAL = "PairEqual";
         public static final String STRING = "String";
-        public static final String JAVAOBJECT = "JavaObject";
-        public static final String JAVAMETHOD = "JavaMethod";
         public static final String VARS = "vars";
         public static final String TRUE = "true";
         public static final String CLOSURE = "Closure";
@@ -114,5 +112,8 @@ public class Constants {
 		public static final String FROMBASE64 = "fromBase64";
 		public static final String JAVA = "Java";
 		public static final String JAVAWRAPPER = "JavaWrapper";
+		public static final String JAVACTOR = "JavaConstructor";
+		public static final String JAVAMETHOD = "JavaMethod";
+		public static final String JAVASTATICMETHOD = "JavaStaticMethod";
 
 }

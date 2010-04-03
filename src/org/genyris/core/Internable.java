@@ -56,5 +56,8 @@ public interface Internable {
 	public SimpleSymbol OBJECT();
 	public SimpleSymbol PREDICATE();
 	public SimpleSymbol JAVAWRAPPER();
+	public SimpleSymbol JAVACTOR();
+	public SimpleSymbol JAVAMETHOD();
+	public SimpleSymbol JAVASTATICMETHOD();
 
 }

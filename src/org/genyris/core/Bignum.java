@@ -34,6 +34,22 @@ public class Bignum extends Atom {
 		_value = new BigDecimal(string);
 	}
 
+	public Bignum(Integer i) {
+		_value = new BigDecimal(i.intValue());
+	}
+
+	public Bignum(Long i) {
+		_value = new BigDecimal(i.longValue());
+	}
+
+	public Bignum(Double i) {
+		_value = new BigDecimal(i.doubleValue());
+	}
+
+	public Bignum(Float i) {
+		_value = new BigDecimal(i.floatValue());
+	}
+
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitBignum(this);
 	}

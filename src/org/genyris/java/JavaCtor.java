@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
+import org.genyris.core.Internable;
 import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
@@ -25,6 +26,10 @@ public class JavaCtor extends AbstractJavaMethod {
 		this.method = method;
 		this.params = params;
 		this.genyrisClass = glass;
+	}
+
+	public Symbol getBuiltinClassSymbol(Internable table) {
+		return table.JAVACTOR();
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

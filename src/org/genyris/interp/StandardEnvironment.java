@@ -21,7 +21,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 
 	Map _frame; // Exp, Exp
 
-	Environment _parent;
+	protected Environment _parent;
 
 	protected SimpleSymbol NIL;
 
