@@ -55,6 +55,9 @@ public class InterpretedTests extends TestCase {
     public void testCSV() throws GenyrisException {
         useSourceLoader("csv-tests.g");
     }
+    public void testJava() throws GenyrisException {
+        useSourceLoader("test-java.g");
+    }
     public void testManual() throws GenyrisException {
         useSourceLoader("manual.g");
     }

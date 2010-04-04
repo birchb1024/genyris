@@ -50,6 +50,14 @@ public class Bignum extends Atom {
 		_value = new BigDecimal(i.floatValue());
 	}
 
+	public Bignum(Short i) {
+		_value = new BigDecimal(i.shortValue());
+	}
+
+	public Bignum(Byte i) {
+		_value = new BigDecimal(i.byteValue());
+	}
+
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitBignum(this);
 	}

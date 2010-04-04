@@ -3,7 +3,6 @@ package org.genyris.java;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
@@ -12,7 +11,6 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.UnboundException;
 
 public class JavaStaticMethod extends ApplicableFunction {
 	protected Method method;
@@ -30,20 +28,11 @@ public class JavaStaticMethod extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
+			Environment env) throws GenyrisException {
 		try {
-			Object rawResult = method.invoke(null, JavaMethod.toJavaArray(params, arguments));
-			JavaWrapper result = new JavaWrapper(rawResult);
-			try {
-				Class resultClass = rawResult.getClass();
-				Exp klass = envForBindOperations
-						.lookupVariableValue(envForBindOperations
-								.internString(resultClass.getName()));
-				result.addClass((Dictionary) klass);
-			} catch (UnboundException e) {
-				;
-			}
-			return result;
+			method.setAccessible(true);
+			Object rawResult = method.invoke(null, JavaUtils.toJavaArray(params, arguments, NIL));
+			return JavaUtils.javaToGenyris(env, rawResult);
 		} catch (IllegalArgumentException e) {
 			throw new GenyrisException("Java IllegalArgumentException "
 					+ e.getMessage());
