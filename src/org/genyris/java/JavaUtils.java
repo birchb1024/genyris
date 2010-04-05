@@ -72,6 +72,9 @@ public class JavaUtils {
 
 	public static Object[] toJavaArray(Class[] params, Exp[] arguments, Symbol NIL) throws GenyrisException {
 		Object[] result = new Object[params.length];
+		if(params.length != arguments.length) {
+			throw new GenyrisException("toJavaArray: missmatced lengths!");
+		}
 		for (int i = 0; i < params.length; i++) {
 			result[i] = convertToJava(params[i], arguments[i], NIL);
 		}
@@ -83,27 +86,27 @@ public class JavaUtils {
 			return null;
 		} else if (exp instanceof JavaWrapper) {
 			return ((JavaWrapper) exp).getValue();
-		} else if (klass == java.lang.Boolean.TYPE) {
+		} else if (klass == java.lang.Boolean.TYPE ||klass == java.lang.Boolean.class) {
 			return new java.lang.Boolean(exp == NIL ? false : true);
 		} else if (exp instanceof Bignum) {
 			BigDecimal big = ((Bignum) exp).bigDecimalValue();
-			if (klass == java.lang.Byte.TYPE) {
+			if (klass == java.lang.Byte.TYPE|| klass == java.lang.Byte.class) {
 				return new java.lang.Byte(big.byteValue());
-			} else if (klass == java.lang.Short.TYPE) {
+			} else if (klass == java.lang.Short.TYPE || klass == java.lang.Short.class) {
 				return new java.lang.Short(big.shortValue());
-			} else if (klass == java.lang.Integer.TYPE) {
+			} else if (klass == java.lang.Integer.TYPE || klass == java.lang.Integer.class){
 				return new java.lang.Integer(big.intValue());
-			} else if (klass == java.lang.Long.TYPE) {
+			} else if (klass == java.lang.Long.TYPE || klass == java.lang.Long.class) {
 				return new java.lang.Long(big.longValue());
-			} else if (klass == java.lang.Float.TYPE) {
+			} else if (klass == java.lang.Float.TYPE || klass == java.lang.Float.class) {
 				return new java.lang.Float(big.floatValue());
-			} else if (klass == java.lang.Double.TYPE) {
+			} else if (klass == java.lang.Double.TYPE || klass == java.lang.Double.class) {
 				return new java.lang.Double(big.doubleValue());
 			} else {
 				return big;
 			}
 		} else if ((exp instanceof StrinG) || (exp instanceof Symbol)) {
-			if (klass == java.lang.Character.TYPE) {
+			if (klass == java.lang.Character.TYPE || klass == java.lang.Character.class) {
 				return new java.lang.Character(exp.toString().charAt(0));
 			} else
 				return exp.toString();
@@ -168,6 +171,10 @@ public class JavaUtils {
 
 		}
 		return glass;
+	}
+
+	public static Object  convertToJava(Exp exp, Symbol NIL) throws GenyrisException{
+		return convertToJava(java.lang.Object.class,  exp,  NIL);
 	}
 
 }

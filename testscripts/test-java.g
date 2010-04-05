@@ -1,7 +1,9 @@
-Java!import 'java.lang.Object'
-Java!import 'java.lang.Class'
-Java!import 'java.lang.Integer'
-Java!import 'java.lang.String'
+@prefix java 'http://www.genyris.org/lang/java#'
+
+java:import |java.lang.Object|
+java:import |java.lang.Class|
+java:import |java.lang.Integer|
+java:import |java.lang.String|
 
 
 #for m in |java.lang.Integer|!vars
@@ -36,7 +38,7 @@ var d
    |java.lang.String|(.|new-java.lang.String| "Godel")
 
 var Dummy 
-  Java!import 'org.genyris.test.java.JavaDummy'   
+  java:import |org.genyris.test.java.JavaDummy|   
 assert 
    equal? ^('0' '1' '2') 
        Dummy(.staticMethod1-int 3)
@@ -92,6 +94,31 @@ assert
       d(.|method1-[Ljava.lang.String;| ^('a' 'b' 'c'))
       ^('a' 'b' 'c')
 
+
+java:convert int 34
+java:convert short 34
+java:convert byte 34
+java:convert long 34
+java:convert float 34
+java:convert double 34
+java:convert boolean nil
+java:convert char 'X'
+java:convert string 'XYZ'
+java:convert ^|[Ljava.lang.String;| ^('XYZ' 'ABC')
+
+var x
+ java:convert ^|[Ljava.lang.String;| ^('XYZ' 'ABC')
+
+assert (equal? ^('XYZ' 'ABC') (java:toGenyris x))
+
+var y
+ java:convert ^|[Ljava.lang.Integer;| ^(1 2 3)
+
+assert (equal? ^(1 2 3) (java:toGenyris y))
+
+var z
+ java:convert ^|[Ljava.lang.Object;| ^(1 2 3)
+print (java:toGenyris z)
 
 
 #

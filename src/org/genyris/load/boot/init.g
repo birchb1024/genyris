@@ -57,6 +57,7 @@ defmacro ++ (varname)
 #
 # Load source functions and classes
 #
+load "org/genyris/load/boot/java.g"
 load "org/genyris/load/boot/assert.g"
 load "org/genyris/load/boot/pair.g"
 load "org/genyris/load/boot/alist.g"

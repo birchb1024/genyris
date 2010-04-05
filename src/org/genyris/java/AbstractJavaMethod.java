@@ -5,7 +5,6 @@ package org.genyris.java;
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-import org.genyris.core.Constants;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Environment;
@@ -30,6 +29,8 @@ public abstract class AbstractJavaMethod extends AbstractMethod {
 
 	public static void bindFunctionsAndMethods(Interpreter interpreter)
 			throws UnboundException, GenyrisException {
-		interpreter.bindMethodInstance(Constants.JAVA, new ImportMethod( interpreter));
+		interpreter.bindGlobalProcedureInstance(new ImportFunction( interpreter));
+		interpreter.bindGlobalProcedureInstance(new ConvertFunction( interpreter));
+		interpreter.bindGlobalProcedureInstance(new ToGenyrisFunction( interpreter));
 	}
 }

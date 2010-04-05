@@ -254,6 +254,7 @@ public class Parser {
 		addPrefix("task", Constants.PREFIX_TASK);
 		addPrefix("types", Constants.PREFIX_TYPES);
 		addPrefix("date", Constants.PREFIX_DATE);
+		addPrefix("java", Constants.PREFIX_JAVA);
 	}
 
 }

@@ -31,7 +31,8 @@ public class JavaStaticMethod extends ApplicableFunction {
 			Environment env) throws GenyrisException {
 		try {
 			method.setAccessible(true);
-			Object rawResult = method.invoke(null, JavaUtils.toJavaArray(params, arguments, NIL));
+			Object[] args = JavaUtils.toJavaArray(params, arguments, NIL);
+			Object rawResult = method.invoke(null, args);
 			return JavaUtils.javaToGenyris(env, rawResult);
 		} catch (IllegalArgumentException e) {
 			throw new GenyrisException("Java IllegalArgumentException "
