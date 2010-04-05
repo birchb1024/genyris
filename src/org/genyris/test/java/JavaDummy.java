@@ -1,5 +1,6 @@
 package org.genyris.test.java;
 
+
 public class JavaDummy {
 	//
 	// Class for testing the FFI code with.
@@ -55,5 +56,15 @@ public class JavaDummy {
 
 	public String[] method1(String[] args) {
 		return args;
+	}
+	public static int failmethod1() throws Exception {
+		int x = 45;
+		if(x == 45) throw new Exception("death in failmethod1()");
+		return 43; 
+	}
+	public int failmethod2() throws Exception {
+		int x = 45;
+		if(x == 45) throw new Exception("death in failmethod2()");
+		return 43; 
 	}
 }

@@ -1,10 +1,11 @@
 @prefix java 'http://www.genyris.org/lang/java#'
+@prefix u "http://www.genyris.org/lang/utilities#"
 
 java:import |java.lang.Object|
 java:import |java.lang.Class|
 java:import |java.lang.Integer|
 java:import |java.lang.String|
-
+java:import |java.io.File|
 
 #for m in |java.lang.Integer|!vars
 #    print m
@@ -24,7 +25,7 @@ print
 var c 
   |java.lang.Class|
       .|forName-java.lang.String| 'java.lang.Class'
-#for m in (c(.getMethods)) (print m)
+for m in (c(.getMethods)) (print m)
 
 
 var s 
@@ -93,6 +94,15 @@ assert
    equal? 
       d(.|method1-[Ljava.lang.String;| ^('a' 'b' 'c'))
       ^('a' 'b' 'c')
+print Dummy!vars
+catch error 
+   d(.failmethod1)
+assert error
+u:format "caught error = %s\n" error
+catch error 
+   d(.failmethod2)
+assert error
+u:format "caught error = %s\n" error
 
 
 java:convert int 34
@@ -120,6 +130,7 @@ var z
  java:convert ^|[Ljava.lang.Object;| ^(1 2 3)
 print (java:toGenyris z)
 
+var file ( |java.io.File|!|new-java.lang.String| '/')
 
 #
 #

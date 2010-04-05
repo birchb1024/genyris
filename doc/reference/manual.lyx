@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 619
+Build 629
 \end_layout
 
 \begin_layout Standard
@@ -8032,6 +8032,26 @@ lambdam
 \end_layout
 
 \begin_layout Section
+Classification
+\end_layout
+
+\begin_layout Subsection
+class
+\end_layout
+
+\begin_layout Subsection
+tag
+\end_layout
+
+\begin_layout Subsection
+remove-tag <class> <object>
+\end_layout
+
+\begin_layout Subsection
+is-instance?
+\end_layout
+
+\begin_layout Section
 Constants
 \end_layout
 
@@ -8045,6 +8065,598 @@ EOF
 
 \begin_layout Subsection
 true
+\end_layout
+
+\begin_layout Section
+Using Java
+\end_layout
+
+\begin_layout Standard
+The Genyris interpreter allows standard Java objects to be created an stored
+ in variable bindings, and allows Java methods to be called from Genyris.
+ Java objects are contained within a builtin 'JavaWrapper' class, whose
+ class list includes a Genyris class with Procedure objects corresponding
+ to the Java methods.
+ This allows Java objects and classes to be used in the same way as Genyris
+ ones.
+\end_layout
+
+\begin_layout Subsection
+Importing a Java Class with 
+\series medium
+\size normal
+\emph on
+java:import
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+java:import
+\emph default
+ function creates a Genyris corresponding to a single Java class provided
+ as in the form of an escaped symbol.
+ The syntax is:
+\end_layout
+
+\begin_layout LyX-Code
+java:import <java class symbol>
+\end_layout
+
+\begin_layout Standard
+The class name is supplied as an escaped symbol, since the java class name
+ contains periods.
+ The import retuns the class created, which is bond to the symbol provided
+ in the current environment.
+ Example :
+\end_layout
+
+\begin_layout LyX-Code
+> java:import |java.io.File|
+\end_layout
+
+\begin_layout LyX-Code
+ <class |java.io.File| (Java)> # StandardClass
+\end_layout
+
+\begin_layout Standard
+When executed this creates a standard Genyris class, the properties correspond
+ to the methods and constructors of the Java class.
+ The methods names include the argument types, since Java allows mutiple
+ methods with the same name, but different arguments (overloading).
+ Constructors, which are nameless in Java are given the name prefix 
+\emph on
+new
+\emph default
+.
+ by the import.
+ Continuing with the 
+\emph on
+|java.io.File| 
+\emph default
+example, we can list the method with 
+\emph on
+.vars
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+|java.io.File|.vars
+\end_layout
+
+\begin_layout Standard
+produces
+\end_layout
+
+\begin_layout LyX-Code
+(deleteOnExit exists wait canExecute classname list lastModified wait-long-int
+ getCanonicalPath getUsableSpace isAbsolute ...
+ new-java.lang.String ...)
+\end_layout
+
+\begin_layout Subsection
+Creating Instances of Java Objects
+\end_layout
+
+\begin_layout Standard
+Once a class has been imported, it is then possible to call the constructrs
+ fron the Genyris class.
+ The constructor is called and returns a new instance wrapped in a JavaWrapper
+ object.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> var file 
+\end_layout
+
+\begin_layout LyX-Code
+   |java.io.File|
+\end_layout
+
+\begin_layout LyX-Code
+      .|new-java.lang.String| '/'
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+[java.io.File /] # |java.io.File| JavaWrapper 
+\end_layout
+
+\begin_layout Standard
+Here the constructor name must be escaped because it contains period characters.
+ This can be written more succinctly:
+\end_layout
+
+\begin_layout LyX-Code
+var file (|java.io.File|!|new-java.lang.String| '/')
+\end_layout
+
+\begin_layout Standard
+A call to a Java method includes several steps:
+\end_layout
+
+\begin_layout Itemize
+The arguments are converted to the closest Java type if possible, if a JavaWrapp
+er is provided, the embedded Java Object is used.
+\end_layout
+
+\begin_layout Itemize
+The method is called, and exceptions caught
+\end_layout
+
+\begin_layout Itemize
+The return value is converted to a Genyris type if possible, otherwise the
+ return value is placed in a JavaWrapper object.
+\end_layout
+
+\begin_layout Itemize
+Returned JavaWrapper objects are tagged with the relevant Genyris Java class
+ if it has been imported.
+\end_layout
+
+\begin_layout Subsection
+Calling Methods
+\end_layout
+
+\begin_layout Standard
+Calling Java method is identical to calling GEnyris methods.
+ Java static methods are treated the same as Genyris functions, in that
+ they do not require a dynamic environment with 
+\emph on
+.self
+\emph default
+ bound.
+ Java methods must be called within the context of a 
+\emph on
+JavaWrapper
+\emph default
+ object.
+ Continuing with an example to list the files in a directory:
+\end_layout
+
+\begin_layout LyX-Code
+> file(.list)
+\end_layout
+
+\begin_layout LyX-Code
+('sys' 'srv' 'vmlinuz' 'selinux' ...
+\end_layout
+
+\begin_layout Standard
+Notice that the Java 
+\emph on
+list()
+\emph default
+ method returns an array of 
+\emph on
+String
+\emph default
+, which is converted into a list of Genyris strings.
+\end_layout
+
+\begin_layout Subsection
+Conversions and Coersion
+\end_layout
+
+\begin_layout Standard
+The following table lists the conversions: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Java
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Genyris
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+byte
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bignum
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+short
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bignum
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+int
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bignum
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+long
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bignum
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+float
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bignum
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+double
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bignum
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BigDecimal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bignum
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+char
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+String
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+String
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+String
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Array
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+List
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+boolean
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NIL or true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+other
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+JavaWrapper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+To Java Objects
+\end_layout
+
+\begin_layout Standard
+The conversion of Genyris atoms and lists implicit in the calling of methods
+ can be used explicitly with the 
+\emph on
+java:convert
+\emph default
+ function.
+ This takes two arguments, a symbol containing the name of a Java class
+ and a Genyris object to be converted.
+ For example to convert a list of Bignums into a Java array of Integer:
+\end_layout
+
+\begin_layout LyX-Code
+> java:convert ^|[Ljava.lang.Integer;| ^(1 2 3)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+[[Ljava.lang.Integer; [Ljava.lang.Integer;@2c79a2e7] # JavaWrapper
+\end_layout
+
+\begin_layout Standard
+The java class naming convention is is used for arrays.
+\end_layout
+
+\begin_layout Subsubsection
+To Genyris Objects
+\end_layout
+
+\begin_layout Standard
+Basic Java objects are converted into Genyris objects in a straightforward
+ manner.
+ 
+\end_layout
+
+\begin_layout Standard
+These conversions implicit on the return from Java method calls can be called
+ explicitly using the 
+\emph on
+java:toGenyris
+\emph default
+ function, which takes a single argument.
+ For example here we convert a list of bignums to a Java array of Integer
+ and back:
+\end_layout
+
+\begin_layout LyX-Code
+> var y
+\end_layout
+
+\begin_layout LyX-Code
+    java:convert ^|[Ljava.lang.Integer;| ^(1 2 3)
+\end_layout
+
+\begin_layout LyX-Code
+[[Ljava.lang.Integer; [Ljava.lang.Integer;@72e6f7d2] # JavaWrapper 
+\end_layout
+
+\begin_layout LyX-Code
+> java:toGenyris y
+\end_layout
+
+\begin_layout LyX-Code
+(1 2 3) # Pair 
+\end_layout
+
+\begin_layout Subsection
+Limitations
+\end_layout
+
+\begin_layout Standard
+The following limitations exist which will be removed in later versions:
+\end_layout
+
+\begin_layout Itemize
+Genuine methods called 'new' may clash with constructors.
+\end_layout
+
+\begin_layout Itemize
+Java Readers and Writers are not converted to Genyris streams.
+\end_layout
+
+\begin_layout Subsection
+Using Java Reflection from Genyris
+\end_layout
+
+\begin_layout Standard
+Java Reflection methods can be called (just like any other Java interface)
+ to get more detailed information about the Java world.
+ Here is an example which lists every method of 
+\emph on
+java.lang.class
+\emph default
+ in detail:
+\end_layout
+
+\begin_layout LyX-Code
+var c 
+\end_layout
+
+\begin_layout LyX-Code
+  |java.lang.Class|
+\end_layout
+
+\begin_layout LyX-Code
+      .|forName-java.lang.String| 'java.lang.Class'
+\end_layout
+
+\begin_layout LyX-Code
+for m in (c(.getMethods)) (print m)
 \end_layout
 
 \begin_layout Section
@@ -8792,26 +9404,6 @@ dict (.am-pm = pm)
 
 \begin_layout LyX-Code
 .zone-offset = 10
-\end_layout
-
-\begin_layout Section
-Classification
-\end_layout
-
-\begin_layout Subsection
-class
-\end_layout
-
-\begin_layout Subsection
-tag
-\end_layout
-
-\begin_layout Subsection
-remove-tag <class> <object>
-\end_layout
-
-\begin_layout Subsection
-is-instance?
 \end_layout
 
 \begin_layout Section

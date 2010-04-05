@@ -1,6 +1,5 @@
 package org.genyris.java;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.genyris.core.Exp;
@@ -36,16 +35,11 @@ public class JavaMethod extends AbstractJavaMethod {
 					.getValue(), JavaUtils.toJavaArray(params, arguments, NIL));
 			return JavaUtils.javaToGenyris(envForBindOperations, rawResult);
 
-		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
 
-			throw new GenyrisException("Java IllegalArgumentException "
-					+ e.getMessage());
-		} catch (IllegalAccessException e) {
-			throw new GenyrisException("Java IllegalAccessException "
-					+ e.getMessage());
-		} catch (InvocationTargetException e) {
-			throw new GenyrisException("Java InvocationTargetException "
-					+ e.getMessage());
+			throw new GenyrisException("Java "
+					+ e.getCause().getClass().getName() + " "
+					+ e.getCause().getMessage());
 		}
 	}
 

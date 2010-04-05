@@ -49,6 +49,8 @@ public class JavaUtils {
 			return new Bignum((Short) rawResult);
 		} else if (rawResult instanceof Byte) {
 			return new Bignum((Byte) rawResult);
+		} else if (rawResult instanceof BigDecimal) {
+			return new Bignum((BigDecimal) rawResult);
 		} else if (rawResult.getClass().isArray()) {
 			Exp retval = NIL;
 			int last = Array.getLength(rawResult) - 1;
@@ -71,6 +73,8 @@ public class JavaUtils {
 	}
 
 	public static Object[] toJavaArray(Class[] params, Exp[] arguments, Symbol NIL) throws GenyrisException {
+		if(params.length == 0)
+			return null;
 		Object[] result = new Object[params.length];
 		if(params.length != arguments.length) {
 			throw new GenyrisException("toJavaArray: missmatced lengths!");

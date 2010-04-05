@@ -1,7 +1,6 @@
 package org.genyris.java;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
@@ -20,8 +19,8 @@ public class JavaCtor extends AbstractJavaMethod {
 	private Class[] params;
 	private StandardClass genyrisClass;
 
-	public JavaCtor(Interpreter interp, StandardClass glass, String name, Constructor method,
-			Class[] params) throws GenyrisException {
+	public JavaCtor(Interpreter interp, StandardClass glass, String name,
+			Constructor method, Class[] params) throws GenyrisException {
 		super(interp, name);
 		this.method = method;
 		this.params = params;
@@ -35,18 +34,14 @@ public class JavaCtor extends AbstractJavaMethod {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		try {
-			JavaWrapper result = 
-				new JavaWrapper(method.newInstance(toJavaArray(params, arguments)));
+			JavaWrapper result = new JavaWrapper(method
+					.newInstance(toJavaArray(params, arguments)));
 			result.addClass(genyrisClass);
 			return result;
-		} catch (InstantiationException e) {
-			throw new GenyrisException("Java InstantiationException " + e.getMessage());
-		} catch (IllegalArgumentException e) {
-			throw new GenyrisException("Java IllegalArgumentException " + e.getMessage());
-		} catch (IllegalAccessException e) {
-			throw new GenyrisException("Java IllegalAccessException " + e.getMessage());
-		} catch (InvocationTargetException e) {
-			throw new GenyrisException("Java InvocationTargetException " + e.getMessage());
+		} catch (Exception e) {
+			throw new GenyrisException("Java "
+					+ e.getCause().getClass().getName() + " "
+					+ e.getCause().getMessage());
 		}
 	}
 
@@ -68,7 +63,7 @@ public class JavaCtor extends AbstractJavaMethod {
 			return exp.toString();
 		} else if (exp instanceof Symbol) {
 			return exp.toString();
-		}else
+		} else
 			return exp.toString();
 	}
 
