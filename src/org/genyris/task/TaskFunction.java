@@ -18,10 +18,6 @@ public abstract class TaskFunction extends ApplicableFunction {
 
     protected Dictionary getThreadAsDictionary( Thread tr, Environment env) throws GenyrisException {
     	Dictionary result = new Dictionary(env);
-    	if(result == null) {
-    		System.out.println("Dictionary constructor retuned null !!!!!");
-    		System.exit(-1);
-    	}
     	result.addProperty(env, "state", new StrinG(tr.getState().toString()));
      	result.addProperty(env, "name", new StrinG(tr.getName()));
      	result.addProperty(env, "id", new Bignum(tr.getId()));

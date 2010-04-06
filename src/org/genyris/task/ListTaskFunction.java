@@ -24,7 +24,8 @@ public class ListTaskFunction extends TaskFunction {
         Thread.enumerate(threads);
         Exp threadList = NIL;
         for ( int i=0 ; i < threads.length; i++) {
-            threadList = new Pair(getThreadAsDictionary(threads[i], envForBindOperations), threadList);
+        	if(threads[i] != null)
+                threadList = new Pair(getThreadAsDictionary(threads[i], envForBindOperations), threadList);
         }
         return threadList;
     }
