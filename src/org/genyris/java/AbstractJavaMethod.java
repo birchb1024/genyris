@@ -30,7 +30,7 @@ public abstract class AbstractJavaMethod extends AbstractMethod {
 	public static void bindFunctionsAndMethods(Interpreter interpreter)
 			throws UnboundException, GenyrisException {
 		interpreter.bindGlobalProcedureInstance(new ImportFunction( interpreter));
-		interpreter.bindGlobalProcedureInstance(new ConvertFunction( interpreter));
+		interpreter.bindGlobalProcedureInstance(new ToJavaFunction( interpreter));
 		interpreter.bindGlobalProcedureInstance(new ToGenyrisFunction( interpreter));
 	}
 }

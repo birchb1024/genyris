@@ -10,7 +10,6 @@ import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
 import org.genyris.core.DynamicSymbol;
-import org.genyris.core.EscapedSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
@@ -25,6 +24,10 @@ import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
 public class JavaUtils {
+	public static String toGenyrisName(String javaClassName) {
+		return javaClassName.replace('.','_').replace('[', '*');
+	}
+
 	public static Exp javaToGenyris(Environment env, Object rawResult) {
 		Exp NIL = env.getNil();
 		if ((rawResult == null) || (rawResult instanceof Void)) {
@@ -63,8 +66,8 @@ public class JavaUtils {
 		JavaWrapper result = new JavaWrapper(rawResult);
 		try {
 			Class resultClass = rawResult.getClass();
-			Exp klass = env.lookupVariableValue(env.internString(resultClass
-					.getName()));
+			Exp klass = env.lookupVariableValue(env.internString(toGenyrisName(resultClass
+					.getName())));
 			result.addClass((Dictionary) klass);
 		} catch (UnboundException e) {
 			;
@@ -72,11 +75,12 @@ public class JavaUtils {
 		return result;
 	}
 
-	public static Object[] toJavaArray(Class[] params, Exp[] arguments, Symbol NIL) throws GenyrisException {
-		if(params.length == 0)
+	public static Object[] toJavaArray(Class[] params, Exp[] arguments,
+			Symbol NIL) throws GenyrisException {
+		if (params.length == 0)
 			return null;
 		Object[] result = new Object[params.length];
-		if(params.length != arguments.length) {
+		if (params.length != arguments.length) {
 			throw new GenyrisException("toJavaArray: missmatced lengths!");
 		}
 		for (int i = 0; i < params.length; i++) {
@@ -85,42 +89,51 @@ public class JavaUtils {
 		return result;
 	}
 
-	public static Object convertToJava(Class klass, Exp exp, Symbol NIL) throws GenyrisException {
+	public static Object convertToJava(Class klass, Exp exp, Symbol NIL)
+			throws GenyrisException {
 		if (klass == java.lang.Void.TYPE) {
 			return null;
 		} else if (exp instanceof JavaWrapper) {
 			return ((JavaWrapper) exp).getValue();
-		} else if (klass == java.lang.Boolean.TYPE ||klass == java.lang.Boolean.class) {
+		} else if (klass == java.lang.Boolean.TYPE
+				|| klass == java.lang.Boolean.class) {
 			return new java.lang.Boolean(exp == NIL ? false : true);
 		} else if (exp instanceof Bignum) {
 			BigDecimal big = ((Bignum) exp).bigDecimalValue();
-			if (klass == java.lang.Byte.TYPE|| klass == java.lang.Byte.class) {
+			if (klass == java.lang.Byte.TYPE || klass == java.lang.Byte.class) {
 				return new java.lang.Byte(big.byteValue());
-			} else if (klass == java.lang.Short.TYPE || klass == java.lang.Short.class) {
+			} else if (klass == java.lang.Short.TYPE
+					|| klass == java.lang.Short.class) {
 				return new java.lang.Short(big.shortValue());
-			} else if (klass == java.lang.Integer.TYPE || klass == java.lang.Integer.class){
+			} else if (klass == java.lang.Integer.TYPE
+					|| klass == java.lang.Integer.class) {
 				return new java.lang.Integer(big.intValue());
-			} else if (klass == java.lang.Long.TYPE || klass == java.lang.Long.class) {
+			} else if (klass == java.lang.Long.TYPE
+					|| klass == java.lang.Long.class) {
 				return new java.lang.Long(big.longValue());
-			} else if (klass == java.lang.Float.TYPE || klass == java.lang.Float.class) {
+			} else if (klass == java.lang.Float.TYPE
+					|| klass == java.lang.Float.class) {
 				return new java.lang.Float(big.floatValue());
-			} else if (klass == java.lang.Double.TYPE || klass == java.lang.Double.class) {
+			} else if (klass == java.lang.Double.TYPE
+					|| klass == java.lang.Double.class) {
 				return new java.lang.Double(big.doubleValue());
 			} else {
 				return big;
 			}
 		} else if ((exp instanceof StrinG) || (exp instanceof Symbol)) {
-			if (klass == java.lang.Character.TYPE || klass == java.lang.Character.class) {
+			if (klass == java.lang.Character.TYPE
+					|| klass == java.lang.Character.class) {
 				return new java.lang.Character(exp.toString().charAt(0));
 			} else
 				return exp.toString();
 		} else if (klass.isArray()) {
-			if( !(exp instanceof Pair)) {
-				throw new UnboundException("convertToJava: was expecting a list.");
+			if (!(exp instanceof Pair)) {
+				throw new UnboundException(
+						"convertToJava: was expecting a list.");
 			}
 			int length = exp.length(NIL);
 			Class elementType = klass.getComponentType();
-			Object[] result = (Object[])Array.newInstance(elementType, length);
+			Object[] result = (Object[]) Array.newInstance(elementType, length);
 			for (int i = 0; i < length; i++) {
 				result[i] = convertToJava(elementType, exp.car(), NIL);
 				exp = exp.cdr();
@@ -131,28 +144,30 @@ public class JavaUtils {
 			return exp.toString();
 	}
 
-	public static Exp importJavaClass(Interpreter interp, Environment env,
-			String klassName) throws GenyrisException {
+	public static Exp importJavaClass(Interpreter interp, String genyrisClassName, Environment env,
+			String javaClassName) throws GenyrisException {
 		Class klass = null;
 		try {
-			klass = Class.forName(klassName);
+			klass = Class.forName(javaClassName);
 		} catch (ClassNotFoundException e) {
 			throw new GenyrisException("Java ClassNotFoundException: "
 					+ e.getMessage());
 		}
-		StandardClass glass = StandardClass.makeClass(interp.getGlobalEnv(),
-				interp.intern(new EscapedSymbol(klassName)), new Pair(interp
+		StandardClass genyrisClass = StandardClass.makeClass(interp.getGlobalEnv(),
+				interp.intern(toGenyrisName(javaClassName)), new Pair(interp
 						.intern(Constants.JAVA), interp.NIL));
+		genyrisClass.addProperty(env, "java-classname", new StrinG(javaClassName));
+		if(!genyrisClassName.equals(javaClassName)) {
+			env.defineVariable(interp.intern(genyrisClassName), genyrisClass);
+		}
 		//
 		Constructor[] ctors = klass.getConstructors();
 		for (int c = 0; c < ctors.length; c++) {
 			Class[] params = ctors[c].getParameterTypes();
 			String name = "new";
-			for (int p = 0; p < params.length; p++) {
-				name += "-" + params[p].getName();
-			}
-			JavaCtor gctor = new JavaCtor(interp, glass, name, ctors[c], params);
-			glass.defineDynamicVariable(new DynamicSymbol(interp.intern(name)),
+			name += argList(params);
+			JavaCtor gctor = new JavaCtor(interp, genyrisClass, name, ctors[c], params);
+			genyrisClass.defineDynamicVariable(new DynamicSymbol(interp.intern(name)),
 					new EagerProcedure(env, interp.NIL, gctor));
 		}
 		//
@@ -160,25 +175,35 @@ public class JavaUtils {
 		for (int i = 0; i < methods.length; i++) {
 			Class[] params = methods[i].getParameterTypes();
 			String name = methods[i].getName();
-			for (int p = 0; p < params.length; p++) {
-				name += "-" + params[p].getName();
-			}
+			name += argList(params);
 			ApplicableFunction gmethod;
 			if (Modifier.isStatic(methods[i].getModifiers())) {
 				gmethod = new JavaStaticMethod(interp, name, methods[i], params);
 			} else {
 				gmethod = new JavaMethod(interp, name, methods[i], params);
 			}
-		    SimpleSymbol sym = interp.intern(name);
-			glass.defineDynamicVariable(new DynamicSymbol(sym),
+			SimpleSymbol sym = interp.intern(name);
+			genyrisClass.defineDynamicVariable(new DynamicSymbol(sym),
 					new EagerProcedure(env, interp.NIL, gmethod));
 
 		}
-		return glass;
+		return genyrisClass;
 	}
 
-	public static Object  convertToJava(Exp exp, Symbol NIL) throws GenyrisException{
-		return convertToJava(java.lang.Object.class,  exp,  NIL);
+	private static String argList(Class[] params) {
+		String name = "";
+		if (params.length > 0) {
+			for (int p = 0; p < params.length; p++) {
+				name += "-";
+				name += toGenyrisName(params[p].getName());
+			}
+		}
+		return name;
+	}
+
+	public static Object convertToJava(Exp exp, Symbol NIL)
+			throws GenyrisException {
+		return convertToJava(java.lang.Object.class, exp, NIL);
 	}
 
 }

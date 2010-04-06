@@ -3,13 +3,11 @@
 #
 #  Example shows use of Java FFI calls
 #
-java:import |java.io.File|
-
-var FileJ |java.io.File|
+java:import 'java.io.File' as FileJ
 
 def ls(path)
    #
-   # recusive directory listing
+   # recursive directory listing
    #
    def indent(depth)
       while (> depth 0)
@@ -17,10 +15,10 @@ def ls(path)
           depth = (- depth 1)
    def ls-aux(depth path)
        var f 
-            FileJ!|new-java.lang.String| path
+            FileJ!new-java_lang_String path
        for filename in (f(.list))
           var pathname ("%a/%a" (.format path filename))
-          var file (FileJ!|new-java.lang.String| pathname)
+          var file (FileJ!new-java_lang_String pathname)
           indent depth
           cond
               (file(.isDirectory))

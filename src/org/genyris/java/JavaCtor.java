@@ -2,11 +2,9 @@ package org.genyris.java;
 
 import java.lang.reflect.Constructor;
 
-import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.StandardClass;
-import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
@@ -35,7 +33,7 @@ public class JavaCtor extends AbstractJavaMethod {
 			Environment envForBindOperations) throws GenyrisException {
 		try {
 			JavaWrapper result = new JavaWrapper(method
-					.newInstance(toJavaArray(params, arguments)));
+					.newInstance(JavaUtils.toJavaArray(params, arguments, NIL)));
 			result.addClass(genyrisClass);
 			return result;
 		} catch (Exception e) {
@@ -44,27 +42,4 @@ public class JavaCtor extends AbstractJavaMethod {
 					+ e.getCause().getMessage());
 		}
 	}
-
-	private Object[] toJavaArray(Class[] params, Exp[] arguments) {
-		Object[] result = new Object[params.length];
-		for (int i = 0; i < params.length; i++) {
-			result[i] = convertToJava(arguments[i]);
-		}
-		return result;
-	}
-
-	private Object convertToJava(Exp exp) {
-		// TODO use visitor
-		if (exp instanceof JavaWrapper) {
-			return ((JavaWrapper) exp).getValue();
-		} else if (exp instanceof Bignum) {
-			return new Integer(((Bignum) exp).bigDecimalValue().intValue());
-		} else if (exp instanceof StrinG) {
-			return exp.toString();
-		} else if (exp instanceof Symbol) {
-			return exp.toString();
-		} else
-			return exp.toString();
-	}
-
 }

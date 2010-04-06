@@ -1,21 +1,21 @@
 @prefix java 'http://www.genyris.org/lang/java#'
 @prefix u "http://www.genyris.org/lang/utilities#"
 
-java:import |java.lang.Object|
-java:import |java.lang.Class|
-java:import |java.lang.Integer|
-java:import |java.lang.String|
-java:import |java.io.File|
+java:import 'java.lang.Object' as Jobject
+java:import 'java.lang.Class'
+java:import 'java.lang.Integer' as Integer
+java:import 'java.lang.String' as JavaString
+java:import 'java.io.File' as JFile
 
-#for m in |java.lang.Integer|!vars
-#    print m
+for m in Integer!vars
+    print m
 var x
-   |java.lang.Integer|!new-int 23
+   Integer!new-int 23
 var y
-   |java.lang.Integer|!|new-java.lang.String| '234'
+   Integer!new-java_lang_String '234'
 
 var i 
-    |java.lang.Integer|!|new-java.lang.String| '987'
+    Integer!new-java_lang_String '987'
 print
    i (.getClass) 
    i (.hashCode) 
@@ -23,23 +23,22 @@ print
 
 
 var c 
-  |java.lang.Class|
-      .|forName-java.lang.String| 'java.lang.Class'
+  java_lang_Class
+      .forName-java_lang_String 'java.lang.Class'
 for m in (c(.getMethods)) (print m)
 
 
 var s 
-   |java.lang.String|(.|new-java.lang.String| "Godel")
+   JavaString(.new-java_lang_String "Godel")
 
 assert
    equal? ^('Go' 'el')
-       s(.|split-java.lang.String| 'd')
+       s(.split-java_lang_String 'd')
 
 var d 
-   |java.lang.String|(.|new-java.lang.String| "Godel")
+   JavaString(.new-java_lang_String "Godel")
 
-var Dummy 
-  java:import |org.genyris.test.java.JavaDummy|   
+java:import 'org.genyris.test.java.JavaDummy' as Dummy   
 assert 
    equal? ^('0' '1' '2') 
        Dummy(.staticMethod1-int 3)
@@ -92,7 +91,7 @@ assert (equal? d!staticField 1000)
 
 assert 
    equal? 
-      d(.|method1-[Ljava.lang.String;| ^('a' 'b' 'c'))
+      d(.method1-*Ljava_lang_String; ^('a' 'b' 'c'))
       ^('a' 'b' 'c')
 print Dummy!vars
 catch error 
@@ -105,33 +104,41 @@ assert error
 u:format "caught error = %s\n" error
 
 
-java:convert int 34
-java:convert short 34
-java:convert byte 34
-java:convert long 34
-java:convert float 34
-java:convert double 34
-java:convert boolean nil
-java:convert char 'X'
-java:convert string 'XYZ'
-java:convert ^|[Ljava.lang.String;| ^('XYZ' 'ABC')
+java:toJava int 34
+java:toJava short 34
+java:toJava byte 34
+java:toJava long 34
+java:toJava float 34
+java:toJava double 34
+java:toJava boolean nil
+java:toJava char 'X'
+java:toJava string 'XYZ'
+java:toJava '[Ljava.lang.String;' ^('XYZ' 'ABC')
 
 var x
- java:convert ^|[Ljava.lang.String;| ^('XYZ' 'ABC')
+ java:toJava '[Ljava.lang.String;' ^('XYZ' 'ABC')
 
 assert (equal? ^('XYZ' 'ABC') (java:toGenyris x))
 
 var y
- java:convert ^|[Ljava.lang.Integer;| ^(1 2 3)
+ java:toJava '[Ljava.lang.Integer;' ^(1 2 3)
 
 assert (equal? ^(1 2 3) (java:toGenyris y))
 
 var z
- java:convert ^|[Ljava.lang.Object;| ^(1 2 3)
+ java:toJava '[Ljava.lang.Object;' ^(1 2 3)
 print (java:toGenyris z)
 
-var file ( |java.io.File|!|new-java.lang.String| '/')
+var file ( JFile!new-java_lang_String '/')
 
+java:import 'java.io.File' as FileJ
+
+var file (FileJ(.new-java_lang_String '/'))
+assert (equal? file!vars ^(separatorChar separator pathSeparatorChar pathSeparator self vars classes))
+assert (equal? file!separator '/')
+catch error
+  file(.separator = ';')     
+file(.compareTo-java_lang_Object file)
 #
 #
 #

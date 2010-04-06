@@ -3,7 +3,7 @@ package org.genyris.java;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Symbol;
+import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -17,12 +17,19 @@ public class ImportFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
-		Class[] types = { Symbol.class };
+			Environment env) throws GenyrisException {
+		Class[] types = { StrinG.class };
 		this.checkArgumentTypes(types, arguments);
-		String klassName = ((Symbol)arguments[0]).getPrintName();
+		String javaClassName = arguments[0].toString();
+		String genyrisClassName = javaClassName;
+		if( arguments.length == 3) {
+			if(!arguments[1].toString().equals("as")) {
+				throw new GenyrisException("java import missing 'as'.");
+			}
+			genyrisClassName = arguments[2].toString();
+		}
 		
-		return JavaUtils.importJavaClass(_interp, envForBindOperations, klassName);
+		return JavaUtils.importJavaClass(_interp, genyrisClassName, env, javaClassName);
 	}
 
 }

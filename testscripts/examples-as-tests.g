@@ -34,7 +34,7 @@ define example-files
     ~ 'examples/validate.g'
     ~ 'examples/queens.g'
     ~ 'examples/allclasses.g'
-    
+    ~ 'examples/java-ffi.g'    
     
 define pass nil
 define results ()

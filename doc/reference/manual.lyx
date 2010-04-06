@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 629
+Build 631
 \end_layout
 
 \begin_layout Standard
@@ -8068,17 +8068,103 @@ true
 \end_layout
 
 \begin_layout Section
-Using Java
+Using Java Classes
 \end_layout
 
 \begin_layout Standard
-The Genyris interpreter allows standard Java objects to be created an stored
+The Genyris interpreter allows standard Java objects to be created and stored
  in variable bindings, and allows Java methods to be called from Genyris.
  Java objects are contained within a builtin 'JavaWrapper' class, whose
  class list includes a Genyris class with Procedure objects corresponding
  to the Java methods.
  This allows Java objects and classes to be used in the same way as Genyris
  ones.
+\end_layout
+
+\begin_layout Standard
+Java symbol names used for fields, classnames etc have a different syntax
+ to Genyris, so rather than using escaped symbols, the default is to map
+ Java Symbols to Genyris ones.
+ The Genyris name based on the java name with some characters translated
+ as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Java character
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Genyris Character
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+_
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+*
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is used for class names method names, fields names or anywhere a Java
+ name is used in a Genyris program.
 \end_layout
 
 \begin_layout Subsection
@@ -8094,45 +8180,51 @@ The
 \emph on
 java:import
 \emph default
- function creates a Genyris corresponding to a single Java class provided
- as in the form of an escaped symbol.
+ function creates a Genyris class corresponding to a Java class.
+ The properties of the new Genyris class correspond to the methods and construct
+ors of the Java class.
  The syntax is:
 \end_layout
 
 \begin_layout LyX-Code
-java:import <java class symbol>
+java:import <java class string> [as <shorthand name>]
 \end_layout
 
 \begin_layout Standard
-The class name is supplied as an escaped symbol, since the java class name
- contains periods.
- The import retuns the class created, which is bond to the symbol provided
- in the current environment.
- Example :
-\end_layout
-
-\begin_layout LyX-Code
-> java:import |java.io.File|
-\end_layout
-
-\begin_layout LyX-Code
- <class |java.io.File| (Java)> # StandardClass
-\end_layout
-
-\begin_layout Standard
-When executed this creates a standard Genyris class, the properties correspond
- to the methods and constructors of the Java class.
- The methods names include the argument types, since Java allows mutiple
- methods with the same name, but different arguments (overloading).
- Constructors, which are nameless in Java are given the name prefix 
+The full java class name is supplied as a string.
+ Optionally a shorthand symbol to use as well as the default name can be
+ specified.
+ The default name is translated as described above.
+ The return value is the Genyris class created.
+ This class is bound to the corresponding full name in the global environment.
+ If the 
 \emph on
-new
+as
 \emph default
-.
- by the import.
- Continuing with the 
+ clause is present the class is also bound to the shorthand name in the
+ local environment of the caller.
+\end_layout
+
+\begin_layout Standard
+Example :
+\end_layout
+
+\begin_layout LyX-Code
+> java:import 'java.lang.Object' as Jobject 
+\end_layout
+
+\begin_layout LyX-Code
+ <class java_lang_Object (Java)> # StandardClass
+\end_layout
+
+\begin_layout LyX-Code
+> assert (eq? java_lang_Object Jobject)
+\end_layout
+
+\begin_layout Standard
+Continuing with the 
 \emph on
-|java.io.File| 
+java.io.File 
 \emph default
 example, we can list the method with 
 \emph on
@@ -8142,7 +8234,7 @@ example, we can list the method with
 \end_layout
 
 \begin_layout LyX-Code
-|java.io.File|.vars
+Jobject.vars
 \end_layout
 
 \begin_layout Standard
@@ -8150,9 +8242,34 @@ produces
 \end_layout
 
 \begin_layout LyX-Code
-(deleteOnExit exists wait canExecute classname list lastModified wait-long-int
- getCanonicalPath getUsableSpace isAbsolute ...
- new-java.lang.String ...)
+(notifyAll getClass wait-long-int equals-java_lang_Object hashCode wait-long
+ classname wait java-classname toString new notify superclasses subclasses
+ self vars classes) # Pair 
+\end_layout
+
+\begin_layout Standard
+The methods names include the argument types seperated by a hyphen since
+ Java allows multiple methods with the same name and different arguments
+ (overloading).
+ Constructors, which are nameless in Java, are given the prefix 
+\emph on
+new
+\emph default
+-.
+\end_layout
+
+\begin_layout Subsubsection
+Adding to Java Classes
+\end_layout
+
+\begin_layout Standard
+Because 
+\emph on
+java:import
+\emph default
+ creates a standard Genyris class, you are free to add, remove, update and
+ delete methods of the class.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -8161,48 +8278,37 @@ Creating Instances of Java Objects
 
 \begin_layout Standard
 Once a class has been imported, it is then possible to call the constructrs
- fron the Genyris class.
- The constructor is called and returns a new instance wrapped in a JavaWrapper
+ from the Genyris class.
+ The constructor returns a new instance wrapped in a 
+\emph on
+JavaWrapper
+\emph default
  object.
  For example:
 \end_layout
 
 \begin_layout LyX-Code
-> var file 
+> java:import 'java.io.File' as FileJ
 \end_layout
 
 \begin_layout LyX-Code
-   |java.io.File|
+> var file (FileJ(.new-java_lang_String '/'))
 \end_layout
 
 \begin_layout LyX-Code
-      .|new-java.lang.String| '/'
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-[java.io.File /] # |java.io.File| JavaWrapper 
+[java.io.File /] # java_io_File JavaWrapper  
 \end_layout
 
 \begin_layout Standard
-Here the constructor name must be escaped because it contains period characters.
- This can be written more succinctly:
-\end_layout
-
-\begin_layout LyX-Code
-var file (|java.io.File|!|new-java.lang.String| '/')
-\end_layout
-
-\begin_layout Standard
-A call to a Java method includes several steps:
+A call to a Java method involves several steps:
 \end_layout
 
 \begin_layout Itemize
-The arguments are converted to the closest Java type if possible, if a JavaWrapp
-er is provided, the embedded Java Object is used.
+The arguments are converted to the closest Java type if possible, if a 
+\emph on
+JavaWrapper
+\emph default
+ is provided, the embedded Java Object is used.
 \end_layout
 
 \begin_layout Itemize
@@ -8211,12 +8317,74 @@ The method is called, and exceptions caught
 
 \begin_layout Itemize
 The return value is converted to a Genyris type if possible, otherwise the
- return value is placed in a JavaWrapper object.
+ return value is placed in a 
+\emph on
+JavaWrapper
+\emph default
+ object.
 \end_layout
 
 \begin_layout Itemize
-Returned JavaWrapper objects are tagged with the relevant Genyris Java class
- if it has been imported.
+Returned 
+\emph on
+JavaWrapper
+\emph default
+ objects are tagged with the relevant Genyris Java class if it has already
+ been imported.
+\end_layout
+
+\begin_layout Subsection
+Accessing Fields
+\end_layout
+
+\begin_layout Standard
+Java objects are contained within 
+\emph on
+JavaWrapper 
+\emph default
+objects.
+ When used as a function the the wrapper allows access to the fields of
+ the Java objects using the dynamic symbol approach used for all other Genyris
+ objects.
+ In the above example we can list the Java fields with:
+\end_layout
+
+\begin_layout LyX-Code
+> file.vars
+\end_layout
+
+\begin_layout LyX-Code
+(separatorChar separator pathSeparatorChar pathSeparator self vars classes)
+ # Pair 
+\end_layout
+
+\begin_layout Standard
+Read access to the fields is the same as for Dictionaries for example:
+\end_layout
+
+\begin_layout LyX-Code
+> file.separator
+\end_layout
+
+\begin_layout LyX-Code
+'/' # String
+\end_layout
+
+\begin_layout Standard
+Write access is provided with 
+\emph on
+setq
+\emph default
+ as usual, however Java restrictions still apply:
+\end_layout
+
+\begin_layout LyX-Code
+> file(setq .separator ';')
+\end_layout
+
+\begin_layout LyX-Code
+*** Error - 'Can not set static final java.lang.String field java.io.File.separator
+ to java.lang.String'
 \end_layout
 
 \begin_layout Subsection
@@ -8224,7 +8392,7 @@ Calling Methods
 \end_layout
 
 \begin_layout Standard
-Calling Java method is identical to calling GEnyris methods.
+Calling Java method is identical to calling Genyris methods.
  Java static methods are treated the same as Genyris functions, in that
  they do not require a dynamic environment with 
 \emph on
@@ -8256,7 +8424,22 @@ list()
 \emph on
 String
 \emph default
-, which is converted into a list of Genyris strings.
+, which is automatically converted into a list of Genyris strings.
+\end_layout
+
+\begin_layout Standard
+Parameters are passed au usual, however basic types are automatically converted
+ to Java objects if possible.
+ Refer to the table below for details.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> file(.compareTo-java_lang_Object file)
+\end_layout
+
+\begin_layout LyX-Code
+0 # Bignum 
 \end_layout
 
 \begin_layout Subsection
@@ -8264,7 +8447,8 @@ Conversions and Coersion
 \end_layout
 
 \begin_layout Standard
-The following table lists the conversions: 
+The following table lists the conversions of base types in method calls,
+ constructor calls and in fields accesses.: 
 \end_layout
 
 \begin_layout Standard
@@ -8541,23 +8725,24 @@ JavaWrapper
 \end_layout
 
 \begin_layout Subsubsection
-To Java Objects
+Conversion To Java Objects
 \end_layout
 
 \begin_layout Standard
 The conversion of Genyris atoms and lists implicit in the calling of methods
  can be used explicitly with the 
 \emph on
-java:convert
+java:toJava
 \emph default
  function.
- This takes two arguments, a symbol containing the name of a Java class
+ This takes two arguments, a string containing the name of a Java class
  and a Genyris object to be converted.
+ The java class naming convention is is used for arrays.
  For example to convert a list of Bignums into a Java array of Integer:
 \end_layout
 
 \begin_layout LyX-Code
-> java:convert ^|[Ljava.lang.Integer;| ^(1 2 3)
+> java:toJava '[Ljava.lang.Integer;' ^(1 2 3)
 \end_layout
 
 \begin_layout LyX-Code
@@ -8568,23 +8753,15 @@ java:convert
 [[Ljava.lang.Integer; [Ljava.lang.Integer;@2c79a2e7] # JavaWrapper
 \end_layout
 
-\begin_layout Standard
-The java class naming convention is is used for arrays.
-\end_layout
-
 \begin_layout Subsubsection
-To Genyris Objects
+Conversion from Java To Genyris Objects
 \end_layout
 
 \begin_layout Standard
 Basic Java objects are converted into Genyris objects in a straightforward
  manner.
- 
-\end_layout
-
-\begin_layout Standard
-These conversions implicit on the return from Java method calls can be called
- explicitly using the 
+ These conversions implicit on the return from Java method calls can be
+ called explicitly using the 
 \emph on
 java:toGenyris
 \emph default
@@ -8594,15 +8771,11 @@ java:toGenyris
 \end_layout
 
 \begin_layout LyX-Code
-> var y
+> var y     java:toJava '[Ljava.lang.Integer;' ^(1 2 3)
 \end_layout
 
 \begin_layout LyX-Code
-    java:convert ^|[Ljava.lang.Integer;| ^(1 2 3)
-\end_layout
-
-\begin_layout LyX-Code
-[[Ljava.lang.Integer; [Ljava.lang.Integer;@72e6f7d2] # JavaWrapper 
+[[Ljava.lang.Integer; [Ljava.lang.Integer;@2087c268] # JavaWrapper
 \end_layout
 
 \begin_layout LyX-Code
@@ -8611,22 +8784,6 @@ java:toGenyris
 
 \begin_layout LyX-Code
 (1 2 3) # Pair 
-\end_layout
-
-\begin_layout Subsection
-Limitations
-\end_layout
-
-\begin_layout Standard
-The following limitations exist which will be removed in later versions:
-\end_layout
-
-\begin_layout Itemize
-Genuine methods called 'new' may clash with constructors.
-\end_layout
-
-\begin_layout Itemize
-Java Readers and Writers are not converted to Genyris streams.
 \end_layout
 
 \begin_layout Subsection
@@ -8644,19 +8801,77 @@ java.lang.class
 \end_layout
 
 \begin_layout LyX-Code
-var c 
+> var c 
 \end_layout
 
 \begin_layout LyX-Code
-  |java.lang.Class|
+  java_lang_Class
 \end_layout
 
 \begin_layout LyX-Code
-      .|forName-java.lang.String| 'java.lang.Class'
+      .forName-java_lang_String 'java.lang.Class'
 \end_layout
 
 \begin_layout LyX-Code
-for m in (c(.getMethods)) (print m)
+[java.lang.Class class java.lang.Class] # java_lang_Class JavaWrapper 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> for m in (c(.getMethods)) (print m)
+\end_layout
+
+\begin_layout LyX-Code
+[java.lang.reflect.Method public static java.lang.Class java.lang.Class.forName(java.lang.
+String) throws java.lang.ClassNotFoundException]
+\end_layout
+
+\begin_layout LyX-Code
+...
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Section
+Limitations
+\end_layout
+
+\begin_layout Standard
+The following limitations exist which may be removed in later versions:
+\end_layout
+
+\begin_layout Itemize
+Genuine methods called '
+\emph on
+new
+\emph default
+' may clash with constructors.
+\end_layout
+
+\begin_layout Itemize
+There may be name collisions between Genyris and Java.
+ e.g.
+ a Java method called 
+\emph on
+foo-org_bar_Class()
+\emph default
+ would clash with a Java method 
+\emph on
+foo(org.bar.Class c).
+\end_layout
+
+\begin_layout Itemize
+Java Readers and Writers are not converted to Genyris streams.
+\end_layout
+
+\begin_layout Itemize
+The Java class hierarchy is not duplicated in the imported Genyris classes
+ since the method list is a closure over the superclasses of a class.
 \end_layout
 
 \begin_layout Section
