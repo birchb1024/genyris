@@ -7,6 +7,7 @@ package org.genyris.java;
 
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
+import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
@@ -15,9 +16,12 @@ import org.genyris.interp.UnboundException;
 
 public class JavaWrapperEnvironment extends ExpressionEnvironment {
 
+	private Symbol _javaclass;
+
 	public JavaWrapperEnvironment(Environment runtime, JavaWrapper theObject)
 			throws GenyrisException {
 		super(runtime, theObject);
+		_javaclass = runtime.getSymbolTable().JAVACLASS();
 	}
 
 	public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException {
@@ -36,6 +40,8 @@ public class JavaWrapperEnvironment extends ExpressionEnvironment {
 		JavaWrapper it = (JavaWrapper)_theExpression;
 		if (sym == _vars) {
 			return it.dir(getSymbolTable());
+		} else if (sym == _javaclass) {
+			return new StrinG(it.getValue().getClass().getName());
 		} else if( it.hasField(sym) ){
 			return it.getField(this, sym);
 		} else {

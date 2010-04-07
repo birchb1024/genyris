@@ -3,7 +3,6 @@ package org.genyris.java;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -18,9 +17,7 @@ public class ImportFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment env) throws GenyrisException {
-		Class[] types = { StrinG.class };
-		this.checkArgumentTypes(types, arguments);
-		String javaClassName = arguments[0].toString();
+		String javaClassName = arguments[0].eval(env).toString();
 		String genyrisClassName = javaClassName;
 		if( arguments.length == 3) {
 			if(!arguments[1].toString().equals("as")) {

@@ -219,8 +219,11 @@ public class Parser {
 			tree = new Pair(_table.COMMA_AT(), new Pair(parseExpression(), NIL));
 		} else if (cursym == _lexer.DYNAMIC_TOKEN) {
 			nextsym();
-			tree = new DynamicSymbol((SimpleSymbol) cursym); // todo validate
-			// cast
+			if(cursym instanceof SimpleSymbol) {
+				tree = new DynamicSymbol((SimpleSymbol) cursym); 
+			} else {
+				throw new ParseException("period found before non-symbol: " + cursym);
+			}
 		} else {
 			tree = cursym;
 		}

@@ -17,10 +17,7 @@ public class ToJavaFunction extends ApplicableFunction {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
-		if(arguments.length == 1) {
-			return new JavaWrapper(JavaUtils.convertToJava(arguments[0], NIL));
-		}
+			Environment env) throws GenyrisException {
 		Class[] types = { StrinG.class };
 		checkArgumentTypes(types, arguments);
 		String klassName = ((StrinG)arguments[0]).toString();
@@ -31,6 +28,6 @@ public class ToJavaFunction extends ApplicableFunction {
 			throw new GenyrisException("ClassNotFoundException: " + e.getMessage());
 		}
 		
-		return new JavaWrapper(JavaUtils.convertToJava(klass, arguments[1], NIL));
+		return JavaUtils.wrapJavaObject(env, JavaUtils.convertToJava(klass, arguments[1], NIL));
 	}
 }

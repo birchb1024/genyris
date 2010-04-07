@@ -81,7 +81,7 @@ public class JavaWrapper extends Atom {
 
 	public Exp dir(Internable table) {
 		Field[] fields = _value.getClass().getFields();
-		Exp retval = Pair.cons3(table.SELF(), table.VARS(), table.CLASSES(), table.NIL());
+		Exp retval = Pair.cons4(table.SELF(), table.VARS(), table.CLASSES(), table.JAVACLASS(), table.NIL());
 		for (int i = fields.length - 1; i >= 0; i--) {
 			retval = new Pair(table.internString(fields[i].getName()), retval);
 		}

@@ -61,7 +61,7 @@ assert
 assert 
    equal? 
         d.vars
-        ^(staticField intField longField charField floatField doubleField booleanField byteField shortField stringField privateField self vars classes) 
+        ^(staticField intField longField charField floatField doubleField booleanField byteField shortField stringField privateField self vars classes java:class) 
 d (.intField = 99)
 assert (equal? d!intField 99)
 d (.shortField = 12)
@@ -134,8 +134,8 @@ var file ( JFile!new-java_lang_String '/')
 java:import 'java.io.File' as FileJ
 
 var file (FileJ(.new-java_lang_String '/'))
-assert (equal? file!vars ^(separatorChar separator pathSeparatorChar pathSeparator self vars classes))
-assert (equal? file!separator '/')
+assert (equal? file!vars ^(separatorChar separator pathSeparatorChar pathSeparator self vars classes java:class))
+assert (or (equal? file!separator '/') (equal? file!separator '\\'))
 catch error
   file(.separator = ';')     
 file(.compareTo-java_lang_Object file)
@@ -144,4 +144,21 @@ file(.compareTo-java_lang_Object file)
 #
 def run() 
    include 'testscripts/test-java.g'
+#
+# Add a method to a builtin
+#   
+java:import 'java.math.BigDecimal'
+Bignum
+    def .precision()
+        (java:toJava 'java.math.BigDecimal' .self)
+               .precision
+assert (equal? (2134(.precision)) 4)
 
+java:import 'java.lang.String'
+String
+    def .replace(old new)
+        (java:toJava 'java.lang.String' .self)
+               .replace-char-char old new
+
+java:toJava 'java.lang.String' 'east'
+java:import file!java:class

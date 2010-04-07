@@ -116,5 +116,6 @@ public class Constants {
 		public static final String JAVACTOR = "JavaConstructor";
 		public static final String JAVAMETHOD = "JavaMethod";
 		public static final String JAVASTATICMETHOD = "JavaStaticMethod";
+		public static final String JAVACLASS = PREFIX_JAVA + "class";
 
 }

@@ -59,5 +59,6 @@ public interface Internable {
 	public SimpleSymbol JAVACTOR();
 	public SimpleSymbol JAVAMETHOD();
 	public SimpleSymbol JAVASTATICMETHOD();
+	public SimpleSymbol JAVACLASS();
 
 }

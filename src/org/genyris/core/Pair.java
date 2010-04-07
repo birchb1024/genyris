@@ -153,6 +153,10 @@ public class Pair extends ExpWithEmbeddedClasses {
 		return new Pair(a, new Pair(b, new Pair(c, NIL)));
 	}
 
+	public static Exp cons4(Exp a, Exp b, Exp c, Exp d, Exp NIL) {
+		return new Pair(a, new Pair(b, new Pair(c, new Pair(d, NIL))));
+	}
+
 	public Exp dir(Internable table) {
 		return Pair.cons2(table.LEFT(), 
 				table.RIGHT(), 

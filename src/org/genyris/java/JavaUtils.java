@@ -25,7 +25,7 @@ import org.genyris.interp.UnboundException;
 
 public class JavaUtils {
 	public static String toGenyrisName(String javaClassName) {
-		return javaClassName.replace('.','_').replace('[', '*');
+		return javaClassName.replace('.', '_').replace('[', '*');
 	}
 
 	public static Exp javaToGenyris(Environment env, Object rawResult) {
@@ -63,11 +63,16 @@ public class JavaUtils {
 			}
 			return retval;
 		}
-		JavaWrapper result = new JavaWrapper(rawResult);
+		JavaWrapper result = wrapJavaObject(env, rawResult);
+		return result;
+	}
+
+	public static JavaWrapper wrapJavaObject(Environment env, Object javaObject) {
+		JavaWrapper result = new JavaWrapper(javaObject);
 		try {
-			Class resultClass = rawResult.getClass();
-			Exp klass = env.lookupVariableValue(env.internString(toGenyrisName(resultClass
-					.getName())));
+			Class resultClass = javaObject.getClass();
+			Exp klass = env.lookupVariableValue(env
+					.internString(toGenyrisName(resultClass.getName())));
 			result.addClass((Dictionary) klass);
 		} catch (UnboundException e) {
 			;
@@ -91,10 +96,12 @@ public class JavaUtils {
 
 	public static Object convertToJava(Class klass, Exp exp, Symbol NIL)
 			throws GenyrisException {
-		if (klass == java.lang.Void.TYPE) {
-			return null;
-		} else if (exp instanceof JavaWrapper) {
+		if (exp instanceof JavaWrapper) {
 			return ((JavaWrapper) exp).getValue();
+		} else if(klass.isInstance(exp)) {
+			return exp;
+		} else if (klass == java.lang.Void.TYPE) {
+			return null;
 		} else if (klass == java.lang.Boolean.TYPE
 				|| klass == java.lang.Boolean.class) {
 			return new java.lang.Boolean(exp == NIL ? false : true);
@@ -117,10 +124,14 @@ public class JavaUtils {
 			} else if (klass == java.lang.Double.TYPE
 					|| klass == java.lang.Double.class) {
 				return new java.lang.Double(big.doubleValue());
-			} else {
+			} else if (klass == java.lang.String.class) {
+				return big.toString();
+			}  else if (klass == java.lang.Object.class) {
+				return (Object) big;
+			} else if (klass == java.math.BigDecimal.class) {
 				return big;
 			}
-		} else if ((exp instanceof StrinG) || (exp instanceof Symbol)) {
+		} else if (StrinG.class.isInstance(exp) || Symbol.class.isInstance(exp)) {
 			if (klass == java.lang.Character.TYPE
 					|| klass == java.lang.Character.class) {
 				return new java.lang.Character(exp.toString().charAt(0));
@@ -140,12 +151,17 @@ public class JavaUtils {
 			}
 			return result;
 
-		} else
-			return exp.toString();
+		} else {
+			throw new UnboundException("unsupported conversion: " + klass + " "
+					+ exp);
+		}
+		throw new UnboundException("unsupported conversion: " + klass + " "
+				+ exp);
 	}
 
-	public static Exp importJavaClass(Interpreter interp, String genyrisClassName, Environment env,
-			String javaClassName) throws GenyrisException {
+	public static Exp importJavaClass(Interpreter interp,
+			String genyrisClassName, Environment env, String javaClassName)
+			throws GenyrisException {
 		Class klass = null;
 		try {
 			klass = Class.forName(javaClassName);
@@ -153,11 +169,12 @@ public class JavaUtils {
 			throw new GenyrisException("Java ClassNotFoundException: "
 					+ e.getMessage());
 		}
-		StandardClass genyrisClass = StandardClass.makeClass(interp.getGlobalEnv(),
-				interp.intern(toGenyrisName(javaClassName)), new Pair(interp
-						.intern(Constants.JAVA), interp.NIL));
-		genyrisClass.addProperty(env, "java-classname", new StrinG(javaClassName));
-		if(!genyrisClassName.equals(javaClassName)) {
+		StandardClass genyrisClass = StandardClass.makeClass(interp
+				.getGlobalEnv(), interp.intern(toGenyrisName(javaClassName)),
+				new Pair(interp.intern(Constants.JAVA), interp.NIL));
+		genyrisClass.addProperty(env, "java-classname", new StrinG(
+				javaClassName));
+		if (!genyrisClassName.equals(javaClassName)) {
 			env.defineVariable(interp.intern(genyrisClassName), genyrisClass);
 		}
 		//
@@ -166,9 +183,10 @@ public class JavaUtils {
 			Class[] params = ctors[c].getParameterTypes();
 			String name = "new";
 			name += argList(params);
-			JavaCtor gctor = new JavaCtor(interp, genyrisClass, name, ctors[c], params);
-			genyrisClass.defineDynamicVariable(new DynamicSymbol(interp.intern(name)),
-					new EagerProcedure(env, interp.NIL, gctor));
+			JavaCtor gctor = new JavaCtor(interp, genyrisClass, name, ctors[c],
+					params);
+			genyrisClass.defineDynamicVariable(new DynamicSymbol(interp
+					.intern(name)), new EagerProcedure(env, interp.NIL, gctor));
 		}
 		//
 		Method[] methods = klass.getMethods();
@@ -199,11 +217,6 @@ public class JavaUtils {
 			}
 		}
 		return name;
-	}
-
-	public static Object convertToJava(Exp exp, Symbol NIL)
-			throws GenyrisException {
-		return convertToJava(java.lang.Object.class, exp, NIL);
 	}
 
 }

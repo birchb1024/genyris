@@ -1,4 +1,4 @@
-#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 631
+Build 632
 \end_layout
 
 \begin_layout Standard
@@ -8350,12 +8350,24 @@ objects.
 \end_layout
 
 \begin_layout LyX-Code
-> file.vars
+> file!vars
 \end_layout
 
 \begin_layout LyX-Code
-(separatorChar separator pathSeparatorChar pathSeparator self vars classes)
- # Pair 
+(separatorChar separator pathSeparatorChar pathSeparator self vars classes
+ http://www.genyris.org/lang/java#class) # Pair 
+\end_layout
+
+\begin_layout Standard
+The special field java:class provides the real Java class of the object.
+\end_layout
+
+\begin_layout LyX-Code
+> file!java:class
+\end_layout
+
+\begin_layout LyX-Code
+'java.io.File' # String  
 \end_layout
 
 \begin_layout Standard
@@ -8363,7 +8375,7 @@ Read access to the fields is the same as for Dictionaries for example:
 \end_layout
 
 \begin_layout LyX-Code
-> file.separator
+> file!separator
 \end_layout
 
 \begin_layout LyX-Code
@@ -8742,6 +8754,10 @@ java:toJava
 \end_layout
 
 \begin_layout LyX-Code
+> java:import  '[Ljava.lang.Integer;'
+\end_layout
+
+\begin_layout LyX-Code
 > java:toJava '[Ljava.lang.Integer;' ^(1 2 3)
 \end_layout
 
@@ -8750,7 +8766,20 @@ java:toJava
 \end_layout
 
 \begin_layout LyX-Code
-[[Ljava.lang.Integer; [Ljava.lang.Integer;@2c79a2e7] # JavaWrapper
+[[Ljava.lang.Integer; [Ljava.lang.Integer;@148aa23] # *Ljava_lang_Integer; JavaWrapp
+er
+\end_layout
+
+\begin_layout Standard
+Note that since we imported the class 
+\emph on
+[Ljava.lang.Integer;
+\emph default
+ the conversion automatically tags the 
+\emph on
+JavaWrapper
+\emph default
+ with that class.
 \end_layout
 
 \begin_layout Subsubsection
@@ -8837,7 +8866,7 @@ String) throws java.lang.ClassNotFoundException]
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Limitations
 \end_layout
 
@@ -8872,6 +8901,120 @@ Java Readers and Writers are not converted to Genyris streams.
 \begin_layout Itemize
 The Java class hierarchy is not duplicated in the imported Genyris classes
  since the method list is a closure over the superclasses of a class.
+\end_layout
+
+\begin_layout Section
+Extending and Modifying Genyris
+\end_layout
+
+\begin_layout Subsection
+Adding Builtin Java Functions to Core Genyris Classes
+\end_layout
+
+\begin_layout Standard
+All Genyris functions are implemented as normal Java classes.
+ This include the core classes for data such as Bignum, String etc.
+ For example the Bignum objects are internally implemented as Java BigDecimals.
+ Therefore it is easy to leverage existing Java functionality for the internal
+ representation by using the Java FFI.
+ It suffices to define a Genyris function or method which access the internal
+ object via a reference and manipulates it.
+ Consider:
+\end_layout
+
+\begin_layout LyX-Code
+> java:import 'java.math.BigDecimal'
+\end_layout
+
+\begin_layout LyX-Code
+> java:toJava 'java.math.BigDecimal' 123
+\end_layout
+
+\begin_layout LyX-Code
+[java.math.BigDecimal 123] # java_math_BigDecimal JavaWrapper 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+This expression 
+\emph on
+(java:toJava 'java.math.BigDecimal' 123)
+\emph default
+ obtains a reference to the internal BigDecimal object, which is in turn
+ wrapped in a 
+\emph on
+JavaWrapper 
+\emph default
+object and tagged with the 
+\emph on
+java_math_BigDecimal
+\emph default
+ class.
+ This allows direct access to the underlying object via its methods.
+ 
+\end_layout
+
+\begin_layout Standard
+Here is a Genyris method which returns the precision of a Bignum:
+\end_layout
+
+\begin_layout LyX-Code
+> Bignum
+\end_layout
+
+\begin_layout LyX-Code
+    def .precision()
+\end_layout
+
+\begin_layout LyX-Code
+        (java:toJava 'java.math.BigDecimal' .self)
+\end_layout
+
+\begin_layout LyX-Code
+             .precision
+\end_layout
+
+\begin_layout LyX-Code
+> 2134(.precision)
+\end_layout
+
+\begin_layout LyX-Code
+4 # Bignum 
+\end_layout
+
+\begin_layout Standard
+Here is another example, character replacement method for all strings:
+\end_layout
+
+\begin_layout LyX-Code
+String
+\end_layout
+
+\begin_layout LyX-Code
+    def .replace(old new)
+\end_layout
+
+\begin_layout LyX-Code
+        (java:toJava 'java.lang.String' .self)
+\end_layout
+
+\begin_layout LyX-Code
+               .replace-char-char old new
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> "Shop"(.replace 'p' 'e')
+\end_layout
+
+\begin_layout LyX-Code
+'Shoe' # String 
 \end_layout
 
 \begin_layout Section
@@ -9731,6 +9874,20 @@ String
 
 \begin_layout Subsubsection
 .split
+\end_layout
+
+\begin_layout Subsubsection
+.replace <searchstring> <replacement>
+\end_layout
+
+\begin_layout Standard
+Returns a new string with every occurence of 
+\emph on
+<searchstring>
+\emph default
+ replaced with 
+\emph on
+<replacement>
 \end_layout
 
 \begin_layout Subsubsection
