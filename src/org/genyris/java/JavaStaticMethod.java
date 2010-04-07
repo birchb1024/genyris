@@ -1,5 +1,6 @@
 package org.genyris.java;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.genyris.core.Exp;
@@ -28,12 +29,18 @@ public class JavaStaticMethod extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 			throws GenyrisException {
+		Object[] args = JavaUtils.toJavaArray(params, arguments, env);
 		try {
 			method.setAccessible(true);
-			Object[] args = JavaUtils.toJavaArray(params, arguments, NIL);
 			Object rawResult = method.invoke(null, args);
 			return JavaUtils.javaToGenyris(env, rawResult);
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
+			throw new GenyrisException("Java " + e.getClass().getName() + " "
+					+ e.getMessage());
+		} catch (IllegalAccessException e) {
+			throw new GenyrisException("Java " + e.getClass().getName() + " "
+					+ e.getMessage());
+		} catch (InvocationTargetException e) {
 			throw new GenyrisException("Java "
 					+ e.getCause().getClass().getName() + " "
 					+ e.getCause().getMessage());

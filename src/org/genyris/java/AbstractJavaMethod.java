@@ -32,5 +32,6 @@ public abstract class AbstractJavaMethod extends AbstractMethod {
 		interpreter.bindGlobalProcedureInstance(new ImportFunction( interpreter));
 		interpreter.bindGlobalProcedureInstance(new ToJavaFunction( interpreter));
 		interpreter.bindGlobalProcedureInstance(new ToGenyrisFunction( interpreter));
+		interpreter.bindGlobalProcedureInstance(new ListenerFunction( interpreter));
 	}
 }

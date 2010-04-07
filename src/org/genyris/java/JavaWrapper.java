@@ -60,11 +60,11 @@ public class JavaWrapper extends Atom {
 		return new JavaWrapperEnvironment(parent, this);
 	}
 
-	public void setField(String fieldName, Exp value, Symbol NIL)
+	public void setField(String fieldName, Exp value, Environment env)
 			throws GenyrisException {
 		try {
 			Field field = _value.getClass().getField(fieldName);
-			Object converted = JavaUtils.convertToJava(field.getType(), value, NIL);
+			Object converted = JavaUtils.convertToJava(field.getType(), value, env);
 			field.setAccessible(true);
 			field.set(_value, converted);
 		} catch (SecurityException e) {

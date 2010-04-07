@@ -30,6 +30,9 @@ public abstract class AbstractEnvironment implements Environment {
 			throws UnboundException;
 
 	public void defineVariable(Symbol symbol, Exp valu) throws GenyrisException {
+		if (symbol.isNil()) {
+			throw new GenyrisException("Attempt to re-define nil!");
+		}
 		symbol.defineVariable(this, valu);
 	}
 
@@ -56,7 +59,11 @@ public abstract class AbstractEnvironment implements Environment {
 	public abstract Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
 			throws UnboundException;
 
-	public void setVariableValue(Symbol symbol, Exp valu) throws UnboundException {
+	public void setVariableValue(Symbol symbol, Exp valu)
+			throws UnboundException {
+		if (symbol.isNil()) {
+			throw new UnboundException("Attempt to re-define nil!");
+		}
 		symbol.setVariableValue(this, valu);
 	}
 

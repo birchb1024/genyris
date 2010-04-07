@@ -34,7 +34,8 @@ defmacro if (test success-result failure-result)
 defmacro do (&rest expression)
    expression
 
-define else do
+def else()
+   raise "Hanging else"
 define then do
 
 def null? (sexp)

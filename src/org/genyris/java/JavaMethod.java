@@ -1,5 +1,6 @@
 package org.genyris.java;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.genyris.core.Exp;
@@ -9,7 +10,6 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-
 
 public class JavaMethod extends AbstractJavaMethod {
 
@@ -29,19 +29,24 @@ public class JavaMethod extends AbstractJavaMethod {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
+		Object object = getSelfJava(envForBindOperations).getValue();
+		Object[] javaArgsArray = JavaUtils.toJavaArray(params, arguments, envForBindOperations);
 		try {
 			method.setAccessible(true);
-			Object rawResult = method.invoke(getSelfJava(envForBindOperations)
-					.getValue(), JavaUtils.toJavaArray(params, arguments, NIL));
+			Object rawResult = method.invoke(object, javaArgsArray);
 			return JavaUtils.javaToGenyris(envForBindOperations, rawResult);
 
-		} catch (Exception e) {
-
+		} catch (IllegalArgumentException e) {
+			throw new GenyrisException("Java " + e.getClass().getName() + " "
+					+ e.getMessage());
+		} catch (IllegalAccessException e) {
+			throw new GenyrisException("Java " + e.getClass().getName() + " "
+					+ e.getMessage());
+		} catch (InvocationTargetException e) {
 			throw new GenyrisException("Java "
 					+ e.getCause().getClass().getName() + " "
 					+ e.getCause().getMessage());
 		}
 	}
-
 
 }

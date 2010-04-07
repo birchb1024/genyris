@@ -28,6 +28,6 @@ public class ToJavaFunction extends ApplicableFunction {
 			throw new GenyrisException("ClassNotFoundException: " + e.getMessage());
 		}
 		
-		return JavaUtils.wrapJavaObject(env, JavaUtils.convertToJava(klass, arguments[1], NIL));
+		return JavaUtils.wrapJavaObject(env, JavaUtils.convertToJava(klass, arguments[1], env));
 	}
 }

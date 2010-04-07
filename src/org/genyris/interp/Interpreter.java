@@ -77,7 +77,7 @@ public class Interpreter {
     }
 
     private void defineConstantSymbols() throws GenyrisException {
-        _globalEnvironment.defineVariable(NIL, NIL);
+        _globalEnvironment.defineLexicalVariable(NIL, NIL);
         _globalEnvironment.defineVariable(_table.TRUE(), _table.TRUE());
         _globalEnvironment.defineVariable(_table.FALSE(), _table.FALSE());
         _globalEnvironment.defineVariable(_table.EOF(), _table.EOF());

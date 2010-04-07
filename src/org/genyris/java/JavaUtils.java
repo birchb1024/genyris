@@ -17,6 +17,7 @@ import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.AbstractClosure;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
@@ -81,30 +82,32 @@ public class JavaUtils {
 	}
 
 	public static Object[] toJavaArray(Class[] params, Exp[] arguments,
-			Symbol NIL) throws GenyrisException {
+			Environment env) throws GenyrisException {
 		if (params.length == 0)
-			return null;
+			return new Object[0];
 		Object[] result = new Object[params.length];
 		if (params.length != arguments.length) {
-			throw new GenyrisException("toJavaArray: missmatced lengths!");
+			throw new GenyrisException("toJavaArray: missmatched lengths!");
 		}
 		for (int i = 0; i < params.length; i++) {
-			result[i] = convertToJava(params[i], arguments[i], NIL);
+			result[i] = convertToJava(params[i], arguments[i], env);
 		}
 		return result;
 	}
 
-	public static Object convertToJava(Class klass, Exp exp, Symbol NIL)
+	public static Object convertToJava(Class klass, Exp exp, Environment env)
 			throws GenyrisException {
 		if (exp instanceof JavaWrapper) {
 			return ((JavaWrapper) exp).getValue();
-		} else if(klass.isInstance(exp)) {
+		} else if (AbstractClosure.class.isInstance(exp)) {
+			return new GenyrisActionListener((AbstractClosure) exp, env);
+		} else if (klass.isInstance(exp)) {
 			return exp;
 		} else if (klass == java.lang.Void.TYPE) {
-			return null;
+			throw new UnboundException("convertToJava: java.lang.Void.");
 		} else if (klass == java.lang.Boolean.TYPE
 				|| klass == java.lang.Boolean.class) {
-			return new java.lang.Boolean(exp == NIL ? false : true);
+			return new java.lang.Boolean(exp == env.getNil() ? false : true);
 		} else if (exp instanceof Bignum) {
 			BigDecimal big = ((Bignum) exp).bigDecimalValue();
 			if (klass == java.lang.Byte.TYPE || klass == java.lang.Byte.class) {
@@ -126,7 +129,7 @@ public class JavaUtils {
 				return new java.lang.Double(big.doubleValue());
 			} else if (klass == java.lang.String.class) {
 				return big.toString();
-			}  else if (klass == java.lang.Object.class) {
+			} else if (klass == java.lang.Object.class) {
 				return (Object) big;
 			} else if (klass == java.math.BigDecimal.class) {
 				return big;
@@ -142,11 +145,11 @@ public class JavaUtils {
 				throw new UnboundException(
 						"convertToJava: was expecting a list.");
 			}
-			int length = exp.length(NIL);
+			int length = exp.length(env.getNil());
 			Class elementType = klass.getComponentType();
 			Object[] result = (Object[]) Array.newInstance(elementType, length);
 			for (int i = 0; i < length; i++) {
-				result[i] = convertToJava(elementType, exp.car(), NIL);
+				result[i] = convertToJava(elementType, exp.car(), env);
 				exp = exp.cdr();
 			}
 			return result;

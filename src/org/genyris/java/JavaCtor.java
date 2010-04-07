@@ -1,6 +1,7 @@
 package org.genyris.java;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
@@ -30,13 +31,23 @@ public class JavaCtor extends AbstractJavaMethod {
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
+			Environment env) throws GenyrisException {
+		Object[] javaArgsArray = JavaUtils.toJavaArray(params, arguments, env);
 		try {
 			JavaWrapper result = new JavaWrapper(method
-					.newInstance(JavaUtils.toJavaArray(params, arguments, NIL)));
+					.newInstance(javaArgsArray));
 			result.addClass(genyrisClass);
 			return result;
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
+			throw new GenyrisException("Java " + e.getClass().getName() + " "
+					+ e.getMessage());
+		} catch (IllegalAccessException e) {
+			throw new GenyrisException("Java " + e.getClass().getName() + " "
+					+ e.getMessage());
+		} catch (InstantiationException e) {
+			throw new GenyrisException("Java " + e.getClass().getName() + " "
+					+ e.getMessage());
+		} catch (InvocationTargetException e) {
 			throw new GenyrisException("Java "
 					+ e.getCause().getClass().getName() + " "
 					+ e.getCause().getMessage());

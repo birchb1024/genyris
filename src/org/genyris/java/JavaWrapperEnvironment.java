@@ -28,7 +28,7 @@ public class JavaWrapperEnvironment extends ExpressionEnvironment {
 		Exp sym = symbol.getRealSymbol();
 		JavaWrapper it = (JavaWrapper)_theExpression;
 		try {
-			it.setField(sym.toString(), valu, NIL);
+			it.setField(sym.toString(), valu, this);
 		} catch (GenyrisException e) {
 			throw new UnboundException(e.getMessage());
 		}

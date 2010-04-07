@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 632
+Build 633
 \end_layout
 
 \begin_layout Standard
@@ -8465,7 +8465,7 @@ The following table lists the conversions of base types in method calls,
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="13" columns="2">
+<lyxtabular version="3" rows="14" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -8710,6 +8710,26 @@ NIL or true
 </cell>
 </row>
 <row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+java.awt.event.ActionListener
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<- Function Closure
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -8867,6 +8887,84 @@ String) throws java.lang.ClassNotFoundException]
 \end_layout
 
 \begin_layout Subsection
+Hooking Swing Events in Genyris
+\end_layout
+
+\begin_layout Standard
+Swing programs can be written in Genyris using the FFI descibed here.
+ All the Swing classes can be accessed as usual, however there is one special
+ case - handling of events from Swing.
+ When Swing has an event to process (typically from a user action such as
+ a mouse click) it needs to call a Genyris function.
+ The Genyris 
+\emph on
+java:actionListener
+\emph default
+ function creates a bridging object that holds a closure which can be called
+ later by Swing.
+ The syntax is:
+\end_layout
+
+\begin_layout LyX-Code
+java:actionListener <closure>
+\end_layout
+
+\begin_layout Standard
+Either lazy or eager procedures can be used in the closure parameter.
+ Here's an example:
+\end_layout
+
+\begin_layout LyX-Code
+def onCancel(event)
+\end_layout
+
+\begin_layout LyX-Code
+    window(.dispose)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+cancelButton(.addActionListener-java_awt_event_ActionListener (java:actionListene
+r onCancel))
+\end_layout
+
+\begin_layout Standard
+Here we have supplied an ActionListener to a Button object.
+ The action listener saves the closure created by the 
+\emph on
+def
+\emph default
+.
+ When the user presses the button the onCancel function is called.
+ Notice how the closure captures the 
+\emph on
+window
+\emph default
+ binding.
+ 
+\end_layout
+
+\begin_layout Standard
+Refer to the source file '
+\emph on
+examples/swing.g
+\emph default
+' for a complete example which looks like this:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename swing.JPG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Limitations
 \end_layout
 
@@ -8901,6 +8999,15 @@ Java Readers and Writers are not converted to Genyris streams.
 \begin_layout Itemize
 The Java class hierarchy is not duplicated in the imported Genyris classes
  since the method list is a closure over the superclasses of a class.
+\end_layout
+
+\begin_layout Itemize
+There is no universal facility for allowing Java programs to call back Genyris
+ functions, only 
+\emph on
+java.awt.event.ActionListener
+\emph default
+ is supported..
 \end_layout
 
 \begin_layout Section
