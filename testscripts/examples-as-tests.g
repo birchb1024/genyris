@@ -8,6 +8,7 @@ sys:path = (cons 'examples' sys:path)
 
 spawn "examples/swing.g"
 spawn "examples/swing-canvas.g"
+spawn "examples/curves.g"
 
 define example-files
    list

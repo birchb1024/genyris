@@ -57,7 +57,4 @@ cp
 window
   .pack
   .show
-sleep 5000
-window(.dispose)
-
 

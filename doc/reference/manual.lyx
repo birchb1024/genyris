@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 633
+Build 638
 \end_layout
 
 \begin_layout Standard
@@ -8882,10 +8882,6 @@ String) throws java.lang.ClassNotFoundException]
 ...
 \end_layout
 
-\begin_layout LyX-Code
-
-\end_layout
-
 \begin_layout Subsection
 Hooking Swing Events in Genyris
 \end_layout
@@ -8965,6 +8961,210 @@ examples/swing.g
 \end_layout
 
 \begin_layout Subsection
+Plotting 2D Figures on a Swing Canvas
+\end_layout
+
+\begin_layout Standard
+Sometimes it's useful to be able to draw shapes and place images on a simple
+ canvas.
+ The supplied examples include 
+\emph on
+swing-canvas.g
+\emph default
+ which draws a red oval onto the frame:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename redOval.jpg
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To allow the frame to be re-painted when it is moved about or re-sized,
+ a special Java class is provided which allows the 
+\emph on
+paintComponent()
+\emph default
+ to be executed in Genyris.
+ Instead of using the 
+\emph on
+JPanel
+\emph default
+ component, one uses a 
+\emph on
+GPanel
+\emph default
+ component, supplying a closure as an argument.
+ The closure is executed by Swing when it needs the frame to be re-drawn.
+ Let's review code.
+ 
+\end_layout
+
+\begin_layout Standard
+First a callback function is defined which takes three parameters, a 
+\emph on
+Graphics
+\emph default
+ object (where drawing is done) and and a string:
+\end_layout
+
+\begin_layout LyX-Code
+java:import 'java.awt.Graphics' as Graphics
+\end_layout
+
+\begin_layout LyX-Code
+def paint(graphics id command)
+\end_layout
+
+\begin_layout LyX-Code
+  tag Graphics graphics # set up the methods
+\end_layout
+
+\begin_layout LyX-Code
+  cond
+\end_layout
+
+\begin_layout LyX-Code
+     graphics # did we get an object?
+\end_layout
+
+\begin_layout LyX-Code
+         graphics   # ok , draw on it
+\end_layout
+
+\begin_layout LyX-Code
+             .drawLine-int-int-int-int 0 0 100 100
+\end_layout
+
+\begin_layout Standard
+Next the special 
+\emph on
+GPanel
+\emph default
+ is created.
+ The constructor expects an 
+\emph on
+ActionListener
+\emph default
+ object, so we encapsulate the above function closure:
+\end_layout
+
+\begin_layout LyX-Code
+java:import 'org.genyris.java.swing.GPanel' as GPanel
+\end_layout
+
+\begin_layout LyX-Code
+var panel 
+\end_layout
+
+\begin_layout LyX-Code
+  GPanel
+\end_layout
+
+\begin_layout LyX-Code
+   .new-org_genyris_java_swing_GenyrisActionListener                java:actionLi
+stener paint
+\end_layout
+
+\begin_layout Standard
+Finally the GPanel is added to a frame:
+\end_layout
+
+\begin_layout LyX-Code
+frame
+\end_layout
+
+\begin_layout LyX-Code
+    .add-java_awt_Component panel
+\end_layout
+
+\begin_layout LyX-Code
+    .setVisible-boolean true
+\end_layout
+
+\begin_layout Standard
+This approach of adding a Java class can be used wherever a 
+\emph on
+paintComponent
+\emph default
+ callback is required.
+ The Java code is minimal:
+\end_layout
+
+\begin_layout LyX-Code
+package org.genyris.java.swing;
+\end_layout
+
+\begin_layout LyX-Code
+import java.awt.Graphics;
+\end_layout
+
+\begin_layout LyX-Code
+import java.awt.event.ActionEvent;
+\end_layout
+
+\begin_layout LyX-Code
+import javax.swing.JPanel;
+\end_layout
+
+\begin_layout LyX-Code
+public class GPanel extends JPanel {
+\end_layout
+
+\begin_layout LyX-Code
+	private static final long serialVersionUID = 1L;
+\end_layout
+
+\begin_layout LyX-Code
+	private GenyrisActionListener repaint;
+\end_layout
+
+\begin_layout LyX-Code
+	public GPanel(GenyrisActionListener closure) {
+\end_layout
+
+\begin_layout LyX-Code
+		super();
+\end_layout
+
+\begin_layout LyX-Code
+		repaint = closure;
+\end_layout
+
+\begin_layout LyX-Code
+	}
+\end_layout
+
+\begin_layout LyX-Code
+	public void paintComponent(Graphics g) {
+\end_layout
+
+\begin_layout LyX-Code
+        if (repaint != null)
+\end_layout
+
+\begin_layout LyX-Code
+			repaint.actionPerformed(
+\end_layout
+
+\begin_layout LyX-Code
+                 new ActionEvent(g, 0, "repaint"));
+\end_layout
+
+\begin_layout LyX-Code
+	}
+\end_layout
+
+\begin_layout LyX-Code
+}
+\end_layout
+
+\begin_layout Subsection
 Limitations
 \end_layout
 
@@ -9007,7 +9207,7 @@ There is no universal facility for allowing Java programs to call back Genyris
 \emph on
 java.awt.event.ActionListener
 \emph default
- is supported..
+ is supported.
 \end_layout
 
 \begin_layout Section

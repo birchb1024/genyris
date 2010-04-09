@@ -2,8 +2,8 @@ package org.genyris.java.swing;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-
 import javax.swing.JPanel;
+
 public class GPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -15,7 +15,7 @@ public class GPanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		if(repaint != null)
+		if (repaint != null)
 			repaint.actionPerformed(new ActionEvent(g, 0, "repaint"));
 	}
 }
