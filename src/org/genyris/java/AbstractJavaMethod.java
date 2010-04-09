@@ -10,6 +10,7 @@ import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
+import org.genyris.java.swing.ListenerFunction;
 
 public abstract class AbstractJavaMethod extends AbstractMethod {
 

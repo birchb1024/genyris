@@ -17,11 +17,11 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
 public class Dictionary extends Atom implements Environment {
-	private Map _dict;
+	protected Map _dict;
 
 	protected Environment _parent;
 
-    private static Map mapFactory() {
+    protected static Map mapFactory() {
     	return new HashMap();
     }
 
@@ -86,11 +86,11 @@ public class Dictionary extends Atom implements Environment {
 		defineVariableRaw(sym.getRealSymbol(), valu);
 	}
 
-	private Exp CLASSES() {
+	protected Exp CLASSES() {
 		return _parent.getSymbolTable().CLASSES();
 	}
 
-	private Exp SELF() {
+	protected Exp SELF() {
 		return _parent.getSymbolTable().SELF();
 	}
 

@@ -48,5 +48,8 @@ public class JavaMethod extends AbstractJavaMethod {
 					+ e.getCause().getMessage());
 		}
 	}
+    public String toString() {
+        return "JavaMethod " + getName();
+    }
 
 }

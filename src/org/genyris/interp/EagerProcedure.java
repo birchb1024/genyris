@@ -31,9 +31,6 @@ public class EagerProcedure extends AbstractClosure  {
             exp = exp.cdr();
             i++;
         }
-//        if(exp != NIL) {
-//        	result[i] = exp.eval(env);
-//        }
         return result;
     }
 

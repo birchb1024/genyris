@@ -13,7 +13,6 @@ import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
@@ -23,6 +22,7 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
+import org.genyris.java.swing.GenyrisActionListener;
 
 public class JavaUtils {
 	public static String toGenyrisName(String javaClassName) {
@@ -172,7 +172,7 @@ public class JavaUtils {
 			throw new GenyrisException("Java ClassNotFoundException: "
 					+ e.getMessage());
 		}
-		StandardClass genyrisClass = StandardClass.makeClass(interp
+		JavaClass genyrisClass = (JavaClass)JavaClass.makeClass(klass, interp
 				.getGlobalEnv(), interp.intern(toGenyrisName(javaClassName)),
 				new Pair(interp.intern(Constants.JAVA), interp.NIL));
 		genyrisClass.addProperty(env, "java-classname", new StrinG(

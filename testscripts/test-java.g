@@ -39,6 +39,10 @@ var d
    JavaString(.new-java_lang_String "Godel")
 
 java:import 'org.genyris.test.java.JavaDummy' as Dummy   
+assert (equal? 123 Dummy!staticField)
+Dummy(.staticField = 321)
+assert (equal? 321 Dummy!staticField)
+
 assert 
    equal? ^('0' '1' '2') 
        Dummy(.staticMethod1-int 3)

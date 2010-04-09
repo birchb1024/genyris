@@ -5,6 +5,7 @@ import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
+import org.genyris.java.JavaClass;
 
 public class StandardClass extends Dictionary {
 
@@ -68,7 +69,7 @@ public class StandardClass extends Dictionary {
 		result += getClassName();
 		try {
 			result += classListToString(getSuperClasses());
-//			result += classListToString(getSubClasses());
+			// result += classListToString(getSubClasses());
 		} catch (AccessException e) {
 			return this.getClassName() + " toString():  " + e.getMessage();
 		}
@@ -133,30 +134,42 @@ public class StandardClass extends Dictionary {
 		}
 	}
 
+	public static JavaClass makeClass(Class javaClass, Environment env,
+			Symbol klassname, Exp superklasses) throws GenyrisException {
+		return (JavaClass)makeClass(new JavaClass(javaClass, env), env, klassname, superklasses);
+
+	}
+
 	public static StandardClass makeClass(Environment env, Symbol klassname,
 			Exp superklasses) throws GenyrisException {
+		return makeClass(new StandardClass(env), env, klassname, superklasses);
+	}
+
+	public static StandardClass makeClass(StandardClass newClass, Environment env,
+			Symbol klassname, Exp superklasses) throws GenyrisException {
 		Exp NIL = env.getNil();
-		StandardClass newClass = new StandardClass(env);
 		newClass.defineVariableRaw(env.getSymbolTable().CLASSNAME(), klassname);
 		newClass.defineVariableRaw(env.getSymbolTable().SUBCLASSES(), NIL);
 		if (superklasses == NIL)
 			superklasses = new Pair(env.getSymbolTable().THING(), NIL);
 
-		newClass.defineVariableRaw(env.getSymbolTable().SUPERCLASSES(), lookupClasses(env, superklasses));
+		newClass.defineVariableRaw(env.getSymbolTable().SUPERCLASSES(),
+				lookupClasses(env, superklasses));
 		Exp sklist = superklasses;
 		while (sklist != NIL) {
 			Exp possibleClass = env.lookupVariableValue((Symbol) sklist.car());
 			StandardClass.assertIsThisObjectAClass(possibleClass);
-			StandardClass superClass = (StandardClass)possibleClass;
+			StandardClass superClass = (StandardClass) possibleClass;
 			Exp subklasses = NIL;
 			try {
-				subklasses = superClass.lookupVariableShallow(env.getSymbolTable()
-						.SUBCLASSES());
+				subklasses = superClass.lookupVariableShallow(env
+						.getSymbolTable().SUBCLASSES());
 			} catch (UnboundException ignore) {
-				superClass.defineVariable(env.getSymbolTable().SUBCLASSES(), NIL);
+				superClass.defineVariable(env.getSymbolTable().SUBCLASSES(),
+						NIL);
 			}
-			superClass.setDynamicVariableValueRaw(env.getSymbolTable().SUBCLASSES(),
-					new Pair(newClass, subklasses));
+			superClass.setDynamicVariableValueRaw(env.getSymbolTable()
+					.SUBCLASSES(), new Pair(newClass, subklasses));
 			sklist = sklist.cdr();
 		}
 

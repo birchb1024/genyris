@@ -46,5 +46,8 @@ public class JavaStaticMethod extends ApplicableFunction {
 					+ e.getCause().getMessage());
 		}
 	}
+    public String toString() {
+        return "JavaStaticMethod " + getName();
+    }
 
 }

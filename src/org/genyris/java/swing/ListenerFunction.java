@@ -1,4 +1,4 @@
-package org.genyris.java;
+package org.genyris.java.swing;
 
 
 import org.genyris.core.Constants;
@@ -8,6 +8,7 @@ import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+import org.genyris.java.JavaWrapper;
 
 public class ListenerFunction extends ApplicableFunction {
 
