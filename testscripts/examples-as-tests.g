@@ -7,8 +7,9 @@
 sys:path = (cons 'examples' sys:path)
 
 spawn "examples/swing.g"
+spawn "examples/swing-canvas.g"
 
-define example-files 
+define example-files
    list
     ~ 'examples/spawn-tests.g'
     ~ 'examples/account.g'
@@ -35,8 +36,8 @@ define example-files
     ~ 'examples/validate.g'
     ~ 'examples/queens.g'
     ~ 'examples/allclasses.g'
-    ~ 'examples/java-ffi.g'    
-    
+    ~ 'examples/java-ffi.g'
+
 define pass nil
 define results ()
 while example-files
