@@ -16,13 +16,11 @@ import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.AbstractClosure;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
-import org.genyris.java.swing.GenyrisActionListener;
 
 public class JavaUtils {
 	public static String toGenyrisName(String javaClassName) {
@@ -99,8 +97,8 @@ public class JavaUtils {
 			throws GenyrisException {
 		if (exp instanceof JavaWrapper) {
 			return ((JavaWrapper) exp).getValue();
-		} else if (AbstractClosure.class.isInstance(exp)) {
-			return new GenyrisActionListener((AbstractClosure) exp, env);
+		} else if (klass == exp.getClass()) {
+			return exp; 
 		} else if (klass.isInstance(exp)) {
 			return exp;
 		} else if (klass == java.lang.Void.TYPE) {

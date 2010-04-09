@@ -30,8 +30,7 @@ def onCancel(event)
 var counter 0
 
 def onHit(event)
-    tag (java:import event!java:class) event # wasteful
-    print 'Hit button pressed' event!classes  event
+    print 'Hit button pressed'
     counter = (+ 1 counter)
     field
        .setText-java_lang_String counter

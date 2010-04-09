@@ -1,21 +1,32 @@
 package org.genyris.java.swing;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
+
 import javax.swing.JPanel;
+
+import org.genyris.core.Exp;
+import org.genyris.exception.GenyrisException;
+import org.genyris.interp.AbstractClosure;
+import org.genyris.java.JavaUtils;
 
 public class GPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private GenyrisActionListener repaint;
+	private AbstractClosure repaint;
 
-	public GPanel(GenyrisActionListener closure) {
+	public GPanel(AbstractClosure closure) {
 		super();
 		repaint = closure;
 	}
 
 	public void paintComponent(Graphics g) {
-		if (repaint != null)
-			repaint.actionPerformed(new ActionEvent(g, 0, "repaint"));
+		if (repaint != null) {
+			Exp args[] = { JavaUtils.wrapJavaObject(repaint.getEnv(), g) };
+			try {
+				repaint.applyFunction(repaint.getEnv(), args);
+			} catch (GenyrisException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -9047,11 +9047,7 @@ Next the special
 GPanel
 \emph default
  is created.
- The constructor expects an 
-\emph on
-ActionListener
-\emph default
- object, so we encapsulate the above function closure:
+ The constructor expects a Genyris closure object:
 \end_layout
 
 \begin_layout LyX-Code
@@ -9067,8 +9063,7 @@ var panel
 \end_layout
 
 \begin_layout LyX-Code
-   .new-org_genyris_java_swing_GenyrisActionListener                java:actionLi
-stener paint
+   .new-org_genyris_interp_AbstractClosure paint
 \end_layout
 
 \begin_layout Standard

@@ -37,13 +37,13 @@ public class JavaMethod extends AbstractJavaMethod {
 			return JavaUtils.javaToGenyris(envForBindOperations, rawResult);
 
 		} catch (IllegalArgumentException e) {
-			throw new GenyrisException("Java " + e.getClass().getName() + " "
+			throw new GenyrisException("Java " + this + " " + e.getClass().getName() + " "
 					+ e.getMessage());
 		} catch (IllegalAccessException e) {
-			throw new GenyrisException("Java " + e.getClass().getName() + " "
+			throw new GenyrisException("Java " + this + " " + e.getClass().getName() + " "
 					+ e.getMessage());
 		} catch (InvocationTargetException e) {
-			throw new GenyrisException("Java "
+			throw new GenyrisException("Java " + this + " " 
 					+ e.getCause().getClass().getName() + " "
 					+ e.getCause().getMessage());
 		}
