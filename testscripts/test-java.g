@@ -166,3 +166,10 @@ String
 
 java:toJava 'java.lang.String' 'east'
 java:import file!java:class
+
+# Defect 2988182 
+java:import 'java.io.PrintStream'
+java:import 'java.lang.System'
+assert (member? java_io_PrintStream (java_lang_System!out!classes))
+
+

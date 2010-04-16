@@ -58,7 +58,7 @@ public class JavaClass extends StandardClass {
 		if(staticFields.containsKey(symbol.toString())) {
 			Field field = (Field)staticFields.get(symbol.toString());
 			try {
-				return JavaUtils.javaToGenyris(this, field.get(null));
+				return JavaUtils.javaToGenyris(_parent, field.get(null));
 			} catch (IllegalArgumentException e) {
 				throw new UnboundException(e.getMessage());
 			} catch (IllegalAccessException e) {
