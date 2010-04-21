@@ -73,7 +73,6 @@ public class Constants {
         public static final String STDOUT = "stdout";
         public static final String PARENPARSER = "ParenParser";
         public static final String STDIN = "stdin";
-        public static final String SOUND = "Sound";
         public static final String PREFIX = "@prefix";
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";
         public static final String GENYRIS = "http://www.genyris.org/lang/";

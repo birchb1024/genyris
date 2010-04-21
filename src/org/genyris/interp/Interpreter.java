@@ -224,7 +224,6 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.INDENTEDPARSER, env, builtin);
 		StandardClass.mkClass(Constants.PARENPARSER, env, builtin);
 		StandardClass.mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
-		StandardClass.mkClass(Constants.SOUND, env, builtin);
 		StandardClass.mkClass(Constants.TRIPLE, env, builtin);
 		StandardClass.mkClass(Constants.TRIPLESTORE, env, builtin);
 		StandardClass.mkClass(Constants.JAVA, env, builtin);

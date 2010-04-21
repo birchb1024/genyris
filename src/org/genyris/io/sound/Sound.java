@@ -15,19 +15,12 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-import org.genyris.core.Exp;
-import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.AbstractMethod;
-import org.genyris.interp.Closure;
-import org.genyris.interp.Environment;
-import org.genyris.interp.Interpreter;
-import org.genyris.interp.UnboundException;
 
 public class Sound {
     private static final int EXTERNAL_BUFFER_SIZE = 128000;
 
-    public static void play(StrinG strFilename) throws GenyrisException {
+    public static void play(String strFilename) throws GenyrisException {
         /*
          * Copyright (c) 1999 - 2001 by Matthias Pfisterer All rights reserved.
          *
@@ -48,7 +41,7 @@ public class Sound {
          * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
          * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          */
-        File soundFile = new File(strFilename.toString());
+        File soundFile = new File(strFilename);
         /*
          * We have to read in the sound file.
          */
@@ -131,27 +124,5 @@ public class Sound {
          * All data are played. We can close the shop.
          */
         line.close();
-    }
-    public static class PlayMethod extends AbstractMethod {
-        public PlayMethod(Interpreter interp) {
-            super(interp, "play");
-        }
-
-        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-                throws GenyrisException {
-            if (arguments.length == 1) {
-                if (!(arguments[0] instanceof StrinG)) {
-                    throw new GenyrisException("Non-string filename passed to Sound.Play");
-                }
-                play((StrinG)arguments[0]);
-                return NIL;
-            } else {
-                throw new GenyrisException("Missing argument to Sound.play");
-            }
-        }
-
-        public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-            interpreter.bindMethodInstance("Sound", new PlayMethod(interpreter));
-        }
     }
 }
