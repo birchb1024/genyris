@@ -55,6 +55,9 @@ defmacro -- (varname)
 defmacro ++ (varname)
    template
        setq ,varname (+ ,varname 1)
+
+define GENYRIS_HOME ((System!getenv).GENYRIS_HOME)
+define GENYRIS_LIBS ("%a/lib"(.format GENYRIS_HOME))
 #
 # Load source functions and classes
 #
@@ -71,11 +74,11 @@ load "org/genyris/load/boot/version.g"
 load "org/genyris/load/boot/set.g"
 load "org/genyris/load/boot/triple.g"
 load "org/genyris/load/boot/import.g"
-s:path = (cons "lib" s:path)
+s:path = (cons GENYRIS_LIBS s:path)
 load "org/genyris/load/boot/for.g"
 load "org/genyris/load/boot/task.g"
 
-include 'lib/Base64.g'
+import Base64
 
 class ShortDateTimeString(String)
 def format-date(epoch format)
