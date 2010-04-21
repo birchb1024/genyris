@@ -75,9 +75,7 @@ s:path = (cons "lib" s:path)
 load "org/genyris/load/boot/for.g"
 load "org/genyris/load/boot/task.g"
 
-class Base64EncodedString(String)
-    def .decode() (.fromBase64)
-    # example: ('Pumpkin'(.toBase64))(.decode)
+include 'lib/Base64.g'
 
 class ShortDateTimeString(String)
 def format-date(epoch format)
