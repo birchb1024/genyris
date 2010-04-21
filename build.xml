@@ -158,6 +158,7 @@ defvar ^v:tipdate "${hg.tip.date}"
                 <include name="doc/**/*.lyx"/>
                 <include name="doc/**/*.odp"/>
                 <include name="examples/**/*"/>
+                <include name="lib/**/*"/>
                 <include name="needed/**/*"/>
                 <include name="src/**/*.java"/>
                 <include name="src/**/*.properties"/>
@@ -183,6 +184,7 @@ defvar ^v:tipdate "${hg.tip.date}"
                 <include name="LICENSE"/>
                 <include name="README"/>
                 <include name="dist/**/*"/>
+                <include name="lib/**/*"/>
                 <include name="bin/**/*"/>
                 <include name="doc/**/manual.pdf"/>
                 <include name="examples/**/*"/>
