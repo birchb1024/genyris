@@ -131,6 +131,7 @@ defvar ^v:tipdate "${hg.tip.date}"
             target="1.4"
             verbose="no">
             <include name="org/**" />
+            <include name="com/**" />
         </javac>
     </target>
 
