@@ -35,12 +35,15 @@ public class JavaStaticMethod extends ApplicableFunction {
 			Object rawResult = method.invoke(null, args);
 			return JavaUtils.javaToGenyris(env, rawResult);
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			throw new GenyrisException("Java "  + this + " " + e.getClass().getName() + " "
 					+ e.getMessage());
 		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 			throw new GenyrisException("Java "  + this + " " + e.getClass().getName() + " "
 					+ e.getMessage());
 		} catch (InvocationTargetException e) {
+			e.getCause().printStackTrace();
 			throw new GenyrisException("Java " + this + " " 
 					+ e.getCause().getClass().getName() + " "
 					+ e.getCause().getMessage());
