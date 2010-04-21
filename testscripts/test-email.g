@@ -1,10 +1,9 @@
 #
 #
 #
-@prefix email "http://www.genyris.org/lang/email#"
-
+import email
 
 catch error
-   email:send ^('birchb@genyris.org') 'test message Subject' "Test message body" 'birchb@tpg.com.au' 'bogus'
+   email!postMail ^('birchb@genyris.org') 'test message Subject' "Test message body" 'birchb@tpg.com.au' 'bogus'
 
 print error
