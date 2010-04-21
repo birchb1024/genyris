@@ -18,7 +18,7 @@ public class ImportFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment env) throws GenyrisException {
 		String javaClassName = arguments[0].eval(env).toString();
-		String genyrisClassName = javaClassName;
+		String genyrisClassName = javaClassName.substring(1+javaClassName.lastIndexOf('.'));
 		if( arguments.length == 3) {
 			if(!arguments[1].toString().equals("as")) {
 				throw new GenyrisException("java import missing 'as'.");
