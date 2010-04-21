@@ -21,6 +21,7 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
+import org.genyris.io.readerstream.ReaderStream;
 
 public class JavaUtils {
 	public static String toGenyrisName(String javaClassName) {
@@ -132,7 +133,10 @@ public class JavaUtils {
 			} else if (klass == java.math.BigDecimal.class) {
 				return big;
 			}
-		} else if (StrinG.class.isInstance(exp) || Symbol.class.isInstance(exp)) {
+		} else if(klass == java.io.Reader.class && ReaderStream.class.isInstance(exp)) {
+			return ((ReaderStream)exp).getReader();
+		}
+		else if (StrinG.class.isInstance(exp) || Symbol.class.isInstance(exp)) {
 			if (klass == java.lang.Character.TYPE
 					|| klass == java.lang.Character.class) {
 				return new java.lang.Character(exp.toString().charAt(0));
@@ -170,7 +174,7 @@ public class JavaUtils {
 			throw new GenyrisException("Java ClassNotFoundException: "
 					+ e.getMessage());
 		}
-		JavaClass genyrisClass = (JavaClass)JavaClass.makeClass(klass, interp
+		JavaClass genyrisClass = (JavaClass) JavaClass.makeClass(klass, interp
 				.getGlobalEnv(), interp.intern(toGenyrisName(javaClassName)),
 				new Pair(interp.intern(Constants.JAVA), interp.NIL));
 		genyrisClass.addProperty(env, "java-classname", new StrinG(

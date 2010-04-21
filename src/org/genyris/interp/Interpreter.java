@@ -218,7 +218,6 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.BIGNUM, env, builtin);
 		StandardClass.mkClass(Constants.STRING, env, builtin);
 		StandardClass.mkClass(Constants.FILE, env, builtin);
-		StandardClass.mkClass(Constants.CSV, env, builtin);
 		StandardClass.mkClass(Constants.READER, env, builtin);
 		StandardClass.mkClass(Constants.WRITER, env, builtin);
 		StandardClass.mkClass(Constants.SYSTEM, env, builtin);

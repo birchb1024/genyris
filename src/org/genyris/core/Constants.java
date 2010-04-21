@@ -63,7 +63,6 @@ public class Constants {
         public static final String MATCH = "match";
         public static final String LENGTH = "length";
         public static final String FILE = "File";
-        public static final String CSV = "CSV";
         public static final String WRITER = "Writer";
         public static final String SYSTEM = "System";
         public static final String EXEC = "exec";

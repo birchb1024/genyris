@@ -1,6 +1,8 @@
 #
 #
 #
+import CSV
+
 define fixture
   quote
          ("#subject" "object" "predicate")
