@@ -46,7 +46,7 @@ public class KillTaskFunction extends TaskFunction {
         try {
 			t.join(2000);
 		} catch (InterruptedException e) {
-	        return new StrinG("Task " + name + "did not terminate after " + new Integer(timeout));
+	        return new StrinG("Task '" + name + "' did not terminate after " + new Integer(timeout));
 		}
         return new StrinG("Terminated " + name);
 

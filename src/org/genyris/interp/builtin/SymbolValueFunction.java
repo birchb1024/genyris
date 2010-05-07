@@ -6,7 +6,7 @@
 package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -22,8 +22,8 @@ public class SymbolValueFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException {
 		checkArguments(arguments, 1);
-		Class[] types = {SimpleSymbol.class};
+		Class[] types = {Symbol.class};
     	checkArgumentTypes(types, arguments);
-        return envForBindOperations.lookupVariableValue((SimpleSymbol)arguments[0]);
+        return envForBindOperations.lookupVariableValue((Symbol)arguments[0]);
     }
 }

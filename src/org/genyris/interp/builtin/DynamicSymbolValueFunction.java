@@ -18,7 +18,7 @@ import org.genyris.interp.Interpreter;
 public class DynamicSymbolValueFunction extends ApplicableFunction {
 
 	public DynamicSymbolValueFunction(Interpreter interp) {
-		super(interp, Constants.DYNAMIC_SYMBOL, false);
+		super(interp, Constants.DYNAMIC_SYMBOL, true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

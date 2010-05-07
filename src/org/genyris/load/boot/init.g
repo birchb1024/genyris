@@ -20,6 +20,10 @@ defmacro df (name args &rest body)
     template
         defvar ^,name (lambdaq ,args ,@body)
 
+defmacro defmethod (name args &rest body)
+    # this macro binds 'this' inside a function.
+    template
+        def ,name ,args (defvar ^this .self) ,@body
 df // (&rest ignore)
 
 defmacro setq (variable valu) (template (set ^,variable ,valu))
