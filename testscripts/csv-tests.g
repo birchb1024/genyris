@@ -1,7 +1,7 @@
 #
 #
 #
-import CSV
+import csv
 
 define fixture
   quote
@@ -13,7 +13,7 @@ define fixture
 def testCSV (filename field-seperator quote-char)
     define fd (File(.new filename))
     define results
-       CSV(.read (fd (.open ^read)) field-seperator quote-char)
+       csv!read (fd (.open ^read)) field-seperator quote-char
     print results
     assert
        equal? results fixture
