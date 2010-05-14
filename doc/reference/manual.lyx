@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 650
+Build 640
 \end_layout
 
 \begin_layout Standard
@@ -6079,11 +6079,11 @@ Genyris provides a special container class for triples, the 'triplestore'.
 \begin_layout Subsubsection
 Creating TripleStores with 
 \emph on
-TripleStore
+tripleStore
 \end_layout
 
 \begin_layout LyX-Code
-triplestore 
+> triplestore 
 \end_layout
 
 \begin_layout LyX-Code
@@ -6220,7 +6220,7 @@ specified
 \emph default
 If there are no matching triples no error is raised, the triple is simply
  added.
- This operation is intended to support the pattern of a unique triples.
+ This operation is intended to support the pattern of a unique triples,
  where it serves as an update operation.
  
 \end_layout
@@ -6574,765 +6574,6 @@ org/genyris/load/boot/init.g
 load
 \series default
  'org/genyris/load/boot/init.g'
-\end_layout
-
-\begin_layout Subsection
-Tasks - Multiple Threads of Execution
-\end_layout
-
-\begin_layout Standard
-
-\emph on
-Tasks
-\emph default
- in Genyris are modelled on Unix processes.
- They are seperate interpreter instances where shared memory is minimal,
- and communication is conducted via system objects outside of the interpreters
- themselves.
- This approach relieves the programmer with the burden of debugging multi-thread
-ed code yet retains the advantages of asynchronous execution, multi-core
- hardware.
- This implementation uses a single Java thread per interpreter and uses
- Java in-process objects for inter-task communication.
-\end_layout
-
-\begin_layout Subsubsection
-Running Multiple Interpreters in the Same Process with 
-\emph on
-spawn
-\end_layout
-
-\begin_layout LyX-Code
-spawn <source file to include> <args ...>
-\end_layout
-
-\begin_layout Standard
-Spawn creates a new Genyris interpreter instance which is then executed
- by a seperate Java thread.
- Only the objects passed as parameters are shared between interpreter threads.
- They all share the same operating system interfaces, files, sockets etc
- since they are running in the same process.
- The function returns a 
-\emph on
-Task
-\emph default
- object, which is a Dictionary containing, the name, id and state of the
- underlying Java thread.
- For example:
-\end_layout
-
-\begin_layout LyX-Code
-spawn 'testscripts/spawn-example.g' 1 2 3 4 5
-\end_layout
-
-\begin_layout Standard
-returns:
-\end_layout
-
-\begin_layout LyX-Code
-(dict (.id = 9) (.name = 'examples/spawn-example.g') (.state = 'RUNNABLE'))
- # Task Dictionary
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-spawn-example.g 
-\emph default
-file contains:
-\end_layout
-
-\begin_layout LyX-Code
-@prefix sys 'http://www.genyris.org/lang/system#'
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-while true
-\end_layout
-
-\begin_layout LyX-Code
-   print sys:argv
-\end_layout
-
-\begin_layout LyX-Code
-   sleep 5000
-\end_layout
-
-\begin_layout Standard
-The output is:
-\end_layout
-
-\begin_layout LyX-Code
-'examples/spawn-example.g' 1 2 3 4 5
-\end_layout
-
-\begin_layout LyX-Code
-'examples/spawn-example.g' 1 2 3 4 5
-\end_layout
-
-\begin_layout LyX-Code
-...
-\end_layout
-
-\begin_layout Subsubsection
-Termination with 
-\family typewriter
-\emph on
-kill
-\emph default
-:
-\end_layout
-
-\begin_layout Standard
-Tasks and the underlying Java threads are killed with the
-\emph on
- task:kill
-\emph default
- function.
- This is also available as the 
-\emph on
-.kill
-\emph default
- method in the 
-\emph on
-Task
-\emph default
- class.
- A string is returned after completion.
- Note there is no guarantee from java that the thread will be terminated.
-\end_layout
-
-\begin_layout LyX-Code
-<Thread>(.kill)
-\end_layout
-
-\begin_layout Standard
-or
-\end_layout
-
-\begin_layout LyX-Code
-@prefix task 'http://www.genyris.org/lang/task#'
-\end_layout
-
-\begin_layout LyX-Code
-task:kill <integer Java thread id>
-\end_layout
-
-\begin_layout Subsubsection
-Thread Safety
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-spawn
-\emph default
- function provides a way of multi-tasking sections of an application.
- This allows seperate interpreter instances to execute, and share some common
- value objects passed by main arguments.
- The interpreter does not cater for multiple threads of execution running
- within the same interpreter scope.
- Although it is technically possible to any genyris objects including functions
- between tasks, this is not supported.
- This is because execution of stored closures will mean two interpreters
- are operating in the same environment.
- 
-\end_layout
-
-\begin_layout Standard
-Genyris 
-\emph on
-Tasks 
-\emph default
-are not 
-\emph on
-Threads
-\emph default
- the intent is that they are self-contained, supporting single-threaded
- applications only.
- However since the underlying Java objects must be shared between tasks
- for inter-task communication, a means of making this thread-safe is provided.
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-task:synchronized
-\emph default
- - Controlling access to shared objects
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-spawn
-\emph default
- and 
-\emph on
-httpd
-\emph default
- functions allow Genyris objects to be passed from one thread of execution
- to another.
- This is provided so that system objects such as pipes, files etc can be
- shared.
- 
-\end_layout
-
-\begin_layout Standard
-Both tasks have references to the same in-memory objects, and there is real
- danger that the actions of one thread will corrupt the objects used by
- another.
- The 
-\emph on
-synchronized
-\emph default
- macro ensures that developers can serialise access to shared objects.
- The syntax is as follows:
-\end_layout
-
-\begin_layout LyX-Code
-task:synchronized <object>
-\end_layout
-
-\begin_layout LyX-Code
-    <code body>
-\end_layout
-
-\begin_layout LyX-Code
-    ....
-\end_layout
-
-\begin_layout Standard
-The effect of the macro is to wait for an implicit lock associated with
- the 
-\emph on
-<object>
-\emph default
- to become free.
- When the lock is free the thread sets the lock and executes the 
-\emph on
-code body
-\emph default
-.
- When the execution completes the lock is freed ready for another thread.
- A test-case:
-\end_layout
-
-\begin_layout Standard
-A task loops, watching a shared 
-\emph on
-Pair
-\emph default
-, checking to see if the 
-\emph on
-left
-\emph default
- value is ever 1.
- If so it raises an error.
-
-\emph on
- 
-\end_layout
-
-\begin_layout LyX-Code
-task:synchronized shared
-\end_layout
-
-\begin_layout LyX-Code
-     read-value = (shared.left)
-\end_layout
-
-\begin_layout LyX-Code
-cond
-\end_layout
-
-\begin_layout LyX-Code
-     (equal? 1 read-value)
-\end_layout
-
-\begin_layout LyX-Code
-            raise "error"
-\end_layout
-
-\begin_layout Standard
-A second task loops, changing the value from 0 to 1 and back.
-\end_layout
-
-\begin_layout LyX-Code
-task:synchronized shared
-\end_layout
-
-\begin_layout LyX-Code
-        shared (.left = 1)
-\end_layout
-
-\begin_layout LyX-Code
-        sleep 13
-\end_layout
-
-\begin_layout LyX-Code
-        shared (.left = 0)
-\end_layout
-
-\begin_layout LyX-Code
-        sleep 23
-\end_layout
-
-\begin_layout Standard
-Because both tasks are executing this code in the scope of a 
-\emph on
-synchronized
-\emph default
- call, with the same shared lock object, the first task never sees the value
- altered to 1 by the second task.
- Without the 
-\emph on
-synchronized
-\emph default
- macro the first task sees the manipulations of the second.
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-ps
-\emph default
- - list current running threads
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-ps
-\emph default
- function returns a list of 
-\emph on
-Task
-\emph default
- objects for each of the current tasks.
-\end_layout
-
-\begin_layout Subsection
-Running Web Servers
-\end_layout
-
-\begin_layout Standard
-Genyris can run multiple a single-threaded HTTP 1.0 servers in Tasks in the
- background.
- The web server is implemented in Java and provides a simple interface.
-\end_layout
-
-\begin_layout Subsubsection
-Starting a web server
-\end_layout
-
-\begin_layout Standard
-A Genyris new interpreter can be started as a server with the 
-\emph on
-httpd
-\emph default
- function:
-\end_layout
-
-\begin_layout LyX-Code
-httpd <port> <path to source file> [args...]
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-httpd
-\emph default
- function takes parameters:
-\end_layout
-
-\begin_layout Itemize
-the path of a Genyris source file to load and run
-\end_layout
-
-\begin_layout Itemize
-the TCP/IP port number on which the server will listen for requests.
-\end_layout
-
-\begin_layout Itemize
-all the remaining parameters are collected in a list and bound to 
-\emph on
-sys.argv
-\end_layout
-
-\begin_layout Standard
-The return value is a 
-\emph on
-Task
-\emph default
- object for the web server.
- Many web servers can be started in the same JVM, each server is allocated
- a unique interpreter instance, there is no sharing between interpreters
- apart from the 
-\emph on
-args 
-\emph default
-passed in
-\emph on
-.
-\end_layout
-
-\begin_layout Standard
-The URL for the browser would be 
-\emph on
-http://localhost:8080/
-\emph default
-.
- The server is terminated by killing the thread, or by coding an explicit
- exit function within the web application.
-\end_layout
-
-\begin_layout Paragraph
-Example
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-httpd 7777 'examples/www-demo.g' 1 2 3 4 5
-\end_layout
-
-\begin_layout Subsubsection
-Stopping a web server
-\end_layout
-
-\begin_layout Standard
-The server's thread can be stopped with the 
-\emph on
-kill
-\emph default
- functions described above.
-\end_layout
-
-\begin_layout Subsubsection
-Processing Web Requests
-\end_layout
-
-\begin_layout Standard
-The web server main loop expects to fnd a function called 
-\emph on
-httpd-serve 
-\emph default
-which it calls for each web GET or POST request recieved from clients.
- The request from the remote client is passed to the function as a single
- parameter.
- The return from the function call must contain the response to be sent
- to the browser.
- 
-\end_layout
-
-\begin_layout Paragraph
-Example
-\end_layout
-
-\begin_layout LyX-Code
-df httpd-serve (request)
-\end_layout
-
-\begin_layout LyX-Code
-   list 200 'text/plain' 'Hello World'
-\end_layout
-
-\begin_layout Paragraph
-Requests - HttpRequest class
-\end_layout
-
-\begin_layout Standard
-The request parameter is an object of class 
-\emph on
-HttpRequest
-\emph default
-.
- The class has the following methods which return components of the request:
-\end_layout
-
-\begin_layout Description
-.getMethod() GET or POST
-\end_layout
-
-\begin_layout Description
-.getPath() Path component of the UL
-\end_layout
-
-\begin_layout Description
-.getHeaders() an 
-\emph on
-AList
-\emph default
- containing the headers
-\end_layout
-
-\begin_layout Description
-.getParameters() an 
-\emph on
-aList
-\emph default
- containing GET or POST parameters
-\end_layout
-
-\begin_layout Description
-.getClient() gives a Pair containing the client's IP address and hostname
-\end_layout
-
-\begin_layout Description
-.getBasicUsernamePassword() Returns the Basic Authentication scheme header
- as a dictionary with 
-\emph on
-.username
-\emph default
- and 
-\emph on
-.password
-\emph default
- strings.
- If no auth is present, the username and passwords are empty strings.
-\end_layout
-
-\begin_layout Description
-.toHTML() a method returning an HTML list structure in %x format.
-\end_layout
-
-\begin_layout Paragraph
-Responses
-\end_layout
-
-\begin_layout Standard
-The return value from the 
-\emph on
-httpd-serve 
-\emph default
-function is anlaysed by the web server and executed as required.
- There are two types of response:
-\end_layout
-
-\begin_layout Itemize
-Instruction to serve a file from the file system as a 'static' page
-\end_layout
-
-\begin_layout Itemize
-A data structure to be converted to XHTML and transmittted
-\end_layout
-
-\begin_layout Paragraph
-Static Pages
-\end_layout
-
-\begin_layout Standard
-If the return value is a list of the form:
-\end_layout
-
-\begin_layout LyX-Code
-SERVE-FILE <root Directory Path> <Path to File> [<list directory flag>]
-\end_layout
-
-\begin_layout Standard
-Then the file referred to by the path <root Directory Path>/<Path to File>
- is served to the client.
- If the file is a directory, and the <list directory flag> is the symbol
- 
-\emph on
-ls
-\emph default
-, then the directory listing is returned to the client in HTML.
- The following function provides a simple static web server:
-\end_layout
-
-\begin_layout LyX-Code
-df httpd-serve (request)
-\end_layout
-
-\begin_deeper
-\begin_layout LyX-Code
-list ^SERVE-FILE '/' (request(.getPath)) ^ls
-\end_layout
-
-\end_deeper
-\begin_layout Paragraph
-Http Responses in XML list structures
-\end_layout
-
-\begin_layout Standard
-If the response is a list of the form:
-\end_layout
-
-\begin_layout LyX-Code
-<integer status code> <mime type> <tree>
-\end_layout
-
-\begin_layout Standard
-then the web server converts <tree> into the relevant encoding and transmits
- it to the client.
- The conversion depends on the <mime type>.
- 
-\end_layout
-
-\begin_layout Subparagraph
-text/plain
-\end_layout
-
-\begin_layout Standard
-This type of response uses the parenthesised Genyris output formatter to
- display the <tree>.
- It is equivalent to the %s directive in the %format instruction.
-\end_layout
-
-\begin_layout Subparagraph
-text/html
-\end_layout
-
-\begin_layout Standard
-This type of response must be in the XML format as used by the 
-\emph on
-%x
-\emph default
- directive in the 
-\emph on
-format
-\emph default
- function.
- This format requires XML tags to be symbols, followed by an attribute list.
- Strings an sub-tags are interleaved.
- The general grammar is:
-\end_layout
-
-\begin_layout LyX-Code
-xml=tree :== html-tag ((attribute = 'value')...)
-\end_layout
-
-\begin_deeper
-\begin_layout LyX-Code
-['inner text' |<xml-tree> ] ...
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-For example, the expression:
-\end_layout
-
-\begin_layout LyX-Code
-u:format '%x'
-\end_layout
-
-\begin_layout LyX-Code
-   quote
-\end_layout
-
-\begin_layout LyX-Code
-     html()
-\end_layout
-
-\begin_layout LyX-Code
-      head()
-\end_layout
-
-\begin_layout LyX-Code
-        title() "Lamp Server"
-\end_layout
-
-\begin_layout LyX-Code
-          body()
-\end_layout
-
-\begin_layout LyX-Code
-             form()
-\end_layout
-
-\begin_layout LyX-Code
-                input((name="op") (size="100") (value =none)) ""
-\end_layout
-
-\begin_layout LyX-Code
-                   verbatim() "&nbsp;&nbsp;&nbsp;"
-\end_layout
-
-\begin_layout LyX-Code
-                   input((type="submit") (value="Go"))
-\end_layout
-
-\begin_layout Standard
-Is converted to the corresponding XML string:
-\end_layout
-
-\begin_layout LyX-Code
-<html><head><title>Lamp Server<body><form><input name="op" size="100" value="non
-e">&nbsp;&nbsp;&nbsp;<input type="submit" value="Go"/></input></form></body></ti
-tle></head></html> 
-\end_layout
-
-\begin_layout Standard
-The 
-\emph on
-verbatim
-\emph default
- pseudo-tag passes text transparently.
- This example (from 
-\emph on
-examples/www-demo.g
-\emph default
-) echoes the input request in HTML:
-\end_layout
-
-\begin_layout LyX-Code
-df httpd-serve (request)
-\end_layout
-
-\begin_layout LyX-Code
-   list 200 'text/html'
-\end_layout
-
-\begin_layout LyX-Code
-      template
-\end_layout
-
-\begin_layout LyX-Code
-          html()
-\end_layout
-
-\begin_layout LyX-Code
-             head()
-\end_layout
-
-\begin_layout LyX-Code
-                title() 'Genyris demo'
-\end_layout
-
-\begin_layout LyX-Code
-             body()
-\end_layout
-
-\begin_layout LyX-Code
-                pre() ,sys.argv
-\end_layout
-
-\begin_layout LyX-Code
-                ,(request (.toHTML))
-\end_layout
-
-\begin_layout Subsubsection
-Starting a static web server
-\end_layout
-
-\begin_layout Standard
-A static page web server can be started with the 
-\emph on
-www-static
-\emph default
- script:
-\end_layout
-
-\begin_layout LyX-Code
-httpd <port> "testscripts/www-static.g" <root directory>
 \end_layout
 
 \begin_layout Section
@@ -7820,7 +7061,7 @@ for <var> in <expression>
 \end_layout
 
 \begin_layout LyX-Code
-<body>
+    <body>
 \end_layout
 
 \begin_layout Subsection
@@ -7839,20 +7080,16 @@ assert
 Predicates
 \end_layout
 
-\begin_layout Subsection
-Logical Functions
-\end_layout
-
-\begin_layout Subsubsection
-not
-\end_layout
-
-\begin_layout Subsubsection
-and
-\end_layout
-
-\begin_layout Subsubsection
-or
+\begin_layout Standard
+Predicates are a general class of functions which either return 
+\emph on
+nil
+\emph default
+ to signify falsehood, or a non
+\emph on
+-nil
+\emph default
+ value for truth.
 \end_layout
 
 \begin_layout Subsection
@@ -7860,36 +7097,714 @@ Comparisons
 \end_layout
 
 \begin_layout Subsubsection
+eq? <a> <b>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
 eq?
+\emph default
+ function compares two expressions to see if they are the same physical
+ object in the interpreter memory.
+ In other words it returns 
+\emph on
+true if 
+\emph default
+the by-value references passed in as parameters are the same, otherwise
+ 
+\emph on
+nil
+\emph default
+ is returned.
+ Examples:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Expression
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+eq?
+\emph default
+ return
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+eq? ^a ^a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+eq? 1 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nil
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+eq? 'c' 'c'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nil
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
 equal?
 \end_layout
 
+\begin_layout Standard
+The 
+\emph on
+equal?
+\emph default
+ function compares the contents of two expressions and returns 
+\emph on
+true 
+\emph default
+if they have the same value, otherwise 
+\emph on
+nil.
+ 
+\emph default
+If two expressions are 
+\emph on
+eq?
+\emph default
+ they are always 
+\emph on
+equal?
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Expression
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+equal?
+\emph default
+ return
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equal? ^a ^a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equal? 1 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equal? 'c' 'c'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equal? ^(1 2) ^(1 2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equal? (dict (.a=2))(dict(.a=2))
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 >
+\end_layout
+
+\begin_layout Standard
+The greater than function returns 
+\emph on
+true
+\emph default
+ if its first argument is numerically greater than its second argument.
 \end_layout
 
 \begin_layout Subsubsection
 <
 \end_layout
 
+\begin_layout Standard
+The greater than function returns 
+\emph on
+true
+\emph default
+ if its first argument is numerically less than its second argument.
+\end_layout
+
 \begin_layout Subsection
-\begin_inset Index
-status collapsed
+Logical Functions
+\end_layout
+
+\begin_layout Standard
+Genyris has a set of boolean functions which expect arguments which are
+ either 
+\emph on
+nil
+\emph default
+ to signify falsehood or non-nil for truth.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+not <x>, null?
+\end_layout
+
+\begin_layout Standard
+If the argument is 
+\emph on
+nil 
+\emph default
+these functions return 
+\emph on
+true
+\emph default
+ otherwise 
+\emph on
+nil 
+\emph default
+is returned
+\emph on
+.
+\end_layout
+
+\begin_layout Subsubsection
+and <a1> <a2> ...
+\end_layout
+
+\begin_layout Standard
+This macro executes its arguments in turn, if an argument evaluates to a
+ 
+\emph on
+nil
+\emph default
+ value execution stops and it returns 
+\emph on
+nil.
+ 
+\emph default
+Otherwise execution continues to the last argument whose value is returned.
+ Examples:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
 
 \begin_layout Plain Layout
-null?
+Expression
 \end_layout
 
 \end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
 
-null?
+\begin_layout Plain Layout
+Result
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Comment
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+and 1 2 3 4 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+and 1 2 3 nil 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nil
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+and (print 1) (print 2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Both 1 and 2 are printed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+and (not (print 1)) (print 2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nil
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 is printed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+or
+\end_layout
+
+\begin_layout Standard
+This macro executes its arguments in turn, if an argument evaluates to a
+ non-
+\emph on
+nil
+\emph default
+ value execution stops and it returns 
+\emph on
+true.
+ 
+\emph default
+Examples
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Expression
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Result
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Comment
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+or 1 2 3 4 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+or nil 2 3 nil 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+or (print 1) (print 2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 is printed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+or (not (print 1)) (print 2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 and 2 are printed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Closures
+\end_layout
+
+\begin_layout Standard
+Closures are executable objects which retain the environment in which they
+ were created fir use during execution at a later time.
 \end_layout
 
 \begin_layout Subsection
@@ -8055,16 +7970,1960 @@ is-instance?
 Constants
 \end_layout
 
+\begin_layout Standard
+The interpreter pre-loads a number of bindings in the global environment
+ which are treated by users as constants.
+\end_layout
+
 \begin_layout Subsection
 nil
+\end_layout
+
+\begin_layout Standard
+This symbol is used to denote an empty list, the end of a list.
+ It is used by the conditiona macro 
+\emph on
+cond
+\emph default
+ amongst others to denote falsehood.
+ 
+\emph on
+nil
+\emph default
+ is bound to itself in the global environment.
+ The empty list 
+\emph on
+() 
+\emph default
+is a synonym for nil.
 \end_layout
 
 \begin_layout Subsection
 EOF
 \end_layout
 
+\begin_layout Standard
+Used to denote the End Of File, this symbol causes a parser to exit if seen.
+\end_layout
+
 \begin_layout Subsection
 true
+\end_layout
+
+\begin_layout Standard
+A convenient symbol used to explicitly signal the opposit of nil, this is
+ also bound to itself in the global environment.
+\end_layout
+
+\begin_layout Section
+Tasks - Multiple Threads of Execution
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Tasks
+\emph default
+ in Genyris are modelled on Unix processes.
+ They are seperate interpreter instances where shared memory is minimal,
+ and communication is conducted via system objects outside of the interpreters
+ themselves.
+ This approach relieves the programmer with the burden of debugging multi-thread
+ed code yet retains the advantages of asynchronous execution, multi-core
+ hardware.
+ This implementation uses a single Java thread per interpreter and uses
+ Java in-process objects for inter-task communication.
+\end_layout
+
+\begin_layout Subsection
+Running Multiple Interpreters in the Same Process with 
+\emph on
+spawn
+\end_layout
+
+\begin_layout LyX-Code
+spawn <source file to include> <args ...>
+\end_layout
+
+\begin_layout Standard
+Spawn creates a new Genyris interpreter instance which is then executed
+ by a seperate Java thread.
+ Only the objects passed as parameters are shared between interpreter threads.
+ They all share the same operating system interfaces, files, sockets etc
+ since they are running in the same process.
+ The function returns a 
+\emph on
+Task
+\emph default
+ object, which is a Dictionary containing, the name, id and state of the
+ underlying Java thread.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+spawn 'testscripts/spawn-example.g' 1 2 3 4 5
+\end_layout
+
+\begin_layout Standard
+returns:
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.id = 9) (.name = 'examples/spawn-example.g') (.state = 'RUNNABLE'))
+ # Task Dictionary
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+spawn-example.g 
+\emph default
+file contains:
+\end_layout
+
+\begin_layout LyX-Code
+@prefix sys 'http://www.genyris.org/lang/system#'
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+while true
+\end_layout
+
+\begin_layout LyX-Code
+   print sys:argv
+\end_layout
+
+\begin_layout LyX-Code
+   sleep 5000
+\end_layout
+
+\begin_layout Standard
+The output is:
+\end_layout
+
+\begin_layout LyX-Code
+'examples/spawn-example.g' 1 2 3 4 5
+\end_layout
+
+\begin_layout LyX-Code
+'examples/spawn-example.g' 1 2 3 4 5
+\end_layout
+
+\begin_layout LyX-Code
+...
+\end_layout
+
+\begin_layout Subsection
+Termination with 
+\family typewriter
+\emph on
+kill
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+Tasks and the underlying Java threads are killed with the
+\emph on
+ task:kill
+\emph default
+ function.
+ This is also available as the 
+\emph on
+.kill
+\emph default
+ method in the 
+\emph on
+Task
+\emph default
+ class.
+ A string is returned after completion.
+ Note there is no guarantee from java that the thread will be terminated.
+\end_layout
+
+\begin_layout LyX-Code
+<Thread>(.kill)
+\end_layout
+
+\begin_layout Standard
+or
+\end_layout
+
+\begin_layout LyX-Code
+@prefix task 'http://www.genyris.org/lang/task#'
+\end_layout
+
+\begin_layout LyX-Code
+task:kill <integer Java thread id>
+\end_layout
+
+\begin_layout Subsection
+Thread Safety
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+spawn
+\emph default
+ function provides a way of multi-tasking sections of an application.
+ This allows seperate interpreter instances to execute, and share some common
+ value objects passed by main arguments.
+ The interpreter does not cater for multiple threads of execution running
+ within the same interpreter scope.
+ Although it is technically possible to any genyris objects including functions
+ between tasks, this is not supported.
+ This is because execution of stored closures will mean two interpreters
+ are operating in the same environment.
+ 
+\end_layout
+
+\begin_layout Standard
+Genyris 
+\emph on
+Tasks 
+\emph default
+are not 
+\emph on
+Threads
+\emph default
+ the intent is that they are self-contained, supporting single-threaded
+ applications only.
+ However since the underlying Java objects must be shared between tasks
+ for inter-task communication, a means of making this thread-safe is provided.
+\end_layout
+
+\begin_layout Subsection
+
+\emph on
+task:synchronized
+\emph default
+ - Controlling access to shared objects
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+spawn
+\emph default
+ and 
+\emph on
+httpd
+\emph default
+ functions allow Genyris objects to be passed from one thread of execution
+ to another.
+ This is provided so that system objects such as pipes, files etc can be
+ shared.
+ 
+\end_layout
+
+\begin_layout Standard
+Both tasks have references to the same in-memory objects, and there is real
+ danger that the actions of one thread will corrupt the objects used by
+ another.
+ The 
+\emph on
+synchronized
+\emph default
+ macro ensures that developers can serialise access to shared objects.
+ The syntax is as follows:
+\end_layout
+
+\begin_layout LyX-Code
+task:synchronized <object>
+\end_layout
+
+\begin_layout LyX-Code
+    <code body>
+\end_layout
+
+\begin_layout LyX-Code
+    ....
+\end_layout
+
+\begin_layout Standard
+The effect of the macro is to wait for an implicit lock associated with
+ the 
+\emph on
+<object>
+\emph default
+ to become free.
+ When the lock is free the thread sets the lock and executes the 
+\emph on
+code body
+\emph default
+.
+ When the execution completes the lock is freed ready for another thread.
+ A test-case:
+\end_layout
+
+\begin_layout Standard
+A task loops, watching a shared 
+\emph on
+Pair
+\emph default
+, checking to see if the 
+\emph on
+left
+\emph default
+ value is ever 1.
+ If so it raises an error.
+
+\emph on
+ 
+\end_layout
+
+\begin_layout LyX-Code
+task:synchronized shared
+\end_layout
+
+\begin_layout LyX-Code
+     read-value = (shared.left)
+\end_layout
+
+\begin_layout LyX-Code
+cond
+\end_layout
+
+\begin_layout LyX-Code
+     (equal? 1 read-value)
+\end_layout
+
+\begin_layout LyX-Code
+            raise "error"
+\end_layout
+
+\begin_layout Standard
+A second task loops, changing the value from 0 to 1 and back.
+\end_layout
+
+\begin_layout LyX-Code
+task:synchronized shared
+\end_layout
+
+\begin_layout LyX-Code
+        shared (.left = 1)
+\end_layout
+
+\begin_layout LyX-Code
+        sleep 13
+\end_layout
+
+\begin_layout LyX-Code
+        shared (.left = 0)
+\end_layout
+
+\begin_layout LyX-Code
+        sleep 23
+\end_layout
+
+\begin_layout Standard
+Because both tasks are executing this code in the scope of a 
+\emph on
+synchronized
+\emph default
+ call, with the same shared lock object, the first task never sees the value
+ altered to 1 by the second task.
+ Without the 
+\emph on
+synchronized
+\emph default
+ macro the first task sees the manipulations of the second.
+\end_layout
+
+\begin_layout Subsection
+
+\emph on
+ps
+\emph default
+ - list current running threads
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+ps
+\emph default
+ function returns a list of 
+\emph on
+Task
+\emph default
+ objects for each of the current tasks.
+\end_layout
+
+\begin_layout Part
+Libraries
+\end_layout
+
+\begin_layout Section
+Maths Functions
+\end_layout
+
+\begin_layout Standard
+Genyris includes basic arithmetic operations on Bigum obects.
+\end_layout
+
+\begin_layout Subsection
++ &rest args
+\end_layout
+
+\begin_layout Standard
+This function computes the sum of its arguments, which may be many.
+\end_layout
+
+\begin_layout Subsection
+-
+\end_layout
+
+\begin_layout Standard
+This function computes the accumulated difference of its arguments, which
+ may be many.
+ Example:
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+(- 1 2 3) = -4 
+\end_layout
+
+\begin_layout Subsection
+*
+\end_layout
+
+\begin_layout Standard
+This function computes the product of its arguments, which must number at
+ two or more.
+\end_layout
+
+\begin_layout Subsection
+/
+\end_layout
+
+\begin_layout Standard
+This function computes the quotient of its arguments, which must number
+ at two or more.
+\end_layout
+
+\begin_layout Subsection
+%
+\end_layout
+
+\begin_layout Standard
+This function computes the remainder of its arguments, which must number
+ at two or more.
+\end_layout
+
+\begin_layout Subsection
+power
+\end_layout
+
+\begin_layout Standard
+This function calculates the first argument raised to the power of the second.
+ Example: 
+\emph on
+(power 2 8) => 256
+\end_layout
+
+\begin_layout Section
+Time and Dates
+\end_layout
+
+\begin_layout Subsection
+System.ticks - Current system time in milliseconds since the epoch
+\end_layout
+
+\begin_layout LyX-Code
+> System!ticks
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+1266995579117 # Bignum
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> format-date 0 "dd MMM yyyy HH:mm:ss Z" 'GMT'
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+'01 Jan 1970 00:00:00 +0000' # String
+\end_layout
+
+\begin_layout Subsection
+now - Current system time in milliseconds since the epoch
+\end_layout
+
+\begin_layout Standard
+Convenience function.
+\end_layout
+
+\begin_layout Subsection
+format-date <epoch milliseconds> <format String> <timezone>
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout LyX-Code
+> format-date (System!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+'24 Feb 2010 18:11:41 EST' # String  
+\end_layout
+
+\begin_layout Subsection
+calendar <epoch milliseconds> <timezone>
+\end_layout
+
+\begin_layout Standard
+Returns a Calendar (dictionary) with the following properties:
+\end_layout
+
+\begin_layout Description
+.am-pm = symbol indicating AM or PM
+\end_layout
+
+\begin_layout Description
+.day-of-month = Integer day of the month starting with 1.
+\end_layout
+
+\begin_layout Description
+.day-of-week = Integer day of the week starting with Sunday which is 1.
+\end_layout
+
+\begin_layout Description
+.day-of-week-in-month = Ordinal number of the day of the week within the
+ current month.
+\end_layout
+
+\begin_layout Description
+.day-of-year = The day number within the current year starting with 1.
+\end_layout
+
+\begin_layout Description
+.dst-offset = Daylight savings offset in milliseconds
+\end_layout
+
+\begin_layout Description
+.era = symbol AD or BC
+\end_layout
+
+\begin_layout Description
+.hour = Hour of the day (12 hour clock)
+\end_layout
+
+\begin_layout Description
+.hour-of-day = Hour of the day (24 hour clock)
+\end_layout
+
+\begin_layout Description
+.millisecond = e.g.
+ 93
+\end_layout
+
+\begin_layout Description
+.minute = e.g.
+ 2
+\end_layout
+
+\begin_layout Description
+.month = Integer month starting with January, which is 0
+\end_layout
+
+\begin_layout Description
+.second = e.g.
+ 42
+\end_layout
+
+\begin_layout Description
+.week-of-month = Week in the month starting from 1.
+\end_layout
+
+\begin_layout Description
+.week-of-year = Week number in the year starting from 1.
+\end_layout
+
+\begin_layout Description
+.year = e.g.
+ 2010
+\end_layout
+
+\begin_layout Description
+.zone-offset = Timezone offset in milliseconds from GMT
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout LyX-Code
+> print (calendar (System!ticks))
+\end_layout
+
+\begin_layout LyX-Code
+dict (.am-pm = pm)
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-month = 10
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-week = 4
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-week-in-month = 2
+\end_layout
+
+\begin_layout LyX-Code
+.day-of-year = 69
+\end_layout
+
+\begin_layout LyX-Code
+.dst-offset = 1
+\end_layout
+
+\begin_layout LyX-Code
+.era = AD
+\end_layout
+
+\begin_layout LyX-Code
+.hour = 10
+\end_layout
+
+\begin_layout LyX-Code
+.hour-of-day = 22
+\end_layout
+
+\begin_layout LyX-Code
+.millisecond = 93
+\end_layout
+
+\begin_layout LyX-Code
+.minute = 2
+\end_layout
+
+\begin_layout LyX-Code
+.month = 2
+\end_layout
+
+\begin_layout LyX-Code
+.second = 42
+\end_layout
+
+\begin_layout LyX-Code
+.week-of-month = 2
+\end_layout
+
+\begin_layout LyX-Code
+.week-of-year = 11
+\end_layout
+
+\begin_layout LyX-Code
+.year = 2010
+\end_layout
+
+\begin_layout LyX-Code
+.zone-offset = 10
+\end_layout
+
+\begin_layout Section
+Input and Output
+\end_layout
+
+\begin_layout Subsubsection
+Global Output Functions
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+print
+\end_layout
+
+\end_inset
+
+print<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream as if typed
+ in by a user in indented format.
+ - strings are quoted, escape characters are output.
+ Arguments on the output are seperated by a newline.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+print ^(1 'w
+\backslash
+n' (x y))
+\end_layout
+
+\begin_layout LyX-Code
+  
+\end_layout
+
+\begin_layout LyX-Code
+1 'w
+\backslash
+n'
+\end_layout
+
+\begin_layout LyX-Code
+   x y  
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+write
+\end_layout
+
+\end_inset
+
+write<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream with parenthesis
+ syntax.
+ - strings are quoted, escape characters are output.
+ Arguments are output sequentially without space padding.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+write ^(1 2 (e) 'w')
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(1 2 (e) 'w')
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+display
+\end_layout
+
+\end_inset
+
+display<arg1>...<argn>
+\end_layout
+
+\begin_layout Standard
+Outputs its arguments to the current standard output stream without syntax.
+ - strings are not quoted, escape characters are not output.
+ Arguments are output sequentially without padding.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+display ^(1 'w
+\backslash
+n' (x y))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(1 w
+\end_layout
+
+\begin_layout LyX-Code
+ (x y))
+\end_layout
+
+\begin_layout Subsubsection
+Global Input Functions
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+read
+\end_layout
+
+\end_inset
+
+read
+\end_layout
+
+\begin_layout Standard
+Reads an expression from the standard input.
+\end_layout
+
+\begin_layout Subsubsection
+Class 
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+Writer
+\end_layout
+
+\end_inset
+
+Writer
+\end_layout
+
+\begin_layout Standard
+A class which accepts a stream of characters.
+\end_layout
+
+\begin_layout Paragraph
+Methods
+\end_layout
+
+\begin_layout Description
+.
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+close
+\end_layout
+
+\end_inset
+
+close() Closes the current output stream.
+\end_layout
+
+\begin_layout Description
+.
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+flush
+\end_layout
+
+\end_inset
+
+flush() Forces all buffered output to be written to the device.
+\end_layout
+
+\begin_layout Description
+.
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+format
+\end_layout
+
+\end_inset
+
+format <format-string><arg1>...<argn> Outputs the args as dictated by the format-st
+ring.
+ The format string is a normal string with the special format sequences.
+ Each format sequence must be matched by a corresponding argument to format,
+ used in order.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+%a Outputs the argument without syntax - strings are unquoted, escape characters
+ are not output
+\end_layout
+
+\begin_layout Description
+%s Outputs the argument using if entered by a user - strings are quoted,
+ escape characters are not output
+\end_layout
+
+\begin_layout Description
+%x Outputs the argument as XML using an XmlWriter
+\end_layout
+
+\begin_layout Description
+%u Outputs the argument as a URL encoded string suitable for HTTP URLS
+\end_layout
+
+\begin_layout Description
+%n Outputs a linefeed
+\end_layout
+
+\begin_layout Description
+%% Outputs a % character
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+stdout(.format '%s %a %x %n' 'Hello' 'World' ^(img ((width= 23))))
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+'Hello' World <img width="23"/>
+\end_layout
+
+\begin_layout Paragraph
+Global Variables
+\end_layout
+
+\begin_layout Description
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+stdout
+\end_layout
+
+\end_inset
+
+stdout A global variable which holds a 
+\emph on
+Writer
+\emph default
+ pointing the current Standard output device, typically the console.
+\end_layout
+
+\begin_layout Subsubsection
+Class Reader
+\end_layout
+
+\begin_layout Paragraph
+Globals
+\end_layout
+
+\begin_layout Description
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+stdin
+\end_layout
+
+\end_inset
+
+stdin A global variable which holds a 
+\emph on
+Reader
+\emph default
+ pointing the current Standard Input device, typically the console.
+\end_layout
+
+\begin_layout Standard
+(To be completed)
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset CommandInset index_print
+LatexCommand printindex
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Input
+\end_layout
+
+\begin_layout Subsection
+stdin
+\end_layout
+
+\begin_layout Subsection
+ParenParser
+\end_layout
+
+\begin_layout Subsubsection
+.new
+\end_layout
+
+\begin_layout Subsubsection
+.close
+\end_layout
+
+\begin_layout Subsubsection
+.read
+\end_layout
+
+\begin_layout Subsubsection
+.hasData
+\end_layout
+
+\begin_layout Subsection
+Parser
+\end_layout
+
+\begin_layout Subsection
+StringFormatStream
+\end_layout
+
+\begin_layout Subsubsection
+.new
+\end_layout
+
+\begin_layout Subsection
+Fetching HTTP Pages
+\end_layout
+
+\begin_layout Subsubsection
+web:get <url> [<request headers>]
+\end_layout
+
+\begin_layout Standard
+Content can be fetched from web servers using the web: get function.
+ This takes as input a URL string and an option alist of request headers.
+ It sends the GET request to web server and the returns the response content
+ in a Reader stream.
+ The response must have the 200 'OK' status code otherwise an exception
+ is raised.
+\end_layout
+
+\begin_layout Standard
+Example, fetching the root file from the localhost server on port 80, providing
+ a 'Basic' authentication header.
+\end_layout
+
+\begin_layout LyX-Code
+web:get 'http://localhost:8080/' =
+\end_layout
+
+\begin_layout LyX-Code
+        ^(('authorization' = 'Basic Zm9vOmJhcg=='))
+\end_layout
+
+\begin_layout Section
+Output
+\end_layout
+
+\begin_layout Subsection
+write
+\end_layout
+
+\begin_layout Subsection
+display
+\end_layout
+
+\begin_layout Subsection
+print
+\end_layout
+
+\begin_layout Subsection
+format
+\end_layout
+
+\begin_layout Subsubsection
+web:get
+\end_layout
+
+\begin_layout Section
+File
+\end_layout
+
+\begin_layout Subsection
+.new
+\end_layout
+
+\begin_layout Subsection
+.open
+\end_layout
+
+\begin_layout Subsection
+.format
+\end_layout
+
+\begin_layout Subsection
+.close
+\end_layout
+
+\begin_layout Subsection
+.hasData
+\end_layout
+
+\begin_layout Subsection
+.read
+\end_layout
+
+\begin_layout Subsection
+.static-open
+\end_layout
+
+\begin_layout Section
+Loading Data in Comma-Separated-Value Files
+\end_layout
+
+\begin_layout Standard
+The builtin 
+\emph on
+CSV
+\emph default
+ class is provided for reading data from CSV files.
+ 
+\end_layout
+
+\begin_layout Subsection
+.read <InStream> field-separator quote-char
+\end_layout
+
+\begin_layout Standard
+The CSV class has a single static method 
+\emph on
+.read 
+\emph default
+which takes an input stream as it's first parameter.
+ Despite the name CSV files can come in a variety of formats, hence the
+ method expects the field-seperator character and field quote character
+ as parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+The result is a list of rows.
+ Each row is itself a list of the fields parsed.
+\end_layout
+
+\begin_layout Standard
+Example.
+ Read a comma-delimited file:
+\end_layout
+
+\begin_layout LyX-Code
+CSV
+\end_layout
+
+\begin_layout LyX-Code
+   .read ((File(.new 'my file')) (.open ^read)) = 
+\end_layout
+
+\begin_layout LyX-Code
+       ',' '
+\begin_inset Quotes erd
+\end_inset
+
+'
+\end_layout
+
+\begin_layout Section
+Running Web Servers
+\end_layout
+
+\begin_layout Standard
+Genyris can run multiple a single-threaded HTTP 1.0 servers in Tasks in the
+ background.
+ The web server is implemented in Java and provides a simple interface.
+\end_layout
+
+\begin_layout Subsubsection
+Starting a web server
+\end_layout
+
+\begin_layout Standard
+A Genyris new interpreter can be started as a server with the 
+\emph on
+httpd
+\emph default
+ function:
+\end_layout
+
+\begin_layout LyX-Code
+httpd <port> <path to source file> [args...]
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+httpd
+\emph default
+ function takes parameters:
+\end_layout
+
+\begin_layout Itemize
+the path of a Genyris source file to load and run
+\end_layout
+
+\begin_layout Itemize
+the TCP/IP port number on which the server will listen for requests.
+\end_layout
+
+\begin_layout Itemize
+all the remaining parameters are collected in a list and bound to 
+\emph on
+sys.argv
+\end_layout
+
+\begin_layout Standard
+The return value is a 
+\emph on
+Task
+\emph default
+ object for the web server.
+ Many web servers can be started in the same JVM, each server is allocated
+ a unique interpreter instance, there is no sharing between interpreters
+ apart from the 
+\emph on
+args 
+\emph default
+passed in
+\emph on
+.
+\end_layout
+
+\begin_layout Standard
+The URL for the browser would be 
+\emph on
+http://localhost:8080/
+\emph default
+.
+ The server is terminated by killing the thread, or by coding an explicit
+ exit function within the web application.
+\end_layout
+
+\begin_layout Paragraph
+Example
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+httpd 7777 'examples/www-demo.g' 1 2 3 4 5
+\end_layout
+
+\begin_layout Subsubsection
+Stopping a web server
+\end_layout
+
+\begin_layout Standard
+The server's thread can be stopped with the 
+\emph on
+kill
+\emph default
+ functions described above.
+\end_layout
+
+\begin_layout Subsubsection
+Processing Web Requests
+\end_layout
+
+\begin_layout Standard
+The web server main loop expects to fnd a function called 
+\emph on
+httpd-serve 
+\emph default
+which it calls for each web GET or POST request recieved from clients.
+ The request from the remote client is passed to the function as a single
+ parameter.
+ The return from the function call must contain the response to be sent
+ to the browser.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Example
+\end_layout
+
+\begin_layout LyX-Code
+df httpd-serve (request)
+\end_layout
+
+\begin_layout LyX-Code
+   list 200 'text/plain' 'Hello World'
+\end_layout
+
+\begin_layout Paragraph
+Requests - HttpRequest class
+\end_layout
+
+\begin_layout Standard
+The request parameter is an object of class 
+\emph on
+HttpRequest
+\emph default
+.
+ The class has the following methods which return components of the request:
+\end_layout
+
+\begin_layout Description
+.getMethod() GET or POST
+\end_layout
+
+\begin_layout Description
+.getPath() Path component of the UL
+\end_layout
+
+\begin_layout Description
+.getHeaders() an 
+\emph on
+AList
+\emph default
+ containing the headers
+\end_layout
+
+\begin_layout Description
+.getParameters() an 
+\emph on
+aList
+\emph default
+ containing GET or POST parameters
+\end_layout
+
+\begin_layout Description
+.getClient() gives a Pair containing the client's IP address and hostname
+\end_layout
+
+\begin_layout Description
+.getBasicUsernamePassword() Returns the Basic Authentication scheme header
+ as a dictionary with 
+\emph on
+.username
+\emph default
+ and 
+\emph on
+.password
+\emph default
+ strings.
+ If no auth is present, the username and passwords are empty strings.
+\end_layout
+
+\begin_layout Description
+.toHTML() a method returning an HTML list structure in %x format.
+\end_layout
+
+\begin_layout Paragraph
+Responses
+\end_layout
+
+\begin_layout Standard
+The return value from the 
+\emph on
+httpd-serve 
+\emph default
+function is anlaysed by the web server and executed as required.
+ There are two types of response:
+\end_layout
+
+\begin_layout Itemize
+Instruction to serve a file from the file system as a 'static' page
+\end_layout
+
+\begin_layout Itemize
+A data structure to be converted to XHTML and transmittted
+\end_layout
+
+\begin_layout Paragraph
+Static Pages
+\end_layout
+
+\begin_layout Standard
+If the return value is a list of the form:
+\end_layout
+
+\begin_layout LyX-Code
+SERVE-FILE <root Directory Path> <Path to File> [<list directory flag>]
+\end_layout
+
+\begin_layout Standard
+Then the file referred to by the path <root Directory Path>/<Path to File>
+ is served to the client.
+ If the file is a directory, and the <list directory flag> is the symbol
+ 
+\emph on
+ls
+\emph default
+, then the directory listing is returned to the client in HTML.
+ The following function provides a simple static web server:
+\end_layout
+
+\begin_layout LyX-Code
+df httpd-serve (request)
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+list ^SERVE-FILE '/' (request(.getPath)) ^ls
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Http Responses in XML list structures
+\end_layout
+
+\begin_layout Standard
+If the response is a list of the form:
+\end_layout
+
+\begin_layout LyX-Code
+<integer status code> <mime type> <tree>
+\end_layout
+
+\begin_layout Standard
+then the web server converts <tree> into the relevant encoding and transmits
+ it to the client.
+ The conversion depends on the <mime type>.
+ 
+\end_layout
+
+\begin_layout Subparagraph
+text/plain
+\end_layout
+
+\begin_layout Standard
+This type of response uses the parenthesised Genyris output formatter to
+ display the <tree>.
+ It is equivalent to the %s directive in the %format instruction.
+\end_layout
+
+\begin_layout Subparagraph
+text/html
+\end_layout
+
+\begin_layout Standard
+This type of response must be in the XML format as used by the 
+\emph on
+%x
+\emph default
+ directive in the 
+\emph on
+format
+\emph default
+ function.
+ This format requires XML tags to be symbols, followed by an attribute list.
+ Strings an sub-tags are interleaved.
+ The general grammar is:
+\end_layout
+
+\begin_layout LyX-Code
+xml=tree :== html-tag ((attribute = 'value')...)
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+['inner text' |<xml-tree> ] ...
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+For example, the expression:
+\end_layout
+
+\begin_layout LyX-Code
+u:format '%x'
+\end_layout
+
+\begin_layout LyX-Code
+   quote
+\end_layout
+
+\begin_layout LyX-Code
+     html()
+\end_layout
+
+\begin_layout LyX-Code
+      head()
+\end_layout
+
+\begin_layout LyX-Code
+        title() "Lamp Server"
+\end_layout
+
+\begin_layout LyX-Code
+          body()
+\end_layout
+
+\begin_layout LyX-Code
+             form()
+\end_layout
+
+\begin_layout LyX-Code
+                input((name="op") (size="100") (value =none)) ""
+\end_layout
+
+\begin_layout LyX-Code
+                   verbatim() "&nbsp;&nbsp;&nbsp;"
+\end_layout
+
+\begin_layout LyX-Code
+                   input((type="submit") (value="Go"))
+\end_layout
+
+\begin_layout Standard
+Is converted to the corresponding XML string:
+\end_layout
+
+\begin_layout LyX-Code
+<html><head><title>Lamp Server<body><form><input name="op" size="100" value="non
+e">&nbsp;&nbsp;&nbsp;<input type="submit" value="Go"/></input></form></body></ti
+tle></head></html> 
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+verbatim
+\emph default
+ pseudo-tag passes text transparently.
+ This example (from 
+\emph on
+examples/www-demo.g
+\emph default
+) echoes the input request in HTML:
+\end_layout
+
+\begin_layout LyX-Code
+df httpd-serve (request)
+\end_layout
+
+\begin_layout LyX-Code
+   list 200 'text/html'
+\end_layout
+
+\begin_layout LyX-Code
+      template
+\end_layout
+
+\begin_layout LyX-Code
+          html()
+\end_layout
+
+\begin_layout LyX-Code
+             head()
+\end_layout
+
+\begin_layout LyX-Code
+                title() 'Genyris demo'
+\end_layout
+
+\begin_layout LyX-Code
+             body()
+\end_layout
+
+\begin_layout LyX-Code
+                pre() ,sys.argv
+\end_layout
+
+\begin_layout LyX-Code
+                ,(request (.toHTML))
+\end_layout
+
+\begin_layout Subsubsection
+Starting a static web server
+\end_layout
+
+\begin_layout Standard
+A static page web server can be started with the 
+\emph on
+www-static
+\emph default
+ script:
+\end_layout
+
+\begin_layout LyX-Code
+httpd <port> "testscripts/www-static.g" <root directory>
+\end_layout
+
+\begin_layout Section
+Genyris Classes
+\end_layout
+
+\begin_layout Subsection
+Class Hierarchy
+\end_layout
+
+\begin_layout Standard
+insert diagram here.
+\end_layout
+
+\begin_layout Subsection
+Thing
+\end_layout
+
+\begin_layout Subsubsection
+.vars
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!vars
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+.self
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!self
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+.classes
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!classes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+.valid?
+\begin_inset Index
+status collapsed
+
+\begin_layout Plain Layout
+!valid?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+StandardClass
+\end_layout
+
+\begin_layout Subsubsection
+.classname
+\end_layout
+
+\begin_layout Subsubsection
+.subclasses
+\end_layout
+
+\begin_layout Subsubsection
+.superclasses
+\end_layout
+
+\begin_layout Subsubsection
+.vars
+\end_layout
+
+\begin_layout Subsection
+Builtin
+\end_layout
+
+\begin_layout Subsection
+String
+\end_layout
+
+\begin_layout Subsubsection
+.match
+\end_layout
+
+\begin_layout Subsubsection
+.length
+\end_layout
+
+\begin_layout Subsubsection
+.split
+\end_layout
+
+\begin_layout Subsubsection
+.replace <searchstring> <replacement>
+\end_layout
+
+\begin_layout Standard
+Returns a new string with every occurence of 
+\emph on
+<searchstring>
+\emph default
+ replaced with 
+\emph on
+<replacement>
+\end_layout
+
+\begin_layout Subsubsection
+.+
+\end_layout
+
+\begin_layout Subsubsection
+.toBase64
+\end_layout
+
+\begin_layout Standard
+Returns the string converted into a Base64 encoded string.
+ The returned string is tagged with the class string 
+\emph on
+Base64EncodedString.
+
+\emph default
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> 'foo:bar'(.toBase64)
+\end_layout
+
+\begin_layout LyX-Code
+'Zm9vOmJhcg==' # Base64EncodedString String
+\end_layout
+
+\begin_layout Subsubsection
+.fromBase64
+\end_layout
+
+\begin_layout Standard
+Decodes a Base 64 encoded string into the binary original.
+ This is also available in the 
+\emph on
+Base64EncodedString
+\emph default
+ class
+\emph on
+ 
+\emph default
+as the 
+\emph on
+.decode
+\emph default
+ method.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> 'Zm9vOmJhcg=='(.fromBase64)
+\end_layout
+
+\begin_layout LyX-Code
+'foo:bar' # String
+\end_layout
+
+\begin_layout Subsection
+Dictionary
+\end_layout
+
+\begin_layout Subsubsection
+dict
+\end_layout
+
+\begin_layout Subsubsection
+Accessing properties with .
+\end_layout
+
+\begin_layout Subsection
+Bignum
+\end_layout
+
+\begin_layout Subsection
+Double
+\end_layout
+
+\begin_layout Subsection
+Closure
+\end_layout
+
+\begin_layout Subsection
+LazyProcedure
+\end_layout
+
+\begin_layout Subsection
+EagerProcedure
+\end_layout
+
+\begin_layout Subsection
+PRINTWITHCOLON
+\end_layout
+
+\begin_layout Subsection
+Pair
+\end_layout
+
+\begin_layout Subsubsection
+list
+\end_layout
+
+\begin_layout Subsubsection
+car
+\end_layout
+
+\begin_layout Subsubsection
+cdr
+\end_layout
+
+\begin_layout Subsubsection
+left
+\end_layout
+
+\begin_layout Subsubsection
+right
+\end_layout
+
+\begin_layout Subsubsection
+cons
+\end_layout
+
+\begin_layout Subsubsection
+.left
+\end_layout
+
+\begin_layout Subsubsection
+.right
+\end_layout
+
+\begin_layout Subsubsection
+rplaca
+\end_layout
+
+\begin_layout Subsubsection
+rplacd
+\end_layout
+
+\begin_layout Subsubsection
+reverse
+\end_layout
+
+\begin_layout Subsubsection
+length
+\end_layout
+
+\begin_layout Subsubsection
+map-left
+\end_layout
+
+\begin_layout Subsubsection
+member?
+\end_layout
+
+\begin_layout Subsection
+Writer
+\end_layout
+
+\begin_layout Subsubsection
+.close
+\end_layout
+
+\begin_layout Subsubsection
+.format
+\end_layout
+
+\begin_layout Subsubsection
+.flush
+\end_layout
+
+\begin_layout Subsection
+Reader
+\end_layout
+
+\begin_layout Subsubsection
+.hasData
+\end_layout
+
+\begin_layout Subsubsection
+.read
+\end_layout
+
+\begin_layout Subsubsection
+.close
+\end_layout
+
+\begin_layout Subsection
+System
+\end_layout
+
+\begin_layout Subsubsection
+.exec
+\end_layout
+
+\begin_layout Subsubsection
+.getenv
+\end_layout
+
+\begin_layout Subsection
+Sound
+\end_layout
+
+\begin_layout Subsubsection
+.play
+\end_layout
+
+\begin_layout Section
+Reflection
+\end_layout
+
+\begin_layout Subsection
+Version Information
+\end_layout
+
+\begin_layout LyX-Code
+@prefix v "http://prefix.genyris.org/lang/version#" <http://prefix.genyris.org/lang/
+version#>
+\end_layout
+
+\begin_layout Subsubsection
+v:tipdate
+\end_layout
+
+\begin_layout Subsubsection
+v:tip
+\end_layout
+
+\begin_layout Subsection
+symlist
+\end_layout
+
+\begin_layout Subsection
+self-test-runner
 \end_layout
 
 \begin_layout Section
@@ -8242,9 +10101,15 @@ produces
 \end_layout
 
 \begin_layout LyX-Code
-(notifyAll getClass wait-long-int equals-java_lang_Object hashCode wait-long
- classname wait java-classname toString new notify superclasses subclasses
- self vars classes) # Pair 
+(notifyAll getClass wait-long-int equals-java_lang_Object
+\end_layout
+
+\begin_layout LyX-Code
+hashCode wait-long classname wait java-classname toString
+\end_layout
+
+\begin_layout LyX-Code
+new notify superclasses subclasses self vars classes) # Pair 
 \end_layout
 
 \begin_layout Standard
@@ -8354,8 +10219,15 @@ objects.
 \end_layout
 
 \begin_layout LyX-Code
-(separatorChar separator pathSeparatorChar pathSeparator self vars classes
- http://www.genyris.org/lang/java#class) # Pair 
+(separatorChar separator pathSeparatorChar pathSeparator
+\end_layout
+
+\begin_layout LyX-Code
+self vars classes http://www.genyris.org/lang/java#class) 
+\end_layout
+
+\begin_layout LyX-Code
+# Pair 
 \end_layout
 
 \begin_layout Standard
@@ -9092,22 +10964,6 @@ paintComponent
 \end_layout
 
 \begin_layout LyX-Code
-package org.genyris.java.swing;
-\end_layout
-
-\begin_layout LyX-Code
-import java.awt.Graphics;
-\end_layout
-
-\begin_layout LyX-Code
-import java.awt.event.ActionEvent;
-\end_layout
-
-\begin_layout LyX-Code
-import javax.swing.JPanel;
-\end_layout
-
-\begin_layout LyX-Code
 public class GPanel extends JPanel {
 \end_layout
 
@@ -9116,11 +10972,11 @@ public class GPanel extends JPanel {
 \end_layout
 
 \begin_layout LyX-Code
-	private GenyrisActionListener repaint;
+	private AbstractClosure repaint;
 \end_layout
 
 \begin_layout LyX-Code
-	public GPanel(GenyrisActionListener closure) {
+	public GPanel(AbstractClosure closure) {
 \end_layout
 
 \begin_layout LyX-Code
@@ -9140,15 +10996,43 @@ public class GPanel extends JPanel {
 \end_layout
 
 \begin_layout LyX-Code
-        if (repaint != null)
+		if (repaint != null) {
 \end_layout
 
 \begin_layout LyX-Code
-			repaint.actionPerformed(
+			Exp args[] = {             
 \end_layout
 
 \begin_layout LyX-Code
-                 new ActionEvent(g, 0, "repaint"));
+               JavaUtils.wrapJavaObject(repaint.getEnv(), g) 
+\end_layout
+
+\begin_layout LyX-Code
+            };
+\end_layout
+
+\begin_layout LyX-Code
+			try {
+\end_layout
+
+\begin_layout LyX-Code
+			   repaint.applyFunction(repaint.getEnv(), args);
+\end_layout
+
+\begin_layout LyX-Code
+			} catch (GenyrisException e) {
+\end_layout
+
+\begin_layout LyX-Code
+				e.printStackTrace();
+\end_layout
+
+\begin_layout LyX-Code
+			}
+\end_layout
+
+\begin_layout LyX-Code
+		}
 \end_layout
 
 \begin_layout LyX-Code
@@ -9157,6 +11041,10 @@ public class GPanel extends JPanel {
 
 \begin_layout LyX-Code
 }
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsection
@@ -9233,7 +11121,11 @@ All Genyris functions are implemented as normal Java classes.
 \end_layout
 
 \begin_layout LyX-Code
-[java.math.BigDecimal 123] # java_math_BigDecimal JavaWrapper 
+[java.math.BigDecimal 123] # java_math_BigDecimal
+\end_layout
+
+\begin_layout LyX-Code
+                                  JavaWrapper 
 \end_layout
 
 \begin_layout LyX-Code
@@ -9320,1116 +11212,6 @@ String
 \end_layout
 
 \begin_layout Section
-Maths Functions
-\end_layout
-
-\begin_layout Subsection
-+
-\end_layout
-
-\begin_layout Subsection
--
-\end_layout
-
-\begin_layout Subsection
-*
-\end_layout
-
-\begin_layout Subsection
-/
-\end_layout
-
-\begin_layout Subsection
-%
-\end_layout
-
-\begin_layout Subsection
-power
-\end_layout
-
-\begin_layout Section
-Input and Output
-\end_layout
-
-\begin_layout Subsubsection
-Global Output Functions
-\end_layout
-
-\begin_layout Paragraph
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-print
-\end_layout
-
-\end_inset
-
-print<arg1>...<argn>
-\end_layout
-
-\begin_layout Standard
-Outputs its arguments to the current standard output stream as if typed
- in by a user in indented format.
- - strings are quoted, escape characters are output.
- Arguments on the output are seperated by a newline.
- Example:
-\end_layout
-
-\begin_layout LyX-Code
-print ^(1 'w
-\backslash
-n' (x y))
-\end_layout
-
-\begin_layout LyX-Code
-  
-\end_layout
-
-\begin_layout LyX-Code
-1 'w
-\backslash
-n'
-\end_layout
-
-\begin_layout LyX-Code
-   x y  
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout Paragraph
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-write
-\end_layout
-
-\end_inset
-
-write<arg1>...<argn>
-\end_layout
-
-\begin_layout Standard
-Outputs its arguments to the current standard output stream with parenthesis
- syntax.
- - strings are quoted, escape characters are output.
- Arguments are output sequentially without space padding.
- Example:
-\end_layout
-
-\begin_layout LyX-Code
-write ^(1 2 (e) 'w')
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-(1 2 (e) 'w')
-\end_layout
-
-\begin_layout Paragraph
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-display
-\end_layout
-
-\end_inset
-
-display<arg1>...<argn>
-\end_layout
-
-\begin_layout Standard
-Outputs its arguments to the current standard output stream without syntax.
- - strings are not quoted, escape characters are not output.
- Arguments are output sequentially without padding.
- Example:
-\end_layout
-
-\begin_layout LyX-Code
-display ^(1 'w
-\backslash
-n' (x y))
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-(1 w
-\end_layout
-
-\begin_layout LyX-Code
- (x y))
-\end_layout
-
-\begin_layout Subsubsection
-Global Input Functions
-\end_layout
-
-\begin_layout Paragraph
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-read
-\end_layout
-
-\end_inset
-
-read
-\end_layout
-
-\begin_layout Standard
-Reads an expression from the standard input.
-\end_layout
-
-\begin_layout Subsubsection
-Class 
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-Writer
-\end_layout
-
-\end_inset
-
-Writer
-\end_layout
-
-\begin_layout Standard
-A class which accepts a stream of characters.
-\end_layout
-
-\begin_layout Paragraph
-Methods
-\end_layout
-
-\begin_layout Description
-.
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-close
-\end_layout
-
-\end_inset
-
-close() Closes the current output stream.
-\end_layout
-
-\begin_layout Description
-.
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-flush
-\end_layout
-
-\end_inset
-
-flush() Forces all buffered output to be written to the device.
-\end_layout
-
-\begin_layout Description
-.
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-format
-\end_layout
-
-\end_inset
-
-format <format-string><arg1>...<argn> Outputs the args as dictated by the format-st
-ring.
- The format string is a normal string with the special format sequences.
- Each format sequence must be matched by a corresponding argument to format,
- used in order.
- 
-\end_layout
-
-\begin_deeper
-\begin_layout Description
-%a Outputs the argument without syntax - strings are unquoted, escape characters
- are not output
-\end_layout
-
-\begin_layout Description
-%s Outputs the argument using if entered by a user - strings are quoted,
- escape characters are not output
-\end_layout
-
-\begin_layout Description
-%x Outputs the argument as XML using an XmlWriter
-\end_layout
-
-\begin_layout Description
-%u Outputs the argument as a URL encoded string suitable for HTTP URLS
-\end_layout
-
-\begin_layout Description
-%n Outputs a linefeed
-\end_layout
-
-\begin_layout Description
-%% Outputs a % character
-\end_layout
-
-\begin_layout Standard
-Example:
-\end_layout
-
-\end_deeper
-\begin_layout LyX-Code
-stdout(.format '%s %a %x %n' 'Hello' 'World' ^(img ((width= 23))))
-\end_layout
-
-\begin_layout LyX-Code
- 
-\end_layout
-
-\begin_layout LyX-Code
-'Hello' World <img width="23"/>
-\end_layout
-
-\begin_layout Paragraph
-Global Variables
-\end_layout
-
-\begin_layout Description
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-stdout
-\end_layout
-
-\end_inset
-
-stdout A global variable which holds a 
-\emph on
-Writer
-\emph default
- pointing the current Standard output device, typically the console.
-\end_layout
-
-\begin_layout Subsubsection
-Class Reader
-\end_layout
-
-\begin_layout Paragraph
-Globals
-\end_layout
-
-\begin_layout Description
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-stdin
-\end_layout
-
-\end_inset
-
-stdin A global variable which holds a 
-\emph on
-Reader
-\emph default
- pointing the current Standard Input device, typically the console.
-\end_layout
-
-\begin_layout Standard
-(To be completed)
-\end_layout
-
-\begin_layout LyX-Code
-\begin_inset CommandInset index_print
-LatexCommand printindex
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Input
-\end_layout
-
-\begin_layout Subsection
-stdin
-\end_layout
-
-\begin_layout Subsection
-ParenParser
-\end_layout
-
-\begin_layout Subsubsection
-.new
-\end_layout
-
-\begin_layout Subsubsection
-.close
-\end_layout
-
-\begin_layout Subsubsection
-.read
-\end_layout
-
-\begin_layout Subsubsection
-.hasData
-\end_layout
-
-\begin_layout Subsection
-Parser
-\end_layout
-
-\begin_layout Subsection
-StringFormatStream
-\end_layout
-
-\begin_layout Subsubsection
-.new
-\end_layout
-
-\begin_layout Subsection
-Fetching HTTP Pages
-\end_layout
-
-\begin_layout Subsubsection
-web:get <url> [<request headers>]
-\end_layout
-
-\begin_layout Standard
-Content can be fetched from web servers using the web: get function.
- This takes as input a URL string and an option alist of request headers.
- It sends the GET request to web server and the returns the response content
- in a Reader stream.
- The response must have the 200 'OK' status code otherwise an exception
- is raised.
-\end_layout
-
-\begin_layout Standard
-Example, fetching the root file from the localhost server on port 80, providing
- a 'Basic' authentication header.
-\end_layout
-
-\begin_layout LyX-Code
-web:get 'http://localhost:8080/' =
-\end_layout
-
-\begin_layout LyX-Code
-        ^(('authorization' = 'Basic Zm9vOmJhcg=='))
-\end_layout
-
-\begin_layout Section
-Output
-\end_layout
-
-\begin_layout Subsection
-write
-\end_layout
-
-\begin_layout Subsection
-display
-\end_layout
-
-\begin_layout Subsection
-print
-\end_layout
-
-\begin_layout Subsection
-format
-\end_layout
-
-\begin_layout Subsubsection
-web:get
-\end_layout
-
-\begin_layout Section
-File
-\end_layout
-
-\begin_layout Subsection
-.new
-\end_layout
-
-\begin_layout Subsection
-.open
-\end_layout
-
-\begin_layout Subsection
-.format
-\end_layout
-
-\begin_layout Subsection
-.close
-\end_layout
-
-\begin_layout Subsection
-.hasData
-\end_layout
-
-\begin_layout Subsection
-.read
-\end_layout
-
-\begin_layout Subsection
-.static-open
-\end_layout
-
-\begin_layout Section
-Loading Data in Comma-Separated-Value Files
-\end_layout
-
-\begin_layout Standard
-The builtin 
-\emph on
-CSV
-\emph default
- class is provided for reading data from CSV files.
- 
-\end_layout
-
-\begin_layout Subsection
-.read <InStream> field-separator quote-char
-\end_layout
-
-\begin_layout Standard
-The CSV class has a single static method 
-\emph on
-.read 
-\emph default
-which takes an input stream as it's first parameter.
- Despite the name CSV files can come in a variety of formats, hence the
- method expects the field-seperator character and field quote character
- as parameters.
- 
-\end_layout
-
-\begin_layout Standard
-The result is a list of rows.
- Each row is itself a list of the fields parsed.
-\end_layout
-
-\begin_layout Standard
-Example.
- Read a comma-delimited file:
-\end_layout
-
-\begin_layout LyX-Code
-CSV
-\end_layout
-
-\begin_layout LyX-Code
-   .read ((File(.new 'my file')) (.open ^read)) = 
-\end_layout
-
-\begin_layout LyX-Code
-       ',' '
-\begin_inset Quotes erd
-\end_inset
-
-'
-\end_layout
-
-\begin_layout Section
-Time and Dates
-\end_layout
-
-\begin_layout Subsection
-System.ticks - Current system time in milliseconds since the epoch
-\end_layout
-
-\begin_layout LyX-Code
-> System!ticks
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-1266995579117 # Bignum
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-> format-date 0 "dd MMM yyyy HH:mm:ss Z" 'GMT'
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-'01 Jan 1970 00:00:00 +0000' # String
-\end_layout
-
-\begin_layout Subsection
-now - Current system time in milliseconds since the epoch
-\end_layout
-
-\begin_layout Standard
-Convenience function.
-\end_layout
-
-\begin_layout Subsection
-format-date <epoch milliseconds> <format String> <timezone>
-\end_layout
-
-\begin_layout Standard
-For example:
-\end_layout
-
-\begin_layout LyX-Code
-> format-date (System!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-'24 Feb 2010 18:11:41 EST' # String  
-\end_layout
-
-\begin_layout Subsection
-calendar <epoch milliseconds> <timezone>
-\end_layout
-
-\begin_layout Standard
-Returns a Calendar (dictionary) with the following properties:
-\end_layout
-
-\begin_layout Description
-.am-pm = symbol indicating AM or PM
-\end_layout
-
-\begin_layout Description
-.day-of-month = Integer day of the month starting with 1.
-\end_layout
-
-\begin_layout Description
-.day-of-week = Integer day of the week starting with Sunday which is 1.
-\end_layout
-
-\begin_layout Description
-.day-of-week-in-month = Ordinal number of the day of the week within the
- current month.
-\end_layout
-
-\begin_layout Description
-.day-of-year = The day number within the current year starting with 1.
-\end_layout
-
-\begin_layout Description
-.dst-offset = Daylight savings offset in milliseconds
-\end_layout
-
-\begin_layout Description
-.era = symbol AD or BC
-\end_layout
-
-\begin_layout Description
-.hour = Hour of the day (12 hour clock)
-\end_layout
-
-\begin_layout Description
-.hour-of-day = Hour of the day (24 hour clock)
-\end_layout
-
-\begin_layout Description
-.millisecond = e.g.
- 93
-\end_layout
-
-\begin_layout Description
-.minute = e.g.
- 2
-\end_layout
-
-\begin_layout Description
-.month = Integer month starting with January, which is 0
-\end_layout
-
-\begin_layout Description
-.second = e.g.
- 42
-\end_layout
-
-\begin_layout Description
-.week-of-month = Week in the month starting from 1.
-\end_layout
-
-\begin_layout Description
-.week-of-year = Week number in the year starting from 1.
-\end_layout
-
-\begin_layout Description
-.year = e.g.
- 2010
-\end_layout
-
-\begin_layout Description
-.zone-offset = Timezone offset in milliseconds from GMT
-\end_layout
-
-\begin_layout Standard
-For example:
-\end_layout
-
-\begin_layout LyX-Code
-> print (calendar (System!ticks))
-\end_layout
-
-\begin_layout LyX-Code
-dict (.am-pm = pm)
-\end_layout
-
-\begin_layout LyX-Code
-.day-of-month = 10
-\end_layout
-
-\begin_layout LyX-Code
-.day-of-week = 4
-\end_layout
-
-\begin_layout LyX-Code
-.day-of-week-in-month = 2
-\end_layout
-
-\begin_layout LyX-Code
-.day-of-year = 69
-\end_layout
-
-\begin_layout LyX-Code
-.dst-offset = 1
-\end_layout
-
-\begin_layout LyX-Code
-.era = AD
-\end_layout
-
-\begin_layout LyX-Code
-.hour = 10
-\end_layout
-
-\begin_layout LyX-Code
-.hour-of-day = 22
-\end_layout
-
-\begin_layout LyX-Code
-.millisecond = 93
-\end_layout
-
-\begin_layout LyX-Code
-.minute = 2
-\end_layout
-
-\begin_layout LyX-Code
-.month = 2
-\end_layout
-
-\begin_layout LyX-Code
-.second = 42
-\end_layout
-
-\begin_layout LyX-Code
-.week-of-month = 2
-\end_layout
-
-\begin_layout LyX-Code
-.week-of-year = 11
-\end_layout
-
-\begin_layout LyX-Code
-.year = 2010
-\end_layout
-
-\begin_layout LyX-Code
-.zone-offset = 10
-\end_layout
-
-\begin_layout Section
-Genyris Classes
-\end_layout
-
-\begin_layout Subsection
-Class Hierarchy
-\end_layout
-
-\begin_layout Standard
-insert diagram here.
-\end_layout
-
-\begin_layout Subsection
-Thing
-\end_layout
-
-\begin_layout Subsubsection
-.vars
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-!vars
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-.self
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-!self
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-.classes
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-!classes
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-.valid?
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-!valid?
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-StandardClass
-\end_layout
-
-\begin_layout Subsubsection
-.classname
-\end_layout
-
-\begin_layout Subsubsection
-.subclasses
-\end_layout
-
-\begin_layout Subsubsection
-.superclasses
-\end_layout
-
-\begin_layout Subsubsection
-.vars
-\end_layout
-
-\begin_layout Subsection
-Builtin
-\end_layout
-
-\begin_layout Subsection
-String
-\end_layout
-
-\begin_layout Subsubsection
-.match
-\end_layout
-
-\begin_layout Subsubsection
-.length
-\end_layout
-
-\begin_layout Subsubsection
-.split
-\end_layout
-
-\begin_layout Subsubsection
-.replace <searchstring> <replacement>
-\end_layout
-
-\begin_layout Standard
-Returns a new string with every occurence of 
-\emph on
-<searchstring>
-\emph default
- replaced with 
-\emph on
-<replacement>
-\end_layout
-
-\begin_layout Subsubsection
-.+
-\end_layout
-
-\begin_layout Subsubsection
-.toBase64
-\end_layout
-
-\begin_layout Standard
-Returns the string converted into a Base64 encoded string.
- The returned string is tagged with the class string 
-\emph on
-Base64EncodedString.
-
-\emph default
- For example:
-\end_layout
-
-\begin_layout LyX-Code
-> 'foo:bar'(.toBase64)
-\end_layout
-
-\begin_layout LyX-Code
-'Zm9vOmJhcg==' # Base64EncodedString String
-\end_layout
-
-\begin_layout Subsubsection
-.fromBase64
-\end_layout
-
-\begin_layout Standard
-Decodes a Base 64 encoded string into the binary original.
- This is also available in the 
-\emph on
-Base64EncodedString
-\emph default
- class
-\emph on
- 
-\emph default
-as the 
-\emph on
-.decode
-\emph default
- method.
- Example:
-\end_layout
-
-\begin_layout LyX-Code
-> 'Zm9vOmJhcg=='(.fromBase64)
-\end_layout
-
-\begin_layout LyX-Code
-'foo:bar' # String
-\end_layout
-
-\begin_layout Subsection
-Dictionary
-\end_layout
-
-\begin_layout Subsubsection
-dict
-\end_layout
-
-\begin_layout Subsubsection
-Accessing properties with .
-\end_layout
-
-\begin_layout Subsection
-Bignum
-\end_layout
-
-\begin_layout Subsection
-Double
-\end_layout
-
-\begin_layout Subsection
-Closure
-\end_layout
-
-\begin_layout Subsection
-LazyProcedure
-\end_layout
-
-\begin_layout Subsection
-EagerProcedure
-\end_layout
-
-\begin_layout Subsection
-PRINTWITHCOLON
-\end_layout
-
-\begin_layout Subsection
-Pair
-\end_layout
-
-\begin_layout Subsubsection
-list
-\end_layout
-
-\begin_layout Subsubsection
-car
-\end_layout
-
-\begin_layout Subsubsection
-cdr
-\end_layout
-
-\begin_layout Subsubsection
-left
-\end_layout
-
-\begin_layout Subsubsection
-right
-\end_layout
-
-\begin_layout Subsubsection
-cons
-\end_layout
-
-\begin_layout Subsubsection
-.left
-\end_layout
-
-\begin_layout Subsubsection
-.right
-\end_layout
-
-\begin_layout Subsubsection
-rplaca
-\end_layout
-
-\begin_layout Subsubsection
-rplacd
-\end_layout
-
-\begin_layout Subsubsection
-reverse
-\end_layout
-
-\begin_layout Subsubsection
-length
-\end_layout
-
-\begin_layout Subsubsection
-map-left
-\end_layout
-
-\begin_layout Subsubsection
-member?
-\end_layout
-
-\begin_layout Subsection
-Writer
-\end_layout
-
-\begin_layout Subsubsection
-.close
-\end_layout
-
-\begin_layout Subsubsection
-.format
-\end_layout
-
-\begin_layout Subsubsection
-.flush
-\end_layout
-
-\begin_layout Subsection
-Reader
-\end_layout
-
-\begin_layout Subsubsection
-.hasData
-\end_layout
-
-\begin_layout Subsubsection
-.read
-\end_layout
-
-\begin_layout Subsubsection
-.close
-\end_layout
-
-\begin_layout Subsection
-System
-\end_layout
-
-\begin_layout Subsubsection
-.exec
-\end_layout
-
-\begin_layout Subsubsection
-.getenv
-\end_layout
-
-\begin_layout Subsection
-Sound
-\end_layout
-
-\begin_layout Subsubsection
-.play
-\end_layout
-
-\begin_layout Section
-Reflection
-\end_layout
-
-\begin_layout Subsection
-Version Information
-\end_layout
-
-\begin_layout Standard
-@prefix v "http://prefix.genyris.org/lang/version#" <http://prefix.genyris.org/lang/
-version#>
-\end_layout
-
-\begin_layout Subsubsection
-v:tipdate
-\end_layout
-
-\begin_layout Subsubsection
-v:tip
-\end_layout
-
-\begin_layout Subsection
-symlist
-\end_layout
-
-\begin_layout Subsection
-self-test-runner
-\end_layout
-
-\begin_layout Section
-Library Classes
-\end_layout
-
-\begin_layout Subsection
 Alist
 \end_layout
 
@@ -10449,7 +11231,7 @@ Alist
 .render()
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Pair
 \end_layout
 
@@ -10457,11 +11239,11 @@ Pair
 .each
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 ListOfLines
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Object
 \end_layout
 
