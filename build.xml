@@ -92,19 +92,14 @@
      <exec executable="hg" outputproperty="hg.tip" errorproperty="hg.error" failonerror="false">
             <arg value="tip"/>
             <arg value="--template"/>
-            <arg value="{rev}-{node|short}"/>
-        </exec>
+            <arg value="{rev}-{node|short}"/></exec>
      <exec executable="hg" outputproperty="hg.tip.date" errorproperty="hg.error" failonerror="false">
             <arg value="tip"/>
             <arg value="--template"/>
             <arg value="{date|date}"/>
         </exec>
-<echo file="${version.dir}/version.g" append="false">
-@prefix v "http://www.genyris.org/lang/version#"
-defvar ^v:tip "${hg.tip}"
-defvar ^v:tipdate "${hg.tip.date}"
-</echo>
-    <echo>${hg.tip}</echo>
+     <echo>Hg Tip Date: ${hg.tip.date}</echo>
+     <echo>Hg Tip: ${hg.tip}</echo>
      <exec executable="hg" output="${version.dir}/hglog.txt">
             <arg value="log"/>
         </exec>
@@ -219,11 +214,15 @@ defvar ^v:tipdate "${hg.tip.date}"
             <fileset dir="${src.dir}" includes="**/*.properties" />
             <fileset dir="${basedir}" includes="testscripts/*.g testscripts/*.lsp" />
             <manifest>
-	            <attribute name="Built-By" value="Peter William Birch"/>
 	            <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
                 <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar"/>
+                <attribute name="Specification-Title" value="Genyris"/>
+                <attribute name="Specification-Version" value="${hg.tip} ${hg.tip.date}"/>
+                <attribute name="Specification-Vendor" value="genyris.org"/>
+                <attribute name="Implementation-Title" value="Genyris"/>
                 <attribute name="Implementation-Version" value="${hg.tip}"/>
-                <attribute name="Built-Date" value="${TODAY}"/>
+                <attribute name="Implementation-Vendor" value="Peter William Birch"/>
+                <attribute name="Implementation-Date" value="${TODAY}"/>
             </manifest>
         </jar>
     </target>

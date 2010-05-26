@@ -1,10 +1,17 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 @prefix ver "http://www.genyris.org/lang/version#"
 @prefix sys "http://www.genyris.org/lang/system#"
+@prefix java 'http://www.genyris.org/lang/java#'
 
-u:format "*** Welcome %a, Genyris version %a is listening...%n" =
-    ((System(.getProperties)).|user.name|) =
-       ver:tip
+print sys:path
+
+import versioninfo
+   
+u:format "*** Welcome %a, %a version %a is listening...%n"
+    (System(.getProperties)).|user.name|
+    versioninfo.title
+    versioninfo.version
+    
 def sys:print-classnames(obj)
     define klasses (use obj (the .classes))
     while klasses

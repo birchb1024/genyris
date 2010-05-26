@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 650
+Build 653
 \end_layout
 
 \begin_layout Standard
@@ -10405,16 +10405,27 @@ Version Information
 \end_layout
 
 \begin_layout Standard
-@prefix v "http://prefix.genyris.org/lang/version#" <http://prefix.genyris.org/lang/
-version#>
+The current version number of the Genyris interpreter is recorded in the
+ Genyris jar file manifest.
+ This can be accessed via the Java 
+\emph on
+Package
+\emph default
+ interface.
+ Easy access is generated in the 
+\emph on
+versioninfo
+\emph default
+ module which has properties including the title.
+ Example: 
 \end_layout
 
-\begin_layout Subsubsection
-v:tipdate
+\begin_layout LyX-Code
+import versioninfo
 \end_layout
 
-\begin_layout Subsubsection
-v:tip
+\begin_layout LyX-Code
+print versioninfo!version versioninfo!title
 \end_layout
 
 \begin_layout Subsection
