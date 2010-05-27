@@ -5970,7 +5970,7 @@ The components of the triples can be accessed with the above dynamic symbols.
 \end_layout
 
 \begin_layout LyX-Code
-> l.subjectlist l!object l!subject l!predicate
+> list l!object l!subject l!predicate
 \end_layout
 
 \begin_layout LyX-Code
@@ -6082,6 +6082,16 @@ Creating TripleStores with
 tripleStore
 \end_layout
 
+\begin_layout Standard
+The 
+\emph on
+triplestore
+\emph default
+ function constructs a triplestore object.
+ It accepts an option list of 3-lists which are converted to triples.
+ Example:
+\end_layout
+
 \begin_layout LyX-Code
 > triplestore 
 \end_layout
@@ -6091,11 +6101,28 @@ tripleStore
 \end_layout
 
 \begin_layout LyX-Code
-   ^(joe age ten) 
+   ^(joe age ten)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(triplestore) # Triplestore
 \end_layout
 
 \begin_layout Subsubsection
 TripleStore equality
+\end_layout
+
+\begin_layout Standard
+Two triplestores are 
+\emph on
+equal?
+\emph default
+ if their constituent triples have one equal triple in the other triplestore.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -6104,10 +6131,30 @@ Adding Triples with
 .add
 \end_layout
 
-\begin_layout Subsubsection
-Removing Triples 
+\begin_layout Standard
+The 
 \emph on
-.asTriples
+.add
+\emph default
+ method adds a triple to a triplestore.
+ If the triple is already present no error is thrown.
+ The triplestore object is returned.
+\end_layout
+
+\begin_layout Subsubsection
+Removing Triples with 
+\emph on
+.remove
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+.remove
+\emph default
+ method removes a single triple from a triplestore.
+ If the triple is already absent no error is thrown.
+ The triplestore object is returned.
 \end_layout
 
 \begin_layout Subsubsection
