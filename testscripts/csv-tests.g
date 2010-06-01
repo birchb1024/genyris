@@ -14,14 +14,12 @@ def testCSV (filename field-seperator quote-char)
     define fd (File(.new filename))
     define results
        csv!read (fd (.open ^read)) field-seperator quote-char
-    print results
     assert
        equal? results fixture
 
 testCSV "testscripts/fixtures/test.csv" ',' '"'
 testCSV "testscripts/fixtures/test.tab" '\t' '"'
 testCSV "testscripts/fixtures/test.pipe" '|' '"'
-
 testCSV "testscripts/fixtures/test.tabpipe" '\t' '|'
 
 

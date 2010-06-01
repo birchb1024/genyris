@@ -31,30 +31,48 @@ test-equality
 
 def test-remove()
    var ts (triplestore)
-   ts
-     .add (triple ^s ^d ^f)
+   ts(.add (triple ^s ^d ^f))
    assert
       equal?
          ts(.asTriples)
          list (triple ^s ^d ^f)
-
    ts(.add (triple ^z^x^c))
-   print
-      ts(.asTriples)
-   print
-      ts(.asTriples)
    print
       ts(.asTriples)
    assert
       (SetList.equal?)
          ts(.asTriples)
          list (triple ^s ^d ^f) (triple ^z ^x ^c)
-
    ts(.remove (triple ^s ^d ^f))
    assert
       equal?
          ts(.asTriples)
          list (triple ^z ^x ^c)
+
+def test-remove2()
+   var ts (triplestore)
+   ts(.add (triple ^s ^d 12))
+   ts(.add (triple ^s ^d 12))
+   assert
+      equal?
+         ts(.asTriples)
+         list (triple ^s ^d 12)
+   ts(.add (triple ^z ^x 'w'))
+   ts(.add (triple ^z ^x 'w'))
+   print
+      ts(.asTriples)
+   assert
+      (SetList.equal?)
+         ts(.asTriples)
+         list (triple ^s ^d 12) (triple ^z ^x 'w')
+   ts(.remove (triple ^s ^d 12))
+   ts(.remove (triple 23 ^y 123))
+   print
+      ts(.asTriples)
+   assert
+      equal?
+         ts(.asTriples)
+         list (triple ^z ^x 'w')
 
 def test-select()
    var joe "Joe"
@@ -118,6 +136,7 @@ def test-put()
    assert (equal? (ts(.length)) 3)
 
 test-remove
+test-remove2
 test-select
 test-get
 test-get-list

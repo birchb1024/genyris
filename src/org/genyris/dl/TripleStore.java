@@ -38,15 +38,15 @@ public class TripleStore extends Atom {
 			return false;
 		} else {
 			int matches = 0;
-			TripleStore ts = (TripleStore) compare;
+			TripleStore otherTS = (TripleStore) compare;
 			Iterator iter = triples.iterator();
 			while (iter.hasNext()) {
 				Triple item = (Triple)iter.next();
-				if(ts.contains(item.subject, item.predicate, item.object)) {
+				if(otherTS.contains(item.subject, item.predicate, item.object)) {
 					matches++;
 				}
 			}
-			if ( matches == triples.size()) {
+			if ( matches == triples.size() && matches == otherTS.triples.size()) {
 				return true;
 			}
 			return false;
@@ -203,16 +203,16 @@ public class TripleStore extends Atom {
 		return this;
 	}
 
-	public void put(Exp subject, Symbol arguments, Exp object) {
+	public void put(Exp subject, Symbol predicate, Exp object) {
 		Iterator iter = triples.iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
 			if(rec.subject == subject
-					&& rec.predicate == arguments) {
+					&& rec.predicate == predicate) {
 				triples.remove(rec);
 			}
 		}
-		add(new Triple(subject, arguments, object));
+		add(new Triple(subject, predicate, object));
 	}
 
 
