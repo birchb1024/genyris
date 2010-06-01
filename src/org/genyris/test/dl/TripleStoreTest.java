@@ -250,7 +250,7 @@ public class TripleStoreTest extends TestCase {
     }
 
     public void testInterpStoreMulti() throws Exception {
-        eval("(null? (member? ^asTriples ((car ((triplestore).classes)).vars)))","nil");
+        eval("(null? (member? ^.asTriples ((car ((triplestore).classes)).vars)))","nil");
         eval("(defvar ^ts (triplestore))", "(triplestore)");
         eval("(ts.classes)", "(<class Triplestore (Builtin)>)");
         eval("(ts(.add (triple ^s ^p ^o1)))", "(triplestore)");

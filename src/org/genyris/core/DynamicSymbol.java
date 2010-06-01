@@ -14,7 +14,16 @@ public class DynamicSymbol extends Symbol {
     public int compareTo(Object arg0) {
         return ((DynamicSymbol) arg0)._realSymbol.compareTo(_realSymbol);
     }
-	public void acceptVisitor(Visitor guest) throws GenyrisException {
+
+    public boolean equals(Object arg0) {
+    	return _realSymbol.equals(arg0);
+    }
+
+    public int hasCode(Object arg0) {
+        return _realSymbol.hashCode();
+    }
+
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitDynamicSymbol(this);
 	}
 
