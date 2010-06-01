@@ -76,4 +76,7 @@ public class InterpretedTests extends TestCase {
     public void testWeb() throws GenyrisException {
         useSourceLoader("web-tests.g");
     }
+    public void testIterators() throws GenyrisException {
+        useSourceLoader("test-iterators.g");
+    }
 }

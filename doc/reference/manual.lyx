@@ -47,7 +47,7 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Build 663
+Build 670
 \end_layout
 
 \begin_layout Standard
@@ -9336,6 +9336,76 @@ Type Checks with =
 symbol-value <symbol>
 \end_layout
 
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+> (dict (.a = 1)(.b = 2))
+\end_layout
+
+\begin_layout LyX-Code
+    (symbol-value ^.b)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+2 # Bignum 
+\end_layout
+
+\begin_layout Standard
+More complex example:
+\end_layout
+
+\begin_layout LyX-Code
+> var D (dict (.a=1)(.b=2))  
+\end_layout
+
+\begin_layout LyX-Code
+  
+\end_layout
+
+\begin_layout LyX-Code
+> for v in D
+\end_layout
+
+\begin_layout LyX-Code
+   u:format "%s = %s
+\backslash
+n" v (D (symbol-value v))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+.b = 2
+\end_layout
+
+\begin_layout LyX-Code
+.a = 1
+\end_layout
+
+\begin_layout LyX-Code
+.self = (dict (.a = 1) (.b = 2))
+\end_layout
+
+\begin_layout LyX-Code
+.vars = (.b .a .self .vars .classes)
+\end_layout
+
+\begin_layout LyX-Code
+.classes = (<class Dictionary (Builtin)>)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
 \begin_layout Subsection
 dynamic-symbol-value <symbol>
 \end_layout
@@ -9421,23 +9491,233 @@ if
 \end_layout
 
 \begin_layout Subsection
-Looping
+Looping and Iterators
 \end_layout
 
 \begin_layout Subsubsection
+
+\emph on
 while
 \end_layout
 
-\begin_layout Subsubsection
-for
-\end_layout
-
 \begin_layout LyX-Code
-for <var> in <expression>
+while <expression>
 \end_layout
 
 \begin_layout LyX-Code
     <body>
+\end_layout
+
+\begin_layout Subsubsection
+Iterators
+\end_layout
+
+\begin_layout LyX-Code
+<expression>(.mkIterator)
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+define L ^(1 2)
+\end_layout
+
+\begin_layout LyX-Code
+define iter (L(.mkIterator))
+\end_layout
+
+\begin_layout LyX-Code
+assert
+\end_layout
+
+\begin_layout LyX-Code
+   equal?
+\end_layout
+
+\begin_layout LyX-Code
+      list (iter) (iter) (iter)
+\end_layout
+
+\begin_layout LyX-Code
+      ^(1 2 sys:StopIteration)
+\end_layout
+
+\begin_layout Subsubsection
+Traversing with 
+\emph on
+for
+\end_layout
+
+\begin_layout LyX-Code
+for <var> in <expression with .mkIterator>
+\end_layout
+
+\begin_layout LyX-Code
+    <body>
+\end_layout
+
+\begin_layout Standard
+List example:
+\end_layout
+
+\begin_layout LyX-Code
+define n ^(1 2)
+\end_layout
+
+\begin_layout LyX-Code
+define z ^(A B)
+\end_layout
+
+\begin_layout LyX-Code
+for v1 in n
+\end_layout
+
+\begin_layout LyX-Code
+   for v2 in z
+\end_layout
+
+\begin_layout LyX-Code
+        u:format "%s %s
+\backslash
+n" v1 v2
+\end_layout
+
+\begin_layout Standard
+prints:
+\end_layout
+
+\begin_layout LyX-Code
+1 A
+\end_layout
+
+\begin_layout LyX-Code
+1 B
+\end_layout
+
+\begin_layout LyX-Code
+2 A
+\end_layout
+
+\begin_layout LyX-Code
+2 B
+\end_layout
+
+\begin_layout Standard
+dictionary example
+\end_layout
+
+\begin_layout LyX-Code
+var D (dict (.a=1)(.b=2))  
+\end_layout
+
+\begin_layout LyX-Code
+  
+\end_layout
+
+\begin_layout LyX-Code
+for v in D
+\end_layout
+
+\begin_layout LyX-Code
+   u:format "%s = %s
+\backslash
+n" v (D (symbol-value v))
+\end_layout
+
+\begin_layout Standard
+prints:
+\end_layout
+
+\begin_layout LyX-Code
+.a = 1
+\end_layout
+
+\begin_layout LyX-Code
+.b = 2
+\end_layout
+
+\begin_layout LyX-Code
+.self = (dict (.a = 1) (.b = 2))
+\end_layout
+
+\begin_layout LyX-Code
+.vars = (.a .b .self .vars .classes)
+\end_layout
+
+\begin_layout LyX-Code
+.classes = (<class Dictionary (Builtin)>)
+\end_layout
+
+\begin_layout Subsubsection
+Ranges
+\end_layout
+
+\begin_layout LyX-Code
+range <low> <high>
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+> var R (range 1 3)
+\end_layout
+
+\begin_layout LyX-Code
+(1 3) # Range Pair 
+\end_layout
+
+\begin_layout LyX-Code
+> var iter (R(.mkIterator))
+\end_layout
+
+\begin_layout LyX-Code
+<EagerProc: <anonymous lambda>> # RangeIterator EagerProcedure 
+\end_layout
+
+\begin_layout LyX-Code
+> iter
+\end_layout
+
+\begin_layout LyX-Code
+1 # Bignum 
+\end_layout
+
+\begin_layout LyX-Code
+> iter
+\end_layout
+
+\begin_layout LyX-Code
+2 # Bignum 
+\end_layout
+
+\begin_layout Standard
+with 
+\emph on
+for:
+\end_layout
+
+\begin_layout LyX-Code
+> for i in (range 1 3)
+\end_layout
+
+\begin_layout LyX-Code
+     print i
+\end_layout
+
+\begin_layout LyX-Code
+~ 1
+\end_layout
+
+\begin_layout LyX-Code
+~ 2
+\end_layout
+
+\begin_layout LyX-Code
+~ 3
 \end_layout
 
 \begin_layout Subsection

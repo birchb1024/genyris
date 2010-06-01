@@ -11,6 +11,9 @@
 class g:Keyword(SimpleSymbol)
 tag g:Keyword ^function
 
+# nil is in a class of it's own
+class NilSymbol(Symbol)
+tag NilSymbol ^nil
 
 # Some aliases
 defmacro define (variable valu) (template (defvar ^,variable ,valu))
@@ -24,6 +27,7 @@ defmacro defmethod (name args &rest body)
     # this macro binds 'this' inside a function.
     template
         def ,name ,args (defvar ^this .self) ,@body
+
 df // (&rest ignore)
 
 defmacro setq (variable valu) (template (set ^,variable ,valu))
@@ -71,6 +75,8 @@ load "org/genyris/load/boot/pair.g"
 load "org/genyris/load/boot/alist.g"
 load "org/genyris/load/boot/parse.g"
 load "org/genyris/load/boot/object.g"
+load "org/genyris/load/boot/iterator.g"
+load "org/genyris/load/boot/range.g"
 load "org/genyris/load/boot/listoflines.g"
 load "org/genyris/load/boot/file.g"
 load "org/genyris/load/boot/util.g"

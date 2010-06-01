@@ -3,8 +3,6 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix java 'http://www.genyris.org/lang/java#'
 
-print sys:path
-
 import versioninfo
    
 u:format "*** Welcome %a, %a version %a is listening...%n"
