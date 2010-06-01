@@ -46,6 +46,9 @@ public class InterpretedTests extends TestCase {
     public void testFileIO() throws GenyrisException {
         useSourceLoader("file-tests.g");
    }
+    public void testMacros() throws GenyrisException {
+        useSourceLoader("test-macros.g");
+    }
     public void testTriples() throws GenyrisException {
         useSourceLoader("triple-tests.g");
     }
