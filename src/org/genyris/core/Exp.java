@@ -64,6 +64,6 @@ public abstract class Exp implements Classifiable, Closure {
 	}
 
 	public Exp dir(Internable table) {
-		return Pair.cons3(table.SELF(), table.VARS(), table.CLASSES(), table.NIL());
+		return Pair.cons3(new DynamicSymbol(table.SELF()), new DynamicSymbol(table.VARS()), new DynamicSymbol(table.CLASSES()), table.NIL());
 	}
 }

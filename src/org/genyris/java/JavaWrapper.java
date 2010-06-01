@@ -8,6 +8,7 @@ package org.genyris.java;
 import java.lang.reflect.Field;
 
 import org.genyris.core.Atom;
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Pair;
@@ -81,9 +82,12 @@ public class JavaWrapper extends Atom {
 
 	public Exp dir(Internable table) {
 		Field[] fields = _value.getClass().getFields();
-		Exp retval = Pair.cons4(table.SELF(), table.VARS(), table.CLASSES(), table.JAVACLASS(), table.NIL());
+		Exp retval = Pair.cons4(new DynamicSymbol(table.SELF()),
+				new DynamicSymbol(table.VARS()),
+				new DynamicSymbol(table.CLASSES()), 
+				new DynamicSymbol(table.JAVACLASS()), table.NIL());
 		for (int i = fields.length - 1; i >= 0; i--) {
-			retval = new Pair(table.internString(fields[i].getName()), retval);
+			retval = new Pair(new DynamicSymbol(table.internString(fields[i].getName())), retval);
 		}
 		return retval;
 	}

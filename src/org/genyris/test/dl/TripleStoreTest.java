@@ -237,7 +237,7 @@ public class TripleStoreTest extends TestCase {
 
 	public void testInterpStore() throws Exception {
 		eval(
-				"(null? (member? ^asTriples ((car ((triplestore).classes)).vars)))",
+				"(null? (member? ^.asTriples ((car ((triplestore).classes)).vars)))",
 				"nil");
 		eval("(defvar ^ts (triplestore))", "(triplestore)");
 		eval("(ts.classes)", "(<class Triplestore (Builtin)>)");
@@ -256,7 +256,7 @@ public class TripleStoreTest extends TestCase {
 
 	public void testInterpStoreMulti() throws Exception {
 		eval(
-				"(null? (member? ^asTriples ((car ((triplestore).classes)).vars)))",
+				"(null? (member? ^.asTriples ((car ((triplestore).classes)).vars)))",
 				"nil");
 		eval("(defvar ^ts (triplestore))", "(triplestore)");
 		eval("(ts.classes)", "(<class Triplestore (Builtin)>)");

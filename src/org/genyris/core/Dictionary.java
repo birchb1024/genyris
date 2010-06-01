@@ -104,7 +104,9 @@ public class Dictionary extends Atom implements Environment {
 
 	public Exp dir(Internable table) {
 		Iterator iter = _dict.keySet().iterator();
-		Exp result = Pair.cons3(table.SELF(), table.VARS(), table.CLASSES(), table.NIL());
+		Exp result = Pair.cons3(new DynamicSymbol(table.SELF()), 
+				new DynamicSymbol(table.VARS()), 
+						new DynamicSymbol(table.CLASSES()), table.NIL());
 		while (iter.hasNext()) {
 			Exp key = (Exp) new DynamicSymbol((SimpleSymbol)iter.next());
 			result = new Pair(key, result);

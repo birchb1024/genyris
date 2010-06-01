@@ -40,15 +40,15 @@ public class JavaClass extends StandardClass {
 
 	public Exp dir(Internable table) {
 		Iterator iter = _dict.keySet().iterator();
-		Exp result = Pair.cons3(table.SELF(), table.VARS(), table.CLASSES(), table.NIL());
+		Exp result = Pair.cons3(new DynamicSymbol(table.SELF()), new DynamicSymbol(table.VARS()), new DynamicSymbol(table.CLASSES()), table.NIL());
 		while (iter.hasNext()) {
 			Exp key = (Exp) iter.next();
-			result = new Pair(key, result);
+			result = new Pair(new DynamicSymbol((SimpleSymbol)key), result);
 		}
 		Field[] fields = javaClass.getFields();
 		for (int i = 0; i < fields.length; i++) {
 			if(Modifier.isStatic(fields[i].getModifiers())) {
-				result = new Pair(table.internString((fields[i].getName())), result);
+				result = new Pair(new DynamicSymbol(table.internString((fields[i].getName()))), result);
 			}			
 		}
 		return result;

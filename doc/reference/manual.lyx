@@ -4678,7 +4678,7 @@ status open
 \end_layout
 
 \begin_layout LyX-Code
-date-of-birth father name title vars # Pair
+.date-of-birth .father .name .title .vars # Pair
 \end_layout
 
 \begin_layout Subsection
@@ -5627,7 +5627,7 @@ status open
 
 \end_inset
 
- List of variable names.
+ List of property names.
 \end_layout
 
 \begin_layout Description
@@ -12948,15 +12948,9 @@ produces
 \end_layout
 
 \begin_layout LyX-Code
-(notifyAll getClass wait-long-int equals-java_lang_Object
-\end_layout
-
-\begin_layout LyX-Code
-hashCode wait-long classname wait java-classname toString
-\end_layout
-
-\begin_layout LyX-Code
-new notify superclasses subclasses self vars classes) # Pair 
+(.notifyAll .getClass .wait-long-int .equals-java_lang_Object .hashCode .wait-long
+ .classname .wait .java-classname .toString .new .notify .superclasses .subclasses
+ .self .vars .classes) # Pair 
 \end_layout
 
 \begin_layout Standard
@@ -13066,11 +13060,11 @@ objects.
 \end_layout
 
 \begin_layout LyX-Code
-(separatorChar separator pathSeparatorChar pathSeparator
+(.separatorChar .separator .pathSeparatorChar .pathSeparator
 \end_layout
 
 \begin_layout LyX-Code
-self vars classes http://www.genyris.org/lang/java#class) 
+.self .vars .classes .http://www.genyris.org/lang/java#class) 
 \end_layout
 
 \begin_layout LyX-Code

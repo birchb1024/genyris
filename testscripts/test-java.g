@@ -61,11 +61,11 @@ assert
 assert 
    equal? 'org.genyris.test.java.JavaDummy' 
        (d(.getClass))(.getName)
-
+print d!vars
 assert 
    equal? 
         d.vars
-        ^(staticField intField longField charField floatField doubleField booleanField byteField shortField stringField privateField self vars classes java:class) 
+        ^(.staticField .intField .longField .charField .floatField .doubleField .booleanField .byteField .shortField .stringField .privateField .self .vars .classes .java:class) 
 d (.intField = 99)
 assert (equal? d!intField 99)
 d (.shortField = 12)
@@ -138,7 +138,7 @@ var file ( JFile!new-java_lang_String '/')
 java:import 'java.io.File' as FileJ
 
 var file (FileJ(.new-java_lang_String '/'))
-assert (equal? file!vars ^(separatorChar separator pathSeparatorChar pathSeparator self vars classes java:class))
+assert (equal? file!vars ^(.separatorChar .separator .pathSeparatorChar .pathSeparator .self .vars .classes .java:class))
 assert (or (equal? file!separator '/') (equal? file!separator '\\'))
 catch error
   file(.separator = ';')     

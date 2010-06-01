@@ -6,6 +6,7 @@
 package org.genyris.interp;
 
 import org.genyris.core.Atom;
+import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Pair;
@@ -149,7 +150,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
 	public Exp dir(Internable table) {
 		return Pair.cons2(table.SOURCE(), 
 				table.NAME(), 
-				Pair.cons3(table.SELF(), table.VARS(), table.CLASSES(), table.NIL()));
+				Pair.cons3(new DynamicSymbol(table.SELF()), new DynamicSymbol(table.VARS()), new DynamicSymbol(table.CLASSES()), table.NIL()));
 	}
 
 }
