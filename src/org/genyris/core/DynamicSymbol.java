@@ -16,7 +16,10 @@ public class DynamicSymbol extends Symbol {
     }
 
     public boolean equals(Object arg0) {
-    	return _realSymbol.equals(arg0);
+    	if(!(arg0 instanceof DynamicSymbol)) {
+    		return false;
+    	}
+    	return _realSymbol.equals(((DynamicSymbol)arg0)._realSymbol);
     }
 
     public int hasCode(Object arg0) {

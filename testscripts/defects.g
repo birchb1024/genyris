@@ -25,7 +25,13 @@ class C(Object)
 define c (C(.new nil))
 c(.f)
 assert (equal? 34 (c.v))
-
+#
 # Defect with QualifiedSymbols not being understood
+#
 defvar (intern "http://foo/bar#quux") 34
 assert (equal? (eval (intern "http://foo/bar#quux")) 34)
+#
+#  3009789 equal? not working for dynamic symbols.
+#
+assert (equal? ^.a ^.a)
+assert (not (equal? ^.a ^.b))
