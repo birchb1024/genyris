@@ -8581,7 +8581,59 @@ Reference
 \end_layout
 
 \begin_layout Section
-Compiling From Source
+Building From Source
+\end_layout
+
+\begin_layout Subsection
+Obtaining Source from the Released Files
+\end_layout
+
+\begin_layout Standard
+The source code for released binaries can be downloaded from the URL below
+ and unzipped.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+http://sourceforge.net/projects/genyris/files/
+\end_layout
+
+\begin_layout Standard
+Download the source release file 
+\emph on
+genyris-source-NNN-DDDDDDD.zip , 
+\emph default
+unzip the file to a working directory.
+ Change directory to the root of the unpacked directory.
+\end_layout
+
+\begin_layout Subsection
+Obtaining source from the Mercurial Repository
+\end_layout
+
+\begin_layout Standard
+The source code of Genyris is published to a Mercurial clone hosted by SourceFor
+ge.
+ This code will be the latest code, whereas the binary releases re slightly
+ older.
+ To access the default Mercurial repository, configure your Mercurial client
+ as follows: 
+\end_layout
+
+\begin_layout LyX-Code
+http://genyris.hg.sourceforge.net:8000/hgroot/genyris/genyris
+\end_layout
+
+\begin_layout Standard
+Then do an 
+\emph on
+hg pull
+\emph default
+ to download the source.
+\end_layout
+
+\begin_layout Subsection
+The Build
 \end_layout
 
 \begin_layout Standard
@@ -8602,12 +8654,6 @@ Ant
 
 \emph default
  (version 1.7.1 or later).
- Obtain a copy of the source release file 
-\emph on
-genyris-source-NNN-DDDDDDD.zip , 
-\emph default
-unzip the file to a working directory.
- Change directory to the root of the unpacked directory.
  Then run the following command to build the program:
 \end_layout
 
@@ -8624,14 +8670,6 @@ OK (212 tests)
 \end_layout
 
 \begin_layout Subsection
-Using a Mercurial Repository
-\end_layout
-
-\begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Section
 Running Genyris
 \begin_inset CommandInset label
 LatexCommand label
@@ -8642,7 +8680,7 @@ name "sec:Running-Genyris"
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Simplified Launching via the Path
 \end_layout
 
@@ -8652,7 +8690,7 @@ The distribution includes shell and batch files for simplified launching,
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Unix
 \end_layout
 
@@ -8694,7 +8732,7 @@ $ genyri
 s
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Windows
 \end_layout
 
@@ -8724,7 +8762,7 @@ genyri
 s.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Command line options
 \end_layout
 
@@ -8755,7 +8793,7 @@ classes in the genyris-bin jar so the main class can be specified explicitly
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Using Genyris standard IO command-line interpreter.
 \end_layout
 
@@ -8790,7 +8828,7 @@ In both cases all subsequent shell command line arguments are ignored.
  the standard input (^D on UNIX or ^Z on Windows).
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subparagraph
 The top level
 \end_layout
 
@@ -8808,7 +8846,7 @@ Genyris commands can be typed at the prompt, using two carriage returns
  This allows the user to verify the correct classes have been returned.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Running a script in the command line
 \end_layout
 
@@ -8833,7 +8871,7 @@ If the return value of the expression is printed, the process exits with
  a 0 status, otherwise 1.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Specify a file to run on the command line
 \end_layout
 
@@ -8845,7 +8883,7 @@ $ genyris examples/queens.g 5
 Arguments are passed after the file name.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Making a script executable (Unix)
 \end_layout
 
@@ -8878,7 +8916,7 @@ $ chmod u+x myscript.g
 $ ./myscript.g
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Interpreter Boot sequence
 \end_layout
 
@@ -8922,7 +8960,7 @@ init.g
 '
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Loading Source Files
 \end_layout
 
@@ -9033,7 +9071,7 @@ Free format LISP Syntax with parentheses in place of indentation.
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 load
 \begin_inset Index
 status open
@@ -9081,7 +9119,7 @@ load
  'examples/people.g'
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 include
 \begin_inset Index
 status open
@@ -9121,7 +9159,7 @@ The return value is a string with the actual file path loaded.
  If the file cannot be found an exception is raised.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 sys:import
 \begin_inset Index
 status open
@@ -9168,7 +9206,7 @@ import
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 import <module name>
 \end_layout
 
@@ -9234,7 +9272,7 @@ import queens
 queens!queens 5  # call the module's public function
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 reload <module name>
 \end_layout
 
@@ -9256,83 +9294,83 @@ sys:modules
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Syntax
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Indented Format
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 ~ for line continuation
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Lisp Format
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 carat ^
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Equals =
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Parentheses ()
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 comments #
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 accessing dynamic variables with .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 comma ,
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 comma-at ,@
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 backquote `
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 [] and {}
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 parser directives
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 @prefix
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Evaluation
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 eval <expression>
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 apply <closure> <parameter list>
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Type Checks with = 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 symbol-value <symbol>
 \end_layout
 
@@ -9406,95 +9444,95 @@ n" v (D (symbol-value v))
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 dynamic-symbol-value <symbol>
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 template <expression>
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 quote <expression>
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 the <expression>
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Bindings
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Definition of Variables
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 var
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 defvar
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 define
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 bound?
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Assignment
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 setq
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 set
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Definition of Functions
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 def
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 df
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 defmacro
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Control Flow
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Conditional Execution
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 cond
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 if
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Looping and Iterators
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 
 \emph on
 while
@@ -9508,7 +9546,7 @@ while <expression>
     <body>
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Iterators
 \end_layout
 
@@ -9544,7 +9582,7 @@ assert
       ^(1 2 sys:StopIteration)
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Traversing with 
 \emph on
 for
@@ -9650,7 +9688,7 @@ prints:
 .classes = (<class Dictionary (Builtin)>)
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Ranges
 \end_layout
 
@@ -9720,19 +9758,19 @@ for:
 ~ 3
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Exceptions
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 raise <expression>
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 assert
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Predicates
 \end_layout
 
@@ -9748,11 +9786,11 @@ nil
  value for truth.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Comparisons
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 eq? <a> <b>
 \end_layout
 
@@ -9873,7 +9911,7 @@ nil
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 equal?
 \end_layout
 
@@ -10039,7 +10077,7 @@ false
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 >
 \end_layout
 
@@ -10051,7 +10089,7 @@ true
  if its first argument is numerically greater than its second argument.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 <
 \end_layout
 
@@ -10063,7 +10101,7 @@ true
  if its first argument is numerically less than its second argument.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Logical Functions
 \end_layout
 
@@ -10077,7 +10115,7 @@ nil
  
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 not <x>, null?
 \end_layout
 
@@ -10099,7 +10137,7 @@ is returned
 .
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 and <a1> <a2> ...
 \end_layout
 
@@ -10277,7 +10315,7 @@ nil
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 or
 \end_layout
 
@@ -10454,7 +10492,7 @@ true
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Closures
 \end_layout
 
@@ -10463,7 +10501,7 @@ Closures are executable objects which retain the environment in which they
  were created for use during execution at a later time.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 lambda
@@ -10611,7 +10649,7 @@ The expected type of the return value can be specified after a trailing
  
 \end_layout
 
-\begin_layout Subsubsection*
+\begin_layout Paragraph*
 Examples:
 \end_layout
 
@@ -10660,7 +10698,7 @@ returns a procedure with two mandatory arguments with expected types and
  a return value with expected type.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 lambadq
@@ -10689,7 +10727,7 @@ function
  arguments when called).
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 lambdam
@@ -10716,11 +10754,11 @@ function
  the environment of the caller - in other an anonymous macro.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Classification
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 class
@@ -10738,7 +10776,7 @@ class
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 tag
@@ -10756,7 +10794,7 @@ tag
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 remove-tag
@@ -10776,7 +10814,7 @@ remove-tag
  <class> <object>
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 is-instance?
@@ -10794,7 +10832,7 @@ is-instance?
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Constants
 \end_layout
 
@@ -10803,7 +10841,7 @@ The interpreter pre-loads a number of bindings in the global environment
  which are treated by users as constants.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 nil
@@ -10840,7 +10878,7 @@ nil
 is a synonym for nil.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 EOF
@@ -10862,7 +10900,7 @@ EOF
 Used to denote the End Of File, this symbol causes a parser to exit if seen.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 true
 \begin_inset Index
 status open
@@ -10888,7 +10926,7 @@ true
  is bound to itself in the global environment.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Tasks
 \begin_inset Index
 status open
@@ -10918,7 +10956,7 @@ ed code yet retains the advantages of asynchronous execution and multi-core
  Java in-process objects for inter-task communication.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Running Multiple Interpreters in the Same Process with 
 \emph on
 spawn
@@ -11024,7 +11062,7 @@ The output is:
 ...
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Termination with 
 \family typewriter
 \emph on
@@ -11108,7 +11146,7 @@ or
 task:kill <integer Java thread id>
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Thread Safety
 \begin_inset Index
 status open
@@ -11154,7 +11192,7 @@ Threads
  for inter-task communication, a means of making this thread-safe is provided.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 task:synchronized
@@ -11304,7 +11342,7 @@ synchronized
  macro the first task sees the manipulations of the second.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 
 \emph on
 ps
