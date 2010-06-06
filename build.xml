@@ -173,15 +173,32 @@
 		<checksum file="rel/genyris-binary-${hg.tip}.zip" forceOverwrite="yes" />
 	</target>
 
-	<target name="only-publish-source" description="publish source code to SourceForge"
-		depends="test">
-		
+	<target name="publish-source" description="publish source code to SourceForge" depends="test">
+
 		<exec executable="hg" errorproperty="hg.error" failonerror="true">
 			<arg value="push" />
 			<arg value="ssh://billbirch@genyris.hg.sourceforge.net/hgroot/genyris/genyris" />
 		</exec>
-
 	</target>
+
+	<target name="only-release" 
+		description="publish binaries to SourceForge"
+		depends="only-hg-version">
+		<input message="password?" addproperty="password"/>
+		<scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/binary"
+			verbose="true" trust="true">
+		    <fileset dir="rel">
+		      <include name="**/*binary*"/>
+		    </fileset>
+		  </scp>
+      <scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/source"
+         verbose="true" trust="true">
+          <fileset dir="rel">
+            <include name="**/*source*"/>
+          </fileset>
+        </scp>
+	</target>
+
 	<target name="archive" depends="binary-jar, ear" description="Make a backup">
 		<input message="Destination directory for archive?" addproperty="archive.dest" />
 		<tstamp />
