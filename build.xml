@@ -1,276 +1,251 @@
 <project name="Genyris" default="all" basedir=".">
-<!-- -->
-    <property name="needed.lib.dir" value="needed" />
-    <property name="junit.lib.dir" value="needed" />
-    <property name="build.dir" value="build" />
-    <property name="dist.dir" value="dist" />
-    <property name="rel.dir" value="rel" />
-    <property name="src.compile.dir" value="${build.dir}/classes" />
-    <property name="src.dir" value="src" />
-    <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
+	<!-- -->
+	<property name="needed.lib.dir" value="needed" />
+	<property name="junit.lib.dir" value="needed" />
+	<property name="build.dir" value="build" />
+	<property name="dist.dir" value="dist" />
+	<property name="rel.dir" value="rel" />
+	<property name="src.compile.dir" value="${build.dir}/classes" />
+	<property name="src.dir" value="src" />
+	<property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
 
-    <property name="web.dir" value="web/war" />
-    <property name="output.war" value="${dist.dir}/genyris.war" />
-    <property name="output.ear" value="${dist.dir}/genyris.ear" />
-    <property name="ear.project.root" value="web/ear" />
-    <property name="installed.apps.war" value="C:\ibm\WebSphere\profiles\wp_profile\installedApps\w0019\Genyris.ear\genyris.war" />
+	<tstamp>
+		<format property="TODAY" pattern="dd/MM/yyyy HH:mm:ss" />
+	</tstamp>
 
-    <tstamp>
-        <format property="TODAY" pattern="dd/MM/yyyy HH:mm:ss" />
-    </tstamp>
+	<target name="clean" depends="only-clean" />
 
-    <target name="clean" depends="only-clean" />
+	<target name="compile" depends="only-clean, only-hg-version, only-init, only-compile" description="Compile the Java" />
+	<target name="binary-release" depends="compile, only-binary-jar, only-compile-docs, only-binary-release" description="compile and create jar" />
+	<target name="binary-jar" depends="compile, only-binary-jar" description="compile and create jar" />
+	<target name="src-release" depends="only-hg-version, only-source-release" description="Zip source code." />
+	<target name="all" depends="binary-release, src-release, test" description="Build all" />
 
-    <target name="compile" depends="only-clean, only-hg-version, only-init, only-compile"
-        description="Compile the Java"/>
-    <target name="binary-release" depends="compile, only-binary-jar, only-war, only-ear, only-binary-release"
-         description="compile and create jar"/>
-    <target name="binary-jar" depends="compile, only-binary-jar"
-         description="compile and create jar"/>
-    <target name="war" depends="binary-jar, only-war"
-        description="Create war file, always compile."/>
-    <target name="ear" depends="war, only-ear"
-        description="Create ear file, compile as needed."/>
-    <target name="src-release" depends="only-hg-version, only-source-release"
-        description="Zip source code."/>
-    <target name="all" depends="binary-release, src-release, test"
-        description="Build all"/>
+	<!-- Libraries required  -->
+	<fileset id="needed.libs" dir="${needed.lib.dir}">
+		<include name="bsf.jar" />
+		<include name="commons-logging-1.1.jar" />
+		<include name="servlet-api.jar" />
+		<include name="junit.jar" />
+		<include name="dsn.jar" />
+		<include name="imap.jar" />
+		<include name="mail.jar" />
+		<include name="mailapi.jar" />
+		<include name="pop3.jar" />
+		<include name="smtp.jar" />
+		<include name="opencsv-1.8.jar" />
+	</fileset>
 
-    <!-- Libraries required  -->
-    <fileset id="needed.libs" dir="${needed.lib.dir}">
-        <include name="bsf.jar" />
-        <include name="commons-logging-1.1.jar" />
-        <include name="servlet-api.jar" />
-        <include name="junit.jar" />
-        <include name="dsn.jar" />
-        <include name="imap.jar" />
-        <include name="mail.jar" />
-        <include name="mailapi.jar" />
-        <include name="pop3.jar" />
-        <include name="smtp.jar" />
-        <include name="opencsv-1.8.jar" />
-    </fileset>
+	<!-- Properties files from the classpath -->
+	<fileset id="product.properties.files" dir="${java.src.dir}">
+		<include name="*.properties" />
+	</fileset>
 
-    <!-- Libraries required in the web classpath. -->
-    <fileset id="web-inf.libs" dir="${needed.lib.dir}">
-        <include name="bsf.jar" />
-        <include name="commons-logging-1.1.jar" />
-    </fileset>
-
-    <!-- Servlet Libraries, release should not include these. -->
-    <fileset id="servlet.libs" dir="${needed.lib.dir}">
-        <include name="servlet-api.jar" />
-    </fileset>
-
-    <!-- Properties files from the classpath -->
-    <fileset id="product.properties.files" dir="${java.src.dir}">
-        <include name="*.properties" />
-    </fileset>
-
-    <!-- Classpath for JUnit testing -->
-    <fileset id="junit.libs" file="${junit.lib.dir}/junit.jar" />
+	<!-- Classpath for JUnit testing -->
+	<fileset id="junit.libs" file="${junit.lib.dir}/junit.jar" />
 
 
-  <!-- ================================================================== -->
-    <!--                        Classpaths                                  -->
-    <!-- ================================================================== -->
-    <path id="src.compile.classpath">
-        <fileset refid="needed.libs" />
-        <fileset refid="web-inf.libs" />
-        <fileset refid="servlet.libs" />
-        <fileset refid="junit.libs" />
-    </path>
+	<!-- ================================================================== -->
+	<!--                        Classpaths                                  -->
+	<!-- ================================================================== -->
+	<path id="src.compile.classpath">
+		<fileset refid="needed.libs" />
+		<fileset refid="junit.libs" />
+	</path>
 
-    <!-- ================================================================== -->
-    <!--                        Targets                                     -->
-    <!-- ================================================================== -->
-    <target name="debug">
-        <echoproperties />
-    </target>
+	<!-- ================================================================== -->
+	<!--                        Targets                                     -->
+	<!-- ================================================================== -->
+	<target name="debug">
+		<echoproperties />
+	</target>
 
-    <target name="only-hg-version">
-     <exec executable="hg" outputproperty="hg.tip" errorproperty="hg.error" failonerror="false">
-            <arg value="tip"/>
-            <arg value="--template"/>
-            <arg value="{rev}-{node|short}"/></exec>
-     <exec executable="hg" outputproperty="hg.tip.date" errorproperty="hg.error" failonerror="false">
-            <arg value="tip"/>
-            <arg value="--template"/>
-            <arg value="{date|date}"/>
-        </exec>
-     <echo>Hg Tip Date: ${hg.tip.date}</echo>
-     <echo>Hg Tip: ${hg.tip}</echo>
-     <exec executable="hg" output="${version.dir}/hglog.txt">
-            <arg value="log"/>
-        </exec>
-    </target>
+	<target name="only-hg-version" description="hg state">
+		<exec executable="hg" outputproperty="hg.tip" errorproperty="hg.error" failonerror="false">
+			<arg value="tip" />
+			<arg value="--template" />
+			<arg value="{rev}-{node|short}" />
+		</exec>
+		<exec executable="hg" outputproperty="hg.tip.date" errorproperty="hg.error" failonerror="false">
+			<arg value="tip" />
+			<arg value="--template" />
+			<arg value="{date|date}" />
+		</exec>
+		<echo>Hg Tip Date: ${hg.tip.date}</echo>
+		<echo>Hg Tip: ${hg.tip}</echo>
+		<exec executable="hg" output="${version.dir}/hglog.txt">
+			<arg value="log" />
+		</exec>
+	</target>
 
-    <target name="only-init">
-        <mkdir dir="${build.dir}" />
-        <mkdir dir="${version.dir}" />
-        <mkdir dir="${dist.dir}" />
-        <mkdir dir="${rel.dir}" />
-        <mkdir dir="${src.compile.dir}" />
-    </target>
+	<target name="only-hg-status" description="hg state">
+		<exec executable="hg" outputproperty="hg.status" errorproperty="hg.error" failonerror="true">
+			<arg value="status" />
+			<arg value="-arm" />
+		</exec>
+		<echo message="${hg.status}" />
+		<condition property="working-folder-has-uncommited-changes">
+			<not>
+				<equals arg1="${hg.status}" arg2="" />
+			</not>
+		</condition>
+		<fail if="working-folder-has-uncommited-changes" />
+	</target>
 
-    <target name="only-clean">
-        <delete dir="${build.dir}" />
-        <delete dir="${dist.dir}" />
-        <delete dir="${rel.dir}" />
-     </target>
+	<target name="only-init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${version.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${rel.dir}" />
+		<mkdir dir="${src.compile.dir}" />
+	</target>
 
-    <target name="only-compile">
-        <javac srcdir="${src.dir}" destdir="${src.compile.dir}"
-            classpathref="src.compile.classpath"
-                source="1.4"
-            target="1.4"
-            verbose="no">
-            <include name="org/**" />
-            <include name="com/**" />
-        </javac>
-    </target>
+	<target name="only-clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${rel.dir}" />
+	</target>
 
-    <target name="only-compile-docs">
-      <exec executable="C:\Program Files\LyX15\bin\LyXLauncher.exe" dir="doc/reference">
-            <arg value="--export"/>
-            <arg value="pdf"/>
-            <arg value="manual.lyx"/>
-        </exec>
-    </target>
+	<target name="only-compile">
+		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="1.4" target="1.4" verbose="no">
+			<include name="org/**" />
+			<include name="com/**" />
+		</javac>
+	</target>
 
-
-    <target name="only-source-release" depends="only-hg-version"
-        description="Make a source release">
-        <tstamp/>
-
-        <zip destfile="rel/genyris-source-${hg.tip}.zip"
-                duplicate="fail"
-                defaultexcludes="no">
-            <fileset dir="${basedir}">
-                <include name="LICENSE"/>
-                <include name="README"/>
-                <include name="build.xml"/>
-                <include name="doc/**/*.lyx"/>
-                <include name="doc/**/*.odp"/>
-                <include name="examples/**/*"/>
-                <include name="lib/**/*"/>
-                <include name="needed/**/*"/>
-                <include name="src/**/*.java"/>
-                <include name="src/**/*.properties"/>
-                <include name="src/**/*.g"/>
-                <include name="testscripts/**/*"/>
-                <include name="web/**/*"/>
-            </fileset>
-        </zip>
-        <checksum file="rel/genyris-source-${hg.tip}.zip" forceOverwrite="yes"/>
-    </target>
-
-    <target name="only-binary-release" depends="binary-jar, ear"
-        description="Make a binary release">
-        <tstamp/>
-        <copy todir="dist" verbose="false">
-            <fileset dir="${basedir}">
-                <include name="needed/**/*jar"/>
-            </fileset>
-        </copy>
-        <zip destfile="rel/genyris-binary-${hg.tip}.zip"
-                duplicate="fail"
-                defaultexcludes="no">
-            <fileset dir="${basedir}">
-                <include name="LICENSE"/>
-                <include name="README"/>
-                <include name="dist/**/*"/>
-                <include name="lib/**/*"/>
-                <include name="bin/**/*"/>
-                <include name="doc/**/manual.pdf"/>
-                <include name="examples/**/*"/>
-            </fileset>
-        </zip>
-        <checksum file="rel/genyris-binary-${hg.tip}.zip" forceOverwrite="yes"/>
-    </target>
-
-  <target name="archive" depends="binary-jar, ear"
-        description="Make a backup">
-        <input message="Destination directory for archive?" addproperty="archive.dest"/>
-        <tstamp/>
-
-        <jar destfile="${archive.dest}/genyris-archive-${DSTAMP}${TSTAMP}.jar"
-                duplicate="fail"
-                defaultexcludes="no">
-            <fileset dir="${basedir}" includes="*" />
-            <fileset dir="${basedir}" includes="*/**/*">
-                <exclude name="idebuild/**/*"/>
-                <exclude name="build/**/*"/>
-            </fileset>
-        </jar>
-    </target>
+	<target name="only-compile-docs" description="Creat PDF manual" depends="only-hg-version">
+		<copy file="doc/reference/manual.lyx" tofile="dist/genyris-manual-${hg.tip}.lyx" verbose="true" overwrite="true">
+			<filterchain>
+				<replacetokens>
+				      <token key="GENYRIS-HG-TIP" value="${hg.tip}"/>
+				</replacetokens>
+			</filterchain>
+		</copy>
+		<exec executable="lyx" dir="dist" failonerror="true">
+			<arg value="--export" />
+			<arg value="pdf" />
+			<arg value="genyris-manual-${hg.tip}.lyx" />
+		</exec>		
+		<delete file="dist/genyris-manual-${hg.tip}.lyx" verbose="true"/>
+		<copy file="dist/genyris-manual-${hg.tip}.pdf" tofile="rel/genyris-manual-${hg.tip}.pdf" verbose="true" />
+      <checksum file="rel/genyris-manual-${hg.tip}.pdf" forceOverwrite="yes" />
+		
+	</target>
 
 
-    <target name="only-binary-jar">
-        <jar destfile="${dist.dir}/genyris-bin-${hg.tip}.jar"  duplicate="fail">
-            <fileset dir="${basedir}" includes="README LICENSE" />
-            <fileset dir="${build.dir}" includes="version/**/*" />
-            <fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
-            <fileset dir="${needed.lib.dir}" includes="junit/**/*" />
-            <fileset dir="${src.dir}" includes="**/*.g" />
-            <fileset dir="${src.dir}" includes="**/*.properties" />
-            <fileset dir="${basedir}" includes="testscripts/*.g testscripts/*.lsp" />
-            <manifest>
-                <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop"/>
-                <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar"/>
-                <attribute name="Specification-Title" value="Genyris"/>
-                <attribute name="Specification-Version" value="${hg.tip} ${hg.tip.date}"/>
-                <attribute name="Specification-Vendor" value="genyris.org"/>
-                <attribute name="Implementation-Title" value="Genyris"/>
-                <attribute name="Implementation-Version" value="${hg.tip}"/>
-                <attribute name="Implementation-Vendor" value="Peter William Birch"/>
-                <attribute name="Implementation-Date" value="${TODAY}"/>
-            </manifest>
-        </jar>
-    </target>
+	<target name="only-source-release" depends="only-hg-version" description="Make a source release">
+		<tstamp />
 
-    <target name="test" depends="binary-release">
-          <exec executable="java" failonerror="true">
-            <arg value="-jar"/>
-            <arg value="dist/genyris-bin-${hg.tip}.jar"/>
-            <arg value="-eval"/>
-            <arg value="(cond ((self-test-runner) (System(.exit 1))))"/>
-          </exec>
-    </target>
+		<zip destfile="rel/genyris-source-${hg.tip}.zip" duplicate="fail" defaultexcludes="no">
+			<fileset dir="${basedir}">
+				<include name="LICENSE" />
+				<include name="README" />
+				<include name="build.xml" />
+				<include name="doc/**/*.lyx" />
+				<include name="doc/**/*.odp" />
+				<include name="examples/**/*" />
+				<include name="lib/**/*" />
+				<include name="needed/**/*" />
+				<include name="src/**/*.java" />
+				<include name="src/**/*.properties" />
+				<include name="src/**/*.g" />
+				<include name="testscripts/**/*" />
+				<include name="web/**/*" />
+			</fileset>
+		</zip>
+		<checksum file="rel/genyris-source-${hg.tip}.zip" forceOverwrite="yes" />
+	</target>
 
-    <target name="only-war">
-        <delete file="${output.war}"/>
-        <copy todir="${web.dir}/WEB-INF/lib">
-            <fileset file="${dist.dir}/genyris-bin.jar" />
-        </copy>
-        <copy todir="${web.dir}/WEB-INF/classes">
-            <fileset dir="${build.dir}/classes">
-                <include name="org/genyris/web/GenyrisServlet.class" />
-            </fileset>
-        </copy>
-        <war destfile="${output.war}" webxml="${web.dir}/WEB-INF/web.xml" manifest="${web.dir}/META-INF/MANIFEST.MF">
-            <zipfileset dir="${web.dir}">
-                <exclude name="**/WEB-INF/**/*" />
-            </zipfileset>
-            <webinf dir="${web.dir}/WEB-INF">
-                <exclude name="**/web.xml" />
-            </webinf>
-        </war>
-    </target>
+	<target name="only-binary-release" depends="binary-jar, only-compile-docs" description="Make a binary release">
+		<tstamp />
+		<copy todir="dist" verbose="false">
+			<fileset dir="${basedir}">
+				<include name="needed/**/*jar" />
+			</fileset>
+		</copy>
+		<zip destfile="rel/genyris-binary-${hg.tip}.zip" duplicate="fail" defaultexcludes="no">
+			<fileset dir="${basedir}">
+				<include name="LICENSE" />
+				<include name="README" />
+				<include name="dist/**/*" />
+				<include name="lib/**/*" />
+				<include name="bin/**/*" />
+				<include name="examples/**/*" />
+			</fileset>
+		</zip>
+		<checksum file="rel/genyris-binary-${hg.tip}.zip" forceOverwrite="yes" />
+	</target>
 
-    <!-- Generates the ${war.project.name} ear file for deployment -->
-    <target name="only-ear">
-        <delete file="${output.ear}" />
-        <ear appxml="${ear.project.root}/META-INF/application.xml" destfile="${output.ear}">
-            <fileset file="${output.war}" />
-        </ear>
-    </target>
+	<target name="publish-source" description="publish source code to SourceForge" depends="only-hg-version, only-hg-status,test">
+		<exec executable="hg" errorproperty="hg.error" failonerror="true">
+			<arg value="push" />
+			<arg value="ssh://billbirch@genyris.hg.sourceforge.net/hgroot/genyris/genyris" />
+		</exec>
+	</target>
 
-    <!-- hot deploy the jsp and class files to make a simple update in the development environment -->
-    <target name="only-hot-deploy-war">
-        <copy todir="${installed.apps.war}" >
-            <fileset dir="${web.dir}" />
-        </copy>
-    </target>
+	<target name="only-publish" description="publish source and binaries to SourceForge" depends="only-hg-version, only-hg-status">
+		<input message="password?" addproperty="password" />
+		<scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/binary" verbose="true" trust="true">
+			<fileset dir="rel">
+				<include name="**/*binary*" />
+			</fileset>
+		</scp>
+		<scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/source" verbose="true" trust="true">
+			<fileset dir="rel">
+				<include name="**/*source*" />
+			</fileset>
+		</scp>
+      <scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/documentation" verbose="true" trust="true">
+         <fileset dir="rel">
+            <include name="**/*manual*" />
+         </fileset>
+      </scp>
+	</target>
+
+	<target name="archive" depends="binary-jar" description="Make a backup">
+		<input message="Destination directory for archive?" addproperty="archive.dest" />
+		<tstamp />
+
+		<jar destfile="${archive.dest}/genyris-archive-${DSTAMP}${TSTAMP}.jar" duplicate="fail" defaultexcludes="no">
+			<fileset dir="${basedir}" includes="*" />
+			<fileset dir="${basedir}" includes="*/**/*">
+				<exclude name="idebuild/**/*" />
+				<exclude name="build/**/*" />
+			</fileset>
+		</jar>
+	</target>
+
+
+	<target name="only-binary-jar">
+		<jar destfile="${dist.dir}/genyris-bin-${hg.tip}.jar" duplicate="fail">
+			<fileset dir="${basedir}" includes="README LICENSE" />
+			<fileset dir="${build.dir}" includes="version/**/*" />
+			<fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
+			<fileset dir="${needed.lib.dir}" includes="junit/**/*" />
+			<fileset dir="${src.dir}" includes="**/*.g" />
+			<fileset dir="${src.dir}" includes="**/*.properties" />
+			<fileset dir="${basedir}" includes="testscripts/*.g testscripts/*.lsp" />
+			<manifest>
+				<attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop" />
+				<attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar" />
+				<attribute name="Specification-Title" value="Genyris" />
+				<attribute name="Specification-Version" value="${hg.tip} ${hg.tip.date}" />
+				<attribute name="Specification-Vendor" value="genyris.org" />
+				<attribute name="Implementation-Title" value="Genyris" />
+				<attribute name="Implementation-Version" value="${hg.tip}" />
+				<attribute name="Implementation-Vendor" value="Peter William Birch" />
+				<attribute name="Implementation-Date" value="${TODAY}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="test" depends="binary-release">
+		<exec executable="java" failonerror="true">
+			<arg value="-jar" />
+			<arg value="dist/genyris-bin-${hg.tip}.jar" />
+			<arg value="-eval" />
+			<arg value="(cond ((self-test-runner) (System(.exit 2))))" />
+		</exec>
+	</target>
 
 </project>
