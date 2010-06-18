@@ -88,10 +88,15 @@ public class HTMLFormatter extends AbstractFormatter {
 				write("</" + tag.getPrintName() + ">");
 			}
 		} else {
-			cons.car().acceptVisitor(this);
-			if (!(cons.cdr() instanceof NilSymbol)) {
-				cons.cdr().acceptVisitor(this);
+			Exp head = cons;
+			while( !head.isNil() ) {
+				head.car().acceptVisitor(this);
+				head = head.cdr();
 			}
+//			cons.car().acceptVisitor(this);
+//			if (!(cons.cdr() instanceof NilSymbol)) {
+//				cons.cdr().acceptVisitor(this);
+//			}
 		}
 	}
 
