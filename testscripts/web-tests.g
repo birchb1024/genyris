@@ -15,7 +15,7 @@ def readPage(url)
     count
 
 def run-web()
-    var thread (httpd 7777 "testscripts/www-text.g")
+    var thread (httpd 7776 "testscripts/www-text.g")
     sleep 1000
     thread(.kill)
 
