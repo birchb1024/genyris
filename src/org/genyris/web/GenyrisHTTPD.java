@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.ServerSocket;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Properties;
 
 import org.genyris.core.Constants;
@@ -26,6 +27,7 @@ import org.genyris.load.SourceLoader;
 
 public class GenyrisHTTPD extends NanoHTTPD {
 
+	static HashMap serverSockets  = new HashMap();
 	Interpreter interpreter;
 	String filename;
 
@@ -53,14 +55,24 @@ public class GenyrisHTTPD extends NanoHTTPD {
 		AlistClazz = (Dictionary) interpreter.lookupGlobalFromString("Alist");
 
 		try {
-			ss = new ServerSocket(myTcpPort);
-			ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
+			ss = getSharedServerSocket(myTcpPort);
 		} catch (IOException e1) {
 			throw new GenyrisException("GenyrisHTTPD: Port " + myTcpPort + " "
 					+ e1.getMessage());
 		}
 	}
 
+	private static synchronized ServerSocket getSharedServerSocket(int port) throws IOException {
+		if (serverSockets.containsKey(new Integer(port)) ) {
+			return (ServerSocket) serverSockets.get(new Integer(port));
+		} else {
+			ServerSocket ss = new ServerSocket(port);
+			ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
+			serverSockets.put(new Integer(port), ss);
+			return ss;
+		}
+	}
+	
 	private static Exp makeListOfArray(Symbol NIL, Exp[] args) {
 		// TODO DRY - repeated in evaluater somewhere...
 		Exp arglist = NIL;
@@ -76,6 +88,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 				boolean terminating = false;
 				while (!terminating) {
 					try {
+						 Thread.yield();
 						 new HTTPSession(ss.accept());
 					} catch (InterruptedIOException e) {
 						if (Thread.currentThread().isInterrupted()) {
@@ -86,11 +99,11 @@ public class GenyrisHTTPD extends NanoHTTPD {
 						System.out.println("GenyrisHTTPD: IOException " + ioe.getMessage());
 					}
 				}
-				try {
-					if (ss != null)
-						ss.close();
-				} catch (IOException e) {
-				}
+//				try {
+//					if (ss != null)
+//						; // ss.close();
+//				} catch (IOException e) {
+//				}
 
 			}
 		});

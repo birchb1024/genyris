@@ -71,7 +71,7 @@ import java.util.TimeZone;
  */
 public class NanoHTTPD {
 
-	protected static final int SERVER_SOCKET_TIMEOUT = 1000;
+	protected static final int SERVER_SOCKET_TIMEOUT = 10;
 
 	public class NanoException extends Exception {
 		private static final long serialVersionUID = 8521291173564816199L;

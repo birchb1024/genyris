@@ -14071,6 +14071,10 @@ The return value is a
  passed in
 \emph on
 .
+ 
+\emph default
+Multiple tasks may be started reading from the same port to allow higher
+ throughput.
 \end_layout
 
 \begin_layout Standard
