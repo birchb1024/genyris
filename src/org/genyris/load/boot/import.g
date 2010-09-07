@@ -6,7 +6,7 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 
 define sys:path ^(".")
-define sys:modules (triplestore)
+define sys:modules (graph)
 
 class Module
 

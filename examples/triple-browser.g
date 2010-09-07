@@ -36,7 +36,7 @@ define store nil
 
 def loadDataFromCSV(url)
     var in (web:get url)
-    store = (triplestore)
+    store = (graph)
     define $line ""
     while (not (equal? EOF ($line = (in(.getline)))))
         define aslist ($line(.split ","))

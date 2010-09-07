@@ -17,68 +17,68 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 
-public class TripleStoreFunction extends ApplicableFunction {
+public class GraphFunction extends ApplicableFunction {
 
-	public TripleStoreFunction(Interpreter interp) {
-		super(interp, "triplestore", true);
+	public GraphFunction(Interpreter interp) {
+		super(interp, "graph", true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		for (int i = 0; i < arguments.length; i++) {
 			addTripleFromList(ts, arguments[i]);
 		}
 		return ts;
 	}
 
-	private void addTripleFromList(TripleStore ts, Exp exp)
+	private void addTripleFromList(Graph ts, Exp exp)
 			throws GenyrisException {
 		ts.add(Triple.mkTripleFromList(exp));
 	}
 
 	public static void bindFunctionsAndMethods(Interpreter interpreter)
 			throws UnboundException, GenyrisException {
-		interpreter.bindGlobalProcedureInstance(new TripleStoreFunction(
+		interpreter.bindGlobalProcedureInstance(new GraphFunction(
 				interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE, new AddMethod(
+		interpreter.bindMethodInstance(Constants.GRAPH, new AddMethod(
 				interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE, new SelectMethod(
+		interpreter.bindMethodInstance(Constants.GRAPH, new SelectMethod(
 				interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE,
+		interpreter.bindMethodInstance(Constants.GRAPH,
 				new AsTriplesMethod(interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE, new RemoveMethod(
+		interpreter.bindMethodInstance(Constants.GRAPH, new RemoveMethod(
 				interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE, new LengthMethod(
+		interpreter.bindMethodInstance(Constants.GRAPH, new LengthMethod(
 				interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE, new GetMethod(
+		interpreter.bindMethodInstance(Constants.GRAPH, new GetMethod(
 				interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE, new PutMethod(
+		interpreter.bindMethodInstance(Constants.GRAPH, new PutMethod(
 				interpreter));
-		interpreter.bindMethodInstance(Constants.TRIPLESTORE,
+		interpreter.bindMethodInstance(Constants.GRAPH,
 				new GetListMethod(interpreter));
 	}
 
-	public static abstract class AbstractTripleStoreMethod extends
+	public static abstract class AbstractGraphMethod extends
 			AbstractMethod {
 
-		public AbstractTripleStoreMethod(Interpreter interp, String name) {
+		public AbstractGraphMethod(Interpreter interp, String name) {
 			super(interp, name);
 		}
 
-		protected TripleStore getSelfTS(Environment env)
+		protected Graph getSelfTS(Environment env)
 				throws GenyrisException {
 			getSelf(env);
-			if (!(_self instanceof TripleStore)) {
+			if (!(_self instanceof Graph)) {
 				throw new GenyrisException(
-						"Non-TripleStore passed to a TripleStore method.");
+						"Non-Graph passed to a Graph method.");
 			} else {
-				return (TripleStore) _self;
+				return (Graph) _self;
 			}
 		}
 	}
 
-	public static class AddMethod extends AbstractTripleStoreMethod {
+	public static class AddMethod extends AbstractGraphMethod {
 
 		public AddMethod(Interpreter interp) {
 			super(interp, "add");
@@ -86,7 +86,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			checkArguments(arguments, 1);
 			Class[] types = { Triple.class };
 			checkArgumentTypes(types, arguments);
@@ -95,7 +95,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class GetMethod extends AbstractTripleStoreMethod {
+	public static class GetMethod extends AbstractGraphMethod {
 
 		public GetMethod(Interpreter interp) {
 			super(interp, "get");
@@ -103,7 +103,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			checkArguments(arguments, 2);
 			Class[] types = { Exp.class, Symbol.class };
 			checkArgumentTypes(types, arguments);
@@ -111,7 +111,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class GetListMethod extends AbstractTripleStoreMethod {
+	public static class GetListMethod extends AbstractGraphMethod {
 
 		public GetListMethod(Interpreter interp) {
             super(interp, "get-list");
@@ -119,7 +119,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			checkArguments(arguments, 2);
 			Class[] types = { Exp.class, Symbol.class };
 			checkArgumentTypes(types, arguments);
@@ -127,7 +127,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class PutMethod extends AbstractTripleStoreMethod {
+	public static class PutMethod extends AbstractGraphMethod {
 
 		public PutMethod(Interpreter interp) {
 			super(interp, "put");
@@ -135,7 +135,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			checkArguments(arguments, 3);
 			Class[] types = { Exp.class, Symbol.class, Exp.class };
 			checkArgumentTypes(types, arguments);
@@ -144,7 +144,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class LengthMethod extends AbstractTripleStoreMethod {
+	public static class LengthMethod extends AbstractGraphMethod {
 
 		public LengthMethod(Interpreter interp) {
 			super(interp, "length");
@@ -152,12 +152,12 @@ public class TripleStoreFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			return new Bignum(self.length());
 		}
 	}
 
-	public static class SelectMethod extends AbstractTripleStoreMethod {
+	public static class SelectMethod extends AbstractGraphMethod {
 
 		public SelectMethod(Interpreter interp) {
 			super(interp, "select");
@@ -166,7 +166,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			Closure closure = null;
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			checkMinArguments(arguments, 3);
 			Class[] types = { Exp.class, Symbol.class, Exp.class };
 			checkArgumentTypes(types, arguments);
@@ -191,7 +191,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class AsTriplesMethod extends AbstractTripleStoreMethod {
+	public static class AsTriplesMethod extends AbstractGraphMethod {
 
 		public AsTriplesMethod(Interpreter interp) {
 			super(interp, "asTriples");
@@ -199,12 +199,12 @@ public class TripleStoreFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			return self.asTripleList(NIL);
 		}
 	}
 
-	public static class RemoveMethod extends AbstractTripleStoreMethod {
+	public static class RemoveMethod extends AbstractGraphMethod {
 
 		public RemoveMethod(Interpreter interp) {
 			super(interp, "remove");
@@ -212,7 +212,7 @@ public class TripleStoreFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			TripleStore self = getSelfTS(env);
+			Graph self = getSelfTS(env);
 			checkArguments(arguments, 1);
 			Class[] types = { Triple.class };
 			checkArgumentTypes(types, arguments);

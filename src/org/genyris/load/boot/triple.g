@@ -8,11 +8,12 @@
 #  About triples...
 #
 df tripleq (s p o) (triple s p o)
-var *global-triplestore* (triplestore)
+var *global-graph* (graph)
 df description(&rest body)
     while body
         var t (left body)
-        *global-triplestore*
+        *global-graph*
            .add (triple (car t) (car (cdr t)) (car (cdr (cdr t))))
         body = (cdr body)
+        
         

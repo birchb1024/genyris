@@ -23,7 +23,7 @@ import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
-import org.genyris.dl.TripleStore;
+import org.genyris.dl.Graph;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
@@ -41,7 +41,7 @@ public class Interpreter {
 
     StandardEnvironment _globalEnvironment;
     SymbolTable _table;
-    TripleStore _globalDescriptions;
+    Graph _globalDescriptions;
 
     Writer _defaultOutput;
 
@@ -55,7 +55,7 @@ public class Interpreter {
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
-        _globalDescriptions = new TripleStore();
+        _globalDescriptions = new Graph();
         Dictionary SYMBOL = new Dictionary(_globalEnvironment);
         _defaultOutput = new OutputStreamWriter(System.out);
         {
@@ -225,7 +225,7 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.PARENPARSER, env, builtin);
 		StandardClass.mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
 		StandardClass.mkClass(Constants.TRIPLE, env, builtin);
-		StandardClass.mkClass(Constants.TRIPLESTORE, env, builtin);
+		StandardClass.mkClass(Constants.GRAPH, env, builtin);
 		StandardClass.mkClass(Constants.JAVA, env, builtin);
 		StandardClass.mkClass(Constants.JAVAWRAPPER, env, builtin);
 		StandardClass.mkClass(Constants.JAVACLASS, env, builtin);

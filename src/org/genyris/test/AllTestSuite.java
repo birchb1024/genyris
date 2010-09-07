@@ -4,7 +4,7 @@ package org.genyris.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.genyris.test.core.*;
-import org.genyris.test.dl.TripleStoreTest;
+import org.genyris.test.dl.GraphTest;
 import org.genyris.test.dl.TripleTest;
 import org.genyris.test.format.*;
 import org.genyris.test.interp.BuiltinInterpreterTests;
@@ -36,7 +36,7 @@ public class AllTestSuite {
         suite.addTestSuite(LsymbolTest.class);
         suite.addTestSuite(SymbolTableTest.class);
         // dl
-        suite.addTestSuite(TripleStoreTest.class);
+        suite.addTestSuite(GraphTest.class);
         suite.addTestSuite(TripleTest.class);
         // string
         suite.addTestSuite(StringTests.class);

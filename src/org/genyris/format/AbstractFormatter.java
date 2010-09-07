@@ -20,7 +20,7 @@ import org.genyris.core.StrinG;
 import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
 import org.genyris.dl.Triple;
-import org.genyris.dl.TripleStore;
+import org.genyris.dl.Graph;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.EagerProcedure;
@@ -124,7 +124,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 		write(")");
 	}
 
-	public void visitTripleStore(TripleStore ts) throws GenyrisException {
+	public void visitGraph(Graph ts) throws GenyrisException {
 		write(ts.toString());
 	}
 

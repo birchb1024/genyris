@@ -1,4 +1,4 @@
-#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -9497,12 +9497,12 @@ triple
 
 \end_inset
 
- and triplestores
+ and graphs
 \begin_inset Index
 status open
 
 \begin_layout Plain Layout
-triplestore
+graph
 \end_layout
 
 \end_inset
@@ -9517,8 +9517,8 @@ triplestore
 \end_layout
 
 \begin_layout Standard
-Triples and triplestores which are derived from Description Logic also form
- the foundation for the Genyris
+Triples and graphs which are derived from Description Logic also form the
+ foundation for the Genyris
 \emph on
  type system
 \emph default
@@ -9645,12 +9645,12 @@ Triples alone are not particularly useful without a way of comparing them
  and managing them.
 
 \emph on
- Triplestores
+ Graphs
 \begin_inset Index
 status open
 
 \begin_layout Plain Layout
-triplestore
+graph
 \end_layout
 
 \end_inset
@@ -9659,9 +9659,9 @@ triplestore
 \emph default
 (as the name suggests) are in-memory sets of triples with functions for
  searching for, adding and removing triples.
- Because Genyris triples may have any object as their subjects, Triplestores
- are used where other languages may rely on hash-tables.
- Triplestores in their turn can be used as sets, with comparison, intersection
+ Because Genyris triples may have any object as their subjects, Graphs are
+ used where other languages may rely on hash-tables.
+ Graphs in their turn can be used as sets, with comparison, intersection
  and union functions.
 \end_layout
 
@@ -9898,59 +9898,58 @@ nil # SimpleSymbol
 \end_layout
 
 \begin_layout Subsection
-TripleStores
+Graphs
 \end_layout
 
 \begin_layout Standard
-Genyris provides a special container class for triples, the 'triplestore
+Genyris provides a special container class for triples, the 'graph
 \begin_inset Index
 status open
 
 \begin_layout Plain Layout
-triplestore
+graph
 \end_layout
 
 \end_inset
 
 '.
- Triplestores are really just a set of triples, since all triples within
- the store are unequal.
- Triplestores are not persisted (saved on disk) they are purely in-memory
- objects.
- Triplestores are used as lookup tables (instead of a hashtable) and they
- are used for more complex comparisons between sets of triples.
+ Graphs are really just a set of triples, since all triples within the store
+ are unequal.
+ Graphs are not persisted (saved on disk) they are purely in-memory objects.
+ Graphs are used as lookup tables (instead of a hashtable) and they are
+ used for more complex comparisons between sets of triples.
  The speed of the current implementation is inversely proportional to the
  number of triples in the store.
 \end_layout
 
 \begin_layout Subsubsection
-Creating TripleStores with
+Creating Graphs with
 \emph on
- tripleStore
+ graph
 \end_layout
 
 \begin_layout Standard
 The
 \emph on
- triplestore
+ graph
 \begin_inset Index
 status open
 
 \begin_layout Plain Layout
-triplestore
+graph
 \end_layout
 
 \end_inset
 
 
 \emph default
- function constructs a triplestore object.
+ function constructs a graph object.
  It accepts an option list of 3-lists which are converted to triples.
  Example:
 \end_layout
 
 \begin_layout LyX-Code
-> triplestore
+> graph
 \end_layout
 
 \begin_layout LyX-Code
@@ -9966,20 +9965,20 @@ triplestore
 \end_layout
 
 \begin_layout LyX-Code
-(triplestore) # Triplestore
+(graph) # Graph
 \end_layout
 
 \begin_layout Subsubsection
-TripleStore equality
+Graph equality
 \end_layout
 
 \begin_layout Standard
-Two triplestores are
+Two graphs are
 \emph on
  equal?
 \emph default
- if their constituent triples have an equal triple in the other triplestore
- and vice versa.
+ if their constituent triples have an equal triple in the other graph and
+ vice versa.
 \end_layout
 
 \begin_layout Subsubsection
@@ -10005,9 +10004,9 @@ The
 \emph on
  .add
 \emph default
- method adds a triple to a triplestore.
+ method adds a triple to a graph.
  If the triple is already present no error is thrown.
- The triplestore object is returned.
+ The graph object is returned.
  Syntax is:
 \end_layout
 
@@ -10046,9 +10045,9 @@ The
 \emph on
  .remove
 \emph default
- method removes a single triple from a triplestore.
+ method removes a single triple from a graph.
  If the triple is already absent no error is thrown.
- The triplestore object is returned.
+ The graph object is returned.
  Syntax is:
 \end_layout
 
@@ -10087,8 +10086,8 @@ The
 \emph on
  .select
 \emph default
- method provides a way of iterating over the set of triples in the triplestore
- and returning a new triplestore with triples of interest.
+ method provides a way of iterating over the set of triples in the graph
+ and returning a new graph with triples of interest.
  Syntax:
 \end_layout
 
@@ -10097,7 +10096,7 @@ The
 \end_layout
 
 \begin_layout Standard
-The function iterates through every triple in the triplestore, if the
+The function iterates through every triple in the graph, if the
 \emph on
  <subject>
 \emph default
@@ -10276,7 +10275,7 @@ var ts
 \end_layout
 
 \begin_layout LyX-Code
-   triplestore
+   graph
 \end_layout
 
 \begin_layout LyX-Code
@@ -10320,7 +10319,7 @@ assert
 \end_layout
 
 \begin_layout LyX-Code
-      triplestore ^(joe age three) ^(joe age ten)
+      graph ^(joe age three) ^(joe age ten)
 \end_layout
 
 \begin_layout Subsubsection
@@ -10342,7 +10341,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Often triplestores will contain unique triples
+Often graphs will contain unique triples
 \begin_inset Index
 status open
 
@@ -10374,7 +10373,7 @@ Syntax:
 \end_layout
 
 \begin_layout LyX-Code
-<triplestore> (.get subject predicate)
+<graph> (.get subject predicate)
 \end_layout
 
 \begin_layout Subsubsection
@@ -10422,7 +10421,7 @@ The
 \end_layout
 
 \begin_layout LyX-Code
-<triplestore> (.get-list subject predicate)
+<graph> (.get-list subject predicate)
 \end_layout
 
 \begin_layout Subsubsection
@@ -10448,7 +10447,7 @@ The
 \emph on
  put
 \emph default
- method removes all triples from the triplestore with the matching
+ method removes all triples from the graph with the matching
 \emph on
  subject
 \emph default
@@ -10502,20 +10501,20 @@ The
 \emph on
  .asTriples
 \emph default
- method returns a list containing all the triples in the triplestore.
+ method returns a list containing all the triples in the graph.
 \end_layout
 
 \begin_layout Subsubsection
 Triplification with
 \emph on
- .asTripleStore
+ .asGraph
 \begin_inset Index
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-.asTripleStore
+.asGraph
 \end_layout
 
 \end_inset
@@ -10572,7 +10571,7 @@ var foot (tag Inches 12)
 \begin_layout LyX-Code
 >
 \emph on
-(foot(.asTripleStore))(.asTriples))
+(foot(.asGraph))(.asTriples))
 \end_layout
 
 \begin_layout LyX-Code
@@ -10590,7 +10589,7 @@ and
 \begin_layout LyX-Code
 >
 \emph on
-(^(1 2)(.asTripleStore))(.asTriples)
+(^(1 2)(.asGraph))(.asTriples)
 \end_layout
 
 \begin_layout LyX-Code
@@ -10678,9 +10677,9 @@ ptions are possible without resorting to reification.
 \end_layout
 
 \begin_layout Standard
-Triples and triplestores allow the programmer to store information about
- objects which may not have a means of adding properties of their own beyond
- their class membership list.
+Triples and graphs allow the programmer to store information about objects
+ which may not have a means of adding properties of their own beyond their
+ class membership list.
 \end_layout
 
 \begin_layout Section
@@ -11778,9 +11777,8 @@ The
 \emph on
  sys:modules
 \emph default
- triplestore.
- This triplestore contains a binding between the module name and the module
- object.
+ graph.
+ This graph contains a binding between the module name and the module object.
  When the import is called it checks to see if the module has already been
  loaded, if so it binds the module to a variable of the same name in the
  caller's environment.
@@ -11835,7 +11833,7 @@ The
 \emph on
  sys:modules
 \emph default
- triplestore is replace with the new object.
+ graph is replace with the new object.
  Other references to the module will still refer to the old module.
 \end_layout
 
@@ -12365,7 +12363,7 @@ Here is the default class hierarchy:
 \end_layout
 
 \begin_layout LyX-Code
-       Triplestore
+       Graph
 \end_layout
 
 \begin_layout LyX-Code

@@ -12,7 +12,7 @@ class Years
 ## make statements about this object:
 var twenty 20
 var statements
-   triplestore 
+   graph 
       `(,twenty units ,Years)
       `(,twenty type |http://people.org/type#age|)
 assertEqual

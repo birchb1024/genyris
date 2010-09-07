@@ -9,11 +9,11 @@ import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.dl.Triple;
-import org.genyris.dl.TripleStore;
+import org.genyris.dl.Graph;
 import org.genyris.exception.GenyrisException;
 import org.genyris.test.interp.TestUtilities;
 
-public class TripleStoreTest extends TestCase {
+public class GraphTest extends TestCase {
 
 	private TestUtilities interpreter;
 
@@ -34,11 +34,11 @@ public class TripleStoreTest extends TestCase {
 		}
 	}
 
-	public void testBasicTripleStore1() throws GenyrisException {
-		TripleStore ts = new TripleStore();
+	public void testBasicGraph1() throws GenyrisException {
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
-		TripleStore ts2 = new TripleStore();
+		Graph ts2 = new Graph();
 		assertTrue(ts.equals(ts2));
 
 		Bignum subject = new Bignum(1);
@@ -51,12 +51,12 @@ public class TripleStoreTest extends TestCase {
 				new StrinG("$")));
 		assertFalse(ts.equals(ts2));
 
-		TripleStore result = ts.select(subject, null, null, null, null);
+		Graph result = ts.select(subject, null, null, null, null);
 		assertEquals(ts, result);
 	}
 
-	public void testBasicTripleStore2() {
-		TripleStore ts = new TripleStore();
+	public void testBasicGraph2() {
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -74,7 +74,7 @@ public class TripleStoreTest extends TestCase {
 	}
 
 	public void testGetOK() {
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -96,7 +96,7 @@ public class TripleStoreTest extends TestCase {
 	}
 
 	public void testGetNone() {
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -110,7 +110,7 @@ public class TripleStoreTest extends TestCase {
 	}
 
 	public void testGetTooMany() {
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -134,7 +134,7 @@ public class TripleStoreTest extends TestCase {
 
 	public void testGetListOne() {
 		Exp NIL = new NilSymbol();
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -147,7 +147,7 @@ public class TripleStoreTest extends TestCase {
 
 	public void testGetListNone() {
 		Exp NIL = new NilSymbol();
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -160,7 +160,7 @@ public class TripleStoreTest extends TestCase {
 
 	public void testGetListMany() {
 		Exp NIL = new NilSymbol();
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -181,7 +181,7 @@ public class TripleStoreTest extends TestCase {
 	}
 
 	public void testPutOK() {
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -206,7 +206,7 @@ public class TripleStoreTest extends TestCase {
 	}
 
 	public void testPutWasEmpty() {
-		TripleStore ts = new TripleStore();
+		Graph ts = new Graph();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -237,13 +237,13 @@ public class TripleStoreTest extends TestCase {
 
 	public void testInterpStore() throws Exception {
 		eval(
-				"(null? (member? ^.asTriples ((car ((triplestore).classes)).vars)))",
+				"(null? (member? ^.asTriples ((car ((graph).classes)).vars)))",
 				"nil");
-		eval("(defvar ^ts (triplestore))", "(triplestore)");
-		eval("(ts.classes)", "(<class Triplestore (Builtin)>)");
-		eval("(ts(.add (triple ^s ^p ^o)))", "(triplestore)");
+		eval("(defvar ^ts (graph))", "(graph)");
+		eval("(ts.classes)", "(<class Graph (Builtin)>)");
+		eval("(ts(.add (triple ^s ^p ^o)))", "(graph)");
 		excerciseBadEval("(ts(.add (triple ^s 3 ^o)))");
-		eval("(ts(.select ^s nil nil)))", "(triplestore)");
+		eval("(ts(.select ^s nil nil)))", "(graph)");
 		eval("(equal? ts (ts(.select nil nil nil)))", "true");
 		eval("(equal? ts (ts(.select ^s nil nil)))", "true");
 		eval("(equal? ts (ts(.select ^s ^p nil)))", "true");
@@ -256,15 +256,15 @@ public class TripleStoreTest extends TestCase {
 
 	public void testInterpStoreMulti() throws Exception {
 		eval(
-				"(null? (member? ^.asTriples ((car ((triplestore).classes)).vars)))",
+				"(null? (member? ^.asTriples ((car ((graph).classes)).vars)))",
 				"nil");
-		eval("(defvar ^ts (triplestore))", "(triplestore)");
-		eval("(ts.classes)", "(<class Triplestore (Builtin)>)");
-		eval("(ts(.add (triple ^s ^p ^o1)))", "(triplestore)");
-		eval("(ts(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts(.add (triple ^x ^p ^z)))", "(triplestore)");
+		eval("(defvar ^ts (graph))", "(graph)");
+		eval("(ts.classes)", "(<class Graph (Builtin)>)");
+		eval("(ts(.add (triple ^s ^p ^o1)))", "(graph)");
+		eval("(ts(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts(.add (triple ^x ^p ^z)))", "(graph)");
 		excerciseBadEval("(ts(.add (triple ^s 3 ^o)))");
-		eval("(ts(.select ^s nil nil)))", "(triplestore)");
+		eval("(ts(.select ^s nil nil)))", "(graph)");
 		eval("(equal? ts (ts(.select nil nil nil)))", "true");
 		eval("(equal? ts (ts(.select ^s nil nil)))", "nil");
 		eval("(equal? ts (ts(.select ^s ^p nil)))", "nil");
@@ -287,73 +287,73 @@ public class TripleStoreTest extends TestCase {
 	}
 
 	public void testInterpEquals1() throws Exception {
-		eval("(defvar ^ts1 (triplestore))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts1(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p 99)))", "(triplestore)");
-		eval("(ts1(.add (triple ^x ^p 99)))", "(triplestore)");
+		eval("(defvar ^ts1 (graph))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts1(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p 99)))", "(graph)");
+		eval("(ts1(.add (triple ^x ^p 99)))", "(graph)");
 
-		eval("(defvar ^ts2 (triplestore))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts2(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p 99)))", "(triplestore)");
-		eval("(ts2(.add (triple ^x ^p 99)))", "(triplestore)");
+		eval("(defvar ^ts2 (graph))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts2(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p 99)))", "(graph)");
+		eval("(ts2(.add (triple ^x ^p 99)))", "(graph)");
 
 		eval("(equal? ts1 ts2)", "true");
 		eval("(equal? ts2 ts1)", "true");
 	}
 
 	public void testInterpEquals2() throws Exception {
-		eval("(defvar ^ts1 (triplestore))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts1(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p 99)))", "(triplestore)");
-		eval("(ts1(.add (triple ^x ^p 99)))", "(triplestore)");
+		eval("(defvar ^ts1 (graph))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts1(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p 99)))", "(graph)");
+		eval("(ts1(.add (triple ^x ^p 99)))", "(graph)");
 
-		eval("(defvar ^ts2 (triplestore))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts2(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p 99)))", "(triplestore)");
-		eval("(ts2(.add (triple ^x ^p 99)))", "(triplestore)");
+		eval("(defvar ^ts2 (graph))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts2(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p 99)))", "(graph)");
+		eval("(ts2(.add (triple ^x ^p 99)))", "(graph)");
 
 		eval("(equal? ts1 ts2)", "true");
 		eval("(equal? ts2 ts1)", "true");
 	}
 
 	public void testInterpEquals3() throws Exception {
-		eval("(defvar ^ts1 (triplestore))", "(triplestore)");
-		eval("(defvar ^ts2 (triplestore))", "(triplestore)");
+		eval("(defvar ^ts1 (graph))", "(graph)");
+		eval("(defvar ^ts2 (graph))", "(graph)");
 		eval("(equal? ts1 ts2)", "true");
 		eval("(equal? ts2 ts1)", "true");
 	}
 
 	public void testInterpEquals4() throws Exception {
-		eval("(defvar ^ts1 (triplestore))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts1(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p 99)))", "(triplestore)");
+		eval("(defvar ^ts1 (graph))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts1(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p 99)))", "(graph)");
 
-		eval("(defvar ^ts2 (triplestore))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts2(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts2(.add (triple ^s ^p 99)))", "(triplestore)");
-		eval("(ts2(.add (triple ^x ^p 99)))", "(triplestore)");
+		eval("(defvar ^ts2 (graph))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts2(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts2(.add (triple ^s ^p 99)))", "(graph)");
+		eval("(ts2(.add (triple ^x ^p 99)))", "(graph)");
 
 		eval("(equal? ts1 ts2)", "nil");
 		eval("(equal? ts2 ts1)", "nil");
 	}
 
 	public void testInterpEquals5() throws Exception {
-		eval("(defvar ^ts1 (triplestore))", "(triplestore)");
-		eval("(ts1(.add (triple ^s ^p ^o)))", "(triplestore)");
+		eval("(defvar ^ts1 (graph))", "(graph)");
+		eval("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
 
-		eval("(defvar ^ts2 (triplestore))", "(triplestore)");
+		eval("(defvar ^ts2 (graph))", "(graph)");
 
 		eval("(equal? ts1 ts2)", "nil");
 		eval("(equal? ts2 ts1)", "nil");
@@ -362,22 +362,22 @@ public class TripleStoreTest extends TestCase {
 	public void testInterpCondition() throws Exception {
 		eval("(defvar ^isObject99 (lambda (s o p) (equal? p 99)))",
 				"<EagerProc: <anonymous lambda>>");
-		eval("(defvar ^ts (triplestore))", "(triplestore)");
-		eval("(ts(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts(.add (triple ^s ^p ^o2)))", "(triplestore)");
-		eval("(ts(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts(.add (triple ^s ^p 99)))", "(triplestore)");
-		eval("(ts(.add (triple ^x ^p 99)))", "(triplestore)");
+		eval("(defvar ^ts (graph))", "(graph)");
+		eval("(ts(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts(.add (triple ^s ^p ^o2)))", "(graph)");
+		eval("(ts(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts(.add (triple ^s ^p 99)))", "(graph)");
+		eval("(ts(.add (triple ^x ^p 99)))", "(graph)");
 		eval("(defvar ^result (ts(.select nil nil nil isObject99))))",
-				"(triplestore)");
+				"(graph)");
 		eval("(defvar ^result (ts(.select ^s nil nil isObject99))))",
-				"(triplestore)");
+				"(graph)");
 		eval("(result(.asTriples))", "((triple s p 99))");
 		eval("(defvar ^result (ts(.select ^s ^p nil isObject99))))",
-				"(triplestore)");
+				"(graph)");
 		eval("(result(.asTriples))", "((triple s p 99))");
 		eval("(defvar ^result (ts(.select ^s ^p 99 isObject99))))",
-				"(triplestore)");
+				"(graph)");
 		eval("(result(.asTriples))", "((triple s p 99))");
 	}
 
@@ -385,13 +385,13 @@ public class TripleStoreTest extends TestCase {
 		eval("(defvar ^ninenine 99)", "99");
 		eval("(defvar ^isObject99 (lambda (s p o) (equal? o 99)))",
 				"<EagerProc: <anonymous lambda>>");
-		eval("(defvar ^ts (triplestore))", "(triplestore)");
-		eval("(ts(.add (triple ^s ^p ^o)))", "(triplestore)");
-		eval("(ts(.add (triple ^x ^p ^o)))", "(triplestore)");
-		eval("(ts(.add (triple ^s ^p ninenine)))", "(triplestore)");
-		eval("(ts(.add (triple ^x ^p ninenine)))", "(triplestore)");
+		eval("(defvar ^ts (graph))", "(graph)");
+		eval("(ts(.add (triple ^s ^p ^o)))", "(graph)");
+		eval("(ts(.add (triple ^x ^p ^o)))", "(graph)");
+		eval("(ts(.add (triple ^s ^p ninenine)))", "(graph)");
+		eval("(ts(.add (triple ^x ^p ninenine)))", "(graph)");
 		eval("(defvar ^result (ts(.select ^s ^p ninenine isObject99))))",
-				"(triplestore)");
+				"(graph)");
 		eval("(result(.asTriples))", "((triple s p 99))");
 		eval("(print (ts(.asTriples))))", "true");
 		eval(
@@ -402,25 +402,25 @@ public class TripleStoreTest extends TestCase {
 	public void testInterpStoreConstruction() throws Exception {
 		eval("(defvar ^noop (lambda (&rest args)))",
 				"<EagerProc: <anonymous lambda>>");
-		eval("(triplestore ^(s p o))", "(triplestore)");
-		eval("(defvar ^ts (triplestore ^(s p o)))", "(triplestore)");
-		eval("(ts(.select ^s nil nil noop)))", "(triplestore)");
+		eval("(graph ^(s p o))", "(graph)");
+		eval("(defvar ^ts (graph ^(s p o)))", "(graph)");
+		eval("(ts(.select ^s nil nil noop)))", "(graph)");
 		eval("(ts(.asTriples)))", "((triple s p o))");
 	}
 
 	public void testInterpStoreRemove() throws Exception {
-		eval("(defvar ^ts (triplestore ^(s p o)))", "(triplestore)");
+		eval("(defvar ^ts (graph ^(s p o)))", "(graph)");
 		eval("(ts(.asTriples)))", "((triple s p o))");
-		eval("(ts(.remove (triple ^s ^p ^o))))", "(triplestore)");
+		eval("(ts(.remove (triple ^s ^p ^o))))", "(graph)");
 		eval("(ts(.asTriples)))", "nil");
 	}
 
 	public void testInterpStoreConstructionMulti() throws Exception {
 		eval("(defvar ^noop (lambda (&rest args)))",
 				"<EagerProc: <anonymous lambda>>");
-		eval("(triplestore ^(s p o) ^(s b c))", "(triplestore)");
-		eval("(defvar ^ts (triplestore ^(s p o) ^(s b c)))", "(triplestore)");
-		eval("(ts(.select ^s nil nil noop)))", "(triplestore)");
+		eval("(graph ^(s p o) ^(s b c))", "(graph)");
+		eval("(defvar ^ts (graph ^(s p o) ^(s b c)))", "(graph)");
+		eval("(ts(.select ^s nil nil noop)))", "(graph)");
 		eval("(length (ts(.asTriples))))", "2");
 		eval(
 				"((SetList.equal?) (ts(.asTriples)) (list (tripleq s p o) (tripleq s b c)))",
@@ -432,8 +432,8 @@ public class TripleStoreTest extends TestCase {
 				"((triple (dict (.a = 3) (.b = 5)) b 5) (triple (dict (.a = 3) (.b = 5)) a 3))");
 		eval("(defvar ^thedict (dict(.a =3)(.b =5)))",
 				"(dict (.a = 3) (.b = 5))");
-		eval("(thedict(.asTripleStore))", "(triplestore)");
-		eval("(defvar ^ts (thedict(.asTripleStore)))", "(triplestore)");
+		eval("(thedict(.asGraph))", "(graph)");
+		eval("(defvar ^ts (thedict(.asGraph)))", "(graph)");
 		eval(
 				"((SetList.equal?) (ts(.asTriples)) (list (triple thedict ^a 3) (triple thedict ^b 5)))",
 				"true");
@@ -450,10 +450,10 @@ public class TripleStoreTest extends TestCase {
 
 	}
 
-	public void testInterpTripleStoreClasses() throws Exception {
-		eval("((23(.asTripleStore))(.asTriples))",
+	public void testInterpGraphClasses() throws Exception {
+		eval("((23(.asGraph))(.asTriples))",
 				"((triple 23 type <class Bignum (Builtin)>))");
-		eval("(('X'(.asTripleStore))(.asTriples))",
+		eval("(('X'(.asGraph))(.asTriples))",
 				"((triple 'X' type <class String (Builtin)>))");
 	}
 }

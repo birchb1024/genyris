@@ -18,15 +18,15 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 
-public class TripleStore extends Atom {
+public class Graph extends Atom {
 
 	private List triples;
 
-	public TripleStore() {
+	public Graph() {
 		triples = new CopyOnWriteArrayList();
 	}
 
-	public TripleStore(Set triples2) {
+	public Graph(Set triples2) {
 		Iterator iter = triples2.iterator();
 		while (iter.hasNext()) {
 			add((Triple)iter.next());
@@ -34,11 +34,11 @@ public class TripleStore extends Atom {
 	}
 
 	public boolean equals(Object compare) {
-		if (!(compare instanceof TripleStore)) {
+		if (!(compare instanceof Graph)) {
 			return false;
 		} else {
 			int matches = 0;
-			TripleStore otherTS = (TripleStore) compare;
+			Graph otherTS = (Graph) compare;
 			Iterator iter = triples.iterator();
 			while (iter.hasNext()) {
 				Triple item = (Triple)iter.next();
@@ -54,15 +54,15 @@ public class TripleStore extends Atom {
 	}
 
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
-		guest.visitTripleStore(this);
+		guest.visitGraph(this);
 	}
 
 	public String toString() {
-		return "(triplestore" + ")";
+		return "(graph" + ")";
 	}
 
 	public Symbol getBuiltinClassSymbol(Internable table) {
-		return table.TRIPLESTORE();
+		return table.GRAPH();
 	}
 
 	public int hashCode() {
@@ -111,9 +111,9 @@ public class TripleStore extends Atom {
 		triples.add(t);
 	}
 
-	public TripleStore select(Exp subject, Exp predicate, Exp object,
+	public Graph select(Exp subject, Exp predicate, Exp object,
 			Closure condition, Environment env) throws GenyrisException {
-		TripleStore results = new TripleStore();
+		Graph results = new Graph();
 		Iterator iter = triples.iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
@@ -145,14 +145,14 @@ public class TripleStore extends Atom {
  			if (   (item.subject   == subject) 
 				&& (item.predicate == predicate)) {
  					if(result != null) {
- 						throw new GenyrisException("More than one triple in triplestore matching " + subject.toString() + " " + predicate.toString());
+ 						throw new GenyrisException("More than one triple in graph matching " + subject.toString() + " " + predicate.toString());
  					} else {
  						result = item.object;	
  					}
 			}
 		}
 		if( result == null ) {
-				throw new GenyrisException("No triple in triplestore matching " + subject.toString() + " " + predicate.toString());
+				throw new GenyrisException("No triple in graph matching " + subject.toString() + " " + predicate.toString());
 		}
 		return result;
 	}
@@ -190,8 +190,8 @@ public class TripleStore extends Atom {
 		return result;
 	}
 
-	public TripleStore difference(TripleStore toRemove) throws GenyrisException {
-		TripleStore result =  new TripleStore();
+	public Graph difference(Graph toRemove) throws GenyrisException {
+		Graph result =  new Graph();
 		Iterator iter = triples.iterator();
 		while(iter.hasNext()) {
 			Triple item = (Triple)iter.next();

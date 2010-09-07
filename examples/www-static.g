@@ -7,7 +7,7 @@
 
 include 'examples/www-basic-auth.g'
 
-var *users* (triplestore)
+var *users* (graph)
 *users*
     .add 
        triple ^user1 ^hasPassword ^pw1

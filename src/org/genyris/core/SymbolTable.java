@@ -55,7 +55,7 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _dictionary;
 	private SimpleSymbol _URISYMBOL;
 	private SimpleSymbol _TRIPLE;
-	private SimpleSymbol _TRIPLESTORE;
+	private SimpleSymbol _GRAPH;
     private SimpleSymbol _TYPE;
     private SimpleSymbol _DESCRIPTIONS;
 	private SimpleSymbol _SUBCLASSOF;
@@ -124,7 +124,7 @@ public class SymbolTable implements Internable {
 	_WRITER = bindKeyword(String.valueOf(Constants.WRITER));
 
 	_TRIPLE = bindKeyword(String.valueOf(Constants.TRIPLE));
-	_TRIPLESTORE = bindKeyword(String.valueOf(Constants.TRIPLESTORE));
+	_GRAPH = bindKeyword(String.valueOf(Constants.GRAPH));
     _TYPE = bindKeyword(String.valueOf(Constants.TYPE));
     _DESCRIPTIONS = bindKeyword(String.valueOf(Constants.DESCRIPTIONS));
     
@@ -347,8 +347,8 @@ public class SymbolTable implements Internable {
 	public SimpleSymbol WRITER() {
 		return _WRITER;
 	}
-	public SimpleSymbol TRIPLESTORE() {
-		return _TRIPLESTORE;
+	public SimpleSymbol GRAPH() {
+		return _GRAPH;
 	}
 	public SimpleSymbol TRIPLE() {
 		return _TRIPLE;

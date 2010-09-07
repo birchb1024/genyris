@@ -23,7 +23,7 @@ s:load-class-by-name "org.genyris.system.SystemGetenvMethod"
 
 s:load-class-by-name "org.genyris.interp.builtin.ObjectFunction"
 s:load-class-by-name "org.genyris.dl.TripleFunctions"
-s:load-class-by-name "org.genyris.dl.TripleStoreFunction"
+s:load-class-by-name "org.genyris.dl.GraphFunction"
 s:load-class-by-name "org.genyris.logic.AbstractLogicFunction"
 s:load-class-by-name "org.genyris.math.AbstractMathFunction"
 s:load-class-by-name "org.genyris.format.AbstractFormatFunction"

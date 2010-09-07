@@ -12,7 +12,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
 import org.genyris.dl.Triple;
-import org.genyris.dl.TripleStore;
+import org.genyris.dl.Graph;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.ApplicableFunction;
@@ -85,10 +85,10 @@ public class ObjectFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class AsTripleStoreMethod extends AbstractDictionaryMethod {
+	public static class AsGraphMethod extends AbstractDictionaryMethod {
 
-		public AsTripleStoreMethod(Interpreter interp) {
-			super(interp, "asTripleStore");
+		public AsGraphMethod(Interpreter interp) {
+			super(interp, "asGraph");
 		}
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -98,7 +98,7 @@ public class ObjectFunction extends ApplicableFunction {
 			// TODO move this code int Dictionary
 			// TODO also collect ExpWithEmbeddedClasses classes triples.
 			Exp alist = self.asAlist().cdr();
-			TripleStore results = new TripleStore();
+			Graph results = new Graph();
 			while (alist != NIL) {
 				results.add(new Triple(self, ((DynamicSymbol) (alist.car().car())).getRealSymbol(),
 						alist.car().cdr()));
@@ -113,6 +113,6 @@ public class ObjectFunction extends ApplicableFunction {
 		interpreter.bindMethodInstance(Constants.DICTIONARY,
 				new ObjectFunction.AsTriplesMethod(interpreter));
 		interpreter.bindMethodInstance(Constants.DICTIONARY,
-				new ObjectFunction.AsTripleStoreMethod(interpreter));
+				new ObjectFunction.AsGraphMethod(interpreter));
 	}
 }
