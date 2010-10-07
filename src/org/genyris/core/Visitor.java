@@ -5,11 +5,12 @@
 //
 package org.genyris.core;
 
-import org.genyris.dl.Triple;
 import org.genyris.dl.Graph;
+import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
+import org.genyris.io.pipe.Pipe;
 import org.genyris.java.JavaWrapper;
 
 public interface Visitor {
@@ -43,4 +44,6 @@ public interface Visitor {
 	public void visitDynamicSymbol(DynamicSymbol symbol)  throws GenyrisException;
 
 	public void visitJavaWrapper(JavaWrapper javaWrapper)  throws GenyrisException;
+
+	public void visitPipe(Pipe pipe)  throws GenyrisException;
 }

@@ -129,6 +129,9 @@ public class WriterStream extends Atom {
             throw new GenyrisException("Bad format: " + format + " " + e.getMessage());
         }
         catch (IOException e) {
+        	if(e.getMessage() == null) {
+                throw new GenyrisException("IOException");        		
+        	}
             throw new GenyrisException(e.getMessage());
         }
         return env.getNil();

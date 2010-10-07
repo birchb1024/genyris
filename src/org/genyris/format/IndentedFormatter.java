@@ -164,5 +164,4 @@ public class IndentedFormatter extends AbstractFormatter {
 		_output.write(message);
 		
 	}
-
 }

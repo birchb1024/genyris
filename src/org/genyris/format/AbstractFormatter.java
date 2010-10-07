@@ -27,6 +27,7 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.StandardEnvironment;
+import org.genyris.io.pipe.Pipe;
 import org.genyris.java.JavaWrapper;
 
 public abstract class AbstractFormatter implements Visitor, Formatter {
@@ -62,6 +63,9 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 
 	public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {
 		write(sym.toString());
+	}
+	public void visitPipe(Pipe pipe) throws GenyrisException {
+		write(pipe.toString());
 	}
 
 	public void visitFullyQualifiedSymbol(URISymbol sym)

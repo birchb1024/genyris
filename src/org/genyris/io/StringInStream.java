@@ -27,7 +27,7 @@ public class StringInStream implements InStream {
     }
 
     public  void unGet(char x) throws LexException {
-        throw new LexException("StringInStream: unGet not supported!");
+        throw new LexException("PipeInStream: unGet not supported!");
 
     }
 

@@ -220,6 +220,7 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.FILE, env, builtin);
 		StandardClass.mkClass(Constants.READER, env, builtin);
 		StandardClass.mkClass(Constants.WRITER, env, builtin);
+		StandardClass.mkClass(Constants.PIPE, env, builtin);
 		StandardClass.mkClass(Constants.SYSTEM, env, builtin);
 		StandardClass.mkClass(Constants.INDENTEDPARSER, env, builtin);
 		StandardClass.mkClass(Constants.PARENPARSER, env, builtin);

@@ -38,6 +38,7 @@ public interface Internable {
 	public SimpleSymbol PAIR();
 	public SimpleSymbol PAIREQUAL();
 	public SimpleSymbol STRING();
+	public SimpleSymbol PIPE();
 	public SimpleSymbol READER();
 	public SimpleSymbol SIMPLESYMBOL();
 	public SimpleSymbol PARENPARSER();
