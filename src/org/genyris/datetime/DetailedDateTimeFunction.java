@@ -33,9 +33,9 @@ public class DetailedDateTimeFunction extends AbstractDateTimeFunction {
 		cal.setTimeInMillis(((Bignum)arguments[0]).bigDecimalValue().longValue());
 		Dictionary result = new Dictionary(env);
 		result.defineDynamicVariable(new DynamicSymbol((SimpleSymbol) env.internString("era")), new Bignum(cal.get(Calendar.ERA)));
-		result.defineSymbol("era", cal.get(Calendar.ERA) == GregorianCalendar.BC ? "BC" : "AD");
+		result.addProperty(env,"era", cal.get(Calendar.ERA) == GregorianCalendar.BC ? env.internString("BC") : env.internString("AD"));
 		result.defineInt("year", cal.get(Calendar.YEAR));
-		result.defineSymbol("leap-year", cal.isLeapYear(cal.get(Calendar.YEAR))? "true" : "NIL");
+		result.addProperty(env,"leap-year", cal.isLeapYear(cal.get(Calendar.YEAR))? TRUE : NIL);
 		result.defineInt("month", cal.get(Calendar.MONTH));
 		result.defineInt("week-of-year", cal.get(Calendar.WEEK_OF_YEAR));
 		result.defineInt("week-of-month", cal.get(Calendar.WEEK_OF_MONTH));
@@ -43,7 +43,7 @@ public class DetailedDateTimeFunction extends AbstractDateTimeFunction {
 		result.defineInt("day-of-year", cal.get(Calendar.DAY_OF_YEAR));
 		result.defineInt("day-of-week", cal.get(Calendar.DAY_OF_WEEK));
 		result.defineInt("day-of-week-in-month", cal.get(Calendar.DAY_OF_WEEK_IN_MONTH));
-		result.defineSymbol("am-pm", cal.get(Calendar.AM_PM) == Calendar.AM ? "am" : "pm");
+		result.addProperty(env,"am-pm", cal.get(Calendar.AM_PM) == Calendar.AM ? env.internString("am") : env.internString("pm"));
 		result.defineInt("hour", cal.get(Calendar.HOUR));
 		result.defineInt("hour-of-day", cal.get(Calendar.HOUR_OF_DAY));
 		result.defineInt("minute", cal.get(Calendar.MINUTE));

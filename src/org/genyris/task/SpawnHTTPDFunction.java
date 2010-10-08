@@ -35,7 +35,5 @@ public class SpawnHTTPDFunction extends TaskFunction {
 		} catch (IOException e) {
 			throw new GenyrisException(e.getMessage());
 		}
-
 	}
-
 }

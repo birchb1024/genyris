@@ -100,23 +100,6 @@ public abstract class AbstractClosure extends Atom implements Closure {
 		return _functionToApply.getName();
 	}
 
-	public Exp lastArgument(Exp args) throws AccessException {
-		if (args == NIL())
-			return NIL();
-		Exp tmp = args;
-		while (tmp.cdr() != NIL()) {
-			if (!(tmp.cdr() instanceof Pair)) {
-				break;
-			}
-			tmp = tmp.cdr();
-		}
-		return tmp.car();
-	}
-
-	public Exp getLastArgumentOrNIL() throws AccessException {
-		Exp args = _lambdaExpression.cdr().car();
-		return lastArgument(args);
-	}
 
 	public StandardClass getReturnClassOrNull() throws GenyrisException {
 		if (_returnClass != null) {

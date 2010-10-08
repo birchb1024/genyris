@@ -25,8 +25,14 @@ public class InterpretedTests extends TestCase {
             System.out.println(out.getBuffer());
         }
     }
+    public void testCoverage() throws GenyrisException {
+        useSourceLoader("test-coverage.g");
+    }
     public void testMath() throws GenyrisException {
         useSourceLoader("mathtests.g");
+    }
+    public void testLogic() throws GenyrisException {
+        useSourceLoader("test-logic.g");
     }
     public void testFactorial() throws GenyrisException {
         useSourceLoader("factorial.g");
@@ -70,7 +76,10 @@ public class InterpretedTests extends TestCase {
     public void testImport() throws GenyrisException {
     	useSourceLoader("test-import.g");
     }
-    public void testExamples() throws GenyrisException {
+    public void testInclude() throws GenyrisException {
+    	useSourceLoader("test-include.g");
+    }
+     public void testExamples() throws GenyrisException {
     	useSourceLoader("examples-as-tests.g");
     }
     public void testPipes() throws GenyrisException {
@@ -78,6 +87,9 @@ public class InterpretedTests extends TestCase {
     }
     public void testWeb() throws GenyrisException {
         useSourceLoader("web-tests.g");
+    }
+    public void testTime() throws GenyrisException {
+        useSourceLoader("test-time.g");
     }
     public void testIterators() throws GenyrisException {
         useSourceLoader("test-iterators.g");

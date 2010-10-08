@@ -65,13 +65,6 @@ public class SpawnFunction extends TaskFunction {
 
     }
 
-	public static String[] arrayToStringArray(Exp[] array) {
-		String[] result = new String[array.length];
-		for (int i = 0; i < array.length; i++) {
-            result[i] = array[i].toString();
-        }
-        return result;
-    }
 	public static Exp arrayToExpList(Exp NIL, Exp[] array) {
 		Exp result = NIL;
 		for (int i = array.length-1; i >= 0; i--) {

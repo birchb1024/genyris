@@ -92,11 +92,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 	}
 
 	public String toString() {
-		if (_parent != null) {
-			return _parent.toString() + "/" + _frame.toString();
-		} else {
-			return "/" + _frame.toString();
-		}
+		return (_parent != null ? _parent.toString() : "/") + _frame.toString();
 	}
 
 	public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
@@ -120,10 +116,6 @@ public class StandardEnvironment extends AbstractEnvironment {
 	public Exp getSelf() throws UnboundException {
 		throw new UnboundException(
 				"no dynamic variable self in standard environments.");
-	}
-
-	public Exp getCLASSES() {
-		return _classes;
 	}
 
 	public Internable getSymbolTable() {

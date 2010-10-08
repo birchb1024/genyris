@@ -19,10 +19,10 @@ public class IsInstanceFunction extends ApplicableFunction {
     public IsInstanceFunction(Interpreter interp) {
         super(interp, "is-instance?", true);
     }
+    static Class[] types = {Exp.class, Dictionary.class};
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
         checkArguments(arguments, 2);
-        Class[] types = {Exp.class, Dictionary.class, };
         checkArgumentTypes(types, arguments);
         StandardClass.assertIsThisObjectAClass(arguments[1]);
         StandardClass cw = (StandardClass)arguments[1];

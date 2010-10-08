@@ -1,3 +1,34 @@
+#
+# File IO Tests
+#
+
+catch err
+   File!static-list-dir 'testscripts/fixtures/test.pipe'
+assert (equal? err 'File.static-list-dir: failed on testscripts/fixtures/test.pipe')
+
+assert
+   equal?
+      File!static-list-dir 'testscripts/fixtures'
+      ^('test.pipe' 'test.tab' 'test.csv' 'test.tabpipe')
+
+catch err
+   File!static-open "qwerty" ^read
+assert (equal? err 'qwerty (No such file or directory)')
+
+catch err
+   File!static-open "/undefined/path/qwerty" ^write
+assert (equal? err '/undefined/path/qwerty (No such file or directory)')
+
+assert (File!static-is-dir? '.')
+assert
+   not
+      File!static-is-dir? 'testscripts/fixtures/test.pipe'
+   
+   
+assert (equal? '/' (File!static-abs-path '/'))
+print (File!static-abs-path '.')
+
+   
 define fixture "foo.txt"
 define fi
    File(.new fixture)

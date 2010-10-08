@@ -3,6 +3,15 @@
 #
 @prefix sys "http://www.genyris.org/lang/system#"
 
+
+catch err
+   sys:import "doesnot-exist.g"
+assert (equal? err 'loadScriptFromFile: doesnot-exist.g (No such file or directory)')
+
+catch err
+   sys:import 232323
+assert (equal? err 'non-String argument passed to sys:import: 232323')
+
 (var modulex (dict))
     sys:import "testscripts/test-module1.g"
   

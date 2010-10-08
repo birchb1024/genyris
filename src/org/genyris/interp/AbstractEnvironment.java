@@ -36,12 +36,8 @@ public abstract class AbstractEnvironment implements Environment {
 		symbol.defineVariable(this, valu);
 	}
 
-	public void defineLexicalVariable(SimpleSymbol symbol, Exp valu)
-			throws GenyrisException {
-		throw new GenyrisException(
-				"defineLexicalVariable: no simple variable in environment: "
-						+ symbol);
-	}
+	public abstract void defineLexicalVariable(SimpleSymbol symbol, Exp valu)
+			throws GenyrisException ;
 
 	public void defineDynamicVariable(DynamicSymbol symbol, Exp valu)
 			throws GenyrisException {
@@ -67,12 +63,7 @@ public abstract class AbstractEnvironment implements Environment {
 		symbol.setVariableValue(this, valu);
 	}
 
-	public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu)
-			throws UnboundException {
-		throw new UnboundException(
-				"setLexicalVariableValue: no dynamic variable in environment: "
-						+ symbol);
-	}
+	public abstract void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException ;
 
 	public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu)
 			throws UnboundException {

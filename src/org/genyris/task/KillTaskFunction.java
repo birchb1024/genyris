@@ -21,12 +21,15 @@ public class KillTaskFunction extends TaskFunction {
 
     private Thread getThreadById( final long id ) {
         final Thread[] threads = new Thread[Thread.activeCount()];
+        Thread retval = null;
         Thread.enumerate(threads);
         for ( int i=0 ; i < threads.length; i++) {
-            if ( threads[i].getId( ) == id )
-                return threads[i];
+            if ( threads[i].getId( ) == id ) {
+                retval = threads[i];
+            	break;
+            }
         }
-        return null;
+      	return retval;
     }
 
 

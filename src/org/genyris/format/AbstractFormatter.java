@@ -19,14 +19,12 @@ import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
-import org.genyris.dl.Triple;
 import org.genyris.dl.Graph;
+import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
-import org.genyris.interp.StandardEnvironment;
 import org.genyris.io.pipe.Pipe;
 import org.genyris.java.JavaWrapper;
 
@@ -64,6 +62,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 	public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {
 		write(sym.toString());
 	}
+
 	public void visitPipe(Pipe pipe) throws GenyrisException {
 		write(pipe.toString());
 	}
@@ -71,17 +70,6 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 	public void visitFullyQualifiedSymbol(URISymbol sym)
 			throws GenyrisException {
 		write(sym.toString());
-	}
-
-	public void visitStandardEnvironment(StandardEnvironment env)
-			throws GenyrisException {
-
-		write(env.toString());
-	}
-
-	public void visitDynamicEnvironment(DynamicEnvironment env)
-			throws GenyrisException {
-		write(env.toString());
 	}
 
 	public void printClassNames(Exp result, Interpreter interp)

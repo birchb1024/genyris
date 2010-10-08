@@ -5,7 +5,6 @@
 //
 package org.genyris.string;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
@@ -25,7 +24,7 @@ public class ReplaceMethod extends AbstractStringMethod {
     	this.checkArgumentTypes(types, arguments);
 		if(arguments.length > 0) {
 			if(!(arguments[0] instanceof StrinG)) {
-				throw new GenyrisException("Non string passed to " + Constants.SPLIT);
+				throw new GenyrisException("Non string passed to replace");
 			}		
 		}
 		StrinG regex = (StrinG) arguments[0];			

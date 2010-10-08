@@ -39,11 +39,25 @@ public class StringTests extends TestCase {
 
     }
 
+    public void testStringReplace() throws GenyrisException {
+        checkEval("(''(.replace 'a' 's'))", "''");
+        checkEval("('1 2 3 4 5'(.replace '1' 'x'))", "'x 2 3 4 5'");
+        checkEval("('1 2 3 4 5'(.replace '1 2 3' 'xyz'))", "'xyz 4 5'");
+        checkEval("('1 2 3 1 2 3'(.replace '1 2 3' 'xyz'))", "'xyz xyz'");
+        checkEvalBad("('x'(.replace) '' 'a')");
+        checkEvalBad("(23(.replace) 4 5)");
+    }
+
+    public void testStringLength() throws GenyrisException {
+        checkEval("('34'(.length))", "2");
+        checkEvalBad("(34(.length))");
+    }
     public void testStringConcat() throws GenyrisException {
         checkEval("(''(.+))", "''");
         checkEval("('A'(.+))", "'A'");
         checkEval("('A'(.+ 'B'))", "'AB'");
         checkEval("('A'(.+ 'B' 'C'))", "'ABC'");
+        checkEvalBad("('A'(.+ 55))");
     }
     public void testStringMatch() throws GenyrisException {
         checkEval("('abc'(.match 'a.c'))", "true");
@@ -57,6 +71,7 @@ public class StringTests extends TestCase {
     public void testStringToLowerCase() throws GenyrisException {
     	checkEval("(''(.toLowerCase))", "''");
         checkEval("('ABCDEFGH'(.toLowerCase))", "'abcdefgh'");
+        checkEvalBad("(^qweqwe(.toLowerCase))");
     }
     
     public void testFormat() throws GenyrisException {
