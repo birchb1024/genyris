@@ -9,6 +9,10 @@ load "testscripts/gunit.g"
 
 ## Test built-in maths functions
 
+catch error (/ 3)
+assert (equal? error 'Too few arguments to /')
+catch error (* 3)
+assert (equal? error 'Too few arguments to *')
 
 assertEqual (abs 0) 0
 assertEqual (abs -1) 1

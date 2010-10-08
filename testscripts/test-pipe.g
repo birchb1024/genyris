@@ -13,6 +13,7 @@ def killall(name)
 # Write and read within the same task:
 #
 define apipe (Pipe!open 'mypipe')
+assert (equal? ('%s' (.format apipe)) '[Pipe: mypipe]')
 Pipe!list
 define out
    apipe(.output)

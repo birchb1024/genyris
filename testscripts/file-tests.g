@@ -28,7 +28,10 @@ def dump()
   in(.close)
   print "\n" count
 
-
+catch errr ('not a parser' (ParenParser!read))
+assert (equal? errr 'Non-Parser passed to a Parser method.')
+var pars (ParenParser(.new "foo"))
+assert (equal? pars pars)   
 def parse-string()
   var script "343 (cons 1 2) (list 1 2 3 4 5)"
   var parser (ParenParser(.new script))

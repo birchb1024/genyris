@@ -11443,6 +11443,61 @@ TODO
 \end_layout
 
 \begin_layout Subsection
+Pipes
+\end_layout
+
+\begin_layout Standard
+Genyris provides named pipes within the JVM which allows tasks to communicate
+ with each other by sending character streams.
+ Each pipe has a unique name and tasks can access the pipes by their names.
+\end_layout
+
+\begin_layout Subsubsection
+.list - obtain a list of the current pipe names
+\end_layout
+
+\begin_layout Standard
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+Pipe!list
+\end_layout
+
+\begin_layout Standard
+This function returns a list of the string names of the pipes currently
+ existing.
+\end_layout
+
+\begin_layout Subsubsection
+.open - Create or find a named pipe
+\end_layout
+
+\begin_layout Standard
+Syntax: 
+\end_layout
+
+\begin_layout LyX-Code
+Pipe!open <name string>
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Subsubsection
+.output - Obtain a Writer stream for writing to a Pipe
+\end_layout
+
+\begin_layout Subsubsection
+.input - Obtain a Reader for reading from a Pipe
+\end_layout
+
+\begin_layout Subsubsection
+.delete - Remove a named pipe from the system
+\end_layout
+
+\begin_layout Subsection
 Interacting with Web Servers with 
 \emph on
 HTTP
