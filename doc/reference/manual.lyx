@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -11444,6 +11444,16 @@ TODO
 
 \begin_layout Subsection
 Pipes
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+Pipes
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -11453,7 +11463,17 @@ Genyris provides named pipes within the JVM which allows tasks to communicate
 \end_layout
 
 \begin_layout Subsubsection
-.list - obtain a list of the current pipe names
+.list
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.list
+\end_layout
+
+\end_inset
+
+ - obtain a list of the current pipe names
 \end_layout
 
 \begin_layout Standard
@@ -11470,6 +11490,15 @@ This function returns a list of the string names of the pipes currently
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.open
+\end_layout
+
+\end_inset
+
 .open - Create or find a named pipe
 \end_layout
 
@@ -11481,20 +11510,267 @@ Syntax:
 Pipe!open <name string>
 \end_layout
 
+\begin_layout Standard
+If the pipe already exists this function returns the 
+\emph on
+Pipe
+\emph default
+ object for the pipe.
+ The same object is shared between tasks in the JVM and may be used for
+ synchronization.
+ If there is no pipe of that name, a new one is created and returned to
+ the caller.
+\end_layout
+
+\begin_layout Subsubsection
+.output
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.output
+\end_layout
+
+\end_inset
+
+ - Obtain a Writer stream for writing to a Pipe
+\end_layout
+
+\begin_layout Standard
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+<pipe object>(.output)
+\end_layout
+
+\begin_layout Standard
+This method returns a 
+\emph on
+Writer
+\emph default
+ object which can the be used to send characters to the pipe.
+\end_layout
+
+\begin_layout Subsubsection
+.input
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.input
+\end_layout
+
+\end_inset
+
+ - Obtain a Reader for reading from a Pipe
+\end_layout
+
+\begin_layout Standard
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+<pipe object>(.input)
+\end_layout
+
+\begin_layout Standard
+This method returns a 
+\emph on
+Reader
+\emph default
+ object which can the be used to read characters from the pipe.
+\end_layout
+
+\begin_layout Subsubsection
+.delete
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.delete
+\end_layout
+
+\end_inset
+
+ - Remove a named pipe from the system
+\end_layout
+
+\begin_layout Standard
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+Pipe!delete <name string>
+\end_layout
+
+\begin_layout Standard
+This function closes a pipe and removes it from the global list of pipes.
+\end_layout
+
+\begin_layout Subsubsection
+Pipe Examples
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+Pipe Examples
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Single Reader, Single Writer
+\end_layout
+
+\begin_layout Standard
+The first example shows a single task writing to a pipe and a single task
+ reading from it.
+ Since there is no contention there is no need to synchronize the tasks.
+ The writing task executes this:
+\end_layout
+
+\begin_layout LyX-Code
+define shared (Pipe!open 'shared-pipe')
+\end_layout
+
+\begin_layout LyX-Code
+spawn 'testscripts/pipe-reader.g' 'shared-pipe'
+\end_layout
+
+\begin_layout LyX-Code
+define out
+\end_layout
+
+\begin_layout LyX-Code
+   shared(.output)
+\end_layout
+
+\begin_layout LyX-Code
+out(.format 'Hello from the first task
+\backslash
+n')
+\end_layout
+
+\begin_layout Standard
+The reader task is launched and executes this code:
+\end_layout
+
+\begin_layout LyX-Code
+@prefix task 'http://www.genyris.org/lang/task#'
+\end_layout
+
+\begin_layout LyX-Code
+@prefix sys 'http://www.genyris.org/lang/system#'
+\end_layout
+
+\begin_layout LyX-Code
+define inpipe (Pipe(.open (nth 1 sys:argv)))
+\end_layout
+
+\begin_layout LyX-Code
+define in (inpipe(.input))
+\end_layout
+
+\begin_layout LyX-Code
+var line (in(.getline))
+\end_layout
+
+\begin_layout LyX-Code
+assert (equal? 'Hello from the first task' line)
+\end_layout
+
+\begin_layout Paragraph
+Single Reader, Multiple Writer
+\end_layout
+
+\begin_layout Standard
+The second example has multiple writer tasks which must be synchronized
+ when writing to the pipe otherwise the data becomes mixed.
+ The read executes this code which spawns a number of writer tasks, passing
+ the name of the pipe.
+ It reads a number of lines checking they are exactly in sequence:
+\end_layout
+
+\begin_layout LyX-Code
+define shared (Pipe!open 'shared-pipe3') # create the pipe.
+\end_layout
+
+\begin_layout LyX-Code
+for i in (range 0 5)
+\end_layout
+
+\begin_layout LyX-Code
+    spawn 'testscripts/pipe-writer-synch.g' 'shared-pipe3'
+\end_layout
+
+\begin_layout LyX-Code
+define in (shared(.input))
+\end_layout
+
+\begin_layout LyX-Code
+for i in (range 0 100)
+\end_layout
+
+\begin_layout LyX-Code
+   var line (in(.getline)) # read from the pipe
+\end_layout
+
+\begin_layout LyX-Code
+   assert (equal? 'Hello from task.' line)
+\end_layout
+
+\begin_layout Standard
+The writer tasks open the pipe and repeatedly write lines:
+\end_layout
+
+\begin_layout LyX-Code
+@prefix task 'http://www.genyris.org/lang/task#'
+\end_layout
+
+\begin_layout LyX-Code
+@prefix sys 'http://www.genyris.org/lang/system#'
+\end_layout
+
+\begin_layout LyX-Code
+define shared (Pipe(.open (nth 1 sys:argv))) # open the pipe
+\end_layout
+
+\begin_layout LyX-Code
+define out
+\end_layout
+
+\begin_layout LyX-Code
+   shared(.output)
+\end_layout
+
+\begin_layout LyX-Code
+while true
+\end_layout
+
+\begin_layout LyX-Code
+    task:synchronized shared # use the pipe object to synchronize on
+\end_layout
+
+\begin_layout LyX-Code
+       catch errors     # ignore errors when the reader dies.
+\end_layout
+
+\begin_layout LyX-Code
+          out(.format 'Hello from task.
+\backslash
+n')
+\end_layout
+
+\begin_layout LyX-Code
+    sleep 10
+\end_layout
+
 \begin_layout LyX-Code
 
-\end_layout
-
-\begin_layout Subsubsection
-.output - Obtain a Writer stream for writing to a Pipe
-\end_layout
-
-\begin_layout Subsubsection
-.input - Obtain a Reader for reading from a Pipe
-\end_layout
-
-\begin_layout Subsubsection
-.delete - Remove a named pipe from the system
 \end_layout
 
 \begin_layout Subsection
@@ -11807,7 +12083,17 @@ The
 \end_layout
 
 \begin_layout Subsubsection
-import <module name>
+import
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+import
+\end_layout
+
+\end_inset
+
+ <module name>
 \end_layout
 
 \begin_layout Standard
@@ -11872,7 +12158,17 @@ queens!queens 5  # call the module's public function
 \end_layout
 
 \begin_layout Subsubsection
-reload <module name>
+reload
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+reload
+\end_layout
+
+\end_inset
+
+ <module name>
 \end_layout
 
 \begin_layout Standard
