@@ -38,6 +38,10 @@ public class StrinG extends Atom {
 		return _quoteWith;
 	}
 
+	public char getAlternateQuoteChar() {
+		return (_quoteWith == '\'' ? '"' : '\'');
+	}
+
 	public String toString() {
 		return _value;
 	}
