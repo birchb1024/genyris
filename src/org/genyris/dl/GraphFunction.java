@@ -183,9 +183,7 @@ public class GraphFunction extends ApplicableFunction {
 				object = null;
 			}
 			if (arguments.length == 4 && arguments[3] != NIL) {
-				if (arguments[3] instanceof Closure) {
-					closure = (Closure) arguments[3];
-				}
+				closure = (Closure) arguments[3];
 			}
 			return self.select(subject, predicate, object, closure, env);
 		}

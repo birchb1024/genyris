@@ -34,29 +34,34 @@ public class ClassicReadEvalPrintLoop {
 	private Interpreter _interpreter;
 
 	public static void main(String[] args) {
+		int result = 0;
 		try {
 			if (args.length == 0) {
-				new ClassicReadEvalPrintLoop().run(args);
+				result = new ClassicReadEvalPrintLoop().run(args);
 			} else {
 				if (args[0].equals("-eval")) {
-					String expression = "";
+					StringBuffer expression = new StringBuffer("");
 					for (int i = 1; i < args.length; i++) {
-						expression += args[i] + " ";
+						expression.append(args[i]);
+						expression.append(" ");
 					}
-					expression += "\n\n";
-					evalString(expression);
+					expression.append("\n\n");
+					evalString(expression.toString());
+					result = 0;
 				} else if (args[0].startsWith("-")) {
 					usage();
+					result = -1;
 				} else {
-					evalFileWithArguments(args[0], args);
+					result = evalFileWithArguments(args[0], args);
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.exit(result);
 	}
 
-	private static void evalFileWithArguments(String filename, String[] args)
+	private static int evalFileWithArguments(String filename, String[] args)
 			throws IOException {
 		Writer output = new PrintWriter(System.out);
 		try {
@@ -65,10 +70,11 @@ public class ClassicReadEvalPrintLoop {
 			setArgs(args, interpreter);
 			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(),
 					interpreter.getSymbolTable(), filename, output);
+			return 0;
 		} catch (GenyrisException e) {
 			output.write("*** Error in file : " + filename + " " + e.getData());
 			output.flush();
-			System.exit(-1);
+			return -1;
 		}
 	}
 
@@ -117,7 +123,7 @@ public class ClassicReadEvalPrintLoop {
 		interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
 	}
 
-	public void run(String args[]) throws IOException {
+	public int run(String args[]) throws IOException {
 		try {
 			_interpreter = new Interpreter();
 			_interpreter.init(false);
@@ -126,9 +132,10 @@ public class ClassicReadEvalPrintLoop {
 			SourceLoader.loadScriptFromClasspath(_interpreter.getGlobalEnv(),
 					_interpreter.getSymbolTable(),
 					"org/genyris/load/boot/repl.g", (Writer) new NullWriter());
+			return 0;
 		} catch (GenyrisException e1) {
 			e1.printStackTrace();
-			System.exit(-1);
+			return -1;
 		}
 
 	}

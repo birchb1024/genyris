@@ -21,7 +21,15 @@ public class SimpleSymbol extends Symbol implements Comparable {
     public String getPrintName() {
         return _printName;
     }
+    public boolean equals(Object arg) {
+    	// keep FindBugs happy.
+    	return super.equals(arg);
+    }
+    public int hashCode() {
+        return super.hashCode();
+    }
     public int compareTo(Object arg0) {
+    	if( equals(arg0) ) return 0;
         return ((SimpleSymbol) arg0)._printName.compareTo(this._printName);
     }
 

@@ -78,16 +78,16 @@ public class StandardClass extends Dictionary {
 	}
 
 	private String classListToString(Exp classes) throws AccessException {
-		String result = " (";
+		StringBuffer result = new StringBuffer(" (");
 		while (classes != NIL) {
 			StandardClass klass = (StandardClass) classes.car();
-			result += klass.getClassName();
+			result.append(klass.getClassName());
 			if (classes.cdr() != NIL)
-				result += ' ';
+				result.append(' ');
 			classes = classes.cdr();
 		}
-		result += ")";
-		return result;
+		result.append(")");
+		return result.toString();
 	}
 
 	private Exp getSubClasses() {

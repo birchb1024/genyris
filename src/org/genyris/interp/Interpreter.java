@@ -46,12 +46,13 @@ public class Interpreter {
     Writer _defaultOutput;
 
     public NilSymbol NIL;
-	private Exp _debugStack = NIL;
+	private Exp _debugStack;
 
     
     
     public Interpreter() throws GenyrisException {
         NIL = new NilSymbol();
+        _debugStack = NIL;
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);

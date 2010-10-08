@@ -18,7 +18,8 @@ public class StrinG extends Atom {
 	public StrinG(String str) {
 		_value = str;
 		if (str == null) {
-			throw new java.lang.IllegalArgumentException("null passed to String constructor");
+			throw new java.lang.IllegalArgumentException(
+					"null passed to String constructor");
 		}
 		_quoteWith = '\'';
 	}
@@ -26,6 +27,11 @@ public class StrinG extends Atom {
 	public StrinG(String str, char quote) {
 		_value = str;
 		_quoteWith = quote;
+	}
+
+	public StrinG(StringBuffer str, char quotechar) {
+		_value = str.toString();
+		_quoteWith = quotechar;
 	}
 
 	public char getQuoteChar() {
@@ -74,6 +80,8 @@ public class StrinG extends Atom {
 	}
 
 	public boolean equals(Object compare) {
+		if (compare == null)
+			return false;
 		if (compare.getClass() != this.getClass())
 			return false;
 		else
@@ -85,7 +93,8 @@ public class StrinG extends Atom {
 	}
 
 	public Exp replace(StrinG regex, StrinG replacement) {
-		return new StrinG(_value.replace(regex.toString(), replacement.toString()));
+		return new StrinG(_value.replace(regex.toString(), replacement
+				.toString()));
 	}
 
 }

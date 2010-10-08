@@ -160,7 +160,7 @@ public class Lex {
 
 	public Exp parseIdentEscaped() throws GenyrisException {
 		char ch;
-		String collect = "";
+		StringBuffer collect = new StringBuffer();
 		if (!_input.hasData()) {
 			throw new LexException("unexpected end of file");
 		}
@@ -171,17 +171,17 @@ public class Lex {
 					break;
 				if (ch == '\\')
 					ch = _input.readNext();
-				collect += ch;
+				collect.append(ch);
 			} else {
 				throw new LexException("unexpected end of escaped symbol");
 			}
 		}
-		return _symbolTable.internSymbol(Symbol.symbolFactory(collect, true));
+		return _symbolTable.internSymbol(Symbol.symbolFactory(collect.toString(), true));
 	}
 
 	public Exp parseIdent() throws GenyrisException {
 		char ch;
-		String collect = "";
+		StringBuffer collect = new StringBuffer("");
 		if (!_input.hasData()) {
 			throw new LexException("unexpected end of file");
 		}
@@ -190,13 +190,13 @@ public class Lex {
 			if (isIdentCharacter(ch)) {
 				if (ch == '\\')
 					ch = _input.readNext();
-				collect += ch;
+				collect.append(ch);
 			} else {
 				_input.unGet(ch);
 				break;
 			}
 		}
-		return _symbolTable.internSymbol(_mapper.symbolFactory(collect));
+		return _symbolTable.internSymbol(_mapper.symbolFactory(collect.toString()));
 	}
 
 	public Exp nextToken() throws GenyrisException {
@@ -307,7 +307,7 @@ public class Lex {
 
 	public Exp parseString(char quotechar) throws LexException {
 		char ch;
-		String collect = "";
+		StringBuffer collect = new StringBuffer();
 		ch = _input.readNext();
 		while (_input.hasData()) {
 			ch = _input.readNext();
@@ -348,7 +348,7 @@ public class Lex {
 						break;
 					}
 				}
-				collect += ch;
+				collect.append(ch);
 			}
 		}
 		return new StrinG(collect, quotechar);

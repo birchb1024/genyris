@@ -106,7 +106,7 @@ public class JavaUtils {
 			throw new UnboundException("convertToJava: java.lang.Void.");
 		} else if (klass == java.lang.Boolean.TYPE
 				|| klass == java.lang.Boolean.class) {
-			return new java.lang.Boolean(exp == env.getNil() ? false : true);
+			return Boolean.valueOf(exp == env.getNil() ? false : true);
 		} else if (exp instanceof Bignum) {
 			BigDecimal big = ((Bignum) exp).bigDecimalValue();
 			if (klass == java.lang.Byte.TYPE || klass == java.lang.Byte.class) {
@@ -197,8 +197,7 @@ public class JavaUtils {
 		Method[] methods = klass.getMethods();
 		for (int i = 0; i < methods.length; i++) {
 			Class[] params = methods[i].getParameterTypes();
-			String name = methods[i].getName();
-			name += argList(params);
+			String name = methods[i].getName()+ argList(params);
 			ApplicableFunction gmethod;
 			if (Modifier.isStatic(methods[i].getModifiers())) {
 				gmethod = new JavaStaticMethod(interp, name, methods[i], params);
@@ -213,12 +212,12 @@ public class JavaUtils {
 		return genyrisClass;
 	}
 
-	private static String argList(Class[] params) {
-		String name = "";
+	private static StringBuffer argList(Class[] params) {
+		StringBuffer name = new StringBuffer();
 		if (params.length > 0) {
 			for (int p = 0; p < params.length; p++) {
-				name += "-";
-				name += toGenyrisName(params[p].getName());
+				name.append('-');
+				name.append(toGenyrisName(params[p].getName()));
 			}
 		}
 		return name;

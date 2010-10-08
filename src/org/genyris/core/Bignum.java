@@ -71,48 +71,57 @@ public class Bignum extends Atom {
 	}
 
 	public boolean equals(Object compare) {
+		if (compare == null) {
+			return false;
+		}
 		if (compare.getClass() != this.getClass())
 			return false;
 		else
-			return _value.compareTo(((Bignum)compare)._value) == 0;
+			return _value.compareTo(((Bignum) compare)._value) == 0;
 	}
-    public Bignum divide(Bignum other) {
-    	return new Bignum(_value.divide(other._value, 150, BigDecimal.ROUND_HALF_UP));
-    }
-    public boolean lessThan(Bignum other) {
-		return(_value.compareTo(other._value) < 0) ? true : false;
-    }
-    public boolean greaterThan(Bignum other) {
-		return(_value.compareTo(other._value) > 0) ? true : false;
-    }
+
+	public Bignum divide(Bignum other) {
+		return new Bignum(_value.divide(other._value, 150,
+				BigDecimal.ROUND_HALF_UP));
+	}
+
+	public boolean lessThan(Bignum other) {
+		return (_value.compareTo(other._value) < 0) ? true : false;
+	}
+
+	public boolean greaterThan(Bignum other) {
+		return (_value.compareTo(other._value) > 0) ? true : false;
+	}
 
 	public Bignum subtract(Bignum other) {
-		return(new Bignum(_value.subtract(other._value)));
+		return (new Bignum(_value.subtract(other._value)));
 	}
 
 	public Exp negate() {
-		return(new Bignum(_value.negate()));
+		return (new Bignum(_value.negate()));
 	}
 
 	public Exp multiply(Bignum other) {
-		return(new Bignum(_value.multiply(other._value)));
+		return (new Bignum(_value.multiply(other._value)));
 	}
 
 	public Exp add(Bignum other) {
-		return(new Bignum(_value.add(other._value)));
+		return (new Bignum(_value.add(other._value)));
 	}
 
 	public Exp pow(Bignum other) {
-        return new Bignum(_value.pow(other._value.intValueExact(), new MathContext(100000)));
+		return new Bignum(_value.pow(other._value.intValueExact(),
+				new MathContext(100000)));
 	}
 
 	public Exp remainder(Bignum other) {
-		return(new Bignum(_value.remainder(other._value)));
+		return (new Bignum(_value.remainder(other._value)));
 	}
 
 	public double doubleValue() {
 		return _value.doubleValue();
 	}
+
 	public BigDecimal bigDecimalValue() {
 		return _value;
 	}

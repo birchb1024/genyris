@@ -189,7 +189,7 @@ public class Base64 {
 	 *
 	 * @since ostermillerutils 1.00.00
 	 */
-	protected static final byte[] base64Chars = {
+	private static final byte[] base64Chars = {
 		'A','B','C','D','E','F','G','H',
 		'I','J','K','L','M','N','O','P',
 		'Q','R','S','T','U','V','W','X',
@@ -207,7 +207,7 @@ public class Base64 {
 	 *
 	 * @since ostermillerutils 1.00.00
 	 */
-	protected static final byte[] reverseBase64Chars = new byte[0x100];
+	private static final byte[] reverseBase64Chars = new byte[0x100];
 	static {
 		// Fill in NON_BASE_64 for all characters to start with
 		for (int i=0; i<reverseBase64Chars.length; i++){

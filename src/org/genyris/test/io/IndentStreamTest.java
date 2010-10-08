@@ -22,21 +22,23 @@ public class IndentStreamTest extends TestCase {
 	private void excerciseIndent(String toparse, String expected) throws LexException {
 		InStream ind = new ConvertEofInStream(new IndentStream(new UngettableInStream(
 				new StringInStream(toparse)), false));
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		while (ind.hasData()) {
-			result += ind.readNext();
+			result.append(ind.readNext());
 		}
-		assertEquals(expected, result);
+		assertEquals(expected, result.toString());
+	// TODO DRY
+	
 	}
 
 	private void excerciseIndentInteractive(String toparse, String expected) throws LexException {
 		InStream ind = new ConvertEofInStream(new IndentStream(new UngettableInStream(
 				new StringInStream(toparse)), true));
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		while (ind.hasData()) {
-			result += ind.readNext();
+			result.append(ind.readNext());
 		}
-		assertEquals(expected, result);
+		assertEquals(expected, result.toString());
 	}
 
 	public void testIndentCalc1() throws LexException {

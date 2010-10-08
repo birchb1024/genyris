@@ -32,11 +32,15 @@ public class HTMLFormatter extends AbstractFormatter {
 
 	public void visitDictionary(Dictionary frame) throws GenyrisException {
 		Symbol standardClassSymbol = frame.getSymbolTable().STANDARDCLASS();
-		Dictionary standardClass;
-		standardClass = (Dictionary) frame.getParent().lookupVariableValue(
-				standardClassSymbol);
-
-		if (frame.isTaggedWith(standardClass)) {
+		Exp standardClass = frame.getParent().lookupVariableValue(standardClassSymbol);
+		if( ! (standardClass instanceof Dictionary)) {
+			throw new GenyrisException("Non-Dictionary class: " + standardClass.toString());
+		}
+		Dictionary scDict = (Dictionary) standardClass;
+		if (frame.isTaggedWith(scDict)) {
+			if( ! (frame instanceof StandardClass)) {
+				throw new GenyrisException("Non-StandardClass: " + frame.toString());
+			}
 			((StandardClass)frame).acceptVisitor(this);
 			return;
 		}

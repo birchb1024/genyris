@@ -47,12 +47,15 @@ public class ExecMethod extends AbstractMethod {
             throws GenyrisException {
         String[] args = toStringArray(arguments);
         Process child;
+        InputStream childOut = null;
+        InputStreamReader read = null;
+        BufferedReader buf = null;
         Exp lines = NIL;
         try {
             child = Runtime.getRuntime().exec(args);
-            InputStream childOut = child.getInputStream();
-            InputStreamReader read = new InputStreamReader(childOut);
-            BufferedReader buf = new BufferedReader(read);
+            childOut = child.getInputStream();
+            read = new InputStreamReader(childOut);
+            buf = new BufferedReader(read);
             Exp tail = NIL;
 
             String line;
@@ -67,6 +70,16 @@ public class ExecMethod extends AbstractMethod {
         } catch (IOException e) {
             throw new GenyrisException("exec failed, message is: "
                     + e.getMessage());
+        } finally {
+        	if( childOut != null) try {
+					childOut.close();
+			} catch (IOException ignore) { }
+	        if( read != null) try {
+						read.close();
+			} catch (IOException ignore) { }
+	        if( buf != null) try {
+				buf.close();
+	        } catch (IOException ignore) { }
         }
         try {
             if (child.waitFor() != 0) {

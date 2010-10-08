@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FindBugsFilter>
+  <And>
+    <Class name="org.genyris.web.GenyrisHTTPD$1"/>
+    <Bug pattern="IL_INFINITE_LOOP"/>
+  </And>
+  <And>
+    <Class name="org.genyris.web.NanoHTTPD$1"/>
+    <Bug pattern="IL_INFINITE_LOOP"/>
+  </And>
+  <And>
+    <Class name="org.genyris.system.ExitMethod"/>
+    <Bug pattern="DM_EXIT"/>
+  </And>
+  <And>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+    <Class name="org.genyris.java.JavaCtor"/>
+  </And>
+  <And>
+    <Class name="org.genyris.java.JavaMethod"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </And>
+  <And>
+    <Class name="org.genyris.java.JavaStaticMethod"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </And>
+  <And>
+    <Class name="org.genyris.web.NanoHTTPD"/>
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION"/>
+  </And>
+  <And>
+    <Class name="org.genyris.exception.GenyrisException"/>
+    <Bug pattern="SE_BAD_FIELD_STORE"/>
+  </And>
+  <And>
+    <Class name="org.genyris.task.SpawnFunction$BackGroundInterpreter"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </And>
+  <And>
+    <Bug pattern="OS_OPEN_STREAM"/>
+    <Class name="org.genyris.system.ExecMethod"/>
+  </And>
+  <And>
+    <Class name="org.genyris.web.NanoHTTPD$HTTPSession"/>
+    <Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION"/>
+  </And>
+  <And>
+    <Bug pattern="WMI_WRONG_MAP_ITERATOR"/>
+    <Class name="org.genyris.system.SystemGetenvMethod"/>
+  </And>
+</FindBugsFilter>

@@ -34,24 +34,24 @@ import java.util.TimeZone;
  * <b>Features + limitations: </b>
  * <ul>
  * 
- * <li> Only one Java file </li>
- * <li> Java 1.1 compatible </li>
- * <li> Released as open source, Modified BSD licence </li>
- * <li> No fixed config files, logging, authorization etc. (Implement yourself
- * if you need them.) </li>
- * <li> Supports parameter parsing of GET and POST methods </li>
- * <li> Supports both dynamic content and file serving </li>
- * <li> Never caches anything </li>
- * <li> Doesn't limit bandwidth, request time or simultaneous connections </li>
- * <li> Default code serves files and shows all HTTP parameters and headers</li>
- * <li> File server supports directory listing, index.html and index.htm </li>
- * <li> File server does the 301 redirection trick for directories without '/'</li>
- * <li> File server supports simple skipping for files (continue download) </li>
- * <li> File server uses current directory as a web root </li>
- * <li> File server serves also very long files without memory overhead </li>
- * <li> Contains a built-in list of most common mime types </li>
- * <li> All header names are converted lowercase so they don't vary between
- * browsers/clients </li>
+ * <li>Only one Java file</li>
+ * <li>Java 1.1 compatible</li>
+ * <li>Released as open source, Modified BSD licence</li>
+ * <li>No fixed config files, logging, authorization etc. (Implement yourself if
+ * you need them.)</li>
+ * <li>Supports parameter parsing of GET and POST methods</li>
+ * <li>Supports both dynamic content and file serving</li>
+ * <li>Never caches anything</li>
+ * <li>Doesn't limit bandwidth, request time or simultaneous connections</li>
+ * <li>Default code serves files and shows all HTTP parameters and headers</li>
+ * <li>File server supports directory listing, index.html and index.htm</li>
+ * <li>File server does the 301 redirection trick for directories without '/'</li>
+ * <li>File server supports simple skipping for files (continue download)</li>
+ * <li>File server uses current directory as a web root</li>
+ * <li>File server serves also very long files without memory overhead</li>
+ * <li>Contains a built-in list of most common mime types</li>
+ * <li>All header names are converted lowercase so they don't vary between
+ * browsers/clients</li>
  * 
  * </ul>
  * 
@@ -59,10 +59,10 @@ import java.util.TimeZone;
  * <b>Ways to use: </b>
  * <ul>
  * 
- * <li> Run as a standalone app, serves files from current directory and shows
+ * <li>Run as a standalone app, serves files from current directory and shows
  * requests</li>
- * <li> Subclass serve() and embed to your own program </li>
- * <li> Call serveFile() from serve() with your own base directory </li>
+ * <li>Subclass serve() and embed to your own program</li>
+ * <li>Call serveFile() from serve() with your own base directory</li>
  * 
  * </ul>
  * 
@@ -73,19 +73,18 @@ public class NanoHTTPD {
 
 	protected static final int SERVER_SOCKET_TIMEOUT = 10;
 
-	public class NanoException extends Exception {
+	public static class NanoException extends Exception {
 		private static final long serialVersionUID = 8521291173564816199L;
 
-		public NanoException() {}
+		public NanoException() {
+		}
 
 		public NanoException(String string) {
 			super(string);
-		} 
+		}
 	}
 
 	protected int myTcpPort;
-
-	File myFileDir;
 
 	private final String rootdir;
 
@@ -121,7 +120,7 @@ public class NanoHTTPD {
 	/**
 	 * HTTP response. Return one of these from serve().
 	 */
-	public class NanoResponse {
+	public static class NanoResponse {
 		/**
 		 * Default constructor: response = HTTP_OK, data = mime = 'null'
 		 */
@@ -200,14 +199,17 @@ public class NanoHTTPD {
 	 * Starts a HTTP server to given port.
 	 * <p>
 	 * Throws an IOException if the socket is already in use
-	 * @throws NanoException 
+	 * 
+	 * @throws NanoException
 	 */
-	public NanoHTTPD(int port, final String root) throws IOException, NanoException {
+	public NanoHTTPD(int port, final String root) throws IOException,
+			NanoException {
 		myTcpPort = port;
 		this.rootdir = root;
 		File homeDir = new File(root);
 		if (!homeDir.exists())
-			throw new NanoException("INTERNAL ERRROR: serveFile(): '" +  homeDir.getAbsolutePath() +  "' does not exist.");
+			throw new NanoException("INTERNAL ERRROR: serveFile(): '"
+					+ homeDir.getAbsolutePath() + "' does not exist.");
 
 		ss = new ServerSocket(myTcpPort);
 		ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
@@ -238,7 +240,8 @@ public class NanoHTTPD {
 
 			}
 		});
-		t.setName(this.getClass().getName() + " " + myTcpPort + " " + this.rootdir);
+		t.setName(this.getClass().getName() + " " + myTcpPort + " "
+				+ this.rootdir);
 		t.setDaemon(true);
 		t.start();
 		return t;
@@ -277,7 +280,6 @@ public class NanoHTTPD {
 			System.err.println("Couldn't start server: " + e.getMessage());
 			System.exit(-1);
 		}
-		nh.myFileDir = new File("");
 
 		System.out.println("Now serving files in port " + port + " from \""
 				+ new File("").getAbsolutePath() + "\"");
@@ -294,10 +296,10 @@ public class NanoHTTPD {
 	 * Handles one session, i.e. parses the HTTP request and returns the
 	 * response.
 	 */
-	class HTTPSession  implements Runnable {
+	class HTTPSession implements Runnable {
 		private String rootdir;
 
-		public HTTPSession(Socket s, String rootdir){
+		public HTTPSession(Socket s, String rootdir) {
 			mySocket = s;
 			this.rootdir = rootdir;
 			Thread t = new Thread(this);
@@ -311,27 +313,34 @@ public class NanoHTTPD {
 			t.setDaemon(true);
 			t.start();
 		}
+
 		public void run() {
 			try {
 				handleRequest();
 			} catch (NanoException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 		}
 
 		public void handleRequest() throws NanoException {
 			try {
 				InputStream is = mySocket.getInputStream();
 				String clientIP = mySocket.getInetAddress().getHostAddress();
-				String clientName = mySocket.getInetAddress().getCanonicalHostName();
+				String clientName = mySocket.getInetAddress()
+						.getCanonicalHostName();
 				if (is == null)
 					return;
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(is));
 
 				// Read the request line
-				StringTokenizer st = new StringTokenizer(in.readLine());
+				String reqline = in.readLine();
+				if( reqline == null ) {
+					sendError(HTTP_BADREQUEST,
+					"BAD REQUEST: Syntax error. Usage: GET /example/file.html");					
+				}
+				StringTokenizer st = new StringTokenizer(reqline);
 				if (!st.hasMoreTokens())
 					sendError(HTTP_BADREQUEST,
 							"BAD REQUEST: Syntax error. Usage: GET /example/file.html");
@@ -359,12 +368,14 @@ public class NanoHTTPD {
 				Properties header = new Properties();
 				if (st.hasMoreTokens()) {
 					String line = in.readLine();
-					while (line.trim().length() > 0) {
-						int p = line.indexOf(':');
-						header.put(line.substring(0, p).trim().toLowerCase(),
-								line.substring(p + 1).trim());
-						line = in.readLine();
-					}
+					if( line != null)
+						while (line.trim().length() > 0) {
+							int p = line.indexOf(':');
+							header.put(line.substring(0, p).trim().toLowerCase(),
+									line.substring(p + 1).trim());
+							line = in.readLine();
+							if(line == null) break;
+						}
 				}
 
 				// If the method is POST, there may be parameters
@@ -392,7 +403,8 @@ public class NanoHTTPD {
 				}
 
 				// Ok, now do the serve()
-				NanoResponse r = serve(uri, method, header, parms, rootdir, clientIP, clientName);
+				NanoResponse r = serve(uri, method, header, parms, rootdir,
+						clientIP, clientName);
 				if (r == null)
 					sendError(HTTP_INTERNALERROR,
 							"SERVER INTERNAL ERROR: Serve() returned a null response.");
@@ -411,8 +423,8 @@ public class NanoHTTPD {
 		}
 
 		/**
-		 * Decodes the percent encoding scheme. <br/> For example:
-		 * "an+example%20string" -> "an example string"
+		 * Decodes the percent encoding scheme. <br/>
+		 * For example: "an+example%20string" -> "an example string"
 		 */
 		private String decodePercent(String str) throws NanoException {
 			try {
@@ -464,8 +476,7 @@ public class NanoHTTPD {
 		 * Returns an error message as a HTTP response and throws
 		 * GenyrisInterruptedException to stop furhter request processing.
 		 */
-		private void sendError(String status, String msg)
-				throws NanoException {
+		private void sendError(String status, String msg) throws NanoException {
 			sendResponse(status, MIME_PLAINTEXT, null,
 					new ByteArrayInputStream(msg.getBytes()));
 			throw new NanoException();
@@ -532,20 +543,20 @@ public class NanoHTTPD {
 	 * URL-encodes everything between "/"-characters. Encodes spaces as '%20'
 	 * instead of '+'.
 	 */
-	private String encodeUri(String uri) {
-		String newUri = "";
+	private StringBuffer encodeUri(String uri) {
+		StringBuffer newUri = new StringBuffer();
 		StringTokenizer st = new StringTokenizer(uri, "/ ", true);
 		while (st.hasMoreTokens()) {
 			String tok = st.nextToken();
 			if (tok.equals("/"))
-				newUri += "/";
+				newUri.append('/');
 			else if (tok.equals(" "))
-				newUri += "%20";
+				newUri.append("%20");
 			else {
 				// newUri += URLEncoder.encode( tok );
 				// For Java 1.4 you'll want to use this instead:
 				try {
-					newUri += URLEncoder.encode(tok, "UTF-8");
+					newUri.append(URLEncoder.encode(tok, "UTF-8"));
 				} catch (UnsupportedEncodingException uee) {
 				}
 			}
@@ -566,7 +577,8 @@ public class NanoHTTPD {
 		// Make sure we won't die of an exception later
 		if (!homeDir.exists())
 			return new NanoResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT,
-					"INTERNAL ERRROR: serveFile(): '" +  homeDir.getAbsolutePath() +  "' does not exist.");
+					"INTERNAL ERRROR: serveFile(): '"
+							+ homeDir.getAbsolutePath() + "' does not exist.");
 		if (!homeDir.isDirectory())
 			return new NanoResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT,
 					"INTERNAL ERRROR: serveFile(): given homeDir is not a directory.");
@@ -611,58 +623,67 @@ public class NanoHTTPD {
 				String[] files = f.list();
 				if (files == null) {
 					return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
-					"FORBIDDEN: No directory listing.");
+							"FORBIDDEN: No directory listing.");
 				}
 				Arrays.sort(files);
-				String msg = "<html><head><title>"+uri+"</title></head><body><h1>Directory " + uri + "</h1><br/>";
+				StringBuffer msg = new StringBuffer();
+				msg.append("<html><head><title>");
+				msg.append(uri);
+				msg.append("</title></head><body><h1>Directory ");
+				msg.append(uri);
+				msg.append("</h1><br/>");
 
 				if (uri.length() > 1) {
 					String u = uri.substring(0, uri.length() - 1);
 					int slash = u.lastIndexOf('/');
-					if (slash >= 0 && slash < u.length())
-						msg += "<b><a href=\"" + uri.substring(0, slash + 1)
-								+ "\">..</a></b><br/>";
+					if (slash >= 0 && slash < u.length()) {
+						msg.append("<b><a href=\"");
+						msg.append(uri.substring(0, slash + 1));
+						msg.append("\">..</a></b><br/>");
+					}
 				}
-				msg += "<ul>";
+				msg.append("<ul>");
 				for (int i = 0; i < files.length; ++i) {
 					File curFile = new File(f, files[i]);
 					boolean dir = curFile.isDirectory();
 					if (dir) {
-						msg += "<b>";
+						msg.append("<b>");
 						files[i] += "/";
 					}
 
-					msg += "<li><a href=\"" + encodeUri(uri + files[i]) + "\">"
-							+ files[i] + "</a></li>";
+					msg.append("<li><a href=\"");
+					msg.append(encodeUri(uri + files[i]));
+					msg.append("\">");
+					msg.append(files[i]);
+					msg.append("</a></li>");
 
 					// Show file size
-//					if (curFile.isFile()) {
-//						long len = curFile.length();
-//						msg += " &nbsp;<font size=2>(";
-//						if (len < 1024)
-//							msg += curFile.length() + " bytes";
-//						else if (len < 1024 * 1024)
-//							msg += curFile.length() / 1024 + "."
-//									+ (curFile.length() % 1024 / 10 % 100)
-//									+ " KB";
-//						else
-//							msg += curFile.length() / (1024 * 1024) + "."
-//									+ curFile.length() % (1024 * 1024) / 10
-//									% 100 + " MB";
-//
-//						msg += ")</font>";
-//					}
-					if (dir)
-						msg += "</b>";
+					// if (curFile.isFile()) {
+					// long len = curFile.length();
+					// msg += " &nbsp;<font size=2>(";
+					// if (len < 1024)
+					// msg += curFile.length() + " bytes";
+					// else if (len < 1024 * 1024)
+					// msg += curFile.length() / 1024 + "."
+					// + (curFile.length() % 1024 / 10 % 100)
+					// + " KB";
+					// else
+					// msg += curFile.length() / (1024 * 1024) + "."
+					// + curFile.length() % (1024 * 1024) / 10
+					// % 100 + " MB";
+					//
+					// msg += ")</font>";
+					// }
+					if (dir) msg.append("</b>");
 				}
-				msg += "</ul></body></html>";
-				return new NanoResponse(HTTP_OK, MIME_HTML, msg);
+				msg.append("</ul></body></html>");
+				return new NanoResponse(HTTP_OK, MIME_HTML, msg.toString());
 			} else {
 				return new NanoResponse(HTTP_FORBIDDEN, MIME_PLAINTEXT,
 						"FORBIDDEN: No directory listing.");
 			}
 		}
-
+		FileInputStream fis = null;
 		try {
 			// Get MIME type from file name extension, if possible
 			String mime = null;
@@ -689,8 +710,13 @@ public class NanoHTTPD {
 				}
 			}
 
-			FileInputStream fis = new FileInputStream(f);
-			fis.skip(startFrom);
+			fis = new FileInputStream(f);
+			long actuallySkipped = fis.skip(startFrom);
+			if( actuallySkipped != startFrom) {
+				return new NanoResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT,
+						"INTERNAL ERRROR: serveFile(): '"
+								+ homeDir.getAbsolutePath() + "' Sorry, skip to " + startFrom + " failed.");
+			}
 			NanoResponse r = new NanoResponse(HTTP_OK, mime, fis);
 			r.addHeader("Content-length", "" + (f.length() - startFrom));
 			r.addHeader("Content-range", "" + startFrom + "-"
@@ -708,13 +734,13 @@ public class NanoHTTPD {
 	private static Hashtable theMimeTypes = new Hashtable();
 	static {
 		StringTokenizer st = new StringTokenizer("htm        text/html "
-				+ "ico        image/vnd.microsoft.icon " 
-				+ "xml        text/xml " 
-				+ "html        text/html " + "txt        text/plain "
-				+ "asc        text/plain " + "gif        image/gif "
-				+ "jpg        image/jpeg " + "jpeg        image/jpeg "
-				+ "png        image/png " + "mp3        audio/mpeg "
-				+ "m3u        audio/mpeg-url " + "pdf        application/pdf "
+				+ "ico        image/vnd.microsoft.icon "
+				+ "xml        text/xml " + "html        text/html "
+				+ "txt        text/plain " + "asc        text/plain "
+				+ "gif        image/gif " + "jpg        image/jpeg "
+				+ "jpeg        image/jpeg " + "png        image/png "
+				+ "mp3        audio/mpeg " + "m3u        audio/mpeg-url "
+				+ "pdf        application/pdf "
 				+ "doc        application/msword "
 				+ "ogg        application/x-ogg "
 				+ "zip        application/octet-stream "

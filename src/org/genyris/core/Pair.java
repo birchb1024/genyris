@@ -75,12 +75,7 @@ public class Pair extends ExpWithEmbeddedClasses {
 		return _car.hashCode() + _cdr.hashCode();
 	}
 	public Exp eval(Environment env) throws GenyrisException {
-        Exp tmp = car().eval(env);
-        if(!(tmp instanceof Closure)) {
-            throw new GenyrisException("Attempt to call something which is not a Closure: "
-                    + toString());
-        }
-        Closure proc = (Closure) tmp;
+        Closure proc = (Closure) car().eval(env);
         Exp[] arguments = proc.computeArguments(env, cdr());
         return proc.applyFunction(env, arguments);      
 	} 

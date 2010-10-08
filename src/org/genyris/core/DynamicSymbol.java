@@ -22,7 +22,7 @@ public class DynamicSymbol extends Symbol {
     	return _realSymbol.equals(((DynamicSymbol)arg0)._realSymbol);
     }
 
-    public int hasCode(Object arg0) {
+    public int hashCode() {
         return _realSymbol.hashCode();
     }
 

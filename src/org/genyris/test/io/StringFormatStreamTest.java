@@ -23,11 +23,11 @@ public class StringFormatStreamTest extends TestCase {
     private void excerciseSFS(String toparse, String expected) throws LexException {
         InStream ind = new ConvertEofInStream(new StringFormatStream(new UngettableInStream(
                 new StringInStream(toparse))));
-        String result = "";
+        StringBuffer result = new StringBuffer();
         while (ind.hasData()) {
-            result += ind.readNext();
+            result.append(ind.readNext());
         }
-        assertEquals(expected, result);
+        assertEquals(expected, result.toString());
     }
 
 

@@ -42,6 +42,8 @@ public class JavaWrapper extends Atom {
 	}
 
 	public boolean equals(Object compare) {
+		if (compare == null)
+			return false;
 		if (compare.getClass() != this.getClass())
 			return false;
 		else
