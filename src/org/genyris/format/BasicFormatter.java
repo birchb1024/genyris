@@ -92,8 +92,7 @@ public class BasicFormatter extends AbstractFormatter {
 			if (ch == '\n') { // TODO move this into a table in Lex.
 				write("\\n");
 			} else if (ch == lst.getQuoteChar()) {
-				write("\\");
-				write(lst.getQuoteChar());
+				write(lst.getAlternateQuoteChar());
 			} else if (ch == '\t') {
 				write("\\t");
 			} else if (ch == '\r') {
