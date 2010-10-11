@@ -80,7 +80,7 @@ public class SourceLoader {
 		try {
 			in = new FileInputStream(filename);
 		} catch (FileNotFoundException e) {
-			throw new GenyrisException("loadScriptFromFile: " + e.getMessage());
+			throw new GenyrisException("loadScriptFromFile: " + filename + " (No such file or directory)");
 		}
 		execAndClose(env, table, in, filename, writer);
 		return new StrinG(filename);

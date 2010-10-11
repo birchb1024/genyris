@@ -1,33 +1,37 @@
 #
 # File IO Tests
 #
+var properties (System(.getProperties))
+var OS-name (properties.|os.name|)
 
 catch err
    File!static-list-dir 'testscripts/fixtures/test.pipe'
 assert (equal? err 'File.static-list-dir: failed on testscripts/fixtures/test.pipe')
-
 assert
    equal?
       File!static-list-dir 'testscripts/fixtures'
-      ^('test.pipe' 'test.tab' 'test.csv' 'test.tabpipe')
+      ^('test.csv' 'test.pipe' 'test.tab' 'test.tabpipe')
 
 catch err
    File!static-open "qwerty" ^read
-assert (equal? err 'qwerty (No such file or directory)')
+assert 
+   (equal? err 'qwerty: No such file or directory')
+
 
 catch err
    File!static-open "/undefined/path/qwerty" ^write
-assert (equal? err '/undefined/path/qwerty (No such file or directory)')
+assert (equal? err '/undefined/path/qwerty: No such file or directory')
 
 assert (File!static-is-dir? '.')
 assert
    not
       File!static-is-dir? 'testscripts/fixtures/test.pipe'
    
-   
-assert (equal? '/' (File!static-abs-path '/'))
-print (File!static-abs-path '.')
-
+cond
+    (OS-name(.match "Windows.*"))
+        assert (equal? 'C:\\' (File!static-abs-path '/'))
+    else
+        assert (equal? '/' (File!static-abs-path '/'))
    
 define fixture "foo.txt"
 define fi
