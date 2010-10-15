@@ -22,10 +22,10 @@ def ls(path)
           indent depth
           cond
               (file(.isDirectory))
-                 u:format '%a/\n' filename
+                 u:format '%a/%a/\n' path filename
                  ls-aux (+ 1 depth) pathname
               else
-                 u:format '%a %a\n' filename (file(.length))               
+                 u:format '%a/%a %a\n' path filename (file(.length))               
    ls-aux 0 path
 
-ls '.'
+ls 'conf'
