@@ -1,8 +1,5 @@
 @prefix u   "http://www.genyris.org/lang/utilities#"
-@prefix t   "http://www.genyris.org/lib/gunit#"
 @prefix web "http://www.genyris.org/lang/web#"
-
-include "testscripts/gunit.g"
 
 def readPage(url)
     var wstream (web:get url)

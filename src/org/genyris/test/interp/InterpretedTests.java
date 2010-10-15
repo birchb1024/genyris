@@ -29,7 +29,7 @@ public class InterpretedTests extends TestCase {
         useSourceLoader("test-coverage.g");
     }
     public void testMath() throws GenyrisException {
-        useSourceLoader("mathtests.g");
+        useSourceLoader("test-math.g");
     }
     public void testLogic() throws GenyrisException {
         useSourceLoader("test-logic.g");
@@ -44,10 +44,10 @@ public class InterpretedTests extends TestCase {
         useSourceLoader("defects.g");
     }
     public void testIntern() throws GenyrisException {
-        useSourceLoader("intern-tests.g");
+        useSourceLoader("test-intern.g");
    }
     public void testPrefix() throws GenyrisException {
-         useSourceLoader("prefix-tests.g");
+         useSourceLoader("test-prefix.g");
     }
     public void testFileIO() throws GenyrisException {
         useSourceLoader("file-tests.g");
@@ -59,7 +59,7 @@ public class InterpretedTests extends TestCase {
         useSourceLoader("triple-tests.g");
     }
     public void testParseAndConvert() throws GenyrisException {
-        useSourceLoader("parsetests.g");
+        useSourceLoader("test-parse.g");
     }
     public void testCSV() throws GenyrisException {
         useSourceLoader("csv-tests.g");
@@ -86,7 +86,7 @@ public class InterpretedTests extends TestCase {
         useSourceLoader("test-pipe.g");
     }
     public void testWeb() throws GenyrisException {
-        useSourceLoader("web-tests.g");
+        useSourceLoader("test-web.g");
     }
     public void testTime() throws GenyrisException {
         useSourceLoader("test-time.g");

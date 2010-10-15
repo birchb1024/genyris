@@ -4,7 +4,7 @@
 ## of the Genyris License, in the file 'LICENSE', incorporated herein by reference.
 ##
 include 'lib/gunit.g'
-@prefix : 'http://www.genyris.org/lang/gunit#'
+@prefix : 'http://www.genyris.org/lib/gunit#'
 @prefix u 'http://www.genyris.org/lang/utilities#'
 
 ## Test built-in maths functions
@@ -17,7 +17,7 @@ include 'lib/gunit.g'
         :assertException 'Too few arguments to *'
             * 3
     :test 'abs'
-        :assertEqual (abs 0) 03
+        :assertEqual (abs 0) 0
         :assertEqual (abs -1) 1
         :assertEqual (abs 1) 1
     

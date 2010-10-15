@@ -94,7 +94,7 @@ public class EvalApplyTest extends TestCase {
     public void testLambdaArguments() throws Exception {
         excerciseEval("((lambda () (cons 44 44)))", "(44 = 44)");
         excerciseEval("((lambda (x y) (cons x x)) 23)", "(23 = 23)", 
-        		"Too few arguments supplied to proc: anonymous lambda");
+        		"Too few arguments supplied to proc: anonymous lambda. Args were: (23 )");
     }
 
     public void testLambda2() throws Exception {

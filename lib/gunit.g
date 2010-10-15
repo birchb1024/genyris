@@ -3,23 +3,27 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-@prefix : 'http://www.genyris.org/lang/gunit#'
+@prefix : 'http://www.genyris.org/lib/gunit#'
 
 defmacro :test-suite (suiteheadline &rest block)
    template
       do
          display ("Test Suite: %a\n"(.format ,suiteheadline))
-         var suite-error-count 
-         def :found-error(message)
-            display ":fond-error\n"
-            display message
-            
+         var suite-errors-messages nil
+         def :found-error (message)
+            setq suite-errors-messages (cons message suite-errors-messages)            
          catch test-suite-errors ,@block
          cond
             test-suite-errors
                 raise
-                    "Errors in %s\n"
+                    "Exception in %s\n"
                         .format ,suiteheadline
+            suite-errors-messages
+                for msg in suite-errors-messages
+                    print msg
+                raise
+                    "Failures in %s test suite (%s)\n"
+                        .format ,suiteheadline (length suite-errors-messages) 
 
 defmacro :test (headline &rest block)
    template
