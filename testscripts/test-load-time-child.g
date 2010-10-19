@@ -8,9 +8,9 @@
 
 #print sys:argv
 stdout(.flush)
-define now (System!ticks)
+define begin (System!ticks)
 define start (nth 1 sys:argv)
-u:format "Interpreter started in %a milliseconds\n" (- now start)
+u:format "Interpreter started in %a milliseconds\n" (- begin start)
 define count (- (nth 2 sys:argv) 1)
 #print count
 stdout(.flush)

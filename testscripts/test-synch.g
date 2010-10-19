@@ -3,14 +3,15 @@
 
 var shared (cons 0 0)
 var child
-    spawn 'testscripts/test-synch-child.g' shared
+    spawn 'testscripts/synch-child.g' shared
 var start (now)
 while (> (+ start 5000) (now))
+    u:format "start=%s now=%s the %s\n" start (now) (the now)
     var read-value 0    
     task:synchronized shared
-#        u:format "Parent in\n"
+        u:format "Parent in\n"
         read-value = (shared.left)        
-#    u:format "Parent out\n"
+    u:format "Parent out\n"
     cond
         (equal? 1 read-value)
             child(.kill)
