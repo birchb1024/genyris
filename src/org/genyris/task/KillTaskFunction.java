@@ -45,13 +45,7 @@ public class KillTaskFunction extends TaskFunction {
         }
         String name = t.getName();
         t.interrupt();
-        int timeout = 10000;
-        try {
-			t.join(2000);
-		} catch (InterruptedException e) {
-	        return new StrinG("Task '" + name + "' did not terminate after " + new Integer(timeout));
-		}
-        return new StrinG("Terminated " + name);
+        return new StrinG("Terminated " + id + " " + name);
 
     }
 

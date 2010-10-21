@@ -3,16 +3,24 @@ package org.genyris.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.genyris.test.core.*;
+
+import org.genyris.test.core.CoreTest;
+import org.genyris.test.core.DictTest;
+import org.genyris.test.core.EqualityTest;
+import org.genyris.test.core.LexTest;
+import org.genyris.test.core.LexTestNumbers;
+import org.genyris.test.core.LsymbolTest;
+import org.genyris.test.core.SymbolTableTest;
 import org.genyris.test.dl.GraphTest;
 import org.genyris.test.dl.TripleTest;
-import org.genyris.test.format.*;
+import org.genyris.test.format.BasicFormatterTest;
+import org.genyris.test.format.IndentedFormatterTest;
+import org.genyris.test.format.RoundtripIndentedFormatterTest;
 import org.genyris.test.interp.BuiltinInterpreterTests;
 import org.genyris.test.interp.ClassTaggingTests;
 import org.genyris.test.interp.ComplexInterpreterTests;
 import org.genyris.test.interp.EnvironmentTest;
 import org.genyris.test.interp.EvalApplyTest;
-import org.genyris.test.interp.InterpretedTests;
 import org.genyris.test.interp.ObjectOrientationTests;
 import org.genyris.test.io.IndentStreamTest;
 import org.genyris.test.io.SourceLoaderTest;
@@ -52,7 +60,6 @@ public class AllTestSuite {
         suite.addTestSuite(ComplexInterpreterTests.class);
         suite.addTestSuite(EnvironmentTest.class);
         suite.addTestSuite(EvalApplyTest.class);
-        suite.addTestSuite(InterpretedTests.class);
         suite.addTestSuite(ObjectOrientationTests.class);
 
         // IO

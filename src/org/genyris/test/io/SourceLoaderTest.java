@@ -46,7 +46,7 @@ public class SourceLoaderTest extends TestCase {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "testscripts/factorial.g", out);
+        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "testscripts/test-factorial.g", out);
     }
     public void testSourceLoaderLisp() throws GenyrisException {
         Interpreter interp = new Interpreter();

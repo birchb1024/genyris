@@ -24,9 +24,10 @@ public class SleepFunction extends TaskFunction {
 		checkArguments(arguments, 1);
 		try {
 			Thread.sleep(((Bignum)arguments[0]).bigDecimalValue().longValue());
-		} catch (InterruptedException e) {
-			throw new GenyrisInterruptedException(e.getMessage());
-		}
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new GenyrisInterruptedException(e.getMessage());
+			}
         return NIL;
 	}
 	
