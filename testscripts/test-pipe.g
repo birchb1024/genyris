@@ -2,11 +2,12 @@
 # Pipes Examples
 #
 @prefix u "http://www.genyris.org/lang/utilities#"
-
-def killall(name)
+for pipe in (Pipe!list)
+   Pipe!delete pipe
+def killall(subst)
    for task in (ps)
         cond
-           (equal? (task.name) name)
+           (task!name (.match subst))
                u:format "killing %s\n" task
                task(.kill)
 #
@@ -79,3 +80,5 @@ out(.format '%s' ^(def foo(a) (cons a a)))
 
 print
    Pipe!list
+killall '.*pipe.*'
+

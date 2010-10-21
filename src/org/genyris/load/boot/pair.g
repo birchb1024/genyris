@@ -35,7 +35,13 @@ def member? (item list)
       else
           member? item (right list)
 
-
+def append (list1 list2)
+    cond
+        (null? list1) list2
+        else
+           cons
+              left list1
+              append (right list1) list2
 Pair
    def .nth (x) (nth x .self)
    # example: 

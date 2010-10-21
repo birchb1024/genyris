@@ -3,12 +3,11 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file 'LICENSE', incorporated herein by reference.
 ##
-include 'lib/gunit.g'
 @prefix : 'http://www.genyris.org/lib/gunit#'
 @prefix u 'http://www.genyris.org/lang/utilities#'
 
 ## Test built-in maths functions
-:test-suite 'Maths'
+do
     :test 'More than one argument'
         :assertException 'Too few arguments to /'
             / 3
