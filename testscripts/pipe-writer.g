@@ -10,4 +10,4 @@ define out
 while true
     catch errors
         out(.format 'Hello from task #%s\n' ((task:id) .id))
-    sleep 10
+    sleep 500

@@ -6,13 +6,16 @@
 @prefix : 'http://www.genyris.org/lib/gunit#'
 @prefix < "http://www.genyris.org/lang/utilities#"
 
-var suite-errors-messages nil
+define test-counter 0
+define test-failed-counter 0
+define total-tests-counter 0
+define total-test-failed-counter 0
+define failed-files nil
 
 def :runTests(top)
-   :walkDirectoryTree top
-   <:format "%s\n" suite-errors-messages
-
-def :walkDirectoryTree (top)
+   setq total-tests-counter 0
+   setq total-test-failed-counter 0
+   setq failed-files nil
    def runIt(fullpath)
       define results nil
       catch runerrors
@@ -23,60 +26,63 @@ def :walkDirectoryTree (top)
          <:format "%s\n" line
       cond
          runerrors
-            <:format "%s\n" runerrors
+            <:format "*************** %s\n" runerrors
    def includeIt(fullpath)
       catch runerrors
          include fullpath
       cond
          runerrors
+            setq failed-files (cons fullpath failed-files)
             <:format "*** %s\n" runerrors
-   def matchit (path filename)
-      cond
-         (filename (.match 'test\-(.*)\\.g'))
-            var fullpath
-                "%a/%a" (.format path filename)
-            <:format "%a\n" fullpath
-            includeIt fullpath
+   define test-files (:walkDirectoryTree top)
+
+   for file in test-files
+      <:format "---------%s---------------\n" file
+      setq test-counter 0
+      setq test-failed-counter 0
+      includeIt file
+      setq total-tests-counter (+ test-counter total-tests-counter)
+      setq total-test-failed-counter (+ test-failed-counter total-test-failed-counter)
+
+   <:format "------------------------------------\n"
+   <:format "Total # Test Files: %s\n" (length test-files)
+   <:format "Total # of failed test files: %s\n" (length  failed-files)
+   for failed in failed-files
+       <:format "    :%s\n" failed
+   <:format "Total # gunit Tests: %s\nTotal # gunit tests Failed %s\n" total-tests-counter total-test-failed-counter
+
+def :found-error(headline test-errors)
+   define message
+      "Test failed: %s because %a"
+         .format headline test-errors
+   <:format "%s\n" message
+   
+def :walkDirectoryTree (top)
+   define file-list nil # list of test files to return
+   def matchit (fullpath filename)
+      filename (.match 'test\-(.*)\\.g')
    define f (File(.new top))
    define files (f(.list))
    while files
       define f (left files)
       define path ('%a/%a' (.format top f))
-      matchit top f
       cond
          (File!static-is-dir? path)
-              :walkDirectoryTree path
+              setq file-list (append file-list (:walkDirectoryTree path))
+         (matchit path f)
+            setq file-list (cons path file-list)
       files = (right files)
-
-defmacro :test-suite (suiteheadline &rest block)
-   template
-      do
-         display ("Test Suite: %a\n"(.format ,suiteheadline))
-         def :found-error (message)
-            setq suite-errors-messages (cons message suite-errors-messages)
-         catch test-suite-errors ,@block
-         cond
-            test-suite-errors
-                raise
-                    "Exception in %s\n"
-                        .format ,suiteheadline
-            suite-errors-messages
-                for msg in suite-errors-messages
-                    print msg
-                raise
-                    "Failures in %s test suite (%s)\n"
-                        .format ,suiteheadline (length suite-errors-messages)
+   the file-list
 
 defmacro :test (headline &rest block)
    template
       do
+         setq test-counter (+ 1 test-counter)
          catch test-errors ,@block
          cond
             test-errors
-               define message
-                  "Test failed: %s because %a"
-                     .format ,headline test-errors
-               :found-error message
+               setq test-failed-counter (+ 1 test-failed-counter)
+               :found-error ,headline test-errors
             else
                display
                   "Test passed: %s\n"

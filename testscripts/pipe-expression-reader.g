@@ -13,7 +13,9 @@ define inpipe (Pipe(.open (nth 1 sys:argv)))
 define in (inpipe(.input))
 define parser (ParenParser(.new in))
 print in parser
-while true
-    u:format "reader task received expression: %s\n" (parser (.read))
+var exp (parser (.read))
+while (not (equal? exp EOF))
+    u:format "reader task received expression: %s\n" exp
+    setq exp (parser (.read))
 
 

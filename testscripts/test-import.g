@@ -13,7 +13,7 @@ catch err
 assert (equal? err 'non-String argument passed to sys:import: 232323')
 
 (var modulex (dict))
-    sys:import "testscripts/test-module1.g"
+    sys:import "testscripts/module1.g"
   
 assertEqual 
     modulex(.public1)
@@ -24,11 +24,11 @@ assertEqual
     list ^public2 ^private2 222 444
 
 sys:path = (cons "testscripts" sys:path)
-import test-module1
+import module1
 assertEqual 
-    test-module1(.public1)
+    module1(.public1)
     list ^public1 ^private1 123 145
 assertEqual 
-    test-module1(.public2)
+    module1(.public2)
     list ^public2 ^private2 222 444
     

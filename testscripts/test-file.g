@@ -10,7 +10,7 @@ assert (equal? err 'File.static-list-dir: failed on testscripts/fixtures/test.pi
 assert
    equal?
       File!static-list-dir 'testscripts/fixtures'
-      ^('test.csv' 'test.pipe' 'test.tab' 'test.tabpipe')
+      ^('gunit' 'test.csv' 'test.pipe' 'test.sfs' 'test.tab' 'test.tabpipe')
 
 catch err
    File!static-open "qwerty" ^read
@@ -94,7 +94,7 @@ def parse-file()
 
 
 def parse-sfs-file()
-  var fi (File(.new "testscripts/test.sfs"))
+  var fi (File(.new "testscripts/fixtures/test.sfs"))
   var in (fi (.open ^read))
   var sfs (StringFormatStream(.new in))
   var parser (ParenParser(.new sfs))
@@ -109,7 +109,7 @@ def parse-sfs-file()
 
 
 def eval-sfs-file()
-  var fi (File(.new "testscripts/test.sfs"))
+  var fi (File(.new "testscripts/fixtures/test.sfs"))
   var in (fi (.open ^read))
   var sfs (StringFormatStream(.new in))
   var parser (ParenParser(.new sfs))

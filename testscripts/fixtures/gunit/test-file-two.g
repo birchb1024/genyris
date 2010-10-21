@@ -1,0 +1,1 @@
+raise "test-file-two.g has no gunits and raises an exception"

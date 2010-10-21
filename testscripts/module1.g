@@ -13,4 +13,4 @@ def .public1()
 
 
 # nested import
-sys:import "testscripts/test-module2.g"
+sys:import "testscripts/module2.g"
