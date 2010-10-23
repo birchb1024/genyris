@@ -18,7 +18,7 @@
     )
   )
 )
-(print factorial)
+
 ;Unit test
 (and
  (equal? (factorial 0)     1)
@@ -34,6 +34,5 @@
  (equal? (factorial 10)     3628800)
  (equal? (factorial 15)     1307674368000)
  (equal? (factorial 20)     2432902008176640000)
- (equal? (factorial 25)     15511210043330985984000000)
- (print "Factorial tests passed."))
+ (equal? (factorial 25)     15511210043330985984000000))
 

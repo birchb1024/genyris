@@ -32,6 +32,5 @@ define pass
 
 cond
     pass
-       "\nFactorial tests passed."
     else
        raise "\nFactorial test failed"

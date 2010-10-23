@@ -3,7 +3,7 @@
 
 var shared (cons 0 0)
 var child
-    spawn 'testscripts/synch-child.g' shared
+    spawn 'test/mocks/synch-child.g' shared
 var start (now)
 while (> (+ start 5000) (now))
     var read-value 0    

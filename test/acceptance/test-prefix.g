@@ -15,5 +15,5 @@ do
         :assertEqual (intern "http://null/prefix#foo") ^|http://null/prefix#foo|
 
     :test "nested prefixes"
-        load "testscripts/prefix-test-nested.g"
+        include "test/mocks/prefix-test-nested.g"
         :assertEqual myprefix:foo 0

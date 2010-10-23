@@ -7,7 +7,7 @@ var OS-name (properties.|os.name|)
 print OS-name
 cond
     (OS-name(.match "Windows.*"))
-        Sound(.play "testscripts/boing.wav")
+        Sound(.play "test/fixtures/boing.wav")
         System(.exec "c:\\winnt\\system32\\cmd.exe" "/c" "date" "/t")
     (OS-name(.match "Linux.*"))
         System(.exec "/bin/date")

@@ -12,8 +12,8 @@ assert
 
 #
 #  003 setq not working when embedded in functions
-# change to
-defmacro setq (var valu) (template (define ,var ,valu))
+# changed
+#defmacro setq (var valu) (template (define ,var ,valu))
 #
 # 2579718 set not working in methods
 #

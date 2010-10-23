@@ -12,19 +12,19 @@ def readPage(url)
     count
 
 def run-web()
-    var thread (httpd 7776 "testscripts/www-text.g")
+    var thread (httpd 7776 "test/mocks/www-text.g")
     sleep 1000
     thread(.kill)
 
 def run-web-get()
-    var thread (httpd 7778 "testscripts/www-text.g")
+    var thread (httpd 7778 "test/mocks/www-text.g")
     sleep 1000
     var result (readPage "http://localhost:7778/")
     thread(.kill)
     result
 
 def run-web-static-get()
-    var thread (httpd 7778 "testscripts/www-static.g" ".")
+    var thread (httpd 7778 "test/mocks/www-static.g" ".")
     sleep 1000
     var result (readPage "http://localhost:7778/LICENSE")
     thread(.kill)

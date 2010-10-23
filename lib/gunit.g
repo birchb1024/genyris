@@ -6,50 +6,47 @@
 @prefix : 'http://www.genyris.org/lib/gunit#'
 @prefix < "http://www.genyris.org/lang/utilities#"
 
-define test-counter 0
-define test-failed-counter 0
-define total-tests-counter 0
-define total-test-failed-counter 0
-define failed-files nil
+define :test-counter 0
+define :test-failed-counter 0
+define :total-tests-counter 0
+define :total-test-failed-counter 0
+define :failed-files nil
 
-def :runTests(top)
-   setq total-tests-counter 0
-   setq total-test-failed-counter 0
-   setq failed-files nil
-   def runIt(fullpath)
-      define results nil
-      catch runerrors
-         setq results
-            apply System!exec
-               list "C:\\WINNT\\system32\\cmd.exe" '/c' "genyris" fullpath
-      for line in results
-         <:format "%s\n" line
-      cond
-         runerrors
-            <:format "*************** %s\n" runerrors
-   def includeIt(fullpath)
-      catch runerrors
-         include fullpath
-      cond
-         runerrors
-            setq failed-files (cons fullpath failed-files)
-            <:format "*** %s\n" runerrors
+def :includeIt(fullpath)
+   catch runerrors
+      include fullpath
+   cond
+      runerrors
+         setq :failed-files (cons fullpath :failed-files)
+         <:format "*** %s\n" runerrors
+
+def :execFiles(test-files)
+   for file in test-files
+      <:format "---------%s-----------------------------------------------------\n" file
+      setq :test-counter 0
+      setq :test-failed-counter 0
+      :includeIt file
+      setq :total-tests-counter (+ :test-counter :total-tests-counter)
+      setq :total-test-failed-counter (+ :test-failed-counter :total-test-failed-counter)
+
+def :runTests(top file-list)
+   setq :total-tests-counter 0
+   setq :total-test-failed-counter 0
+   setq :failed-files nil
+
    define test-files (:walkDirectoryTree top)
 
-   for file in test-files
-      <:format "---------%s---------------\n" file
-      setq test-counter 0
-      setq test-failed-counter 0
-      includeIt file
-      setq total-tests-counter (+ test-counter total-tests-counter)
-      setq total-test-failed-counter (+ test-failed-counter total-test-failed-counter)
+   :execFiles test-files
+   :execFiles file-list
+   var file-count (+ (length test-files) (length file-list))
 
-   <:format "------------------------------------\n"
-   <:format "Total # Test Files: %s\n" (length test-files)
-   <:format "Total # of failed test files: %s\n" (length  failed-files)
-   for failed in failed-files
+   <:format "===========================================================================\n"
+   <:format "Total # Test Files: %s\n" file-count
+   <:format "Total # gunit Tests: %s\n" :total-tests-counter
+   <:format "Total # of failed test files: %s\n" (length  :failed-files)
+   for failed in :failed-files
        <:format "    :%s\n" failed
-   <:format "Total # gunit Tests: %s\nTotal # gunit tests Failed %s\n" total-tests-counter total-test-failed-counter
+   <:format "Total # gunit tests Failed %s\n"  :total-test-failed-counter
 
 def :found-error(headline test-errors)
    define message
@@ -77,11 +74,11 @@ def :walkDirectoryTree (top)
 defmacro :test (headline &rest block)
    template
       do
-         setq test-counter (+ 1 test-counter)
+         setq :test-counter (+ 1 :test-counter)
          catch test-errors ,@block
          cond
             test-errors
-               setq test-failed-counter (+ 1 test-failed-counter)
+               setq :test-failed-counter (+ 1 :test-failed-counter)
                :found-error ,headline test-errors
             else
                display

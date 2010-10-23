@@ -147,7 +147,7 @@ file(.compareTo-java_lang_Object file)
 #
 #
 def run() 
-   include 'testscripts/test-java.g'
+   include 'test/acceptance/test-java.g'
 #
 # Add a method to a builtin
 #   

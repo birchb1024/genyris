@@ -3,7 +3,7 @@
 #
 @prefix sys "http://www.genyris.org/lang/system#"
 
-include 'testscripts/empty.g' true
+include 'test/fixtures/empty.g' true
 load "org/genyris/load/boot/pair.g" true
 
 catch err

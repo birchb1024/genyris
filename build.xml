@@ -157,7 +157,7 @@
                 <include name="src/**/*.java" />
                 <include name="src/**/*.properties" />
                 <include name="src/**/*.g" />
-                <include name="testscripts/**/*" />
+                <include name="test/**/*" />
                 <include name="web/**/*" />
             </fileset>
         </zip>
@@ -232,7 +232,7 @@
             <fileset dir="${needed.lib.dir}" includes="junit/**/*" />
             <fileset dir="${src.dir}" includes="**/*.g" />
             <fileset dir="${src.dir}" includes="**/*.properties" />
-            <fileset dir="${basedir}" includes="testscripts/*.g testscripts/*.lsp" />
+            <fileset dir="${basedir}" includes="test/**/*" />
             <manifest>
                 <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop" />
                 <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar" />
@@ -252,13 +252,7 @@
         <exec executable="java" failonerror="true">
             <arg value="-jar" />
             <arg value="dist/genyris-bin-${version}.jar" />
-            <arg value="-eval" />
-            <arg value="(cond ((self-test-runner) (System(.exit 2))))" />
-        </exec>
-        <exec executable="java" failonerror="true">
-            <arg value="-jar" />
-            <arg value="dist/genyris-bin-${version}.jar" />
-            <arg value="testscripts/testsuite.g" />
+            <arg value="test/acceptance/suite.g" />
         </exec>
     </target>
 

@@ -15,5 +15,5 @@ cond
 var port (nth 1 sys:argv)
 var rootdir (nth 2 sys:argv)
 u:format "Serving web pages on port %a from %a%n" port rootdir
-httpd port 'testscripts/www-static.g' rootdir
+httpd port 'test/mocks/www-static.g' rootdir
 

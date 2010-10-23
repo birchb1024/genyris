@@ -67,9 +67,3 @@ def board-print-sub (column n size)
                display "."
          board-print-sub column (+ n 1) size
 
-##
-## If invoked as a script use first arg as size of board
-cond
-    (and (bound? ^ sys:argv) sys:argv)
-        var size-of-board ((ParenParser(.new (cadr sys:argv)))(.read))
-        queens size-of-board

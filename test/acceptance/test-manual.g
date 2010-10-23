@@ -11,11 +11,11 @@ def threat (i j a b)
       equal? (+ i j) (+ a b)
       
 include "examples/queens.g"
-run-queens 5
+run-queens 4
 
 sys:path = (cons 'examples' sys:path)
 import queens
-(queens.queens) 3
+(queens.queens) 4
 
 
 # This whole line is a comment 

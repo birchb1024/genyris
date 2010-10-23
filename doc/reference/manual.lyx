@@ -11638,7 +11638,7 @@ define shared (Pipe!open 'shared-pipe')
 \end_layout
 
 \begin_layout LyX-Code
-spawn 'testscripts/pipe-reader.g' 'shared-pipe'
+spawn 'test/mocks/pipe-reader.g' 'shared-pipe'
 \end_layout
 
 \begin_layout LyX-Code
@@ -11704,7 +11704,7 @@ for i in (range 0 5)
 \end_layout
 
 \begin_layout LyX-Code
-    spawn 'testscripts/pipe-writer-synch.g' 'shared-pipe3'
+    spawn 'test/mocks/pipe-writer-synch.g' 'shared-pipe3'
 \end_layout
 
 \begin_layout LyX-Code
@@ -13984,7 +13984,7 @@ Task
 \end_layout
 
 \begin_layout LyX-Code
-spawn 'testscripts/spawn-example.g' 1 2 3 4 5
+spawn 'examples/spawn-example.g' 1 2 3 4 5
 \end_layout
 
 \begin_layout Standard
@@ -14798,7 +14798,7 @@ A static page web server can be started with the
 \end_layout
 
 \begin_layout LyX-Code
-httpd <port> "testscripts/www-static.g" <root directory>
+httpd <port> "test/mocks/www-static.g" <root directory>
 \end_layout
 
 \begin_layout Section

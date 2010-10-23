@@ -5,9 +5,12 @@
 //
 package org.genyris.test;
 
+import junit.framework.Test;
 import junit.framework.TestResult;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
+import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -23,9 +26,11 @@ public class JunitRunnerFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-    	TestResult result = junit.textui.TestRunner.run(org.genyris.test.AllTestSuite.makeSuite());
-    	return (result.wasSuccessful() ? NIL : TRUE );
-
+    	Test suite = org.genyris.test.AllTestSuite.makeSuite();
+    	TestResult result = junit.textui.TestRunner.run(suite);
+    	
+     	return new Pair(new Bignum(result.errorCount()+ result.failureCount()),
+     			new Bignum(suite.countTestCases()));
     }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindGlobalProcedureInstance(new JunitRunnerFunction(interpreter));

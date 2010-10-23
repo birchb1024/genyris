@@ -393,7 +393,6 @@ public class GraphTest extends TestCase {
 		eval("(defvar ^result (ts(.select ^s ^p ninenine isObject99))))",
 				"(graph)");
 		eval("(result(.asTriples))", "((triple s p 99))");
-		eval("(print (ts(.asTriples))))", "true");
 		eval(
 				"((SetList.equal?)(ts(.asTriples)) (list (triple ^s ^p ^o) (triple ^x ^p ^o) (triple ^x ^p ninenine) (triple ^s ^p ninenine)))",
 				"true");

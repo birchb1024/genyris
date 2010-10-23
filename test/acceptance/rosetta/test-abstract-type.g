@@ -1,7 +1,7 @@
 #
 # Rosetta Code
 #
-include "examples/classify.lin"
+include "examples/classify.g"
 
 class AbstractQueue()
    def .valid?(object)

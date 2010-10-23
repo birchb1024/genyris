@@ -15,6 +15,6 @@ define count (- (nth 2 sys:argv) 1)
 #print count
 stdout(.flush)
 if (equal? count 0) nil
-   spawn 'testscripts/test-load-time-child.g' (System!ticks) count
+   spawn 'test/mocks/load-time-child.g' (System!ticks) count
 
 

@@ -17,10 +17,10 @@ def testCSV (filename field-seperator quote-char)
     assert
        equal? results fixture
 
-testCSV "testscripts/fixtures/test.csv" ',' '"'
-testCSV "testscripts/fixtures/test.tab" '\t' '"'
-testCSV "testscripts/fixtures/test.pipe" '|' '"'
-testCSV "testscripts/fixtures/test.tabpipe" '\t' '|'
+testCSV "test/fixtures/test.csv" ',' '"'
+testCSV "test/fixtures/test.tab" '\t' '"'
+testCSV "test/fixtures/test.pipe" '|' '"'
+testCSV "test/fixtures/test.tabpipe" '\t' '|'
 
 
       
