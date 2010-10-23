@@ -250,47 +250,47 @@ public class NanoHTTPD {
 	/**
 	 * Starts as a standalone file server and waits for Enter.
 	 */
-	public static void main(String[] args) {
-		System.out.println("NanoHTTPD 1.1 (C) 2001,2005-2007 Jarno Elonen\n"
-				+ "(Command line options: [port] [--licence])\n");
-
-		// Show licence if requested
-		int lopt = -1;
-		for (int i = 0; i < args.length; ++i)
-			if (args[i].toLowerCase().endsWith("licence")) {
-				lopt = i;
-				System.out.println(LICENCE + "\n");
-			}
-
-		// Change port if requested
-		int port = 8080;
-		if (args.length > 0 && lopt != 0)
-			port = Integer.parseInt(args[0]);
-
-		if (args.length > 1 && args[1].toLowerCase().endsWith("licence"))
-			System.out.println(LICENCE + "\n");
-
-		NanoHTTPD nh = null;
-		try {
-			nh = new NanoHTTPD(port, ".");
-		} catch (IOException ioe) {
-			System.err.println("Couldn't start server: " + ioe);
-			System.exit(-1);
-		} catch (NanoException e) {
-			System.err.println("Couldn't start server: " + e.getMessage());
-			System.exit(-1);
-		}
-
-		System.out.println("Now serving files in port " + port + " from \""
-				+ new File("").getAbsolutePath() + "\"");
-		System.out.println("Hit Enter to stop.\n");
-
-		try {
-			System.in.read();
-		} catch (Throwable t) {
-		}
-		;
-	}
+//	public static void main(String[] args) {
+//		System.out.println("NanoHTTPD 1.1 (C) 2001,2005-2007 Jarno Elonen\n"
+//				+ "(Command line options: [port] [--licence])\n");
+//
+//		// Show licence if requested
+//		int lopt = -1;
+//		for (int i = 0; i < args.length; ++i)
+//			if (args[i].toLowerCase().endsWith("licence")) {
+//				lopt = i;
+//				System.out.println(LICENCE + "\n");
+//			}
+//
+//		// Change port if requested
+//		int port = 8080;
+//		if (args.length > 0 && lopt != 0)
+//			port = Integer.parseInt(args[0]);
+//
+//		if (args.length > 1 && args[1].toLowerCase().endsWith("licence"))
+//			System.out.println(LICENCE + "\n");
+//
+////		NanoHTTPD nh = null;
+//		try {
+//			nh = new NanoHTTPD(port, ".");
+//		} catch (IOException ioe) {
+//			System.err.println("Couldn't start server: " + ioe);
+//			System.exit(-1);
+//		} catch (NanoException e) {
+//			System.err.println("Couldn't start server: " + e.getMessage());
+//			System.exit(-1);
+//		}
+//
+//		System.out.println("Now serving files in port " + port + " from \""
+//				+ new File("").getAbsolutePath() + "\"");
+//		System.out.println("Hit Enter to stop.\n");
+//
+//		try {
+//			System.in.read();
+//		} catch (Throwable t) {
+//		}
+//		;
+//	}
 
 	/**
 	 * Handles one session, i.e. parses the HTTP request and returns the
@@ -763,28 +763,28 @@ public class NanoHTTPD {
 	/**
 	 * The distribution licence
 	 */
-	private static final String LICENCE = "Copyright (C) 2001,2005 by Jarno Elonen <elonen@iki.fi>\n"
-			+ "\n"
-			+ "Redistribution and use in source and binary forms, with or without\n"
-			+ "modification, are permitted provided that the following conditions\n"
-			+ "are met:\n"
-			+ "\n"
-			+ "Redistributions of source code must retain the above copyright notice,\n"
-			+ "this list of conditions and the following disclaimer. Redistributions in\n"
-			+ "binary form must reproduce the above copyright notice, this list of\n"
-			+ "conditions and the following disclaimer in the documentation and/or other\n"
-			+ "materials provided with the distribution. The name of the author may not\n"
-			+ "be used to endorse or promote products derived from this software without\n"
-			+ "specific prior written permission. \n"
-			+ " \n"
-			+ "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n"
-			+ "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n"
-			+ "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n"
-			+ "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n"
-			+ "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n"
-			+ "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n"
-			+ "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n"
-			+ "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n"
-			+ "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n"
-			+ "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
+//	private static final String LICENCE = "Copyright (C) 2001,2005 by Jarno Elonen <elonen@iki.fi>\n"
+//			+ "\n"
+//			+ "Redistribution and use in source and binary forms, with or without\n"
+//			+ "modification, are permitted provided that the following conditions\n"
+//			+ "are met:\n"
+//			+ "\n"
+//			+ "Redistributions of source code must retain the above copyright notice,\n"
+//			+ "this list of conditions and the following disclaimer. Redistributions in\n"
+//			+ "binary form must reproduce the above copyright notice, this list of\n"
+//			+ "conditions and the following disclaimer in the documentation and/or other\n"
+//			+ "materials provided with the distribution. The name of the author may not\n"
+//			+ "be used to endorse or promote products derived from this software without\n"
+//			+ "specific prior written permission. \n"
+//			+ " \n"
+//			+ "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n"
+//			+ "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n"
+//			+ "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n"
+//			+ "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n"
+//			+ "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n"
+//			+ "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n"
+//			+ "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n"
+//			+ "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n"
+//			+ "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n"
+//			+ "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
 }
