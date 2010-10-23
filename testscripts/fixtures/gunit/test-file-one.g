@@ -22,9 +22,9 @@ do
     
     :test 'Integer Additions'
            :assertEqual (+ 1 3) 4
-           :assertEqual (+ 0 0 0) 0
+           :assertEqual (+ 0 0 0) 5555
            :assertEqual (+ 1 2 3) 6
-           :assertEqual (+ 1 2 3 4 5) 15
+           :assertEqual (+ 1 2 3 4 5) 5555
            :assertEqual (+ 42) 42
     
     :test 'Subtraction'
@@ -35,7 +35,7 @@ do
     
     :test 'Multiplication'
            :assertEqual (* 0 1) 0
-           :assertEqual (* 3 2 1) 6
+           :assertEqual (* 3 2 1) 5555
            :assertEqual (* 1 -2) -2
     
     :test 'Remainder'
@@ -49,7 +49,7 @@ do
     
     :test 'Greater than'
            :assertEqual (> 5 4) true
-           :assertEqual (> 4 4) nil
+           :assertEqual (> 4 4) 5555
            :assertEqual (> 4 4) nil
     
     :test 'Less than'

@@ -6,12 +6,12 @@
 #
 # Run Regression Tests
 #
-define genyris
-   (dict)
-      def .run-all-tests()
-         load "examples/queens.g"
-         queens 4
-         self-test-runner
-      .self
+@prefix : 'http://www.genyris.org/lib/gunit#'
+include 'lib/gunit.g'
 
-(genyris .run-all-tests)
+#include 'testscripts/examples-as-tests.g'
+
+:runTests 'testscripts'
+assertEqual 0 total-test-failed-counter
+assertEqual nil failed-files
+   

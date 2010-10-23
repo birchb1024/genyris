@@ -11,7 +11,7 @@ def threat (i j a b)
       equal? (+ i j) (+ a b)
       
 include "examples/queens.g"
-run-queens 8
+run-queens 5
 
 sys:path = (cons 'examples' sys:path)
 import queens

@@ -247,12 +247,18 @@
         </jar>
     </target>
 
-    <target name="test" depends="binary-release">
+    <target name="test" depends="binary-release, only-test"/>
+    <target name="only-test" depends="only-hg-version">
         <exec executable="java" failonerror="true">
             <arg value="-jar" />
             <arg value="dist/genyris-bin-${version}.jar" />
             <arg value="-eval" />
             <arg value="(cond ((self-test-runner) (System(.exit 2))))" />
+        </exec>
+        <exec executable="java" failonerror="true">
+            <arg value="-jar" />
+            <arg value="dist/genyris-bin-${version}.jar" />
+            <arg value="testscripts/testsuite.g" />
         </exec>
     </target>
 

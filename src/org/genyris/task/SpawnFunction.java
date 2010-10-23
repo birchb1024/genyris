@@ -56,11 +56,14 @@ public class SpawnFunction extends TaskFunction {
 	    			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
 	    		}
 			} catch (GenyrisException e) {
-				if(e instanceof GenyrisInterruptedException) 
+				if(e instanceof GenyrisInterruptedException) {
+					System.out.println("*** GenyrisInterruptedException " + Thread.currentThread().getName() + ' ' + e.getMessage());
+					Thread.currentThread().interrupt();
 					return;
+				}
 				System.out.println("*** Error in thread " + Thread.currentThread().getName() + ' ' + e.getMessage());
 			}
-
+        
         }
 
     }

@@ -2,7 +2,7 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 
 java:import 'java.lang.Object' as Jobject
-java:import 'java.lang.Class'
+java:import 'java.lang.Class' as JClass
 java:import 'java.lang.Integer' as Integer
 java:import 'java.lang.String' as JavaString
 java:import 'java.io.File' as JFile
@@ -101,11 +101,11 @@ print Dummy!vars
 catch error 
    d(.failmethod1)
 assert error
-u:format "caught error = %s\n" error
+u:format "caught error1 = %s\n" error
 catch error 
    d(.failmethod2)
 assert error
-u:format "caught error = %s\n" error
+u:format "caught error2 = %s\n" error
 
 
 java:toJava int 34
@@ -158,18 +158,18 @@ Bignum
                .precision
 assert (equal? (2134(.precision)) 4)
 
-java:import 'java.lang.String'
+java:import 'java.lang.String' as JString
 String
     def .replace(old new)
         (java:toJava 'java.lang.String' .self)
                .replace-char-char old new
 
 java:toJava 'java.lang.String' 'east'
-java:import file!java:class
+java:import file!java:class as JFile
 
 # Defect 2988182 
 java:import 'java.io.PrintStream'
-java:import 'java.lang.System'
+java:import 'java.lang.System' as java_lang_System
 assert (member? java_io_PrintStream (java_lang_System!out!classes))
 
 

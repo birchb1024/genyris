@@ -11,4 +11,4 @@ while true
     task:synchronized shared
        catch errors
           out(.format 'Hello from task.\n')
-    sleep 10
+    sleep 500
