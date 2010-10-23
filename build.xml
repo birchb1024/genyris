@@ -184,14 +184,14 @@
         <checksum file="rel/genyris-binary-${version}.zip" forceOverwrite="yes" />
     </target>
 
-    <target name="publish-source" description="publish source code to SourceForge" depends="only-hg-version, only-hg-status,test">
+    <target name="sf-publish-mercurial-source-" description="publish source code to SourceForge Mercurial repo" depends="only-hg-version, only-hg-status,test">
         <exec executable="hg" errorproperty="hg.error" failonerror="true">
             <arg value="push" />
             <arg value="ssh://billbirch@genyris.hg.sourceforge.net/hgroot/genyris/genyris" />
         </exec>
     </target>
 
-    <target name="only-publish" description="publish source and binaries to SourceForge" depends="only-hg-version, only-hg-status">
+    <target name="sf-publish-files" description="publish source and binaries to SourceForge Files area" depends="only-hg-version, only-hg-status">
         <input message="password?" addproperty="password" />
         <scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/binary" verbose="true" trust="true">
             <fileset dir="rel">
