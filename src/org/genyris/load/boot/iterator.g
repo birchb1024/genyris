@@ -11,8 +11,8 @@ class RangeIterator(Iterator)
 class DictionaryKeyIterator(Iterator)
 
 Thing
-   def .mkIterator() 
-      raise 'Iterator not defined for class'
+#   def .mkIterator() 
+#      raise 'Iterator not defined for class'
 
 NilSymbol
    def .mkIterator() 

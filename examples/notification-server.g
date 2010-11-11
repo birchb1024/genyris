@@ -2,7 +2,7 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix email "http://www.genyris.org/lang/email#"
 
-include "/workspace/genyris/examples/classify.g"
+include "/workspace/genyris/lib/classify.g"
 
 def usage()
     u:format "Usage: <scriptname> <client IP regular expression> <rules file> <mailserver> <reply-to email address>%n"

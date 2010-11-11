@@ -93,6 +93,12 @@ defmacro :assert (expression)
         (null? ,expression)
             raise (list "assert failed on expression: " ^,expression)
 
+defmacro :assertNil (expression)
+  template
+     cond
+        (,expression)
+            raise (list "assertNil failed on expression: " ^,expression)
+
 defmacro :assertEqual (a b)
   template
      cond
