@@ -13,33 +13,33 @@ class Module
 defmacro import (moduleName)
    # macro ensures module binding is create in the scope of caller
    define themodule (import-aux moduleName)
-   if themodule 
+   if themodule
        template
            define ,moduleName ,themodule
        '%s already defined'
             .format moduleName
-               
+
 def sys:module-defined? (moduleName)
-    define answer 
+    define answer
         sys:modules(.select moduleName ^sys:hasModule nil)
     answer(.asTriples)
-    
+
 def import-aux (moduleName)
     define existing (sys:module-defined? moduleName)
     cond
         existing
             (left existing)(.object)
         else
-            define path (sys:search-path moduleName)
+            define path (sys:search-path ((asString moduleName)(.+ '.g')))
             if path
                  sys:mk-module moduleName path
                  raise ("Unable to locate import "(.+ (asString moduleName)))
 
-def sys:search-path(moduleName)
+def sys:search-path(fileName)
     define tmp sys:path
     define result nil
     while tmp
-        define file-path ((left tmp)(.+ "/" (asString moduleName) ".g"))
+        define file-path ((left tmp)(.+ "/" fileName))
         cond
             ((File.exists) file-path)
                   tmp = nil
@@ -48,18 +48,18 @@ def sys:search-path(moduleName)
                   tmp = (right tmp)
     result
 
-def sys:mk-module (moduleName path)                  
+def sys:mk-module (moduleName path)
      define themodule (dict (.name = moduleName)(.filename = path))
      themodule (sys:import path)
      tag Module themodule
-     sys:modules 
+     sys:modules
         .add (triple moduleName ^sys:hasModule themodule)
      themodule
-    
+
 defmacro reload (moduleName)
    # macro ensures module binding is create in the scope of caller
    define notNew (sys:module-defined? moduleName)
-   cond 
+   cond
     (notNew)
         define oldmodule ((left notNew)(.object))
         sys:modules
@@ -69,4 +69,13 @@ defmacro reload (moduleName)
             define ,moduleName ,themodule
     else
          raise ('%s was not loaded yet'(.format moduleName))
-       
+
+def include((filename = String))
+   var path
+     sys:search-path filename
+   cond
+      path
+        sys:include path
+      else
+        raise
+           'include: could not locate %s' (.format filename)

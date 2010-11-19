@@ -7,6 +7,7 @@ package org.genyris.load;
 
 import java.io.Writer;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
@@ -19,12 +20,13 @@ import org.genyris.io.NullWriter;
 public class IncludeFunction extends ApplicableFunction {
 
     public IncludeFunction(Interpreter interp) {
-    	super(interp, "include", true);
+    	super(interp, Constants.PREFIX_SYSTEM + "include", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp result;
         Writer out = new NullWriter();
+        this.checkArguments(arguments, 1, 2);
         if( !( arguments[0] instanceof StrinG) ) {
             throw new GenyrisException("non-string argument passed to include: " + arguments[0].toString());
         }

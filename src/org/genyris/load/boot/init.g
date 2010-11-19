@@ -17,6 +17,8 @@ tag NilSymbol ^nil
 
 # Some aliases
 defmacro define (variable valu) (template (defvar ^,variable ,valu))
+
+define include s:include
 define function lambda
 define var define
 defmacro df (name args &rest body)
