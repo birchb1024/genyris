@@ -3,21 +3,27 @@
 #
 @prefix sys "http://www.genyris.org/lang/system#"
 
-include 'test/fixtures/empty.g' true
 load "org/genyris/load/boot/pair.g" true
 
 catch err
-   include 'does-not-exist.g'
-assert (equal? err 'loadScriptFromFile: does-not-exist.g (No such file or directory)')    
+   include "does-not-exist.g"
+print
+  equal? err 'include: could not locate "does-not-exist.g"'
+assert (equal? err 'include: could not locate "does-not-exist.g"')
 
 catch err
    include 234234
-assert (equal? err 'non-string argument passed to include: 234234')    
+assert (equal? err 'Type mismatch in function call for (filename = String) because validator error: object 234234 is not tagged with String')
 
 catch err
    load 'does-not-exist.g'
-assert (equal? err 'loadScriptFromInputStream: could not open: does-not-exist.g')    
+assert (equal? err 'loadScriptFromInputStream: could not open: does-not-exist.g')
 
 catch err
    load 234234
-assert (equal? err 'non-string argument passed to load: 234234')    
+assert (equal? err 'non-string argument passed to load: 234234')
+
+# test include with sys:path
+sys:path = (cons (GENYRIS_HOME (.+ '/test/fixtures')) sys:path)
+include 'empty.g'
+assert empty-loaded

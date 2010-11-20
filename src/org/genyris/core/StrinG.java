@@ -39,7 +39,11 @@ public class StrinG extends Atom {
 	}
 
 	public char getAlternateQuoteChar() {
-		return (_quoteWith == '\'' ? '"' : '\'');
+		return alternateQuoteChar(_quoteWith);
+	}
+
+	public static char alternateQuoteChar(char quote) {
+		return (quote == '\'' ? '"' : '\'');
 	}
 
 	public String toString() {

@@ -1,4 +1,4 @@
-#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -12020,11 +12020,28 @@ The
  function reads and executes files of scripts in the global environment.
  The <path to filename> parameter refers to a normal operating system file
  path.
+ 
+\emph on
+include 
+\emph default
+searches the list of directories in the
+\emph on
+ sys:path
+\emph default
+ variable and uses the first matching file it finds.
  Examples:
 \end_layout
 
 \begin_layout LyX-Code
 include 'examples/people.g'   # relative path
+\end_layout
+
+\begin_layout LyX-Code
+setq sys:path (cons 'examples' sys:path)
+\end_layout
+
+\begin_layout LyX-Code
+include 'people.g'    # using the search path
 \end_layout
 
 \begin_layout LyX-Code

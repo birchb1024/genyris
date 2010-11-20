@@ -1,6 +1,7 @@
 <project name="Genyris" default="all" basedir=".">
     <!-- -->
     <buildnumber/>
+    <property name="build.compiler" value="javac1.6"/>
     <property name="needed.lib.dir" value="needed" />
     <property name="junit.lib.dir" value="needed" />
     <property name="build.dir" value="build" />
@@ -249,6 +250,9 @@
 
     <target name="test" depends="binary-release, only-test"/>
     <target name="only-test" depends="only-hg-version">
+        <exec executable="java" failonerror="true">
+            <arg value="-version" />
+        </exec>
         <exec executable="java" failonerror="true">
             <arg value="-jar" />
             <arg value="dist/genyris-bin-${version}.jar" />
