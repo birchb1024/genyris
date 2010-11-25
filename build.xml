@@ -180,6 +180,7 @@
                 <include name="lib/**/*" />
                 <include name="bin/**/*" />
                 <include name="examples/**/*" />
+                <include name="test/**/*" />
             </fileset>
         </zip>
         <checksum file="rel/genyris-binary-${version}.zip" forceOverwrite="yes" />
