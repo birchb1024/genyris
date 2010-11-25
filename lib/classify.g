@@ -20,7 +20,7 @@ def classify(klass thing)
                 or subclass-results
                    classify subklass thing
         cond
-           (null? subclass-results)              # no subclasses were valid so tag with this class
+           (null? subclass-results)         # no subclasses were valid so tag with this class
                tag klass thing
         true
 

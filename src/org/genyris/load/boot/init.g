@@ -101,3 +101,5 @@ class Calendar
 def calendar(epochmilliseconds)
     tag Calendar (date:calendar  epochmilliseconds)
 
+def s:self-test()
+    include 'test/acceptance/suite.g'

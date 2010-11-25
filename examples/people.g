@@ -3,6 +3,8 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
+@prefix foaf 'http://xmlns.com/foaf/0.1/'
+
 include "lib/classify.g"
 
 def between (low it high)
@@ -10,46 +12,55 @@ def between (low it high)
       < it high
       > it low
 
-class Person ()
-   def .valid? (obj)
-      obj
-         bound? ^.age
+define neil
+  dict
+     .foaf:name = "Neil Wheedon Watkins Pye"
+     .foaf:age  = 49
+     .bong = true
 
-class Kid (Person)
-   def .valid? (obj)
-      obj
-         < .age 15
+define vyvyan
+  dict
+     .foaf:name = "Vyvyan"
+     .foaf:age  = 49
 
-class Senior (Person)
-   def .valid? (obj)
-      obj
-         between 60 .age 120
+class foaf:name
 
-class Boomer (Person)
+define rick
+  dict
+     .name = (tag foaf:name "Rick") # not legal in RDF
+
+class foaf:Person ()
+   def .valid? (obj)
+      # simple type inference from foaf:age to foaf:Person
+      obj
+         bound? ^.foaf:age 
+
+class Kid (foaf:Person)
    def .valid? (obj)
       obj
-         between 45 .age 60
+         < .foaf:age 15
+
+class Senior (foaf:Person)
+   def .valid? (obj)
+      obj
+         between 60 .foaf:age 120
+
+class Boomer (foaf:Person)
+   def .valid? (obj)
+      obj
+         between 45 .foaf:age 60
 
 class Hippie (Boomer)
    def .valid? (obj)
       obj
          bound? ^.bong
 
-define noel
-  dict
-     .name = "Noel"
-     .age  = 49
-     .bong = true
 
-define kevin
-  dict
-     .name = "Kevin"
-     .age  = 49
-
-classify Person noel
-classify Person kevin
+classify foaf:Person neil
+classify foaf:Person vyvyan
 
 assert
   and
-    is-instance? noel Hippie
-    is-instance? kevin Boomer
+    is-instance? neil Hippie
+    is-instance? vyvyan Boomer
+    is-instance? rick!name foaf:name

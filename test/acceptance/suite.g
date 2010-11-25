@@ -8,6 +8,7 @@
 #
 @prefix < "http://www.genyris.org/lang/utilities#"
 @prefix : 'http://www.genyris.org/lib/gunit#'
+@prefix sys "http://www.genyris.org/lang/system#"
 
 include 'lib/gunit.g'
 
@@ -40,7 +41,7 @@ define example-files
     ~ 'examples/allclasses.g'
     ~ 'examples/java-ffi.g'
 
-var junit-summary (self-test-runner)
+var junit-summary (sys:junit-test-runner)
 
 spawn "examples/swing.g"
 spawn "examples/swing-canvas.g"

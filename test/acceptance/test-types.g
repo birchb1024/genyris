@@ -1,6 +1,7 @@
 @prefix : 'http://www.genyris.org/lib/gunit#'
 @prefix u 'http://www.genyris.org/lang/utilities#'
 @prefix type 'http://www.genyris.org/lang/types#'
+
 include 'lib/gunit.g'
 include 'lib/types.g'
 
@@ -60,10 +61,13 @@ do
      :assertNil (type:Table!valid? ^((1 a)(2 2)(4)))
 
 include 'lib/classify.g'
+
 def classify-test(klass fixture)
    classify type:SequenceOfRecords fixture
    :assert (is-instance? fixture klass)
+
 define a-table ^((1 'a' b)(1 2 3)(1 2 3))
+
 do
    :test 'Classify Tables'
       classify-test type:SequenceOfRecords ^((1)(2 3))
@@ -82,5 +86,6 @@ do
 do
    :test 'Tables width method'
       define a-table ^((1 'a' b)(1 2 3)(1 2 3))
-      classify type:SequenceOfRecords a-table 
+      classify type:SequenceOfRecords a-table
+      :assert (is-instance? a-table type:Table) 
       :assertEqual 3 (a-table(.width))

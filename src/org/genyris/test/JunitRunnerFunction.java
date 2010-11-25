@@ -9,6 +9,7 @@ import junit.framework.Test;
 import junit.framework.TestResult;
 
 import org.genyris.core.Bignum;
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.exception.GenyrisException;
@@ -21,7 +22,7 @@ import org.genyris.interp.UnboundException;
 public class JunitRunnerFunction extends ApplicableFunction {
 
     public JunitRunnerFunction(Interpreter interp) {
-        super(interp, "self-test-runner", true);
+        super(interp,  Constants.PREFIX_SYSTEM + "junit-test-runner", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,

@@ -9,7 +9,7 @@ class :ProperAtom()
           is-instance? obj Symbol
 
 class :Record()
-   # a list of atoms
+   # a list of proper atoms
    def .valid?(obj)
       cond
          (is-instance? obj Pair)
@@ -61,6 +61,7 @@ class :Table(:SequenceOfRecords)
                     mylength
          else   # end of the list
             mylength
+   # method returns the width of the table
    def .width()
       length (.self .left)
       
