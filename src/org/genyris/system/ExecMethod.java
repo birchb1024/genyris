@@ -15,6 +15,7 @@ import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
+import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -47,52 +48,64 @@ public class ExecMethod extends AbstractMethod {
             throws GenyrisException {
         String[] args = toStringArray(arguments);
         Process child;
-        InputStream childOut = null;
-        InputStreamReader read = null;
-        BufferedReader buf = null;
         Exp lines = NIL;
+        Exp errors = NIL;
         try {
             child = Runtime.getRuntime().exec(args);
-            childOut = child.getInputStream();
-            read = new InputStreamReader(childOut);
-            buf = new BufferedReader(read);
-            Exp tail = NIL;
-
-            String line;
-            while ((line = buf.readLine()) != null) {
-                if (lines == NIL) {
-                    tail = lines = new Pair(new StrinG(line), NIL);
-                } else {
-                    tail.setCdr(new Pair(new StrinG(line), NIL));
-                    tail = tail.cdr();
-                }
-            }
+            lines = convertResultToListOfLines(child.getInputStream());
+            errors = convertResultToListOfLines(child.getErrorStream());
         } catch (IOException e) {
             throw new GenyrisException("exec failed, message is: "
                     + e.getMessage());
         } finally {
-        	if( childOut != null) try {
-					childOut.close();
-			} catch (IOException ignore) { }
-	        if( read != null) try {
-						read.close();
-			} catch (IOException ignore) { }
-	        if( buf != null) try {
-				buf.close();
-	        } catch (IOException ignore) { }
         }
         try {
             if (child.waitFor() != 0) {
-              throw new GenyrisException("exec failed, return is: " + new Integer(child.exitValue()).toString());
+                throw new GenyrisException(new Pair(lines, errors));
             }
         } catch (InterruptedException e) {
             throw new GenyrisException("exec failed, message is: "
                     + e.getMessage());
         }
-        lines.addClass(ListOfLinesClazz);
-        return lines;
+        return new Pair(lines, errors);
 
     }
+
+	private Exp convertResultToListOfLines(InputStream inputStream) throws GenyrisException {
+        InputStreamReader read = null;
+        BufferedReader buf = null;
+        read = new InputStreamReader(inputStream);
+        buf = new BufferedReader(read);
+        Exp lines = NIL;
+		Exp tail = NIL;
+
+		String line;
+		try {
+			while ((line = buf.readLine()) != null) {
+			    if (lines == NIL) {
+			        tail = lines = new Pair(new StrinG(line), NIL);
+			    } else {
+			        tail.setCdr(new Pair(new StrinG(line), NIL));
+			        tail = tail.cdr();
+			    }
+			}
+		} catch (AccessException e) {
+            throw new GenyrisException("exec failed, " + e.getMessage());
+		} catch (IOException e) {
+            throw new GenyrisException("exec failed, " + e.getMessage());
+		}
+    	if( inputStream != null) try {
+    		inputStream.close();
+    	} catch (IOException ignore) { }
+    	if( read != null) try {
+				read.close();
+    	} catch (IOException ignore) { }
+    	if( buf != null) try {
+    		buf.close();
+    	} catch (IOException ignore) { }
+        lines.addClass(ListOfLinesClazz);
+		return lines;
+	}
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindMethodInstance(Constants.SYSTEM, new ExecMethod(interpreter));

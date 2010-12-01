@@ -1,10 +1,10 @@
 // Copyright 2008 Peter William Birch <birchb@genyis.org>
 package org.genyris.test.string;
 
+import junit.framework.TestCase;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.test.interp.TestUtilities;
-
-import junit.framework.TestCase;
 
 public class StringTests extends TestCase {
 
@@ -92,7 +92,5 @@ public class StringTests extends TestCase {
         checkEval("('foo:bar'(.toBase64))", "'Zm9vOmJhcg=='");
         checkEval("('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'(.toBase64))", "'enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eno='");
     }
-    
-
-    
+        
 }
