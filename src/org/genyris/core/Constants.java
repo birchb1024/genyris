@@ -72,6 +72,7 @@ public class Constants {
         public static final String INDENTEDPARSER = "Parser";
         public static final String STRINGFORMATSTREAM = "StringFormatStream";
         public static final String STDOUT = "stdout";
+        public static final String STDERR = "stderr";
         public static final String PARENPARSER = "ParenParser";
         public static final String STDIN = "stdin";
         public static final String PREFIX = "@prefix";

@@ -158,15 +158,18 @@ public class WriterStream extends Atom {
     }
     public static class FormatMethod extends AbstractWriterMethod {
         private Exp STDOUT;
+        private Exp STDERR;
 
         public static String getStaticName() {return "format";};
         public FormatMethod(Interpreter interp) {
             super(interp, getStaticName());
             try {
                 STDOUT = interp.lookupGlobalFromString(Constants.STDOUT);
+                STDERR = interp.lookupGlobalFromString(Constants.STDERR);
             }
             catch (GenyrisException e) {
                 STDOUT = null;
+                STDERR = null;
             }
         }
 
@@ -178,7 +181,7 @@ public class WriterStream extends Atom {
                 }
                 WriterStream self = getSelfWriter(env);
                 Exp retval = self.format((StrinG)arguments[0], 1, arguments, env);
-                if(self == STDOUT) {
+                if(self == STDOUT | self == STDERR) {
                     try {
                         self._value.flush();
                     }
