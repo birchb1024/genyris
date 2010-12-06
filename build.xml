@@ -10,6 +10,7 @@
     <property name="src.compile.dir" value="${build.dir}/classes" />
     <property name="src.dir" value="src" />
     <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
+    <property file="secrets.properties" />
 
     <tstamp>
         <format property="TODAY" pattern="dd/MM/yyyy HH:mm:ss" />
@@ -202,6 +203,14 @@
             <arg value="push" />
             <arg value="ssh://billbirch@genyris.hg.sourceforge.net/hgroot/genyris/genyris" />
         </exec>
+    </target>
+
+    <target name="only-publish-to-google-mercurial" description="publish source code to Google Code Mercurial repo" depends="only-hg-version, only-hg-status">
+        <exec executable="hg" failonerror="true">
+            <arg value="push"/>
+            <arg value="GoogleCode" />
+        </exec>
+        <echoproperties/>
     </target>
 
     <target name="sf-publish-files" description="publish source and binaries to SourceForge Files area" depends="only-hg-version, only-hg-status">
