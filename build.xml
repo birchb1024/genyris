@@ -125,6 +125,11 @@
                 </replacetokens>
             </filterchain>
         </copy>
+        <copy todir="dist" verbose="true">
+            <fileset dir="${basedir}/doc/reference/">
+                <include name="*jpg" />
+            </fileset>
+        </copy>
         <exec executable="lyx" dir="dist" failonerror="true" os="Linux">
             <arg value="--export" />
             <arg value="pdf" />
@@ -135,9 +140,15 @@
             <arg value="pdf" />
             <arg value="genyris-manual-${version}.lyx" />
         </exec>
-        <delete file="dist/genyris-manual-${version}.lyx" verbose="true"/>
+        <delete verbose="true">
+            <fileset dir="dist">
+                <include name="*jpg" />
+                <include name="*lyx" />
+                <include name="*dvi" />
+            </fileset>
+        </delete>
         <copy file="dist/genyris-manual-${version}.pdf" tofile="rel/genyris-manual-${version}.pdf" verbose="true" />
-      <checksum file="rel/genyris-manual-${version}.pdf" forceOverwrite="yes" />
+        <checksum file="rel/genyris-manual-${version}.pdf" forceOverwrite="yes" />
 
     </target>
 
