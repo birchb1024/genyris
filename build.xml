@@ -141,6 +141,11 @@
             <arg value="pdf" />
             <arg value="genyris-manual-${version}.lyx" />
         </exec>
+        <exec executable="C:\Python25\python.exe" dir="dist" failonerror="true" os="Windows XP">
+            <arg value="C:\downloads\elyxer\elyxer-1.0.4\elyxer.py" />
+            <arg value="genyris-manual-${version}.lyx" />
+            <arg value="genyris-manual-${version}.html" />
+        </exec>    
         <delete verbose="true">
             <fileset dir="dist">
                 <include name="*jpg" />
@@ -150,9 +155,10 @@
         </delete>
         <copy file="dist/genyris-manual-${version}.pdf" tofile="rel/genyris-manual-${version}.pdf" verbose="true" />
         <checksum file="rel/genyris-manual-${version}.pdf" forceOverwrite="yes" />
+        <copy file="dist/genyris-manual-${version}.html" tofile="rel/genyris-manual-${version}.html" verbose="true" />
+        <checksum file="rel/genyris-manual-${version}.html" forceOverwrite="yes" />
 
     </target>
-
 
     <target name="only-source-release" depends="only-hg-version" description="Make a source release">
         <tstamp />
@@ -205,12 +211,11 @@
         </exec>
     </target>
 
-    <target name="only-publish-to-google-mercurial" description="publish source code to Google Code Mercurial repo" depends="only-hg-version, only-hg-status">
+    <target name="only-publish-to-google-mercurial" description="publish source code to Google Code Mercurial repo" depends="only-hg-version, only-hg-status, only-test">
         <exec executable="hg" failonerror="true">
             <arg value="push"/>
             <arg value="GoogleCode" />
         </exec>
-        <echoproperties/>
     </target>
 
     <target name="sf-publish-files" description="publish source and binaries to SourceForge Files area" depends="only-hg-version, only-hg-status">
