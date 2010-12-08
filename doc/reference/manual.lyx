@@ -2914,8 +2914,146 @@ status open
 name = 'William Pitt'
 \end_layout
 
+\begin_layout Paragraph
+
+\emph on
+var
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+var
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
-A predicate function 
+This macro creates a lexical bining between the 
+\emph on
+symbol
+\emph default
+ and the result of the 
+\emph on
+value expression
+\emph default
+.
+ A alias for 
+\emph on
+define
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Syntax
+\end_layout
+
+\begin_layout LyX-Code
+var <symbol> <value expression>
+\end_layout
+
+\begin_layout Standard
+Example
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+defvar
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+defvar
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This eager function creates a binding between the supplied symbol and the
+ value.
+\end_layout
+
+\begin_layout Standard
+Syntax
+\end_layout
+
+\begin_layout LyX-Code
+defvar <symbol> <value>
+\end_layout
+
+\begin_layout Standard
+Examples
+\end_layout
+
+\begin_layout LyX-Code
+> (dict)
+\end_layout
+
+\begin_layout LyX-Code
+     defvar ^.d 123
+\end_layout
+
+\begin_layout LyX-Code
+     .self
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.d = 23)) # Dictionary
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+define
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+define
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+bound?
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+bound?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An eager predicate function 
 \emph on
 bound?
 \begin_inset Index
@@ -2931,7 +3069,7 @@ bound?
 
 
 \emph default
- is provided to test whether a symbol has a binding in the current environments.
+ tests whether a symbol has a binding in the current environments.
  It returns the symbol
 \emph on
  true
@@ -2955,92 +3093,48 @@ nil
 .
 \end_layout
 
-\begin_layout Paragraph
-
-\emph on
-var
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-var
+\begin_layout Standard
+Syntax
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+bound? <symbol>
 \end_layout
 
 \begin_layout Standard
-TODO
+Examples
 \end_layout
 
-\begin_layout Paragraph
-
-\emph on
-defvar
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-defvar
+\begin_layout LyX-Code
+> define s 12
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+> bound? ^s
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+true  # SimpleSymbol
 \end_layout
 
-\begin_layout Paragraph
-
-\emph on
-define
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-define
-\end_layout
-
-\end_inset
-
+\begin_layout LyX-Code
 
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+> (dict)
 \end_layout
 
-\begin_layout Paragraph
-
-\emph on
-bound?
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-bound?
+\begin_layout LyX-Code
+   define .x 33
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+   bound? ^.x
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+true # SimpleSymbol
 \end_layout
 
 \begin_layout Subsubsection
