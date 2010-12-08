@@ -71,8 +71,13 @@ public class StrinG extends Atom {
 		return new StrinG(this._value.concat(str._value));
 	}
 
-	public Exp match(Symbol nil, Symbol true1, StrinG regex) {
+	public Exp match(Symbol nil, Symbol true1, StrinG regex) throws GenyrisException {
+		try {
 		return (_value.matches(regex._value) ? true1 : nil);
+		}
+		catch(PatternSyntaxException e) {
+			throw new GenyrisException(e.getMessage());
+		}
 	}
 
 	public Exp length() {
