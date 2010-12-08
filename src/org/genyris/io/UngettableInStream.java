@@ -37,7 +37,7 @@ public class UngettableInStream implements InStream {
             return !bufferEmpty() || _input.hasData();
         }
 
-        public char readNext() {
+        public char readNext() throws LexException {
             if( bufferEmpty() ) {
                 return _input.readNext();
             }

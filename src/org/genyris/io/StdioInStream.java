@@ -23,9 +23,9 @@ public class StdioInStream implements InStream {
     }
 
 
-    public char readNext() {
+    public char readNext() throws LexException {
         if(!_gotByte) {
-            throw new IllegalStateException("StdioInStream: readNext() called before hasData()");
+            throw new LexException("StdioInStream: readNext() called before hasData()");
         }
         _gotByte = false;
         return (char)_nextByte;

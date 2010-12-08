@@ -12,7 +12,7 @@ import org.genyris.exception.GenyrisException;
 public interface InStream {
 
     void unGet(char x) throws LexException;
-    char readNext();
+    char readNext() throws LexException;
     public boolean hasData() throws LexException;
     public void close() throws GenyrisException;
 	void resetAfterError();
