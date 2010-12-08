@@ -33,6 +33,9 @@ public class StdioInStream implements InStream {
 
     public boolean hasData() {
         try {
+        	if(_gotByte) {
+        		return true;
+        	}
             _nextByte = System.in.read();
             _gotByte = true;
         }
