@@ -22,7 +22,7 @@
     <target name="binary-release" depends="compile, only-binary-jar, only-compile-docs, only-binary-release" description="compile and create jar" />
     <target name="binary-jar" depends="compile, only-binary-jar" description="compile and create jar" />
     <target name="src-release" depends="only-hg-version, only-source-release" description="Zip source code." />
-    <target name="all" depends="binary-release, src-release, test" description="Build all" />
+    <target name="all" depends="binary-release, src-release, test, reports" description="Build all" />
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -286,4 +286,15 @@
         </exec>
     </target>
 
+	<target name="reports" depends="only-report-todo"/>
+	<target name="only-report-todo">
+        <exec executable="java" failonerror="true">
+            <arg value="-jar" />
+            <arg value="dist/genyris-bin-*.jar" />
+            <arg value="examples/file-lines.g" />
+            <arg value=".*\.g$|.*\.java$|.*\.lyx" />
+            <arg value=".*TODO.*|.*FIXME.*" />
+            <arg value="${basedir}" />
+        </exec>
+	</target>
 </project>
