@@ -146,6 +146,11 @@
             <arg value="genyris-manual-${version}.lyx" />
             <arg value="genyris-manual-${version}.html" />
         </exec>    
+        <exec executable="/usr/bin/python" dir="dist" failonerror="true" os="Linux">
+            <arg value="/home/birchb/apps/elyxer/elyxer-1.0.4/elyxer.py" />
+            <arg value="genyris-manual-${version}.lyx" />
+            <arg value="genyris-manual-${version}.html" />
+        </exec>    
         <delete verbose="true">
             <fileset dir="dist">
                 <include name="*jpg" />
