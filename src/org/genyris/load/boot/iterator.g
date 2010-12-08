@@ -9,6 +9,8 @@ class Iterator(EagerProcedure)
 class PairIterator(Iterator)
 class RangeIterator(Iterator)
 class DictionaryKeyIterator(Iterator)
+class ReaderLineIterator(Iterator)
+
 
 Thing
 #   def .mkIterator() 
@@ -34,4 +36,16 @@ Dictionary
       tag DictionaryKeyIterator
          .vars
             .mkIterator
+
+Reader
+   def .mkIterator()
+      define reader .self
+      tag ReaderLineIterator 
+         function()
+             cond
+                (reader(.hasData))
+                   reader(.getline)
+                else
+                   ^sys:StopIteration
+      
                    
