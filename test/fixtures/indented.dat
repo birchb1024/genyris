@@ -1,0 +1,8 @@
+# comment
+@prefix : 'http://www.foo.bar/quux#'
+:one
+   two
+      'three'
+      4
+      5.6
+

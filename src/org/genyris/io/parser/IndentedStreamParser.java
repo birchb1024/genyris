@@ -14,7 +14,6 @@ import org.genyris.interp.UnboundException;
 import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.IndentStream;
 import org.genyris.io.Parser;
-import org.genyris.io.StdioInStream;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
@@ -23,7 +22,7 @@ public class IndentedStreamParser extends StreamParser {
 
 	public IndentedStreamParser(Interpreter interp, ReaderStream reader) {
 		_input = new UngettableInStream(new ConvertEofInStream(
-				new IndentStream(new UngettableInStream(new StdioInStream()),
+				new IndentStream(new UngettableInStream(reader.getInStream()),
 						true)));
 		_parser = interp.newParser(_input);
 	}
