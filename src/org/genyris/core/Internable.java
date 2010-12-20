@@ -42,6 +42,7 @@ public interface Internable {
 	public SimpleSymbol READER();
 	public SimpleSymbol SIMPLESYMBOL();
 	public SimpleSymbol PARENPARSER();
+	public SimpleSymbol INDENTPARSER();
 	public SimpleSymbol WRITER();
 	public SimpleSymbol DICTIONARY();
 	public SimpleSymbol URISYMBOL();

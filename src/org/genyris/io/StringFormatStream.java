@@ -11,7 +11,7 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
-import org.genyris.io.parser.StreamParser.AbstractParserMethod;
+import org.genyris.io.parser.ParenStreamParser.AbstractParserMethod;
 import org.genyris.io.readerstream.ReaderStream;
 
 public class StringFormatStream implements InStreamEOF {

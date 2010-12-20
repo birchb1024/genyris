@@ -48,6 +48,7 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _PAIR;
 	private SimpleSymbol _PAIREQUAL;
 	private SimpleSymbol _PARENPARSER;
+	private SimpleSymbol _INDENTEDPARSER;
 	private SimpleSymbol _READER;
 	private SimpleSymbol _SIMPLESYMBOL;
 	private SimpleSymbol _STRING;
@@ -118,6 +119,7 @@ public class SymbolTable implements Internable {
 	_PAIREQUAL = bindKeyword(String.valueOf(Constants.PAIREQUAL));
 
 	_PARENPARSER = bindKeyword(String.valueOf(Constants.PARENPARSER));
+	_INDENTEDPARSER = bindKeyword(String.valueOf(Constants.INDENTEDPARSER));
 	_READER = bindKeyword(String.valueOf(Constants.READER));
 	_SIMPLESYMBOL = bindKeyword(String.valueOf(Constants.SIMPLESYMBOL));
 	_URISYMBOL = bindKeyword(String.valueOf(Constants.URISYMBOL));
@@ -408,6 +410,10 @@ public class SymbolTable implements Internable {
 
 	public SimpleSymbol PIPE() {
 		return _PIPE;
+	}
+
+	public SimpleSymbol INDENTPARSER() {
+		return _INDENTEDPARSER;
 	}
 
 }
