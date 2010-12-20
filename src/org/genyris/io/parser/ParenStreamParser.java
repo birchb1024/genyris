@@ -7,7 +7,6 @@ import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
@@ -39,46 +38,6 @@ public class ParenStreamParser extends StreamParser {
     public Symbol getBuiltinClassSymbol(Internable table) {
         return table.PARENPARSER();
     }
-    public static abstract class AbstractParserMethod extends AbstractMethod {
-        public AbstractParserMethod(Interpreter interp, String name) {
-            super(interp, name);
-        }
-
-        protected StreamParser getSelfParser(Environment env)
-                throws GenyrisException {
-            getSelf(env);
-            if (!(_self instanceof ParenStreamParser)) {
-                throw new GenyrisException(
-                        "Non-Parser passed to a Parser method.");
-            } else {
-                return (ParenStreamParser) _self;
-            }
-        }
-    }
-
-    public static class ReadMethod extends AbstractParserMethod {
-        public ReadMethod(Interpreter interp) {
-            super(interp, "read");
-        }
-
-        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-                throws GenyrisException {
-            StreamParser self = getSelfParser(env);
-            return self._parser.read();
-        }
-    }
-
-    public static class CloseMethod extends AbstractParserMethod {
-        public CloseMethod(Interpreter interp) {
-            super(interp, "close");
-        }
-
-        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-                throws GenyrisException {
-            getSelfParser(env).close();
-            return NIL;
-        }
-    }
 
     public static class NewMethod extends AbstractParserMethod {
         public NewMethod(Interpreter interp) {
@@ -97,23 +56,8 @@ public class ParenStreamParser extends StreamParser {
             }
         }
     }
-    public static class PrefixMethod extends AbstractParserMethod {
-        public PrefixMethod(Interpreter interp) {
-            super(interp, "prefix");
-        }
-
-        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-                throws GenyrisException {
-        	checkArguments(arguments, 2);
-        	getSelfParser(env)._parser.addPrefix(arguments[0].toString(), arguments[1].toString());
-        	return NIL;
-        }
-    }
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindMethodInstance(Constants.PARENPARSER, new ParenStreamParser.NewMethod(interpreter));
-        interpreter.bindMethodInstance(Constants.PARENPARSER, new ParenStreamParser.ReadMethod(interpreter));
-        interpreter.bindMethodInstance(Constants.PARENPARSER, new ParenStreamParser.CloseMethod(interpreter));
-        interpreter.bindMethodInstance(Constants.PARENPARSER, new ParenStreamParser.PrefixMethod(interpreter));
     }
 
 }

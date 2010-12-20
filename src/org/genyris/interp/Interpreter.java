@@ -224,8 +224,9 @@ public class Interpreter {
 		StandardClass.mkClass(Constants.WRITER, env, builtin);
 		StandardClass.mkClass(Constants.PIPE, env, builtin);
 		StandardClass.mkClass(Constants.SYSTEM, env, builtin);
-		StandardClass.mkClass(Constants.INDENTEDPARSER, env, builtin);
-		StandardClass.mkClass(Constants.PARENPARSER, env, builtin);
+		StandardClass abstractParser = StandardClass.mkClass(Constants.ABSTRACTPARSER, env, builtin);
+		StandardClass.mkClass(Constants.INDENTEDPARSER, env, abstractParser);
+		StandardClass.mkClass(Constants.PARENPARSER, env, abstractParser);
 		StandardClass.mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
 		StandardClass.mkClass(Constants.TRIPLE, env, builtin);
 		StandardClass.mkClass(Constants.GRAPH, env, builtin);

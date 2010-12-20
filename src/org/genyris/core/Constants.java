@@ -69,10 +69,11 @@ public class Constants {
         public static final String EXEC = "exec";
         public static final String LISTOFLINES = "ListOfLines";
         public static final String READER = "Reader";
-        public static final String INDENTEDPARSER = "Parser";
         public static final String STRINGFORMATSTREAM = "StringFormatStream";
         public static final String STDOUT = "stdout";
         public static final String STDERR = "stderr";
+        public static final String ABSTRACTPARSER = "AbstractParser";
+        public static final String INDENTEDPARSER = "IndentedParser";
         public static final String PARENPARSER = "ParenParser";
         public static final String STDIN = "stdin";
         public static final String PREFIX = "@prefix";
