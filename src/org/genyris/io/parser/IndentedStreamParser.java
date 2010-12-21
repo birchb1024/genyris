@@ -12,26 +12,29 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 import org.genyris.io.ConvertEofInStream;
+import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
-import org.genyris.io.Parser;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
 
 public class IndentedStreamParser extends StreamParser {
 
-	public IndentedStreamParser(Interpreter interp, ReaderStream reader) {
-		_input = new UngettableInStream(new ConvertEofInStream(
-				new IndentStream(new UngettableInStream(reader.getInStream()),
+	private static InStream mkIndentedStream(InStream inStream) {
+		return new UngettableInStream(new ConvertEofInStream(
+				new IndentStream(new UngettableInStream(inStream),
 						true)));
+	}
+
+	public IndentedStreamParser(Interpreter interp, ReaderStream reader) {
+		_input = mkIndentedStream(reader.getInStream());
 		_parser = interp.newParser(_input);
 	}
 
+
 	public IndentedStreamParser(Interpreter interp, StrinG script) {
-		_input = new UngettableInStream(new StringInStream(script.toString()));
-		_parser = new Parser(interp.getSymbolTable(), _input); // TODO two ways
-																// to do the
-																// same thing
+		_input = mkIndentedStream(new StringInStream(script.toString()));
+		_parser = interp.newParser(_input);
 	}
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitExpWithEmbeddedClasses(this);
