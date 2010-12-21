@@ -87,7 +87,7 @@ public class Interpreter {
                 _table.internString(Constants.STDERR), new WriterStream(
                         new PrintWriter(System.err)));
         _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
-                new ReaderStream(new StdioInStream()));
+                new ReaderStream(StdioInStream.knew()));
         _globalEnvironment.defineVariable(_table.DESCRIPTIONS(), _globalDescriptions);
     }
 

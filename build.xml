@@ -295,7 +295,7 @@
 	<target name="only-report-todo">
         <exec executable="java" failonerror="true">
             <arg value="-jar" />
-            <arg value="dist/genyris-bin-*.jar" />
+            <arg value="dist/genyris-bin-${version}.jar" />
             <arg value="examples/file-lines.g" />
             <arg value=".*\.g$|.*\.java$|.*\.lyx" />
             <arg value=".*TODO.*|.*FIXME.*" />

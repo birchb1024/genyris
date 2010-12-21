@@ -10,20 +10,31 @@ import org.genyris.exception.GenyrisException;
 
 
 public class StdioInStream implements InStream {
+	//
+	// WARNING - this class has only one instance shared between all threads.
+	//
 
     private int _nextByte;
     private boolean _gotByte;
+    private static StdioInStream singleton = null;
+    
+    public static synchronized StdioInStream knew() { // the 'k' is silent.
+    	if( singleton == null ) {
+    		singleton = new StdioInStream();
+    	}
+    	return singleton;
+    }
 
-    public StdioInStream() {
+    private StdioInStream() {
         _gotByte = false;
     }
 
-    public void unGet(char x) throws LexException {
+    public synchronized void unGet(char x) throws LexException {
         throw new LexException("StdioStream: unGet not implemented.");
     }
 
 
-    public char readNext() throws LexException {
+    public synchronized char readNext() throws LexException {
         if(!_gotByte) {
             throw new LexException("StdioInStream: readNext() called before hasData()");
         }
@@ -31,7 +42,7 @@ public class StdioInStream implements InStream {
         return (char)_nextByte;
     }
 
-    public boolean hasData() {
+    public synchronized boolean hasData() {
         try {
         	if(_gotByte) {
         		return true;
@@ -52,9 +63,9 @@ public class StdioInStream implements InStream {
         }
     }
 
-    public void close() throws GenyrisException {}
+    public synchronized void close() throws GenyrisException {}
 
-	public void resetAfterError() {
+	public synchronized void resetAfterError() {
 	}
 
 }
