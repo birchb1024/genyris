@@ -57,6 +57,8 @@ public class GraphFunction extends ApplicableFunction {
 				interpreter));
 		interpreter.bindMethodInstance(Constants.GRAPH,
 				new GetListMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH,
+				new SubjectsMethod(interpreter));
 	}
 
 	public static abstract class AbstractGraphMethod extends
@@ -141,6 +143,19 @@ public class GraphFunction extends ApplicableFunction {
 			checkArgumentTypes(types, arguments);
 			self.put(arguments[0], (Symbol) arguments[1], arguments[2]);
 			return _self;
+		}
+	}
+
+	public static class SubjectsMethod extends AbstractGraphMethod {
+
+		public SubjectsMethod(Interpreter interp) {
+			super(interp, "subjects");
+		}
+
+		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+				throws GenyrisException {
+			Graph self = getSelfTS(env);
+			return self.subjects(NIL);
 		}
 	}
 

@@ -14,6 +14,7 @@ import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
+import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -213,6 +214,31 @@ public class Graph extends Atom {
 			}
 		}
 		add(new Triple(subject, predicate, object));
+	}
+
+	public Exp subjects(Exp NIL) {
+		Exp result = NIL;
+		Iterator iter = triples.iterator();
+		while (iter.hasNext()) {
+			Triple item = (Triple)iter.next();
+			if(!memberp(item.subject, result, NIL)) {
+	 			result = new Pair(item.subject, result);					
+			}
+		}
+		return result;
+	}
+
+	private static boolean memberp(Exp item, Exp list, Exp NIL) {
+		while( list != NIL) {
+			try {
+				if(item == list.car()) 
+				    return true;
+				list = list.cdr();
+			} catch (AccessException e) {
+				return false;
+			}		
+		}
+		return false;
 	}
 
 
