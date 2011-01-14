@@ -692,7 +692,7 @@ public class NanoHTTPD {
 				mime = (String) theMimeTypes.get(f.getCanonicalPath()
 						.substring(dot + 1).toLowerCase());
 			if (mime == null)
-				mime = MIME_PLAINTEXT;
+				mime = MIME_DEFAULT_BINARY;
 
 			// Support (simple) skipping:
 			long startFrom = 0;

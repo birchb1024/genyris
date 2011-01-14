@@ -20,6 +20,7 @@
 :load-class-by-name "org.genyris.io.StringFormatStream"
 :load-class-by-name "org.genyris.dl.ThingMethods"
 :load-class-by-name "org.genyris.system.ExecMethod"
+:load-class-by-name "org.genyris.system.SpawnMethod"
 :load-class-by-name "org.genyris.system.SystemPropertiesMethod"
 :load-class-by-name "org.genyris.system.SystemGetenvMethod"
 
