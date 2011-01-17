@@ -46,6 +46,15 @@ public class WriterStream extends Atom {
         return table.WRITER();
     }
 
+    public void write(char ch) throws GenyrisException {
+        try {
+            _value.write(ch);
+        }
+        catch (IOException e) {
+            throw new GenyrisException(e.getMessage());
+        }
+    }
+
     public void close() throws GenyrisException {
         try {
             _value.close();
@@ -232,6 +241,10 @@ public class WriterStream extends Atom {
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
+	}
+
+	public Writer getWriter() {
+		return _value;
 	}
 
 }

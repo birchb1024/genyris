@@ -5,7 +5,9 @@
 //
 package org.genyris.io.readerstream;
 
+import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 
 import org.genyris.core.Atom;
 import org.genyris.core.Bignum;
@@ -27,6 +29,7 @@ import org.genyris.io.InStreamEOF;
 import org.genyris.io.ReaderInStream;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
+import org.genyris.io.writerstream.WriterStream;
 
 public class ReaderStream extends Atom {
     private InStream _input;
@@ -146,6 +149,23 @@ public class ReaderStream extends Atom {
             return NIL;
         }
     }
+    public static class CopyMethod extends AbstractReaderMethod {
+
+        public static String getStaticName() {return "copy";};
+        public CopyMethod(Interpreter interp) {
+            super(interp, getStaticName());
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+        	Class[] types = {WriterStream.class};
+        	checkArgumentTypes(types,arguments);
+        	WriterStream output = (WriterStream)arguments[0];
+            ReaderStream r = getSelfReader(env);
+            r.copy(output.getWriter());
+            return NIL;
+        }
+    }
     public Symbol getBuiltinClassSymbol(Internable table) {
         return table.READER();
     }
@@ -155,10 +175,30 @@ public class ReaderStream extends Atom {
         interpreter.bindMethodInstance(Constants.READER, new ReadMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new CloseMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new GetLineMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.READER, new CopyMethod(interpreter));
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
 	}
 
+	public void copy(Writer output) throws GenyrisException {
+		copy(output, Integer.MAX_VALUE);
+	}
+	public void copy(Writer output, int flushSize) throws GenyrisException {
+		int count = 0;
+		while( _input.hasData()) {
+			char ch = _input.readNext();
+			try {
+				output.write(ch);
+				count += 1;
+				if( count > flushSize) {
+					count =0;
+					output.flush();
+				}
+			} catch (IOException e) {
+				throw new GenyrisException(e.getMessage());
+			}
+		}
+	}
 
 }
