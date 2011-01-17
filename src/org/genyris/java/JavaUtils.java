@@ -21,6 +21,7 @@ import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
+import org.genyris.io.ReaderInStream;
 import org.genyris.io.readerstream.ReaderStream;
 
 public class JavaUtils {
@@ -62,6 +63,8 @@ public class JavaUtils {
 						retval);
 			}
 			return retval;
+		} else if (rawResult instanceof java.io.Reader) {
+			return new ReaderStream( new ReaderInStream((java.io.Reader)rawResult));
 		}
 		JavaWrapper result = wrapJavaObject(env, rawResult);
 		return result;
