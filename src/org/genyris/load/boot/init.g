@@ -88,6 +88,7 @@ load "org/genyris/load/boot/import.g"
 s:path = (cons GENYRIS_LIBS s:path)
 load "org/genyris/load/boot/for.g"
 load "org/genyris/load/boot/task.g"
+load "org/genyris/load/boot/process.g"
 
 import Base64
 
