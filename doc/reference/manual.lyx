@@ -10921,7 +10921,7 @@ stdout(.format <format string> args ...)
 \end_layout
 
 \begin_layout Subsubsection
-Class
+Class 
 \begin_inset Index
 status collapsed
 
@@ -11219,8 +11219,125 @@ Reader
  pointing the current Standard Input device, typically the console.
 \end_layout
 
+\begin_layout Paragraph
+Methods
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.new
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.new
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.close
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.close
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.read
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.read
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.hasData
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.hasData
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.copy
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.copy
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The .copy method copies all the data from the stream to a Writer stream object
+ which is passed as its only parameter.
+ Fr example, the following copies all console input back to the screen until
+ an EOF is found:
+\end_layout
+
+\begin_layout LyX-Code
+stdin (.copy stdout)
 \end_layout
 
 \begin_layout Subsubsection
@@ -15074,7 +15191,20 @@ The
  verbatim
 \emph default
  pseudo-tag passes text transparently.
- This example (from
+ 
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+stream 
+\emph default
+psuedo-tag allows the contents of a Reader object to be inserted in the
+ output.
+\end_layout
+
+\begin_layout Standard
+This example (from
 \emph on
  examples/www-demo.g
 \emph default
@@ -15268,7 +15398,8 @@ ors of the Java class.
 \end_layout
 
 \begin_layout LyX-Code
-java:import <java class string> [as <shorthand name>]
+@prefix java 'http://www.genyris.org/lang/java#' java:import <java class string>
+ [as <shorthand name>]
 \end_layout
 
 \begin_layout Standard
@@ -15577,7 +15708,7 @@ The following table lists the conversions of base types in method calls,
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="14" columns="2">
+<lyxtabular version="3" rows="15" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -15586,6 +15717,8 @@ The following table lists the conversions of base types in method calls,
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\emph on
 Java
 \end_layout
 
@@ -15595,6 +15728,8 @@ Java
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\emph on
 Genyris
 \end_layout
 
@@ -15842,7 +15977,7 @@ java.awt.event.ActionListener
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -15851,11 +15986,31 @@ other
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 JavaWrapper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+java.io.Reader
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reader
 \end_layout
 
 \end_inset
@@ -16770,6 +16925,152 @@ status open
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+.
+\emph on
+spawn
+\emph default
+
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.spawn
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This function starts an operating system process and returns immediately
+ without waiting for the outcome.
+ The function returns an object of type 
+\emph on
+Process
+\emph default
+ (see below), or an exception is raised.
+\end_layout
+
+\begin_layout Standard
+Example - Here we spawn a Wondpws command shell with a one-line echo statement.
+ The parent process obtains the output from the process and copies it to
+ the standard output.:
+\end_layout
+
+\begin_layout LyX-Code
+> var proc
+\end_layout
+
+\begin_layout LyX-Code
+   System!spawn 'cmd.exe' '/c' 'echo' =
+\end_layout
+
+\begin_layout LyX-Code
+          'Testing one two three'
+\end_layout
+
+\begin_layout LyX-Code
+[java.lang.ProcessImpl java.lang.ProcessImpl@12d3205] 
+\end_layout
+
+\begin_layout LyX-Code
+# java_lang_Process JavaWrapper
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Subsection
+Class Process
+\end_layout
+
+\begin_layout Standard
+This process is a JavaWrapper for the Java 
+\emph on
+java.lang.Process
+\emph default
+ class.
+ The java methods include:
+\end_layout
+
+\begin_layout Description
+.destroy Kills the subprocess.
+\end_layout
+
+\begin_layout Description
+.exitValue Returns the exit value for the subprocess.
+\end_layout
+
+\begin_layout Description
+.getErrorStream Gets the error stream of the subprocess.
+\end_layout
+
+\begin_layout Description
+.getInputStream Gets the input stream of the subprocess.
+\end_layout
+
+\begin_layout Description
+.getOutputStream Gets the output stream of the subprocess.
+\end_layout
+
+\begin_layout Description
+.waitFor causes the current thread to wait, if necessary, until the process
+ represented by this Process object has terminated.
+\end_layout
+
+\begin_layout Standard
+Additional Genyris utility methods are defined:
+\end_layout
+
+\begin_layout Description
+.getOutput returns a Genyris Reader object that can be used to read or parse
+ the output of the process.
+\end_layout
+
+\begin_layout Description
+.getError returns a Genyris Reader object that can be used to read or parse
+ the error stream output of the process.
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+> proc    
+\end_layout
+
+\begin_layout LyX-Code
+   (.getOutput)
+\end_layout
+
+\begin_layout LyX-Code
+       .copy stdout
+\end_layout
+
+\begin_layout LyX-Code
+"Testing one two three"
+\end_layout
+
+\begin_layout LyX-Code
+nil # NilSymbol SimpleSymbol 
+\end_layout
+
+\begin_layout LyX-Code
+> proc
+\end_layout
+
+\begin_layout LyX-Code
+   .exitValue
+\end_layout
+
+\begin_layout LyX-Code
+0 # Bignum 
 \end_layout
 
 \begin_layout Section
