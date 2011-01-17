@@ -19,6 +19,7 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
+import org.genyris.io.readerstream.ReaderStream;
 
 public class HTMLFormatter extends AbstractFormatter {
 
@@ -79,6 +80,19 @@ public class HTMLFormatter extends AbstractFormatter {
 					DisplayFormatter formatter = new DisplayFormatter(_output);
 					body.car().acceptVisitor(formatter);
 					body = body.cdr();
+				}
+				return;
+			}
+			if (tag.getPrintName().equals("stream")) {
+				if (!body.isNil()) {
+					if( body.car() instanceof ReaderStream) {
+						ReaderStream str = (ReaderStream)body.car();
+						str.copy(_output, 25*80);
+					} else {
+						throw new GenyrisException("non-Reader passed in stream tag.");
+					}
+				} else {
+					throw new GenyrisException("non body in stream tag.");					
 				}
 				return;
 			}
