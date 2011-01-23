@@ -16,6 +16,7 @@ define example-files
    list
     ~ 'examples/spawn-tests.g'
     ~ 'examples/account.g'
+    ~ 'examples/ackerman.g'
     ~ 'examples/class-methods.g'
     ~ 'examples/class-variables.g'
     ~ 'examples/context-sensitive-syntax.g'
