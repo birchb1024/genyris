@@ -11,5 +11,5 @@ def A (m n)
           A (- m 1)
              A m (- n 1)
 
-assertEqual (A 2 2) 3             
-assertEqual (A 5 5) 125
+assertEqual (A 2 2) 7             
+assertEqual (A 3 4) 125
