@@ -132,28 +132,26 @@ Getting Genyris
 \end_layout
 
 \begin_layout Standard
-Genyris can be downloaded from the sourceforge project 
-\begin_inset Quotes eld
-\end_inset
-
-Download
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-Download
-\end_layout
-
-\end_inset
-
-
-\begin_inset Quotes erd
-\end_inset
-
- pages as a binary release.
- The project is hosted on the web here:
+The Genyris project is hosted on Google Code here:
 \emph on
- http://sourceforge.net/projects/genyris/.
+ http://code.google.com/p/genyris/.
+ 
+\emph default
+In the 
+\emph on
+Downloads
+\emph default
+ tab, look for the latest binary file which has the form
+\emph on
+ genyris-binary-NNN-XXXXXXXXXXXX.BB.zip.
+ 
+\emph default
+The release number is the 
+\emph on
+NNN
+\emph default
+, choose the file with the largest release number.
+ 
 \end_layout
 
 \begin_layout Subsection*

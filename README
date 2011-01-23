@@ -14,24 +14,25 @@ version with:
   $ java -version
 
 Set your GENYRIS_HOME environment variable to the root folder where you unpacked
-the release. Add $GENYRIS_HOME/bin to your path.
+the release. Add $GENYRIS_HOME/bin to your path. 
+Make the file $GENYRIS_HOME/bin/genyris executable.
 
 Start the command-line interpreter with Java:
 
   $ genyris
 
-You will see a message followed by a prompt:
+You will see a welcome message followed by a prompt:
 
-  *** Genyris is listening...
+  *** Welcome birchb, Genyris version NNN-xxxxxxxxxxxx.bb is listening...
 
-  >
+  > 
 
-Commands can be typed in, use two carriage returns
-to terminate an indented statement.
+Commands can now be typed, use two carriage returns
+to terminate each statement.
 
 To test the installation run the self test suite with the following command:
 
-> self-test-runner
+> sys:self-test
 
 All being well, it will print ``OK'' and the number of tests passed.
 
