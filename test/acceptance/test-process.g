@@ -1,5 +1,5 @@
 #
-#  Test OS Process Spawning, and reading from it's output.
+#  Test OS Process Spawning, and reading from its output.
 #
 var OS-name 
     (System!getProperties).|os.name|

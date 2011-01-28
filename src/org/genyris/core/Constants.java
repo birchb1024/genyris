@@ -57,7 +57,10 @@ public class Constants {
         public static final String LEFT = "left";
         public static final String RIGHT = "right";
 
+        public static final String SLICE = "slice";
         public static final String SPLIT = "split";
+        public static final String TOINTS = "toInts";
+        public static final String FROMINTS = "fromInts";
         public static final String TOLOWERCASE = "toLowerCase";
         public static final String CONCAT = "+";
         public static final String MATCH = "match";

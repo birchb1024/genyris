@@ -5,6 +5,7 @@
 //
 package org.genyris.core;
 
+import java.math.BigDecimal;
 import java.util.regex.PatternSyntaxException;
 
 import org.genyris.exception.GenyrisException;
@@ -34,10 +35,31 @@ public class StrinG extends Atom {
 		_quoteWith = quotechar;
 	}
 
+	public StrinG(char[] array) {
+		_value = new String(array);
+		_quoteWith = '\'';
+	}
+
 	public char getQuoteChar() {
 		return _quoteWith;
 	}
 
+	public static StrinG makeStringFromInts(Symbol NIL, Exp intList) throws GenyrisException {
+		char array[] = new char[intList.length(NIL)];
+		int i = 0;
+		while( intList != NIL) {
+			Exp first = intList.car();
+			if( !(first instanceof Bignum) ) {
+				throw new GenyrisException("Non-Bignum passed to string constructor: " + first.toString());
+			}
+			Bignum integer = (Bignum) first;
+			array[i] = (char)integer.bigDecimalValue().intValue();
+			i += 1;
+			intList = intList.cdr();
+		}
+		return new StrinG(array);
+	}
+	
 	public char getAlternateQuoteChar() {
 		return alternateQuoteChar(_quoteWith);
 	}
@@ -63,6 +85,16 @@ public class StrinG extends Atom {
 			}
 		} catch (PatternSyntaxException e) {
 			throw new GenyrisException(e.getMessage());
+		}
+		return result;
+	}
+
+	public Exp toInts(Exp NIL) throws GenyrisException {
+		Exp result = NIL;
+		byte[] array = _value.getBytes();
+		
+		for (int i = array.length - 1; i >= 0; i--) {
+			result = new Pair(new Bignum(0x000000FF & ((int)array[i])), result);
 		}
 		return result;
 	}
@@ -108,6 +140,14 @@ public class StrinG extends Atom {
 	public Exp replace(StrinG regex, StrinG replacement) {
 		return new StrinG(_value.replace(regex.toString(), replacement
 				.toString()));
+	}
+
+	public Exp slice(BigDecimal start, BigDecimal end) throws GenyrisException {
+		try {
+			return new StrinG(_value.substring(start.intValue(), end.intValue()+1));
+		} catch (StringIndexOutOfBoundsException e) {
+			throw new GenyrisException(e.getMessage());
+		}
 	}
 
 }
