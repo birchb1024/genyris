@@ -25,5 +25,12 @@ check 'carnal pleasur' 'Y2FybmFsIHBsZWFzdXI='
 check 'carnal pleasu' 'Y2FybmFsIHBsZWFzdQ=='
 
 assertEqual
-   Base64!encodeIntegers (leviathan(.toInts))
+   Base64!encodeUnsignedIntegers (leviathan(.toInts))
    leviathanEncoded
+
+define numbers  ^(0 1 127 128 255 0)   
+assertEqual
+   numbers
+   (Base64!encodeUnsignedIntegers numbers)
+      .fromBase64asUnsignedIntegers
+

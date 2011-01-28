@@ -11,10 +11,29 @@ String
       tag Base64EncodedString
          com_ostermiller_util_Base64!encode-java_lang_String .self
    def .fromBase64()
-      Base64EncodedString!decode 
+      Base64EncodedString!decode
+   def .fromBase64asUnsignedIntegers()
+      map-left
+         com_ostermiller_util_Base64!decodeToBytes-java_lang_String .self
+         function (x)
+            cond
+               (< x 0)
+                   + 256 x
+               else
+                   x
 
 
-def .encodeIntegers(listOfInts)
+def .encodeUnsignedIntegers(listOfInts)
    com_ostermiller_util_Base64!encodeToString-*B
-        java:toJava '[B' listOfInts
+        java:toJava '[B' 
+              map-left listOfInts
+                  function(x)
+                     cond
+                        (> x 256)
+                            raise "number > 256"
+                        (> x 127) 
+                            - x 256
+                        else
+                           x
+           
                    
