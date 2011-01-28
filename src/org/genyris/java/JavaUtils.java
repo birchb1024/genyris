@@ -145,6 +145,24 @@ public class JavaUtils {
 				return new java.lang.Character(exp.toString().charAt(0));
 			} else
 				return exp.toString();
+		} else if (klass == (new byte[1]).getClass()) {
+			// Byte array
+			if (!(exp instanceof Pair)) {
+				throw new UnboundException(
+						"convertToJava: was expecting a list.");
+			}
+			int length = exp.length(env.getNil());
+			byte[] result = new byte[length];
+			for (int i = 0; i < length; i++) {
+				Exp item = exp.car();
+				if( !(item instanceof Bignum)) {
+					throw new GenyrisException("Non-bignum in byte aray conversion: " + item);
+				}
+				result[i] = (byte)((Bignum)item).bigDecimalValue().intValue();
+				exp = exp.cdr();
+			}
+			return result;
+
 		} else if (klass.isArray()) {
 			if (!(exp instanceof Pair)) {
 				throw new UnboundException(
