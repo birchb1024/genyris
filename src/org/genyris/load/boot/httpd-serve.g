@@ -11,6 +11,9 @@ class HttpRequest()
     def .getClient() (nth 4 .self)
     def .getClientIP() (left (nth 4 .self))
     def .getClientHostname() (right (nth 4 .self))
+    def .getAuthorizationHeader()
+       (.getHeaders)
+            .lookup 'authorization'    
     def .getBasicUsernamePassword()
       # Returns a dictionary with username and password strings.
       var headers (.getHeaders)

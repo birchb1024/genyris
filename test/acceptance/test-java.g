@@ -118,6 +118,10 @@ java:toJava boolean nil
 java:toJava char 'X'
 java:toJava string 'XYZ'
 java:toJava '[Ljava.lang.String;' ^('XYZ' 'ABC')
+java:toJava '[B' ^(0 1 2 3 127 -1 -127)
+define listOfInts ^(1 2 3)
+assertEqual listOfInts
+    java:toGenyris (java:toJava '[B' listOfInts)
 
 var x
  java:toJava '[Ljava.lang.String;' ^('XYZ' 'ABC')

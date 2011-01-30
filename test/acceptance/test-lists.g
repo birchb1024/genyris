@@ -11,3 +11,9 @@
             append ^E ^(3 4)
         :assertEqual (append ^(3 4) ^F) ^(3 4 = F)
 
+assert (beginsWith? ^(1 2) ^(1 2 3))
+assert (beginsWith? ^(1 2) ^(1 2))
+assert (beginsWith? ^(1) ^(1))
+assert (not (beginsWith? ^(1) ^(2)))
+assert (not (beginsWith? ^(1 2 3) ^(1 2)))
+

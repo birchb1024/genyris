@@ -55,3 +55,12 @@ Pair
    #      print f
 
 
+def beginsWith?(this other)
+   cond
+       this
+           and
+                other
+                equal? (left this) (left other)
+                beginsWith? (right this)(right other)
+       else
+            true
