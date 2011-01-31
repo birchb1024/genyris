@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
@@ -75,9 +76,6 @@ public class NanoHTTPD {
 
 	public static class NanoException extends Exception {
 		private static final long serialVersionUID = 8521291173564816199L;
-
-		public NanoException() {
-		}
 
 		public NanoException(String string) {
 			super(string);
@@ -247,50 +245,6 @@ public class NanoHTTPD {
 		return t;
 	}
 
-	/**
-	 * Starts as a standalone file server and waits for Enter.
-	 */
-//	public static void main(String[] args) {
-//		System.out.println("NanoHTTPD 1.1 (C) 2001,2005-2007 Jarno Elonen\n"
-//				+ "(Command line options: [port] [--licence])\n");
-//
-//		// Show licence if requested
-//		int lopt = -1;
-//		for (int i = 0; i < args.length; ++i)
-//			if (args[i].toLowerCase().endsWith("licence")) {
-//				lopt = i;
-//				System.out.println(LICENCE + "\n");
-//			}
-//
-//		// Change port if requested
-//		int port = 8080;
-//		if (args.length > 0 && lopt != 0)
-//			port = Integer.parseInt(args[0]);
-//
-//		if (args.length > 1 && args[1].toLowerCase().endsWith("licence"))
-//			System.out.println(LICENCE + "\n");
-//
-////		NanoHTTPD nh = null;
-//		try {
-//			nh = new NanoHTTPD(port, ".");
-//		} catch (IOException ioe) {
-//			System.err.println("Couldn't start server: " + ioe);
-//			System.exit(-1);
-//		} catch (NanoException e) {
-//			System.err.println("Couldn't start server: " + e.getMessage());
-//			System.exit(-1);
-//		}
-//
-//		System.out.println("Now serving files in port " + port + " from \""
-//				+ new File("").getAbsolutePath() + "\"");
-//		System.out.println("Hit Enter to stop.\n");
-//
-//		try {
-//			System.in.read();
-//		} catch (Throwable t) {
-//		}
-//		;
-//	}
 
 	/**
 	 * Handles one session, i.e. parses the HTTP request and returns the
@@ -298,6 +252,12 @@ public class NanoHTTPD {
 	 */
 	class HTTPSession implements Runnable {
 		private String rootdir;
+		private InputStream is;
+		private String clientIP;
+		private String clientName;
+		private BufferedReader in;
+
+
 
 		public HTTPSession(Socket s, String rootdir) {
 			mySocket = s;
@@ -309,6 +269,22 @@ public class NanoHTTPD {
 
 		public HTTPSession(Socket socket) {
 			mySocket = socket;
+			try {
+				 mySocket.setSoTimeout(1000*10);
+				 is = mySocket.getInputStream();
+				 clientIP = mySocket.getInetAddress().getHostAddress();
+				 clientName = mySocket.getInetAddress().getCanonicalHostName();
+				 in = new BufferedReader( new InputStreamReader(is));
+
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
 			Thread t = new Thread(this);
 			t.setDaemon(true);
 			t.start();
@@ -316,29 +292,42 @@ public class NanoHTTPD {
 
 		public void run() {
 			try {
-				handleRequest();
+				while(true) {
+					if(is.available() > 0) {
+						handleRequest();
+					} else {
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+						}
+					}
+				}
 			} catch (NanoException e) {
+				try {
+					mySocket.close();
+				} catch (IOException ignore) { }
 				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 		}
 
 		public void handleRequest() throws NanoException {
 			try {
-				InputStream is = mySocket.getInputStream();
-				String clientIP = mySocket.getInetAddress().getHostAddress();
-				String clientName = mySocket.getInetAddress()
-						.getCanonicalHostName();
 				if (is == null)
-					return;
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(is));
-
+					throw new NanoException("null is");
 				// Read the request line
-				String reqline = in.readLine();
+				String reqline;
+				try {
+					 reqline = in.readLine();
+				} catch (Exception ioe) {
+					System.err.print(ioe.getMessage());
+					throw new NanoException(ioe.getMessage());
+				}
 				if( reqline == null ) {
-					sendError(HTTP_BADREQUEST,
-					"BAD REQUEST: Syntax error. Usage: GET /example/file.html");					
+					return;					
 				}
 				StringTokenizer st = new StringTokenizer(reqline);
 				if (!st.hasMoreTokens())
@@ -411,7 +400,6 @@ public class NanoHTTPD {
 				else
 					sendResponse(r.status, r.mimeType, r.header, r.data);
 
-				in.close();
 			} catch (IOException ioe) {
 				try {
 					sendError(HTTP_INTERNALERROR,
@@ -479,7 +467,7 @@ public class NanoHTTPD {
 		private void sendError(String status, String msg) throws NanoException {
 			sendResponse(status, MIME_PLAINTEXT, null,
 					new ByteArrayInputStream(msg.getBytes()));
-			throw new NanoException();
+			throw new NanoException(msg);
 		}
 
 		/**
@@ -497,6 +485,9 @@ public class NanoHTTPD {
 
 				if (mime != null)
 					pw.print("Content-Type: " + mime + "\r\n");
+
+				if (data != null)
+					pw.print("Content-Length: " + data.available() + "\r\n");
 
 				if (header == null || header.getProperty("Date") == null)
 					pw.print("Date: " + gmtFrmt.format(new Date()) + "\r\n");
@@ -523,7 +514,7 @@ public class NanoHTTPD {
 					}
 				}
 				out.flush();
-				out.close();
+				// out.close();
 				if (data != null)
 					data.close();
 			} catch (IOException ioe) {
