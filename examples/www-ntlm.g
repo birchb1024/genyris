@@ -14,6 +14,8 @@ class ListOfInts()
        result
     defmethod .get-utf-16(offset length)
        String!fromInts 'UTF-16LE' (.slice offset (+ offset (- length 1)))
+    defmethod .get-chars(charset offset length)
+       String!fromInts charset (.slice offset (+ offset (- length 1)))
 
 class UncheckedRequest(HttpRequest)
     def .valid?(request) true #TODO
@@ -28,7 +30,12 @@ class UnauthorizedRequest(UncheckedRequest)
     def .valid?(request)
         null? (request(.getAuthorizationHeader))
     def .reply()
-        list '401 Unauthorized' ^(('Content-Type' = "text/html")('WWW-Authenticate' = "NTLM")) "401 Login Required"
+        list '401 Unauthorized' 
+            quote
+               ('Content-Type' = "text/plain")
+                  'WWW-Authenticate' = "NTLM"
+                  'Connection' = 'keep-alive'
+            ~ "401 Login Required"
 
 
 class NtlmRequest(UncheckedRequest)
@@ -51,7 +58,7 @@ class NtlmRequest(UncheckedRequest)
         classify NtlmAuthorizationInts auth-ints
         print
             auth-ints(.decode)
-        auth-ints(.ntlmResponse)      
+        auth-ints(.ntlmResponse)
 
 class NtlmAuthorizationInts(ListOfInts)
     def .getType(list-of-ints)
@@ -59,6 +66,9 @@ class NtlmAuthorizationInts(ListOfInts)
     def .valid?(list-of-ints)
         list-of-ints
              .beginsWith? ('NTLMSSP'(.toInts 'ASCII'))
+    def .ntlmResponse()
+       list '200 OK' ^(('Content-Type' = "text/plain")) (.getType)
+
 
 class NtlmAuthorizationType1(NtlmAuthorizationInts)
     def .valid?(list-of-ints)
@@ -66,14 +76,11 @@ class NtlmAuthorizationType1(NtlmAuthorizationInts)
     def .ntlmResponse()
        define raw-response 
           tag ListOfInts ^(78 84 76 77 83 83 80 0 2 0 0 0 0 0 0 0 40 0 0 0 1 130 0 0 83 114 118 78 111 110 99 101 0 0 0 0 0 0 0 0)
-       #u:format 'type-2 length: %a\n' (raw-response(.word 16))
-       #u:format 'type-2 nonce: %a\n' (raw-response(.slice 24 31))
-       #u:format 'type-2 nonce: %a\n' (String!fromInts(raw-response(.slice 24 31)))
        define response 
             "NTLM %a"
                 .format (Base64!encodeUnsignedIntegers raw-response)
        list '401 Unauthorized' 
-            list ^('Content-Type' = "text/html")
+            list ^('Content-Type' = "text/plain")
                 cons 'WWW-Authenticate' response
             ~ "401 Login Required" 
     defmethod .decode()
@@ -81,6 +88,11 @@ class NtlmAuthorizationType1(NtlmAuthorizationInts)
        result
            define .type 1
            define .domain-length (this(.word 16))
+           define .domain-offset (this(.word 20))
+           define .host-length (this(.word 24))
+           define .host-offset (this(.word 28))
+           define .domain (this (.get-chars 'ASCII' result!domain-offset result!domain-length))
+           define .host (this (.get-chars 'ASCII' result!host-offset result!host-length))
        result  
        
 class NtlmAuthorizationType3(NtlmAuthorizationInts)
@@ -107,7 +119,7 @@ class NtlmAuthorizationType3(NtlmAuthorizationInts)
     def .ntlmResponse()
        list '200 OK' ^(('Content-Type' = "text/plain")) 
             (.decode)
-                list .domain .host .username
+                .self
 
           
         
@@ -115,6 +127,8 @@ df httpd-serve (request)
       request
             print .self
             classify UncheckedRequest .self
-            .reply
+            define response (.reply)
+            print response
+            response
 
    
