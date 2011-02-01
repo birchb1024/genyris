@@ -19,9 +19,9 @@ import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
-import org.genyris.format.DisplayFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.format.HTMLFormatter;
+import org.genyris.format.IndentedFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
@@ -186,7 +186,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 			if (mime.equals("text/html")) {
 				formatter = new HTMLFormatter(output);
 			} else {
-				formatter = new DisplayFormatter(output);
+				formatter = new IndentedFormatter(output, 2);
 			}
 			result = result.cdr().car();
 			result.acceptVisitor(formatter);
