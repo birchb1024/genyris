@@ -112,9 +112,9 @@ public class ClassTaggingTests extends TestCase {
         excerciseEval("(define x 45)", "45");
         excerciseEval("(tag C x)", "45");
         excerciseEval("(class CC() (def .valid?(x) true))", "<class CC (Thing)>");
-        exceptionEval("(12 = CC)", "Cannot assign <class CC (Thing)> to non-Symbol 12");
+        exceptionEval("(setq 12 CC)", "set expects a org.genyris.core.Symbol at position 0 got <12> a org.genyris.core.Bignum");
         excerciseEval("(class XX() (def .valid?(x) nil))", "<class XX (Thing)>");
-        exceptionEval("(12 = XX)", "Cannot assign <class XX (Thing)> to non-Symbol 12");
+        exceptionEval("(setq 12 XX)", "set expects a org.genyris.core.Symbol at position 0 got <12> a org.genyris.core.Bignum");
 
         excerciseEval("(def fn((a =A) = Bignum) 42)", "<EagerProc: <fn>>");
         exceptionEval("(fn 23)", "Type mismatch in function call for (a = A) because validator error: object 23 is not tagged with A");

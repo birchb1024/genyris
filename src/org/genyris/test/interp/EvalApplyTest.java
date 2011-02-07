@@ -123,13 +123,13 @@ public class EvalApplyTest extends TestCase {
         excerciseEval("((lambda (x) (set (quote x) 99) (cons x x)) 23)", "(99 = 99)");
     }
 
-    public void testSetViaPairEquals() throws Exception {
-        excerciseEval("(alpha = 777)", "777");
-        excerciseEval("(bravo = 888)", "888");
-        excerciseEval("(bravo = (+ 1 2))", "3");
-        excerciseEval("(bravo = (alpha = (- 222 100)))", "122");
-        excerciseEval("(bravo = ^(1 = 2))", "(1 = 2)");
-    }
+//    public void testSetViaPairEquals() throws Exception {
+//        excerciseEval("(alpha = 777)", "777");
+//        excerciseEval("(bravo = 888)", "888");
+//        excerciseEval("(bravo = (+ 1 2))", "3");
+//        excerciseEval("(bravo = (alpha = (- 222 100)))", "122");
+//        excerciseEval("(bravo = ^(1 = 2))", "(1 = 2)");
+//    }
     public void testCond() throws Exception {
         excerciseEval("(cond)", "nil");
         excerciseEval("(cond (true 2))", "2");

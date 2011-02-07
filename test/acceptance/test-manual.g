@@ -136,7 +136,7 @@ assert
     equal? (pitt.name) "Willam Pitt"
     
 pitt
-   .name = "William Pitt The Younger"
+   setq .name "William Pitt The Younger"
 pitt 
    define .father "William Pitt the Elder"
 

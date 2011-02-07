@@ -40,7 +40,7 @@ var d
 
 java:import 'org.genyris.test.java.JavaDummy' as Dummy   
 
-Dummy(.staticField = 321)
+Dummy(setq .staticField 321)
 assert (equal? 321 Dummy!staticField)
 
 assert 
@@ -66,31 +66,31 @@ assert
    equal? 
         d.vars
         ^(.staticField .intField .longField .charField .floatField .doubleField .booleanField .byteField .shortField .stringField .privateField .self .vars .classes .java:class) 
-d (.intField = 99)
+d (setq .intField 99)
 assert (equal? d!intField 99)
-d (.shortField = 12)
+d (setq .shortField 12)
 assert (equal? d!shortField 12)
-d (.byteField = 123)
+d (setq .byteField 123)
 assert (equal? d!byteField 123)
-d(.floatField = 0.5)
+d(setq .floatField 0.5)
 assert (equal? d!floatField 0.5)
-d(.doubleField = 2.25)
+d(setq .doubleField 2.25)
 assert (equal? d!doubleField 2.25)
-d(.longField = 2424234)
+d(setq .longField 2424234)
 assert (equal? d!longField 2424234)
-d(.charField = 'A')
+d(setq .charField 'A')
 assert (equal? d!charField 'A')
-d(.stringField = 'WOw!')
+d(setq .stringField 'WOw!')
 assert (equal? d!stringField 'WOw!')
-d(.booleanField = true)
+d(setq .booleanField true)
 assert (equal? d!booleanField true)
-d(.booleanField = nil)
+d(setq .booleanField nil)
 assert (equal? d!booleanField nil)
 
-d (.privateField = 99)
+d (setq .privateField 99)
 assert (equal? d!privateField 99)
 
-d (.staticField = 1000)
+d (setq .staticField 1000)
 assert (equal? d!staticField 1000)
 
 assert 
@@ -145,7 +145,7 @@ var file (FileJ(.new-java_lang_String '/'))
 assert (equal? file!vars ^(.separatorChar .separator .pathSeparatorChar .pathSeparator .self .vars .classes .java:class))
 assert (or (equal? file!separator '/') (equal? file!separator '\\'))
 catch error
-  file(.separator = ';')     
+  file(setq .separator ';')     
 file(.compareTo-java_lang_Object file)
 #
 #
