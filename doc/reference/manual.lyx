@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -2195,56 +2195,6 @@ setq name 'William Pitt'
 \end_layout
 
 \begin_layout Standard
-As shorthand for
-\emph on
- setq
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-
-\emph on
-setq
-\end_layout
-
-\end_inset
-
-
-\emph default
- the pair operator
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-pair operator
-\end_layout
-
-\end_inset
-
-
-\emph on
-=
-\begin_inset Index
-status collapsed
-
-\begin_layout Plain Layout
-
-\emph on
-=
-\end_layout
-
-\end_inset
-
-
-\emph default
- can be used as in:
-\end_layout
-
-\begin_layout LyX-Code
-name = 'William Pitt'
-\end_layout
-
-\begin_layout Standard
 A predicate function
 \emph on
  bound?
@@ -2862,56 +2812,6 @@ William Pitt
 setq name 'William Pitt'
 \end_layout
 
-\begin_layout Standard
-As shorthand for
-\emph on
- setq
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-setq
-\end_layout
-
-\end_inset
-
-
-\emph default
- the pair operator
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-pair operator
-\end_layout
-
-\end_inset
-
-
-\emph on
-=
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-=
-\end_layout
-
-\end_inset
-
-
-\emph default
- can be used as in:
-\end_layout
-
-\begin_layout LyX-Code
-name = 'William Pitt'
-\end_layout
-
 \begin_layout Paragraph
 
 \emph on
@@ -3172,28 +3072,6 @@ status open
 
 \emph on
 set
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Paragraph
-
-\emph on
-=
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-=
 \end_layout
 
 \end_inset
@@ -4506,7 +4384,7 @@ while names
 \end_layout
 
 \begin_layout LyX-Code
-   names = (right names)
+   setq names (right names)
 \end_layout
 
 \begin_layout Standard
@@ -7634,19 +7512,19 @@ define jeb
 \begin_layout LyX-Code
 
 \series bold
-      .firstName= 'Joe'
+      .firstName = 'Joe'
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-      .middleName= 'E.'
+      .middleName = 'E.'
 \end_layout
 
 \begin_layout LyX-Code
 
 \series bold
-      .lastName= 'Brown'
+      .lastName = 'Brown'
 \end_layout
 
 \begin_layout LyX-Code
@@ -9258,11 +9136,11 @@ define vyvyan
 \end_layout
 
 \begin_layout LyX-Code
-     .foaf:name= 'Vyvyan'
+     .foaf:name = 'Vyvyan'
 \end_layout
 
 \begin_layout LyX-Code
-     .foaf:age= 49
+     .foaf:age = 49
 \end_layout
 
 \begin_layout LyX-Code
@@ -12844,7 +12722,7 @@ import
 \end_layout
 
 \begin_layout LyX-Code
-sys:path
+setq sys:path
 \begin_inset Index
 status open
 
@@ -12854,7 +12732,7 @@ sys:path
 
 \end_inset
 
- = (cons 'examples' sys:path)
+ (cons 'examples' sys:path)
 \end_layout
 
 \begin_layout Standard
@@ -13040,7 +12918,7 @@ To simplify loading, the
 \end_layout
 
 \begin_layout LyX-Code
-sys:path = (cons 'examples' sys:path)
+setq sys:path (cons 'examples' sys:path)
 \end_layout
 
 \begin_layout LyX-Code
@@ -14697,7 +14575,7 @@ task:synchronized shared
 \end_layout
 
 \begin_layout LyX-Code
-     read-value = (shared.left)
+     setq read-value (shared.left)
 \end_layout
 
 \begin_layout LyX-Code
@@ -14721,7 +14599,7 @@ task:synchronized shared
 \end_layout
 
 \begin_layout LyX-Code
-        shared (.left = 1)
+        shared (setq .left 1)
 \end_layout
 
 \begin_layout LyX-Code
@@ -14729,7 +14607,7 @@ task:synchronized shared
 \end_layout
 
 \begin_layout LyX-Code
-        shared (.left = 0)
+        shared (setq .left 0)
 \end_layout
 
 \begin_layout LyX-Code
