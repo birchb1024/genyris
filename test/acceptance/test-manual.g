@@ -27,7 +27,7 @@ def threat (i j a b)
 include "examples/queens.g"
 run-queens 4
 
-sys:path = (cons 'examples' sys:path)
+setq sys:path (cons 'examples' sys:path)
 import queens
 (queens.queens) 4
 
@@ -195,7 +195,7 @@ def archive(filename)
     f:delete filename
 
 @prefix sys "http://www.genyris.org/lang/system#"
-sys:path = (cons 'examples' sys:path)
+setq sys:path (cons 'examples' sys:path)
 import file
 reload file
 

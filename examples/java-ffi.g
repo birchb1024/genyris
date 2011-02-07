@@ -12,7 +12,7 @@ def ls(path)
    def indent(depth)
       while (> depth 0)
           u:format '   '
-          depth = (- depth 1)
+          setq depth (- depth 1)
    def ls-aux(depth path)
        var f 
             FileJ!new-java_lang_String path

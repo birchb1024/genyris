@@ -13,7 +13,7 @@ class Range()
              cond
                 (equal? counter max) ^sys:StopIteration
                 else
-                   counter = (+ counter 1)
+                   setq counter (+ counter 1)
                    counter
 #
 def range(low high)

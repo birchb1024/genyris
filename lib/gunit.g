@@ -60,15 +60,13 @@ def :walkDirectoryTree (top)
       filename (.match 'test\-(.*)\\.g')
    define f (File(.new top))
    define files (f(.list))
-   while files
-      define f (left files)
+   for f in files
       define path ('%a/%a' (.format top f))
       cond
          (File!static-is-dir? path)
               setq file-list (append file-list (:walkDirectoryTree path))
          (matchit path f)
             setq file-list (cons path file-list)
-      files = (right files)
    the file-list
 
 defmacro :test (headline &rest block)

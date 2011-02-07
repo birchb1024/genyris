@@ -42,10 +42,10 @@ def sys:search-path(fileName)
         define file-path ((left tmp)(.+ "/" fileName))
         cond
             ((File.exists) file-path)
-                  tmp = nil
-                  result = file-path
+                  setq tmp nil
+                  setq result file-path
             else
-                  tmp = (right tmp)
+                  setq tmp (right tmp)
     result
 
 def sys:mk-module (moduleName path)

@@ -18,19 +18,19 @@ def gcd_test()
   assertEqual (gcd 40902 24140) 34
 
 def gcd (u v)
-    u = (abs u)
-    v = (abs v)
+    setq u (abs u)
+    setq v (abs v)
     cond
        (equal? v 0) u
        else (gcd v (% u v))
 gcd_test
 def gcd (u v)
-    u = (abs u)
-    v = (abs v)
+    setq u (abs u)
+    setq v (abs v)
     while (not (equal? v 0))
        var tmp (% u v)
-       u = v
-       v = tmp
+       setq u v
+       setq v tmp
     u
 gcd_test
 

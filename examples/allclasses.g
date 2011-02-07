@@ -6,7 +6,7 @@
 def indent(depth)
     while (> depth 0)
        u:format '   '
-       depth = (- depth 1)
+       setq depth (- depth 1)
 
 def printAllClasses(root depth)
     indent depth

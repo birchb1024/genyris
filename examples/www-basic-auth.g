@@ -16,7 +16,7 @@ df httpd-serve (request)
    # Serve web page, catch an errors and report with backtrace.
    var response nil
    catch errors
-        response = (raw-serve request)
+        setq response (raw-serve request)
    cond
        (not errors) response
        else

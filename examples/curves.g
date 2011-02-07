@@ -19,8 +19,8 @@ var curx 50
 var cury 50
 def draw (x1 y1)
      .drawLine-int-int-int-int curx cury x1 y1
-     curx = x1
-     cury = y1
+     setq curx x1
+     setq cury y1
 
 def plotline (length angle)
    draw
@@ -43,8 +43,8 @@ def ccurve-aux (length angle)
 
 def c-curve(width height)
     .setColor-java_awt_Color Color!green
-    curx = 100
-    cury = 50
+    setq curx 100
+    setq cury 50
     ccurve-aux 80 0             
     
 def dragon-aux (length angle sign)
@@ -63,8 +63,8 @@ def dragon-aux (length angle sign)
 
 def dragon-curve(width height)
     .setColor-java_awt_Color Color!blue
-    curx = 300
-    cury = 100
+    setq curx 300
+    setq cury 100
     dragon-aux 240 45 1             
 
 plot-window 'C Curve' c-curve 400 200

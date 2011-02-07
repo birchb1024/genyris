@@ -24,6 +24,6 @@ catch err
 assert (equal? err 'non-string argument passed to load: 234234')
 
 # test include with sys:path
-sys:path = (cons (GENYRIS_HOME (.+ '/test/fixtures')) sys:path)
+setq sys:path (cons (GENYRIS_HOME (.+ '/test/fixtures')) sys:path)
 include 'empty.g'
 assert empty-loaded

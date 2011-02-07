@@ -11,8 +11,8 @@ class ClassVariableTester (Object)
       define .instance_count 0
 
    def .increment()
-      class_count = (+ class_count 1)
-      .instance_count = (+ .instance_count 1)
+      setq class_count (+ class_count 1)
+      setq .instance_count (+ .instance_count 1)
       list class_count .instance_count
 
 var c1

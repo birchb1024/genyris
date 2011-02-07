@@ -16,10 +16,10 @@ class XYZqueue(Object)
     def .init()
         var .items ()
     def .enqueue(object)
-        .items = (cons object .items)
+        setq .items (cons object .items)
     def .dequeue()
         var tmp  (car .items)
-        .items = (cdr .items)
+        setq .items (cdr .items)
         tmp
 
 var my-queue (XYZqueue(.new))

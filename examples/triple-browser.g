@@ -36,9 +36,9 @@ define store nil
 
 def loadDataFromCSV(url)
     var in (web:get url)
-    store = (graph)
+    setq store (graph)
     define $line ""
-    while (not (equal? EOF ($line = (in(.getline)))))
+    while (not (equal? EOF (setq $line (in(.getline)))))
         define aslist ($line(.split ","))
         cond
             (equal? (length aslist) 1)
@@ -62,18 +62,18 @@ def convertToRegex (str)
     cond
        (str(.match '".*"'))
             # exact
-            str =
+            setq str
                 (cadr (str(.split '"')))
                     .toLowerCase
        else
-            str = (str(.toLowerCase))
-            str = (str (.+ ".*"))
-            str = (".*" (.+ str))
+            setq str (str(.toLowerCase))
+            setq str (str (.+ ".*"))
+            setq str (".*" (.+ str))
     print str
     str
 
 def searchStore(str)
-    str = (convertToRegex str)
+    setq str (convertToRegex str)
     def matchFunc(s o p)
        #u:format "%s %s %s %s%n" s o p str
         or
@@ -104,10 +104,8 @@ def renderTriple (t)
 
 def renderTripleList (ts)
     define result nil
-    while ts
-        #display (car ts)
-        result = (cons (renderTriple (car ts)) result)
-        ts = (right ts)
+    for trip in ts
+        setq result (cons (renderTriple trip) result)
     template
             table()
                 tr()
@@ -127,30 +125,30 @@ df httpd-serve (request)
    define operation "Search"
    define searchResults nil
    define renderedResults ""
-   operation = (params (.lookup "op"))
-   query = (params (.lookup "query"))
+   setq operation (params (.lookup "op"))
+   setq query (params (.lookup "query"))
    cond
        (or (null? query) (equal? query ""))
-           query = DEFAULT
+           setq query DEFAULT
    cond
        (equal? operation "Reload")
             loadDataFromCSV CSVURL
-            renderedResults =
+            setq renderedResults
                template
                    "Reloaded from "
                       a((href = ,CSVURL))
                          ,CSVURL
        else
-            searchResults = ((searchStore query)(.asTriples))
-            renderedResults = (renderTripleList searchResults)
+            setq searchResults ((searchStore query)(.asTriples))
+            setq renderedResults (renderTripleList searchResults)
    var result
     list 200 "text/html"
       template
           html()
              head()
-               title() "CMP CMDB Search"
+               title() "CMDB Search"
              body()
-                h2() "CMP CMDB Search"
+                h2() "CMDB Search"
                 form()
                    input((name ="query") (size ="100") (value = ,query)) ""
                    verbatim() '&nbsp;&nbsp;&nbsp;'

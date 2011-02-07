@@ -16,7 +16,7 @@ def classify(klass thing)
         define subclass-results nil                    # analyse sub-classes for matches
         map-left (klass.subclasses)
            lambda (subklass)
-              subclass-results =
+              setq subclass-results
                 or subclass-results
                    classify subklass thing
         cond

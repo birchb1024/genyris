@@ -10,10 +10,8 @@
 df tripleq (s p o) (triple s p o)
 var *global-graph* (graph)
 df description(&rest body)
-    while body
-        var t (left body)
+    for t in body
         *global-graph*
-           .add (triple (car t) (car (cdr t)) (car (cdr (cdr t))))
-        body = (cdr body)
+           .add (triple (nth 0 t) (nth 1 t) (nth 2 t))
         
         

@@ -8,7 +8,7 @@ var start (now)
 while (> (+ start 5000) (now))
     var read-value 0    
     task:synchronized shared
-        read-value = (shared.left)        
+        setq read-value (shared.left)        
     cond
         (equal? 1 read-value)
             child(.kill)

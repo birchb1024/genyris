@@ -161,12 +161,12 @@ class BuildNotification()
   define client "unknown"
   def .getLog() log
   def .reset-log()
-      log = nil
+      setq log nil
 
   def addToLog(message style client)
-    lastmessage = message
+    setq lastmessage message
     u:format "%a %a %a %n" (u:getLocalTime) client message
-    log = (cons (template (tr() (td() ,(u:getLocalTime)) (td((style = ,style)) ,message)(td(()) ,client))) log)
+    setq log (cons (template (tr() (td() ,(u:getLocalTime)) (td((style = ,style)) ,message)(td(()) ,client))) log)
 
   def .addToLog(message style)
     addToLog message style client
@@ -177,7 +177,7 @@ class BuildNotification()
          addToLog message style
 
   def .alertUsers(operation nextclient)
-    client = nextclient
+    setq client nextclient
     classify StringMessage operation
     #u:format "operation => %a%n" operation
     #u:format "operation types: %a%n" (operation.classes)
@@ -212,7 +212,7 @@ def process-request (request)
    var operation ""
    cond
      params
-        operation = (params (.lookup "op"))
+        setq operation (params (.lookup "op"))
         BuildNotification(.alertUsers operation client)
    var result
     list 200 "text/html"

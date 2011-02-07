@@ -58,7 +58,7 @@ def dump()
   var ch nil
   var count 0
   while (in(.hasData))
-     count = (+ count 1)
+     setq count (+ count 1)
      write (in(.read)) ^-
   in(.close)
   print "\n" count
@@ -74,7 +74,7 @@ def parse-string()
   while
      not
         equal? EOF
-           exp = (parser(.read))
+           setq exp (parser(.read))
      write exp
      display "\n"
   parser(.close)
@@ -87,7 +87,7 @@ def parse-file()
   while
      not
         equal? EOF
-           exp = (parser(.read))
+           setq exp (parser(.read))
      write exp
      display "\n"
   parser(.close)
@@ -102,7 +102,7 @@ def parse-sfs-file()
   while
      not
         equal? EOF
-           exp = (parser(.read))
+           setq exp (parser(.read))
      write exp
      display "\n"
   parser(.close)
@@ -117,7 +117,7 @@ def eval-sfs-file()
   while
      not
         equal? EOF
-           exp = (eval (parser(.read)))
+           setq exp (eval (parser(.read)))
      display exp
   parser(.close)
 
@@ -137,7 +137,7 @@ in (.close)
 define in
    fi (.open ^read)
 define $line ""
-while (not (equal? EOF ($line = (in(.getline)))))
+while (not (equal? EOF (setq $line (in(.getline)))))
     define aslist ($line(.split ","))
     define tr (triple (parse (car aslist)) (parse (cadr aslist)) (parse (cadr (cdr aslist))))
     print tr

@@ -12,14 +12,12 @@ def printIt (dir file)
 def findAllFiles (top regexp func)
    define f (File(.new top))
    define files (f(.list))
-   while files
-      define f (left files)
+   for f in files
       define path ('%a/%a' (.format top f))
       func top f
       cond
          (File!static-is-dir? path)
               findAllFiles path regexp func
-      files = (right files)
 
 findAllFiles '.' '' printIt
 

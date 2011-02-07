@@ -23,8 +23,8 @@ def map-left (some-list some-function)
 def loop-left (some-list some-function)
    var result nil
    while some-list
-         result = (some-function (left some-list))
-         some-list = (right some-list)
+         setq result (some-function (left some-list))
+         setq some-list (right some-list)
    result
 
 

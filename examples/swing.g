@@ -31,7 +31,7 @@ var counter 0
 
 def onHit(event)
     print 'Hit button pressed'
-    counter = (+ 1 counter)
+    setq counter (+ 1 counter)
     field
        .setText-java_lang_String counter
     

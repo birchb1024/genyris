@@ -29,7 +29,7 @@ Pair
                 (null? head) ^sys:StopIteration
                 else
                    var result (left head)
-                   head = (right head)
+                   setq head (right head)
                    result
 Dictionary
    def .mkIterator()

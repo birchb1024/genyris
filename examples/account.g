@@ -7,7 +7,7 @@
 # Example from SICP Section 3.2.3
 def make-withdraw (balance)
    lambda (amount)
-      balance = (- balance amount)
+      setq balance (- balance amount)
 
 define W1 (make-withdraw 100)
 

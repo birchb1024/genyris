@@ -23,7 +23,7 @@ assertEqual
     modulex(.public2)
     list ^public2 ^private2 222 444
 
-sys:path = (cons "test/fixtures" sys:path)
+setq sys:path (cons "test/fixtures" sys:path)
 import module1
 assertEqual 
     module1(.public1)

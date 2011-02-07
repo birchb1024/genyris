@@ -7,12 +7,10 @@ def walk-directory-tree (top func)
    # func - a closure of the form (function (pathname) ...) - pathname is the path of the file.
    define f (File(.new top))
    define files (f(.list))
-   while files
-      define f (left files)
+   for f in files
       define path ('%a/%a' (.format top f))
       func path
       cond
          (File!static-is-dir? path)
               walk-directory-tree path func
-      files = (right files)
 

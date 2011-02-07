@@ -5,7 +5,7 @@ def readPage(url)
     var wstream (web:get url)
     var count 0
     while (wstream(.hasData))
-         count = (+ count 1)
+         setq count (+ count 1)
          write (wstream(.read)) ^-
     wstream(.close)
     u:format "%nRead %a bytes%n" count
