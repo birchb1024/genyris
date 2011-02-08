@@ -481,7 +481,7 @@ public class NanoHTTPD {
 
 				OutputStream out = mySocket.getOutputStream();
 				PrintWriter pw = new PrintWriter(out);
-				pw.print("HTTP/1.0 " + status + " \r\n");
+				pw.print("HTTP/1.1 " + status + " \r\n");
 
 				if (mime != null)
 					pw.print("Content-Type: " + mime + "\r\n");
