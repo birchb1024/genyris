@@ -204,3 +204,30 @@ Bignum
 assertEqual
     4234389 (.square)
     ~ 17930050203321
+
+assertEqual 6
+   eval ^(+ 1 2 3)
+   
+assertEqual 6
+   apply + ^(1 2 3)
+
+def make-fn (const)
+    function (a b c)
+        + const a b c
+define fn (make-fn 1000)
+assertEqual 1111
+   apply fn ^(1 10 100)
+   
+assertEqual ^(one (2 3) four)
+    template
+        one ,(list 2 3) four
+
+assertEqual ^(one 2 3 four)
+    template
+        one ,@(list 2 3) four
+        
+def func(a) (cons a a)
+use func
+   assertEqual .name 'func'
+   assertEqual .source ^(lambda (a) (cons a a))
+        

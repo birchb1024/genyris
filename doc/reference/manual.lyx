@@ -5442,7 +5442,20 @@ eval <expression>
 \end_layout
 
 \begin_layout Standard
-TODO
+The eval function executes the supplied expression in the current environment.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> eval ^(+ 1 2 3)
+\end_layout
+
+\begin_layout Standard
+returns:
+\end_layout
+
+\begin_layout LyX-Code
+6 # Bignum
 \end_layout
 
 \begin_layout Subsubsection
@@ -5450,7 +5463,34 @@ apply <closure> <parameter list>
 \end_layout
 
 \begin_layout Standard
-TODO
+The eval function executes the procedure passing the parameter list to the
+ procedure.
+ This is used when argument lists are constructed dynamically.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+def make-fn (const)
+\end_layout
+
+\begin_layout LyX-Code
+    function (a b c)
+\end_layout
+
+\begin_layout LyX-Code
+        + const a b c
+\end_layout
+
+\begin_layout LyX-Code
+define fn (make-fn 1000)
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual 1111
+\end_layout
+
+\begin_layout LyX-Code
+   apply fn ^(1 10 100)
 \end_layout
 
 \begin_layout Subsection
@@ -5886,7 +5926,69 @@ template
 \end_layout
 
 \begin_layout Standard
-TODO
+The
+\emph on
+ template 
+\emph default
+macro prevents execution of the expression passed to it which is forms the
+ return value.
+ Prior to returning the expression, it is scanned for substitution markers
+ which are evaluated and the results are substituted at the location of
+ the markers.
+ There are two kinds of marker: 
+\end_layout
+
+\begin_layout LyX-Code
+,<expression> 
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout LyX-Code
+,@<expression>
+\end_layout
+
+\begin_layout Standard
+When an expression preceded by a comma is found, the expression is evaluated
+ in the current environment and the marker is replaced with the result.
+ Example
+\emph on
+:
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual ^(one (2 3) four)
+\end_layout
+
+\begin_layout LyX-Code
+    template
+\end_layout
+
+\begin_layout LyX-Code
+        one ,(list 2 3) four 
+\end_layout
+
+\begin_layout Standard
+Otherwise if the 
+\emph on
+,@
+\emph default
+ marker precedes an expression the result is spliced in the return with
+ an append operation for example:
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual ^(one 2 3 four)
+\end_layout
+
+\begin_layout LyX-Code
+    template
+\end_layout
+
+\begin_layout LyX-Code
+        one ,@(list 2 3) four
 \end_layout
 
 \begin_layout Section
@@ -6519,23 +6621,114 @@ can be written succinctly as:
 \end_layout
 
 \begin_layout Subsection
-use <expression>
+use
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+use
+\end_layout
+
+\end_inset
+
+ <expression>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+use 
+\emph default
+function creates an environment for execution with 
+\emph on
+.self
+\emph default
+ set to the argument.
+ This allows access to the properties and methods of closures.
+ For example the following code snippet accesses the source code of a defined
+ function:
+\emph on
+\bar under
+ 
+\end_layout
+
+\begin_layout LyX-Code
+def func(a) (cons a a)
+\end_layout
+
+\begin_layout LyX-Code
+use func
+\end_layout
+
+\begin_layout LyX-Code
+   assertEqual .name 'func'
+\end_layout
+
+\begin_layout LyX-Code
+   assertEqual .source ^(lambda (a) (cons a a))
 \end_layout
 
 \begin_layout Section
 Data Structures
 \end_layout
 
+\begin_layout Standard
+This chapter describes the built-in data types provided in Genyris.
+ The types are coded in Java specifically for the language.
+ Other Java data types may be user-defined using the Java interface described
+ in sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Using-Java-Classes"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Adding Builtin Java Functions to Core Genyris Classes"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
+Bignum
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
 Bignum
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
-TODO
+The 
+\emph on
+Bignum
+\emph default
+ type provides arbitrary-precision signed decimal numbers using the Java
+ 
+\emph on
+BigDecimal
+\emph default
+ class.
+ The following example demonstrates the interpretation of numeric forms:
+\end_layout
+
+\begin_layout LyX-Code
+> list -3 23.78 -100.0089  34.45e18 (/ 2 3)
+\end_layout
+
+\begin_layout LyX-Code
+(-3 23.78 -100.0089 34450000000000004096 0.6666666666666666666666666666666666666666
+66666666666666666666666666666666666666666666666666666666666666666666666666666666
+666666666666666666666666666667) # Pair
 \end_layout
 
 \begin_layout Subsubsection
@@ -6543,7 +6736,11 @@ Maths Functions
 \end_layout
 
 \begin_layout Standard
-Genyris includes basic arithmetic operations on Bignum obects.
+Genyris includes basic arithmetic operations on 
+\emph on
+Bignum
+\emph default
+ obects.
 \end_layout
 
 \begin_layout Paragraph
@@ -6633,7 +6830,7 @@ status open
 
 \begin_layout Standard
 This function computes the quotient of its arguments, which must number
- at two or more.
+ two or more.
 \end_layout
 
 \begin_layout Paragraph
@@ -6663,7 +6860,7 @@ power
 This function calculates the first argument raised to the power of the second.
  Example:
 \emph on
-(power 2 8) => 256
+ (power 2 8) => 256
 \end_layout
 
 \begin_layout Subsection
@@ -6919,27 +7116,12 @@ PRINTWITHEQ
 ('A' = ('B' = ('C'))) # Pair
 \end_layout
 
-\begin_layout Subsubsection
-Class Pair
+\begin_layout Subsection
+String
 \end_layout
 
 \begin_layout Standard
 TODO
-\end_layout
-
-\begin_layout Standard
-Refer to section 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "sub:Pair"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-String
 \end_layout
 
 \begin_layout Subsubsection
@@ -7104,7 +7286,7 @@ Base64
  encoded string.
  The returned string is tagged with the class string
 \emph on
-Base64EncodedString
+ Base64EncodedString
 \emph default
 
 \begin_inset Index
@@ -7150,11 +7332,11 @@ status open
 Decodes a Base 64 encoded string into the binary original.
  This is also available in the
 \emph on
-Base64EncodedString
+ Base64EncodedString
 \emph default
- classas the
+ class as the
 \emph on
-.decode
+ .decode
 \emph default
  method.
  Example:
@@ -15141,6 +15323,13 @@ httpd <port> "test/mocks/www-static.g" <root directory>
 
 \begin_layout Section
 Using Java Classes
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Using-Java-Classes"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -16605,6 +16794,13 @@ Extending and Modifying Genyris
 
 \begin_layout Subsubsection
 Adding Builtin Java Functions to Core Genyris Classes
+\begin_inset CommandInset label
+LatexCommand label
+name "Adding Builtin Java Functions to Core Genyris Classes"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
