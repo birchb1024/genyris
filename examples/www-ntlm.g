@@ -34,7 +34,7 @@ class UnauthorizedRequest(UncheckedRequest)
             quote
                ('Content-Type' = "text/plain")
                   'WWW-Authenticate' = "NTLM"
-                  'Connection' = 'keep-alive'
+                  'Connection' = 'Keep-Alive'
             ~ "401 Login Required"
 
 
@@ -58,7 +58,17 @@ class NtlmRequest(UncheckedRequest)
         classify NtlmAuthorizationInts auth-ints
         print
             auth-ints(.decode)
-        auth-ints(.ntlmResponse)
+        auth-ints(.ntlmResponse this)
+
+class EstablishedNtlmRequest(UncheckedRequest)
+    def .valid?(request)
+        define sessionID (request(.getSessionID))
+        member? sessionID authenticatedSessions
+                
+    defmethod .reply()
+       list '200 OK' ^(('Content-Type' = "text/plain")('Connection' = 'Keep-Alive')) 
+            "session id = %a"
+               .format (this (.getSessionID))
 
 class NtlmAuthorizationInts(ListOfInts)
     def .getType(list-of-ints)
@@ -66,21 +76,21 @@ class NtlmAuthorizationInts(ListOfInts)
     def .valid?(list-of-ints)
         list-of-ints
              .beginsWith? ('NTLMSSP'(.toInts 'ASCII'))
-    def .ntlmResponse()
-       list '200 OK' ^(('Content-Type' = "text/plain")) (.getType)
+    def .ntlmResponse(request)
+       list '200 OK' ^(('Content-Type' = "text/plain")('Connection' = 'Keep-Alive')) (.getType)
 
 
 class NtlmAuthorizationType1(NtlmAuthorizationInts)
     def .valid?(list-of-ints)
        equal? 1 (.getType list-of-ints)
-    def .ntlmResponse()
+    def .ntlmResponse(request)
        define raw-response 
           tag ListOfInts ^(78 84 76 77 83 83 80 0 2 0 0 0 0 0 0 0 40 0 0 0 1 130 0 0 83 114 118 78 111 110 99 101 0 0 0 0 0 0 0 0)
        define response 
             "NTLM %a"
                 .format (Base64!encodeUnsignedIntegers raw-response)
        list '401 Unauthorized' 
-            list ^('Content-Type' = "text/plain")
+            list ^('Content-Type' = "text/plain") ^('Connection' = 'Keep-Alive')
                 cons 'WWW-Authenticate' response
             ~ "401 Login Required" 
     defmethod .decode()
@@ -94,7 +104,9 @@ class NtlmAuthorizationType1(NtlmAuthorizationInts)
            define .domain (this (.get-chars 'ASCII' result!domain-offset result!domain-length))
            define .host (this (.get-chars 'ASCII' result!host-offset result!host-length))
        result  
-       
+
+define authenticatedSessions nil
+
 class NtlmAuthorizationType3(NtlmAuthorizationInts)
     def .valid?(list-of-ints)
        equal? 3 (.getType list-of-ints)
@@ -116,8 +128,10 @@ class NtlmAuthorizationType3(NtlmAuthorizationInts)
             #.get-utf-16 result!host-offset result!host-length
             #.get-utf-16 result!user-offset result!user-length
        result  
-    def .ntlmResponse()
-       list '200 OK' ^(('Content-Type' = "text/plain")) 
+    def .ntlmResponse(request)
+       define sessionID (request(.getSessionID))
+       setq authenticatedSessions (cons sessionID authenticatedSessions)
+       list '200 OK' ^(('Content-Type' = "text/plain")('Connection' = 'Keep-Alive')) 
             (.decode)
                 .self
 

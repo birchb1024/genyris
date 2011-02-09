@@ -11,6 +11,8 @@ class HttpRequest()
     def .getClient() (nth 4 .self)
     def .getClientIP() (left (nth 4 .self))
     def .getClientHostname() (right (nth 4 .self))
+    def .getClientPort() (nth 5 .self)
+    def .getSessionID() (nth 6 .self)
     def .getAuthorizationHeader()
        (.getHeaders)
             .lookup 'authorization'    
@@ -47,11 +49,15 @@ class HttpRequest()
                  td() "Path: " 
                  td() "Client IP: " 
                  td() "Client Name: "
+                 td() "Client Port: " 
+                 td() "SessionID: "
                tr()
                  td() ,(.getMethod)
                  td() ,(.getPath)          
                  td() ,(left (.getClient))
                  td() ,(right (.getClient))
+                 td() ,(.getClientPort)
+                 td() ,(.getSessionID)
              hr()
              div() "Headers:" ,((.getHeaders)(.toHTML))
              div() "Parameters:" ,((.getParameters)(.toHTML))

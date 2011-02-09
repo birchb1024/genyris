@@ -88,6 +88,8 @@ public class NanoHTTPD {
 
 	protected ServerSocket ss;
 
+	public static int sessionCount = 0;
+
 	public NanoHTTPD() {
 		rootdir = "no root";
 	}
@@ -101,6 +103,7 @@ public class NanoHTTPD {
 	 * <p>
 	 * 
 	 * (By default, this delegates to serveFile() and allows directory listing.)
+	 * @param mySocket 
 	 * 
 	 * @parm uri Percent-decoded URI without parameters, for example
 	 *       "/index.cgi"
@@ -110,7 +113,7 @@ public class NanoHTTPD {
 	 * @parm header Header entries, percent decoded
 	 * @return HTTP response, see class NanoResponse for details
 	 */
-	public NanoResponse serve(String uri, String method, Properties header,
+	public NanoResponse serve(long sessionNumber, Socket mySocket, String uri, String method, Properties header,
 			Properties parms, String rootdir, String IP, String name) {
 		return serveFile(uri, header, new File(rootdir), true);
 	}
@@ -256,11 +259,14 @@ public class NanoHTTPD {
 		private String clientIP;
 		private String clientName;
 		private BufferedReader in;
+		private long sessionNumber;
 
 
 
 		public HTTPSession(Socket s, String rootdir) {
 			mySocket = s;
+			sessionCount  += 1;
+			this.sessionNumber = sessionCount;
 			this.rootdir = rootdir;
 			Thread t = new Thread(this);
 			t.setDaemon(true);
@@ -269,6 +275,8 @@ public class NanoHTTPD {
 
 		public HTTPSession(Socket socket) {
 			mySocket = socket;
+			sessionCount  += 1;
+			this.sessionNumber = sessionCount;
 			try {
 				 mySocket.setSoTimeout(1000*10);
 				 is = mySocket.getInputStream();
@@ -392,7 +400,7 @@ public class NanoHTTPD {
 				}
 
 				// Ok, now do the serve()
-				NanoResponse r = serve(uri, method, header, parms, rootdir,
+				NanoResponse r = serve(this.sessionNumber, this.mySocket, uri, method, header, parms, rootdir,
 						clientIP, clientName);
 				if (r == null)
 					sendError(HTTP_INTERNALERROR,

@@ -8,10 +8,12 @@ import java.io.InterruptedIOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
 import org.genyris.core.Exp;
@@ -113,7 +115,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 		return t;
 	}
 
-	public synchronized NanoResponse  serve(String uri, String method, Properties header,
+	public synchronized NanoResponse  serve(long sessionNumber, Socket sock, String uri, String method, Properties header,
 			Properties parms, String rootdir, String clientIP, String clientName) {
 		Exp request = NIL;
 		// System.out.println(method + " '" + uri + "' ");
@@ -140,6 +142,8 @@ public class GenyrisHTTPD extends NanoHTTPD {
 		}
 		parameters.addClass(this.AlistClazz);
 
+		request = new Pair(new Bignum(sessionNumber), request);
+		request = new Pair(new Bignum(sock.getPort()), request);
 		request = new Pair(new Pair(new StrinG(clientIP), new StrinG(clientName)), request);
 		request = new Pair(parameters, request);
 		request = new Pair(headers, request);
