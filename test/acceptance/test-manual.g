@@ -263,3 +263,11 @@ assertEqual
    @ w 123
    123
 assertEqual w 123
+
+assertEqual ^.left 
+   dynamic-symbol-value ^left
+
+assertEqual
+   45
+   ^(78 = 45)
+      eval (dynamic-symbol-value (intern 'right'))
