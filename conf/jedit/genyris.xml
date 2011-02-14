@@ -1,34 +1,42 @@
 <?xml version="1.0"?>
-<!DOCTYPE MODE SYSTEM "xmode.dtd"><MODE>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<MODE>
     <PROPS>
         <PROPERTY NAME="lineComment" VALUE="#"/>
         <PROPERTY NAME="noWordSep" VALUE="_-$+?,@!%*|\;:/"/>
     </PROPS>
-    <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+    <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="FALSE">
   <WHITESPACE> </WHITESPACE>
-        <SPAN TYPE="COMMENT1">
-            <BEGIN>[</BEGIN>
-            <END>]</END>
-        </SPAN>
-        <SPAN TYPE="COMMENT1">
-            <BEGIN>[</BEGIN>
-            <END>]</END>
-        </SPAN>
         <SEQ TYPE="NULL">^(</SEQ>
-        <SEQ TYPE="NULL">(</SEQ>
-        <SEQ TYPE="NULL">)</SEQ>
-        <MARK_FOLLOWING TYPE="LITERAL2">^</MARK_FOLLOWING>
+        <SEQ_REGEXP AT_WORD_START="TRUE" TYPE="DIGIT">-?\d+([./]\d+)?</SEQ_REGEXP>
         <MARK_FOLLOWING TYPE="LITERAL2">.</MARK_FOLLOWING>
+        <MARK_FOLLOWING TYPE="LITERAL2">!</MARK_FOLLOWING>
         <EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
-        <SPAN TYPE="LITERAL1">
-            <BEGIN>'</BEGIN>
-            <END>'</END>
-        </SPAN>
-        <SPAN TYPE="LITERAL1">
-            <BEGIN>"</BEGIN>
-            <END>"</END>
-        </SPAN>
+		<SPAN TYPE="LITERAL1" ESCAPE="\">
+			<BEGIN>'</BEGIN>
+			<END>'</END>
+		</SPAN>
+		<SPAN TYPE="LITERAL1" ESCAPE="\">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="LITERAL2" ESCAPE="\">
+			<BEGIN>|</BEGIN>
+			<END>|</END>
+		</SPAN>
+		<SEQ TYPE="OPERATOR">`</SEQ>
+		<SEQ TYPE="OPERATOR">@</SEQ>
+		<SEQ TYPE="OPERATOR">%</SEQ>
+		<SEQ TYPE="OPERATOR">,</SEQ>
+		<SEQ TYPE="OPERATOR">+</SEQ>
+		<SEQ TYPE="OPERATOR">-</SEQ>
+		<SEQ TYPE="OPERATOR">*</SEQ>
+		<SEQ TYPE="OPERATOR">/</SEQ>
+
+
         <KEYWORDS>
+            <KEYWORD1>^</KEYWORD1>
+            <KEYWORD1>~</KEYWORD1>
             <KEYWORD1>and</KEYWORD1>
             <KEYWORD1>or</KEYWORD1>
             <KEYWORD1>do</KEYWORD1>
@@ -71,6 +79,9 @@
             <KEYWORD1>catch</KEYWORD1>
             <KEYWORD1>format</KEYWORD1>
             <KEYWORD1>@prefix</KEYWORD1>
+            <KEYWORD1>use</KEYWORD1>
+            <KEYWORD1>import</KEYWORD1>
+            <KEYWORD1>reload</KEYWORD1>
 
             <KEYWORD2>Bignum</KEYWORD2>
             <KEYWORD2>Pair</KEYWORD2>
@@ -85,11 +96,13 @@
 
             <KEYWORD3>load</KEYWORD3>
             <KEYWORD3>display</KEYWORD3>
-             <KEYWORD3>eq?</KEYWORD3>
+            <KEYWORD3>eq?</KEYWORD3>
             <KEYWORD3>equal?</KEYWORD3>
             <KEYWORD3>=</KEYWORD3>
             <KEYWORD3>null?</KEYWORD3>
             <KEYWORD3>Alist</KEYWORD3>
+            <KEYWORD3>assertEqual</KEYWORD3>
+            <KEYWORD3>assert</KEYWORD3>
 
             <KEYWORD1>.self</KEYWORD1>
             <KEYWORD3>.vars</KEYWORD3>
