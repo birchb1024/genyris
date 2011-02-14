@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -2880,6 +2880,12 @@ defvar
 \begin_layout Standard
 This eager function creates a binding between the supplied symbol and the
  value.
+ Symbols can be generated or obtained at run-time.
+ The return value is the 
+\emph on
+<value
+\emph default
+>.
 \end_layout
 
 \begin_layout Standard
@@ -2895,19 +2901,15 @@ Examples
 \end_layout
 
 \begin_layout LyX-Code
-> (dict)
+assertEqual
 \end_layout
 
 \begin_layout LyX-Code
-     defvar ^.d 123
+   'Foosball'
 \end_layout
 
 \begin_layout LyX-Code
-     .self
-\end_layout
-
-\begin_layout LyX-Code
-(dict (.d = 23)) # Dictionary
+   defvar (intern 'new-var') 'Foosball'
 \end_layout
 
 \begin_layout Paragraph
@@ -2929,7 +2931,34 @@ define
 \end_layout
 
 \begin_layout Standard
-TODO
+This lazy function creates a binding between the supplied symbol and the
+ value.
+ Symbols are not evaluated, hence are 'hard-coded' in the expression.
+ The return value is the 
+\emph on
+<value
+\emph default
+>.
+\end_layout
+
+\begin_layout Standard
+Syntax
+\end_layout
+
+\begin_layout LyX-Code
+defvar <symbol> <value>
+\end_layout
+
+\begin_layout Standard
+Examples
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual 20 (define twenty 20)
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual twenty 20
 \end_layout
 
 \begin_layout Paragraph
@@ -2968,7 +2997,33 @@ bound?
 
 \emph default
  tests whether a symbol has a binding in the current environments.
- It returns the symbol
+ Bindings can be created by:
+\end_layout
+
+\begin_layout Itemize
+argument declaration in a closure, such as in a 
+\emph on
+def, defmacro, function
+\emph default
+, etc
+\end_layout
+
+\begin_layout Itemize
+with 
+\emph on
+defvar
+\emph default
+ or 
+\emph on
+define
+\end_layout
+
+\begin_layout Itemize
+with a Dymanic Symbol bound to an object
+\end_layout
+
+\begin_layout Standard
+It returns the symbol
 \emph on
  true
 \emph default
@@ -3035,6 +3090,18 @@ true  # SimpleSymbol
 true # SimpleSymbol
 \end_layout
 
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+assert
+\end_layout
+
+\begin_layout LyX-Code
+   ^(2)(bound? ^.left)
+\end_layout
+
 \begin_layout Subsubsection
 Assignment
 \end_layout
@@ -3058,7 +3125,28 @@ setq
 \end_layout
 
 \begin_layout Standard
-TODO
+This lazy function is identical to 
+\emph on
+define
+\emph default
+, however the binding must have been previously declared.
+ Example:use 
+\end_layout
+
+\begin_layout LyX-Code
+> setq tweny 200
+\end_layout
+
+\begin_layout LyX-Code
+*** Error - 'unbound: tweny'
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual 20 (define twenty 20)
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual 200 (setq twenty 200)
 \end_layout
 
 \begin_layout Paragraph
@@ -3080,7 +3168,36 @@ set
 \end_layout
 
 \begin_layout Standard
-TODO
+This lazy funtion is identical to 
+\emph on
+def
+\emph default
+ var, however the binding must have been previously declared.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+def func (another-var)
+\end_layout
+
+\begin_layout LyX-Code
+   set (left (list ^another-var)) 'Tennis'
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual 'Tennis' (func 123)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -3106,7 +3223,80 @@ def
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+def
+\emph default
+ macro declares new eager functions.
+ Refer to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Functions-and-Macros"
+
+\end_inset
+
+ for details.
+\end_layout
+
+\begin_layout Subparagraph*
+Syntax
+\end_layout
+
+\begin_layout LyX-Code
+def <name> <argument list> <body>
+\end_layout
+
+\begin_layout Standard
+Where 
+\emph on
+<name> 
+\emph default
+is a symbol, 
+\emph on
+<argument list>
+\emph default
+ is a list of simple symbols and type declarators and 
+\emph on
+<body>
+\emph default
+ is a sequence of expressions.
+ The 
+\emph on
+def
+\emph default
+ macro is equivalent to 
+\emph on
+define
+\emph default
+ and 
+\emph on
+function, 
+\emph default
+and has the effect of:
+\end_layout
+
+\begin_layout LyX-Code
+define <name> 
+\end_layout
+
+\begin_layout LyX-Code
+   function <argument list> <body>
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+def square(x)
+\end_layout
+
+\begin_layout LyX-Code
+   * x x
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual 64 (square 8)
 \end_layout
 
 \begin_layout Paragraph
@@ -4898,7 +5088,13 @@ Example execution:
 \end_layout
 
 \begin_layout Section
-Functions and Macros
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Functions-and-Macros"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -5442,20 +5638,7 @@ eval <expression>
 \end_layout
 
 \begin_layout Standard
-The eval function executes the supplied expression in the current environment.
- Example:
-\end_layout
-
-\begin_layout LyX-Code
-> eval ^(+ 1 2 3)
-\end_layout
-
-\begin_layout Standard
-returns:
-\end_layout
-
-\begin_layout LyX-Code
-6 # Bignum
+TODO
 \end_layout
 
 \begin_layout Subsubsection
@@ -5463,34 +5646,7 @@ apply <closure> <parameter list>
 \end_layout
 
 \begin_layout Standard
-The eval function executes the procedure passing the parameter list to the
- procedure.
- This is used when argument lists are constructed dynamically.
- Example:
-\end_layout
-
-\begin_layout LyX-Code
-def make-fn (const)
-\end_layout
-
-\begin_layout LyX-Code
-    function (a b c)
-\end_layout
-
-\begin_layout LyX-Code
-        + const a b c
-\end_layout
-
-\begin_layout LyX-Code
-define fn (make-fn 1000)
-\end_layout
-
-\begin_layout LyX-Code
-assertEqual 1111
-\end_layout
-
-\begin_layout LyX-Code
-   apply fn ^(1 10 100)
+TODO
 \end_layout
 
 \begin_layout Subsection
@@ -5926,69 +6082,7 @@ template
 \end_layout
 
 \begin_layout Standard
-The
-\emph on
- template 
-\emph default
-macro prevents execution of the expression passed to it which is forms the
- return value.
- Prior to returning the expression, it is scanned for substitution markers
- which are evaluated and the results are substituted at the location of
- the markers.
- There are two kinds of marker: 
-\end_layout
-
-\begin_layout LyX-Code
-,<expression> 
-\end_layout
-
-\begin_layout Standard
-and
-\end_layout
-
-\begin_layout LyX-Code
-,@<expression>
-\end_layout
-
-\begin_layout Standard
-When an expression preceded by a comma is found, the expression is evaluated
- in the current environment and the marker is replaced with the result.
- Example
-\emph on
-:
-\end_layout
-
-\begin_layout LyX-Code
-assertEqual ^(one (2 3) four)
-\end_layout
-
-\begin_layout LyX-Code
-    template
-\end_layout
-
-\begin_layout LyX-Code
-        one ,(list 2 3) four 
-\end_layout
-
-\begin_layout Standard
-Otherwise if the 
-\emph on
-,@
-\emph default
- marker precedes an expression the result is spliced in the return with
- an append operation for example:
-\end_layout
-
-\begin_layout LyX-Code
-assertEqual ^(one 2 3 four)
-\end_layout
-
-\begin_layout LyX-Code
-    template
-\end_layout
-
-\begin_layout LyX-Code
-        one ,@(list 2 3) four
+TODO
 \end_layout
 
 \begin_layout Section
@@ -6621,114 +6715,23 @@ can be written succinctly as:
 \end_layout
 
 \begin_layout Subsection
-use
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-use
-\end_layout
-
-\end_inset
-
- <expression>
+use <expression>
 \end_layout
 
 \begin_layout Standard
-The 
-\emph on
-use 
-\emph default
-function creates an environment for execution with 
-\emph on
-.self
-\emph default
- set to the argument.
- This allows access to the properties and methods of closures.
- For example the following code snippet accesses the source code of a defined
- function:
-\emph on
-\bar under
- 
-\end_layout
-
-\begin_layout LyX-Code
-def func(a) (cons a a)
-\end_layout
-
-\begin_layout LyX-Code
-use func
-\end_layout
-
-\begin_layout LyX-Code
-   assertEqual .name 'func'
-\end_layout
-
-\begin_layout LyX-Code
-   assertEqual .source ^(lambda (a) (cons a a))
+TODO
 \end_layout
 
 \begin_layout Section
 Data Structures
 \end_layout
 
-\begin_layout Standard
-This chapter describes the built-in data types provided in Genyris.
- The types are coded in Java specifically for the language.
- Other Java data types may be user-defined using the Java interface described
- in sections 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Using-Java-Classes"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "Adding Builtin Java Functions to Core Genyris Classes"
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Bignum
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-Bignum
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
-The 
-\emph on
-Bignum
-\emph default
- type provides arbitrary-precision signed decimal numbers using the Java
- 
-\emph on
-BigDecimal
-\emph default
- class.
- The following example demonstrates the interpretation of numeric forms:
-\end_layout
-
-\begin_layout LyX-Code
-> list -3 23.78 -100.0089  34.45e18 (/ 2 3)
-\end_layout
-
-\begin_layout LyX-Code
-(-3 23.78 -100.0089 34450000000000004096 0.6666666666666666666666666666666666666666
-66666666666666666666666666666666666666666666666666666666666666666666666666666666
-666666666666666666666666666667) # Pair
+TODO
 \end_layout
 
 \begin_layout Subsubsection
@@ -6736,11 +6739,7 @@ Maths Functions
 \end_layout
 
 \begin_layout Standard
-Genyris includes basic arithmetic operations on 
-\emph on
-Bignum
-\emph default
- obects.
+Genyris includes basic arithmetic operations on Bignum obects.
 \end_layout
 
 \begin_layout Paragraph
@@ -6830,7 +6829,7 @@ status open
 
 \begin_layout Standard
 This function computes the quotient of its arguments, which must number
- two or more.
+ at two or more.
 \end_layout
 
 \begin_layout Paragraph
@@ -6860,7 +6859,7 @@ power
 This function calculates the first argument raised to the power of the second.
  Example:
 \emph on
- (power 2 8) => 256
+(power 2 8) => 256
 \end_layout
 
 \begin_layout Subsection
@@ -7116,12 +7115,27 @@ PRINTWITHEQ
 ('A' = ('B' = ('C'))) # Pair
 \end_layout
 
-\begin_layout Subsection
-String
+\begin_layout Subsubsection
+Class Pair
 \end_layout
 
 \begin_layout Standard
 TODO
+\end_layout
+
+\begin_layout Standard
+Refer to section 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "sub:Pair"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+String
 \end_layout
 
 \begin_layout Subsubsection
@@ -7286,7 +7300,7 @@ Base64
  encoded string.
  The returned string is tagged with the class string
 \emph on
- Base64EncodedString
+Base64EncodedString
 \emph default
 
 \begin_inset Index
@@ -7332,11 +7346,11 @@ status open
 Decodes a Base 64 encoded string into the binary original.
  This is also available in the
 \emph on
- Base64EncodedString
+Base64EncodedString
 \emph default
- class as the
+ classas the
 \emph on
- .decode
+.decode
 \emph default
  method.
  Example:
@@ -15323,13 +15337,6 @@ httpd <port> "test/mocks/www-static.g" <root directory>
 
 \begin_layout Section
 Using Java Classes
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Using-Java-Classes"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -16294,7 +16301,7 @@ examples/swing.g
 
 \begin_layout Quotation
 \begin_inset Graphics
-	filename swing.jpg
+	filename ../../../genyrisBuild/doc/reference/swing.jpg
 
 \end_inset
 
@@ -16317,7 +16324,7 @@ Sometimes it's useful to be able to draw shapes and place images on a simple
 
 \begin_layout Quotation
 \begin_inset Graphics
-	filename redOval.jpg
+	filename ../../../genyrisBuild/doc/reference/redOval.jpg
 	scale 50
 
 \end_inset
@@ -16794,13 +16801,6 @@ Extending and Modifying Genyris
 
 \begin_layout Subsubsection
 Adding Builtin Java Functions to Core Genyris Classes
-\begin_inset CommandInset label
-LatexCommand label
-name "Adding Builtin Java Functions to Core Genyris Classes"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard

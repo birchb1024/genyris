@@ -230,4 +230,21 @@ def func(a) (cons a a)
 use func
    assertEqual .name 'func'
    assertEqual .source ^(lambda (a) (cons a a))
-        
+
+assertEqual 20 (define twenty 20)
+assertEqual twenty 20
+
+assertEqual
+   'Foosball'
+   defvar (intern 'new-var') 'Foosball'
+
+
+
+def func (another-var)
+   set (left (list ^another-var)) 'Tennis'
+assertEqual 'Tennis' (func 123)
+
+
+def square(x)
+   * x x
+assertEqual 64 (square 8)
