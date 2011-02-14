@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -3318,7 +3318,92 @@ df
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+def
+\emph default
+ macro declares new lazy functions.
+ Refer to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Functions-and-Macros"
+
+\end_inset
+
+ for details.
+\end_layout
+
+\begin_layout Subparagraph*
+Syntax
+\end_layout
+
+\begin_layout LyX-Code
+df <name> <argument list> <body>
+\end_layout
+
+\begin_layout Standard
+Where 
+\emph on
+<name> 
+\emph default
+is a symbol, 
+\emph on
+<argument list>
+\emph default
+ is a list of simple symbols and type declarators and 
+\emph on
+<body>
+\emph default
+ is a sequence of expressions.
+ The 
+\emph on
+df
+\emph default
+ macro is equivalent to 
+\emph on
+define
+\emph default
+ and 
+\emph on
+lamdaq, 
+\emph default
+and has the effect of:
+\end_layout
+
+\begin_layout LyX-Code
+define <name> 
+\end_layout
+
+\begin_layout LyX-Code
+   lambdaq <argument list> <body>
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+df rev-quote (x)
+\end_layout
+
+\begin_layout LyX-Code
+    reverse x
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual
+\end_layout
+
+\begin_layout LyX-Code
+   ^(3.4 's' 2 w +)
+\end_layout
+
+\begin_layout LyX-Code
+   rev-quote 
+\end_layout
+
+\begin_layout LyX-Code
+       + w 2 's' 3.4
 \end_layout
 
 \begin_layout Paragraph
@@ -3340,7 +3425,107 @@ defmacro
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+defmacro
+\emph default
+ macro declares new lazy functions which evaluate twice, once in the lexical
+ scope of the function, the return value of which is evaluated in the environmen
+t of the caller.
+ Refer to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Functions-and-Macros"
+
+\end_inset
+
+ for details.
+\end_layout
+
+\begin_layout Subparagraph*
+Syntax
+\end_layout
+
+\begin_layout LyX-Code
+defmacro <name> <argument list> <body>
+\end_layout
+
+\begin_layout Standard
+Where 
+\emph on
+<name> 
+\emph default
+is a symbol, 
+\emph on
+<argument list>
+\emph default
+ is a list of simple symbols and type declarators and 
+\emph on
+<body>
+\emph default
+ is a sequence of expressions.
+ The 
+\emph on
+defmacro
+\emph default
+ macro is equivalent to 
+\emph on
+define
+\emph default
+ and 
+\emph on
+lamdam, 
+\emph default
+and has the effect of:
+\end_layout
+
+\begin_layout LyX-Code
+define <name> 
+\end_layout
+
+\begin_layout LyX-Code
+   lambdam <argument list> <body>
+\end_layout
+
+\begin_layout Standard
+Example.
+ Here we define a macro, 
+\emph on
+@
+\emph default
+, which is equivalent to 
+\emph on
+define
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+defmacro @ (variable valu)
+\end_layout
+
+\begin_layout LyX-Code
+   template
+\end_layout
+
+\begin_layout LyX-Code
+      defvar ^,variable ,valu
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual
+\end_layout
+
+\begin_layout LyX-Code
+   @ w 123
+\end_layout
+
+\begin_layout LyX-Code
+   123
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual w 123
 \end_layout
 
 \begin_layout Subsubsection
@@ -3459,7 +3644,65 @@ dynamic-symbol-value
 \end_layout
 
 \begin_layout Standard
-TODO
+This function returns a dynamic symbol reference given a simple symbol.
+ 
+\end_layout
+
+\begin_layout Subparagraph*
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+dynamic-symbol-value <symbol>
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+> dynamic-symbol-value ^left
+\end_layout
+
+\begin_layout LyX-Code
+.left # DynamicSymbolRef
+\end_layout
+
+\begin_layout Standard
+Example, here the dynamic symbol reference is dynamically created from the
+ string 
+\emph on
+'right'
+\emph default
+ via 
+\emph on
+intern
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual
+\end_layout
+
+\begin_layout LyX-Code
+   45
+\end_layout
+
+\begin_layout LyX-Code
+   ^(78 = 45)
+\end_layout
+
+\begin_layout LyX-Code
+       eval 
+\end_layout
+
+\begin_layout LyX-Code
+          dynamic-symbol-value (intern 'right')
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Section

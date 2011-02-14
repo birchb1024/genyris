@@ -104,7 +104,7 @@ defmacro my-if (test success-result failure-result)
          ,test ,success-result
          else ,failure-result
          
-define test 3        # binding in the caller's environment
+define test 3        # binding in the callers environment
 assertEqual
     my-if (equal? test 3) 1 2  
     1  
@@ -248,3 +248,18 @@ assertEqual 'Tennis' (func 123)
 def square(x)
    * x x
 assertEqual 64 (square 8)
+
+df rev-quote (x)
+    reverse x
+assertEqual
+   ^(3.4 's' 2 w +)
+   rev-quote 
+       + w 2 's' 3.4
+
+defmacro @ (variable valu)
+   template
+      defvar ^,variable ,valu
+assertEqual
+   @ w 123
+   123
+assertEqual w 123
