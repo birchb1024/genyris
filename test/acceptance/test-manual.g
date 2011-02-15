@@ -271,3 +271,16 @@ assertEqual
    45
    ^(78 = 45)
       eval (dynamic-symbol-value (intern 'right'))
+      
+assertEqual ^alpha
+   eval ^(left ^(alpha beta gamma))
+
+do
+   define alpha 1
+   assertEqual 1
+      eval (left ^(alpha beta gamma))
+
+assertEqual ^(23 = 23)
+   apply
+      function(x) (cons x x)
+      ^(23)

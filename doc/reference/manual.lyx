@@ -5877,19 +5877,134 @@ Explicit Evaluation
 \end_layout
 
 \begin_layout Subsubsection
+eval
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+eval
+\end_layout
+
+\end_inset
+
+ <expression>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+eval
+\emph default
+ function returns the result of evaluating the expression in the environment
+ of the caller.
+ Since eval is an eager function, the expression is evaluated twice, once
+ as a parameter and once by 
+\emph on
+eval
+\emph default
+ itself.
+
+\emph on
+ 
+\end_layout
+
+\begin_layout Paragraph*
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
 eval <expression>
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout Paragraph*
+Examples:
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual ^alpha
+\end_layout
+
+\begin_layout LyX-Code
+   eval ^(left ^(alpha beta gamma))
+\end_layout
+
+\begin_layout LyX-Code
+do
+\end_layout
+
+\begin_layout LyX-Code
+   define alpha 1
+\end_layout
+
+\begin_layout LyX-Code
+   assertEqual 1
+\end_layout
+
+\begin_layout LyX-Code
+      eval (left ^(alpha beta gamma))
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsubsection
-apply <closure> <parameter list>
+apply
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+apply
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-TODO
+The apply function returns the result of executing the closure with the
+ argument list.
+\end_layout
+
+\begin_layout Paragraph*
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+apply <closure> <argument list>
+\end_layout
+
+\begin_layout Paragraph*
+Examples:
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual 6
+\end_layout
+
+\begin_layout LyX-Code
+   apply + ^(1 2 3)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual ^(23 = 23)
+\end_layout
+
+\begin_layout LyX-Code
+   apply
+\end_layout
+
+\begin_layout LyX-Code
+      function(x) (cons x x)
+\end_layout
+
+\begin_layout LyX-Code
+      ^(23)
 \end_layout
 
 \begin_layout Subsection
@@ -16544,7 +16659,7 @@ examples/swing.g
 
 \begin_layout Quotation
 \begin_inset Graphics
-	filename ../../../genyrisBuild/doc/reference/swing.jpg
+	filename swing.jpg
 
 \end_inset
 
@@ -16567,7 +16682,7 @@ Sometimes it's useful to be able to draw shapes and place images on a simple
 
 \begin_layout Quotation
 \begin_inset Graphics
-	filename ../../../genyrisBuild/doc/reference/redOval.jpg
+	filename redOval.jpg
 	scale 50
 
 \end_inset
