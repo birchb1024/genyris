@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -3186,18 +3186,6 @@ def func (another-var)
 
 \begin_layout LyX-Code
 assertEqual 'Tennis' (func 123)
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-
 \end_layout
 
 \begin_layout Subsubsection
@@ -16932,8 +16920,148 @@ For Maintainers
 
 \begin_layout Standard
 This section is for those wishing to compile Genyris from scratch for modificati
-on or maintenance.
+on or who are maintaining the soure.
  
+\end_layout
+
+\begin_layout Subsection
+Versioning Numbering Plan
+\end_layout
+
+\begin_layout Standard
+This section describes the version numbering approach used for Genyris source
+ and 'official' binaries.
+ Maintainers of the official fork use the approach in this section which
+ is derived from the Preston-Werner scheme
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+http://semver.org/
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+Source Release Versioning
+\end_layout
+
+\begin_layout Standard
+The source artefacts are managed in a Mercurial repository.
+ Within the repository mercurial tags are used to mark particular versioned
+ baselines of complete, consistent, documented and tested source artefacts.
+ Commiters make their best endeavours to ensure 
+\emph on
+untagged
+\emph default
+ repository versions pass all tests are in a complete and consistent state,
+ however this is not guaranteed.
+ All releases are tagged with a version number tag.
+ Once a versioned package has been tagged with a release version, the contents
+ of that version are not modified.
+ The Mercurial version number tags have the following syntax:
+\end_layout
+
+\begin_layout LyX-Code
+
+\emph on
+v
+\emph default
+X.Y.Z[.state]
+\end_layout
+
+\begin_layout Standard
+Where : X,Y and Z are integers which increase over time and increase numerically.
+ For instance: 1.9.0 < 1.10.0 < 1.11.0 and where:
+\end_layout
+
+\begin_layout Description
+v is the letter '
+\emph on
+v
+\emph default
+'
+\end_layout
+
+\begin_layout Description
+X is the major version number.
+ All source releases with the same major version number are compatible,
+ that is code written for one minor release will work on all other lesser
+ releases.
+ Major version zero (0.Y.Z) is for initial development.
+ Anything may change at any time.
+ The language specification should not be considered stable.
+ Version 1.0.0 defines the initial public language specification.
+ Major version X (X.y.z | X > 0) is incremented if any backwards incompatible
+ changes are introduced to the language.
+ It may include minor and fix level changes.
+\end_layout
+
+\begin_layout Description
+Y is the minor version number Y (x.Y.z | x > 0) and is incremented if new,
+ backwards compatible functionality is introduced to the language.
+ It may be incremented if substantial new functionality or improvements
+ are introduced within the private code.
+ It may include fix level changes.
+\end_layout
+
+\begin_layout Description
+Z Is the fix version number Z (x.y.Z | x > 0) and is incremented if only backwards
+ compatible bug fixes are introduced.
+ A bug fix is defined as an internal change that fixes incorrect behavior.
+\end_layout
+
+\begin_layout Description
+state provides for special versions.
+ A special version number is denoted by appending an arbitrary string immediatel
+y following the fix version.
+ The string is comprised of only alphanumerics plus dash [0-9A-Za-z-] and
+ begins with an alpha character [A-Za-z].
+ Special versions satisfy but have a lower precedence than the associated
+ normal version.
+ Precedence is determined by lexicographic ASCII sort order.
+ For instance: 1.0.0beta1 < 1.0.0beta2 < 1.0.0.
+\end_layout
+
+\begin_layout Subsubsection
+Source Branching
+\end_layout
+
+\begin_layout Standard
+Anonymous source branches may be created by maintainers at any time for
+ a variety of reasons, and are merged to the official build repository.
+ In exceptional circumstances source branches may be created for maintenace
+ of older versions by branching from the prior release.
+ For example if a defect is found in release 1.1.2 whilst the latest release
+ is 1.2.0 a branch may be created from 1.1.2 for the fix and released as 1.1.2fix1.
+\end_layout
+
+\begin_layout Subsubsection
+Binary Versioning
+\end_layout
+
+\begin_layout Standard
+Releases of Genyris compiled to executables and other derived artefacts
+ such as documents are numbered with the source release number and additional
+ information to identify the build.
+ The format is as follows:
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Standard
+Since builds may be executed on multiple machines, 
+\end_layout
+
+\begin_layout Description
+build - If an Genyris artefact The build number 
 \end_layout
 
 \begin_layout Subsection
