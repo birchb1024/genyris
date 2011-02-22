@@ -18,11 +18,11 @@
 
     <target name="clean" depends="only-clean" />
 
-    <target name="compile" depends="only-clean, only-hg-version, only-init, only-compile" description="Compile the Java" />
-    <target name="binary-release" depends="compile, only-binary-jar, only-compile-docs, only-binary-release" description="compile and create jar" />
-    <target name="binary-jar" depends="compile, only-binary-jar" description="compile and create jar" />
-    <target name="src-release" depends="only-hg-version, only-source-release" description="Zip source code." />
-    <target name="all" depends="binary-release, src-release, test, reports" description="Build all" />
+    <target name="compile" depends="only-clean, hg-info, only-init, only-compile" description="Compile the Java" />
+    <target name="binary" depends="compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
+    <target name="make-jar" depends="compile, only-make-jar" description="compile and create jar" />
+    <target name="all" depends="binary, test, reports" description="Build all" />
+    <target name="release" depends="hg-update-rev, binary, test, reports" description="The last tagged version." />
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -63,24 +63,19 @@
         <echoproperties />
     </target>
 
-    <target name="only-hg-version" description="hg state">
-        <exec executable="hg" outputproperty="hg.tip" errorproperty="hg.error" failonerror="false">
-            <arg value="tip" />
-            <arg value="--template" />
-            <arg value="{rev}-{node|short}" />
-        </exec>
-        <exec executable="hg" outputproperty="hg.tip.date" errorproperty="hg.error" failonerror="false">
-            <arg value="tip" />
-            <arg value="--template" />
-            <arg value="{date|date}" />
-        </exec>
-        <echo>Hg Tip Date: ${hg.tip.date}</echo>
-        <echo>Hg Tip: ${hg.tip}</echo>
+    <target name="hg-info" description="Extract Mercurial information." depends="only-hg-workspace,only-hg-latest-tag,only-hg-status">
+        <property name="specification-version" value="${hg.latest.tag}"/>
+        <property name="implementation-version" value="${hg.workspace.revision.number}-${hg.workspace.revision.hex}.${build.number}"/>
+        <property name="version" value="${specification-version}.${hg.workspace.revision.number}.${build.number}"/>
+        
+        <echo>Workspace has uncommitted changes = ${working-folder-has-uncommited-changes}</echo>  
+        <echo>Latest tag is: '${hg.latest.tag}' revision '${hg.latest.tag.revision}'</echo>  
+        <echo>workspace revision is '${hg.workspace.revision.number}' '${hg.workspace.revision.hex}'</echo>
         <echo>Build Number: ${build.number}</echo>
-        <property name="version" value="${hg.tip}.${build.number}"/>
-        <exec executable="hg" output="${version.dir}/hglog.txt">
-            <arg value="log" />
-        </exec>
+    </target>
+
+    <target name="hg-committed" description="Fail if uncommitted changes" depends="only-hg-status">
+        <fail if="working-folder-has-uncommited-changes" />
     </target>
 
     <target name="only-hg-status" description="hg state">
@@ -94,10 +89,71 @@
                 <equals arg1="${hg.status}" arg2="" />
             </not>
         </condition>
-        <fail if="working-folder-has-uncommited-changes" />
     </target>
 
-    <target name="only-init">
+    <target name="only-hg-workspace">
+	     <!-- Extract the info about the current workspace -->
+        <exec executable="hg" output="tmp-hg-summary.txt" errorproperty="hg.error" failonerror="true">
+            <arg value="summary" />
+        </exec>
+        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.revision.number">
+            <filterchain>
+               <headfilter lines="1" skip="0"/>
+               <tokenfilter>
+                  <replaceregex pattern="parent: +" replace="" flags="gi"/>
+                  <replaceregex pattern=":.+ tip$" replace="" flags="gi"/>
+               </tokenfilter>
+               <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.revision.hex">
+            <filterchain>
+               <headfilter lines="1" skip="0"/>
+               <tokenfilter>
+                  <replaceregex pattern="parent: +[0-9]+:" replace="" flags="gi"/>
+                  <replaceregex pattern=" tip$" replace="" flags="gi"/>
+               </tokenfilter>
+               <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <delete file="tmp-hg-summary.txt"/>
+	</target>
+
+	<target name="only-hg-latest-tag">
+	     <!-- Extract the last tag in the repository, not 'tip'.-->
+        <exec executable="hg" output="tmp-hg-tags.txt" errorproperty="hg.error" failonerror="true">
+            <arg value="tags" />
+        </exec>
+        <loadfile srcfile="tmp-hg-tags.txt" property="hg.latest.tag">
+            <filterchain>
+               <headfilter lines="1" skip="1"/>
+               <tokenfilter>
+                  <replaceregex pattern=" +.*$" replace="" flags="gi"/>
+               </tokenfilter>
+               <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <loadfile srcfile="tmp-hg-tags.txt" property="hg.latest.tag.revision">
+            <filterchain>
+               <headfilter lines="1" skip="1"/>
+               <tokenfilter>
+                  <replaceregex pattern="^.* +" replace="" flags="gi"/>
+               </tokenfilter>
+               <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <delete file="tmp-hg-tags.txt"/>
+	</target>
+   <target name="hg-update-rev" description="Fail if uncommitted changes" depends="only-hg-workspace,only-hg-latest-tag,hg-committed">
+         <exec executable="hg" output="tmp-hg-summary.txt" errorproperty="hg.error" failonerror="true">
+            <arg value="update" />
+            <arg value="-r" />
+            <arg value="hg.latest.tag" />
+   </exec>
+       
+    </target>
+
+	<target name="only-init">
         <mkdir dir="${build.dir}" />
         <mkdir dir="${version.dir}" />
         <mkdir dir="${dist.dir}" />
@@ -118,11 +174,12 @@
         </javac>
     </target>
 
-    <target name="only-compile-docs" description="Creat PDF manual" depends="only-hg-version">
+    <target name="only-compile-docs" description="Creat PDF manual" depends="hg-info">
         <copy file="doc/reference/manual.lyx" tofile="dist/genyris-manual-${version}.lyx" verbose="true" overwrite="true">
             <filterchain>
                 <replacetokens>
-                      <token key="GENYRIS-HG-TIP" value="${version}"/>
+                      <token key="GENYRIS-SPECIFICATION-VERSION" value="${specification-version}"/>
+                      <token key="GENYRIS-IMPLEMENTATION-VERSION" value="${implementation-version}"/>
                 </replacetokens>
             </filterchain>
         </copy>
@@ -165,30 +222,7 @@
 
     </target>
 
-    <target name="only-source-release" depends="only-hg-version" description="Make a source release">
-        <tstamp />
-
-        <zip destfile="rel/genyris-source-${version}.zip" duplicate="fail" defaultexcludes="no">
-            <fileset dir="${basedir}">
-                <include name="LICENSE" />
-                <include name="README" />
-                <include name="build.xml" />
-                <include name="doc/**/*.lyx" />
-                <include name="doc/**/*.odp" />
-                <include name="examples/**/*" />
-                <include name="lib/**/*" />
-                <include name="needed/**/*" />
-                <include name="src/**/*.java" />
-                <include name="src/**/*.properties" />
-                <include name="src/**/*.g" />
-                <include name="test/**/*" />
-                <include name="web/**/*" />
-            </fileset>
-        </zip>
-        <checksum file="rel/genyris-source-${version}.zip" forceOverwrite="yes" />
-    </target>
-
-    <target name="only-binary-release" depends="binary-jar, only-compile-docs" description="Make a binary release">
+    <target name="only-binary" depends="make-jar, only-compile-docs" description="Make a binary release">
         <tstamp />
         <copy todir="dist" verbose="false">
             <fileset dir="${basedir}">
@@ -209,21 +243,21 @@
         <checksum file="rel/genyris-binary-${version}.zip" forceOverwrite="yes" />
     </target>
 
-    <target name="sf-publish-mercurial-source-" description="publish source code to SourceForge Mercurial repo" depends="only-hg-version, only-hg-status,test">
+    <target name="sf-publish-mercurial-source-" description="publish source code to SourceForge Mercurial repo" depends="hg-info, hg-committed,test">
         <exec executable="hg" errorproperty="hg.error" failonerror="true">
             <arg value="push" />
             <arg value="ssh://billbirch@genyris.hg.sourceforge.net/hgroot/genyris/genyris" />
         </exec>
     </target>
 
-    <target name="only-publish-to-google-mercurial" description="publish source code to Google Code Mercurial repo" depends="only-hg-version, only-hg-status, only-test">
+    <target name="only-publish-to-google-mercurial" description="publish source code to Google Code Mercurial repo" depends="hg-info, hg-committed, only-test">
         <exec executable="hg" failonerror="true">
             <arg value="push"/>
             <arg value="GoogleCode" />
         </exec>
     </target>
 
-    <target name="sf-publish-files" description="publish source and binaries to SourceForge Files area" depends="only-hg-version, only-hg-status">
+    <target name="sf-publish-files" description="publish source and binaries to SourceForge Files area" depends="hg-info, hg-committed">
         <input message="password?" addproperty="password" />
         <scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/binary" verbose="true" trust="true">
             <fileset dir="rel">
@@ -242,7 +276,7 @@
       </scp>
     </target>
 
-    <target name="archive" depends="binary-jar" description="Make a backup">
+    <target name="archive" depends="make-jar" description="Make a backup">
         <input message="Destination directory for archive?" addproperty="archive.dest" />
         <tstamp />
 
@@ -256,7 +290,7 @@
     </target>
 
 
-    <target name="only-binary-jar">
+    <target name="only-make-jar">
         <jar destfile="${dist.dir}/genyris-bin-${version}.jar" duplicate="fail">
             <fileset dir="${basedir}" includes="README LICENSE" />
             <fileset dir="${build.dir}" includes="version/**/*" />
@@ -269,18 +303,18 @@
                 <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop" />
                 <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar" />
                 <attribute name="Specification-Title" value="Genyris" />
-                <attribute name="Specification-Version" value="${hg.tip} ${hg.tip.date}" />
+                <attribute name="Specification-Version" value="${specification-version}" />
                 <attribute name="Specification-Vendor" value="genyris.org" />
                 <attribute name="Implementation-Title" value="Genyris" />
-                <attribute name="Implementation-Version" value="${version}" />
+                <attribute name="Implementation-Version" value="${implementation-version}" />
                 <attribute name="Implementation-Vendor" value="Peter William Birch" />
                 <attribute name="Implementation-Date" value="${TODAY}" />
             </manifest>
         </jar>
     </target>
 
-    <target name="test" depends="binary-release, only-test"/>
-    <target name="only-test" depends="only-hg-version">
+    <target name="test" depends="binary, only-test"/>
+    <target name="only-test" depends="hg-info">
         <exec executable="java" failonerror="true">
         	<env key="GENYRIS_HOME" value="${basedir}"/>
             <arg value="-showversion" />
@@ -302,4 +336,8 @@
             <arg value="${basedir}" />
         </exec>
 	</target>
-</project>
+
+	
+	
+	
+	</project>

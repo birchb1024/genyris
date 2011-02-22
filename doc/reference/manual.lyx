@@ -47,7 +47,12 @@ Genyris User Manual
 
 \begin_layout Standard
 \align center
-Version @GENYRIS-HG-TIP@
+Version @GENYRIS-SPECIFICATION-VERSION@
+\end_layout
+
+\begin_layout Standard
+\align center
+Build @GENYRIS-IMPLEMENTATION-VERSION@
 \end_layout
 
 \begin_layout Standard
@@ -16920,7 +16925,7 @@ For Maintainers
 
 \begin_layout Standard
 This section is for those wishing to compile Genyris from scratch for modificati
-on or who are maintaining the soure.
+on or who are maintaining the source.
  
 \end_layout
 
@@ -16929,41 +16934,50 @@ Versioning Numbering Plan
 \end_layout
 
 \begin_layout Standard
-This section describes the version numbering approach used for Genyris source
- and 'official' binaries.
- Maintainers of the official fork use the approach in this section which
- is derived from the Preston-Werner scheme
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-http://semver.org/
-\end_layout
-
-\end_inset
-
-.
+This section describes the version numbering approach used for Genyris documenta
+tion, source and official executables.
+ Maintainers of the official fork use the approach described in this section.
+ 
 \end_layout
 
 \begin_layout Subsubsection
-
-\emph on
-Source Release Versioning
+Source Versioning
 \end_layout
 
 \begin_layout Standard
-The source artefacts are managed in a Mercurial repository.
- Within the repository mercurial tags are used to mark particular versioned
- baselines of complete, consistent, documented and tested source artefacts.
- Commiters make their best endeavours to ensure 
+The source artefacts are managed in the default branch of the master Mercurial
+ repository.
+ Every change results in a new revision of the entire source repository.
+ Refer to Mercurial documentation for details.
+ The Mercurial repository version is the definitive version identification
+ for the source and takes the form of a hexadecimal string.
+ e.g.
+ 
+\emph on
+29e9e58f4025.
+ 
+\emph default
+Maintainers make commits to the repository for each refactoring or small
+ change.
+ Best endeavours are made to ensure all repository versions pass all tests
+ and are in a complete and consistent state, however this is not guaranteed.
+ These working changes are 
 \emph on
 untagged
 \emph default
- repository versions pass all tests are in a complete and consistent state,
- however this is not guaranteed.
- All releases are tagged with a version number tag.
+ and precede formal releases.
+\end_layout
+
+\begin_layout Subsubsection
+Release versioning
+\end_layout
+
+\begin_layout Standard
+Mercurial tags are used to mark particular versioned baselines of complete,
+ consistent, documented and tested source artefacts.
+ All formal releases are tagged with a version number tag.
  Once a versioned package has been tagged with a release version, the contents
- of that version are not modified.
+ of that release are not modified.
  The Mercurial version number tags have the following syntax:
 \end_layout
 
@@ -16976,8 +16990,8 @@ X.Y.Z[.state]
 \end_layout
 
 \begin_layout Standard
-Where : X,Y and Z are integers which increase over time and increase numerically.
- For instance: 1.9.0 < 1.10.0 < 1.11.0 and where:
+Where : X,Y and Z are integers which increase monotonically.
+ For instance: v1.9.0 < v1.10.0 < v1.11.0 and where:
 \end_layout
 
 \begin_layout Description
@@ -17011,9 +17025,12 @@ Y is the minor version number Y (x.Y.z | x > 0) and is incremented if new,
 \end_layout
 
 \begin_layout Description
-Z Is the fix version number Z (x.y.Z | x > 0) and is incremented if only backwards
- compatible bug fixes are introduced.
- A bug fix is defined as an internal change that fixes incorrect behavior.
+Z Is the fix version number Z (x.y.Z | x > 0) and is incremented if bug fixes
+ are introduced.
+ A bug fix is defined as an internal change that fixes divergence between
+ the documentation and the implementation.
+ In practice a bug fix is not strictly backward compatible, since applications
+ may rely on the buggy behaviour.
 \end_layout
 
 \begin_layout Description
@@ -17028,40 +17045,92 @@ y following the fix version.
  For instance: 1.0.0beta1 < 1.0.0beta2 < 1.0.0.
 \end_layout
 
+\begin_layout Description
+Specification_Version The 
+\emph on
+Specification Version
+\emph default
+ consists of the 
+\emph on
+Major
+\emph default
+ and 
+\emph on
+Minor
+\emph default
+ source version numbers.
+ 
+\end_layout
+
 \begin_layout Subsubsection
 Source Branching
 \end_layout
 
 \begin_layout Standard
-Anonymous source branches may be created by maintainers at any time for
- a variety of reasons, and are merged to the official build repository.
- In exceptional circumstances source branches may be created for maintenace
- of older versions by branching from the prior release.
+Anonymous source branches are created by maintainers for a variety of reasons
+ and are merged into the master repository.
+ In very exceptional circumstances tagged source branches may be created
+ for maintenance of older versions by branching from the prior release.
  For example if a defect is found in release 1.1.2 whilst the latest release
  is 1.2.0 a branch may be created from 1.1.2 for the fix and released as 1.1.2fix1.
 \end_layout
 
 \begin_layout Subsubsection
-Binary Versioning
+Version Information in Executables
 \end_layout
 
 \begin_layout Standard
-Releases of Genyris compiled to executables and other derived artefacts
- such as documents are numbered with the source release number and additional
- information to identify the build.
- The format is as follows:
+Genyris follows the Java product versioning standard
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+http://download.oracle.com/javase/1.4.2/docs/guide/versioning/spec/versioning2.html
 \end_layout
 
-\begin_layout Standard
-TODO
-\end_layout
+\end_inset
 
-\begin_layout Standard
-Since builds may be executed on multiple machines, 
+, versioning information is available in the jar files in the following
+ manifest fields:
 \end_layout
 
 \begin_layout Description
-build - If an Genyris artefact The build number 
+Specification-Version This field includes the Major and Minor version numbers.
+\end_layout
+
+\begin_layout Description
+Implementation-Version This field includes the fix version, the Mercurial
+ repository version and identification of the build job which generated
+ the executable.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Obtaining Version Information at Runtime
+\end_layout
+
+\begin_layout Standard
+The current version number of the Genyris interpreter is recorded in the
+ Genyris jar file manifest.
+ This can be accessed via the Java
+\emph on
+ Package
+\emph default
+ interface.
+ Simplified access is provided in the
+\emph on
+ versioninfo
+\emph default
+ module.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+import versioninfo
+\end_layout
+
+\begin_layout LyX-Code
+print versioninfo!version versioninfo!title
 \end_layout
 
 \begin_layout Subsection
@@ -17207,34 +17276,6 @@ rel
 
 \begin_layout Subsection
 Reflection
-\end_layout
-
-\begin_layout Subsubsection
-Version Information
-\end_layout
-
-\begin_layout Standard
-The current version number of the Genyris interpreter is recorded in the
- Genyris jar file manifest.
- This can be accessed via the Java
-\emph on
- Package
-\emph default
- interface.
- Easy access is generated in the
-\emph on
- versioninfo
-\emph default
- module which has properties including the title.
- Example:
-\end_layout
-
-\begin_layout LyX-Code
-import versioninfo
-\end_layout
-
-\begin_layout LyX-Code
-print versioninfo!version versioninfo!title
 \end_layout
 
 \begin_layout Subsubsection

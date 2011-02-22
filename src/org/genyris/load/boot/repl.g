@@ -4,10 +4,11 @@
 @prefix java 'http://www.genyris.org/lang/java#'
 
 import versioninfo
-   
-u:format "*** Welcome %a, %a version %a is listening...%n"
+print   versioninfo 
+u:format "*** Welcome %a, %a version %a.%a is listening...%n"
     (System(.getProperties)).|user.name|
     versioninfo.title
+    versioninfo.specification
     versioninfo.version
     
 def sys:print-classnames(obj)
