@@ -22,7 +22,6 @@
     <target name="binary" depends="compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
     <target name="make-jar" depends="compile, only-make-jar" description="compile and create jar" />
     <target name="all" depends="binary, test, reports" description="Build all" />
-    <target name="release" depends="hg-update-rev, binary, test, reports" description="The last tagged version." />
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -145,10 +144,10 @@
         <delete file="tmp-hg-tags.txt"/>
 	</target>
    <target name="hg-update-rev" description="Fail if uncommitted changes" depends="only-hg-workspace,only-hg-latest-tag,hg-committed">
-         <exec executable="hg" output="tmp-hg-summary.txt" errorproperty="hg.error" failonerror="true">
+         <exec executable="hg" errorproperty="hg.error" failonerror="true">
             <arg value="update" />
             <arg value="-r" />
-            <arg value="hg.latest.tag" />
+            <arg value="${hg.latest.tag}" />
    </exec>
        
     </target>
