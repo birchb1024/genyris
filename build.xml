@@ -1,4 +1,4 @@
-<project name="Genyris" default="all" basedir=".">
+<project name="Genyris" default="build-latest" basedir=".">
     <!-- -->
     <buildnumber/>
     <property name="build.compiler" value="javac1.6"/>
@@ -18,10 +18,12 @@
 
     <target name="clean" depends="only-clean" />
 
-    <target name="compile" depends="only-clean, hg-info, only-init, only-compile" description="Compile the Java" />
-    <target name="binary" depends="compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
-    <target name="make-jar" depends="compile, only-make-jar" description="compile and create jar" />
-    <target name="all" depends="binary, test, reports" description="Build all" />
+    <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
+    <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
+    <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
+    <target name="build-latest" depends="version-default, binary, test, reports" description="Build current worspace contents."/>
+    <target name="release" depends="tagged-version, binary, test, reports" description="Build a formal tagged release using the latest tag."/>
+    
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -62,15 +64,32 @@
         <echoproperties />
     </target>
 
+    <target name="version-default" depends="hg-info">
+        <property name="implementation-version" value="${hg.latest.tag}-${hg.workspace.revision.number}-${hg.workspace.revision.hex}.${build.number}"/>
+        <property name="version" value="${hg.workspace.revision.number}-${hg.workspace.revision.hex}.${build.number}"/>
+        <echo>Version = ${version}</echo>          
+    </target>
+    
+    <target name="tagged-version" depends="hg-info">
+        <property name="implementation-version" value="${hg.latest.tag}-b${build.number}"/>
+        <property name="version" value="${hg.latest.tag}"/>
+        <condition property="workspace-does-not-contain-latest-tagged-version">
+            <not>
+                <equals arg1="${hg.workspace.revision.number}:${hg.workspace.revision.hex}" arg2="${hg.latest.tag.revision}" />
+            </not>
+        </condition>
+        <fail if="workspace-does-not-contain-latest-tagged-version" />
+    </target>
+    
     <target name="hg-info" description="Extract Mercurial information." depends="only-hg-workspace,only-hg-latest-tag,only-hg-status">
-        <property name="specification-version" value="${hg.latest.tag}"/>
-        <property name="implementation-version" value="${hg.workspace.revision.number}-${hg.workspace.revision.hex}.${build.number}"/>
-        <property name="version" value="${specification-version}.${hg.workspace.revision.number}.${build.number}"/>
+        <property name="specification-version" value="${hg.latest.tag.spec}"/>
         
         <echo>Workspace has uncommitted changes = ${working-folder-has-uncommited-changes}</echo>  
-        <echo>Latest tag is: '${hg.latest.tag}' revision '${hg.latest.tag.revision}'</echo>  
-        <echo>workspace revision is '${hg.workspace.revision.number}' '${hg.workspace.revision.hex}'</echo>
-        <echo>Build Number: ${build.number}</echo>
+        <echo>Latest tag = '${hg.latest.tag}' revision '${hg.latest.tag.revision}'</echo>  
+        <echo>workspace revision = '${hg.workspace.revision.number}' '${hg.workspace.revision.hex}'</echo>
+        <echo>specification version = '${specification-version}'</echo>
+        <echo>implementation-version = '${implementation-version}'</echo>
+        <echo>Build Number = ${build.number}</echo>
     </target>
 
     <target name="hg-committed" description="Fail if uncommitted changes" depends="only-hg-status">
@@ -132,6 +151,16 @@
                <striplinebreaks/>
             </filterchain>
         </loadfile>
+        <loadfile srcfile="tmp-hg-tags.txt" property="hg.latest.tag.spec">
+            <filterchain>
+               <headfilter lines="1" skip="1"/>
+               <tokenfilter>
+                  <replaceregex pattern=" +.*$" replace="" flags="gi"/>
+                  <replaceregex pattern="\.[0-9]+$" replace="" flags="gi"/>
+               </tokenfilter>
+               <striplinebreaks/>
+            </filterchain>
+        </loadfile>
         <loadfile srcfile="tmp-hg-tags.txt" property="hg.latest.tag.revision">
             <filterchain>
                <headfilter lines="1" skip="1"/>
@@ -143,14 +172,6 @@
         </loadfile>
         <delete file="tmp-hg-tags.txt"/>
 	</target>
-   <target name="hg-update-rev" description="Fail if uncommitted changes" depends="only-hg-workspace,only-hg-latest-tag,hg-committed">
-         <exec executable="hg" errorproperty="hg.error" failonerror="true">
-            <arg value="update" />
-            <arg value="-r" />
-            <arg value="${hg.latest.tag}" />
-   </exec>
-       
-    </target>
 
 	<target name="only-init">
         <mkdir dir="${build.dir}" />

@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -16930,13 +16930,13 @@ on or who are maintaining the source.
 \end_layout
 
 \begin_layout Subsection
-Versioning Numbering Plan
+Versioning Numbering
 \end_layout
 
 \begin_layout Standard
 This section describes the version numbering approach used for Genyris documenta
 tion, source and official executables.
- Maintainers of the official fork use the approach described in this section.
+ Maintainers of the official fork use the approach described here.
  
 \end_layout
 
@@ -16960,8 +16960,8 @@ The source artefacts are managed in the default branch of the master Mercurial
 Maintainers make commits to the repository for each refactoring or small
  change.
  Best endeavours are made to ensure all repository versions pass all tests
- and are in a complete and consistent state, however this is not guaranteed.
- These working changes are 
+ and are complete and consistent, however this is not guaranteed.
+ Working changes are 
 \emph on
 untagged
 \emph default
@@ -16969,7 +16969,7 @@ untagged
 \end_layout
 
 \begin_layout Subsubsection
-Release versioning
+Release Versioning
 \end_layout
 
 \begin_layout Standard
@@ -17007,9 +17007,9 @@ X is the major version number.
  All source releases with the same major version number are compatible,
  that is code written for one minor release will work on all other lesser
  releases.
- Major version zero (0.Y.Z) is for initial development.
- Anything may change at any time.
- The language specification should not be considered stable.
+ Major version zero (0.Y.Z) is for initial development and anything may change
+ at any time.
+ The language specification 0.Y.X should not be considered stable.
  Version 1.0.0 defines the initial public language specification.
  Major version X (X.y.z | X > 0) is incremented if any backwards incompatible
  changes are introduced to the language.
@@ -17027,10 +17027,14 @@ Y is the minor version number Y (x.Y.z | x > 0) and is incremented if new,
 \begin_layout Description
 Z Is the fix version number Z (x.y.Z | x > 0) and is incremented if bug fixes
  are introduced.
- A bug fix is defined as an internal change that fixes divergence between
- the documentation and the implementation.
- In practice a bug fix is not strictly backward compatible, since applications
- may rely on the buggy behaviour.
+ A bug fix is defined as an implementation change that fixes divergence
+ between the documentation and the implementation.
+ In practice a bug fix is not 
+\emph on
+strictly
+\emph default
+ backward compatible, since applications may rely on the buggy behaviour.
+ Fix versions include minor (cosmetic) corrections of documentation.
 \end_layout
 
 \begin_layout Description
@@ -17046,7 +17050,7 @@ y following the fix version.
 \end_layout
 
 \begin_layout Description
-Specification_Version The 
+Specification_Version The Java 
 \emph on
 Specification Version
 \emph default
