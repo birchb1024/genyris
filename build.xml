@@ -1,6 +1,7 @@
 <project name="Genyris" default="build-latest" basedir=".">
     <!-- -->
     <buildnumber/>
+    <property name="build.id" value="b${build.number}"/>
     <property name="build.compiler" value="javac1.6"/>
     <property name="needed.lib.dir" value="needed" />
     <property name="junit.lib.dir" value="needed" />
@@ -21,7 +22,7 @@
     <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
     <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
     <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
-    <target name="build-latest" depends="version-default, binary, test, reports" description="Build current worspace contents."/>
+    <target name="build-latest" depends="version-default, binary, test, reports" description="Build current workspace contents."/>
     <target name="release" depends="tagged-version, binary, test, reports" description="Build a formal tagged release using the latest tag."/>
     
 
@@ -65,31 +66,29 @@
     </target>
 
     <target name="version-default" depends="hg-info">
-        <property name="implementation-version" value="${hg.latest.tag}-${hg.workspace.revision.number}-${hg.workspace.revision.hex}.${build.number}"/>
-        <property name="version" value="${hg.workspace.revision.number}-${hg.workspace.revision.hex}.${build.number}"/>
+        <property name="implementation-version" value="${hg.workspace.tag}-${hg.workspace.revision.number}-${hg.workspace.revision.hex}-${build.id}"/>
+        <property name="version" value="${implementation-version}"/>
         <echo>Version = ${version}</echo>          
+        <echo>implementation-version = '${implementation-version}'</echo>
     </target>
     
-    <target name="tagged-version" depends="hg-info">
-        <property name="implementation-version" value="${hg.latest.tag}-b${build.number}"/>
-        <property name="version" value="${hg.latest.tag}"/>
-        <condition property="workspace-does-not-contain-latest-tagged-version">
-            <not>
-                <equals arg1="${hg.workspace.revision.number}:${hg.workspace.revision.hex}" arg2="${hg.latest.tag.revision}" />
-            </not>
+    <target name="tagged-version" depends="hg-info, hg-committed">
+        <property name="implementation-version" value="${hg.workspace.tag}-${build.id}"/>
+        <property name="version" value="${hg.workspace.tag}"/>
+        <condition property="workspace-does-not-contain-a-tagged-version">
+                <equals arg1="${hg.workspace.tag}" arg2="tip" />
         </condition>
-        <fail if="workspace-does-not-contain-latest-tagged-version" />
+        <fail if="workspace-does-not-contain-a-tagged-version" />
     </target>
     
-    <target name="hg-info" description="Extract Mercurial information." depends="only-hg-workspace,only-hg-latest-tag,only-hg-status">
-        <property name="specification-version" value="${hg.latest.tag.spec}"/>
+    <target name="hg-info" description="Extract Mercurial information." depends="only-hg-workspace,only-hg-status">
+        <property name="specification-version" value="${hg.workspace.tag.spec}"/>
         
         <echo>Workspace has uncommitted changes = ${working-folder-has-uncommited-changes}</echo>  
-        <echo>Latest tag = '${hg.latest.tag}' revision '${hg.latest.tag.revision}'</echo>  
         <echo>workspace revision = '${hg.workspace.revision.number}' '${hg.workspace.revision.hex}'</echo>
+        <echo>workspace tag = '${hg.workspace.tag}'</echo>
         <echo>specification version = '${specification-version}'</echo>
-        <echo>implementation-version = '${implementation-version}'</echo>
-        <echo>Build Number = ${build.number}</echo>
+        <echo>Build Number = ${build.id}</echo>
     </target>
 
     <target name="hg-committed" description="Fail if uncommitted changes" depends="only-hg-status">
@@ -119,7 +118,7 @@
                <headfilter lines="1" skip="0"/>
                <tokenfilter>
                   <replaceregex pattern="parent: +" replace="" flags="gi"/>
-                  <replaceregex pattern=":.+ tip$" replace="" flags="gi"/>
+                  <replaceregex pattern=":.+ .*$" replace="" flags="gi"/>
                </tokenfilter>
                <striplinebreaks/>
             </filterchain>
@@ -129,48 +128,31 @@
                <headfilter lines="1" skip="0"/>
                <tokenfilter>
                   <replaceregex pattern="parent: +[0-9]+:" replace="" flags="gi"/>
-                  <replaceregex pattern=" tip$" replace="" flags="gi"/>
+                  <replaceregex pattern=" .*$" replace="" flags="gi"/>
                </tokenfilter>
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-        <delete file="tmp-hg-summary.txt"/>
-	</target>
-
-	<target name="only-hg-latest-tag">
-	     <!-- Extract the last tag in the repository, not 'tip'.-->
-        <exec executable="hg" output="tmp-hg-tags.txt" errorproperty="hg.error" failonerror="true">
-            <arg value="tags" />
-        </exec>
-        <loadfile srcfile="tmp-hg-tags.txt" property="hg.latest.tag">
+        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.tag">
             <filterchain>
-               <headfilter lines="1" skip="1"/>
+               <headfilter lines="1" skip="0"/>
                <tokenfilter>
-                  <replaceregex pattern=" +.*$" replace="" flags="gi"/>
+                  <replaceregex pattern="parent: +[0-9]+:[^ ]+ " replace="" flags="gi"/>
                </tokenfilter>
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-        <loadfile srcfile="tmp-hg-tags.txt" property="hg.latest.tag.spec">
+        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.tag.spec">
             <filterchain>
-               <headfilter lines="1" skip="1"/>
+               <headfilter lines="1" skip="0"/>
                <tokenfilter>
-                  <replaceregex pattern=" +.*$" replace="" flags="gi"/>
+                  <replaceregex pattern="parent: +[0-9]+:[^ ]+ " replace="" flags="gi"/>
                   <replaceregex pattern="\.[0-9]+$" replace="" flags="gi"/>
                </tokenfilter>
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-        <loadfile srcfile="tmp-hg-tags.txt" property="hg.latest.tag.revision">
-            <filterchain>
-               <headfilter lines="1" skip="1"/>
-               <tokenfilter>
-                  <replaceregex pattern="^.* +" replace="" flags="gi"/>
-               </tokenfilter>
-               <striplinebreaks/>
-            </filterchain>
-        </loadfile>
-        <delete file="tmp-hg-tags.txt"/>
+        <delete file="tmp-hg-summary.txt"/>
 	</target>
 
 	<target name="only-init">
@@ -188,7 +170,8 @@
     </target>
 
     <target name="only-compile">
-        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="1.4" target="1.4" verbose="no">
+        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" 
+                  source="1.4" target="1.4" verbose="no" includeantruntime="false">
             <include name="org/**" />
             <include name="com/**" />
         </javac>

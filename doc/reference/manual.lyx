@@ -16982,24 +16982,12 @@ Mercurial tags are used to mark particular versioned baselines of complete,
 \end_layout
 
 \begin_layout LyX-Code
-
-\emph on
-v
-\emph default
 X.Y.Z[.state]
 \end_layout
 
 \begin_layout Standard
 Where : X,Y and Z are integers which increase monotonically.
- For instance: v1.9.0 < v1.10.0 < v1.11.0 and where:
-\end_layout
-
-\begin_layout Description
-v is the letter '
-\emph on
-v
-\emph default
-'
+ For instance: 1.9.0 < 1.10.0 < 1.11.0 and where:
 \end_layout
 
 \begin_layout Description
@@ -17100,13 +17088,20 @@ http://download.oracle.com/javase/1.4.2/docs/guide/versioning/spec/versioning2.h
 
 \begin_layout Description
 Specification-Version This field includes the Major and Minor version numbers.
+ Example: 0.6
 \end_layout
 
 \begin_layout Description
-Implementation-Version This field includes the fix version, the Mercurial
- repository version and identification of the build job which generated
- the executable.
- 
+Implementation-Version This field includes the Major, Minor and Fix numbers
+ with identification of the build job which generated the executable.
+ Example: 0.6.1-b164
+\end_layout
+
+\begin_layout Standard
+Intermediate, untagged builds contain the repository version of the workspace.
+ Example: 
+\emph on
+tip-789-d242ce4255c0-b165
 \end_layout
 
 \begin_layout Subsubsection
@@ -17134,33 +17129,11 @@ import versioninfo
 \end_layout
 
 \begin_layout LyX-Code
-print versioninfo!version versioninfo!title
+print versioninfo
 \end_layout
 
 \begin_layout Subsection
 Building From Source
-\end_layout
-
-\begin_layout Subsubsection
-Obtaining Source from the Released Files
-\end_layout
-
-\begin_layout Standard
-The source code for released binaries can be downloaded from the URL below.
- 
-\end_layout
-
-\begin_layout LyX-Code
-http://sourceforge.net/projects/genyris/files/
-\end_layout
-
-\begin_layout Standard
-Download the source release file 
-\emph on
-genyris-source-NNN-DDDDDDD.zip , 
-\emph default
-unzip the file to a working directory.
- Change directory to the root of the unpacked directory.
 \end_layout
 
 \begin_layout Subsubsection
@@ -17172,12 +17145,12 @@ The source code of Genyris is published to a Mercurial clone hosted by SourceFor
 ge.
  This code will be the latest code, whereas the binary releases are slightly
  older.
- To access the default Mercurial repository, configure your Mercurial client
- as follows: 
+ To access the default Mercurial repository, get a local copy of the genyris
+ repository with this command: 
 \end_layout
 
 \begin_layout LyX-Code
-http://genyris.hg.sourceforge.net:8000/hgroot/genyris/genyris
+hg clone https://genyris.googlecode.com/hg/ genyris 
 \end_layout
 
 \begin_layout Standard
@@ -17185,7 +17158,7 @@ Then
 \emph on
 hg pull
 \emph default
- to download the source.
+ to download source updates.
 \end_layout
 
 \begin_layout Subsubsection
@@ -17276,6 +17249,27 @@ dist
 rel
 \emph default
  directories.
+\end_layout
+
+\begin_layout Paragraph
+Release Automation
+\end_layout
+
+\begin_layout Standard
+To build a new release make a new tag e.g.
+ tag 0.6.2 and update a build repository clone to the tag.
+ e.g.
+\end_layout
+
+\begin_layout LyX-Code
+hg update -r 0.6.2 --clean
+\end_layout
+
+\begin_layout Standard
+Then use the ant target 
+\emph on
+release.
+ 
 \end_layout
 
 \begin_layout Subsection
