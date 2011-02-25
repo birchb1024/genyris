@@ -13,6 +13,7 @@ import org.genyris.format.BasicFormatter;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.PairEnvironment;
+import org.genyris.interp.UnboundException;
 
 public class Pair extends ExpWithEmbeddedClasses {
 
@@ -75,9 +76,30 @@ public class Pair extends ExpWithEmbeddedClasses {
 		return _car.hashCode() + _cdr.hashCode();
 	}
 	public Exp eval(Environment env) throws GenyrisException {
-        Closure proc = (Closure) car().eval(env);
-        Exp[] arguments = proc.computeArguments(env, cdr());
+		Closure proc = null;
+		Exp[] arguments = null;
+		try {
+        	proc = (Closure) car().eval(env);
+        } catch (UnboundException e1) {
+        	try {
+        		proc = env.getSymbolTable().PROCEDUREMISSING().lookupVariableValue(env);
+        	} catch (UnboundException e2) {
+        		throw e1;
+        	}
+            arguments = prependArgument(car(), proc.computeArguments(env, cdr()));
+            return proc.applyFunction(env, arguments);      
+        }
+        arguments = proc.computeArguments(env, cdr());
         return proc.applyFunction(env, arguments);      
+	}
+	private Exp[] prependArgument( Exp firstArg, Exp[] tmparguments)
+			throws GenyrisException {
+		Exp[] arguments = new Exp[tmparguments.length+1];
+		arguments[0] = firstArg;
+		for(int i=0;i<tmparguments.length;i++){
+			arguments[i+1] = tmparguments[i];
+		}
+		return arguments;
 	} 
 	
     public Exp evalSequence(Environment env) throws GenyrisException {

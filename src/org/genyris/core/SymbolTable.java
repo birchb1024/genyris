@@ -72,7 +72,8 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _JAVASTATICMETHOD;
 	private SimpleSymbol _JAVACLASS;
 	private SimpleSymbol _PIPE;
-
+	private SimpleSymbol _PROCEDUREMISSING;
+	
     public SymbolTable() {
         _table = new HashMap();
     }
@@ -145,6 +146,7 @@ public class SymbolTable implements Internable {
     _JAVASTATICMETHOD = bindKeyword(String.valueOf(Constants.JAVASTATICMETHOD));
     _JAVACLASS = bindKeyword(String.valueOf(Constants.JAVACLASS));
     _PIPE = bindKeyword(String.valueOf(Constants.PIPE));
+    _PROCEDUREMISSING = bindKeyword(String.valueOf(Constants.PROCEDUREMISSING));
         }
 
 	private SimpleSymbol bindKeyword(String name) {
@@ -414,6 +416,10 @@ public class SymbolTable implements Internable {
 
 	public SimpleSymbol INDENTPARSER() {
 		return _INDENTEDPARSER;
+	}
+
+	public SimpleSymbol PROCEDUREMISSING() {
+		return _PROCEDUREMISSING;
 	}
 
 }

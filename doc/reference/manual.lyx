@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -5324,6 +5324,7 @@ Example execution:
 \end_layout
 
 \begin_layout Section
+Functions and Macros
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Functions-and-Macros"
@@ -6434,6 +6435,220 @@ template
 
 \begin_layout Standard
 TODO
+\end_layout
+
+\begin_layout Subsection
+Catching Missing Functions
+\end_layout
+
+\begin_layout Standard
+When the interpreter executes an expression, such as 
+\emph on
+(proc arg1 arg2 ...)
+\emph default
+ but the 
+\emph on
+func
+\emph default
+ results in an 
+\emph on
+Unbound
+\emph default
+ exception
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The current implementation uses Java exceptions to trap missing functions.
+\end_layout
+
+\end_inset
+
+, the interpreter attempts to call the function 
+\emph on
+sys:procedure-missing.
+ 
+\emph default
+It passes the original arguments and the missing procedure expression to
+ sys:procedure-missing.
+ This provides the programmer with a facility to create dynamic (virtual)
+ procedures.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Syntax
+\end_layout
+
+\begin_layout LyX-Code
+sys:procedure-missing
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+sys:procedure-missing
+\end_layout
+
+\end_inset
+
+ <arguments>
+\end_layout
+
+\begin_layout Paragraph
+Examples
+\end_layout
+
+\begin_layout Standard
+In the first example, a generic function is defined which switches calls
+ to dynamic functions: 
+\end_layout
+
+\begin_layout LyX-Code
+def sys:procedure-missing(&rest args)
+\end_layout
+
+\begin_layout LyX-Code
+  cond
+\end_layout
+
+\begin_layout LyX-Code
+     (is-instance? (left args) DynamicSymbolRef)
+\end_layout
+
+\begin_layout LyX-Code
+          .procedure-missing args
+\end_layout
+
+\begin_layout LyX-Code
+     else
+\end_layout
+
+\begin_layout LyX-Code
+          raise ("procedure missing: %s"(.format args))
+\end_layout
+
+\begin_layout Standard
+Then a class is defined which catches calls to undefined methods:
+\end_layout
+
+\begin_layout LyX-Code
+class MyClass()
+\end_layout
+
+\begin_layout LyX-Code
+   def .method_missing(args)
+\end_layout
+
+\begin_layout LyX-Code
+        list 'meta-method' args
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+var myObject
+\end_layout
+
+\begin_layout LyX-Code
+    tag MyClass (dict)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual        
+\end_layout
+
+\begin_layout LyX-Code
+   myObject(.setName 'fred')
+\end_layout
+
+\begin_layout LyX-Code
+   ^('meta-method' (.setName 'fred'))  
+\end_layout
+
+\begin_layout Standard
+The second example is a very simple windows shell.
+ When an unbound function is called, the 
+\emph on
+sys:procedure-missing 
+\emph default
+executes the call as a windows batch command.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+def sys:procedure-missing(&rest args)
+\end_layout
+
+\begin_layout LyX-Code
+   var results
+\end_layout
+
+\begin_layout LyX-Code
+      apply System!exec (append ^(cmd /c) args)
+\end_layout
+
+\begin_layout LyX-Code
+   for line in (left results)
+\end_layout
+
+\begin_layout LyX-Code
+      u:format "%a
+\backslash
+n" line
+\end_layout
+
+\begin_layout Standard
+Usage:
+\end_layout
+
+\begin_layout LyX-Code
+> define my-dir 'test
+\backslash
+
+\backslash
+fixtures'
+\end_layout
+
+\begin_layout LyX-Code
+..
+\end_layout
+
+\begin_layout LyX-Code
+> dir my-dir
+\end_layout
+
+\begin_layout LyX-Code
+ Volume in drive C has no label.
+\end_layout
+
+\begin_layout LyX-Code
+ Volume Serial Number is FACE-1234
+\end_layout
+
+\begin_layout LyX-Code
+ Directory of C:
+\backslash
+workspace
+\backslash
+genyris
+\backslash
+test
+\backslash
+fixtures
+\end_layout
+
+\begin_layout LyX-Code
+21/12/2010  12:21 PM    <DIR>          .
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Section
@@ -17553,7 +17768,7 @@ Process
 \end_layout
 
 \begin_layout Standard
-Example - Here we spawn a Wondpws command shell with a one-line echo statement.
+Example - Here we spawn a Windows command shell with a one-line echo statement.
  The parent process obtains the output from the process and copies it to
  the standard output.:
 \end_layout

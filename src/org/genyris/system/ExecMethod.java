@@ -35,11 +35,7 @@ public class ExecMethod extends AbstractMethod {
     private String[] toStringArray(Exp[] expArray) throws GenyrisException {
         String[] result = new String[expArray.length];
         for (int i = 0; i < expArray.length; i++) {
-            if (!(expArray[i] instanceof StrinG)) {
-              throw new GenyrisException(Constants.EXEC + " Non-string: " + expArray[i]);
-            } else {
-                result[i] = ((StrinG) expArray[i]).toString();
-            }
+                result[i] = expArray[i].toString();
         }
         return result;
     }

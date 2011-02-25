@@ -117,5 +117,6 @@ public class Constants {
 		public static final String JAVAMETHOD = "JavaMethod";
 		public static final String JAVASTATICMETHOD = "JavaStaticMethod";
 		public static final String JAVACLASS = PREFIX_JAVA + "class";
+		public static final String PROCEDUREMISSING = PREFIX_SYSTEM + "procedure-missing";
 
 }

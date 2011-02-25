@@ -62,5 +62,6 @@ public interface Internable {
 	public SimpleSymbol JAVAMETHOD();
 	public SimpleSymbol JAVASTATICMETHOD();
 	public SimpleSymbol JAVACLASS();
+	public SimpleSymbol PROCEDUREMISSING();
 
 }
