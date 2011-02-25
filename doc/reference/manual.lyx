@@ -6586,65 +6586,39 @@ def sys:procedure-missing(&rest args)
 \end_layout
 
 \begin_layout LyX-Code
-   var results
+   left
 \end_layout
 
 \begin_layout LyX-Code
       apply System!exec (append ^(cmd /c) args)
 \end_layout
 
-\begin_layout LyX-Code
-   for line in (left results)
-\end_layout
-
-\begin_layout LyX-Code
-      u:format "%a
-\backslash
-n" line
-\end_layout
-
 \begin_layout Standard
-Usage:
+Usage:      
 \end_layout
 
 \begin_layout LyX-Code
-> define my-dir 'test
+define my-dir 'test
 \backslash
 
-\backslash
-fixtures'
-\end_layout
-
-\begin_layout LyX-Code
-..
-\end_layout
-
-\begin_layout LyX-Code
-> dir my-dir
-\end_layout
-
-\begin_layout LyX-Code
- Volume in drive C has no label.
-\end_layout
-
-\begin_layout LyX-Code
- Volume Serial Number is FACE-1234
-\end_layout
-
-\begin_layout LyX-Code
- Directory of C:
-\backslash
-workspace
-\backslash
-genyris
-\backslash
-test
 \backslash
 fixtures
+\backslash
+
+\backslash
+gunit'
 \end_layout
 
 \begin_layout LyX-Code
-21/12/2010  12:21 PM    <DIR>          .
+assertEqual
+\end_layout
+
+\begin_layout LyX-Code
+  dir ^/b my-dir
+\end_layout
+
+\begin_layout LyX-Code
+  ^('test-file-one.g' 'test-file-three.g''test-file-two.g')
 \end_layout
 
 \begin_layout LyX-Code
