@@ -1,4 +1,4 @@
-<project name="Genyris" default="build-latest" basedir=".">
+<project name="Genyris" default="build-workspace" basedir=".">
     <!-- -->
     <buildnumber/>
     <property name="build.id" value="b${build.number}"/>
@@ -12,6 +12,8 @@
     <property name="src.dir" value="src" />
     <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
     <property file="secrets.properties" />
+    
+    <taskdef resource="checkstyletask.properties" classpath="${needed.lib.dir}/checkstyle-5.3-all.jar" />
 
     <tstamp>
         <format property="TODAY" pattern="dd/MM/yyyy HH:mm:ss" />
@@ -22,7 +24,8 @@
     <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
     <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
     <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
-    <target name="build-latest" depends="version-default, binary, test, reports" description="Build current workspace contents."/>
+    <target name="build-workspace" depends="version-default, binary, test, reports" 
+    	description="Build and test current workspace contents."/>
     <target name="release" depends="tagged-version, binary, test, reports" description="Build a formal tagged release using the latest tag."/>
     
 
@@ -340,7 +343,15 @@
         </exec>
 	</target>
 
-	
+	<target name="checkstyle" description="Check Java code Style.">
+		<mkdir dir="reports" />
+		<checkstyle config="conf/BillBirchCheck.xml">
+			<fileset dir="${src.dir}" includes="**/*.java" />
+			<formatter type="plain"/>
+			<formatter type="xml" toFile="dist/checkstyle_errors.xml" />
+		</checkstyle>
+	</target>
+
 	
 	
 	</project>

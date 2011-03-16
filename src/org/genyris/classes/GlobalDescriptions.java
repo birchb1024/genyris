@@ -8,7 +8,9 @@ import org.genyris.dl.Graph;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
-public class GlobalDescriptions {
+public final class GlobalDescriptions {
+	private GlobalDescriptions() {}
+	
 	public static void updateClassSingleSuper(Environment env, Internable table, Symbol klassname, Symbol superclass) throws GenyrisException {
 		Graph globalDescriptions = (Graph)env.lookupVariableValue(table.DESCRIPTIONS());
 		Graph result = globalDescriptions.difference(globalDescriptions.select(klassname, table.TYPE(), null, null, env));

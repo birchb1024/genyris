@@ -61,7 +61,7 @@ public class GraphFunction extends ApplicableFunction {
 				new SubjectsMethod(interpreter));
 	}
 
-	public static abstract class AbstractGraphMethod extends
+	public abstract static class AbstractGraphMethod extends
 			AbstractMethod {
 
 		public AbstractGraphMethod(Interpreter interp, String name) {

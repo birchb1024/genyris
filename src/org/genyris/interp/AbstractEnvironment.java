@@ -14,61 +14,62 @@ import org.genyris.exception.GenyrisException;
 
 public abstract class AbstractEnvironment implements Environment {
 
-	public Exp lookupVariableValue(Symbol symbol) throws UnboundException {
-		return symbol.lookupVariableValue(this);
-	}
+    public Exp lookupVariableValue(Symbol symbol) throws UnboundException {
+        return symbol.lookupVariableValue(this);
+    }
 
-	public abstract Exp getSelf() throws UnboundException;
+    public abstract Exp getSelf() throws UnboundException;
 
-	public Exp lookupDynamicVariableValue(DynamicSymbol symbol)
-			throws UnboundException {
-		throw new UnboundException("no dynamic variable in environment: "
-				+ symbol);
-	}
+    public Exp lookupDynamicVariableValue(DynamicSymbol symbol)
+            throws UnboundException {
+        throw new UnboundException("no dynamic variable in environment: "
+                + symbol);
+    }
 
-	public abstract Exp lookupLexicalVariableValue(SimpleSymbol symbol)
-			throws UnboundException;
+    public abstract Exp lookupLexicalVariableValue(SimpleSymbol symbol)
+            throws UnboundException;
 
-	public void defineVariable(Symbol symbol, Exp valu) throws GenyrisException {
-		if (symbol.isNil()) {
-			throw new GenyrisException("Attempt to re-define nil!");
-		}
-		symbol.defineVariable(this, valu);
-	}
+    public void defineVariable(Symbol symbol, Exp valu) throws GenyrisException {
+        if (symbol.isNil()) {
+            throw new GenyrisException("Attempt to re-define nil!");
+        }
+        symbol.defineVariable(this, valu);
+    }
 
-	public abstract void defineLexicalVariable(SimpleSymbol symbol, Exp valu)
-			throws GenyrisException ;
+    public abstract void defineLexicalVariable(SimpleSymbol symbol, Exp valu)
+            throws GenyrisException;
 
-	public void defineDynamicVariable(DynamicSymbol symbol, Exp valu)
-			throws GenyrisException {
-		throw new GenyrisException(
-				"defineDynamicVariable: no dynamic variable in environment: "
-						+ symbol);
-	}
+    public void defineDynamicVariable(DynamicSymbol symbol, Exp valu)
+            throws GenyrisException {
+        throw new GenyrisException(
+                "defineDynamicVariable: no dynamic variable in environment: "
+                        + symbol);
+    }
 
-	public abstract SimpleSymbol getNil();
+    public abstract SimpleSymbol getNil();
 
-	public abstract Internable getSymbolTable();
+    public abstract Internable getSymbolTable();
 
-	public abstract Symbol internString(String symbolName);
+    public abstract Symbol internString(String symbolName);
 
-	public abstract Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
-			throws UnboundException;
+    public abstract Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol)
+            throws UnboundException;
 
-	public void setVariableValue(Symbol symbol, Exp valu)
-			throws UnboundException {
-		if (symbol.isNil()) {
-			throw new UnboundException("Attempt to re-define nil!");
-		}
-		symbol.setVariableValue(this, valu);
-	}
+    public void setVariableValue(Symbol symbol, Exp valu)
+            throws UnboundException {
+        if (symbol.isNil()) {
+            throw new UnboundException("Attempt to set to nil!");
+        }
+        symbol.setVariableValue(this, valu);
+    }
 
-	public abstract void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException ;
+    public abstract void setLexicalVariableValue(SimpleSymbol symbol, Exp valu)
+            throws UnboundException;
 
-	public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu)
-			throws UnboundException {
-		throw new UnboundException(
-				"setDynamicVariableValue: no lexical variable in environment: "
-						+ symbol);
-	}
+    public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu)
+            throws UnboundException {
+        throw new UnboundException(
+                "setDynamicVariableValue: no lexical variable in environment: "
+                        + symbol);
+    }
 }

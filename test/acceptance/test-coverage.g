@@ -4,7 +4,7 @@
 
 catch error
   setq nil 42
-assert (equal? error 'Attempt to re-define nil!')
+assert (equal? error 'Attempt to set to nil!')
 #
 # use of procs as objects
 #

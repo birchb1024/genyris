@@ -14,21 +14,21 @@ import org.genyris.interp.Interpreter;
 
 public abstract class AbstractMathBooleanFunction extends ApplicableFunction {
 
-    public AbstractMathBooleanFunction(Interpreter interp, String name) {
-    	super(interp,name, true);
-    }
+	public AbstractMathBooleanFunction(Interpreter interp, String name) {
+		super(interp, name, true);
+	}
 
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-        if( arguments.length != 2)
-            throw new GenyrisException("Not two arguments to math function");
-        try {
-            return mathOperation(arguments[0], arguments[1]);
-        }
-        catch(RuntimeException e) {
-            throw new GenyrisException(e.getMessage());
-        }
-    }
+	public Exp bindAndExecute(Closure proc, Exp[] arguments,
+			Environment envForBindOperations) throws GenyrisException {
+		if (arguments.length != 2)
+			throw new GenyrisException("Not two arguments to math function");
+		try {
+			return mathOperation(arguments[0], arguments[1]);
+		} catch (RuntimeException e) {
+			throw new GenyrisException(e.getMessage());
+		}
+	}
 
 	protected abstract Exp mathOperation(Exp a, Exp b);
-    
+
 }

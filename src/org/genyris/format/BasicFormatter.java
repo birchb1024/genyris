@@ -98,8 +98,9 @@ public class BasicFormatter extends AbstractFormatter {
 				write("\\t");
 			} else if (ch == '\r') {
 				write("\\r");
-			} else
+			} else {
 				write(ch);
+			}
 		}
 		write(lst.getQuoteChar());
 	}

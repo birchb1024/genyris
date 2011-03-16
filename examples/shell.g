@@ -4,6 +4,10 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
 
+def sys:procedure-missing(&rest args)
+   left
+      apply System!exec (append ^(cmd /c) args)
+   
 # basic version with no error handling
 def sys:procedure-missing(&rest args)
    left
@@ -27,3 +31,4 @@ def sys:procedure-missing(&rest args)
               u:format "%a\n" line
            raise (right errors)
 
+   

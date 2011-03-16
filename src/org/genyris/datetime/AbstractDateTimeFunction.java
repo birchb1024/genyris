@@ -8,7 +8,6 @@ package org.genyris.datetime;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.UnboundException;
 
 public abstract class AbstractDateTimeFunction extends ApplicableFunction {
 
@@ -18,7 +17,7 @@ public abstract class AbstractDateTimeFunction extends ApplicableFunction {
         super(interp, name, true);
     }
 
-    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
+    public static void bindFunctionsAndMethods(Interpreter interpreter) throws GenyrisException {
         interpreter.bindGlobalProcedureInstance(new FormatDateFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new DetailedDateTimeFunction(interpreter));
 

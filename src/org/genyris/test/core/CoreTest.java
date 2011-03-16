@@ -16,19 +16,18 @@ import org.genyris.exception.AccessException;
 
 public class CoreTest extends TestCase {
 	private SimpleSymbol NIL;
-	
+
 	public void setUp() {
-		NIL = new NilSymbol();		
+		NIL = new NilSymbol();
 	}
-	
+
 	public void testAccessExceptionCar() {
 
 		Exp a = new Bignum(0);
 		try {
 			a.car();
 			fail("expecting exception");
-		}
-		catch (AccessException e) {
+		} catch (AccessException e) {
 		}
 	}
 
@@ -38,8 +37,7 @@ public class CoreTest extends TestCase {
 		try {
 			a.cdr();
 			fail("expecting exception");
-		}
-		catch (AccessException e) {
+		} catch (AccessException e) {
 		}
 	}
 
@@ -49,8 +47,7 @@ public class CoreTest extends TestCase {
 		try {
 			a.setCar(new SimpleSymbol("foo"));
 			fail("expecting exception");
-		}
-		catch (AccessException e) {
+		} catch (AccessException e) {
 		}
 	}
 
@@ -60,8 +57,7 @@ public class CoreTest extends TestCase {
 		try {
 			a.setCar(new SimpleSymbol("foo"));
 			fail("expecting exception");
-		}
-		catch (AccessException e) {
+		} catch (AccessException e) {
 		}
 	}
 
@@ -78,12 +74,11 @@ public class CoreTest extends TestCase {
 		try {
 			list.cdr().cdr().cdr().length(NIL);
 			fail("expecting exception");
-		}
-		catch (AccessException e) {
-		}
-		finally {
+		} catch (AccessException e) {
+		} finally {
 		}
 	}
+
 	public void testLisp() {
 		assertTrue(new Pair(NIL, NIL).isPair());
 		assertFalse(new Bignum(1).isPair());

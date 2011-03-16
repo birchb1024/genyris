@@ -30,101 +30,101 @@ import org.genyris.java.JavaWrapper;
 
 public abstract class AbstractFormatter implements Visitor, Formatter {
 
-	protected Writer _output;
+    protected Writer _output;
 
-	public AbstractFormatter(Writer out) {
-		_output = out;
-	}
+    public AbstractFormatter(Writer out) {
+        _output = out;
+    }
 
-	public abstract void visitDictionary(Dictionary frame)
-			throws GenyrisException;
+    public abstract void visitDictionary(Dictionary frame)
+            throws GenyrisException;
 
-	public void visitStandardClass(StandardClass klass) throws GenyrisException {
-		write(klass.toString());
-	}
+    public void visitStandardClass(StandardClass klass) throws GenyrisException {
+        write(klass.toString());
+    }
 
-	public abstract void visitEagerProc(EagerProcedure proc)
-			throws GenyrisException;
+    public abstract void visitEagerProc(EagerProcedure proc)
+            throws GenyrisException;
 
-	public abstract void visitLazyProc(LazyProcedure proc)
-			throws GenyrisException;
+    public abstract void visitLazyProc(LazyProcedure proc)
+            throws GenyrisException;
 
-	public abstract void visitPair(Pair cons) throws GenyrisException;
+    public abstract void visitPair(Pair cons) throws GenyrisException;
 
-	public abstract void visitBignum(Bignum bignum) throws GenyrisException;
+    public abstract void visitBignum(Bignum bignum) throws GenyrisException;
 
-	public abstract void visitStrinG(StrinG lst) throws GenyrisException;
+    public abstract void visitStrinG(StrinG lst) throws GenyrisException;
 
-	public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
-		write(sym.toString());
-	}
+    public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
+        write(sym.toString());
+    }
 
-	public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {
-		write(sym.toString());
-	}
+    public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {
+        write(sym.toString());
+    }
 
-	public void visitPipe(Pipe pipe) throws GenyrisException {
-		write(pipe.toString());
-	}
+    public void visitPipe(Pipe pipe) throws GenyrisException {
+        write(pipe.toString());
+    }
 
-	public void visitFullyQualifiedSymbol(URISymbol sym)
-			throws GenyrisException {
-		write(sym.toString());
-	}
+    public void visitFullyQualifiedSymbol(URISymbol sym)
+            throws GenyrisException {
+        write(sym.toString());
+    }
 
-	public void printClassNames(Exp result, Interpreter interp)
-			throws GenyrisException {
-		Exp klasses = result.getClasses(interp.getGlobalEnv());
-		while (!(klasses instanceof NilSymbol)) {
-			Dictionary klass = (Dictionary) klasses.car();
-			write(" "
-					+ klass.lookupVariableShallow(
-							interp.getSymbolTable().CLASSNAME()).toString());
-			klasses = klasses.cdr();
-		}
-	}
+    public void printClassNames(Exp result, Interpreter interp)
+            throws GenyrisException {
+        Exp klasses = result.getClasses(interp.getGlobalEnv());
+        while (!(klasses instanceof NilSymbol)) {
+            Dictionary klass = (Dictionary) klasses.car();
+            write(" "
+                    + klass.lookupVariableShallow(
+                            interp.getSymbolTable().CLASSNAME()).toString());
+            klasses = klasses.cdr();
+        }
+    }
 
-	private void handleIO(IOException e) throws GenyrisException {
-		throw new GenyrisException(this.getClass().getName() + " write: "
-				+ e.getMessage());
-	}
+    private void handleIO(IOException e) throws GenyrisException {
+        throw new GenyrisException(this.getClass().getName() + " write: "
+                + e.getMessage());
+    }
 
-	protected void write(char ch) throws GenyrisException {
-		try {
-			_output.write(ch);
-		} catch (IOException e) {
-			handleIO(e);
-		}
-	}
+    protected void write(char ch) throws GenyrisException {
+        try {
+            _output.write(ch);
+        } catch (IOException e) {
+            handleIO(e);
+        }
+    }
 
-	public void write(String str) throws GenyrisException {
-		try {
-			_output.write(str);
-		} catch (IOException e) {
-			handleIO(e);
-		}
-	}
+    public void write(String str) throws GenyrisException {
+        try {
+            _output.write(str);
+        } catch (IOException e) {
+            handleIO(e);
+        }
+    }
 
-	public void visitTriple(Triple triple) throws GenyrisException {
-		Formatter basic = new BasicFormatter(_output);
-		write("(triple ");
-		triple.subject.acceptVisitor(basic);
-		write(" ");
-		triple.predicate.acceptVisitor(basic);
-		write(" ");
-		triple.object.acceptVisitor(basic);
-		write(")");
-	}
+    public void visitTriple(Triple triple) throws GenyrisException {
+        Formatter basic = new BasicFormatter(_output);
+        write("(triple ");
+        triple.subject.acceptVisitor(basic);
+        write(" ");
+        triple.predicate.acceptVisitor(basic);
+        write(" ");
+        triple.object.acceptVisitor(basic);
+        write(")");
+    }
 
-	public void visitGraph(Graph ts) throws GenyrisException {
-		write(ts.toString());
-	}
+    public void visitGraph(Graph ts) throws GenyrisException {
+        write(ts.toString());
+    }
 
-	public void visitJavaWrapper(JavaWrapper javaWrapper)
-			throws GenyrisException {
-		write("[" + javaWrapper.getValue().getClass().getName() + " "
-				+ javaWrapper.getValue().toString() + "]");
+    public void visitJavaWrapper(JavaWrapper javaWrapper)
+            throws GenyrisException {
+        write("[" + javaWrapper.getValue().getClass().getName() + " "
+                + javaWrapper.getValue().toString() + "]");
 
-	}
+    }
 
 }

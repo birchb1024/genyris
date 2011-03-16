@@ -53,7 +53,6 @@ public class ExecMethod extends AbstractMethod {
         } catch (IOException e) {
             throw new GenyrisException("exec failed, message is: "
                     + e.getMessage());
-        } finally {
         }
         try {
             if (child.waitFor() != 0) {
