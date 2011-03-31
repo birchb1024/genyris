@@ -1,7 +1,5 @@
 <project name="Genyris" default="build-workspace" basedir=".">
     <!-- -->
-    <buildnumber/>
-    <property name="build.id" value="b${build.number}"/>
     <property name="build.compiler" value="javac1.6"/>
     <property name="needed.lib.dir" value="needed" />
     <property name="junit.lib.dir" value="needed" />
@@ -86,7 +84,8 @@
     
     <target name="hg-info" description="Extract Mercurial information." depends="only-hg-workspace,only-hg-status">
         <property name="specification-version" value="${hg.workspace.tag.spec}"/>
-        
+        <buildnumber file="v${hg.workspace.revision.hex}-build-number.txt"/>        
+        <property name="build.id" value="b${build.number}"/>
         <echo>Workspace has uncommitted changes = ${working-folder-has-uncommited-changes}</echo>  
         <echo>workspace revision = '${hg.workspace.revision.number}' '${hg.workspace.revision.hex}'</echo>
         <echo>workspace tag = '${hg.workspace.tag}'</echo>
