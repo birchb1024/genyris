@@ -10,6 +10,7 @@
     <property name="src.dir" value="src" />
     <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
     <property file="secrets.properties" />
+    <property name="hg.summary.file" value="${build.dir}/hg-summary.txt"/>
     
     <taskdef resource="checkstyletask.properties" classpath="${needed.lib.dir}/checkstyle-5.3-all.jar" />
 
@@ -112,10 +113,13 @@
 
     <target name="only-hg-workspace">
 	     <!-- Extract the info about the current workspace -->
-        <exec executable="hg" output="tmp-hg-summary.txt" errorproperty="hg.error" failonerror="true">
+        <exec executable="hg" output="${hg.summary.file}" errorproperty="hg.error" failonerror="true">
             <arg value="summary" />
         </exec>
-        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.revision.number">
+         <concat>
+             <fileset file="${hg.summary.file}"/>
+           </concat>
+        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.revision.number">
             <filterchain>
                <headfilter lines="1" skip="0"/>
                <tokenfilter>
@@ -125,7 +129,7 @@
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.revision.hex">
+        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.revision.hex">
             <filterchain>
                <headfilter lines="1" skip="0"/>
                <tokenfilter>
@@ -135,7 +139,7 @@
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.tag">
+        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.tag">
             <filterchain>
                <headfilter lines="1" skip="0"/>
                <tokenfilter>
@@ -144,7 +148,7 @@
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-        <loadfile srcfile="tmp-hg-summary.txt" property="hg.workspace.tag.spec">
+        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.tag.spec">
             <filterchain>
                <headfilter lines="1" skip="0"/>
                <tokenfilter>
@@ -154,7 +158,6 @@
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-        <delete file="tmp-hg-summary.txt"/>
 	</target>
 
 	<target name="only-init">
