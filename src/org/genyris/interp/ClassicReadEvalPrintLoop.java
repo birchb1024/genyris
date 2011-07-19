@@ -7,7 +7,6 @@ package org.genyris.interp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.io.Writer;
 
 import org.genyris.core.Constants;
@@ -18,13 +17,6 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
-import org.genyris.io.ConvertEofInStream;
-import org.genyris.io.InStream;
-import org.genyris.io.IndentStream;
-import org.genyris.io.NullWriter;
-import org.genyris.io.Parser;
-import org.genyris.io.ReaderInStream;
-import org.genyris.io.UngettableInStream;
 import org.genyris.load.SourceLoader;
 
 public class ClassicReadEvalPrintLoop {
@@ -80,20 +72,12 @@ public class ClassicReadEvalPrintLoop {
 
 	private static void evalString(String script) throws IOException {
 		Interpreter interp;
-		Writer output = new PrintWriter(System.out);
-		Formatter formatter = new IndentedFormatter(output, 2);
+        Writer output = new PrintWriter(System.out);
+        Formatter formatter = new IndentedFormatter(output, 2);
 		try {
 			interp = new Interpreter();
 			interp.init(false);
-			InStream is = new UngettableInStream(new ConvertEofInStream(
-					new IndentStream(new UngettableInStream(new ReaderInStream(
-							new StringReader(script))), true)));
-
-			Parser parser = interp.newParser(is);
-			parser.setUsualPrefixes();
-
-			Exp expression = parser.read();
-			Exp result = interp.evalInGlobalEnvironment(expression);
+			Exp result = interp.evalStringInGlobalEnvironment(script);
 			result.acceptVisitor(formatter);
 			output.write(" " + Constants.COMMENTCHAR);
 			formatter.printClassNames(result, interp);
@@ -129,9 +113,7 @@ public class ClassicReadEvalPrintLoop {
 			_interpreter.init(false);
 			setArgs(args, _interpreter);
 
-			SourceLoader.loadScriptFromClasspath(_interpreter.getGlobalEnv(),
-					_interpreter.getSymbolTable(),
-					"org/genyris/load/boot/repl.g", (Writer) new NullWriter());
+            _interpreter.evalStringInGlobalEnvironment("sys:read-eval-print-loop");
 			return 0;
 		} catch (GenyrisException e1) {
 			e1.printStackTrace();

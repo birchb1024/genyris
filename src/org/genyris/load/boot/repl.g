@@ -5,11 +5,6 @@
 
 import versioninfo
 
-u:format "*** Welcome %a, %a version %a is listening...%n"
-    (System(.getProperties)).|user.name|
-    versioninfo.title
-    versioninfo.version
-    
 def sys:print-classnames(obj)
     define klasses (use obj (the .classes))
     while klasses
@@ -23,6 +18,10 @@ def sys:printBackTrace(bt)
        setq bt (cdr bt)
 
 def sys:read-eval-print-loop()
+   u:format "*** Welcome %a, %a version %a is listening...%n"
+        (System(.getProperties)).|user.name|
+        versioninfo.title
+        versioninfo.version
    def sys:prompt()
       u:format '> '
    define looping true          
@@ -46,4 +45,4 @@ def sys:read-eval-print-loop()
                 sys:print-classnames result
                 u:format '\n'
 
-sys:read-eval-print-loop
+#sys:read-eval-print-loop

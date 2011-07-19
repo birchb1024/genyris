@@ -89,6 +89,7 @@ setq s:path (cons GENYRIS_LIBS s:path)
 load "org/genyris/load/boot/for.g"
 load "org/genyris/load/boot/task.g"
 load "org/genyris/load/boot/process.g"
+load "org/genyris/load/boot/repl.g"
 
 import Base64
 

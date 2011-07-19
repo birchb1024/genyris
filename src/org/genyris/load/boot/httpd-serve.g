@@ -3,6 +3,7 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
+ 
 class HttpRequest()
     def .getMethod() (nth 0 .self)
     def .getPath() (nth 1 .self)
@@ -16,6 +17,9 @@ class HttpRequest()
     def .getAuthorizationHeader()
        (.getHeaders)
             .lookup 'authorization'    
+    def .getVirtualHost()
+       (.getHeaders)
+            .lookup 'host'    
     def .getBasicUsernamePassword()
       # Returns a dictionary with username and password strings.
       var headers (.getHeaders)

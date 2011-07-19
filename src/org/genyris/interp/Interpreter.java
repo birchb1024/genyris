@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,10 +26,14 @@ import org.genyris.core.SymbolTable;
 import org.genyris.dl.Graph;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
+import org.genyris.io.IndentStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
+import org.genyris.io.ReaderInStream;
 import org.genyris.io.StdioInStream;
+import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
 import org.genyris.io.writerstream.WriterStream;
 import org.genyris.load.LoadFunction;
@@ -267,5 +272,18 @@ public class Interpreter {
 	public Exp resetDebugBackTrace() {
 		return _debugStack = NIL;
 	}
-    
+	
+    public Exp evalStringInGlobalEnvironment(String script) throws GenyrisException {
+        InStream is = new UngettableInStream(new ConvertEofInStream(
+                new IndentStream(new UngettableInStream(new ReaderInStream(
+                        new StringReader(script))), true)));
+
+        Parser parser = newParser(is);
+        parser.setUsualPrefixes();
+
+        Exp expression = parser.read();
+        Exp result = evalInGlobalEnvironment(expression);
+        return result;
+    }
 }
+
