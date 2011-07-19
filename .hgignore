@@ -27,3 +27,4 @@ syntax: regexp
 ^src/org/genyris/load/boot/version\.g$
 syntax: regexp
 ^build\.number$
+glob:*-build-number.txt
