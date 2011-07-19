@@ -226,6 +226,19 @@ assertEqual ^(one 2 3 four)
     template
         one ,@(list 2 3) four
         
+assertEqual ^(comma 3) ^,3
+assertEqual ^(comma-at 3) ^,@3
+
+var t12 't12'
+assertEqual
+   template (,t12)
+   ^('t12')
+
+var t13 ^(13)
+assertEqual
+   template (foo ,@t13)
+   ^(foo 13)
+        
 def func(a) (cons a a)
 use func
    assertEqual .name 'func'

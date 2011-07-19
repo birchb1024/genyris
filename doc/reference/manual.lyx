@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -6434,7 +6434,112 @@ template
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+template
+\emph default
+ macro returns its expression parameter without evaluation (like 
+\emph on
+quote
+\emph default
+), however it also scans for special sub-expressions which it evaluates
+ in the context of the caller and substitutes the value in the return expression.
+ The two special forms are either: 
+\end_layout
+
+\begin_layout LyX-Code
+(comma
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+comma
+\end_layout
+
+\end_inset
+
+ <expression>)
+\end_layout
+
+\begin_layout Standard
+or
+\end_layout
+
+\begin_layout LyX-Code
+(comma-at
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+comma-at
+\end_layout
+
+\end_inset
+
+ <expression>)
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Comma
+\emph default
+ expressions are substituted in-place.
+ 
+\emph on
+Comma-at
+\emph default
+ expressions are inserted in the list expression.
+ Both 
+\emph on
+comma
+\emph default
+ and 
+\emph on
+comma-at
+\emph default
+ have read macro characters , and ,@.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Template
+\emph default
+ is most often used to code the body of macros and lazy functions.
+\end_layout
+
+\begin_layout Paragraph
+Examples:
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual ^(one (2 3) four)
+\end_layout
+
+\begin_layout LyX-Code
+    template
+\end_layout
+
+\begin_layout LyX-Code
+        one ,(list 2 3) four
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual ^(one 2 3 four)
+\end_layout
+
+\begin_layout LyX-Code
+    template
+\end_layout
+
+\begin_layout LyX-Code
+        one ,@(list 2 3) four
 \end_layout
 
 \begin_layout Subsection
@@ -7255,11 +7360,31 @@ can be written succinctly as:
 \end_layout
 
 \begin_layout Subsection
-use <expression>
+use <expression> <body>
 \end_layout
 
 \begin_layout Standard
-TODO
+Examples:
+\end_layout
+
+\begin_layout LyX-Code
+def func(a) (cons a a)
+\end_layout
+
+\begin_layout LyX-Code
+use func
+\end_layout
+
+\begin_layout LyX-Code
+   assertEqual .name 'func'
+\end_layout
+
+\begin_layout LyX-Code
+   assertEqual .source ^(lambda (a) (cons a a))
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Section
