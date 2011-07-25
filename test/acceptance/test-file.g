@@ -1,7 +1,7 @@
 #
 # File IO Tests
 #
-var properties (System(.getProperties))
+var properties (os!getProperties)
 var OS-name (properties.|os.name|)
 
 catch err

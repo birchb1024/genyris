@@ -6,12 +6,12 @@
 
 def sys:procedure-missing(&rest args)
    left
-      apply System!exec (append ^(cmd /c) args)
+      apply os!exec (append ^(cmd /c) args)
    
 # basic version with no error handling
 def sys:procedure-missing(&rest args)
    left
-      apply System!exec (append ^(cmd /c) args)
+      apply os!exec (append ^(cmd /c) args)
       
 define my-dir 'test\\fixtures\\gunit'
 assertEqual
@@ -22,7 +22,7 @@ def sys:procedure-missing(&rest args)
    # with error trapping and printing
    catch errors
       var results
-         apply System!exec (append ^(cmd /c) args)
+         apply os!exec (append ^(cmd /c) args)
       for line in (left results)
          u:format "%a\n" line
    cond

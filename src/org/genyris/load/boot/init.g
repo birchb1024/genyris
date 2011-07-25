@@ -66,8 +66,12 @@ defmacro ++ (varname)
    template
        setq ,varname (+ ,varname 1)
 
-define GENYRIS_HOME ((System!getenv).GENYRIS_HOME)
-define GENYRIS_LIBS ("%a/lib"(.format GENYRIS_HOME))
+System
+   define .HOME
+       ((os!getenv).GENYRIS_HOME)
+          .replace '\\' '/'
+   define .LIBS 
+       "%a/lib" (.format (System.HOME))
 #
 # Load source functions and classes
 #
@@ -85,7 +89,7 @@ load "org/genyris/load/boot/util.g"
 load "org/genyris/load/boot/set.g"
 load "org/genyris/load/boot/triple.g"
 load "org/genyris/load/boot/import.g"
-setq s:path (cons GENYRIS_LIBS s:path)
+setq s:path (cons (System.LIBS) s:path)
 load "org/genyris/load/boot/for.g"
 load "org/genyris/load/boot/task.g"
 load "org/genyris/load/boot/process.g"
@@ -97,7 +101,7 @@ class ShortDateTimeString(String)
 def format-date(epoch format)
    tag ShortDateTimeString
       date:format-date epoch format
-def now() (System!ticks)
+def now() (os!ticks)
 
 class Calendar
 def calendar(epochmilliseconds)

@@ -8,13 +8,13 @@
 
 #print sys:argv
 stdout(.flush)
-define begin (System!ticks)
+define begin (os!ticks)
 define start (nth 1 sys:argv)
 u:format "Interpreter started in %a milliseconds\n" (- begin start)
 define count (- (nth 2 sys:argv) 1)
 #print count
 stdout(.flush)
 if (equal? count 0) nil
-   spawn 'test/mocks/load-time-child.g' (System!ticks) count
+   spawn 'test/mocks/load-time-child.g' (os!ticks) count
 
 

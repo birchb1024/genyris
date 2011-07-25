@@ -12,6 +12,6 @@ def ls()
 defmacro perf (&rest body)
    template
       do
-        define start ((System.ticks))
+        define start ((os.ticks))
         ,@body
-        - ((System.ticks)) start
+        - ((os.ticks)) start

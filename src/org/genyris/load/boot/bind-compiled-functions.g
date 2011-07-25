@@ -19,10 +19,10 @@
 :load-class-by-name "org.genyris.io.parser.IndentedStreamParser"
 :load-class-by-name "org.genyris.io.StringFormatStream"
 :load-class-by-name "org.genyris.dl.ThingMethods"
-:load-class-by-name "org.genyris.system.ExecMethod"
-:load-class-by-name "org.genyris.system.SpawnMethod"
-:load-class-by-name "org.genyris.system.SystemPropertiesMethod"
-:load-class-by-name "org.genyris.system.SystemGetenvMethod"
+:load-class-by-name "org.genyris.os.ExecMethod"
+:load-class-by-name "org.genyris.os.SpawnMethod"
+:load-class-by-name "org.genyris.os.SystemPropertiesMethod"
+:load-class-by-name "org.genyris.os.SystemGetenvMethod"
 
 :load-class-by-name "org.genyris.interp.builtin.ObjectFunction"
 :load-class-by-name "org.genyris.dl.TripleFunctions"
@@ -35,7 +35,7 @@
 :load-class-by-name "org.genyris.classification.IsInstanceFunction"
 :load-class-by-name "org.genyris.test.JunitRunnerFunction"
 :load-class-by-name "org.genyris.system.ExitMethod"
-:load-class-by-name "org.genyris.system.SystemTicksMethod"
+:load-class-by-name "org.genyris.os.SystemTicksMethod"
 :load-class-by-name "org.genyris.datetime.AbstractDateTimeFunction"
 
 :load-class-by-name "org.genyris.java.AbstractJavaMethod"
