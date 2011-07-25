@@ -3,7 +3,7 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-package org.genyris.system;
+package org.genyris.os;
 
 import java.util.Date;
 
@@ -31,6 +31,6 @@ public class SystemTicksMethod extends AbstractMethod {
 
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethodInstance(Constants.SYSTEM, new SystemTicksMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.OS, new SystemTicksMethod(interpreter));
     }
 }

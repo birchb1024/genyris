@@ -6590,7 +6590,7 @@ def sys:procedure-missing(&rest args)
 \end_layout
 
 \begin_layout LyX-Code
-      apply System!exec (append ^(cmd /c) args)
+      apply os!exec (append ^(cmd /c) args)
 \end_layout
 
 \begin_layout Standard
@@ -17656,16 +17656,155 @@ TODO
 \end_layout
 
 \begin_layout Section
+System
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+System
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The System module allows interaction with the interpreter itself.
+\end_layout
+
+\begin_layout Subsection
+.exit
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.exit
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Syntax: 
+\end_layout
+
+\begin_layout LyX-Code
+System!exit <process return>
+\end_layout
+
+\begin_layout Standard
+This function requests the interpreter to terminate all threads and exit
+ the operating system process.
+ The single parameter is an integer value which the operating system returns
+ as the process status.
+\end_layout
+
+\begin_layout Subsection
+.HOME
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.HOME
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This variable supplies the home directory of the interpreter installation.
+ This will be the same as the 
+\emph on
+GENYRIS_HOME
+\emph default
+ environment variable.
+\end_layout
+
+\begin_layout Subsection
+.LIBS
+\end_layout
+
+\begin_layout Standard
+This variable supplies the directory of the interpreter's genyris library
+ code.
+ Normally set to 
+\emph on
+GENYRIS_HOME/libs
+\emph default
+.
+\end_layout
+
+\begin_layout Section
 
 \emph on
-System
+os
 \begin_inset Index
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-System
+os
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This module contains variables and functions that allow interaction with
+ the Java VM and the operating system (os).
+\end_layout
+
+\begin_layout Subsection
+.getProperties
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+.getProperties
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This function supplies the current java properties as a dictionary.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+> os!getProperties
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.|awt.toolkit| = 'sun.awt.windows.WToolkit') (.|file.encoding| = 'Cp1252')
+ (.|file.encoding.pkg| = 'sun.io') .....
+\end_layout
+
+\begin_layout Subsection
+
+\emph on
+.exec
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.exec
 \end_layout
 
 \end_inset
@@ -17680,24 +17819,6 @@ TODO
 \begin_layout Subsection
 
 \emph on
-.exec
-\begin_inset Index
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.exec
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-
-\emph on
 .getenv
 \begin_inset Index
 status open
@@ -17711,6 +17832,10 @@ status open
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \begin_layout Subsection
@@ -17752,7 +17877,7 @@ Example - Here we spawn a Windows command shell with a one-line echo statement.
 \end_layout
 
 \begin_layout LyX-Code
-   System!spawn 'cmd.exe' '/c' 'echo' =
+   os!spawn 'cmd.exe' '/c' 'echo' =
 \end_layout
 
 \begin_layout LyX-Code
@@ -17866,14 +17991,14 @@ Time and Date
 \begin_layout Subsection
 
 \emph on
-System!ticks
+os!ticks
 \begin_inset Index
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-System!ticks
+os!ticks
 \end_layout
 
 \end_inset
@@ -17884,7 +18009,7 @@ System!ticks
 \end_layout
 
 \begin_layout LyX-Code
-> System!ticks
+> os!ticks
 \end_layout
 
 \begin_layout LyX-Code
@@ -17934,7 +18059,7 @@ now
 \begin_layout Standard
 An alias for
 \emph on
-System!ticks
+os!ticks
 \emph default
 .
 \end_layout
@@ -17964,7 +18089,7 @@ For example:
 \end_layout
 
 \begin_layout LyX-Code
-> format-date (System!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
+> format-date (os!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
 \end_layout
 
 \begin_layout LyX-Code
@@ -18077,7 +18202,7 @@ For example:
 \end_layout
 
 \begin_layout LyX-Code
-> print (calendar (System!ticks))
+> print (calendar (os!ticks))
 \end_layout
 
 \begin_layout LyX-Code

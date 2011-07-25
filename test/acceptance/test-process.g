@@ -1,20 +1,25 @@
 #
 #  Test OS Process Spawning, and reading from its output.
 #
+@prefix java 'http://www.genyris.org/lang/java#'
+
+print Process!vars
 var OS-name 
-    (System!getProperties).|os.name|
+    (os!getProperties).|os.name|
 
 var proc
     cond
         (OS-name(.match "Windows.*"))
-            System!spawn 'cmd.exe' '/c' 'echo' 'Testing' 'Testing' 'one' 'two' 'three'
+            os!spawn 'cmd.exe' '/c' 'echo' 'Testing' 'Testing' 'one' 'two' 'three'
         (OS-name(.match "Linux.*"))
-            System!spawn "/bin/echo" 'Testing Testing one two three'
+            os!spawn "/bin/echo" 'Testing Testing one two three'
         (OS-name(.match "SunOS.*"))
-            System!spawn "/bin/bash"  'echo' 'Testing Testing one two three'
+            os!spawn "/bin/bash"  'echo' 'Testing Testing one two three'
         else
             raise 
                 "Unknown operating system %s"(.format OS-name)
+
+print (proc.vars) (proc.classes)
 proc
    define reader (.getOutput)
    assertEqual 

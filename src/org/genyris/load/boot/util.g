@@ -11,7 +11,7 @@ defmacro u:debug(thing)
 
 def u:getLocalTime()
    tag ShortDateTimeString
-      date:format-date ((System.ticks)) "dd MMM yyyy HH:mm:ss"
+      date:format-date ((os.ticks)) "dd MMM yyyy HH:mm:ss"
 
 def u:printSymbolTable()
   (symlist)

@@ -69,6 +69,7 @@ public class Constants {
         public static final String WRITER = "Writer";
         public static final String PIPE = "Pipe";
         public static final String SYSTEM = "System";
+        public static final String OS = "os";
         public static final String EXEC = "exec";
         public static final String LISTOFLINES = "ListOfLines";
         public static final String READER = "Reader";

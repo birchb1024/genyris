@@ -18,10 +18,11 @@ def sys:printBackTrace(bt)
        setq bt (cdr bt)
 
 def sys:read-eval-print-loop()
-   u:format "*** Welcome %a, %a version %a is listening...%n"
-        (System(.getProperties)).|user.name|
+   u:format "*** Welcome %a, %a version %a, home %a is listening...%n"
+        (os(.getProperties)).|user.name|
         versioninfo.title
         versioninfo.version
+        System.HOME
    def sys:prompt()
       u:format '> '
    define looping true          
@@ -44,5 +45,3 @@ def sys:read-eval-print-loop()
                 u:format '%s # ' result
                 sys:print-classnames result
                 u:format '\n'
-
-#sys:read-eval-print-loop

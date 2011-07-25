@@ -10,7 +10,7 @@
     <Bug pattern="IL_INFINITE_LOOP"/>
   </And>
   <And>
-    <Class name="org.genyris.system.ExitMethod"/>
+    <Class name="org.genyris.os.ExitMethod"/>
     <Bug pattern="DM_EXIT"/>
   </And>
   <And>
@@ -39,7 +39,7 @@
   </And>
   <And>
     <Bug pattern="OS_OPEN_STREAM"/>
-    <Class name="org.genyris.system.ExecMethod"/>
+    <Class name="org.genyris.os.ExecMethod"/>
   </And>
   <And>
     <Class name="org.genyris.web.NanoHTTPD$HTTPSession"/>
@@ -47,6 +47,6 @@
   </And>
   <And>
     <Bug pattern="WMI_WRONG_MAP_ITERATOR"/>
-    <Class name="org.genyris.system.SystemGetenvMethod"/>
+    <Class name="org.genyris.os.SystemGetenvMethod"/>
   </And>
 </FindBugsFilter>
