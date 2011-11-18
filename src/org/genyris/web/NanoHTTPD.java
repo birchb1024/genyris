@@ -260,11 +260,13 @@ public class NanoHTTPD {
 		private String clientName;
 		private BufferedReader in;
 		private long sessionNumber;
+        private boolean keepAlive;
 
 
 
 		public HTTPSession(Socket s, String rootdir) {
 			mySocket = s;
+            keepAlive = true;
 			sessionCount  += 1;
 			this.sessionNumber = sessionCount;
 			this.rootdir = rootdir;
@@ -300,7 +302,7 @@ public class NanoHTTPD {
 
 		public void run() {
 			try {
-				while(true) {
+				while(keepAlive) {
 					if(is.available() > 0) {
 						handleRequest();
 					} else {
@@ -359,11 +361,17 @@ public class NanoHTTPD {
 				}
 
 				// If there's another token, it's protocol version,
-				// followed by HTTP headers. Ignore version but parse headers.
+				// followed by HTTP headers. 
 				// NOTE: this now forces header names uppercase since they are
 				// case insensitive and vary by client.
 				Properties header = new Properties();
 				if (st.hasMoreTokens()) {
+                    String version = st.nextToken();
+                    if( version.equals("HTTP/1.0")) {
+                        keepAlive= false; // close connections after sending.
+                    }
+                }
+                if (st.hasMoreTokens()) {
 					String line = in.readLine();
 					if( line != null)
 						while (line.trim().length() > 0) {
@@ -769,11 +777,11 @@ public class NanoHTTPD {
 //			+ "are met:\n"
 //			+ "\n"
 //			+ "Redistributions of source code must retain the above copyright notice,\n"
-//			+ "this list of conditions and the following disclaimer. Redistributions in\n"
-//			+ "binary form must reproduce the above copyright notice, this list of\n"
+//			+ "thlist of conditions and the following disclaimer. Redistributions in\n"
+//			+ "binary form must reproduce the above copyright notice, thlist of\n"
 //			+ "conditions and the following disclaimer in the documentation and/or other\n"
 //			+ "materials provided with the distribution. The name of the author may not\n"
-//			+ "be used to endorse or promote products derived from this software without\n"
+//			+ "be used to endorse or promote products derived from thsoftware without\n"
 //			+ "specific prior written permission. \n"
 //			+ " \n"
 //			+ "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n"
