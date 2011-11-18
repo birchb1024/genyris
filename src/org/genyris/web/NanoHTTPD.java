@@ -276,6 +276,7 @@ public class NanoHTTPD {
 		}
 
 		public HTTPSession(Socket socket) {
+            keepAlive = true;
 			mySocket = socket;
 			sessionCount  += 1;
 			this.sessionNumber = sessionCount;
@@ -312,6 +313,10 @@ public class NanoHTTPD {
 						}
 					}
 				}
+                try {
+                    mySocket.close();
+                } catch (IOException ignore) { }
+
 			} catch (NanoException e) {
 				try {
 					mySocket.close();
@@ -361,17 +366,17 @@ public class NanoHTTPD {
 				}
 
 				// If there's another token, it's protocol version,
+                if (st.hasMoreTokens()) {
+                    String version = st.nextToken();
+                    if( version.equals("HTTP/1.0")) {
+                        keepAlive= false; // close connection after sending.
+                    }
+                }
 				// followed by HTTP headers. 
 				// NOTE: this now forces header names uppercase since they are
 				// case insensitive and vary by client.
 				Properties header = new Properties();
-				if (st.hasMoreTokens()) {
-                    String version = st.nextToken();
-                    if( version.equals("HTTP/1.0")) {
-                        keepAlive= false; // close connections after sending.
-                    }
-                }
-                if (st.hasMoreTokens()) {
+                {
 					String line = in.readLine();
 					if( line != null)
 						while (line.trim().length() > 0) {
