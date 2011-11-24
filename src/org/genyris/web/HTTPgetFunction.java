@@ -42,16 +42,17 @@ public class HTTPgetFunction extends ApplicableFunction {
         try {
             URL url = new URL(URI);
             URLConnection conn = url.openConnection();
+            if(!(conn instanceof HttpURLConnection)) {
+                throw new GenyrisException("Not an HttpURLConnection: " + conn);
+            }
+            HttpURLConnection httpConn = (HttpURLConnection)conn;
             while (headers != NIL) {
             	conn.addRequestProperty(headers.car().car().toString(), headers.car().cdr().toString());
             	headers = headers.cdr();
             }
-            if(conn instanceof HttpURLConnection) {
-            	HttpURLConnection httpConn = (HttpURLConnection)conn;
-            	httpConn.connect();
-            	if (httpConn.getResponseCode() != 200) {
-                	throw new GenyrisException("Server returned non 200 Respose Code: " + Integer.toString(httpConn.getResponseCode()));
-                }
+        	httpConn.connect();
+        	if (httpConn.getResponseCode() != 200) {
+            	throw new GenyrisException("Server returned non 200 Response Code: " + Integer.toString(httpConn.getResponseCode()));
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             return new ReaderStream((Reader)in);

@@ -276,7 +276,8 @@ public class NanoHTTPD {
 		}
 
 		public HTTPSession(Socket socket) {
-			mySocket = socket;
+            keepAlive = true;
+            mySocket = socket;
 			sessionCount  += 1;
 			this.sessionNumber = sessionCount;
 			try {
