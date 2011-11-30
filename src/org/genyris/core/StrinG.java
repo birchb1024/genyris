@@ -5,8 +5,6 @@
 //
 package org.genyris.core;
 
-import java.io.StringWriter;
-import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -18,7 +16,6 @@ import java.util.regex.PatternSyntaxException;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-import org.genyris.io.writerstream.WriterStream;
 
 public class StrinG extends Atom {
 

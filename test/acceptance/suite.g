@@ -42,7 +42,6 @@ define example-files
     ~ 'examples/allclasses.g'
     ~ 'examples/java-ffi.g'
     ~ 'examples/procedure-missing.g'
-    ~ 'examples/shell.g'
 
 var junit-summary (sys:junit-test-runner)
 
