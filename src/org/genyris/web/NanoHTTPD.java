@@ -345,6 +345,7 @@ public class NanoHTTPD {
 					return;					
 				}
 				StringTokenizer st = new StringTokenizer(reqline);
+                System.out.println("request line = '" + reqline + "'");
 				if (!st.hasMoreTokens())
 					sendError(HTTP_BADREQUEST,
 							"BAD REQUEST: Syntax error. Usage: GET /example/file.html");
@@ -371,13 +372,15 @@ public class NanoHTTPD {
                     if( version.equals("HTTP/1.0")) {
                         keepAlive= false; // close connection after sending.
                     }
+                } else {
+                    keepAlive= false; // Assume HTTP/1.0 hence close connection after sending.
                 }
 				// followed by HTTP headers. 
 				// NOTE: this now forces header names uppercase since they are
 				// case insensitive and vary by client.
 				Properties header = new Properties();
-                {
-					String line = in.readLine();
+                if(in.ready()) {
+                    String line = in.readLine();
 					if( line != null)
 						while (line.trim().length() > 0) {
 							int p = line.indexOf(':');
@@ -386,7 +389,9 @@ public class NanoHTTPD {
 							line = in.readLine();
 							if(line == null) break;
 						}
-				}
+				} else {
+                    // Assume no headers
+                }
 
 				// If the method is POST, there may be parameters
 				// in data section, too, read it:
