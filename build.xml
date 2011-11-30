@@ -11,7 +11,7 @@
     <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
     <property file="secrets.properties" />
     <property name="hg.summary.file" value="${build.dir}/hg-summary.txt"/>
-    
+
     <taskdef resource="checkstyletask.properties" classpath="${needed.lib.dir}/checkstyle-5.3-all.jar" />
 
     <tstamp>
@@ -23,10 +23,10 @@
     <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
     <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
     <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
-    <target name="build-workspace" depends="version-default, binary, test, reports" 
-    	description="Build and test current workspace contents."/>
+    <target name="build-workspace" depends="version-default, binary, test, reports"
+      description="Build and test current workspace contents."/>
     <target name="release" depends="tagged-version, binary, test, reports" description="Build a formal tagged release using the latest tag."/>
-    
+
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -70,10 +70,10 @@
     <target name="version-default" depends="hg-info">
         <property name="implementation-version" value="${hg.workspace.tag}-${hg.workspace.revision.number}-${hg.workspace.revision.hex}-${build.id}"/>
         <property name="version" value="${implementation-version}"/>
-        <echo>Version = ${version}</echo>          
+        <echo>Version = ${version}</echo>
         <echo>implementation-version = '${implementation-version}'</echo>
     </target>
-    
+
     <target name="tagged-version" depends="hg-info, hg-committed">
         <property name="implementation-version" value="${hg.workspace.tag}-${build.id}"/>
         <property name="version" value="${hg.workspace.tag}"/>
@@ -82,12 +82,12 @@
         </condition>
         <fail if="workspace-does-not-contain-a-tagged-version" />
     </target>
-    
+
     <target name="hg-info" description="Extract Mercurial information." depends="only-hg-workspace,only-hg-status">
         <property name="specification-version" value="${hg.workspace.tag.spec}"/>
-        <buildnumber file="v${hg.workspace.revision.hex}-build-number.txt"/>        
+        <buildnumber file="v${hg.workspace.revision.hex}-build-number.txt"/>
         <property name="build.id" value="b${build.number}"/>
-        <echo>Workspace has uncommitted changes = ${working-folder-has-uncommited-changes}</echo>  
+        <echo>Workspace has uncommitted changes = ${working-folder-has-uncommited-changes}</echo>
         <echo>workspace revision = '${hg.workspace.revision.number}' '${hg.workspace.revision.hex}'</echo>
         <echo>workspace tag = '${hg.workspace.tag}'</echo>
         <echo>specification version = '${specification-version}'</echo>
@@ -112,7 +112,7 @@
     </target>
 
     <target name="only-hg-workspace">
-	     <!-- Extract the info about the current workspace -->
+        <!-- Extract the info about the current workspace -->
         <exec executable="hg" output="${hg.summary.file}" errorproperty="hg.error" failonerror="true">
             <arg value="summary" />
         </exec>
@@ -158,9 +158,9 @@
                <striplinebreaks/>
             </filterchain>
         </loadfile>
-	</target>
+   </target>
 
-	<target name="only-init">
+   <target name="only-init">
         <mkdir dir="${build.dir}" />
         <mkdir dir="${version.dir}" />
         <mkdir dir="${dist.dir}" />
@@ -175,7 +175,7 @@
     </target>
 
     <target name="only-compile">
-        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" 
+        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath"
                   source="1.4" target="1.4" verbose="no" includeantruntime="false">
             <include name="org/**" />
             <include name="com/**" />
@@ -206,16 +206,16 @@
             <arg value="pdf" />
             <arg value="genyris-manual-${version}.lyx" />
         </exec>
-        <exec executable="C:\Python25\python.exe" dir="dist" failonerror="true" os="Windows XP">
+        <exec executable="C:\Python27\python.exe" dir="dist" failonerror="true" os="Windows XP">
             <arg value="C:\downloads\elyxer\elyxer-1.0.4\elyxer.py" />
             <arg value="genyris-manual-${version}.lyx" />
             <arg value="genyris-manual-${version}.html" />
-        </exec>    
+        </exec>
         <exec executable="/usr/bin/python" dir="dist" failonerror="true" os="Linux">
             <arg value="/home/birchb/apps/elyxer/elyxer-1.0.4/elyxer.py" />
             <arg value="genyris-manual-${version}.lyx" />
             <arg value="genyris-manual-${version}.html" />
-        </exec>    
+        </exec>
         <delete verbose="true">
             <fileset dir="dist">
                 <include name="*jpg" />
@@ -324,7 +324,7 @@
     <target name="test" depends="binary, only-test"/>
     <target name="only-test" depends="hg-info">
         <exec executable="java" failonerror="true">
-        	<env key="GENYRIS_HOME" value="${basedir}"/>
+         <env key="GENYRIS_HOME" value="${basedir}"/>
             <arg value="-showversion" />
             <arg value="-jar" />
             <arg value="dist/genyris-bin-${version}.jar" />
@@ -332,8 +332,8 @@
         </exec>
     </target>
 
-	<target name="reports" depends="only-report-todo"/>
-	<target name="only-report-todo">
+   <target name="reports" depends="only-report-todo"/>
+   <target name="only-report-todo">
         <exec executable="java" failonerror="true">
             <env key="GENYRIS_HOME" value="${basedir}"/>
             <arg value="-jar" />
@@ -343,17 +343,17 @@
             <arg value=".*TODO.*|.*FIXME.*" />
             <arg value="${basedir}" />
         </exec>
-	</target>
+   </target>
 
-	<target name="checkstyle" description="Check Java code Style.">
-		<mkdir dir="reports" />
-		<checkstyle config="conf/BillBirchCheck.xml">
-			<fileset dir="${src.dir}" includes="**/*.java" />
-			<formatter type="plain"/>
-			<formatter type="xml" toFile="dist/checkstyle_errors.xml" />
-		</checkstyle>
-	</target>
+   <target name="checkstyle" description="Check Java code Style.">
+      <mkdir dir="reports" />
+      <checkstyle config="conf/BillBirchCheck.xml">
+         <fileset dir="${src.dir}" includes="**/*.java" />
+         <formatter type="plain"/>
+         <formatter type="xml" toFile="dist/checkstyle_errors.xml" />
+      </checkstyle>
+   </target>
 
-	
-	
-	</project>
+
+
+   </project>
