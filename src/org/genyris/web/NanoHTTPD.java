@@ -345,7 +345,7 @@ public class NanoHTTPD {
 					return;					
 				}
 				StringTokenizer st = new StringTokenizer(reqline);
-                System.out.println("request line = '" + reqline + "'");
+                // System.out.println("request line = '" + reqline + "'");
 				if (!st.hasMoreTokens())
 					sendError(HTTP_BADREQUEST,
 							"BAD REQUEST: Syntax error. Usage: GET /example/file.html");
