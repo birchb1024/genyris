@@ -1,5 +1,6 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
+@prefix task "http://www.genyris.org/lang/task#"
 
 def valid-logon?(username password)
    # redefine to suit
@@ -68,3 +69,8 @@ def login(request)
 #
 # web:get 'http://localhost/' (list (cons 'authorization' ('Basic %a' (.format ('foo:bar'(.toBase64))))))
 #
+cond
+    (equal? (task:id)!name 'main')
+         httpd 8000 sys:argv!left
+         u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
+         read

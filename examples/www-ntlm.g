@@ -1,6 +1,8 @@
-@prefix u "http://www.genyris.org/lang/utilities#"
+@prefix sys "http://www.genyris.org/lang/system#"
+@prefix task "http://www.genyris.org/lang/task#"
+@prefix u   "http://www.genyris.org/lang/utilities#"
 
-include 'lib/classify.g'
+include 'classify.g'
 
 class ListOfInts()
     defmethod .beginsWith?(other)
@@ -145,4 +147,8 @@ df httpd-serve (request)
             print response
             response
 
-   
+cond
+    (equal? (task:id)!name 'main')
+         httpd 8000 sys:argv!left
+         u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
+         read   

@@ -228,14 +228,10 @@ public class GenyrisHTTPD extends NanoHTTPD {
                 makeListOfArray(NIL, argv));
 
         Writer output = new PrintWriter(System.out);
-        SourceLoader.loadScriptFromClasspath(interpreter.getGlobalEnv(),
-                interpreter.getSymbolTable(),
-                "org/genyris/load/boot/httpd-serve.g", output);
+        HttpRequestClazz = (Dictionary) interpreter.lookupGlobalFromString("HttpRequest");
+        AlistClazz = (Dictionary) interpreter.lookupGlobalFromString("Alist");
         SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter
                 .getSymbolTable(), filename, output);
 
-        HttpRequestClazz = (Dictionary) interpreter
-                .lookupGlobalFromString("HttpRequest");
-        AlistClazz = (Dictionary) interpreter.lookupGlobalFromString("Alist");
     }
 }

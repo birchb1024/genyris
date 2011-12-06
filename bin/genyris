@@ -1,2 +1,2 @@
 #!/bin/sh
-java -Xmx256M -cp $GENYRIS_HOME/dist/genyris-bin*.jar org.genyris.interp.ClassicReadEvalPrintLoop $*
+java -Xmx256M -classpath ${GENYRIS_HOME}/dist/*:${GENYRIS_HOME}/needed/* org.genyris.interp.ClassicReadEvalPrintLoop $*

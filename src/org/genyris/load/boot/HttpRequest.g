@@ -65,14 +65,3 @@ class HttpRequest()
              hr()
              div() "Headers:" ,((.getHeaders)(.toHTML))
              div() "Parameters:" ,((.getParameters)(.toHTML))
-
-
-df httpd-serve (request)
-   print request
-   list 200 "text/html"
-      template
-          html()
-             head()
-             body()
-                ,(request (.toHTML))
-

@@ -94,6 +94,7 @@ load "org/genyris/load/boot/for.g"
 load "org/genyris/load/boot/task.g"
 load "org/genyris/load/boot/process.g"
 load "org/genyris/load/boot/repl.g"
+load "org/genyris/load/boot/HttpRequest.g"
 
 import Base64
 
