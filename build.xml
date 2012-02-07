@@ -1,5 +1,5 @@
 <project name="Genyris" default="build-workspace" basedir=".">
-    <!-- -->
+    
     <property name="build.compiler" value="javac1.6"/>
     <property name="needed.lib.dir" value="needed" />
     <property name="junit.lib.dir" value="needed" />
@@ -10,7 +10,7 @@
     <property name="src.dir" value="src" />
     <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
     <property file="secrets.properties" />
-    <property name="hg.summary.file" value="${build.dir}/hg-summary.txt"/>
+    <property name="git.describe.file" value="${build.dir}/git-describe.txt"/>
 
     <taskdef resource="checkstyletask.properties" classpath="${needed.lib.dir}/checkstyle-5.3-all.jar" />
 
@@ -25,8 +25,8 @@
     <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
     <target name="build-workspace" depends="version-default, binary, test, reports"
       description="Build and test current workspace contents."/>
-    <target name="release" depends="tagged-version, binary, test, reports" description="Build a formal tagged release using the latest tag."/>
-
+    <target name="release" depends="tagged-version, binary, test, reports" 
+      description="Build a formal tagged release using only the latest tag."/>
 
     <!-- Libraries required  -->
     <fileset id="needed.libs" dir="${needed.lib.dir}">
@@ -67,97 +67,70 @@
         <echoproperties />
     </target>
 
-    <target name="version-default" depends="hg-info">
-        <property name="implementation-version" value="${hg.workspace.tag}-${hg.workspace.revision.number}-${hg.workspace.revision.hex}-${build.id}"/>
+    <target name="version-default" depends="git-info">
+        <property name="implementation-version" value="${git.workspace.version}-${build.id}"/>
         <property name="version" value="${implementation-version}"/>
         <echo>Version = ${version}</echo>
         <echo>implementation-version = '${implementation-version}'</echo>
     </target>
 
-    <target name="tagged-version" depends="hg-info, hg-committed">
-        <property name="implementation-version" value="${hg.workspace.tag}-${build.id}"/>
-        <property name="version" value="${hg.workspace.tag}"/>
-        <condition property="workspace-does-not-contain-a-tagged-version">
-                <equals arg1="${hg.workspace.tag}" arg2="tip" />
-        </condition>
-        <fail if="workspace-does-not-contain-a-tagged-version" />
-    </target>
-
-    <target name="hg-info" description="Extract Mercurial information." depends="only-hg-workspace,only-hg-status">
-        <property name="specification-version" value="${hg.workspace.tag.spec}"/>
-        <buildnumber file="v${hg.workspace.revision.hex}-build-number.txt"/>
+    <target name="git-info" description="Extract Git information." depends="only-git-workspace, only-git-status">
+        <property name="specification-version" value="${git.workspace.specification.version}"/>
+        <buildnumber file="${git.workspace.version}-build-number.txt"/>
         <property name="build.id" value="b${build.number}"/>
-        <echo>Workspace has uncommitted changes = ${working-folder-has-uncommited-changes}</echo>
-        <echo>workspace revision = '${hg.workspace.revision.number}' '${hg.workspace.revision.hex}'</echo>
-        <echo>workspace tag = '${hg.workspace.tag}'</echo>
-        <echo>specification version = '${specification-version}'</echo>
+        <echo>specification version = ${specification-version}</echo>
         <echo>Build Number = ${build.id}</echo>
     </target>
 
-    <target name="hg-committed" description="Fail if uncommitted changes" depends="only-hg-status">
+    <target name="git-committed" description="Fail if uncommitted changes" depends="only-git-status">
         <fail if="working-folder-has-uncommited-changes" />
     </target>
 
-    <target name="only-hg-status" description="hg state">
-        <exec executable="hg" outputproperty="hg.status" errorproperty="hg.error" failonerror="true">
-            <arg value="status" />
-            <arg value="-arm" />
+    <target name="only-git-status" description="look for uncommitted files">
+        <exec executable="bash" outputproperty="git.status" errorproperty="git.error" failonerror="true">
+            <arg value="-c"/>
+            <arg value="git status --porcelain | wc -l" />
         </exec>
-        <echo message="${hg.status}" />
         <condition property="working-folder-has-uncommited-changes">
             <not>
-                <equals arg1="${hg.status}" arg2="" />
+                <equals arg1="${git.status}" arg2="0" />
             </not>
         </condition>
+        <echo>git.status = ${git.status}</echo>
+        <echo>working-folder-has-uncommited-changes = ${working-folder-has-uncommited-changes}</echo>
     </target>
 
-    <target name="only-hg-workspace">
-        <!-- Extract the info about the current workspace -->
-        <exec executable="hg" output="${hg.summary.file}" errorproperty="hg.error" failonerror="true">
-            <arg value="summary" />
+    <target name="only-git-workspace">
+        <exec executable="git" outputproperty="git.workspace.version" errorproperty="git.error" failonerror="true">
+            <arg value="describe"/>
+            <arg value="--tags" />
         </exec>
-         <concat>
-             <fileset file="${hg.summary.file}"/>
-           </concat>
-        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.revision.number">
+        <echo>git.workspace.version = ${git.workspace.version}</echo>
+        <exec executable="git" output="${git.describe.file}" errorproperty="git.error" failonerror="true">
+            <arg value="describe"/>
+            <arg value="--tags" />
+            <arg value="--abbrev=0" />
+        </exec>
+        <loadfile srcfile="${git.describe.file}" property="git.workspace.tag"/>
+        <echo>git.workspace.tag = ${git.workspace.tag}</echo>
+        <condition property="workspace-contains-a-tagged-version">
+            <equals arg1="${git.workspace.tag}" arg2="${git.workspace.version}" />
+        </condition>
+        <echo>workspace-contains-a-tagged-version = ${workspace-contains-a-tagged-version}</echo>
+        <loadfile srcfile="${git.describe.file}" property="git.workspace.specification.version">
             <filterchain>
                <headfilter lines="1" skip="0"/>
                <tokenfilter>
-                  <replaceregex pattern="parent: +" replace="" flags="gi"/>
-                  <replaceregex pattern=":.+ .*$" replace="" flags="gi"/>
-               </tokenfilter>
-               <striplinebreaks/>
-            </filterchain>
-        </loadfile>
-        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.revision.hex">
-            <filterchain>
-               <headfilter lines="1" skip="0"/>
-               <tokenfilter>
-                  <replaceregex pattern="parent: +[0-9]+:" replace="" flags="gi"/>
-                  <replaceregex pattern=" .*$" replace="" flags="gi"/>
-               </tokenfilter>
-               <striplinebreaks/>
-            </filterchain>
-        </loadfile>
-        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.tag">
-            <filterchain>
-               <headfilter lines="1" skip="0"/>
-               <tokenfilter>
-                  <replaceregex pattern="parent: +[0-9]+:[^ ]+ " replace="" flags="gi"/>
-               </tokenfilter>
-               <striplinebreaks/>
-            </filterchain>
-        </loadfile>
-        <loadfile srcfile="${hg.summary.file}" property="hg.workspace.tag.spec">
-            <filterchain>
-               <headfilter lines="1" skip="0"/>
-               <tokenfilter>
-                  <replaceregex pattern="parent: +[0-9]+:[^ ]+ " replace="" flags="gi"/>
                   <replaceregex pattern="\.[0-9]+$" replace="" flags="gi"/>
                </tokenfilter>
                <striplinebreaks/>
             </filterchain>
         </loadfile>
+        <echo>git.workspace.specification.version = ${git.workspace.specification.version}</echo>
+   </target>
+   
+   <target name="tagged-version" depends="git-info, git-committed">
+        <fail unless="workspace-contains-a-tagged-version" />
    </target>
 
    <target name="only-init">
@@ -182,7 +155,7 @@
         </javac>
     </target>
 
-    <target name="only-compile-docs" description="Creat PDF manual" depends="hg-info">
+    <target name="only-compile-docs" description="Creat PDF manual" depends="git-info">
         <copy file="doc/reference/manual.lyx" tofile="dist/genyris-manual-${version}.lyx" verbose="true" overwrite="true">
             <filterchain>
                 <replacetokens>
@@ -251,39 +224,6 @@
         <checksum file="rel/genyris-binary-${version}.zip" forceOverwrite="yes" />
     </target>
 
-    <target name="sf-publish-mercurial-source-" description="publish source code to SourceForge Mercurial repo" depends="hg-info, hg-committed,test">
-        <exec executable="hg" errorproperty="hg.error" failonerror="true">
-            <arg value="push" />
-            <arg value="ssh://billbirch@genyris.hg.sourceforge.net/hgroot/genyris/genyris" />
-        </exec>
-    </target>
-
-    <target name="only-publish-to-google-mercurial" description="publish source code to Google Code Mercurial repo" depends="hg-info, hg-committed, only-test">
-        <exec executable="hg" failonerror="true">
-            <arg value="push"/>
-            <arg value="GoogleCode" />
-        </exec>
-    </target>
-
-    <target name="sf-publish-files" description="publish source and binaries to SourceForge Files area" depends="hg-info, hg-committed">
-        <input message="password?" addproperty="password" />
-        <scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/binary" verbose="true" trust="true">
-            <fileset dir="rel">
-                <include name="**/*binary*" />
-            </fileset>
-        </scp>
-        <scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/source" verbose="true" trust="true">
-            <fileset dir="rel">
-                <include name="**/*source*" />
-            </fileset>
-        </scp>
-      <scp todir="billbirch,genyris:${password}@frs.sourceforge.net:/home/frs/project/g/ge/genyris/documentation" verbose="true" trust="true">
-         <fileset dir="rel">
-            <include name="**/*manual*" />
-         </fileset>
-      </scp>
-    </target>
-
     <target name="archive" depends="make-jar" description="Make a backup">
         <input message="Destination directory for archive?" addproperty="archive.dest" />
         <tstamp />
@@ -322,7 +262,7 @@
     </target>
 
     <target name="test" depends="binary, only-test"/>
-    <target name="only-test" depends="hg-info">
+    <target name="only-test" depends="git-info">
         <exec executable="java" failonerror="true">
          <env key="GENYRIS_HOME" value="${basedir}"/>
             <arg value="-showversion" />
