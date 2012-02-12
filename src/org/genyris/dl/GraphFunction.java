@@ -59,6 +59,8 @@ public class GraphFunction extends ApplicableFunction {
 				new GetListMethod(interpreter));
 		interpreter.bindMethodInstance(Constants.GRAPH,
 				new SubjectsMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.GRAPH,
+                new UnionMethod(interpreter));
 	}
 
 	public abstract static class AbstractGraphMethod extends
@@ -68,7 +70,7 @@ public class GraphFunction extends ApplicableFunction {
 			super(interp, name);
 		}
 
-		protected Graph getSelfTS(Environment env)
+		protected Graph getSelfGraph(Environment env)
 				throws GenyrisException {
 			getSelf(env);
 			if (!(_self instanceof Graph)) {
@@ -88,7 +90,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			checkArguments(arguments, 1);
 			Class[] types = { Triple.class };
 			checkArgumentTypes(types, arguments);
@@ -105,7 +107,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			checkArguments(arguments, 2);
 			Class[] types = { Exp.class, Symbol.class };
 			checkArgumentTypes(types, arguments);
@@ -121,7 +123,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			checkArguments(arguments, 2);
 			Class[] types = { Exp.class, Symbol.class };
 			checkArgumentTypes(types, arguments);
@@ -137,7 +139,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			checkArguments(arguments, 3);
 			Class[] types = { Exp.class, Symbol.class, Exp.class };
 			checkArgumentTypes(types, arguments);
@@ -146,16 +148,33 @@ public class GraphFunction extends ApplicableFunction {
 		}
 	}
 
-	public static class SubjectsMethod extends AbstractGraphMethod {
+    public static class SubjectsMethod extends AbstractGraphMethod {
 
-		public SubjectsMethod(Interpreter interp) {
-			super(interp, "subjects");
+        public SubjectsMethod(Interpreter interp) {
+            super(interp, "subjects");
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Graph self = getSelfGraph(env);
+            return self.subjects(NIL);
+        }
+    }
+
+	public static class UnionMethod extends AbstractGraphMethod {
+
+		public UnionMethod(Interpreter interp) {
+			super(interp, "union");
 		}
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
-			return self.subjects(NIL);
+            checkArguments(arguments, 1);
+            Class[] types = { Graph.class };
+            checkArgumentTypes(types, arguments);
+			Graph self = getSelfGraph(env);
+			Graph other = (Graph)arguments[0]; 
+			return self.union(other);
 		}
 	}
 
@@ -167,7 +186,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			return new Bignum(self.length());
 		}
 	}
@@ -181,7 +200,7 @@ public class GraphFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			Closure closure = null;
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			checkMinArguments(arguments, 3);
 			Class[] types = { Exp.class, Symbol.class, Exp.class };
 			checkArgumentTypes(types, arguments);
@@ -212,7 +231,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			return self.asTripleList(NIL);
 		}
 	}
@@ -225,7 +244,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfTS(env);
+			Graph self = getSelfGraph(env);
 			checkArguments(arguments, 1);
 			Class[] types = { Triple.class };
 			checkArgumentTypes(types, arguments);

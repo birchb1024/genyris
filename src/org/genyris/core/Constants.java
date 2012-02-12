@@ -103,7 +103,6 @@ public class Constants {
 		public static final String PREFIX_DATE = "http://www.genyris.org/lang/date#";
 		public static final String PREFIX_JAVA = "http://www.genyris.org/lang/java#";
 
-        public static final String DESCRIPTIONS = PREFIX_TYPES + "Descriptions";
 		public static final String SUBCLASSOF = "subClassOf";
 		public static final String DYNAMICSYMBOLREF = "DynamicSymbolRef";
 		public static final String FORMAT = "format";
@@ -119,5 +118,6 @@ public class Constants {
 		public static final String JAVASTATICMETHOD = "JavaStaticMethod";
 		public static final String JAVACLASS = PREFIX_JAVA + "class";
 		public static final String PROCEDUREMISSING = PREFIX_SYSTEM + "procedure-missing";
+        public static final String GLOBALGRAPH = "*global-graph*";
 
 }

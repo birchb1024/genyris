@@ -49,7 +49,7 @@ public interface Internable {
 	public SimpleSymbol TRIPLE();
 	public SimpleSymbol GRAPH();
     public SimpleSymbol TYPE();
-    public SimpleSymbol DESCRIPTIONS();
+    public SimpleSymbol GLOBALGRAPH();
 	public SimpleSymbol SUBCLASSOF();
 	public SimpleSymbol DYNAMICSYMBOLREF();
 	public SimpleSymbol SOURCE();

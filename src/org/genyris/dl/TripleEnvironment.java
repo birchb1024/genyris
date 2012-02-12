@@ -15,7 +15,7 @@ import org.genyris.interp.ExpressionEnvironment;
 import org.genyris.interp.UnboundException;
 
 public class TripleEnvironment extends ExpressionEnvironment {
-	// This environment encompasses a Pair.
+	// This environment encompasses a Triple
 
 	SimpleSymbol _subject, _predicate, _object;
 

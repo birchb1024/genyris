@@ -5,13 +5,31 @@
 ##
 
 #
-#  About triples...
+#  About triples...And the global graph
 #
-df tripleq (s p o) (triple s p o)
-var *global-graph* (graph)
-df description(&rest body)
-    for t in body
-        *global-graph*
-           .add (triple (nth 0 t) (nth 1 t) (nth 2 t))
+
+df tripleq (s p o) 
+   triple s p o
+
+Thing
+   defmethod .putprop(p o)
+      *global-graph*
+           .put this p o
+      the o
+   defmethod .addprop(p o)
+      *global-graph*
+           .add(triple this p o)
+      the o
+   defmethod .getprop(p)
+      *global-graph*
+          .get this p
+   defmethod .getprop-list(p)
+      *global-graph*
+          .get-list this p
+   defmethod .get-properties()
+      (this(.asGraph))
+         .union
+            *global-graph*
+                .select this nil nil
         
         

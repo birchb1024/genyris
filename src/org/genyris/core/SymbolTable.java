@@ -12,8 +12,8 @@ import java.util.Map;
 import org.genyris.exception.GenyrisException;
 
 public class SymbolTable implements Internable {
-	private Map         _table;
-    private SimpleSymbol     NIL;
+	private Map          _table;
+    private SimpleSymbol NIL;
 	private SimpleSymbol _self;
 	private SimpleSymbol _classes;
 	private SimpleSymbol _superclasses;
@@ -58,7 +58,6 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _TRIPLE;
 	private SimpleSymbol _GRAPH;
     private SimpleSymbol _TYPE;
-    private SimpleSymbol _DESCRIPTIONS;
 	private SimpleSymbol _SUBCLASSOF;
 	private SimpleSymbol _DYNAMICSYMBOLREF;
 	private SimpleSymbol _SOURCE;
@@ -73,6 +72,7 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _JAVACLASS;
 	private SimpleSymbol _PIPE;
 	private SimpleSymbol _PROCEDUREMISSING;
+    private SimpleSymbol _GLOBALGRAPH;
 	
     public SymbolTable() {
         _table = new HashMap();
@@ -130,7 +130,7 @@ public class SymbolTable implements Internable {
 	_TRIPLE = bindKeyword(String.valueOf(Constants.TRIPLE));
 	_GRAPH = bindKeyword(String.valueOf(Constants.GRAPH));
     _TYPE = bindKeyword(String.valueOf(Constants.TYPE));
-    _DESCRIPTIONS = bindKeyword(String.valueOf(Constants.DESCRIPTIONS));
+    _GLOBALGRAPH = bindKeyword(String.valueOf(Constants.GLOBALGRAPH));
     
     _SUBCLASSOF = bindKeyword(String.valueOf(Constants.SUBCLASSOF));
     _DYNAMICSYMBOLREF = bindKeyword(String.valueOf(Constants.DYNAMICSYMBOLREF));
@@ -364,10 +364,6 @@ public class SymbolTable implements Internable {
         return _TYPE;
     }
 
-	public SimpleSymbol DESCRIPTIONS() {
-		return _DESCRIPTIONS;
-	}
-
 	public SimpleSymbol SUBCLASSOF() {
 		return _SUBCLASSOF;
 	}
@@ -421,5 +417,9 @@ public class SymbolTable implements Internable {
 	public SimpleSymbol PROCEDUREMISSING() {
 		return _PROCEDUREMISSING;
 	}
+
+    public SimpleSymbol GLOBALGRAPH() {
+        return _GLOBALGRAPH;
+    }
 
 }

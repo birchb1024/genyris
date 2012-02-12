@@ -44,7 +44,7 @@ public class Interpreter {
 
     StandardEnvironment _globalEnvironment;
     SymbolTable _table;
-    Graph _globalDescriptions;
+    Graph _theGlobalGraph;
 
     Writer _defaultOutput;
 
@@ -59,7 +59,7 @@ public class Interpreter {
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
-        _globalDescriptions = new Graph();
+        _theGlobalGraph = new Graph();
         Dictionary SYMBOL = new Dictionary(_globalEnvironment);
         _defaultOutput = new OutputStreamWriter(System.out);
         {
@@ -93,7 +93,7 @@ public class Interpreter {
                         new PrintWriter(System.err)));
         _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
                 new ReaderStream(StdioInStream.knew()));
-        _globalEnvironment.defineVariable(_table.DESCRIPTIONS(), _globalDescriptions);
+        _globalEnvironment.defineVariable(_table.GLOBALGRAPH(), _theGlobalGraph);
     }
 
     public void bindGlobalProcedureInstance(ApplicableFunction proc)

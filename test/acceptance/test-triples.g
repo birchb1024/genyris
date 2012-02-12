@@ -135,6 +135,22 @@ def test-put()
         .put ^joe ^age 98
    assert (equal? (ts(.length)) 3)
 
+def test-union()
+   var ts (graph)
+   var ts2 (graph)
+   var ts3 (graph)
+   ts(.add (triple ^s ^d ^f))
+   ts(.add (triple ^x ^x ^x))
+   ts2(.add (triple ^z ^x ^c))
+   ts2(.add (triple ^x ^x ^x))
+   ts3
+      .add (triple ^s ^d ^f)
+      .add (triple ^z ^x ^c)
+      .add (triple ^x ^x ^x)
+   assert
+      equal? ts3 (ts(.union ts2))
+test-union         
+
 test-remove
 test-remove2
 test-select

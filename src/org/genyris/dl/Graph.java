@@ -200,7 +200,23 @@ public class Graph extends Atom {
 		}
 		return result;
 	}
-	public Exp eval(Environment env) throws GenyrisException {
+
+    public Graph union(Graph other) throws GenyrisException {
+        Graph result =  new Graph();
+        Iterator iter = triples.iterator();
+        while(iter.hasNext()) {
+            Triple item = (Triple)iter.next();
+            result.add(item);
+        }
+        iter = other.triples.iterator();
+        while(iter.hasNext()) {
+            Triple item = (Triple)iter.next();
+            result.add(item);
+        }
+        return result;
+    }
+
+    public Exp eval(Environment env) throws GenyrisException {
 		return this;
 	}
 
