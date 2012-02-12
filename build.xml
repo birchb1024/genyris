@@ -23,7 +23,7 @@
     <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
     <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
     <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
-    <target name="build-workspace" depends="version-default, binary, test, reports"
+    <target name="build-workspace" depends="only-clean, only-init, version-default, binary, test, reports"
       description="Build and test current workspace contents."/>
     <target name="release" depends="tagged-version, binary, test, reports" 
       description="Build a formal tagged release using only the latest tag."/>
