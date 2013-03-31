@@ -36,7 +36,7 @@ public abstract class StreamParser extends Atom {
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
         	checkArguments(arguments, 2);
-        	getSelfParser(env)._parser.addPrefix(arguments[0].toString(), arguments[1].toString());
+        	getSelfParser(env)._parser.addPrefix(_interp, arguments[0].toString(), arguments[1].toString());
         	return NIL;
         }
     }

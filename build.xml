@@ -41,7 +41,9 @@
         <include name="pop3.jar" />
         <include name="smtp.jar" />
         <include name="opencsv-1.8.jar" />
-    </fileset>
+        <include name="jline-2.11.jar" />
+        <include name="commons-io-2.4.jar" />
+        </fileset>
 
     <!-- Properties files from the classpath -->
     <fileset id="product.properties.files" dir="${java.src.dir}">
@@ -149,7 +151,7 @@
 
     <target name="only-compile">
         <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath"
-                  source="1.4" target="1.4" verbose="no" includeantruntime="false">
+                  source="1.6" target="1.6" verbose="no" includeantruntime="false">
             <include name="org/**" />
             <include name="com/**" />
         </javac>

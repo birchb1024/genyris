@@ -12,10 +12,6 @@ idebuild
 build
 dist
 rel
-# Package Files #
-*.jar
-*.war
-*.ear
 
 *toc
 *aux

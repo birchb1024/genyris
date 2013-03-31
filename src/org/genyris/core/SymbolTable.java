@@ -5,8 +5,10 @@
 //
 package org.genyris.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.genyris.exception.GenyrisException;
@@ -199,7 +201,19 @@ public class SymbolTable implements Internable {
         }
         return head;
     }
-    
+
+    public List<Exp> getSymbolsAsListOfExp() {
+        ArrayList<Exp> retval = new ArrayList<Exp>();
+        retval.addAll(_table.values());
+        return retval;
+    }
+
+    public List<String> getSymbolsListAsListOfStrings() {
+        ArrayList<String> retval = new ArrayList<String>();
+        retval.addAll(_table.keySet());
+        return retval;
+    }
+
     //
     // The following methods exist to eliminate use of internString in clients.
     // Added after performance tests.

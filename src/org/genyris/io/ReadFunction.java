@@ -15,9 +15,9 @@ public class ReadFunction extends ApplicableFunction {
 	public ReadFunction(Interpreter interp) throws GenyrisException {
 		super(interp, "read", true);
 		input = new UngettableInStream(new ConvertEofInStream(new IndentStream(
-				new UngettableInStream(StdioInStream.knew()), true)));
+				new UngettableInStream(_interp.getInput()), true)));
 		parser = _interp.newParser(input);
-		parser.setUsualPrefixes();
+		parser.setUsualPrefixes(_interp);
 
 	}
 

@@ -139,4 +139,8 @@ public class StandardEnvironment extends AbstractEnvironment {
 		}
 	}
 
+    public boolean boundp(Symbol s) {
+        return _frame.containsKey(s);
+    }
+
 }

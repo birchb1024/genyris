@@ -16,6 +16,7 @@ import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Interpreter;
 
 public class Parser {
 	private Lex _lexer;
@@ -230,8 +231,9 @@ public class Parser {
 		return tree;
 	}
 
-	public void addPrefix(String prefix, String expansion)
+	public void addPrefix(Interpreter interp, String prefix, String expansion)
 			throws GenyrisException {
+	    interp.collectPrefix(prefix, expansion);
 		_lexer.addprefix(prefix, expansion);
 	}
 
@@ -247,16 +249,16 @@ public class Parser {
 		_lexer.resetAfterError();
 	}
 
-	public void setUsualPrefixes() throws GenyrisException {
-		addPrefix("u", Constants.PREFIX_UTIL);
-		addPrefix("web", Constants.PREFIX_WEB);
-		addPrefix("g", Constants.PREFIX_SYNTAX);
-		addPrefix("sys", Constants.PREFIX_SYSTEM);
-		addPrefix("ver", Constants.PREFIX_VERSION);
-		addPrefix("task", Constants.PREFIX_TASK);
-		addPrefix("types", Constants.PREFIX_TYPES);
-		addPrefix("date", Constants.PREFIX_DATE);
-		addPrefix("java", Constants.PREFIX_JAVA);
+	public void setUsualPrefixes(Interpreter interp) throws GenyrisException {
+		addPrefix(interp, "u", Constants.PREFIX_UTIL);
+		addPrefix(interp, "web", Constants.PREFIX_WEB);
+		addPrefix(interp, "g", Constants.PREFIX_SYNTAX);
+		addPrefix(interp, "sys", Constants.PREFIX_SYSTEM);
+		addPrefix(interp, "ver", Constants.PREFIX_VERSION);
+		addPrefix(interp, "task", Constants.PREFIX_TASK);
+		addPrefix(interp, "types", Constants.PREFIX_TYPES);
+		addPrefix(interp, "date", Constants.PREFIX_DATE);
+		addPrefix(interp, "java", Constants.PREFIX_JAVA);
 	}
 
 }

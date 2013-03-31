@@ -30,7 +30,7 @@ public class SourceLoader {
 
 	public static Parser parserFactory(String filename, Reader input,
 			Internable table) throws GenyrisException {
-		if (filename.endsWith(".g")) {
+		if (filename.endsWith(".g") || filename.equals("-")) {
 			InStream is = new UngettableInStream(new ConvertEofInStream(
 					new IndentStream(new UngettableInStream(new ReaderInStream(
 							input)), false)));
@@ -44,7 +44,7 @@ public class SourceLoader {
 		}
 	}
 
-	private static void execAndClose(Environment env, Internable table, InputStream in,
+	public static void execAndClose(Environment env, Internable table, InputStream in,
 			String filename, Writer writer) throws GenyrisException {
 		try {
 			executeScript(env, filename, table, new InputStreamReader(in), writer);

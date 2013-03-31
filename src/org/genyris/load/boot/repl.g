@@ -23,11 +23,8 @@ def sys:read-eval-print-loop()
         versioninfo.title
         versioninfo.version
         System.HOME
-   def sys:prompt()
-      u:format '> '
    define looping true          
    while looping
-       sys:prompt
        define bt nil
        catch errors
            define expression (read)

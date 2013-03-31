@@ -58,7 +58,7 @@ public abstract class ApplicableFunction {
     public String toString() {
         return _name;
     }
-
+    
     public boolean isEager() {
         return _eager;
     }

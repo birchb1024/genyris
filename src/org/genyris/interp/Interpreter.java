@@ -5,12 +5,17 @@
 //
 package org.genyris.interp;
 
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
@@ -51,9 +56,17 @@ public class Interpreter {
     public NilSymbol NIL;
 	private Exp _debugStack;
 
-    
-    
+    private InStream _inputStream;
+
+    private Map<String, String> _prefixesUsed; // collect all prefixes - used for output.
+
     public Interpreter() throws GenyrisException {
+        this(StdioInStream.knew(), System.out);
+    }      
+
+    public Interpreter(InStream inStream, OutputStream out) throws GenyrisException {
+        _inputStream = inStream;
+        _prefixesUsed = new HashMap<String, String>();
         NIL = new NilSymbol();
         _debugStack = NIL;
         _table = new SymbolTable();
@@ -61,12 +74,14 @@ public class Interpreter {
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
         _theGlobalGraph = new Graph();
         Dictionary SYMBOL = new Dictionary(_globalEnvironment);
-        _defaultOutput = new OutputStreamWriter(System.out);
+        _defaultOutput = new OutputStreamWriter(out);
         {
             // Circular references between symbols and classnames require manual
             // bootstrap here:
             SYMBOL.defineVariableRaw(_table.CLASSNAME(), _table.SIMPLESYMBOL());
         }
+        _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
+                new ReaderStream(inStream));
         defineConstantSymbols();
 
         standardClassInit(_globalEnvironment);
@@ -91,8 +106,6 @@ public class Interpreter {
         _globalEnvironment.defineVariable(
                 _table.internString(Constants.STDERR), new WriterStream(
                         new PrintWriter(System.err)));
-        _globalEnvironment.defineVariable(_table.internString(Constants.STDIN),
-                new ReaderStream(StdioInStream.knew()));
         _globalEnvironment.defineVariable(_table.GLOBALGRAPH(), _theGlobalGraph);
     }
 
@@ -280,11 +293,46 @@ public class Interpreter {
                         new StringReader(script))), true)));
 
         Parser parser = newParser(is);
-        parser.setUsualPrefixes();
+        parser.setUsualPrefixes(this);
 
         Exp expression = parser.read();
         Exp result = evalInGlobalEnvironment(expression);
         return result;
     }
+
+    public InStream getInput() {
+        return _inputStream;
+    }
+
+    public List<String> applyPrefixes(Map<String,String> prefixTable, List<String> symbols) {
+        ArrayList<String> retval = new ArrayList<String>();
+        for( String s: symbols) {
+            for (Map.Entry<String, String> entry : prefixTable.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if( s.startsWith(value) ) {
+                    retval.add(s.replace(value,key+":"));
+                    break;
+                }
+            }
+            retval.add(s);
+        }
+        return retval;
+    }
+    public List<String> getSymbolsAsListOfStrings() {
+        List<Exp> symbols = _table.getSymbolsAsListOfExp();
+        ArrayList<String> retval = new ArrayList<String>();
+        for( Exp s: symbols) {
+            if( _globalEnvironment.boundp((Symbol)s) ) {
+                retval.add(((Symbol)s).getPrintName());
+            }
+        }
+        return applyPrefixes(_prefixesUsed, retval);
+    }
+
+    public void collectPrefix(String pre, String full) {
+        _prefixesUsed.put(pre, full);        
+    }
+
 }
 

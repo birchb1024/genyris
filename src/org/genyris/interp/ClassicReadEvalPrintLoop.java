@@ -17,6 +17,8 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
+import org.genyris.io.InStream;
+import org.genyris.io.JlineStdioInStream;
 import org.genyris.load.SourceLoader;
 
 public class ClassicReadEvalPrintLoop {
@@ -29,7 +31,7 @@ public class ClassicReadEvalPrintLoop {
 		int result = 0;
 		try {
 			if (args.length == 0) {
-				result = new ClassicReadEvalPrintLoop().run(args);
+				result = new ClassicReadEvalPrintLoop().runWithJline(args);
 			} else {
 				if (args[0].equals("-eval")) {
 					StringBuffer expression = new StringBuffer("");
@@ -40,6 +42,8 @@ public class ClassicReadEvalPrintLoop {
 					expression.append("\n\n");
 					evalString(expression.toString());
 					result = 0;
+                } else if (args[0].equals("-")) {
+                    result = evalFileWithArguments(args[0], args);
 				} else if (args[0].startsWith("-")) {
 					usage();
 					result = -1;
@@ -53,13 +57,18 @@ public class ClassicReadEvalPrintLoop {
 		System.exit(result);
 	}
 
-	private static int evalFileWithArguments(String filename, String[] args)
+    private static int evalFileWithArguments(String filename, String[] args)
 			throws IOException {
 		Writer output = new PrintWriter(System.out);
 		try {
 			Interpreter interpreter = new Interpreter();
 			interpreter.init(false);
 			setArgs(args, interpreter);
+			if( filename.equals("-")) {
+			    SourceLoader.execAndClose(interpreter.getGlobalEnv(),
+		                    interpreter.getSymbolTable(), System.in, filename, output);
+			    return 0;
+			}
 			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(),
 					interpreter.getSymbolTable(), filename, output);
 			return 0;
@@ -94,7 +103,7 @@ public class ClassicReadEvalPrintLoop {
 
 	private static void usage() {
 		System.out
-				.println("Usage: genyris [-h] [-eval (expression) args...]  [filename args... ] ");
+				.println("Usage: genyris [-h] [-eval (expression) args...] [- args...] [filename args... ] ");
 		System.exit(-1);
 	}
 
@@ -107,20 +116,20 @@ public class ClassicReadEvalPrintLoop {
 		interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
 	}
 
-	public int run(String args[]) throws IOException {
-		try {
-			_interpreter = new Interpreter();
-			_interpreter.init(false);
-			setArgs(args, _interpreter);
-
+    private int runWithJline(String[] args) {
+        try {
+            JlineStdioInStream console = JlineStdioInStream.knew();
+            _interpreter = new Interpreter((InStream) console, console.getOutput());
+            _interpreter.init(false);
+            setArgs(args, _interpreter);
+            console.setInterpreter(_interpreter);
             _interpreter.evalStringInGlobalEnvironment("sys:read-eval-print-loop");
-			return 0;
-		} catch (GenyrisException e1) {
-			e1.printStackTrace();
-			return -1;
-		}
-
-	}
+            return 0;
+        } catch (GenyrisException e1) {
+            e1.printStackTrace();
+            return -1;
+        }
+    }
 
 	private static Exp makeListOfStrings(Symbol NIL, String[] args,
 			int startFrom) {
