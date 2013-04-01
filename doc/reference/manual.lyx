@@ -202,7 +202,7 @@ genyris
 \begin_layout Standard
 Genyris is developed in Java hence needs a Java runtime.
  You don't need to understand Java to use Genyris.
- However you will need the Java 1.6 JRE
+ However you will need the Oracle Java 1.6 JRE
 \begin_inset Index idx
 status open
 
@@ -213,14 +213,14 @@ JRE
 \end_inset
 
  or later to run the Genyris interpreter.
- Java can be downloaded from Sun Microsystems.
+ Java can be downloaded from Oracle.
  Check your JRE version with this command:
 \end_layout
 
 \begin_layout LyX-Code
 $
 \series bold
-java -version
+ java -version
 \end_layout
 
 \begin_layout Standard
@@ -231,20 +231,18 @@ First change directory to the genyris home, then you can start the Genyris
 \begin_layout LyX-Code
 $
 \series bold
-java -jar dist/genyris-bin-nnn-xxxxxxxxx.bbbb.jar
+ java -classpath 'dist/needed/*:dist/*' org.genyris.interp.ClassicReadEvalPrintLoop
+ 
 \end_layout
 
 \begin_layout Standard
-Where
-\emph on
-nnn-xxxxxxxxx.bbbb
-\emph default
- is the version number.
- You will see a prompt indicating the interpreter is ready for your input:
+You will see a prompt indicating the interpreter is ready for your input:
 \end_layout
 
 \begin_layout LyX-Code
-*** Genyris is listening...
+*** Welcome ...
+ Genyris ...
+ is listening...
 \end_layout
 
 \begin_layout LyX-Code
@@ -343,15 +341,7 @@ sys:self-test
 \end_layout
 
 \begin_layout Standard
-All being well, it will print
-\begin_inset Quotes eld
-\end_inset
-
-OK
-\begin_inset Quotes erd
-\end_inset
-
- and the number of tests passed.
+All being well, it will print the number of tests passed.
 \end_layout
 
 \begin_layout Subsection*
@@ -1658,7 +1648,7 @@ To allow entire sub-trees to be quoted, the quote function needs to be used
 \begin_inset Newline newline
 \end_inset
 
-           x y z
+           x y zgenyris.googlecode.com
 \end_layout
 
 \begin_layout Standard
@@ -14804,7 +14794,7 @@ command line
 \end_layout
 
 \begin_layout Paragraph
-Using Genyris standard IO command-line interpreter.
+Using Genyris command-line interpreter.
 \end_layout
 
 \begin_layout Standard
@@ -14856,6 +14846,61 @@ Genyris commands can be typed at the prompt, using two carriage returns
  This allows the user to verify the correct classes have been returned.
 \end_layout
 
+\begin_layout Subsubsection
+Command-line editing
+\end_layout
+
+\begin_layout Standard
+Genyris uses the JLine library to allow commands to be recalled and edited.
+ 
+\end_layout
+
+\begin_layout Subparagraph*
+Command History
+\end_layout
+
+\begin_layout Standard
+You can peruse previously entered lines with the up and down arrow keys.
+\end_layout
+
+\begin_layout Subparagraph
+Edit the current line
+\end_layout
+
+\begin_layout Standard
+Use the left and right arrow keys to move around the current line.
+ Also by default Ctrl-A and Ctrl-D move the cursor to the start and end
+ of the lione.
+\end_layout
+
+\begin_layout Subparagraph
+Tab completion
+\end_layout
+
+\begin_layout Standard
+Pressing Tab lists the symbols currently bound in the global environment
+ which start with the characters on the current line.
+ It uses the symbol prefixes seen so far in the session.
+\end_layout
+
+\begin_layout Subparagraph
+Configuration
+\end_layout
+
+\begin_layout Standard
+JLine is very configurable.
+ 'vi' or 'emacs' modes are available, emacs being the default.
+ Refer to the JLine documentation for details.
+ (
+\begin_inset CommandInset href
+LatexCommand href
+target "https://github.com/jline/jline2#readme"
+
+\end_inset
+
+)
+\end_layout
+
 \begin_layout Paragraph
 Running a script in the command line
 \end_layout
@@ -14903,7 +14948,31 @@ $ genyris examples/queens.g 5
 \end_layout
 
 \begin_layout Standard
-Arguments are passed after the file name.
+Arguments are passed after the file name and are available in 
+\emph on
+sys:argv
+\emph default
+.
+\end_layout
+
+\begin_layout Paragraph
+Running code from the standard input
+\end_layout
+
+\begin_layout Standard
+If the filename is the minus sign then the standard input is used.
+\end_layout
+
+\begin_layout LyX-Code
+$ genyris - < examples/allclasses.g 
+\end_layout
+
+\begin_layout Standard
+Arguments are passed after the 
+\emph on
+'-'
+\emph default
+.
 \end_layout
 
 \begin_layout Paragraph
@@ -17379,6 +17448,14 @@ Then
 hg pull
 \emph default
  to download source updates.
+\end_layout
+
+\begin_layout Subsubsection
+The Source
+\end_layout
+
+\begin_layout Standard
+The source is Java 1.6 level and will compile on Oracle JDK 1.6 or later.
 \end_layout
 
 \begin_layout Subsubsection
