@@ -225,14 +225,27 @@ $
 
 \begin_layout Standard
 First change directory to the genyris home, then you can start the Genyris
- command-line interpreter with this command:
+ command-line interpreter with this Unix command:
 \end_layout
 
 \begin_layout LyX-Code
 $
 \series bold
- java -classpath 'dist/needed/*:dist/*' org.genyris.interp.ClassicReadEvalPrintLoop
- 
+ java -jar dist/genyris-bin-*.jar 
+\end_layout
+
+\begin_layout Standard
+Or in Windows cmd.exe:
+\end_layout
+
+\begin_layout LyX-Code
+C:
+\backslash
+>
+\series bold
+ java -jar dist
+\backslash
+genyris-bin-*.jar 
 \end_layout
 
 \begin_layout Standard

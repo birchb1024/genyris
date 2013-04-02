@@ -251,7 +251,7 @@
             <fileset dir="${basedir}" includes="test/**/*" />
             <manifest>
                 <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop" />
-                <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar" />
+                <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar needed/jline-2.11.jar needed/commons-io-2.4.jar" />
                 <attribute name="Specification-Title" value="Genyris" />
                 <attribute name="Specification-Version" value="${specification-version}" />
                 <attribute name="Specification-Vendor" value="genyris.org" />
