@@ -1661,7 +1661,7 @@ To allow entire sub-trees to be quoted, the quote function needs to be used
 \begin_inset Newline newline
 \end_inset
 
-           x y zgenyris.googlecode.com
+           x y z
 \end_layout
 
 \begin_layout Standard
@@ -14838,7 +14838,7 @@ $ java -cp genyris-bin.jar org.genyris.interp.ClassicReadEvalprintLoop
 \begin_layout Standard
 In both cases all subsequent shell command line arguments are ignored.
  The session is terminated when the interpreter read and End-Of-File from
- the standard input (^D on UNIX or ^Z on Windows).
+ the standard input (Ctrl-D).
 \end_layout
 
 \begin_layout Subparagraph
