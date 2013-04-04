@@ -396,5 +396,13 @@ public class IndentStream implements InStreamEOF {
 	public void close() throws GenyrisException {
 		_instream.close();
 	}
+
+    public void parsingStarted() {
+        this._instream.parsingStarted();
+    }
+
+    public void parsingDone() {
+        this._instream.parsingDone();
+    }
 	
 }

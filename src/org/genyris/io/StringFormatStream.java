@@ -112,4 +112,12 @@ public class StringFormatStream implements InStreamEOF {
 
 	public void resetAfterError() {
 	}
+
+    public void parsingStarted() {
+        this._instream.parsingStarted();
+    }
+
+    public void parsingDone() {
+        this._instream.parsingDone();
+    }
 }

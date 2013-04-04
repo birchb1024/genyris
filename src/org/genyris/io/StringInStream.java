@@ -35,5 +35,11 @@ public class StringInStream implements InStream {
 
 	public void resetAfterError() {
 	}
+	
+    public void parsingStarted() {
+    }
+
+    public void parsingDone() {
+    }
 
 }

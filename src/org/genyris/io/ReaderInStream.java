@@ -78,5 +78,10 @@ public class ReaderInStream implements InStream {
 	public void resetAfterError() {
     	_haveChar = false;
 	}
+    public void parsingStarted() {
+    }
+
+    public void parsingDone() {
+    }
 
 }

@@ -68,5 +68,11 @@ public class StdioInStream implements InStream {
 	public synchronized void resetAfterError() {
         _gotByte = false;
 	}
+    public void parsingStarted() {
+    }
+
+    public void parsingDone() {
+    }
+
 
 }

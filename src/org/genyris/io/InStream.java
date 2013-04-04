@@ -16,4 +16,6 @@ public interface InStream {
     public boolean hasData() throws LexException;
     public void close() throws GenyrisException;
 	void resetAfterError();
+    void parsingStarted();
+    void parsingDone();
 }

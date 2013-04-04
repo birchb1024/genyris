@@ -16,7 +16,6 @@ public class JlineStdioInStream implements InStream {
     // WARNING - this class has only one instance shared between all threads.
     //
 
-    private int _lineCount;
     private int _nextIndex;
     private ConsoleReader _jline;
     private String _nextLine;
@@ -33,10 +32,9 @@ public class JlineStdioInStream implements InStream {
 
     private JlineStdioInStream() {
         _nextLine = null;
-        _lineCount = 0;
         try {
             _jline = new ConsoleReader();
-            updatePrompt();
+            parsingDone();
             _jline.setExpandEvents(false);
             _completer = null;
 
@@ -45,10 +43,6 @@ public class JlineStdioInStream implements InStream {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-
-    private void updatePrompt() {
-        _jline.setPrompt(_lineCount == 0 ? "> " : ": ");
     }
 
     public OutputStream getOutput() {
@@ -89,12 +83,7 @@ public class JlineStdioInStream implements InStream {
         } else {
             if( _nextLine.length() == 0 ) {
                 // blank line
-                _lineCount = 0;
-                updatePrompt();
                 resetTabCompletion();
-            } else {
-                _lineCount++;
-                updatePrompt();
             }
             _nextLine = _nextLine + '\n';
             return true;
@@ -112,13 +101,20 @@ public class JlineStdioInStream implements InStream {
 
     public synchronized void resetAfterError() {
         _nextLine = null;
-        _lineCount = 0;     
-        updatePrompt();
+        parsingDone();
     }
 
     public void setInterpreter(Interpreter _interpreter) {
         _interp = _interpreter;      
         resetTabCompletion();
+    }
+
+    public void parsingStarted() {
+        _jline.setPrompt(": ");
+    }
+
+    public void parsingDone() {
+        _jline.setPrompt("> ");
     }
 
 }

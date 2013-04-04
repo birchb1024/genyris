@@ -363,4 +363,12 @@ public class Lex {
 		_input.resetAfterError();
 	}
 
+    public void parsingStarted() {
+        _input.parsingStarted();       
+    }
+
+    public void parsingDone() {
+        _input.parsingDone();
+    }
+
 }

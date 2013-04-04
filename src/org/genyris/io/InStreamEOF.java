@@ -7,15 +7,18 @@ package org.genyris.io;
 
 import org.genyris.exception.GenyrisException;
 
-
 public interface InStreamEOF {
 
     public static final int EOF = -1;
 
-    int getChar()  throws LexException;                // returns EOF on end of file.
+    int getChar() throws LexException; // returns EOF on end of file.
 
-    void close()  throws GenyrisException ;
+    void close() throws GenyrisException;
 
-	void resetAfterError();
+    void resetAfterError();
+
+    void parsingStarted();
+
+    void parsingDone();
 
 }

@@ -64,5 +64,13 @@ public class UngettableInStream implements InStream {
 		    _readPointer = -1;
 			_input.resetAfterError();
 		}
+
+        public void parsingStarted() {
+            _input.parsingStarted();
+        }
+
+        public void parsingDone() {
+            _input.parsingDone();
+        }
 }
 

@@ -66,17 +66,19 @@ public class Parser {
     private Exp readAux() throws GenyrisException {
         Exp retval = NIL;
         nextsym();
+        _lexer.parsingStarted();
         if (cursym.equals(_lexer.EOF_TOKEN)) {
             retval = _table.EOF();
         } else {
             retval = parseExpression();
         }
+        _lexer.parsingDone();
         return (retval);
     }
 
     public Exp read() throws GenyrisException {
         Exp input = NIL;
-        try {
+        try {            
             input = readAux();
             while (processOrder(input)) {
                 input = readAux();
