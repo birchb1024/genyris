@@ -61,6 +61,7 @@ public class UngettableInStream implements InStream {
         }
 
 		public void resetAfterError() {
+		    _readPointer = -1;
 			_input.resetAfterError();
 		}
 }

@@ -117,39 +117,10 @@ public class IndentStream implements InStreamEOF {
 		return result;
 	}
 	public void resetAfterError() {
-		char ch;
 		startLine();
-		try {
-			while (_instream.hasData()) {
-				ch = _instream.readNext();
-				if (ch == '\n') {
-					if (_instream.hasData()) {
-						char ch2 = _instream.readNext();
-						if(isWhiteSpace(ch2)) {
-							continue;							
-						} else {
-							_instream.unGet(ch2);
-							return;							
-						}
-					} else {
-						return;
-					}
-				}
-			}
-		} catch (LexException ignore) {
-		}
-	}
-	private boolean isWhiteSpace(char ch2) {
-		switch (ch2) {
-		case '\f':
-		case '\n':
-		case '\t':
-		case ' ':
-		case '\r':
-			return true;
-		default:
-			return false;
-		}
+		_bufferitReadPtr = _bufferitWritePtr = 0;
+		_currentLevel = 0;
+		_instream.resetAfterError();
 	}
 
 	public int getChar() throws LexException {
@@ -425,4 +396,5 @@ public class IndentStream implements InStreamEOF {
 	public void close() throws GenyrisException {
 		_instream.close();
 	}
+	
 }

@@ -111,6 +111,9 @@ public class JlineStdioInStream implements InStream {
     }
 
     public synchronized void resetAfterError() {
+        _nextLine = null;
+        _lineCount = 0;     
+        updatePrompt();
     }
 
     public void setInterpreter(Interpreter _interpreter) {

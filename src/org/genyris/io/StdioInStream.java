@@ -66,6 +66,7 @@ public class StdioInStream implements InStream {
     public synchronized void close() throws GenyrisException {}
 
 	public synchronized void resetAfterError() {
+        _gotByte = false;
 	}
 
 }
