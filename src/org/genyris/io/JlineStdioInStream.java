@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import jline.console.ConsoleReader;
+import jline.console.completer.ArgumentCompleter;
 import jline.console.completer.StringsCompleter;
+import jline.console.completer.ArgumentCompleter.AbstractArgumentDelimiter;
 
 import org.apache.commons.io.output.WriterOutputStream;
 import org.genyris.exception.GenyrisException;
@@ -19,7 +21,7 @@ public class JlineStdioInStream implements InStream {
     private int _nextIndex;
     private ConsoleReader _jline;
     private String _nextLine;
-    private StringsCompleter _completer;
+    private ArgumentCompleter _completer;
     private static JlineStdioInStream singleton = null;
     private static Interpreter _interp;
 
@@ -46,8 +48,9 @@ public class JlineStdioInStream implements InStream {
     }
 
     public OutputStream getOutput() {
-        return new WriterOutputStream(_jline.getOutput()) ;        
+        return new WriterOutputStream(_jline.getOutput());
     }
+
     public synchronized void unGet(char x) throws LexException {
         throw new LexException("StdioStream: unGet not implemented.");
     }
@@ -57,9 +60,9 @@ public class JlineStdioInStream implements InStream {
             throw new LexException(
                     "StdioInStream: readNext() called before hasData()");
         }
-        int retval =_nextLine.charAt(_nextIndex);
+        int retval = _nextLine.charAt(_nextIndex);
         _nextIndex++;
-        if( _nextLine.length() == _nextIndex) {
+        if (_nextLine.length() == _nextIndex) {
             // read the last one
             _nextLine = null;
             _nextIndex = 0;
@@ -81,7 +84,7 @@ public class JlineStdioInStream implements InStream {
         if (_nextLine == null) {
             return false;
         } else {
-            if( _nextLine.length() == 0 ) {
+            if (_nextLine.length() == 0) {
                 // blank line
                 resetTabCompletion();
             }
@@ -92,7 +95,11 @@ public class JlineStdioInStream implements InStream {
 
     private void resetTabCompletion() {
         _jline.removeCompleter(_completer);
-        _completer = new StringsCompleter(_interp.getSymbolsAsListOfStrings());
+        // _completer = new
+        // StringsCompleter(_interp.getSymbolsAsListOfStrings());
+        _completer = new ArgumentCompleter(new GenyrisArgumentDelimiter(),
+                new StringsCompleter(_interp.getSymbolsAsListOfStrings()));
+        _completer.setStrict(false);
         _jline.addCompleter(_completer);
     }
 
@@ -105,7 +112,7 @@ public class JlineStdioInStream implements InStream {
     }
 
     public void setInterpreter(Interpreter _interpreter) {
-        _interp = _interpreter;      
+        _interp = _interpreter;
         resetTabCompletion();
     }
 
@@ -115,6 +122,17 @@ public class JlineStdioInStream implements InStream {
 
     public void parsingDone() {
         _jline.setPrompt("> ");
+    }
+
+    public static class GenyrisArgumentDelimiter extends
+            AbstractArgumentDelimiter {
+
+        public boolean isDelimiterChar(final CharSequence buffer, final int pos) {
+            char ch = buffer.charAt(pos);
+            return Character.isWhitespace(ch) || ch == '(' || ch == ')'
+                    || ch == '[' || ch == ']' || ch == '.' || ch == '!'
+                    || ch == '\'' || ch == '"' || ch == '#';
+        }
     }
 
 }
