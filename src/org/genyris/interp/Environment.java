@@ -39,6 +39,7 @@ public interface Environment {
     public Exp getSelf() throws UnboundException;
 
 	public Internable getSymbolTable();
+    public boolean isBound(Symbol s);
 
 
 }

@@ -7,6 +7,7 @@ package org.genyris.io;
 
 import java.io.IOException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 
 public class StdioInStream implements InStream {
@@ -68,10 +69,10 @@ public class StdioInStream implements InStream {
 	public synchronized void resetAfterError() {
         _gotByte = false;
 	}
-    public void parsingStarted() {
+    public void withinExpression(Environment env) {
     }
 
-    public void parsingDone() {
+    public void beginningExpression() {
     }
 
 

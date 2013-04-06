@@ -139,8 +139,16 @@ public class StandardEnvironment extends AbstractEnvironment {
 		}
 	}
 
-    public boolean boundp(Symbol s) {
-        return _frame.containsKey(s);
+    public boolean isBound(Symbol symbol) {
+        // TOD DRY
+        Object result = _frame.get(symbol);
+        if(result != null ) {
+            return true;
+        } else if (_parent == null) {
+            return false;
+        } else {
+            return _parent.isBound(symbol);
+        }
     }
 
 }

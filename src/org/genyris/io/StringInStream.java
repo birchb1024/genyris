@@ -6,6 +6,7 @@
 package org.genyris.io;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 
 public class StringInStream implements InStream {
@@ -36,10 +37,10 @@ public class StringInStream implements InStream {
 	public void resetAfterError() {
 	}
 	
-    public void parsingStarted() {
+    public void withinExpression(Environment env) {
     }
 
-    public void parsingDone() {
+    public void beginningExpression() {
     }
 
 }

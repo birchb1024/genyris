@@ -16,6 +16,7 @@ import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class Parser {
@@ -63,31 +64,36 @@ public class Parser {
 
     }
 
-    private Exp readAux() throws GenyrisException {
+    private Exp readAux(Environment env) throws GenyrisException {
         Exp retval = NIL;
+        _lexer.beginningExpression();
         nextsym();
-        _lexer.parsingStarted();
+        _lexer.withinExpression(env);
         if (cursym.equals(_lexer.EOF_TOKEN)) {
             retval = _table.EOF();
         } else {
             retval = parseExpression();
         }
-        _lexer.parsingDone();
+        _lexer.beginningExpression();
         return (retval);
     }
 
-    public Exp read() throws GenyrisException {
+    public Exp read(Environment env) throws GenyrisException {
         Exp input = NIL;
         try {            
-            input = readAux();
+            input = readAux(env);
             while (processOrder(input)) {
-                input = readAux();
+                input = readAux(env);
             }
         } catch (ParseException e) {
             _lexer.resetAfterError();
             throw e;
         }
         return input;
+    }
+
+    public Exp read() throws GenyrisException {
+        return read(null);
     }
 
     private boolean processOrder(Exp input) throws GenyrisException {

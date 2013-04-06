@@ -294,4 +294,8 @@ public class Dictionary extends Atom implements Environment {
 	public void defineSymbol(String name, String string2) throws GenyrisException {
 		defineDynamicVariable(new DynamicSymbol((SimpleSymbol) internString(name)), internString(string2));	
 	}
+
+    public boolean isBound(Symbol s) {
+        return hasKey(s);
+    }
 }

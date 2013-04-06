@@ -16,6 +16,7 @@ import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 public class Lex {
 	private InStream _input;
@@ -363,12 +364,12 @@ public class Lex {
 		_input.resetAfterError();
 	}
 
-    public void parsingStarted() {
-        _input.parsingStarted();       
+    public void withinExpression(Environment env) {
+        _input.withinExpression(env);       
     }
 
-    public void parsingDone() {
-        _input.parsingDone();
+    public void beginningExpression() {
+        _input.beginningExpression();
     }
 
 }

@@ -6,6 +6,7 @@
 package org.genyris.io;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 public interface InStreamEOF {
 
@@ -17,8 +18,8 @@ public interface InStreamEOF {
 
     void resetAfterError();
 
-    void parsingStarted();
+    void withinExpression(Environment env);
 
-    void parsingDone();
+    void beginningExpression();
 
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 
 public class ReaderInStream implements InStream {
@@ -78,10 +79,10 @@ public class ReaderInStream implements InStream {
 	public void resetAfterError() {
     	_haveChar = false;
 	}
-    public void parsingStarted() {
+    public void withinExpression(Environment env) {
     }
 
-    public void parsingDone() {
+    public void beginningExpression() {
     }
 
 }

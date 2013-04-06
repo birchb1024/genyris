@@ -6,6 +6,7 @@
 package org.genyris.io;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 
 public class UngettableInStream implements InStream {
@@ -65,12 +66,12 @@ public class UngettableInStream implements InStream {
 			_input.resetAfterError();
 		}
 
-        public void parsingStarted() {
-            _input.parsingStarted();
+        public void withinExpression(Environment env) {
+            _input.withinExpression(env);
         }
 
-        public void parsingDone() {
-            _input.parsingDone();
+        public void beginningExpression() {
+            _input.beginningExpression();
         }
 }
 

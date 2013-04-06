@@ -7,6 +7,7 @@ package org.genyris.io;
 
 import org.genyris.core.Constants;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 public class IndentStream implements InStreamEOF {
 
@@ -397,12 +398,12 @@ public class IndentStream implements InStreamEOF {
 		_instream.close();
 	}
 
-    public void parsingStarted() {
-        this._instream.parsingStarted();
+    public void withinExpression(Environment env) {
+        this._instream.withinExpression(env);
     }
 
-    public void parsingDone() {
-        this._instream.parsingDone();
+    public void beginningExpression() {
+        this._instream.beginningExpression();
     }
 	
 }

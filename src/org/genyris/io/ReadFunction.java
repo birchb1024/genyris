@@ -26,7 +26,7 @@ public class ReadFunction extends ApplicableFunction {
 		if (arguments.length > 0)
 			throw new GenyrisException("Too many arguments to read: "
 					+ arguments.length);
-		return parser.read();
+		return parser.read(envForBindOperations);
 	}
 
 	public static void bindFunctionsAndMethods(Interpreter interpreter)

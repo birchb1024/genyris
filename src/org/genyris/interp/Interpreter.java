@@ -319,11 +319,14 @@ public class Interpreter {
         }
         return retval;
     }
-    public List<String> getSymbolsAsListOfStrings() {
+    public List<String> getBoundSymbolsAsListOfStrings(Environment env) {
+        if( env == null ) {
+            env = this._globalEnvironment;
+        }
         List<Exp> symbols = _table.getSymbolsAsListOfExp();
         ArrayList<String> retval = new ArrayList<String>();
         for( Exp s: symbols) {
-            if( _globalEnvironment.boundp((Symbol)s) ) {
+            if( env.isBound((Symbol)s) ) {
                 retval.add(((Symbol)s).getPrintName());
             }
         }

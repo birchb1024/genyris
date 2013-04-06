@@ -6,6 +6,7 @@
 package org.genyris.io;
 
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 
 
 
@@ -16,6 +17,6 @@ public interface InStream {
     public boolean hasData() throws LexException;
     public void close() throws GenyrisException;
 	void resetAfterError();
-    void parsingStarted();
-    void parsingDone();
+    void withinExpression(Environment env);
+    void beginningExpression();
 }

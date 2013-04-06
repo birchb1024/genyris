@@ -5,11 +5,12 @@ import java.io.OutputStream;
 
 import jline.console.ConsoleReader;
 import jline.console.completer.ArgumentCompleter;
-import jline.console.completer.StringsCompleter;
 import jline.console.completer.ArgumentCompleter.AbstractArgumentDelimiter;
+import jline.console.completer.StringsCompleter;
 
 import org.apache.commons.io.output.WriterOutputStream;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class JlineStdioInStream implements InStream {
@@ -22,6 +23,7 @@ public class JlineStdioInStream implements InStream {
     private ConsoleReader _jline;
     private String _nextLine;
     private ArgumentCompleter _completer;
+    private Environment _environment;
     private static JlineStdioInStream singleton = null;
     private static Interpreter _interp;
 
@@ -36,11 +38,9 @@ public class JlineStdioInStream implements InStream {
         _nextLine = null;
         try {
             _jline = new ConsoleReader();
-            parsingDone();
+            _jline.setPrompt("> ");
             _jline.setExpandEvents(false);
             _completer = null;
-
-            _jline.addCompleter(_completer);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -84,21 +84,19 @@ public class JlineStdioInStream implements InStream {
         if (_nextLine == null) {
             return false;
         } else {
-            if (_nextLine.length() == 0) {
-                // blank line
-                resetTabCompletion();
-            }
             _nextLine = _nextLine + '\n';
             return true;
         }
     }
 
-    private void resetTabCompletion() {
+    private void refreshTabCompletion() {
+        if (_environment == null) {
+            _environment = _interp.getGlobalEnv();
+        }
         _jline.removeCompleter(_completer);
-        // _completer = new
-        // StringsCompleter(_interp.getSymbolsAsListOfStrings());
         _completer = new ArgumentCompleter(new GenyrisArgumentDelimiter(),
-                new StringsCompleter(_interp.getSymbolsAsListOfStrings()));
+                new StringsCompleter(
+                        _interp.getBoundSymbolsAsListOfStrings(_environment)));
         _completer.setStrict(false);
         _jline.addCompleter(_completer);
     }
@@ -108,19 +106,23 @@ public class JlineStdioInStream implements InStream {
 
     public synchronized void resetAfterError() {
         _nextLine = null;
-        parsingDone();
+        beginningExpression();
     }
 
     public void setInterpreter(Interpreter _interpreter) {
         _interp = _interpreter;
-        resetTabCompletion();
+        _environment = _interp.getGlobalEnv();
+        refreshTabCompletion();
     }
 
-    public void parsingStarted() {
+    public void withinExpression(Environment env) {
+        _environment = env;
+        refreshTabCompletion();
         _jline.setPrompt(": ");
     }
 
-    public void parsingDone() {
+    public void beginningExpression() {
+        refreshTabCompletion();
         _jline.setPrompt("> ");
     }
 
@@ -130,8 +132,9 @@ public class JlineStdioInStream implements InStream {
         public boolean isDelimiterChar(final CharSequence buffer, final int pos) {
             char ch = buffer.charAt(pos);
             return Character.isWhitespace(ch) || ch == '(' || ch == ')'
-                    || ch == '[' || ch == ']' || ch == '.' || ch == '!'
-                    || ch == '\'' || ch == '"' || ch == '#';
+                    || ch == '[' || ch == ']' || ch == '.' || ch == ','
+                    || ch == '!' || ch == '\'' || ch == '"' || ch == '#'
+                    || ch == '^' || ch == '{' || ch == '}';
         }
     }
 
