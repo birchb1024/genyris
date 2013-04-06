@@ -319,7 +319,8 @@ Verifying the Install
 \end_layout
 
 \begin_layout Standard
-To test the installation run the self test suite with the following command:
+To test the installation change to the genyris home directory and run the
+ self test suite with the following command:
 \end_layout
 
 \begin_layout LyX-Code
@@ -14873,7 +14874,8 @@ Command History
 \end_layout
 
 \begin_layout Standard
-You can peruse previously entered lines with the up and down arrow keys.
+You can peruse and edit previously entered lines with the up and down arrow
+ keys.
 \end_layout
 
 \begin_layout Subparagraph
@@ -14887,13 +14889,33 @@ Use the left and right arrow keys to move around the current line.
 \end_layout
 
 \begin_layout Subparagraph
-Tab completion
+Autocompletion with Tab
 \end_layout
 
 \begin_layout Standard
-Pressing Tab lists the symbols currently bound in the global environment
- which start with the characters on the current line.
+Pressing Tab lists the symbols bound in the environment which called (read).
  It uses the symbol prefixes seen so far in the session.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> define avariable 23
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+23 # Bignum 
+\end_layout
+
+\begin_layout LyX-Code
+> + 23 a<Tab>
+\end_layout
+
+\begin_layout LyX-Code
+abs and append apply asString assert assertEqual avariable 
 \end_layout
 
 \begin_layout Subparagraph
