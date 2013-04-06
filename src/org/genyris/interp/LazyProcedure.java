@@ -36,9 +36,6 @@ public class LazyProcedure extends AbstractClosure {
             exp = exp.cdr();
             i++;
         }
-//        if (exp != NIL){
-//        	result[i] = exp;
-//        }
         return result;
     }
 
@@ -52,5 +49,7 @@ public class LazyProcedure extends AbstractClosure {
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
 	}
+    public void checkTooManyArgumentCount(Exp[] arguments) throws GenyrisException {
+    }
 
 }

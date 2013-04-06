@@ -22,6 +22,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
     final ApplicableFunction _functionToApply;
     protected int _numberOfRequiredArguments;
     private StandardClass _returnClass;
+    private boolean _restArgs;
 
     public AbstractClosure(Environment environment, Exp expression,
             ApplicableFunction appl) {
@@ -30,6 +31,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
         _functionToApply = appl;
         _numberOfRequiredArguments = -1;
         _returnClass = null;
+        _restArgs = false;
     }
 
     private Symbol REST() {
@@ -48,8 +50,8 @@ public abstract class AbstractClosure extends Atom implements Closure {
                 break;
             }
             if (((Pair) exp).car() == REST()) {
-                // count += 1;
-                break;
+                _restArgs = true;
+                return count;
             }
             count += 1;
             exp = exp.cdr();
@@ -140,5 +142,27 @@ public abstract class AbstractClosure extends Atom implements Closure {
                 new DynamicSymbol(table.VARS()), new DynamicSymbol(table
                         .CLASSES()), table.NIL()));
     }
+
+    public void checkTooFewArgumentCount(Exp[] arguments) throws GenyrisException {
+        if (arguments.length < getNumberOfRequiredArguments()) {
+            throw new GenyrisException("Too few arguments supplied to proc: "
+                    + getName() + ". Args were: " + argsToString(arguments));
+        }
+    }
+    public void checkTooManyArgumentCount(Exp[] arguments) throws GenyrisException {
+        if (!_restArgs && arguments.length > getNumberOfRequiredArguments()) {
+            throw new GenyrisException("Too many arguments supplied to proc: "
+                    + getName() + ". Args were: " + argsToString(arguments));
+        }
+    }
+    private StringBuffer argsToString(Exp[] arguments) {
+        StringBuffer args = new StringBuffer("(");
+        for (int i = 0; i < arguments.length; i++) {
+            args.append(arguments[i].toString() + " ");
+        }
+        args.append(")");
+        return args;
+    }
+
 
 }

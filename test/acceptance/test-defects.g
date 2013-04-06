@@ -22,7 +22,7 @@ class C(Object)
       define .v 99
    def .f()
       set ^.v 34
-define c (C(.new nil))
+define c (C(.new))
 c(.f)
 assert (equal? 34 (c.v))
 #

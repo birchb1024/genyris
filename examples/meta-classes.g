@@ -19,9 +19,8 @@ defmacro myclass (name superclasses &rest body)
       define .superclasses
          map-left superclasses symbol-value
       add-to-subclasses superclasses klass
-      eval body
    template
-      define ,name ,klass
+      (define ,name ,klass) ,@body
 
 def add-to-subclasses (supers klass)
    nil  # not coded
