@@ -41,8 +41,9 @@ defmacro if (test success-result failure-result)
          else ,failure-result
 
 
-defmacro do (&rest expression)
-   expression
+defmacro do (&rest expression) 
+   template
+     (lambda () ,@expression)
 
 def else()
    raise "Hanging else"
