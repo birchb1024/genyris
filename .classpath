@@ -13,7 +13,7 @@
 	<classpathentry kind="lib" path="needed/pop3.jar"/>
 	<classpathentry kind="lib" path="needed/smtp.jar"/>
 	<classpathentry kind="lib" path="needed/opencsv-1.8.jar"/>
-	<classpathentry kind="lib" path="needed/jline-2.11.jar"/>
+	<classpathentry kind="lib" path="needed/jline-2.11.jar" sourcepath="/home/birchb/workspace/jline/jline2/src/main/java"/>
 	<classpathentry kind="lib" path="needed/commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
