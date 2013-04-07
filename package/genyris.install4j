@@ -286,6 +286,9 @@
                 <serializedBean>
                   <java class="java.beans.XMLDecoder">
                     <object class="com.install4j.runtime.beans.actions.misc.ModifyEnvironmentVariableAction">
+                      <void property="userSpecific">
+                        <boolean>false</boolean>
+                      </void>
                       <void property="value">
                         <string>${installer:sys.installationDir}</string>
                       </void>
@@ -302,10 +305,13 @@
                   <java class="java.beans.XMLDecoder">
                     <object class="com.install4j.runtime.beans.actions.misc.ModifyEnvironmentVariableAction">
                       <void property="type">
-                        <object class="com.install4j.runtime.beans.actions.misc.ModifyStringType" field="APPEND" />
+                        <object class="com.install4j.runtime.beans.actions.misc.ModifyStringType" field="PREPEND" />
+                      </void>
+                      <void property="userSpecific">
+                        <boolean>false</boolean>
                       </void>
                       <void property="value">
-                        <string>%GENYRIS_HOME%\bin</string>
+                        <string>${installer:sys.installationDir}\bin</string>
                       </void>
                       <void property="variableName">
                         <string>PATH</string>
