@@ -33,7 +33,7 @@ assert (equal? (Pipe!list) nil)
 # share a text line using a pipe between this task and a reading task    
 #
 define shared (Pipe!open 'shared-pipe')
-spawn 'test/mocks/pipe-reader.g' 'shared-pipe'
+spawn (prepend-home 'test/mocks/pipe-reader.g') 'shared-pipe'
 define out
    shared(.output)
 out(.format 'Hello from the first task\n')
@@ -44,7 +44,7 @@ out(.format 'Hello from the first task\n')
 #
 define shared (Pipe!open 'shared-pipe2')
 for i in (range 0 5)
-    spawn 'test/mocks/pipe-writer.g' 'shared-pipe2'
+    spawn (prepend-home 'test/mocks/pipe-writer.g') 'shared-pipe2'
 define in (shared(.input))
 for i in (range 0 50)
    in(.getline)
@@ -57,7 +57,7 @@ u:format "\n"
 define shared (Pipe!open 'shared-pipe3')
 
 for i in (range 0 5)
-    spawn 'test/mocks/pipe-writer-synch.g' 'shared-pipe3'
+    spawn (prepend-home 'test/mocks/pipe-writer-synch.g') 'shared-pipe3'
 define in (shared(.input))
 for i in (range 0 100)
    var line (in(.getline))
@@ -71,7 +71,7 @@ print
 # Write s-expression and parse expression at receiver.
 #
 define shared (Pipe!open 'expression-pipe')
-spawn 'test/mocks/pipe-expression-reader.g' 'expression-pipe'
+spawn (prepend-home 'test/mocks/pipe-expression-reader.g') 'expression-pipe'
 define out
    shared(.output)
 out(.format '123 456 "abc"')

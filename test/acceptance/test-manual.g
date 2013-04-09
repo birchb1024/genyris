@@ -27,7 +27,7 @@ def threat (i j a b)
 include "examples/queens.g"
 run-queens 4
 
-setq sys:path (cons 'examples' sys:path)
+setq sys:path (cons (prepend-home 'examples') sys:path)
 import queens
 (queens.queens) 4
 

@@ -1,6 +1,8 @@
 @prefix u   "http://www.genyris.org/lang/utilities#"
 @prefix web "http://www.genyris.org/lang/web#"
 
+def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
+
 def readPage(url)
     var wstream (web:get url)
     var count 0
@@ -12,19 +14,19 @@ def readPage(url)
     count
 
 def run-web()
-    var thread (httpd 7776 "test/mocks/www-text.g")
+    var thread (httpd 7776 (prepend-home "test/mocks/www-text.g"))
     sleep 1000
     thread(.kill)
 
 def run-web-get()
-    var thread (httpd 7778 "test/mocks/www-text.g")
+    var thread (httpd 7778 (prepend-home "test/mocks/www-text.g"))
     sleep 1000
     var result (readPage "http://localhost:7778/")
     thread(.kill)
     result
 
 def run-web-static-get()
-    var thread (httpd 7778 "test/mocks/www-static.g" ".")
+    var thread (httpd 7778 (prepend-home "test/mocks/www-static.g") ".")
     sleep 1000
     var result (readPage "http://localhost:7778/LICENSE")
     thread(.kill)

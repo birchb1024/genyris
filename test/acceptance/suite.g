@@ -45,12 +45,19 @@ define example-files
 
 var junit-summary (sys:junit-test-runner)
 
-spawn "examples/swing.g"
-spawn "examples/swing-canvas.g"
-spawn "examples/curves.g"
-spawn "examples/swing-table.g"
+def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
 
-:runTests 'test/acceptance' example-files
+define spawn-files
+   list
+     ~ "examples/swing.g" 
+     ~ "examples/swing-canvas.g" 
+     ~ "examples/curves.g" 
+     ~ "examples/swing-table.g"
+
+for sp in spawn-files
+   spawn (prepend-home sp)
+
+:runTests ('%a/test/acceptance'(.format System!HOME)) example-files
 <:format "Total # of JUnit tests: %s\n" junit-summary!right
 <:format "Total # of JUnit errors: %s\n" junit-summary!left
 assert 
@@ -60,4 +67,4 @@ assert
       equal? nil :failed-files
 
 import Sound
-Sound(.play "test/fixtures/boing.wav")
+Sound(.play (prepend-home "test/fixtures/boing.wav"))

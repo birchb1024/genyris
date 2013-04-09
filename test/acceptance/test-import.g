@@ -3,6 +3,7 @@
 #
 @prefix sys "http://www.genyris.org/lang/system#"
 
+def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
 
 catch err
    sys:import "doesnot-exist.g"
@@ -13,7 +14,7 @@ catch err
 assert (equal? err 'non-String argument passed to sys:import: 232323')
 
 (var modulex (dict))
-    sys:import "test/fixtures/module1.g"
+    sys:import (prepend-home "test/fixtures/module1.g")
   
 assertEqual 
     modulex(.public1)
@@ -23,7 +24,7 @@ assertEqual
     modulex(.public2)
     list ^public2 ^private2 222 444
 
-setq sys:path (cons "test/fixtures" sys:path)
+setq sys:path (cons (prepend-home "test/fixtures") sys:path)
 import module1
 assertEqual 
     module1(.public1)

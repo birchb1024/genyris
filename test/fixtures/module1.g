@@ -13,4 +13,4 @@ def .public1()
 
 
 # nested import
-sys:import "test/fixtures/module2.g"
+sys:import (prepend-home "test/fixtures/module2.g")

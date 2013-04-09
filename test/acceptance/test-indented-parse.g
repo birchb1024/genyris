@@ -2,7 +2,7 @@
 # Test reading of indented syntax streams
 #
 var fd 
-   (File(.new 'test/fixtures/indented.dat'))
+   (File(.new (prepend-home 'test/fixtures/indented.dat')))
       .open ^read
 var parser (IndentedParser(.new fd))
 assertEqual 

@@ -2,7 +2,7 @@
 #
 #
 define fd 
-   (File(.new "test/fixtures/getline.txt"))
+   (File(.new (prepend-home "test/fixtures/getline.txt")))
       .open ^read
 assert (fd(.hasData))
 assert (fd(.hasData))

@@ -11,7 +11,7 @@ define fixture
                "Joe" "worksAt" "office"
 
 def testCSV (filename field-seperator quote-char)
-    define fd (File(.new filename))
+    define fd (File(.new (prepend-home filename)))
     define results
        csv!read (fd (.open ^read)) field-seperator quote-char
     assert

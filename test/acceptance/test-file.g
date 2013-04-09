@@ -9,7 +9,7 @@ catch err
 assert (equal? err 'File.static-list-dir: failed on test/fixtures/test.pipe')
 assert
    equal?
-      File!static-list-dir 'test/fixtures/folder'
+      File!static-list-dir (prepend-home 'test/fixtures/folder')
       ^('file1.txt' 'file2.txt')
 
 catch err
@@ -25,7 +25,7 @@ assert (equal? err '/undefined/path/qwerty: No such file or directory')
 assert (File!static-is-dir? '.')
 assert
    not
-      File!static-is-dir? 'test/fixtures/test.pipe'
+      File!static-is-dir? (prepend-home 'test/fixtures/test.pipe')
    
 cond
     (OS-name(.match "Windows.*"))
@@ -80,7 +80,7 @@ def parse-string()
   parser(.close)
 
 def parse-file()
-  var fi (File(.new "test/fixtures/factorial.lsp"))
+  var fi (File(.new (prepend-home "test/fixtures/factorial.lsp")))
   var in (fi (.open ^read))
   var parser (ParenParser(.new in))
   var exp nil
@@ -94,7 +94,7 @@ def parse-file()
 
 
 def parse-sfs-file()
-  var fi (File(.new "test/fixtures/test.sfs"))
+  var fi (File(.new (prepend-home "test/fixtures/test.sfs")))
   var in (fi (.open ^read))
   var sfs (StringFormatStream(.new in))
   var parser (ParenParser(.new sfs))
@@ -109,7 +109,7 @@ def parse-sfs-file()
 
 
 def eval-sfs-file()
-  var fi (File(.new "test/fixtures/test.sfs"))
+  var fi (File(.new (prepend-home "test/fixtures/test.sfs")))
   var in (fi (.open ^read))
   var sfs (StringFormatStream(.new in))
   var parser (ParenParser(.new sfs))
@@ -122,7 +122,7 @@ def eval-sfs-file()
   parser(.close)
 
 ######
-define CSVFILE "test/fixtures/test.csv"
+define CSVFILE (prepend-home "test/fixtures/test.csv")
 define fi
    File(.new CSVFILE)
 define in
