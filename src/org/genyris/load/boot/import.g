@@ -71,6 +71,13 @@ defmacro reload (moduleName)
          raise ('%s was not loaded yet'(.format moduleName))
 
 def include((filename = String))
+   cond
+      (equal? '/' (filename(.slice 0 0)))
+           sys:include filename
+      else
+           include-relative filename
+
+def include-relative(filename)
    var path
      sys:search-path filename
    cond

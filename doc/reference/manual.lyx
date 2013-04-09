@@ -12901,6 +12901,7 @@ searches the list of directories in the
  sys:path
 \emph default
  variable and uses the first matching file it finds.
+ If the path begins with a slash, the search path is not used.
  Examples:
 \end_layout
 
@@ -12917,7 +12918,7 @@ include 'people.g'    # using the search path
 \end_layout
 
 \begin_layout LyX-Code
-include 'c:/workspace/genyris/examples/queens.g'  # absolute path - Windows
+include '/workspace/genyris/examples/queens.g'  # absolute path
 \end_layout
 
 \begin_layout Standard
