@@ -96,7 +96,7 @@ public class SourceLoader {
 			if (expression.equals(table.EOF())) {
 				break;
 			}
-			result = expression.eval(env);
+			result = expression.evalCatchOverFlow(env);
 		} while (true);
 		return result;
 	}

@@ -15,12 +15,14 @@ import org.genyris.interp.Interpreter;
 public class EvalFunction extends ApplicableFunction {
 
     public EvalFunction(Interpreter interp) {
-    	super(interp, "eval", true);
+        super(interp, "eval", true);
     }
 
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
-    	checkArguments(arguments, 1);
-        return arguments[0].eval(envForBindOperations);
+    public Exp bindAndExecute(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException {
+        checkArguments(arguments, 1);
+
+        return arguments[0].evalCatchOverFlow(envForBindOperations);
     }
 
 }
