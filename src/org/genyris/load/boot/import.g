@@ -70,9 +70,20 @@ defmacro reload (moduleName)
     else
          raise ('%s was not loaded yet'(.format moduleName))
 
+def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
+
+def isAbsolutePath?(filename)
+   cond
+      (((os!getProperties).|os.name|)(.match 'Windows.*'))
+         or
+            equal? '\\' (filename(.slice 0 0))  # leading \
+            filename(.match '[a-zA-Z]\:')       # drive letter
+      else
+         equal? '/' (filename(.slice 0 0))
+            
 def include((filename = String))
    cond
-      (equal? '/' (filename(.slice 0 0)))
+      (isAbsolutePath? filename)
            sys:include filename
       else
            include-relative filename
