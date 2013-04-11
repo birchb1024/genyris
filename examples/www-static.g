@@ -28,7 +28,7 @@ def handle-authenticated-request (request username)
 
 
 cond
-    (equal? (task:id)!name 'main')
+    (and sys:argv (equal? (task:id)!name 'main'))
          httpd 8000 sys:argv!left
          u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
          read
