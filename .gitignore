@@ -10,6 +10,7 @@ foo.txt
 *.class
 */build/class
 */idebuild/class
+*.pyc
 idebuild
 build
 dist
