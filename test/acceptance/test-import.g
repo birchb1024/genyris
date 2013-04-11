@@ -6,10 +6,10 @@
 assertEqual (prepend-home 'foo') ('%a/foo' (.format System!HOME))
 cond
    (((os!getProperties).|os.name|)(.match 'Windows.*'))
-         assert (isAbsolutePath? '\\foo')
-         assert (isAbsolutePath? 'C:\\foo\\bar')
-         assert (isAbsolutePath? 'C:\\Program Files\\bar')
-         assert (isAbsolutePath? 'z:\\Program Files\\bar')
+         assert (isAbsolutePath? '/foo')
+         assert (isAbsolutePath? 'C:/foo/bar')
+         assert (isAbsolutePath? 'C:/Program Files/bar')
+         assert (isAbsolutePath? 'z:/Program Files/bar')
 cond
    (((os!getProperties).|os.name|)(.match 'Linux.*'))
          assert (isAbsolutePath? '/foo')

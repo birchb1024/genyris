@@ -45,5 +45,5 @@ assertEqual
     list "I am private. You cannot call me directly" "called by .publicFunc"
 catch error
    f (privateFunc) # = error
-assertEqual error "unbound variable: privateFunc"
+assert error
 

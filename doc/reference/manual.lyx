@@ -7718,8 +7718,24 @@ status open
 
 \end_layout
 
+\begin_layout LyX-Code
+.match <regex>
+\end_layout
+
 \begin_layout Standard
-TODO
+Returns true if the string is matched by the regular expression supplied.
+ 
+\end_layout
+
+\begin_layout Standard
+Where regex defined here: 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html#sum"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection

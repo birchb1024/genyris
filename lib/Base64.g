@@ -13,7 +13,7 @@ String
    def .fromBase64()
       Base64EncodedString!decode
    def .fromBase64asUnsignedIntegers()
-      map-left
+      loop-left
          com_ostermiller_util_Base64!decodeToBytes-java_lang_String .self
          function (x)
             cond
@@ -26,7 +26,7 @@ String
 def .encodeUnsignedIntegers(listOfInts)
    com_ostermiller_util_Base64!encodeToString-*B
         java:toJava '[B' 
-              map-left listOfInts
+              loop-left listOfInts
                   function(x)
                      cond
                         (> x 256)

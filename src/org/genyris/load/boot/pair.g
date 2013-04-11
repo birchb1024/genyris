@@ -21,11 +21,17 @@ def map-left (some-list some-function)
             map-left (right some-list) some-function
 
 def loop-left (some-list some-function)
-   var result nil
+   var head nil
+   var tail nil
    while some-list
-         setq result (some-function (left some-list))
-         setq some-list (right some-list)
-   result
+      var newtail (cons (some-function (left some-list)) nil)
+      tail (setq .right newtail)
+      setq tail newtail
+      cond
+          (null? head)
+              setq head tail
+      setq some-list (right some-list)
+   head
 
 
 def member? (item list)
