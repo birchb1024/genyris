@@ -15,6 +15,8 @@ var proc
             os!spawn "/bin/echo" 'Testing Testing one two three'
         (OS-name(.match "SunOS.*"))
             os!spawn "/bin/bash"  'echo' 'Testing Testing one two three'
+        (OS-name(.match "Mac OS X.*"))
+            os!spawn "/bin/bash"  "-c" 'echo Testing Testing one two three'
         else
             raise 
                 "Unknown operating system %s"(.format OS-name)
@@ -22,8 +24,7 @@ var proc
 print (proc.vars) (proc.classes)
 proc
    define reader (.getOutput)
-   assertEqual 
-       'Testing Testing one two three'
+   assertEqual 'Testing Testing one two three'
        reader (.getline)
    reader (.close)
    assertEqual 0 (.waitFor)
