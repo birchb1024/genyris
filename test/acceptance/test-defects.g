@@ -35,3 +35,11 @@ assert (equal? (eval (intern "http://foo/bar#quux")) 34)
 #
 assert (equal? ^.a ^.a)
 assert (not (equal? ^.a ^.b))
+
+#
+# Issue 
+#
+catch error
+   catch 12
+       "Should throw here."
+assert error

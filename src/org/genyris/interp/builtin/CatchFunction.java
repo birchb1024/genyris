@@ -21,6 +21,9 @@ public class CatchFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         Exp retval = NIL;
         this.checkMinArguments(arguments, 2);
+        if( !(arguments[0] instanceof Symbol) ) {
+            throw new GenyrisException(this.getName() + " was expecting a Symbol first, but got " + arguments[0].toString());
+        }
         Symbol errorVar = (Symbol)arguments[0];
     	env.defineVariable(errorVar, NIL);
         Exp body = arrayToList(arguments).cdr();
