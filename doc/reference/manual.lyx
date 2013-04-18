@@ -5204,6 +5204,33 @@ catch <variable name>
 \end_layout
 
 \begin_layout Standard
+A second form of the function allows the user to capture the debug backtrace
+ stack at the time of the error.
+ An additional variable name is supplied, and the backtrace list is assigned
+ to it.
+\end_layout
+
+\begin_layout Standard
+Syntax:
+\end_layout
+
+\begin_layout LyX-Code
+catch (<error variable name> <backtrace variable>)
+\end_layout
+
+\begin_layout LyX-Code
+   <expression>
+\end_layout
+
+\begin_layout LyX-Code
+   <expression>
+\end_layout
+
+\begin_layout LyX-Code
+   ...
+\end_layout
+
+\begin_layout Standard
 Here is a simplified top-level command line interpreter loop by way of example.
  Expressions are read from the keyboard and executed.
  If any exceptions are raised by the system or by the
@@ -5231,7 +5258,7 @@ n>> '
 \end_layout
 
 \begin_layout LyX-Code
-   catch errors
+   catch (errors backtrace)
 \end_layout
 
 \begin_layout LyX-Code
@@ -5251,7 +5278,11 @@ n>> '
 \end_layout
 
 \begin_layout LyX-Code
-          print errors
+          print backtrace
+\end_layout
+
+\begin_layout LyX-Code
+          print error
 \end_layout
 
 \begin_layout LyX-Code
