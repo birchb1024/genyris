@@ -12,7 +12,7 @@ def sys:print-classnames(obj)
         setq klasses (cdr klasses)
  
 def sys:printBackTrace(bt)
-   setq bt (cdr (cdr bt))
+   # setq bt (cdr (cdr bt))
    while bt
        print (left bt)
        setq bt (cdr bt)
@@ -26,12 +26,11 @@ def sys:read-eval-print-loop()
    define looping true          
    while looping
        define bt nil
-       catch errors
+       catch (errors bt)
            define expression (read)
            define result (eval expression)
        cond
            errors
-               setq bt (sys:backtrace)
                u:format "*** Error - %s\n" errors
                sys:printBackTrace bt
                setq bt nil             

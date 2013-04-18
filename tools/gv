@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# View all branches in the git repo including zombies.
+#
+gitk --all $(git fsck --unreachable --no-reflogs | awk '{ print $3 } ')

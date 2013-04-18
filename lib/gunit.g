@@ -5,6 +5,7 @@
 ##
 @prefix : 'http://www.genyris.org/lib/gunit#'
 @prefix < "http://www.genyris.org/lang/utilities#"
+@prefix sys "http://www.genyris.org/lang/system#"
 
 define :test-counter 0
 define :test-failed-counter 0
@@ -13,12 +14,14 @@ define :total-test-failed-counter 0
 define :failed-files nil
 
 def :includeIt(fullpath)
-   catch runerrors
+   catch (runerrors backtrace)
       include fullpath
    cond
       runerrors
          setq :failed-files (cons fullpath :failed-files)
          <:format "*** %s\n" runerrors
+         sys:printBackTrace backtrace
+   
 
 def :execFiles(test-files)
    for file in test-files
