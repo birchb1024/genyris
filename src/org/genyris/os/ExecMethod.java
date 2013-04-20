@@ -42,6 +42,9 @@ public class ExecMethod extends AbstractMethod {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
+        if( arguments.length == 0) {
+            throw new GenyrisException("no arguments supplied to exec");            
+        }
         String[] args = toStringArray(arguments);
         Process child;
         Exp lines = NIL;
