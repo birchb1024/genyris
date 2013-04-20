@@ -132,7 +132,7 @@ public class JlineStdioInStream implements InStream {
         public boolean isDelimiterChar(final CharSequence buffer, final int pos) {
             char ch = buffer.charAt(pos);
             return Character.isWhitespace(ch) || ch == '(' || ch == ')'
-                    || ch == '[' || ch == ']' || ch == '.' || ch == ','
+                    || ch == '[' || ch == ']' || ch == ','
                     || ch == '!' || ch == '\'' || ch == '"' || ch == '#'
                     || ch == '^' || ch == '{' || ch == '}';
         }

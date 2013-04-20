@@ -137,7 +137,9 @@ public abstract class AbstractClosure extends Atom implements Closure {
     }
 
     public Exp dir(Internable table) {
-        return Pair.cons2(table.SOURCE(), table.NAME(), Pair.cons3(
+        return Pair.cons2(new DynamicSymbol(table.SOURCE()),
+                new DynamicSymbol(table.NAME())
+                , Pair.cons3(
                 new DynamicSymbol(table.SELF()),
                 new DynamicSymbol(table.VARS()), new DynamicSymbol(table
                         .CLASSES()), table.NIL()));

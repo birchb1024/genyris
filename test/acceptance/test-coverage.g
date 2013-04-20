@@ -12,7 +12,7 @@ def func(a) (cons a a)
 use func
    assert (equal? .name 'func')
    assert (equal? .source ^(lambda (a) (cons a a)))
-   assert (equal? .vars ^(source name .self .vars .classes))
+   assert (equal? .vars ^(.source .name .self .vars .classes))
 
 # set to an unbound var
 catch err

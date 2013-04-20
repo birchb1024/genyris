@@ -337,6 +337,8 @@ public class Interpreter {
         }
         return retval;
     }
+    
+    
 
     public List<String> getBoundSymbolsAsListOfStrings(Environment env) {
         if (env == null) {
@@ -346,10 +348,30 @@ public class Interpreter {
         ArrayList<String> retval = new ArrayList<String>();
         for (Exp s : symbols) {
             if (env.isBound((Symbol) s)) {
-                retval.add(((Symbol) s).getPrintName());
+                String name = ((Symbol) s).getPrintName();
+                try {
+                    Exp varList = env.lookupVariableValue((Symbol) s).dir(_table);
+                    while (varList != NIL) {                       
+                        if( !( compareName(varList, ".classes") || // skip boring properties
+                              compareName(varList, ".vars") || 
+                              compareName(varList, ".self") )) {
+                            retval.add(name + varList.car().toString());
+                        }
+                        varList = varList.cdr();
+                    }
+                } catch (UnboundException e) {
+                    ;
+                } catch (AccessException e) {
+
+                }
+
             }
         }
         return applyPrefixes(_prefixesUsed, retval);
+    }
+
+    private boolean compareName(Exp varList, String name) throws AccessException {
+        return ((Symbol) varList.car()).getPrintName().equals(name);
     }
 
     public void collectPrefix(String pre, String full) {
