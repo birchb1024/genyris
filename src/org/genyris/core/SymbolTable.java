@@ -290,11 +290,11 @@ public class SymbolTable implements Internable {
 	}
 
 	public SimpleSymbol LAMBDAM() {
-		return _lambdaq;
+		return _lambdam;
 	}
 
 	public SimpleSymbol LAMBDAQ() {
-		return _lambdam;
+		return _lambdaq;
 	}
 
 	public SimpleSymbol EOF() {

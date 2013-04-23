@@ -43,3 +43,24 @@ catch error
    catch 12
        "Should throw here."
 assert error
+
+
+#
+# Issue 54
+#
+def ma(x) x
+assertEqual 
+   use ma .source
+   ^(lambda (x) x)   
+defmacro mac(x) x
+assertEqual 
+   use mac .source
+   ^(lambdam (x) x)  
+df maf(x) x
+assertEqual 
+   use maf .source
+   ^(lambdaq (x) x)
+   
+
+   
+   
