@@ -97,12 +97,10 @@ public class StringFormatStream implements InStreamEOF {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            if (!(arguments[0] instanceof ReaderStream)) {
-                throw new GenyrisException("Bad arg to new method of StringFormatStream");
-            } else {
-                ReaderStream input = (ReaderStream)arguments[0];
-                return new ReaderStream(new StringFormatStream(input.getInStream()));
-            }
+            Class[] types = { ReaderStream.class };
+            this.checkArgumentTypes(types, arguments);
+            ReaderStream input = (ReaderStream)arguments[0];
+            return new ReaderStream(new StringFormatStream(input.getInStream()));
         }
     }
 
