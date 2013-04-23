@@ -24,3 +24,4 @@ rel
 *orig
 # Eclipse Workspace data
 .metadata
+.settings/org.eclipse.mylyn.tasks.ui.prefs
