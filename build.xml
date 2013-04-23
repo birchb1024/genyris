@@ -21,11 +21,11 @@
     <target name="clean" depends="only-clean" />
 
     <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
-    <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar and documentation" />
+    <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar, zips, documentation, installers" />
     <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
     <target name="build-workspace" depends="only-clean, only-init, version-default, binary, test, reports"
       description="Build and test current workspace contents."/>
-    <target name="release" depends="tagged-version, binary, test, reports" 
+    <target name="release" depends="tagged-version, binary, only-package, test, reports" 
       description="Build a formal tagged release using only the latest tag."/>
 
     <!-- Libraries required  -->
@@ -296,6 +296,12 @@
       </checkstyle>
    </target>
 
+    <target name="only-package" depends="git-info" description="Install4j Packaging">
+        <exec executable="bash" failonerror="true">
+            <arg value="-c"/>
+            <arg value="install4jc --release=${version} package/genyris.install4j" />
+        </exec>
+    </target>
 
 
    </project>
