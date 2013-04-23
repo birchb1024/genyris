@@ -57,4 +57,8 @@ public class ConvertEofInStream implements InStream {
         _input.beginningExpression();
     }
 
+    public int getLineNumber() {
+        return _input.getLineNUmber();
+    }
+
 }

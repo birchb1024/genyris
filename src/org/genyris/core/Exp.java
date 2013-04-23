@@ -86,4 +86,9 @@ public abstract class Exp implements Classifiable, Closure {
         return Pair.cons3(new DynamicSymbol(table.SELF()), new DynamicSymbol(
                 table.VARS()), new DynamicSymbol(table.CLASSES()), table.NIL());
     }
+    public Exp getBody(Exp nil) {
+        return nil;
+    }
+    
+
 }

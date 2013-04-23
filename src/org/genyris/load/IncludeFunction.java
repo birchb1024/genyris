@@ -20,22 +20,28 @@ import org.genyris.io.NullWriter;
 public class IncludeFunction extends ApplicableFunction {
 
     public IncludeFunction(Interpreter interp) {
-    	super(interp, Constants.PREFIX_SYSTEM + "include", true);
+        super(interp, Constants.PREFIX_SYSTEM + "include", true);
     }
 
-    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
+    public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+            throws GenyrisException {
         Exp result;
         Writer out = new NullWriter();
         this.checkArguments(arguments, 1, 2);
-        if( !( arguments[0] instanceof StrinG) ) {
-            throw new GenyrisException("non-string argument passed to include: " + arguments[0].toString());
+        if (!(arguments[0] instanceof StrinG)) {
+            throw new GenyrisException(
+                    "non-string argument passed to include: "
+                            + arguments[0].toString());
         }
-        if( arguments.length > 1 ) {
-            if( arguments[1] == TRUE) {
+        if (arguments.length > 1) {
+            if (arguments[1] == TRUE) {
                 out = _interp.getDefaultOutputWriter();
             }
         }
-        result = SourceLoader.loadScriptFromFile(_interp.getGlobalEnv(), _interp.getSymbolTable(), arguments[0].toString(), out);
+        String filename = arguments[0].toString();
+        result = SourceLoader.loadScriptFromFile(_interp.getGlobalEnv(),
+                _interp.getSymbolTable(), filename, out,
+                _interp.getDebugger());
 
         return result;
     }

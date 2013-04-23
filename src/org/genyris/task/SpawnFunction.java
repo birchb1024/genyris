@@ -53,7 +53,7 @@ public class SpawnFunction extends TaskFunction {
 				interpreter.getGlobalEnv().defineVariable(ARGS, arrayToExpList(interpreter.NIL, arguments));
 	    		if( arguments.length != 0) {
 	    			String filename = arguments[0].toString();
-	    			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
+	    			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output, interpreter.getDebugger());
 	    		}
 			} catch (GenyrisException e) {
 				if(e instanceof GenyrisInterruptedException) {

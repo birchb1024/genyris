@@ -372,4 +372,9 @@ public class Lex {
         _input.beginningExpression();
     }
 
+    public int getLineNumber() {
+        return _input.getLineNumber();
+    }
+
+
 }

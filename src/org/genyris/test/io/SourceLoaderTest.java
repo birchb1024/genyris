@@ -19,20 +19,25 @@ public class SourceLoaderTest extends TestCase {
         super.setUp();
     }
 
-    private void excerciseSourceLoader(String input, String expected) throws GenyrisException {
+    private void excerciseSourceLoader(String input, String expected)
+            throws GenyrisException {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringReader in = new StringReader(input);
         StringWriter out = new StringWriter();
-        SourceLoader.executeScript(interp.getGlobalEnv(),".g", interp.getSymbolTable(), in, out);
-         assertEquals(expected, out.toString());
+        SourceLoader.executeScript(interp.getGlobalEnv(), ".g",
+                interp.getSymbolTable(), in, out, interp.getDebugger());
+        assertEquals(expected, out.toString());
 
     }
 
     public void testSourceLoader1() throws GenyrisException {
-        excerciseSourceLoader("list 1\n list 2\n ~22\n\nlist 3 4","");
-        excerciseSourceLoader("list 1\n list 2\n ~22\n\ndef f (x) \n      cons x x","");
-        excerciseSourceLoader("list 22\n  list\n      the 333\n\nlist ^f ^(x)\n    cons 1 2\n", "");
+        excerciseSourceLoader("list 1\n list 2\n ~22\n\nlist 3 4", "");
+        excerciseSourceLoader(
+                "list 1\n list 2\n ~22\n\ndef f (x) \n      cons x x", "");
+        excerciseSourceLoader(
+                "list 22\n  list\n      the 333\n\nlist ^f ^(x)\n    cons 1 2\n",
+                "");
 
     }
 
@@ -40,18 +45,26 @@ public class SourceLoaderTest extends TestCase {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "org/genyris/load/boot/init.g", out);
+        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
+                interp.getSymbolTable(), "org/genyris/load/boot/init.g", out,
+                interp.getDebugger());
     }
+
     public void testSourceLoader3() throws GenyrisException {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "test/fixtures/factorial.g", out);
+        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
+                interp.getSymbolTable(), "test/fixtures/factorial.g", out,
+                interp.getDebugger());
     }
+
     public void testSourceLoaderLisp() throws GenyrisException {
         Interpreter interp = new Interpreter();
         interp.init(false);
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(), interp.getSymbolTable(), "test/fixtures/factorial.lsp", out);
+        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
+                interp.getSymbolTable(), "test/fixtures/factorial.lsp", out,
+                interp.getDebugger());
     }
 }

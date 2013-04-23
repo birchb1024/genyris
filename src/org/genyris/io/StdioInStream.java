@@ -17,6 +17,7 @@ public class StdioInStream implements InStream {
 
     private int _nextByte;
     private boolean _gotByte;
+    private int _lineCount;
     private static StdioInStream singleton = null;
     
     public static synchronized StdioInStream knew() { // the 'k' is silent.
@@ -28,6 +29,7 @@ public class StdioInStream implements InStream {
 
     private StdioInStream() {
         _gotByte = false;
+        _lineCount = 1;
     }
 
     public synchronized void unGet(char x) throws LexException {
@@ -40,6 +42,9 @@ public class StdioInStream implements InStream {
             throw new LexException("StdioInStream: readNext() called before hasData()");
         }
         _gotByte = false;
+        if( _nextByte == '\n' ) {
+            _lineCount++;
+        }
         return (char)_nextByte;
     }
 
@@ -73,6 +78,10 @@ public class StdioInStream implements InStream {
     }
 
     public void beginningExpression() {
+    }
+
+    public int getLineNumber() {
+        return _lineCount;
     }
 
 

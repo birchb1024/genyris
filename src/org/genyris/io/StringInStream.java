@@ -13,10 +13,12 @@ public class StringInStream implements InStream {
 
     private final char[] _value;
     private int _readPointer;
+    private int _lineCount;
 
     public StringInStream(String astring) {
         _value = astring.toCharArray();
         _readPointer = 0;
+        _lineCount = 1;
     }
 
     public boolean hasData() {
@@ -24,6 +26,9 @@ public class StringInStream implements InStream {
     }
 
     public char readNext() {
+        if( _value[_readPointer] == '\n' ) {
+            _lineCount++;
+        }
         return _value[_readPointer++];
     }
 
@@ -41,6 +46,10 @@ public class StringInStream implements InStream {
     }
 
     public void beginningExpression() {
+    }
+
+    public int getLineNumber() {
+        return this._lineCount;
     }
 
 }

@@ -45,8 +45,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
     private int countFormalArguments(Exp exp) throws AccessException {
         int count = 0;
         while (exp != NIL()) {
-            if (!(exp instanceof Pair)) { // ignore trailing type
-                // specification
+            if (!(exp instanceof Pair)) { // ignore trailing type specification
                 break;
             }
             if (((Pair) exp).car() == REST()) {
@@ -82,8 +81,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
     public Exp applyFunction(Environment environment, Exp[] arguments)
             throws GenyrisException {
 
-        return _functionToApply.bindAndExecuteAux(this, arguments, environment); // double
-        // dispatch
+        return _functionToApply.bindAndExecuteAux(this, arguments, environment); // double dispatch
     }
 
     public Environment getEnv() {
@@ -92,8 +90,8 @@ public abstract class AbstractClosure extends Atom implements Closure {
 
     public int getNumberOfRequiredArguments() throws AccessException {
         if (_numberOfRequiredArguments < 0) {
-            _numberOfRequiredArguments = countFormalArguments(_lambdaExpression
-                    .cdr().car());
+            _numberOfRequiredArguments = countFormalArguments(_lambdaExpression.cdr()
+                    .car());
         }
         return _numberOfRequiredArguments;
     }
@@ -114,8 +112,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
             while (tmp.cdr() != NIL()) { // TODO refactor this loop into
                 if (tmp.cdr() instanceof Symbol) {
                     returnTypeSymbolFound = (Symbol) tmp.cdr();
-                    possibleReturnClass = _env
-                            .lookupVariableValue(returnTypeSymbolFound);
+                    possibleReturnClass = _env.lookupVariableValue(returnTypeSymbolFound);
                     break;
                 }
                 tmp = tmp.cdr();
@@ -127,36 +124,36 @@ public abstract class AbstractClosure extends Atom implements Closure {
         if (possibleReturnClass instanceof StandardClass) {
             return (_returnClass = (StandardClass) possibleReturnClass);
         }
-        throw new GenyrisException(possibleReturnClass
-                + " return class not a class.");
+        throw new GenyrisException(possibleReturnClass + " return class not a class.");
     }
 
-    public Environment makeEnvironment(Environment parent)
-            throws GenyrisException {
+    public Environment makeEnvironment(Environment parent) throws GenyrisException {
         return new ProcEnvironment(parent, this);
     }
 
     public Exp dir(Internable table) {
-        return Pair.cons2(new DynamicSymbol(table.SOURCE()),
-                new DynamicSymbol(table.NAME())
-                , Pair.cons3(
-                new DynamicSymbol(table.SELF()),
-                new DynamicSymbol(table.VARS()), new DynamicSymbol(table
-                        .CLASSES()), table.NIL()));
+        return Pair.cons2(
+                new DynamicSymbol(table.SOURCE()),
+                new DynamicSymbol(table.NAME()),
+                Pair.cons3(new DynamicSymbol(table.SELF()),
+                        new DynamicSymbol(table.VARS()),
+                        new DynamicSymbol(table.CLASSES()), table.NIL()));
     }
 
     public void checkTooFewArgumentCount(Exp[] arguments) throws GenyrisException {
         if (arguments.length < getNumberOfRequiredArguments()) {
-            throw new GenyrisException("Too few arguments supplied to proc: "
-                    + getName() + ". Args were: " + argsToString(arguments));
+            throw new GenyrisException("Too few arguments supplied to proc: " + getName()
+                    + ". Args were: " + argsToString(arguments));
         }
     }
+
     public void checkTooManyArgumentCount(Exp[] arguments) throws GenyrisException {
         if (!_restArgs && arguments.length > getNumberOfRequiredArguments()) {
             throw new GenyrisException("Too many arguments supplied to proc: "
                     + getName() + ". Args were: " + argsToString(arguments));
         }
     }
+
     private StringBuffer argsToString(Exp[] arguments) {
         StringBuffer args = new StringBuffer("(");
         for (int i = 0; i < arguments.length; i++) {
@@ -165,6 +162,5 @@ public abstract class AbstractClosure extends Atom implements Closure {
         args.append(")");
         return args;
     }
-
 
 }

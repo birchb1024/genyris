@@ -19,4 +19,5 @@ public interface InStream {
 	void resetAfterError();
     void withinExpression(Environment env);
     void beginningExpression();
+    int getLineNumber();
 }

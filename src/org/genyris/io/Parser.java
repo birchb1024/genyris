@@ -16,6 +16,7 @@ import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Debugger;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
@@ -32,12 +33,15 @@ public class Parser {
 
     private Exp pushback;
 
-    public Parser(Internable table, InStream stream) {
-        this(table, stream, Constants.CDRCHAR, Constants.COMMENTCHAR);
+    private Debugger _debugger;
+
+    public Parser(Internable table, InStream stream, Debugger debugger) {
+        this(table, stream, Constants.CDRCHAR, Constants.COMMENTCHAR, debugger);
     }
 
     public Parser(Internable table, InStream stream, char cdrCharacter,
-            char commentChar) {
+            char commentChar, Debugger debugger) {
+        _debugger = debugger;
         _table = table;
         _lexer = new Lex(stream, table, cdrCharacter, commentChar);
         NIL = table.NIL();
@@ -202,6 +206,7 @@ public class Parser {
         }
         if (cursym.equals(_lexer.LEFT_PAREN_TOKEN)) {
             tree = parseList(NIL);
+            _debugger.saveLocation(tree, _lexer.getLineNumber(), _table );
             if (!cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
                 throw new ParseException("missing right paren - found: "
                         + cursym);
@@ -255,7 +260,7 @@ public class Parser {
     public static Exp parseSingleExpressionFromString(Internable table,
             String script) throws GenyrisException {
         InStream input = new UngettableInStream(new StringInStream(script));
-        Parser parser = new Parser(table, input);
+        Parser parser = new Parser(table, input, new NullDebugger());
         Exp expression = parser.read();
         return expression;
     }

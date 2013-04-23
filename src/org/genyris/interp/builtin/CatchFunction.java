@@ -60,7 +60,7 @@ public class CatchFunction extends ApplicableFunction {
                 retval = body.evalSequence(env);
             } catch (GenyrisException e) {
                 env.setVariableValue(errorVar, e.getData());
-                env.setVariableValue(backTraceVar, _interp.getDebugBackTrace());
+                env.setVariableValue(backTraceVar, _interp.getDebugBackTraceAsList());
                 _interp.resetDebugBackTrace();
             }
             return retval;

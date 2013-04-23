@@ -26,6 +26,4 @@ assert (equal? err 'fooey!')
 
 assert (symlist)
 
-assert
-   equal? '<LazyProcedure: http://www.genyris.org/lang/system#backtrace>'
-      left (|http://www.genyris.org/lang/system#backtrace|)
+      

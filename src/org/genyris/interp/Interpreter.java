@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
@@ -54,12 +55,15 @@ public class Interpreter {
     Writer _defaultOutput;
 
     public NilSymbol NIL;
-    private Exp _debugStack;
+
+    private Stack<Closure> _debugStack;
 
     private InStream _inputStream;
 
     private Map<String, String> _prefixesUsed; // collect all prefixes - used
                                                // for output.
+
+    private Debugger _debugger;
 
     public Interpreter() throws GenyrisException {
         this(StdioInStream.knew(), System.out);
@@ -67,10 +71,11 @@ public class Interpreter {
 
     public Interpreter(InStream inStream, OutputStream out)
             throws GenyrisException {
+        _debugger = new Debugger();
         _inputStream = inStream;
         _prefixesUsed = new HashMap<String, String>();
         NIL = new NilSymbol();
-        _debugStack = NIL;
+        _debugStack = new Stack<Closure>();
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
@@ -93,7 +98,6 @@ public class Interpreter {
         ClassloaderFunctions.bindFunctionsAndMethods(this);
 
         bindAllJavaFunctionsFromScript();
-        _debugStack = NIL;
 
     }
 
@@ -144,17 +148,17 @@ public class Interpreter {
         return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(),
                 this.getSymbolTable(),
                 "org/genyris/load/boot/bind-compiled-functions.g",
-                (Writer) new NullWriter());
+                (Writer) new NullWriter(), _debugger);
     }
 
     public Exp init(boolean verbose) throws GenyrisException {
         return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this
                 .getSymbolTable(), "org/genyris/load/boot/init.g",
-                verbose ? _defaultOutput : (Writer) new NullWriter());
+                verbose ? _defaultOutput : (Writer) new NullWriter(), _debugger);
     }
 
     public Parser newParser(InStream input) {
-        return new Parser(_table, input);
+        return new Parser(_table, input, _debugger);
     }
 
     public Exp evalInGlobalEnvironment(Exp expression) throws GenyrisException {
@@ -285,22 +289,25 @@ public class Interpreter {
     }
 
     public void debugStackPush(Closure proc) {
-        _debugStack = new Pair(new StrinG(proc.toString()), _debugStack);
+        _debugStack.push(proc);
     }
 
     public void debugStackPop(Closure proc) {
-        try {
-            _debugStack = _debugStack.cdr();
-        } catch (AccessException ignore) {
+
+        if(_debugStack.empty()) {
+            return;
         }
+        _debugStack.pop();
     }
 
-    public Exp getDebugBackTrace() {
+    public Stack<Closure> getDebugBackTrace() {
         return _debugStack;
     }
 
-    public Exp resetDebugBackTrace() {
-        return _debugStack = NIL;
+    public Stack<Closure> resetDebugBackTrace() {
+        Stack<Closure> retval = _debugStack;
+        _debugStack = new Stack<Closure>();
+        return retval;
     }
 
     public Exp evalStringInGlobalEnvironment(String script)
@@ -337,8 +344,6 @@ public class Interpreter {
         }
         return retval;
     }
-    
-    
 
     public List<String> getBoundSymbolsAsListOfStrings(Environment env) {
         if (env == null) {
@@ -350,11 +355,13 @@ public class Interpreter {
             if (env.isBound((Symbol) s)) {
                 String name = ((Symbol) s).getPrintName();
                 try {
-                    Exp varList = env.lookupVariableValue((Symbol) s).dir(_table);
-                    while (varList != NIL) {                       
-                        if( !( compareName(varList, ".classes") || // skip boring properties
-                              compareName(varList, ".vars") || 
-                              compareName(varList, ".self") )) {
+                    Exp varList = env.lookupVariableValue((Symbol) s).dir(
+                            _table);
+                    while (varList != NIL) {
+                        if (!(compareName(varList, ".classes") || // skip boring
+                                                                  // properties
+                                compareName(varList, ".vars") || compareName(
+                                    varList, ".self"))) {
                             retval.add(name + varList.car().toString());
                         }
                         varList = varList.cdr();
@@ -364,18 +371,31 @@ public class Interpreter {
                 } catch (AccessException e) {
 
                 }
-
             }
         }
         return applyPrefixes(_prefixesUsed, retval);
     }
 
-    private boolean compareName(Exp varList, String name) throws AccessException {
+    private boolean compareName(Exp varList, String name)
+            throws AccessException {
         return ((Symbol) varList.car()).getPrintName().equals(name);
     }
 
     public void collectPrefix(String pre, String full) {
         _prefixesUsed.put(pre, full);
+    }
+
+    public Debugger getDebugger() {
+        return this._debugger;
+    }
+
+    public Exp getDebugBackTraceAsList() {
+        Exp retval = NIL;
+        for( Closure c : this._debugStack) {
+            Exp frame = Pair.cons(new StrinG(c.toString()), _debugger.lookupExpAsList(c.getBody(NIL),NIL));
+            retval = new Pair(frame, retval);
+        }
+        return retval;
     }
 
 }

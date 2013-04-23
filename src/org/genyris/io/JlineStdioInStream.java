@@ -26,6 +26,7 @@ public class JlineStdioInStream implements InStream {
     private Environment _environment;
     private static JlineStdioInStream singleton = null;
     private static Interpreter _interp;
+    private int _lineCount;
 
     public static synchronized JlineStdioInStream knew() { // the 'k' is silent.
         if (singleton == null) {
@@ -36,6 +37,7 @@ public class JlineStdioInStream implements InStream {
 
     private JlineStdioInStream() {
         _nextLine = null;
+        _lineCount = 0;
         try {
             _jline = new ConsoleReader();
             _jline.setPrompt("> ");
@@ -76,6 +78,7 @@ public class JlineStdioInStream implements InStream {
                 return true;
             }
             _nextLine = _jline.readLine();
+            _lineCount++;
             _nextIndex = 0;
         } catch (IOException e) {
             _nextLine = null;
@@ -136,6 +139,10 @@ public class JlineStdioInStream implements InStream {
                     || ch == '!' || ch == '\'' || ch == '"' || ch == '#'
                     || ch == '^' || ch == '{' || ch == '}';
         }
+    }
+
+    public int getLineNumber() {
+        return _lineCount;
     }
 
 }

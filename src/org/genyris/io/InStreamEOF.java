@@ -22,4 +22,6 @@ public interface InStreamEOF {
 
     void beginningExpression();
 
+    int getLineNUmber();
+
 }

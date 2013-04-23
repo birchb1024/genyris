@@ -73,5 +73,9 @@ public class UngettableInStream implements InStream {
         public void beginningExpression() {
             _input.beginningExpression();
         }
+        public int getLineNumber() {
+            return _input.getLineNumber();
+        }
+
 }
 

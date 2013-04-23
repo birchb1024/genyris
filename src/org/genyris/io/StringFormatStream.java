@@ -120,4 +120,8 @@ public class StringFormatStream implements InStreamEOF {
     public void beginningExpression() {
         this._instream.beginningExpression();
     }
+    public int getLineNUmber() {
+        return _instream.getLineNumber();
+    }
+
 }

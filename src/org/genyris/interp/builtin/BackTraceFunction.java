@@ -19,7 +19,7 @@ public class BackTraceFunction extends ApplicableFunction {
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         
-        Exp bt = _interp.getDebugBackTrace();
+        Exp bt = _interp.getDebugBackTraceAsList();
         _interp.resetDebugBackTrace();
         return bt;
     }
