@@ -1674,6 +1674,73 @@ which is the same as:
 \end_layout
 
 \begin_layout Subsubsection
+Lexer Macros
+\end_layout
+
+\begin_layout Standard
+If the parser sees the symbols '
+\emph on
+@FILE
+\emph default
+' and '
+\emph on
+@LINE
+\emph default
+' it replaces the sysmbol with the current filename and line number respectively.
+ This is useful for reporting the location of errors or when loading data
+ files.
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+raise
+\end_layout
+
+\begin_layout LyX-Code
+   "Error in %a at %a."      
+\end_layout
+
+\begin_layout LyX-Code
+        .format @FILE @LINE
+\end_layout
+
+\begin_layout Standard
+Example of data file using line numbers:
+\end_layout
+
+\begin_layout LyX-Code
+id @LINE 
+\end_layout
+
+\begin_layout LyX-Code
+    name 
+\begin_inset Quotes eld
+\end_inset
+
+Philip K.
+ Dick
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout LyX-Code
+    DOB 
+\begin_inset Quotes eld
+\end_inset
+
+16/12/1968
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
 Line Continuation
 \begin_inset Index idx
 status open
