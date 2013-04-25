@@ -22,4 +22,11 @@
 (do 
   (do
       (assertEqual @LINE 24)))
-      
+(assertEqual @FILE 
+   (prepend-home 'test/acceptance/test-file-line.lsp'))
+
+(catch error
+   (raise ("throw here %a %a"($format @FILE @LINE))))
+(assertEqual error 
+   ('throw here %a/test/acceptance/test-file-line.lsp 29'
+      ($format System!HOME)))

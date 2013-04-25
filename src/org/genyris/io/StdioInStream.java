@@ -83,6 +83,7 @@ public class StdioInStream implements InStream {
     public int getLineNumber() {
         return _lineCount;
     }
-
-
+    public String getFilename() {
+        return "stdin";
+    }
 }

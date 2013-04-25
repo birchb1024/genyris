@@ -144,5 +144,8 @@ public class JlineStdioInStream implements InStream {
     public int getLineNumber() {
         return _lineCount;
     }
+    public String getFilename() {
+        return "console";
+    }
 
 }

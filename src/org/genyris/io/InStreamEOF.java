@@ -24,4 +24,6 @@ public interface InStreamEOF {
 
     int getLineNUmber();
 
+    String getFilename();
+
 }

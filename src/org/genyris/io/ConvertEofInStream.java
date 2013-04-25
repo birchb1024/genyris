@@ -60,5 +60,8 @@ public class ConvertEofInStream implements InStream {
     public int getLineNumber() {
         return _input.getLineNUmber();
     }
+    public String getFilename() {
+        return _input.getFilename();
+    }
 
 }

@@ -37,12 +37,15 @@ public class Lex {
 	public Symbol LEFT_CURLY_TOKEN, RIGHT_CURLY_TOKEN;
 	public Symbol PLING_TOKEN;
 
-	private void init(InStream inputSource, Internable table, char cdrChar, char commentChar) {
-		_mapper = new PrefixMapper();
+    private char _dynamicCharacter;
+
+	private void init(InStream inputSource, Internable table, char dynaChar, char cdrChar, char commentChar) {
+		_mapper = new PrefixMapper(dynaChar);
 		_input = inputSource;
 		_symbolTable = table;
 		_cdrCharacter = cdrChar;
 		_commentCharacter = commentChar;
+		_dynamicCharacter = dynaChar;
 
 		QUOTE_TOKEN = new SimpleSymbol("QuoteToken");
 		BACKQUOTE_TOKEN = new SimpleSymbol("BackquoteToken");
@@ -60,12 +63,12 @@ public class Lex {
 		PLING_TOKEN = new SimpleSymbol("plingToken");
 	}
 
-	public Lex(InStream inputSource, Internable table, char cdrChar, char commentChar) {
-		init(inputSource, table, cdrChar, commentChar);
+	public Lex(InStream inputSource, Internable table, char dynaChar, char cdrChar, char commentChar) {
+		init(inputSource, table, dynaChar, cdrChar, commentChar);
 	}
 
 	public Lex(InStream inputSource, SymbolTable table) {
-		init(inputSource, table, Constants.CDRCHAR, Constants.COMMENTCHAR);
+		init(inputSource, table, Constants.DYNAMICSCOPECHAR2, Constants.CDRCHAR, Constants.COMMENTCHAR);
 	}
 
 	public BigDecimal parseDecimalNumber() throws LexException {
@@ -135,6 +138,9 @@ public class Lex {
 		if (c == _commentCharacter)
 			return false;
 
+	    if( c ==  _dynamicCharacter)
+	        return false;
+	    
 		switch (c) {
 		case '\f':
 		case '\n':
@@ -147,7 +153,6 @@ public class Lex {
 		case ']':
 		case '{':
 		case '}':
-		case Constants.DYNAMICSCOPECHAR2:
 		case Constants.BQUOTECHAR:
 		case Constants.QUOTECHAR:
 		case '\'':
@@ -197,12 +202,21 @@ public class Lex {
 				break;
 			}
 		}
+        return replaceMacro(collect);
+	}
+
+    private Exp replaceMacro(StringBuffer collect) throws GenyrisException {
+        //
+        // replace @LINE and @FILE with current values or return a symbol.
+        //
         if( collect.toString().equals(Constants.ATLINE) ) {
             return new Bignum(getLineNumber());
+        } else if(collect.toString().equals(Constants.ATFILE) ) {
+            return new StrinG(_input.getFilename());
         } else {
             return _symbolTable.internSymbol(_mapper.symbolFactory(collect.toString()));
         }
-	}
+    }
 
 	public Exp nextToken() throws GenyrisException {
 		char ch;
@@ -221,6 +235,9 @@ public class Lex {
 						break;
 					}
 				}
+			}
+			if( ch == _dynamicCharacter ) {
+			    return DYNAMIC_TOKEN;
 			}
 
 			switch (ch) {
@@ -276,8 +293,6 @@ public class Lex {
 				return LEFT_CURLY_TOKEN;
 			case '}':
 				return RIGHT_CURLY_TOKEN;
-			case Constants.DYNAMICSCOPECHAR2:
-				return DYNAMIC_TOKEN;
 			case Constants.QUOTECHAR:
 				return QUOTE_TOKEN;
 			case Constants.BQUOTECHAR:

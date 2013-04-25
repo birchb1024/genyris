@@ -20,4 +20,5 @@ public interface InStream {
     void withinExpression(Environment env);
     void beginningExpression();
     int getLineNumber();
+    String getFilename();
 }

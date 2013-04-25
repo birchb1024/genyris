@@ -42,8 +42,8 @@ public class ReaderStream extends Atom {
         _input = new ConvertEofInStream(readerEOF);
     }
 
-    public ReaderStream(Reader reader) {
-        _input = new ReaderInStream(reader);
+    public ReaderStream(Reader reader, String filename) {
+        _input = new ReaderInStream(reader, filename);
     }
 
     public ReaderStream(String script) {

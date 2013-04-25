@@ -74,7 +74,7 @@ public class Pipe extends Atom {
                 throws GenyrisException {
         	getSelf(env);
         	Pipe self = (Pipe)_self;
-        	return new ReaderStream(self.pipein);
+        	return new ReaderStream(self.pipein, self.toString());
         }
     }
     public static class PipeOutputMethod extends AbstractMethod {

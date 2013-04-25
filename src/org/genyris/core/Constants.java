@@ -17,6 +17,7 @@ public class Constants {
         public static final char ATCHAR = '@';
         public static final char CDRCHAR = '=';
         public static final char LISPCDRCHAR = '.';
+        public static final char LISPDYNACHAR = '$';
         public static final char DYNAMICSCOPECHAR2 = '.';
         public static final char SYMBOLESCAPE = '|';
     // Language Keywords

@@ -51,5 +51,8 @@ public class StringInStream implements InStream {
     public int getLineNumber() {
         return this._lineCount;
     }
+    public String getFilename() {
+        return "StringInStream " + hashCode();
+    }
 
 }

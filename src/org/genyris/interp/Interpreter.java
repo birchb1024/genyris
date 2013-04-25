@@ -314,7 +314,7 @@ public class Interpreter {
             throws GenyrisException {
         InStream is = new UngettableInStream(new ConvertEofInStream(
                 new IndentStream(new UngettableInStream(new ReaderInStream(
-                        new StringReader(script))), true)));
+                        new StringReader(script), script.substring(0, 10) + "...")), true)));
 
         Parser parser = newParser(is);
         parser.setUsualPrefixes(this);

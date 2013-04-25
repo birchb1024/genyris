@@ -411,5 +411,8 @@ public class IndentStream implements InStreamEOF {
             return _lineCount-1;
         }
     }
+    public String getFilename() {
+        return _instream.getFilename();
+    }
 	
 }

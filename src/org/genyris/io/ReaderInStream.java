@@ -18,11 +18,13 @@ public class ReaderInStream implements InStream {
     private boolean _haveChar;
     private PushbackReader _reader;
     private int _lineCount;
+    private String _filename;
 
-    public ReaderInStream(Reader reader) {
+    public ReaderInStream(Reader reader, String filename) {
         _reader = new PushbackReader(reader);
         _haveChar = false;
         _lineCount = 1;
+        _filename = filename;
     }
 
     public Reader getReader() {
@@ -89,5 +91,7 @@ public class ReaderInStream implements InStream {
     public int getLineNumber() {
         return _lineCount;
     }
-
+    public String getFilename() {
+        return _filename;
+    }
 }

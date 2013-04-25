@@ -34,12 +34,12 @@ public class SourceLoader {
 		if (filename.endsWith(".g") || filename.equals("-")) {
 			InStream is = new UngettableInStream(new ConvertEofInStream(
 					new IndentStream(new UngettableInStream(new ReaderInStream(
-							input)), false)));
+							input, filename)), false)));
 			return new Parser(table, is, debugger);
 
 		} else if (filename.endsWith(".lsp")) {
-			InStream is = new UngettableInStream(new ReaderInStream(input));
-			return new Parser(table, is, Constants.LISPCDRCHAR, Constants.LISPCOMMENTCHAR, debugger);
+			InStream is = new UngettableInStream(new ReaderInStream(input, filename));
+			return new Parser(table, is, Constants.LISPDYNACHAR, Constants.LISPCDRCHAR, Constants.LISPCOMMENTCHAR, debugger);
 		} else {
 			throw new GenyrisException("unknown file suffix in : " + filename);
 		}

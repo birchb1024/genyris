@@ -36,14 +36,14 @@ public class Parser {
     private Debugger _debugger;
 
     public Parser(Internable table, InStream stream, Debugger debugger) {
-        this(table, stream, Constants.CDRCHAR, Constants.COMMENTCHAR, debugger);
+        this(table, stream, Constants.DYNAMICSCOPECHAR2, Constants.CDRCHAR, Constants.COMMENTCHAR, debugger);
     }
 
-    public Parser(Internable table, InStream stream, char cdrCharacter,
+    public Parser(Internable table, InStream stream, char dynaChar, char cdrCharacter,
             char commentChar, Debugger debugger) {
         _debugger = debugger;
         _table = table;
-        _lexer = new Lex(stream, table, cdrCharacter, commentChar);
+        _lexer = new Lex(stream, table, dynaChar, cdrCharacter, commentChar);
         NIL = table.NIL();
         _prefix = table.PREFIX();
     }

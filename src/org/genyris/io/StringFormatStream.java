@@ -121,5 +121,7 @@ public class StringFormatStream implements InStreamEOF {
     public int getLineNUmber() {
         return _instream.getLineNumber();
     }
-
+    public String getFilename() {
+        return _instream.getFilename();
+    }
 }

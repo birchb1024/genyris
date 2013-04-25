@@ -33,7 +33,7 @@ public class Gfile {
 		if (mode.toString().equals("read")) {
 			try {
 				return new ReaderStream(new InputStreamReader(
-						new FileInputStream(filename.toString())));
+						new FileInputStream(filename.toString())), filename.toString());
 			} catch (FileNotFoundException e) {
 				throw new GenyrisException(filename + ": No such file or directory");
 			}

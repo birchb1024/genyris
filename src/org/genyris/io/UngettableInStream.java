@@ -83,5 +83,9 @@ public class UngettableInStream implements InStream {
             return _input.getLineNumber() - numberLinesPreviewed;
         }
 
+        public String getFilename() {
+            return _input.getFilename();
+        }
+
 }
 

@@ -18,9 +18,11 @@ import org.genyris.exception.GenyrisException;
 public class PrefixMapper {
     private static final String PREFIXCHAR = ":";
 	private Map         _prefixes;
+    private char _dynaChar;
 
-    public PrefixMapper() {
+    public PrefixMapper(char dynaChar) {
         _prefixes = new HashMap();
+        _dynaChar = dynaChar;
     }
 
 
@@ -34,8 +36,8 @@ public class PrefixMapper {
         catch (MalformedURLException e) {
             throw new GenyrisException("prefix is not mapped to a valid URL: " + uri);
         }
-        if(prefix.startsWith(String.valueOf(Constants.DYNAMICSCOPECHAR2))) {
-            throw new GenyrisException("cannot start a prefix with . in parse: " + prefix);
+        if(prefix.startsWith(String.valueOf(_dynaChar))) {
+            throw new GenyrisException("cannot start a prefix with " + _dynaChar + " in parse: " + prefix);
         }
         if (_prefixes.containsKey(prefix)) {
             if(!_prefixes.get(prefix).equals(uri)) {

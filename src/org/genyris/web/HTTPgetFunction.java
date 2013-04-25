@@ -55,7 +55,7 @@ public class HTTPgetFunction extends ApplicableFunction {
             	throw new GenyrisException("Server returned non 200 Response Code: " + Integer.toString(httpConn.getResponseCode()));
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            return new ReaderStream((Reader)in);
+            return new ReaderStream((Reader)in, URI);
         } catch (MalformedURLException e1) {
             throw new GenyrisException(e1.getMessage());
         } catch (IOException e) {
