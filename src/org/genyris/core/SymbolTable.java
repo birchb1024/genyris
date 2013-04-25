@@ -149,7 +149,8 @@ public class SymbolTable implements Internable {
     _JAVACLASS = bindKeyword(String.valueOf(Constants.JAVACLASS));
     _PIPE = bindKeyword(String.valueOf(Constants.PIPE));
     _PROCEDUREMISSING = bindKeyword(String.valueOf(Constants.PROCEDUREMISSING));
-        }
+
+}
 
 	private SimpleSymbol bindKeyword(String name) {
 		SimpleSymbol sym = new SimpleSymbol(name);

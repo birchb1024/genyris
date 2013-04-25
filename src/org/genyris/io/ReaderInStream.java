@@ -30,6 +30,9 @@ public class ReaderInStream implements InStream {
     }
 
     public void unGet(char x) throws LexException {
+        if (x == '\n') {
+            _lineCount--;
+        }
         char[] charArray = new char[1];
         charArray[0] = x;
         try {

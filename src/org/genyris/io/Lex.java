@@ -197,7 +197,11 @@ public class Lex {
 				break;
 			}
 		}
-		return _symbolTable.internSymbol(_mapper.symbolFactory(collect.toString()));
+        if( collect.toString().equals(Constants.ATLINE) ) {
+            return new Bignum(getLineNumber());
+        } else {
+            return _symbolTable.internSymbol(_mapper.symbolFactory(collect.toString()));
+        }
 	}
 
 	public Exp nextToken() throws GenyrisException {

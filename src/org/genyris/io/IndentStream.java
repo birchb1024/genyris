@@ -44,8 +44,6 @@ public class IndentStream implements InStreamEOF {
 
 	int _lineLevel;
 
-	int _lineNumber;
-
 	int _currentLevel; // current indent level (of previous line) -1 means
 
 	// prior to first line
@@ -59,20 +57,19 @@ public class IndentStream implements InStreamEOF {
 	int _bufferitWritePtr; // where are we up to.
 
 	boolean _interactive;
-
 	private int _maxTab;
-
 	private char _stringType;
+	private int _lineCount;
 
 	public IndentStream(InStream in, boolean interactiveMode) {
 		_instream = in;
+		_lineCount = 1;
 		_tabs = new int[MAX_TAB_DEPTH];
 		_bufferit = new int[MAX_INDENTATION_BUFFER];
 		_lineLevel = 0;
 		_parseState = LEADING_WHITE_SPACE;
 		_maxTab = 1;
 		_interactive = interactiveMode;
-		_lineNumber = 0;
 	}
 
 	public void unGet(char x) throws LexException {
@@ -80,10 +77,10 @@ public class IndentStream implements InStreamEOF {
 	}
 
 	void startLine() {
-		_lineNumber++;
 		_lineLevel = 0;
 		_parseState = LEADING_WHITE_SPACE;
 		_numberOfLeadingSpaces = 0;
+		_lineCount++;
 	}
 
 	void input() throws LexException {
@@ -153,6 +150,7 @@ public class IndentStream implements InStreamEOF {
 						_currentLevel = 0;
 						_parseState = NEXTLINE;
 						removeTabsAfter(1);
+						_lineCount++;
 						break;
 					} else {
 						startLine();
@@ -161,7 +159,7 @@ public class IndentStream implements InStreamEOF {
 				} else if (ch == '\t') {
 					throw new LexException(
 							"illegal tab character before statement at line "
-									+ Integer.toString(_lineNumber) +
+									+ Integer.toString(getLineNUmber()) +
 									" looking for new expresseion..." );
 				} else if (ch == '~') {
 					// Continuation line so pretend indentation is aligned
@@ -407,7 +405,11 @@ public class IndentStream implements InStreamEOF {
     }
 
     public int getLineNUmber() {
-        return _instream.getLineNumber();
+        if( bufferitEmpty() ) {
+            return _lineCount;
+        } else {
+            return _lineCount-1;
+        }
     }
 	
 }
