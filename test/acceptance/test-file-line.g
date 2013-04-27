@@ -30,4 +30,19 @@ catch error
 assertEqual error 
    'throw here %a/test/acceptance/test-file-line.g 29'
       .format System!HOME
-   
+
+var line34
+   quote
+       @LINE @LINE
+            @LINE @LINE
+            @LINE
+            @LINE
+assertEqual line34
+   quote
+       36 36
+          37 37
+          38
+          39
+      
+      
+ 

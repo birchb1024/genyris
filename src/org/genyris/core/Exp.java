@@ -89,6 +89,18 @@ public abstract class Exp implements Classifiable, Closure {
     public Exp getBody(Exp nil) {
         return nil;
     }
-    
+    @Override
+    public Exp getPrintableFrame(Exp NIL) {
+        Exp body = getBody(NIL);
+        Exp location = NIL;
+        if (body instanceof PairSource) {
+            PairSource source = (PairSource) body;
+            location = Pair.cons2(new Bignum(source.lineNumber), new StrinG(
+                    source.filename), NIL);
+        }
+        Exp frame = Pair.cons(new StrinG(toString()), location);
+        return frame;
+    }
+
 
 }

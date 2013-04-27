@@ -121,9 +121,6 @@ public class Pair extends ExpWithEmbeddedClasses {
 			tmp = tmp.cdr();
 			count++;
 		}
-//		if (tmp != NIL && !(tmp instanceof Pair)) {
-//			count++;
-//		}
 		return count;
 	}
 	public Exp nth(int number, Symbol NIL) throws AccessException {
@@ -175,9 +172,8 @@ public class Pair extends ExpWithEmbeddedClasses {
 	}
 
 	public Exp dir(Internable table) {
-		return Pair.cons2(table.LEFT(), 
-				table.RIGHT(), 
-				Pair.cons2(table.VARS(), table.CLASSES(), table.NIL()));
+		return Pair.cons2(new DynamicSymbol(table.LEFT()), 
+		        new DynamicSymbol(table.RIGHT()),super.dir(table));
 	}
 
 }

@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.genyris.core.Constants;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;

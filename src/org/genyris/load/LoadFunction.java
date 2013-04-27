@@ -34,8 +34,7 @@ public class LoadFunction extends ApplicableFunction {
                 out = _interp.getDefaultOutputWriter();
             }
         }
-        result = SourceLoader.loadScriptFromClasspath(_interp.getGlobalEnv(), _interp.getSymbolTable(), arguments[0].toString(), out, _interp.getDebugger());
-
+        result = SourceLoader.loadScriptFromClasspath(_interp.getGlobalEnv(), _interp.getSymbolTable(), arguments[0].toString(), out);
         return result;
     }
 

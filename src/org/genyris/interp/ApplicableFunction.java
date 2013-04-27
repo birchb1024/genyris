@@ -7,6 +7,7 @@ package org.genyris.interp;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
+import org.genyris.core.PairSource;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
 
@@ -46,7 +47,11 @@ public abstract class ApplicableFunction {
     protected Exp arrayToList(Exp[] array) {
         Exp expression = NIL;
         for (int i = array.length - 1; i >= 0; i--) {
-            expression = new Pair(array[i], expression);
+            if( array[i] instanceof PairSource ) {
+                expression = PairSource.clone((PairSource)array[i], expression);
+            } else {
+                expression = new Pair(array[i], expression);
+            }
         }
         return expression;
     }

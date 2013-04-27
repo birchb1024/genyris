@@ -23,7 +23,6 @@ import org.genyris.format.Formatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.io.InStream;
 import org.genyris.io.Lex;
-import org.genyris.io.NullDebugger;
 import org.genyris.io.ParseException;
 import org.genyris.io.Parser;
 import org.genyris.io.StringInStream;
@@ -190,7 +189,7 @@ public class LexTest extends TestCase {
 		SymbolTable table = new SymbolTable();
 		table.init(NIL);
 		InStream input = new UngettableInStream(new StringInStream(toParse));
-		Parser parser = new Parser(table, input, new NullDebugger());
+		Parser parser = new Parser(table, input);
 		Exp result = parser.read();
 
 		StringWriter out = new StringWriter();
@@ -206,7 +205,7 @@ public class LexTest extends TestCase {
 		SymbolTable table = new SymbolTable();
 		table.init(NIL);
 		InStream input = new UngettableInStream(new StringInStream(toParse));
-		Parser parser = new Parser(table, input, '$', '.', ';', new NullDebugger());
+		Parser parser = new Parser(table, input, '$', '.', ';');
 		Exp result = parser.read();
 
 		StringWriter out = new StringWriter();
@@ -249,7 +248,7 @@ public class LexTest extends TestCase {
 		interpreter.init(false);
 
 		InStream input = new UngettableInStream(new StringInStream(toParse));
-		Parser parser = new Parser(interpreter.getSymbolTable(), input, interpreter.getDebugger());
+		Parser parser = new Parser(interpreter.getSymbolTable(), input);
 		Exp result = parser.read();
 
 		StringWriter out = new StringWriter();
@@ -265,7 +264,7 @@ public class LexTest extends TestCase {
 		interpreter.init(false);
 
 		InStream input = new UngettableInStream(new StringInStream(toParse));
-		Parser parser = new Parser(interpreter.getSymbolTable(), input, interpreter.getDebugger());
+		Parser parser = new Parser(interpreter.getSymbolTable(), input);
 		try {
 			parser.read();
 		} catch (ParseException e) {

@@ -67,12 +67,11 @@ public class ClassicReadEvalPrintLoop {
             if (filename.equals("-")) {
                 SourceLoader.execAndClose(interpreter.getGlobalEnv(),
                         interpreter.getSymbolTable(), System.in, filename,
-                        output, interpreter.getDebugger());
+                        output);
                 return 0;
             }
             SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(),
-                    interpreter.getSymbolTable(), filename, output,
-                    interpreter.getDebugger());
+                    interpreter.getSymbolTable(), filename, output);
             return 0;
         } catch (GenyrisException e) {
             output.write("*** Error in file : " + filename + " " + e.getData());

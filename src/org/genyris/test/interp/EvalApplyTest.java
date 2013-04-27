@@ -31,7 +31,7 @@ public class EvalApplyTest extends TestCase {
 		Internable table = interp.getSymbolTable();
 		InStream input = new UngettableInStream(new StringInStream(
 				"((lambda (x) (cons x x)) 23)"));
-		Parser parser = new Parser(table, input, interp.getDebugger());
+		Parser parser = new Parser(table, input);
 		Exp expression = parser.read();
 		Exp result = expression.eval(env);
 		StringWriter out = new StringWriter();
@@ -52,7 +52,7 @@ public class EvalApplyTest extends TestCase {
 		env2.defineVariable(interp.intern("alpha"), new Bignum(23));
 		env2.defineVariable(interp.intern("bravo"), new Bignum(45));
 		InStream input = new UngettableInStream(new StringInStream(exp));
-		Parser parser = new Parser(interp.getSymbolTable(), input, interp.getDebugger());
+		Parser parser = new Parser(interp.getSymbolTable(), input);
 		Exp expression = parser.read();
 
 		try {

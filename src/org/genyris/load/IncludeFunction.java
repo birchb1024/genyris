@@ -40,8 +40,7 @@ public class IncludeFunction extends ApplicableFunction {
         }
         String filename = arguments[0].toString();
         result = SourceLoader.loadScriptFromFile(_interp.getGlobalEnv(),
-                _interp.getSymbolTable(), filename, out,
-                _interp.getDebugger());
+                _interp.getSymbolTable(), filename, out);
 
         return result;
     }

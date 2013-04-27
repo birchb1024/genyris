@@ -27,7 +27,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 
 	protected Symbol _self, _classes, _superclasses, _classname, _vars;
 
-	protected Symbol _left, _right, _dynamic;
+	protected Symbol _left, _right, _dynamic, _lineNumber, _filename;
 
 	private Internable _table;
 
@@ -55,6 +55,8 @@ public class StandardEnvironment extends AbstractEnvironment {
 		_left = table.LEFT();
 		_right = table.RIGHT();
 		_dynamic = table.DYNAMIC_SYMBOL();
+		_lineNumber = table.LINENUMBER();
+		_filename = table.FILENAME();
 	}
 
 	private void init() {

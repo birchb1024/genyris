@@ -9,14 +9,13 @@ import org.genyris.core.Constants;
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
-import org.genyris.core.Pair;
 import org.genyris.core.PairEquals;
+import org.genyris.core.PairSource;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.Debugger;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
@@ -33,21 +32,22 @@ public class Parser {
 
     private Exp pushback;
 
-    private Debugger _debugger;
-
-    public Parser(Internable table, InStream stream, Debugger debugger) {
-        this(table, stream, Constants.DYNAMICSCOPECHAR2, Constants.CDRCHAR, Constants.COMMENTCHAR, debugger);
+    public Parser(Internable table, InStream stream) {
+        this(table, stream, Constants.DYNAMICSCOPECHAR2, Constants.CDRCHAR, Constants.COMMENTCHAR);
     }
 
     public Parser(Internable table, InStream stream, char dynaChar, char cdrCharacter,
-            char commentChar, Debugger debugger) {
-        _debugger = debugger;
+            char commentChar) {
         _table = table;
         _lexer = new Lex(stream, table, dynaChar, cdrCharacter, commentChar);
         NIL = table.NIL();
         _prefix = table.PREFIX();
     }
 
+    private Exp cons(Exp l, Exp r, int line) {
+        Exp retval = new PairSource(l,r, _lexer.getFilename(), line);
+        return retval;
+    }
     public void nextsym() throws GenyrisException {
         if (pushback == null) {
             cursym = _lexer.nextToken();
@@ -126,6 +126,7 @@ public class Parser {
     }
 
     private Exp collectPlings(Exp tree) throws GenyrisException {
+        int startline = _lexer.getLineNumber();
         Exp old = cursym;
         nextsym();
         if (!(cursym instanceof Symbol)) {
@@ -133,8 +134,8 @@ public class Parser {
         } else if (cursym == _lexer.DYNAMIC_TOKEN) {
             throw new ParseException("Bad indirection: " + cursym.toString());
         }
-        tree = new Pair(tree, new Pair(
-                new DynamicSymbol((SimpleSymbol) cursym), NIL));
+        tree = cons(tree, cons(
+                new DynamicSymbol((SimpleSymbol) cursym), NIL, startline), startline);
         old = cursym;
         nextsym();
         if (cursym == _lexer.PLING_TOKEN) {
@@ -147,6 +148,7 @@ public class Parser {
     }
 
     public Exp parseList(Exp lhs) throws GenyrisException {
+        int startLine = _lexer.getLineNumber();
         Exp tree;
         nextsym();
         if (cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
@@ -158,9 +160,10 @@ public class Parser {
         } else if (cursym.equals(_lexer.CDR_TOKEN)) {
             return _lexer.CDR_TOKEN;
         } else {
+            startLine = _lexer.getLineNumber();
             tree = parseExpression();
             Exp old = cursym;
-            nextsym();
+           nextsym();
             if (cursym.equals(_lexer.PLING_TOKEN)) {
                 Exp plings = collectPlings(tree);
                 Exp restOfList = parseList(plings);
@@ -171,7 +174,7 @@ public class Parser {
                     tree = new PairEquals(plings, restOfList);
                     return tree;
                 }
-                tree = new Pair(plings, restOfList);
+                tree = cons(plings, restOfList, startLine);
                 return tree;
             } else {
                 pushbacksym(cursym);
@@ -185,12 +188,14 @@ public class Parser {
                 tree = new PairEquals(tree, restOfList);
                 return tree;
             }
-            tree = new Pair(tree, restOfList);
+            tree = cons(tree, restOfList, startLine);
+
         }
         return tree;
     }
 
     public Exp parseExpression() throws GenyrisException {
+        int startline = _lexer.getLineNumber();
         Exp tree = NIL;
         if (cursym.equals(_lexer.PLING_TOKEN)) {
             throw new ParseException("unexpected !");
@@ -206,37 +211,36 @@ public class Parser {
         }
         if (cursym.equals(_lexer.LEFT_PAREN_TOKEN)) {
             tree = parseList(NIL);
-            _debugger.saveLocation(tree, _lexer.getLineNumber(), _table );
             if (!cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
                 throw new ParseException("missing right paren - found: "
                         + cursym);
             }
         } else if (cursym.equals(_lexer.LEFT_SQUARE_TOKEN)) {
             tree = parseList(NIL);
-            tree = new Pair(_table.SQUARE(), tree);
+            tree = cons(_table.SQUARE(), tree, startline);
             if (!cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
                 throw new ParseException("missing right square brace - found: "
                         + cursym);
             }
         } else if (cursym.equals(_lexer.LEFT_CURLY_TOKEN)) { // TOD DRY - SQUARE
             tree = parseList(NIL);
-            tree = new Pair(_table.CURLY(), tree);
+            tree = cons(_table.CURLY(), tree, startline);
             if (!cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
                 throw new ParseException("missing right curly brace - found: "
                         + cursym);
             }
         } else if (cursym == _lexer.BACKQUOTE_TOKEN) {
             nextsym();
-            tree = new Pair(_table.TEMPLATE(), new Pair(parseExpression(), NIL));
+            tree = cons(_table.TEMPLATE(), cons(parseExpression(), NIL, startline), startline);
         } else if (cursym == _lexer.QUOTE_TOKEN) {
             nextsym();
-            tree = new Pair(_table.QUOTE(), new Pair(parseExpression(), NIL));
+            tree = cons(_table.QUOTE(), cons(parseExpression(), NIL, startline), startline);
         } else if (cursym == _lexer.COMMA_TOKEN) {
             nextsym();
-            tree = new Pair(_table.COMMA(), new Pair(parseExpression(), NIL));
+            tree = cons(_table.COMMA(), cons(parseExpression(), NIL, startline), startline);
         } else if (cursym == _lexer.COMMA_AT_TOKEN) {
             nextsym();
-            tree = new Pair(_table.COMMA_AT(), new Pair(parseExpression(), NIL));
+            tree = cons(_table.COMMA_AT(), cons(parseExpression(), NIL, startline), startline);
         } else if (cursym == _lexer.DYNAMIC_TOKEN) {
             nextsym();
             if (cursym instanceof SimpleSymbol) {
@@ -260,7 +264,7 @@ public class Parser {
     public static Exp parseSingleExpressionFromString(Internable table,
             String script) throws GenyrisException {
         InStream input = new UngettableInStream(new StringInStream(script));
-        Parser parser = new Parser(table, input, new NullDebugger());
+        Parser parser = new Parser(table, input);
         Exp expression = parser.read();
         return expression;
     }

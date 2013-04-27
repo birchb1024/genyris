@@ -26,7 +26,6 @@ import org.genyris.core.NilSymbol;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StandardClass;
-import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.core.SymbolTable;
 import org.genyris.dl.Graph;
@@ -63,15 +62,11 @@ public class Interpreter {
     private Map<String, String> _prefixesUsed; // collect all prefixes - used
                                                // for output.
 
-    private Debugger _debugger;
-
     public Interpreter() throws GenyrisException {
         this(StdioInStream.knew(), System.out);
     }
 
-    public Interpreter(InStream inStream, OutputStream out)
-            throws GenyrisException {
-        _debugger = new Debugger();
+    public Interpreter(InStream inStream, OutputStream out) throws GenyrisException {
         _inputStream = inStream;
         _prefixesUsed = new HashMap<String, String>();
         NIL = new NilSymbol();
@@ -106,14 +101,11 @@ public class Interpreter {
         _globalEnvironment.defineVariable(_table.TRUE(), _table.TRUE());
         _globalEnvironment.defineVariable(_table.FALSE(), _table.FALSE());
         _globalEnvironment.defineVariable(_table.EOF(), _table.EOF());
-        _globalEnvironment.defineVariable(
-                _table.internString(Constants.STDOUT), new WriterStream(
-                        new PrintWriter(System.out)));
-        _globalEnvironment.defineVariable(
-                _table.internString(Constants.STDERR), new WriterStream(
-                        new PrintWriter(System.err)));
-        _globalEnvironment
-                .defineVariable(_table.GLOBALGRAPH(), _theGlobalGraph);
+        _globalEnvironment.defineVariable(_table.internString(Constants.STDOUT),
+                new WriterStream(new PrintWriter(System.out)));
+        _globalEnvironment.defineVariable(_table.internString(Constants.STDERR),
+                new WriterStream(new PrintWriter(System.err)));
+        _globalEnvironment.defineVariable(_table.GLOBALGRAPH(), _theGlobalGraph);
     }
 
     public void bindGlobalProcedureInstance(ApplicableFunction proc)
@@ -139,26 +131,25 @@ public class Interpreter {
         Dictionary stringClass = (Dictionary) _globalEnvironment
                 .lookupVariableValue(_table.internString(className));
         SimpleSymbol nameSymbol = _table.internString(proc.getName());
-        stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(
-                stringClass, NIL, (ApplicableFunction) proc));
+        stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(stringClass, NIL,
+                (ApplicableFunction) proc));
 
     }
 
     public Exp bindAllJavaFunctionsFromScript() throws GenyrisException {
         return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(),
-                this.getSymbolTable(),
-                "org/genyris/load/boot/bind-compiled-functions.g",
-                (Writer) new NullWriter(), _debugger);
+                this.getSymbolTable(), "org/genyris/load/boot/bind-compiled-functions.g",
+                (Writer) new NullWriter());
     }
 
     public Exp init(boolean verbose) throws GenyrisException {
         return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this
                 .getSymbolTable(), "org/genyris/load/boot/init.g",
-                verbose ? _defaultOutput : (Writer) new NullWriter(), _debugger);
+                verbose ? _defaultOutput : (Writer) new NullWriter());
     }
 
     public Parser newParser(InStream input) {
-        return new Parser(_table, input, _debugger);
+        return new Parser(_table, input);
     }
 
     public Exp evalInGlobalEnvironment(Exp expression) throws GenyrisException {
@@ -204,17 +195,13 @@ public class Interpreter {
             binder.invoke(null, new Object[] { this });
 
         } catch (ClassNotFoundException e) {
-            throw new GenyrisException("ClassNotFoundException: "
-                    + e.getMessage());
+            throw new GenyrisException("ClassNotFoundException: " + e.getMessage());
         } catch (IllegalArgumentException e) {
-            throw new GenyrisException("IllegalArgumentException: "
-                    + e.getMessage());
+            throw new GenyrisException("IllegalArgumentException: " + e.getMessage());
         } catch (IllegalAccessException e) {
-            throw new GenyrisException("IllegalAccessException: "
-                    + e.getMessage());
+            throw new GenyrisException("IllegalAccessException: " + e.getMessage());
         } catch (InvocationTargetException e) {
-            throw new GenyrisException("InvocationTargetException: "
-                    + e.getMessage());
+            throw new GenyrisException("InvocationTargetException: " + e.getMessage());
         }
 
     }
@@ -230,25 +217,23 @@ public class Interpreter {
 
     }
 
-    public static void standardClassInit(Environment env)
-            throws GenyrisException {
+    public static void standardClassInit(Environment env) throws GenyrisException {
         StandardClass standardClassDict;
         Internable table = env.getSymbolTable();
         SimpleSymbol CLASSNAME = table.CLASSNAME();
         {
-            standardClassDict = new StandardClass(CLASSNAME,
-                    table.STANDARDCLASS(), env);
-            standardClassDict.defineVariableRaw(env.getSymbolTable()
-                    .SUBCLASSES(), table.NIL());
-            standardClassDict.defineVariableRaw(env.getSymbolTable()
-                    .SUPERCLASSES(), table.NIL());
+            standardClassDict = new StandardClass(CLASSNAME, table.STANDARDCLASS(), env);
+            standardClassDict.defineVariableRaw(env.getSymbolTable().SUBCLASSES(),
+                    table.NIL());
+            standardClassDict.defineVariableRaw(env.getSymbolTable().SUPERCLASSES(),
+                    table.NIL());
         }
         env.defineVariable(table.STANDARDCLASS(), standardClassDict);
 
         StandardClass THING = StandardClass.mkClass("Thing", env, null);
         StandardClass builtin = StandardClass.mkClass("Builtin", env, THING);
-        StandardClass dictionary = StandardClass.mkClass(Constants.DICTIONARY,
-                env, builtin);
+        StandardClass dictionary = StandardClass.mkClass(Constants.DICTIONARY, env,
+                builtin);
         standardClassDict.addSuperClass(dictionary);
         StandardClass.mkClass(Constants.BIGNUM, env, builtin);
         StandardClass.mkClass(Constants.STRING, env, builtin);
@@ -258,8 +243,8 @@ public class Interpreter {
         StandardClass.mkClass(Constants.PIPE, env, builtin);
         StandardClass.mkClass(Constants.SYSTEM, env, builtin);
         StandardClass.mkClass(Constants.OS, env, builtin);
-        StandardClass abstractParser = StandardClass.mkClass(
-                Constants.ABSTRACTPARSER, env, builtin);
+        StandardClass abstractParser = StandardClass.mkClass(Constants.ABSTRACTPARSER,
+                env, builtin);
         StandardClass.mkClass(Constants.INDENTEDPARSER, env, abstractParser);
         StandardClass.mkClass(Constants.PARENPARSER, env, abstractParser);
         StandardClass.mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
@@ -269,13 +254,11 @@ public class Interpreter {
         StandardClass.mkClass(Constants.JAVAWRAPPER, env, builtin);
         StandardClass.mkClass(Constants.JAVACLASS, env, builtin);
 
-        StandardClass symbol = StandardClass.mkClass(Constants.SYMBOL, env,
-                builtin);
-        StandardClass closure = StandardClass.mkClass(Constants.CLOSURE, env,
-                builtin);
-        StandardClass pair = StandardClass
-                .mkClass(Constants.PAIR, env, builtin);
-        StandardClass.mkClass(Constants.PAIREQUAL, env, builtin);
+        StandardClass symbol = StandardClass.mkClass(Constants.SYMBOL, env, builtin);
+        StandardClass closure = StandardClass.mkClass(Constants.CLOSURE, env, builtin);
+        StandardClass pair = StandardClass.mkClass(Constants.PAIR, env, builtin);
+        StandardClass.mkClass(Constants.PAIREQUAL, env, pair);
+        StandardClass.mkClass(Constants.PAIRESOURCE, env, pair);
         StandardClass.mkClass(Constants.PRINTWITHEQ, env, pair);
         StandardClass.mkClass(Constants.SIMPLESYMBOL, env, symbol);
         StandardClass.mkClass(Constants.URISYMBOL, env, symbol);
@@ -294,7 +277,7 @@ public class Interpreter {
 
     public void debugStackPop(Closure proc) {
 
-        if(_debugStack.empty()) {
+        if (_debugStack.empty()) {
             return;
         }
         _debugStack.pop();
@@ -310,11 +293,10 @@ public class Interpreter {
         return retval;
     }
 
-    public Exp evalStringInGlobalEnvironment(String script)
-            throws GenyrisException {
-        InStream is = new UngettableInStream(new ConvertEofInStream(
-                new IndentStream(new UngettableInStream(new ReaderInStream(
-                        new StringReader(script), script.substring(0, 10) + "...")), true)));
+    public Exp evalStringInGlobalEnvironment(String script) throws GenyrisException {
+        InStream is = new UngettableInStream(new ConvertEofInStream(new IndentStream(
+                new UngettableInStream(new ReaderInStream(new StringReader(script),
+                        script.substring(0, 10) + "...")), true)));
 
         Parser parser = newParser(is);
         parser.setUsualPrefixes(this);
@@ -355,13 +337,12 @@ public class Interpreter {
             if (env.isBound((Symbol) s)) {
                 String name = ((Symbol) s).getPrintName();
                 try {
-                    Exp varList = env.lookupVariableValue((Symbol) s).dir(
-                            _table);
+                    Exp varList = env.lookupVariableValue((Symbol) s).dir(_table);
                     while (varList != NIL) {
                         if (!(compareName(varList, ".classes") || // skip boring
                                                                   // properties
-                                compareName(varList, ".vars") || compareName(
-                                    varList, ".self"))) {
+                                compareName(varList, ".vars") || compareName(varList,
+                                    ".self"))) {
                             retval.add(name + varList.car().toString());
                         }
                         varList = varList.cdr();
@@ -376,8 +357,7 @@ public class Interpreter {
         return applyPrefixes(_prefixesUsed, retval);
     }
 
-    private boolean compareName(Exp varList, String name)
-            throws AccessException {
+    private boolean compareName(Exp varList, String name) throws AccessException {
         return ((Symbol) varList.car()).getPrintName().equals(name);
     }
 
@@ -385,17 +365,14 @@ public class Interpreter {
         _prefixesUsed.put(pre, full);
     }
 
-    public Debugger getDebugger() {
-        return this._debugger;
-    }
-
     public Exp getDebugBackTraceAsList() {
         Exp retval = NIL;
-        for( Closure c : this._debugStack) {
-            Exp frame = Pair.cons(new StrinG(c.toString()), _debugger.lookupExpAsList(c.getBody(NIL),NIL));
+        for (Closure c : this._debugStack) {
+            Exp frame = c.getPrintableFrame(NIL);
             retval = new Pair(frame, retval);
         }
         return retval;
     }
+
 
 }

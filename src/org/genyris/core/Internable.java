@@ -10,6 +10,8 @@ public interface Internable {
 	public SimpleSymbol CLASSNAME();
 	public SimpleSymbol LEFT();
 	public SimpleSymbol RIGHT();
+    public SimpleSymbol LINENUMBER();
+    public SimpleSymbol FILENAME();
 	public SimpleSymbol DYNAMIC_SYMBOL();
 	public SimpleSymbol REST();
 	public SimpleSymbol DICT();
@@ -37,6 +39,7 @@ public interface Internable {
 	public SimpleSymbol LAZYPROC();
 	public SimpleSymbol PAIR();
 	public SimpleSymbol PAIREQUAL();
+    public SimpleSymbol PAIRSOURCE();
 	public SimpleSymbol STRING();
 	public SimpleSymbol PIPE();
 	public SimpleSymbol READER();

@@ -39,7 +39,7 @@ public class ImportFunction extends ApplicableFunction {
             }
         }
         result = SourceLoader.loadScriptFromFile(env, _interp.getSymbolTable(),
-                arguments[0].toString(), out, _interp.getDebugger());
+                arguments[0].toString(), out);
 
         return result;
     }

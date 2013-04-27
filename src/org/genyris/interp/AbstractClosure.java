@@ -6,11 +6,14 @@
 package org.genyris.interp;
 
 import org.genyris.core.Atom;
+import org.genyris.core.Bignum;
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Pair;
+import org.genyris.core.PairSource;
 import org.genyris.core.StandardClass;
+import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -67,8 +70,16 @@ public abstract class AbstractClosure extends Atom implements Closure {
         }
     }
 
-    public Exp getBody() throws AccessException {
-        return _lambdaExpression.cdr().cdr();
+    public Exp getBody(Exp NIL) {
+        if( _lambdaExpression == NIL )
+            return NIL;
+        try {
+            return _lambdaExpression.cdr().cdr();
+        } catch (AccessException e) {
+            // internal error if this structure not present.
+            e.printStackTrace();
+            return NIL;
+        }
     }
 
     public Exp getCode() throws AccessException {
@@ -162,5 +173,17 @@ public abstract class AbstractClosure extends Atom implements Closure {
         args.append(")");
         return args;
     }
+    public Exp getPrintableFrame(Exp NIL) {
+        Exp body = getBody(NIL);
+        Exp location = NIL;
+        if (body instanceof PairSource) {
+            PairSource source = (PairSource) body;
+            location = Pair.cons2(new Bignum(source.lineNumber), new StrinG(
+                    source.filename), NIL);
+        }
+        Exp frame = Pair.cons(new StrinG(toString()), location);
+        return frame;
+    }
+
 
 }

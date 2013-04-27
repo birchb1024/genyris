@@ -231,7 +231,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
         HttpRequestClazz = (Dictionary) interpreter.lookupGlobalFromString("HttpRequest");
         AlistClazz = (Dictionary) interpreter.lookupGlobalFromString("Alist");
         SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter
-                .getSymbolTable(), filename, output, interpreter.getDebugger());
+                .getSymbolTable(), filename, output);
 
     }
 }

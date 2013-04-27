@@ -17,5 +17,7 @@ public interface Closure { // TODO rename this to "Applyable"
     public abstract String toString();
     
     public Exp getBody(Exp nil);
+
+    public abstract Exp getPrintableFrame(Exp nIL);
     
 }

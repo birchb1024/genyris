@@ -51,12 +51,15 @@ public class Constants {
         public static final String BIGNUM = "Bignum";
         public static final String PAIR = "Pair";
         public static final String PAIREQUAL = "PairEqual";
+        public static final String PAIRESOURCE = "PairSource";
         public static final String STRING = "String";
         public static final String VARS = "vars";
         public static final String TRUE = "true";
         public static final String CLOSURE = "Closure";
         public static final String LEFT = "left";
         public static final String RIGHT = "right";
+        public static final String LINENUMBER = "line-number";
+        public static final String FILENAME = "filename";
 
         public static final String SLICE = "slice";
         public static final String SPLIT = "split";

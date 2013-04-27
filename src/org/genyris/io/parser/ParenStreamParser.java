@@ -24,7 +24,7 @@ public class ParenStreamParser extends StreamParser {
 
     public ParenStreamParser(Interpreter interp, StrinG script) {
 		_input = new UngettableInStream( new StringInStream(script.toString()));
-        _parser =  new Parser(interp.getSymbolTable(), _input, interp.getDebugger()); //TODO two ways to do the same thing
+        _parser =  new Parser(interp.getSymbolTable(), _input); //TODO two ways to do the same thing
 	}
 
 	public void acceptVisitor(Visitor guest) throws GenyrisException {

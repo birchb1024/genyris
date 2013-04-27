@@ -22,7 +22,9 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _classname;
 	private SimpleSymbol _left;
 	private SimpleSymbol _right;
-	private SimpleSymbol _dynamic;
+    private SimpleSymbol _lineNumber;
+    private SimpleSymbol _filename;
+    private SimpleSymbol _dynamic;
 	private SimpleSymbol _rest;
 	private SimpleSymbol _dict;
 	private SimpleSymbol _true;
@@ -49,7 +51,8 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _LAZYPROC;
 	private SimpleSymbol _PAIR;
 	private SimpleSymbol _PAIREQUAL;
-	private SimpleSymbol _PARENPARSER;
+    private SimpleSymbol _PAIRSOURCE;
+    private SimpleSymbol _PARENPARSER;
 	private SimpleSymbol _INDENTEDPARSER;
 	private SimpleSymbol _READER;
 	private SimpleSymbol _SIMPLESYMBOL;
@@ -89,6 +92,8 @@ public class SymbolTable implements Internable {
       _classname = bindKeyword(Constants.CLASSNAME);
       _left = bindKeyword(Constants.LEFT);
       _right = bindKeyword(Constants.RIGHT);
+      _lineNumber = bindKeyword(Constants.LINENUMBER);
+      _filename = bindKeyword(Constants.FILENAME);
       _dynamic = bindKeyword(Constants.DYNAMIC_SYMBOL);
       _rest = bindKeyword(Constants.REST);
       _dict = bindKeyword(Constants.DICT);
@@ -120,6 +125,7 @@ public class SymbolTable implements Internable {
 	_LAZYPROC = bindKeyword(String.valueOf(Constants.LAZYPROCEDURE));
 	_PAIR = bindKeyword(String.valueOf(Constants.PAIR));
 	_PAIREQUAL = bindKeyword(String.valueOf(Constants.PAIREQUAL));
+    _PAIRSOURCE = bindKeyword(String.valueOf(Constants.PAIRESOURCE));
 
 	_PARENPARSER = bindKeyword(String.valueOf(Constants.PARENPARSER));
 	_INDENTEDPARSER = bindKeyword(String.valueOf(Constants.INDENTEDPARSER));
@@ -345,6 +351,10 @@ public class SymbolTable implements Internable {
 		return _PAIREQUAL;
 	}
 
+    public SimpleSymbol PAIRSOURCE() {
+        return _PAIRSOURCE;
+    }
+
 	public SimpleSymbol PARENPARSER() {
 		return _PARENPARSER;
 	}
@@ -436,5 +446,14 @@ public class SymbolTable implements Internable {
     public SimpleSymbol GLOBALGRAPH() {
         return _GLOBALGRAPH;
     }
+
+    public SimpleSymbol LINENUMBER() {
+        return _lineNumber;
+    }
+
+    public SimpleSymbol FILENAME() {
+        return _filename;
+    }
+
 
 }

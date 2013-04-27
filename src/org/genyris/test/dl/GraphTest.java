@@ -443,7 +443,7 @@ public class GraphTest extends TestCase {
 		eval("('X'(.asTriples))",
 				"((triple 'X' type <class String (Builtin)>))");
 		eval("(^(a =e)(.asTriples))",
-				"((triple (a = e) type <class PairEqual (Builtin)>))");
+				"((triple (a = e) type <class PairEqual (Pair)>))");
 		eval("(^sym(.asTriples))",
 				"((triple sym type <class SimpleSymbol (Symbol)>))");
 

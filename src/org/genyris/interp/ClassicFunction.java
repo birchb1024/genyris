@@ -94,7 +94,7 @@ public class ClassicFunction extends ApplicableFunction {
         Environment newEnv = new DynamicEnvironment(proc.getEnv(), bindings,
                 runtimeEnviron);
 
-        Exp result = proc.getBody().evalSequence(newEnv);
+        Exp result = proc.getBody(NIL).evalSequence(newEnv);
         StandardClass returnClass = proc.getReturnClassOrNull();
         if (returnClass != null) {
             try {

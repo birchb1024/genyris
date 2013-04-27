@@ -26,7 +26,7 @@ public class SourceLoaderTest extends TestCase {
         StringReader in = new StringReader(input);
         StringWriter out = new StringWriter();
         SourceLoader.executeScript(interp.getGlobalEnv(), ".g",
-                interp.getSymbolTable(), in, out, interp.getDebugger());
+                interp.getSymbolTable(), in, out);
         assertEquals(expected, out.toString());
 
     }
@@ -46,8 +46,7 @@ public class SourceLoaderTest extends TestCase {
         interp.init(false);
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
-                interp.getSymbolTable(), "org/genyris/load/boot/init.g", out,
-                interp.getDebugger());
+                interp.getSymbolTable(), "org/genyris/load/boot/init.g", out);
     }
 
     public void testSourceLoader3() throws GenyrisException {
@@ -55,8 +54,7 @@ public class SourceLoaderTest extends TestCase {
         interp.init(false);
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
-                interp.getSymbolTable(), "test/fixtures/factorial.g", out,
-                interp.getDebugger());
+                interp.getSymbolTable(), "test/fixtures/factorial.g", out);
     }
 
     public void testSourceLoaderLisp() throws GenyrisException {
@@ -64,7 +62,6 @@ public class SourceLoaderTest extends TestCase {
         interp.init(false);
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
-                interp.getSymbolTable(), "test/fixtures/factorial.lsp", out,
-                interp.getDebugger());
+                interp.getSymbolTable(), "test/fixtures/factorial.lsp", out);
     }
 }

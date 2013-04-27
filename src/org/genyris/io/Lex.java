@@ -395,5 +395,9 @@ public class Lex {
         return _input.getLineNumber();
     }
 
+    public String getFilename() {
+        return _input.getFilename();
+    }
+
 
 }
