@@ -12,12 +12,11 @@ assert
 
 catch err
    File!static-open "qwerty" ^read
-assertEqual err 'qwerty (No such file or directory)'
-
+assert err
 
 catch err
    File!static-open "/undefined/path/qwerty" ^write
-assertEqual err '/undefined/path/qwerty (No such file or directory)'
+assert err
 
 assert (File!static-is-dir? '.')
 assert
