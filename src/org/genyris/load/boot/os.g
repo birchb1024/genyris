@@ -6,6 +6,6 @@ os
   define .tempdir
     cond
        (.name(.match "Windows.*"))
-          'C:\\temp'
+          .getenv 'TEMP'
        else
           '/tmp'
