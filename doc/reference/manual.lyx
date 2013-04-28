@@ -5329,7 +5329,7 @@ n>> '
 \end_layout
 
 \begin_layout LyX-Code
-       define expression (read)
+       define expression (read true)
 \end_layout
 
 \begin_layout LyX-Code
@@ -7742,39 +7742,6 @@ The printing of trees (by default) assumes that the tree is a kind of list,
 .
 \end_layout
 
-\begin_layout Standard
-To help view
-\emph on
- Pairs
-\emph default
- explicitly, a list is tagged with the PRINTWITHEQ
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-PRINTWITHEQ
-\end_layout
-
-\end_inset
-
- class, which forces the printer to display the full tree structure.
- The parser does this automatically, so Pairs which the user types with
- an equal sign are printed the same way.
- For example:
-\end_layout
-
-\begin_layout LyX-Code
-> ^('A' = ('B' = ('C' )))
-\end_layout
-
-\begin_layout LyX-Code
-
-\end_layout
-
-\begin_layout LyX-Code
-('A' = ('B' = ('C'))) # Pair
-\end_layout
-
 \begin_layout Subsubsection
 Class Pair
 \end_layout
@@ -7791,6 +7758,114 @@ reference "sub:Pair"
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Subsubsection
+Class PairEquals
+\end_layout
+
+\begin_layout Standard
+To help view
+\emph on
+ Pairs
+\emph default
+ explicitly, a list is constructed using 
+\emph on
+PairEquals
+\emph default
+ class, which forces the printer to display the full tree structure.
+ The parser does this automatically, so 
+\emph on
+Pairs
+\emph default
+ which the user types with an equal sign are printed the same way.
+ 
+\emph on
+PairEquals
+\emph default
+ are identical to 
+\emph on
+Pairs
+\emph default
+ in all other ways.
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout LyX-Code
+> ^('A' = ('B' = ('C' )))
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+('A' = ('B' = ('C'))) # PairEquals
+\end_layout
+
+\begin_layout Subsubsection
+Class PairSource
+\end_layout
+
+\begin_layout Standard
+The parsers will use 
+\emph on
+PairSource
+\emph default
+ objects to record the filename and line number of the lists parsed.
+ 
+\emph on
+PairSource
+\emph default
+ is a subclass of Pair.
+ 
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+> var x ^(a b c d) 
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(a b c d) # PairSource
+\end_layout
+
+\begin_layout LyX-Code
+> x.line-number 
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+1 # Bignum 
+\end_layout
+
+\begin_layout LyX-Code
+> x.filename
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'console' # String 
+\end_layout
+
+\begin_layout LyX-Code
 
 \end_layout
 
@@ -11899,7 +11974,7 @@ EOF
 Used to denote the End Of File, this symbol causes a parser to exit if seen.
 \end_layout
 
-\begin_layout Subparagraph
+\begin_layout Subsubsection
 \begin_inset Index idx
 status open
 
@@ -11918,6 +11993,14 @@ read
 
 \begin_layout Standard
 Reads an expression from the standard input.
+ 
+\end_layout
+
+\begin_layout Standard
+An optional argument if non-nil tells the reader to use PairSource objects
+ instead of Pair objects when constructing lists.
+ This captures the fiename and line numbers of the lists read.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -12034,7 +12117,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-TODO
+Reads bytes as numbers from the stream.
 \end_layout
 
 \begin_layout Paragraph
@@ -12086,6 +12169,102 @@ The .copy method copies all the data from the stream to a Writer stream object
 
 \begin_layout LyX-Code
 stdin (.copy stdout)
+\end_layout
+
+\begin_layout Subsubsection
+IndentedParser
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.new
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.new
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.close
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.close
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.read
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.read
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reads expressions from the stream.
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.hasData
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.hasData
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO
 \end_layout
 
 \begin_layout Subsubsection
@@ -12159,7 +12338,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-TODO
+Reads expressions from the stream.
 \end_layout
 
 \begin_layout Paragraph

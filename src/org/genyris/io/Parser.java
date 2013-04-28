@@ -9,8 +9,8 @@ import org.genyris.core.Constants;
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
+import org.genyris.core.Pair;
 import org.genyris.core.PairEquals;
-import org.genyris.core.PairSource;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
@@ -20,7 +20,7 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 
 public class Parser {
-    private Lex _lexer;
+    protected Lex _lexer;
 
     private Exp cursym;
 
@@ -44,9 +44,8 @@ public class Parser {
         _prefix = table.PREFIX();
     }
 
-    private Exp cons(Exp l, Exp r, int line) {
-        Exp retval = new PairSource(l,r, _lexer.getFilename(), line);
-        return retval;
+    protected Exp cons(Exp l, Exp r, int line) {
+        return new Pair(l,r);
     }
     public void nextsym() throws GenyrisException {
         if (pushback == null) {

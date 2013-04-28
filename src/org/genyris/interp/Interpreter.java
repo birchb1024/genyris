@@ -36,6 +36,7 @@ import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
 import org.genyris.io.NullWriter;
 import org.genyris.io.Parser;
+import org.genyris.io.ParserSource;
 import org.genyris.io.ReaderInStream;
 import org.genyris.io.StdioInStream;
 import org.genyris.io.UngettableInStream;
@@ -149,7 +150,7 @@ public class Interpreter {
     }
 
     public Parser newParser(InStream input) {
-        return new Parser(_table, input);
+        return new ParserSource(_table, input);
     }
 
     public Exp evalInGlobalEnvironment(Exp expression) throws GenyrisException {

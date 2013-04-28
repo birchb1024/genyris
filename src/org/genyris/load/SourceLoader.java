@@ -23,6 +23,7 @@ import org.genyris.io.ConvertEofInStream;
 import org.genyris.io.InStream;
 import org.genyris.io.IndentStream;
 import org.genyris.io.Parser;
+import org.genyris.io.ParserSource;
 import org.genyris.io.ReaderInStream;
 import org.genyris.io.UngettableInStream;
 
@@ -34,11 +35,11 @@ public class SourceLoader {
 			InStream is = new UngettableInStream(new ConvertEofInStream(
 					new IndentStream(new UngettableInStream(new ReaderInStream(
 							input, filename)), false)));
-			return new Parser(table, is);
+			return new ParserSource(table, is);
 
 		} else if (filename.endsWith(".lsp")) {
 			InStream is = new UngettableInStream(new ReaderInStream(input, filename));
-			return new Parser(table, is, Constants.LISPDYNACHAR, Constants.LISPCDRCHAR, Constants.LISPCOMMENTCHAR);
+			return new ParserSource(table, is, Constants.LISPDYNACHAR, Constants.LISPCDRCHAR, Constants.LISPCOMMENTCHAR);
 		} else {
 			throw new GenyrisException("unknown file suffix in : " + filename);
 		}

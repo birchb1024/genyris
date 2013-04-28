@@ -27,7 +27,7 @@ def sys:read-eval-print-loop()
    while looping
        define bt nil
        catch (errors bt)
-           define expression (read)
+           define expression (read true)
            define result (eval expression)
        cond
            errors
