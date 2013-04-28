@@ -1,8 +1,6 @@
 #
 # File IO Tests
 #
-var properties (os!getProperties)
-var OS-name (properties.|os.name|)
 
 catch err
    File!static-list-dir 'test/fixtures/test.pipe'
@@ -14,13 +12,12 @@ assert
 
 catch err
    File!static-open "qwerty" ^read
-assert 
-   (equal? err 'qwerty: No such file or directory')
+assertEqual err 'qwerty (No such file or directory)'
 
 
 catch err
    File!static-open "/undefined/path/qwerty" ^write
-assert (equal? err '/undefined/path/qwerty: No such file or directory')
+assertEqual err '/undefined/path/qwerty (No such file or directory)'
 
 assert (File!static-is-dir? '.')
 assert
@@ -28,12 +25,13 @@ assert
       File!static-is-dir? (prepend-home 'test/fixtures/test.pipe')
    
 cond
-    (OS-name(.match "Windows.*"))
+    (os!name(.match "Windows.*"))
         assert (equal? 'C:\\' (File!static-abs-path '/'))
     else
         assert (equal? '/' (File!static-abs-path '/'))
    
-define fixture "foo.txt"
+define fixture 
+  "%a/foo.txt"(.format os!tempdir)
 define fi
    File(.new fixture)
 define out
@@ -90,7 +88,7 @@ def parse-file()
            setq exp (parser(.read))
      write exp
      display "\n"
-  parser(.close)
+  parser(.close)include 'test/acceptance/test-file.g'
 
 
 def parse-sfs-file()

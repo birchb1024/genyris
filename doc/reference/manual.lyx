@@ -18333,8 +18333,26 @@ Example - Here we spawn a Windows command shell with a one-line echo statement.
 # java_lang_Process JavaWrapper
 \end_layout
 
-\begin_layout LyX-Code
+\begin_layout Subsection
+.name
+\end_layout
 
+\begin_layout Standard
+.name is a property containing the operating system name.
+ e.g.
+ 'Linux'
+\end_layout
+
+\begin_layout Subsection
+.tempdir
+\end_layout
+
+\begin_layout Standard
+.tempdir is a property containing the public directory for temporary files.
+ e.g.
+ '/tmp' or 'C:
+\backslash
+temp' on windows.
 \end_layout
 
 \begin_layout Subsection

@@ -35,14 +35,14 @@ public class Gfile {
 				return new ReaderStream(new InputStreamReader(
 						new FileInputStream(filename.toString())), filename.toString());
 			} catch (FileNotFoundException e) {
-				throw new GenyrisException(filename + ": No such file or directory");
+				throw new GenyrisException(e.getMessage());
 			}
 		} else if (mode.toString().equals("write")) {
 			try {
 				return new WriterStream(new OutputStreamWriter(
 						new FileOutputStream(filename.toString())));
 			} catch (FileNotFoundException e) {
-				throw new GenyrisException(filename + ": No such file or directory");
+				throw new GenyrisException(e.getMessage());
 			}
 		}
 		return null;
