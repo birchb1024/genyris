@@ -92,7 +92,8 @@ public abstract class AbstractClosure extends Atom implements Closure {
     public Exp applyFunction(Environment environment, Exp[] arguments)
             throws GenyrisException {
 
-        return _functionToApply.bindAndExecuteAux(this, arguments, environment); // double dispatch
+        Exp retval = _functionToApply.bindAndExecuteAux(this, arguments, environment); // double dispatch
+        return retval;
     }
 
     public Environment getEnv() {
@@ -183,6 +184,10 @@ public abstract class AbstractClosure extends Atom implements Closure {
         }
         Exp frame = Pair.cons(new StrinG(toString()), location);
         return frame;
+    }
+    @Override
+    public boolean isBiscuit() {
+        return _functionToApply.isBiscuit();
     }
 
 

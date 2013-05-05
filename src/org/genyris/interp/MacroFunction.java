@@ -20,7 +20,12 @@ public class MacroFunction extends ClassicFunction {
     		throw new GenyrisException("type missmatch - was expecting an AbstractClosure");
     	}
         AbstractClosure proc = (AbstractClosure)closure;
-        return super.bindAndExecute( proc, arguments, proc.getEnv()).eval(env);
+        return super.bindAndExecute( proc, arguments, proc.getEnv());
+    }
+    @Override
+    public boolean isBiscuit()
+    {
+        return true;
     }
 
 }

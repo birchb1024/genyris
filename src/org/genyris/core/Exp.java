@@ -101,6 +101,10 @@ public abstract class Exp implements Classifiable, Closure {
         Exp frame = Pair.cons(new StrinG(toString()), location);
         return frame;
     }
+    public boolean isBiscuit()
+    {
+        return false;
+    }
 
 
 }

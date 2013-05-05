@@ -87,10 +87,19 @@ public class Pair extends ExpWithEmbeddedClasses {
         		throw e1;
         	}
             arguments = prependArgument(car(), proc.computeArguments(env, cdr()));
-            return proc.applyFunction(env, arguments);      
+            Exp retval = proc.applyFunction(env, arguments);
+            if(proc.isBiscuit()) {
+                retval = retval.eval(env);
+            }
+            return retval;      
         }
         arguments = proc.computeArguments(env, cdr());
-        return proc.applyFunction(env, arguments);      
+        Exp retval = proc.applyFunction(env, arguments);
+        if(proc.isBiscuit()) {
+            retval = retval.eval(env);
+        }
+        return retval;      
+
 	}
 	private Exp[] prependArgument( Exp firstArg, Exp[] tmparguments)
 			throws GenyrisException {

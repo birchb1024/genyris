@@ -19,5 +19,11 @@ public interface Closure { // TODO rename this to "Applyable"
     public Exp getBody(Exp nil);
 
     public abstract Exp getPrintableFrame(Exp nIL);
+
+    public abstract boolean isBiscuit(); 
+        // Biscuit == Bi Cuit == Twice cooked.
+        // The return from macros is re-evaluated in the caller scope.
+        // 
+    
     
 }

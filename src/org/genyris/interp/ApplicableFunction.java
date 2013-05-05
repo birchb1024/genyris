@@ -101,4 +101,8 @@ public abstract class ApplicableFunction {
         }
     }
 
+    public boolean isBiscuit() {
+        return false;
+    }
+
 }
