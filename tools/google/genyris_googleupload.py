@@ -19,13 +19,18 @@ def gupload(file, summary, labels):
    if( statuscode != 201):
 	 print "*** Googlecode upload failed: %s %s %s" % (statuscode, msg, url)
 	 print "continuing..."
+
+
 gupload("genyris-binary-%s.zip.MD5" % version, "Genyris %s binary checksum", ['Type-Docs'])
 gupload("genyris-binary-%s.zip" % version, "Genyris %s binary", ['OpSys-All'])
-gupload("genyris_linux_%s.deb" % underversion, "Genyris %s Debian package", ['Type-Installer','OpSys-Linux'])
-gupload("genyris_macos_%s.dmg" % underversion, "Genyris %s Mac OS/X package", ['Type-Installer','OpSys-OSX'])
 gupload("genyris-manual-%s.html" % version, "Genyris %s Manual (HTML)", ['Type-Docs'])
 gupload("genyris-manual-%s.pdf" % version, "Genyris %s Manual (PDF)", ['Type-Docs'])
 gupload("genyris_windows_%s.exe" % underversion, "Genyris %s Windows Installer", ['Type-Installer','OpSys-Windows'])
+gupload("genyris_linux_%s.deb" % underversion, "Genyris %s Debian package", ['Type-Installer','OpSys-Linux'])
+gupload("genyris_macos_%s.dmg" % underversion, "Genyris %s Mac OS/X package", ['Type-Installer','OpSys-OSX'])
+gupload("genyris_windows_%s.exe.MD5" % underversion, "Genyris %s Windows Installer checksum", ['Type-Docs'])
+gupload("genyris_linux_%s.deb.MD5" % underversion, "Genyris %s Debian package checksum", ['Type-Docs'])
+gupload("genyris_macos_%s.dmg.MD5" % underversion, "Genyris %s Mac OS/X package checksum", ['Type-Docs'])
 
 
 
