@@ -23,9 +23,9 @@
     <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
     <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar, zips, documentation, installers" />
     <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
-    <target name="build-workspace" depends="only-clean, only-init, version-default, binary, test, reports"
+    <target name="build-workspace" depends="only-clean, only-init, version-default, binary, package, test, reports"
       description="Build and test current workspace contents."/>
-    <target name="release" depends="tagged-version, binary, only-package, test, reports" 
+    <target name="release" depends="tagged-version, binary, package, test, reports" 
       description="Build a formal tagged release using only the latest tag."/>
 
     <!-- Libraries required  -->
@@ -69,19 +69,30 @@
         <echoproperties />
     </target>
 
-    <target name="version-default" depends="git-info">
+    <target name="version-default" depends="git-info" description="Compute version number from Git.">
         <property name="implementation-version" value="${git.workspace.version}-${build.id}"/>
         <property name="version" value="${implementation-version}"/>
+        <loadresource property="version.underscores">
+            <propertyresource name="implementation-version"/>
+            <filterchain>
+                <tokenfilter>
+                <filetokenizer/>
+                <replacestring from="." to="_"/>
+                </tokenfilter>
+            </filterchain>
+        </loadresource>
         <echo>Version = ${version}</echo>
+        <echo>Version.underscores = '${version.underscores}'</echo>
         <echo>implementation-version = '${implementation-version}'</echo>
     </target>
 
     <target name="git-info" description="Extract Git information." depends="only-git-workspace, only-git-status">
         <property name="specification-version" value="${git.workspace.specification.version}"/>
         <buildnumber file="${git.workspace.version}-build-number.txt"/>
-        <property name="build.id" value="b${build.number}"/>
+        <property name="build.id" value="${build.number}"/>
         <echo>specification version = ${specification-version}</echo>
         <echo>Build Number = ${build.id}</echo>
+        <echo>version = ${version}</echo>
     </target>
 
     <target name="git-committed" description="Fail if uncommitted changes" depends="only-git-status">
@@ -296,11 +307,22 @@
       </checkstyle>
    </target>
 
-    <target name="only-package" depends="git-info" description="Install4j Packaging">
+    <target name="package" depends="version-default" description="Install4j Packaging, generates exe, deb and dmg">
+	    <copy file="package/genyris.install4j" tofile="dist/genyris.install4j" verbose="true" overwrite="true">
+            <filterchain>
+                <replacetokens>
+                      <token key="GENYRIS-VERSION" value="${version}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+
         <exec executable="bash" failonerror="true">
             <arg value="-c"/>
-            <arg value="install4jc --release=${version} package/genyris.install4j" />
+            <arg value="install4jc dist/genyris.install4j" />
         </exec>
+        <checksum file="rel/genyris_windows_${version.underscores}.exe" forceOverwrite="yes" />
+        <checksum file="rel/genyris_linux_${version.underscores}.deb" forceOverwrite="yes" />
+        <checksum file="rel/genyris_macos_${version.underscores}.dmg" forceOverwrite="yes" />
     </target>
 
 
