@@ -17,16 +17,17 @@ import org.genyris.interp.UnboundException;
 
 public class Pair extends ExpWithEmbeddedClasses {
 
-    private  Exp _car;
-    private  Exp _cdr;
+    private Exp _car;
+    private Exp _cdr;
 
     public Pair(Exp car, Exp cdr) {
         _car = car;
         _cdr = cdr;
     }
-	public Symbol getBuiltinClassSymbol(Internable table) {
-		return table.PAIR();
-	}
+
+    public Symbol getBuiltinClassSymbol(Internable table) {
+        return table.PAIR();
+    }
 
     public void acceptVisitor(Visitor guest) throws GenyrisException {
         guest.visitPair(this);
@@ -36,15 +37,15 @@ public class Pair extends ExpWithEmbeddedClasses {
         if (!(compare instanceof Pair))
             return false;
         else
-            return this._car.equals(((Pair)compare)._car)
-                && this._cdr.equals(((Pair)compare)._cdr);
+            return this._car.equals(((Pair) compare)._car)
+                    && this._cdr.equals(((Pair) compare)._cdr);
     }
 
-	public boolean isPair() {
-		return true;
-	}
+    public boolean isPair() {
+        return true;
+    }
 
-	public Exp car() {
+    public Exp car() {
         return _car;
     }
 
@@ -53,12 +54,14 @@ public class Pair extends ExpWithEmbeddedClasses {
     }
 
     public Exp setCar(Exp exp) {
-        this._car = exp;;
+        this._car = exp;
+        ;
         return this;
     }
 
     public Exp setCdr(Exp exp) {
-        this._cdr = exp;;
+        this._cdr = exp;
+        ;
         return this;
     }
 
@@ -66,114 +69,136 @@ public class Pair extends ExpWithEmbeddedClasses {
         StringWriter buffer = new StringWriter();
         AbstractFormatter formatter = new BasicFormatter(buffer);
         try {
-			this.acceptVisitor(formatter);
-		} catch (GenyrisException e) {
-			return e.getMessage();
-		}
+            this.acceptVisitor(formatter);
+        } catch (GenyrisException e) {
+            return e.getMessage();
+        }
         return buffer.toString();
     }
-	public int hashCode() {
-		return _car.hashCode() + _cdr.hashCode();
-	}
-	public Exp eval(Environment env) throws GenyrisException {
-		Closure proc = null;
-		Exp[] arguments = null;
-		try {
-        	proc = (Closure) car().eval(env);
-        } catch (UnboundException e1) {
-        	try {
-        		proc = env.getSymbolTable().PROCEDUREMISSING().lookupVariableValue(env);
-        	} catch (UnboundException e2) {
-        		throw e1;
-        	}
-            arguments = prependArgument(car(), proc.computeArguments(env, cdr()));
-            return proc.applyFunction(env, arguments);      
+
+    public int hashCode() {
+        return _car.hashCode() + _cdr.hashCode();
+    }
+
+    public Exp eval(Environment env) throws GenyrisException {
+        Closure proc = null;
+        Exp[] arguments = null;
+        Exp toEvaluate = this;
+        Exp retval = env.getNil();
+        do {
+            try {
+                proc = (Closure) (toEvaluate.car().eval(env));
+            } catch (UnboundException e1) {
+                try {
+                    proc = env.getSymbolTable().PROCEDUREMISSING()
+                            .lookupVariableValue(env);
+                } catch (UnboundException e2) {
+                    throw e1;
+                }
+                arguments = prependArgument(toEvaluate.car(),
+                        proc.computeArguments(env, toEvaluate.cdr()));
+                return proc.applyFunction(env, arguments);
+            }
+            arguments = proc.computeArguments(env, toEvaluate.cdr());
+            retval = proc.applyFunction(env, arguments);
+            if(retval instanceof Biscuit) {
+                toEvaluate = ((Biscuit)retval).getExpression();
+                if( ! (toEvaluate instanceof Pair) ) {
+                    // can only use this do-while loop for expressions, 
+                    // have to use function call for all others.
+                    return toEvaluate.eval(env);
+                }
+            }
+            
+        } while (retval instanceof Biscuit);
+        return retval;
+    }
+
+    private Exp[] prependArgument(Exp firstArg, Exp[] tmparguments)
+            throws GenyrisException {
+        Exp[] arguments = new Exp[tmparguments.length + 1];
+        arguments[0] = firstArg;
+        for (int i = 0; i < tmparguments.length; i++) {
+            arguments[i + 1] = tmparguments[i];
         }
-        arguments = proc.computeArguments(env, cdr());
-        return proc.applyFunction(env, arguments);      
-	}
-	private Exp[] prependArgument( Exp firstArg, Exp[] tmparguments)
-			throws GenyrisException {
-		Exp[] arguments = new Exp[tmparguments.length+1];
-		arguments[0] = firstArg;
-		for(int i=0;i<tmparguments.length;i++){
-			arguments[i+1] = tmparguments[i];
-		}
-		return arguments;
-	} 
-	
+        return arguments;
+    }
+
     public Exp evalSequence(Environment env) throws GenyrisException {
         SimpleSymbol NIL = env.getNil();
         Exp body = this;
         if (body.cdr() == NIL) {
             return body.car().eval(env);
-        }
-        else {
+        } else {
             body.car().eval(env);
             return body.cdr().evalSequence(env);
         }
     }
-	public int length(Symbol NIL) throws AccessException {
-		Exp tmp = this;
-		int count = 0;
 
-		while (tmp != NIL && (tmp instanceof Pair)) {
-			tmp = tmp.cdr();
-			count++;
-		}
-		return count;
-	}
-	public Exp nth(int number, Symbol NIL) throws AccessException {
-		Exp tmp = this;
-		int count = 0;
-		while (tmp != NIL) {
-			if (count == number) {
-				return tmp.car();
-			}
-			tmp = tmp.cdr();
-			count++;
-		}
-		throw new AccessException("nth could not find item: " + number);
-	}
-	public Environment makeEnvironment(Environment parent) throws GenyrisException {
-		return new PairEnvironment(parent, this);
-	}
-	public static Exp reverse(Exp list, Exp NIL) throws GenyrisException {
-		if(list.isNil()) {
-			return list;
-		}
-		if(list instanceof Pair) {
-			Exp rev_result = NIL;
+    public int length(Symbol NIL) throws AccessException {
+        Exp tmp = this;
+        int count = 0;
 
-			while (list != NIL) {
-				rev_result = new Pair(list.car(), rev_result);
-				list = list.cdr();
-			}
-			return (rev_result);
-		} else {
-			throw new GenyrisException("reverse: not a list: " + list);
-		}
-	}
-	
-	public static Exp cons(Exp a, Exp b) {
-		return new Pair(a, b);
-	}
+        while (tmp != NIL && (tmp instanceof Pair)) {
+            tmp = tmp.cdr();
+            count++;
+        }
+        return count;
+    }
 
-	public static Exp cons2(Exp a, Exp b, Exp NIL) {
-		return new Pair(a, new Pair(b, NIL));
-	}
+    public Exp nth(int number, Symbol NIL) throws AccessException {
+        Exp tmp = this;
+        int count = 0;
+        while (tmp != NIL) {
+            if (count == number) {
+                return tmp.car();
+            }
+            tmp = tmp.cdr();
+            count++;
+        }
+        throw new AccessException("nth could not find item: " + number);
+    }
 
-	public static Exp cons3(Exp a, Exp b, Exp c, Exp NIL) {
-		return new Pair(a, new Pair(b, new Pair(c, NIL)));
-	}
+    public Environment makeEnvironment(Environment parent) throws GenyrisException {
+        return new PairEnvironment(parent, this);
+    }
 
-	public static Exp cons4(Exp a, Exp b, Exp c, Exp d, Exp NIL) {
-		return new Pair(a, new Pair(b, new Pair(c, new Pair(d, NIL))));
-	}
+    public static Exp reverse(Exp list, Exp NIL) throws GenyrisException {
+        if (list.isNil()) {
+            return list;
+        }
+        if (list instanceof Pair) {
+            Exp rev_result = NIL;
 
-	public Exp dir(Internable table) {
-		return Pair.cons2(new DynamicSymbol(table.LEFT()), 
-		        new DynamicSymbol(table.RIGHT()),super.dir(table));
-	}
+            while (list != NIL) {
+                rev_result = new Pair(list.car(), rev_result);
+                list = list.cdr();
+            }
+            return (rev_result);
+        } else {
+            throw new GenyrisException("reverse: not a list: " + list);
+        }
+    }
+
+    public static Exp cons(Exp a, Exp b) {
+        return new Pair(a, b);
+    }
+
+    public static Exp cons2(Exp a, Exp b, Exp NIL) {
+        return new Pair(a, new Pair(b, NIL));
+    }
+
+    public static Exp cons3(Exp a, Exp b, Exp c, Exp NIL) {
+        return new Pair(a, new Pair(b, new Pair(c, NIL)));
+    }
+
+    public static Exp cons4(Exp a, Exp b, Exp c, Exp d, Exp NIL) {
+        return new Pair(a, new Pair(b, new Pair(c, new Pair(d, NIL))));
+    }
+
+    public Exp dir(Internable table) {
+        return Pair.cons2(new DynamicSymbol(table.LEFT()),
+                new DynamicSymbol(table.RIGHT()), super.dir(table));
+    }
 
 }

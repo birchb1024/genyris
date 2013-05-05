@@ -5,6 +5,7 @@
 //
 package org.genyris.interp;
 
+import org.genyris.core.Biscuit;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 
@@ -20,7 +21,7 @@ public class MacroFunction extends ClassicFunction {
     		throw new GenyrisException("type missmatch - was expecting an AbstractClosure");
     	}
         AbstractClosure proc = (AbstractClosure)closure;
-        return super.bindAndExecute( proc, arguments, proc.getEnv()).eval(env);
+        return new Biscuit(super.bindAndExecute( proc, arguments, proc.getEnv()));
     }
 
 }

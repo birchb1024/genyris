@@ -9,6 +9,7 @@ defmacro printlistm(alist)
   # The next evaluation is done in the context of the caller. This is an example of Trampolining.
    cond
       (null? alist)
+         ^^nil
       else
          print (car alist)
          template            # return the following code snippet to be re-evaluated in the caller

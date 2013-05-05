@@ -78,6 +78,7 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _PIPE;
 	private SimpleSymbol _PROCEDUREMISSING;
     private SimpleSymbol _GLOBALGRAPH;
+    private SimpleSymbol _BISCUIT;
 	
     public SymbolTable() {
         _table = new HashMap();
@@ -155,6 +156,7 @@ public class SymbolTable implements Internable {
     _JAVACLASS = bindKeyword(String.valueOf(Constants.JAVACLASS));
     _PIPE = bindKeyword(String.valueOf(Constants.PIPE));
     _PROCEDUREMISSING = bindKeyword(String.valueOf(Constants.PROCEDUREMISSING));
+    _BISCUIT = bindKeyword(String.valueOf(Constants.BISCUIT));
 
 }
 
@@ -455,5 +457,8 @@ public class SymbolTable implements Internable {
         return _filename;
     }
 
+    public SimpleSymbol BISCUIT() {
+        return _BISCUIT;
+    }
 
 }

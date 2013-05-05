@@ -46,4 +46,5 @@ public interface Visitor {
 	public void visitJavaWrapper(JavaWrapper javaWrapper)  throws GenyrisException;
 
 	public void visitPipe(Pipe pipe)  throws GenyrisException;
+
 }
