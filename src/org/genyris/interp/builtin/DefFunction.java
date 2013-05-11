@@ -18,20 +18,20 @@ import org.genyris.interp.Interpreter;
 
 public class DefFunction extends ApplicableFunction {
 
-	public DefFunction(Interpreter interp) {
-		super(interp, "def", false);
-	}
+    public DefFunction(Interpreter interp) {
+        super(interp, "def", false);
+    }
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
-		checkMinArguments(arguments, 1);
-		Class[] types = {Symbol.class};
-		checkArgumentTypes(types, arguments);
-		Exp lambdaExpression = new Pair(_lambda, arrayToList(arguments).cdr());
-		EagerProcedure fn = new EagerProcedure(envForBindOperations,
-				lambdaExpression, new ClassicFunction(arguments[0].toString(), _interp));
-		envForBindOperations.defineVariable((Symbol)arguments[0], fn);
-		return fn;
-	}
-
+    public Exp bindAndExecute(Closure proc, Exp[] arguments,
+            Environment envForBindOperations) throws GenyrisException {
+        checkMinArguments(arguments, 1);
+        Class[] types = { Symbol.class };
+        checkArgumentTypes(types, arguments);
+        checkFormalArgumentSyntax(arguments[1]);
+        Exp lambdaExpression = new Pair(_lambda, arrayToList(arguments).cdr());
+        EagerProcedure fn = new EagerProcedure(envForBindOperations, lambdaExpression,
+                new ClassicFunction(arguments[0].toString(), _interp));
+        envForBindOperations.defineVariable((Symbol) arguments[0], fn);
+        return fn;
+    }
 }

@@ -27,6 +27,7 @@ public class DefMacroFunction extends ApplicableFunction {
 		checkMinArguments(arguments, 1);
 		Class[] types = {Symbol.class};
 		checkArgumentTypes(types, arguments);
+        checkFormalArgumentSyntax(arguments[1]);
 		Exp lambdaExpression = new Pair(_lambdam, arrayToList(arguments).cdr());
 		LazyProcedure fn = new LazyProcedure(envForBindOperations,
 				lambdaExpression, new MacroFunction(arguments[0].toString(), _interp));

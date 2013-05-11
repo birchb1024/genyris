@@ -7,7 +7,7 @@
 # 002 &rest does not work with an empty argument list
 #
 def func(&rest args)  args
-assert
+assert 
    null? (func)  # *** Error: Too few arguments supplied to proc: func
 
 #
@@ -61,6 +61,83 @@ assertEqual
    use maf .source
    ^(lambdaq (x) x)
    
+#
+# Issue 7:    Handle empty &rest argument lists better.
+# https://code.google.com/p/genyris/issues/detail?id=7
+#
+catch syntax-error
+  lambda (a &rest)
+assert syntax-error
 
-   
-   
+catch syntax-error
+  lambdaq (a &rest)
+assert syntax-error
+
+catch syntax-error
+  lambdam (a &rest)
+assert syntax-error
+
+catch syntax-error
+  lambda (a &rest = String)
+assert syntax-error
+
+catch syntax-error
+  lambdaq (a &rest = String)
+assert syntax-error
+
+catch syntax-error
+  lambdam (a &rest = String)
+assert syntax-error
+
+catch syntax-error
+  def fx(a1 &rest)
+assert syntax-error
+
+catch syntax-error
+  def fx(&rest)
+assert syntax-error
+
+catch syntax-error
+  defmacro mx(a1 &rest)
+assert syntax-error
+
+catch syntax-error
+  defmacro mx(&rest)
+assert syntax-error
+
+catch syntax-error
+  df mx(a1 &rest) a1
+  mx 1
+assert syntax-error
+
+catch syntax-error
+  df mx(&rest)
+  mx
+assert syntax-error
+
+catch syntax-error
+  def fx(a1 &rest = String)
+assert syntax-error
+
+catch syntax-error
+  def fx(&rest = String)
+assert syntax-error
+
+catch syntax-error
+  defmacro mx(a1 &rest = String)
+assert syntax-error
+
+catch syntax-error
+  defmacro mx(&rest = String)
+assert syntax-error
+
+catch syntax-error
+  df mx(a1 &rest = String) a1
+  mx 1
+assert syntax-error
+
+catch syntax-error
+  df mx(&rest = String)
+  mx
+assert syntax-error
+

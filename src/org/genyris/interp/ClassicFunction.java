@@ -43,6 +43,9 @@ public class ClassicFunction extends ApplicableFunction {
             }
             Exp formal = formals.car();
             if (formal == REST) {
+                if( !formals.cdr().isPair() ) {
+                    throw new GenyrisException("Syntax error &rest arguments has no formal parameter: " + arguments);
+                }
                 Exp actuals = assembleListFromRemainingArgs(arguments, i);
                 formal = formals.cdr().car();
                 if (formal != NIL) {

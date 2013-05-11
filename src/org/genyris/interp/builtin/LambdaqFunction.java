@@ -24,6 +24,7 @@ public class LambdaqFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
+        checkFormalArgumentSyntax(arguments[0]);
         Exp expression = arrayToList(arguments);
         expression = new Pair(_lambdaq, expression);
         return new LazyProcedure(env, expression, new ClassicFunction("anonymous lambdaq", _interp));

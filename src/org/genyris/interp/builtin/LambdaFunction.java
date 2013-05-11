@@ -25,6 +25,7 @@ public class LambdaFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
         Exp expression = arrayToList(arguments); 
+        checkFormalArgumentSyntax(arguments[0]);
         expression = new Pair(_lambda, expression);
         return new EagerProcedure(env, expression, new ClassicFunction("anonymous lambda", _interp));
 

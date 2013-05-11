@@ -101,4 +101,23 @@ public abstract class ApplicableFunction {
         }
     }
 
+    protected void checkFormalArgumentSyntax(Exp formals) throws GenyrisException {
+        if (formals == NIL) {
+            return;
+        }
+        if (!(formals instanceof Pair)) {
+            throw new GenyrisException("Syntax error in " + _name +  ": arguments not a list: " + formals);
+        }
+        Exp head = formals;
+        while (head.isPair() && head != NIL) {
+            if (head.car() == REST) {
+                if (!head.cdr().isPair())
+                    throw new GenyrisException(
+                            "Syntax error in " + _name +  ": &rest has no following formal argument: "
+                                    + formals);
+            }
+            head = head.cdr();
+        }
+    }
+
 }

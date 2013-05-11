@@ -45,7 +45,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
         return _env.getNil();
     }
 
-    private int countFormalArguments(Exp exp) throws AccessException {
+    private int countFormalArguments(Exp exp) throws GenyrisException {
         int count = 0;
         while (exp != NIL()) {
             if (!(exp instanceof Pair)) { // ignore trailing type specification
@@ -99,7 +99,7 @@ public abstract class AbstractClosure extends Atom implements Closure {
         return _env;
     }
 
-    public int getNumberOfRequiredArguments() throws AccessException {
+    public int getNumberOfRequiredArguments() throws GenyrisException {
         if (_numberOfRequiredArguments < 0) {
             _numberOfRequiredArguments = countFormalArguments(_lambdaExpression.cdr()
                     .car());

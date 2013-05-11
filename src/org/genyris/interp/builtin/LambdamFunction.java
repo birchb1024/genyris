@@ -25,7 +25,7 @@ public class LambdamFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
 
-        // TODO - inefficient
+        checkFormalArgumentSyntax(arguments[0]);
         Exp expression = arrayToList(arguments);
         expression = new Pair(_lambdam, expression);
         return new LazyProcedure(env, expression, new MacroFunction("anonymous lambdam", _interp));
