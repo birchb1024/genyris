@@ -58,7 +58,7 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
         interpreter.bindGlobalProcedureInstance(new GreaterThanFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new LessThanFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new PowerFunction(interpreter));
-
+        interpreter.bindGlobalProcedureInstance(new ScaleFunction(interpreter));
     }
 
 }

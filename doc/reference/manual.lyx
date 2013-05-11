@@ -7774,6 +7774,48 @@ This function calculates the first argument raised to the power of the second.
 (power 2 8) => 256
 \end_layout
 
+\begin_layout Paragraph
+scale
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+scale
+\end_layout
+
+\end_inset
+
+ <number> <scale>
+\end_layout
+
+\begin_layout Standard
+This function takes the number provided and returns a new 
+\emph on
+Bignum
+\emph default
+ with the number of digits after the decimal place specified by 
+\emph on
+<scale>
+\emph default
+.
+ Rounding is done with 'HALF UP' semantices.
+ i.e.
+ 5 is rounded up.
+ Examples
+\end_layout
+
+\begin_layout LyX-Code
+scale (/ 1 3) 3 -> 0.333
+\end_layout
+
+\begin_layout LyX-Code
+scale 1.55555 2 -> 1.56
+\end_layout
+
+\begin_layout LyX-Code
+scale 1.5 0 -> 2
+\end_layout
+
 \begin_layout Subsection
 Lists and Pairs
 \end_layout

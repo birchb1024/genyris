@@ -62,4 +62,10 @@ do
            :assertEqual (equal? 4 4) true
            :assertEqual (equal? 3.4 3.4000001) nil
     
+    :test 'scale'
+           :assertEqual (scale 1.555 2) 1.56
+           :assertEqual (scale (/ 2 3) 2) 0.67
+           :assertEqual (scale (/ 1 3) 1) 0.3
+           :assertEqual (scale (/ 10 3) 0) 3
+    
 
