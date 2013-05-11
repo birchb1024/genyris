@@ -6550,11 +6550,158 @@ template
 
 
 \emph default
- <expression>
+ <body>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+template
+\emph default
+ macro returns the body expression provided with embedded tags evaluated
+ and inserted into the result.
+ The macro looks for the following forms for substitution:
+\end_layout
+
+\begin_layout LyX-Code
+,<expression>
+\end_layout
+
+\begin_layout LyX-Code
+(comma <expression>)
+\end_layout
+
+\begin_layout LyX-Code
+,@<expression>
+\end_layout
+
+\begin_layout LyX-Code
+(comma-at <expression)
+\end_layout
+
+\begin_layout Standard
+The parser substitutes 
+\emph on
+,<expression>
+\emph default
+ for 
+\emph on
+(comma <expression>)
+\emph default
+ and 
+\emph on
+,@
+\emph default
+ for 
+\emph on
+(comma-at <expression)
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+In the case of (comma <expression>) the enclosed expression is evaluated
+ and the result substituted in the same position in the returned list.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> define X 23
+\end_layout
+
+\begin_layout LyX-Code
+> template
+\end_layout
+
+\begin_layout LyX-Code
+:    a b ,X d
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(a b 23 d) # Pair 
+\end_layout
+
+\begin_layout Standard
+which is the same as:
+\end_layout
+
+\begin_layout LyX-Code
+> template
+\end_layout
+
+\begin_layout LyX-Code
+:    a b (comma X) d
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(a b 23 d) # Pair 
+\end_layout
+
+\begin_layout Standard
+To embed a list into the returned expression use ,@ as in this example:
+\end_layout
+
+\begin_layout LyX-Code
+> define L ^(1 2 3)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(1 2 3) # PairSource 
+\end_layout
+
+\begin_layout LyX-Code
+> template
+\end_layout
+
+\begin_layout LyX-Code
+:    a b ,@L c
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(a b 1 2 3 c) # Pair 
+\end_layout
+
+\begin_layout Standard
+Template is used for defining the body of macros.
+ Lisp programmers know it as the 
+\emph on
+backquote
+\emph default
+ function.
+ For example the 
+\emph on
+df
+\emph default
+ macro is defined this way using template.:
+\end_layout
+
+\begin_layout LyX-Code
+defmacro df (name args &rest body)
+\end_layout
+
+\begin_layout LyX-Code
+    template
+\end_layout
+
+\begin_layout LyX-Code
+        defvar ^,name (lambdaq ,args ,@body)
 \end_layout
 
 \begin_layout Subsection
@@ -7375,11 +7522,110 @@ can be written succinctly as:
 \end_layout
 
 \begin_layout Subsection
-use <expression>
+use <object-expression> <body-expression>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+use
+\emph default
+ function creates a dynamic environment based on the result of evaluating
+ the 
+\emph on
+<object-expression>
+\emph default
+.
+ The 
+\emph on
+<body-expression>
+\emph default
+ is evaluated in the new dynamic environment.
+ The purpose of the 
+\emph on
+use
+\emph default
+ function is to allow the properties of closures to be accessed which would
+ normally be applied.
+ For example if we want to acccess the source code of a function we need
+ to use the 
+\emph on
+use
+\emph default
+ function.
+ Closures found first in the expression are evaulauted e.g.:
+\end_layout
+
+\begin_layout LyX-Code
+> def square(x)
+\end_layout
+
+\begin_layout LyX-Code
+:    * x x
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+<EagerProc: <square>> # EagerProcedure 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> square .vars
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+*** Error - 'no dynamic variable in environment: .vars'
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+By wrapping the function with 
+\emph on
+.use
+\emph default
+ we can access the closure's properties:
+\end_layout
+
+\begin_layout LyX-Code
+> use square .vars
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(.source .name .self .vars .classes) # Pair 
+\end_layout
+
+\begin_layout Standard
+And now the source code property can be accessed:
+\end_layout
+
+\begin_layout LyX-Code
+> use square .source
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(lambda (x) (* x x)) # Pair
 \end_layout
 
 \begin_layout Section
@@ -7391,7 +7637,13 @@ Bignum
 \end_layout
 
 \begin_layout Standard
-TODO
+Numbers in Genyris are stored as builtin objects of class 
+\emph on
+Bignum.
+
+\emph default
+ Internally they are implemented as Java BigDecimals.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -7747,11 +7999,29 @@ Class Pair
 \end_layout
 
 \begin_layout Standard
-TODO
+Builtin binary-tree objects (also known as cons cells) are of class Pair.
+ The elements of the pair are the 
+\emph on
+.left
+\emph default
+ and 
+\emph on
+.right
+\emph default
+ halves of the object which are references to other expressions.
+ The class Pair has direct subclasses 
+\emph on
+PairEquals
+\emph default
+ and 
+\emph on
+PairSource
+\emph default
+ described below.
 \end_layout
 
 \begin_layout Standard
-Refer to section 
+Refer also to section 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "sub:Pair"
@@ -7821,7 +8091,11 @@ PairSource
 \emph on
 PairSource
 \emph default
- is a subclass of Pair.
+ is a subclass of 
+\emph on
+Pair
+\emph default
+.
  
 \end_layout
 
@@ -7960,11 +8234,56 @@ status open
 
 \end_inset
 
-
+ <delimiter string>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.split
+\emph default
+ method takes a string splits it into substrings using the 
+\emph on
+<delimiter string>
+\emph default
+ as the bourndary for splitting.
+ The result is a list of strings: For example:
+\end_layout
+
+\begin_layout LyX-Code
+> "wqweqweq"(.split "qw")
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+('w' 'e' 'eq') # Pair 
+\end_layout
+
+\begin_layout Standard
+If the 
+\emph on
+<delimiter string>
+\emph default
+ is the empty string, it returns a list of strings one character in each:
+\end_layout
+
+\begin_layout LyX-Code
+> "wqweqweq"(.split "")
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+('' 'w' 'q' 'w' 'e' 'q' 'w' 'e' 'q') # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -7994,7 +8313,22 @@ Returns a new string with every occurence of
 \emph default
  replaced with
 \emph on
- <replacement>
+ <replacement>.
+ 
+\emph default
+Example:
+\end_layout
+
+\begin_layout LyX-Code
+> "wqweqweq"(.replace 'qw' '-')
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'w-e-eq' # String
 \end_layout
 
 \begin_layout Subsubsection
@@ -8012,11 +8346,32 @@ status open
 
 \end_inset
 
-
+ <string>...
 \end_layout
 
 \begin_layout Standard
-TODO
+The plus method appends the strings provided as arguments.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> "A"
+\end_layout
+
+\begin_layout LyX-Code
+:   .+ "B" "C"
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'ABC' # String 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -9860,11 +10215,65 @@ class
 
 \end_inset
 
-
+ <name> (<superclasses>...) <body>
 \end_layout
 
 \begin_layout Standard
-TODO
+The class form declares class objects and creates a dynamic environment
+ based on the new class object in which the body of the form is executed
+ and returns the class object.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+class Inches(Length)
+\end_layout
+
+\begin_layout LyX-Code
+   def .toMeters()
+\end_layout
+
+\begin_layout LyX-Code
+      tag Meters (* .self 0.0254)
+\end_layout
+
+\begin_layout Standard
+When this form is evaluated the following happends:
+\end_layout
+
+\begin_layout Itemize
+A 
+\emph on
+StandardClass
+\emph default
+ object is created with the name 
+\emph on
+'Inches'
+\emph default
+ and superclasses of 
+\emph on
+Length
+\end_layout
+
+\begin_layout Itemize
+A dynamic environment is created based on the new object
+\end_layout
+
+\begin_layout Itemize
+The def...
+ form is evaluated in the new environment
+\end_layout
+
+\begin_layout Itemize
+The new class is bound to the variable <name>
+\end_layout
+
+\begin_layout Itemize
+The 
+\emph on
+StandardClass
+\emph default
+ object is returned
 \end_layout
 
 \begin_layout Paragraph
@@ -9882,11 +10291,38 @@ tag
 
 \end_inset
 
-
+ <class> <expression>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+tag
+\emph default
+ function adds a new class to the list of classes of the object resulting
+ from evaluating the 
+\emph on
+expression
+\emph default
+.
+ The function returns the newly tagged object.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> tag Inches 12
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+12 # Inches Bignum 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Paragraph
@@ -9910,7 +10346,44 @@ remove-tag
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+remove-tag
+\emph default
+ function removes a class from the classes list of the object and returns
+ it.
+\end_layout
+
+\begin_layout LyX-Code
+> var x (tag Inches 12)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+12 # Inches Bignum
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> remove-tag Inches x
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+12 # Bignum 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Paragraph
@@ -9928,11 +10401,25 @@ is-instance?
 
 \end_inset
 
-
+ <expression> <class>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+is-instance?
+\emph default
+ function returns true if the object resulting from evaluation of the 
+\emph on
+<expression>
+\emph default
+ is a member of the 
+\emph on
+<class>
+\emph default
+ or its superclasses.
+ Membership is determind by the classes tagged to the object.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -12022,32 +12509,57 @@ stdin
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+stdin
+\emph default
+ variable is bound to the 
+\emph on
+Reader
+\emph default
+ object corresponding to the operating system standard input.
 \end_layout
 
 \begin_layout Subsubsection
 Class Reader
 \end_layout
 
-\begin_layout Paragraph
-Globals
+\begin_layout Standard
+The reader object allow access to streams of bytes and characters as Genyris
+ expressions or lines of strings.
+ Reader objects are created in these situations:
 \end_layout
 
-\begin_layout Description
-\begin_inset Index idx
-status collapsed
+\begin_layout Itemize
 
-\begin_layout Plain Layout
-stdin
-\end_layout
-
-\end_inset
-
-stdin A global variable which holds a
 \emph on
-Reader
+stdin
 \emph default
- pointing the current Standard Input device, typically the console.
+ # global variable.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+File(.open)
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+web:get <URL>
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Pipe(.input)
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Process(.getOutput)
 \end_layout
 
 \begin_layout Paragraph
@@ -12057,28 +12569,6 @@ Methods
 \begin_layout Paragraph
 
 \emph on
-.new
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.new
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Paragraph
-
-\emph on
 .close
 \begin_inset Index idx
 status open
@@ -12095,7 +12585,11 @@ status open
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.close
+\emph default
+ method closes the input Reader.
 \end_layout
 
 \begin_layout Paragraph
@@ -12117,7 +12611,20 @@ status open
 \end_layout
 
 \begin_layout Standard
-Reads bytes as numbers from the stream.
+Read a byte from the stream and returns a 
+\emph on
+Bignum
+\emph default
+.
+ .
+\emph on
+hasData
+\emph default
+ must be called prior to .
+\emph on
+read
+\emph default
+.
 \end_layout
 
 \begin_layout Paragraph
@@ -12139,7 +12646,13 @@ status open
 \end_layout
 
 \begin_layout Standard
-TODO
+Returns true if the stream has data for .
+\emph on
+read
+\emph default
+ otherwise
+\emph on
+ nil.
 \end_layout
 
 \begin_layout Paragraph
@@ -12164,11 +12677,56 @@ status open
 The .copy method copies all the data from the stream to a Writer stream object
  which is passed as its only parameter.
  Fr example, the following copies all console input back to the screen until
- an EOF is found:
+ an 
+\emph on
+EOF
+\emph default
+ is found:
 \end_layout
 
 \begin_layout LyX-Code
 stdin (.copy stdout)
+\end_layout
+
+\begin_layout Paragraph
+.mk-iterator
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+.mk-iterator
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This method creates a closure which when called, returns a line from the
+ input stream or the symbol 
+\emph on
+sys:StopIteration 
+\emph default
+at he end of the stream.
+ Can be used where a call to .mkIterator is requires, such as by for.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+var f (File(.new (prepend-home 'test/fixtures/agile.txt')))
+\end_layout
+
+\begin_layout LyX-Code
+var fd (f(.open ^read))
+\end_layout
+
+\begin_layout LyX-Code
+for line in fd
+\end_layout
+
+\begin_layout LyX-Code
+  print line
 \end_layout
 
 \begin_layout Subsubsection
