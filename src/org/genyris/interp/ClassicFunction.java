@@ -24,6 +24,17 @@ public class ClassicFunction extends ApplicableFunction {
 
     public Exp bindAndExecute(Closure closure, Exp[] arguments,
             Environment runtimeEnviron) throws GenyrisException {
+        Exp result = bindAndExecuteSimple( closure, arguments, runtimeEnviron);
+
+        while( result instanceof TailCall ) {
+            TailCall tc = (TailCall)result;
+            result = bindAndExecuteSimple( tc.proc, tc.arguments, runtimeEnviron);
+        }
+        return result;
+    }
+    
+    public Exp bindAndExecuteSimple(Closure closure, Exp[] arguments,
+            Environment runtimeEnviron) throws GenyrisException {
         // TODO clean it up. What a right royal mess
         // Yeah you can say that again.
 

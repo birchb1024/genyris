@@ -63,7 +63,7 @@ public abstract class ExpWithEmbeddedClasses extends Exp implements
 			builtinClass = env.lookupVariableValue(builtinClassSymbol);
 		} catch (UnboundException e) {
 			throw new Error(builtinClassSymbol
-					+ "Missing builting class - fatal!");
+					+ " is Missing builtin class - fatal!");
 		}
 		Exp classes = new Pair(builtinClass, NIL);
 		Object arryOfObjects[] = _classes.toArray(); // TODO why convert?

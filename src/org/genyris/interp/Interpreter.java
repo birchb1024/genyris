@@ -254,6 +254,7 @@ public class Interpreter {
         StandardClass.mkClass(Constants.JAVA, env, builtin);
         StandardClass.mkClass(Constants.JAVAWRAPPER, env, builtin);
         StandardClass.mkClass(Constants.JAVACLASS, env, builtin);
+        StandardClass.mkClass(Constants.TAILCALL, env, builtin);
 
         StandardClass symbol = StandardClass.mkClass(Constants.SYMBOL, env, builtin);
         StandardClass closure = StandardClass.mkClass(Constants.CLOSURE, env, builtin);

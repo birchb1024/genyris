@@ -126,5 +126,6 @@ public class Constants {
         public static final String ATFILE = "@FILE";
         public static final String ATLINE = "@LINE";
         public static final String BISCUIT = "Biscuit";
+        public static final String TAILCALL = "TailCall";
 
 }

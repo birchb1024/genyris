@@ -67,4 +67,5 @@ public interface Internable {
 	public SimpleSymbol JAVACLASS();
 	public SimpleSymbol PROCEDUREMISSING();
     public SimpleSymbol BISCUIT();
+    public SimpleSymbol TAILCALL();
 }

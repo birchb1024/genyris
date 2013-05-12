@@ -37,7 +37,7 @@ def ccurve-aux (length angle)
             ccurve-aux 
                / length sqrt2
                + angle pi/4
-            ccurve-aux 
+            tailcall ccurve-aux 
                 / length sqrt2
                 - angle pi/4
 
@@ -56,7 +56,7 @@ def dragon-aux (length angle sign)
             / length sqrt2
             + angle (* sign pi/4) 
             ~ 1.0
-        dragon-aux 
+        tailcall dragon-aux 
             / length sqrt2
             - angle (* sign pi/4) 
             ~ -1.0 

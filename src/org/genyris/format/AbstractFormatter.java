@@ -25,6 +25,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.LazyProcedure;
+import org.genyris.interp.TailCall;
 import org.genyris.io.pipe.Pipe;
 import org.genyris.java.JavaWrapper;
 
@@ -57,6 +58,10 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 
     public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
         write(sym.toString());
+    }
+
+    public void visitTailCall(TailCall tc) throws GenyrisException {
+        write(tc.toString());
     }
 
     public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {

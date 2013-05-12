@@ -6121,6 +6121,50 @@ assertEqual ^(23 = 23)
       ^(23)
 \end_layout
 
+\begin_layout Subsubsection
+tailcall <closure> <Arguments...>
+\end_layout
+
+\begin_layout Standard
+To eliminate use of the stack, a function can be called using the current
+ stack.
+ When the tailcall function is called it creates a TailCall obect which
+ contains the closure and arguments provided.
+ If this object is the return value of the currently interpreted function,
+ the interpreter applies the <closure> to the <arguments...> without pushing
+ the stack.
+ This allows infinite recursion.
+ For example this function will cause a stack overflow error:
+\end_layout
+
+\begin_layout LyX-Code
+def overflow(i)
+\end_layout
+
+\begin_layout LyX-Code
+   print i
+\end_layout
+
+\begin_layout LyX-Code
+   overflow (+ i 1)
+\end_layout
+
+\begin_layout Standard
+Whereas the tailcall version can print out any number of integers:
+\end_layout
+
+\begin_layout LyX-Code
+def infinite(i)
+\end_layout
+
+\begin_layout LyX-Code
+   print i
+\end_layout
+
+\begin_layout LyX-Code
+   tailcall infinite (- i 1)
+\end_layout
+
 \begin_layout Subsection
 Anonymous Lazy Functions
 \end_layout

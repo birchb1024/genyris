@@ -10,6 +10,7 @@ import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
+import org.genyris.interp.TailCall;
 import org.genyris.io.pipe.Pipe;
 import org.genyris.java.JavaWrapper;
 
@@ -46,5 +47,7 @@ public interface Visitor {
 	public void visitJavaWrapper(JavaWrapper javaWrapper)  throws GenyrisException;
 
 	public void visitPipe(Pipe pipe)  throws GenyrisException;
+
+    public void visitTailCall(TailCall tc) throws GenyrisException;
 
 }
