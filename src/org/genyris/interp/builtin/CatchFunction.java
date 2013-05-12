@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
+import org.genyris.core.StrinG;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -30,6 +31,9 @@ public class CatchFunction extends ApplicableFunction {
             Exp body = arrayToList(arguments).cdr();
             try {
                 retval = body.evalSequence(env);
+            } catch (StackOverflowError e) {
+                _interp.resetDebugBackTrace();
+                env.setVariableValue(errorVar,new StrinG("Stack overflow."));                
             } catch (GenyrisException e) {
                 _interp.resetDebugBackTrace();
                 env.setVariableValue(errorVar,e.getData());
@@ -58,6 +62,10 @@ public class CatchFunction extends ApplicableFunction {
             Exp body = arrayToList(arguments).cdr();
             try {
                 retval = body.evalSequence(env);
+            } catch (StackOverflowError e) {
+                env.setVariableValue(errorVar,new StrinG("Stack overflow."));                
+                env.setVariableValue(backTraceVar, _interp.getDebugBackTraceAsList());
+                _interp.resetDebugBackTrace();
             } catch (GenyrisException e) {
                 env.setVariableValue(errorVar, e.getData());
                 env.setVariableValue(backTraceVar, _interp.getDebugBackTraceAsList());
