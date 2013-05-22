@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
 
-import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.StrinG;
@@ -39,7 +38,7 @@ public class SourceLoader {
 
 		} else if (filename.endsWith(".lsp")) {
 			InStream is = new UngettableInStream(new ReaderInStream(input, filename));
-			return new ParserSource(table, is, Constants.LISPDYNACHAR, Constants.LISPCDRCHAR, Constants.LISPCOMMENTCHAR);
+			return new ParserSource(table, is); 
 		} else {
 			throw new GenyrisException("unknown file suffix in : " + filename);
 		}

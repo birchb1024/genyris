@@ -450,6 +450,12 @@ Introduction
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Syntax"
+
+\end_inset
+
 Syntax
 \end_layout
 
@@ -2202,6 +2208,76 @@ Translated Expression
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Non-Indented Syntax
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Non-Indented-Syntax"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Genyris also provides a parser for a Lisp-like syntax based on parentheses
+ () without significant white space.
+ This can be useful for embedding source code in other languages or transmitting
+ strings over data networks where indentation may be inconvenient.
+ The syntax is is identical to Genyris indented syntax except that list
+ structure is communicated by leading and trailing parens, and the position
+ of the text is ignored.
+ Here's an example file:
+\end_layout
+
+\begin_layout LyX-Code
+#
+\end_layout
+
+\begin_layout LyX-Code
+#  Factorial function
+\end_layout
+
+\begin_layout LyX-Code
+#
+\end_layout
+
+\begin_layout LyX-Code
+(@prefix u "http://www.genyris.org/lang/utilities#")
+\end_layout
+
+\begin_layout LyX-Code
+(u:format "Factorial")
+\end_layout
+
+\begin_layout LyX-Code
+(assertEqual ^2 (quote 2))
+\end_layout
+
+\begin_layout LyX-Code
+(assertEqual 'w' "w")
+\end_layout
+
+\begin_layout LyX-Code
+(assertEqual ^(1 = 2) (cons 1 2))
+\end_layout
+
+\begin_layout LyX-Code
+(def factorial (n)
+\end_layout
+
+\begin_layout LyX-Code
+  (if (< n 2) 1
+\end_layout
+
+\begin_layout LyX-Code
+    (* n
+\end_layout
+
+\begin_layout LyX-Code
+      (factorial (- n 1)))))
 \end_layout
 
 \begin_layout Subsection
@@ -6162,7 +6238,7 @@ def infinite(i)
 \end_layout
 
 \begin_layout LyX-Code
-   tailcall infinite (- i 1)
+   tailcall infinite (+ i 1)
 \end_layout
 
 \begin_layout Subsection
@@ -12820,7 +12896,19 @@ IndentedParser
 \end_layout
 
 \begin_layout Standard
-TODO
+Parsers are objects which convert character streams to expressions by parsing.
+ The 
+\emph on
+IndentedParser
+\emph default
+ object understands the indented syntax described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Syntax"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Paragraph
@@ -12838,33 +12926,76 @@ status open
 
 \end_inset
 
-
+ <Reader>
 \end_layout
 
 \begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Paragraph
-
+The .
 \emph on
-.close
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
+new
+\emph default
+ method creates an instance of an 
 \emph on
-.close
+IndentedParser
+\emph default
+ from a Reader stream.
+ Examples
 \end_layout
 
-\end_inset
-
-
+\begin_layout Subparagraph*
+Example 1.
+ Parsing a file:
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+var fd 
+\end_layout
+
+\begin_layout LyX-Code
+   (File(.new (prepend-home 'test/fixtures/indented.dat')))
+\end_layout
+
+\begin_layout LyX-Code
+      .open ^read
+\end_layout
+
+\begin_layout LyX-Code
+var parser (IndentedParser(.new fd))
+\end_layout
+
+\begin_layout Subparagraph*
+Example 2.
+ Parsing a String
+\end_layout
+
+\begin_layout LyX-Code
+var str-parser
+\end_layout
+
+\begin_layout LyX-Code
+   IndentedParser
+\end_layout
+
+\begin_layout LyX-Code
+      .new "# comment
+\backslash
+n@prefix : 'http://www.foo.bar/quux#'
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+:one
+\backslash
+n   rdf:two
+\backslash
+n      'three'
+\backslash
+n      4
+\backslash
+n      5.6
+\backslash
+n"
 \end_layout
 
 \begin_layout Paragraph
@@ -12886,20 +13017,72 @@ status open
 \end_layout
 
 \begin_layout Standard
-Reads expressions from the stream.
+The .
+\emph on
+read
+\emph default
+ method returns expressions from the stream one at a time.
+ If there is no more to be read the function returns the symbol 
+\emph on
+EOF
+\emph default
+.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+parser(.read)
+\end_layout
+
+\begin_layout Paragraph
+.prefix
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+.prefix
+\end_layout
+
+\end_inset
+
+ <prefix string> <expansion string>
+\end_layout
+
+\begin_layout Standard
+The .
+\emph on
+prefix
+\emph default
+ method adds a namespace prefix to the parser as described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Namespaces"
+
+\end_inset
+
+.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+str-parser
+\end_layout
+
+\begin_layout LyX-Code
+   .prefix "rdf" "http://w3c/rdf#"
 \end_layout
 
 \begin_layout Paragraph
 
 \emph on
-.hasData
+.close
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-.hasData
+.close
 \end_layout
 
 \end_inset
@@ -12908,7 +13091,15 @@ status open
 \end_layout
 
 \begin_layout Standard
-TODO
+The .
+\emph on
+close
+\emph default
+ method closes the underlying 
+\emph on
+Reader
+\emph default
+ stream.
 \end_layout
 
 \begin_layout Subsubsection
@@ -12916,117 +13107,100 @@ ParenParser
 \end_layout
 
 \begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Paragraph
-
+Like the 
 \emph on
-.new
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
+IndentedParser
+\emph default
+, the 
 \emph on
-.new
-\end_layout
+ParenParser
+\emph default
+ converts character streams to expressions by parsing however the 
+\emph on
+ParenParser
+\emph default
+ object understands the non-indented syntax described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Non-Indented-Syntax"
 
 \end_inset
 
-
+.
+ The methods 
+\emph on
+.new, .read, .prefix
+\emph default
+ and .
+\emph on
+close
+\emph default
+ are identical to those methods of 
+\emph on
+IndentedParser
+\emph default
+.
+ (These are inherited from 
+\emph on
+AbstractParser
+\emph default
+ by both classes).
 \end_layout
 
 \begin_layout Standard
-TODO
+Example:
 \end_layout
 
-\begin_layout Paragraph
-
-\emph on
-.close
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.close
+\begin_layout LyX-Code
+> def myparse (string)
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+:    # parse a string returning the expression
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+:    (ParenParser(.new string))
 \end_layout
 
-\begin_layout Paragraph
-
-\emph on
-.read
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.read
+\begin_layout LyX-Code
+:       .prefix "rdf" "http://w3c/rdf#"
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+:       .prefix "rdfs" "http://w3c/rdfs#"
 \end_layout
 
-\begin_layout Standard
-Reads expressions from the stream.
+\begin_layout LyX-Code
+:       .read
 \end_layout
 
-\begin_layout Paragraph
-
-\emph on
-.hasData
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.hasData
+\begin_layout LyX-Code
+: 
 \end_layout
 
-\end_inset
+\begin_layout LyX-Code
+<EagerProc: <myparse>> # EagerProcedure 
+\end_layout
 
+\begin_layout LyX-Code
+> myparse '(rdf:class Person)'
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(|http://w3c/rdf#class| Person) # Pair 
+\end_layout
+
+\begin_layout LyX-Code
 
 \end_layout
 
-\begin_layout Standard
-TODO
-\end_layout
+\begin_layout LyX-Code
 
-\begin_layout Subsubsection
-
-\emph on
-Parser
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-Parser
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-TODO
 \end_layout
 
 \begin_layout Subsubsection
@@ -13706,7 +13880,9 @@ Syntax
 \begin_inset Text
 
 \begin_layout Plain Layout
-Parser
+
+\emph on
+IndentedParser
 \end_layout
 
 \end_inset
@@ -13735,6 +13911,8 @@ Genyris indented syntax
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\emph on
 ParenParser
 \end_layout
 
@@ -13865,6 +14043,13 @@ The return value is a string with the actual file path loaded.
 
 \begin_layout Subsection
 Namespaces
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Namespaces"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

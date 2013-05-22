@@ -1,25 +1,25 @@
-;; Copyright 2008 Peter William Birch <birchb@genyis.org>
-;;
-;; This software may be used and distributed according to the terms
-;; of the Genyris License, in the file "LICENSE", incorporated herein by reference.
-;;
-;
-;  Factorial function
-;
+## Copyright 2008 Peter William Birch <birchb@genyis.org>
+##
+## This software may be used and distributed according to the terms
+## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
+##
+#
+#  Factorial function
+#
 
 (@prefix u "http://www.genyris.org/lang/utilities#")
-; next line not yet supported
-;(u.format "Factorial")
+(u:format "Factorial")
+
+(assertEqual ^2 (quote 2))
+(assertEqual 'w' "w")
+(assertEqual ^(1 = 2) (cons 1 2))
 
 (def factorial (n)
   (if (< n 2) 1
     (* n
-      (factorial (- n 1))
-    )
-  )
-)
+      (factorial (- n 1)))))
 
-;Unit test
+#Unit test
 (and
  (equal? (factorial 0)     1)
  (equal? (factorial 1)     1)
