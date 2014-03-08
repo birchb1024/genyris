@@ -893,10 +893,7 @@ Symbols are a group of any printable characters with the following exceptions:
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\family typewriter
-\series bold
-,
+$
 \end_layout
 
 \end_inset
@@ -905,12 +902,12 @@ Symbols are a group of any printable characters with the following exceptions:
 \begin_inset Text
 
 \begin_layout Plain Layout
-comma
+dollar
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-comma
+dollar
 \end_layout
 
 \end_inset
@@ -1197,7 +1194,7 @@ _age
 \end_layout
 
 \begin_layout LyX-Code
-+$
++,
 \end_layout
 
 \begin_layout LyX-Code
@@ -1929,12 +1926,12 @@ Translated Expression
 \begin_inset Text
 
 \begin_layout Plain Layout
-,
+$
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-,
+$
 \end_layout
 
 \end_inset
@@ -1948,12 +1945,12 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-(comma
+(dollar
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-comma
+dollar
 \end_layout
 
 \end_inset
@@ -1969,12 +1966,12 @@ comma
 \begin_inset Text
 
 \begin_layout Plain Layout
-,@
+$@
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-,@
+$@
 \end_layout
 
 \end_inset
@@ -1988,12 +1985,12 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-(comma-at
+(dollar-at
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-comma-at
+dollar-at
 \end_layout
 
 \end_inset
@@ -3667,7 +3664,7 @@ defmacro @ (variable valu)
 \end_layout
 
 \begin_layout LyX-Code
-      defvar ^,variable ,valu
+      defvar ^$variable $valu
 \end_layout
 
 \begin_layout LyX-Code
@@ -5244,7 +5241,7 @@ The Genyris interpreter signals errors via exceptions.
 \emph on
  catch
 \emph default
- statement, ot the program halts.
+ statement, the program halts.
  In some cases (perhaps due to a bug in the interpreter, or terminal conditions
  such as out of memory, the program prints the internal java stack and halts.)
  Sinec the interpreter has to do a lot of work to pop the stack, exceptions
@@ -6479,11 +6476,11 @@ defmacro my-if (test success-result failure-result)
 \end_layout
 
 \begin_layout LyX-Code
-         ,test ,success-result
+         $test $success-result
 \end_layout
 
 \begin_layout LyX-Code
-         else ,failure-result
+         else $failure-result
 \end_layout
 
 \begin_layout Standard
@@ -6505,14 +6502,14 @@ template
 \emph default
  function and
 \emph on
- comma
+ dollar
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-comma
+dollar
 \end_layout
 
 \end_inset
@@ -6684,19 +6681,19 @@ template
 \end_layout
 
 \begin_layout LyX-Code
-,<expression>
+$<expression>
 \end_layout
 
 \begin_layout LyX-Code
-(comma <expression>)
+(dollar <expression>)
 \end_layout
 
 \begin_layout LyX-Code
-,@<expression>
+$@<expression>
 \end_layout
 
 \begin_layout LyX-Code
-(comma-at <expression)
+(dollar-at <expression)
 \end_layout
 
 \begin_layout Standard
@@ -6706,23 +6703,27 @@ The parser substitutes
 \emph default
  for 
 \emph on
-(comma <expression>)
+(dollar <expression>)
 \emph default
  and 
 \emph on
-,@
+$@
 \emph default
  for 
 \emph on
-(comma-at <expression)
+(dollar-at <expression)
 \emph default
 .
  
 \end_layout
 
 \begin_layout Standard
-In the case of (comma <expression>) the enclosed expression is evaluated
- and the result substituted in the same position in the returned list.
+In the case of 
+\emph on
+(dollar <expression>)
+\emph default
+ the enclosed expression is evaluated and the result substituted in the
+ same position in the returned list.
  For example:
 \end_layout
 
@@ -6735,7 +6736,7 @@ In the case of (comma <expression>) the enclosed expression is evaluated
 \end_layout
 
 \begin_layout LyX-Code
-:    a b ,X d
+:    a b $X d
 \end_layout
 
 \begin_layout LyX-Code
@@ -6755,7 +6756,7 @@ which is the same as:
 \end_layout
 
 \begin_layout LyX-Code
-:    a b (comma X) d
+:    a b (dollar X) d
 \end_layout
 
 \begin_layout LyX-Code
@@ -6767,7 +6768,7 @@ which is the same as:
 \end_layout
 
 \begin_layout Standard
-To embed a list into the returned expression use ,@ as in this example:
+To embed a list into the returned expression use $@ as in this example:
 \end_layout
 
 \begin_layout LyX-Code
@@ -6787,7 +6788,7 @@ To embed a list into the returned expression use ,@ as in this example:
 \end_layout
 
 \begin_layout LyX-Code
-:    a b ,@L c
+:    a b $@L c
 \end_layout
 
 \begin_layout LyX-Code
@@ -6821,7 +6822,7 @@ defmacro df (name args &rest body)
 \end_layout
 
 \begin_layout LyX-Code
-        defvar ^,name (lambdaq ,args ,@body)
+        defvar ^$name (lambdaq $args $@body)
 \end_layout
 
 \begin_layout Subsection
@@ -17114,7 +17115,7 @@ df httpd-serve (request)
 \end_layout
 
 \begin_layout LyX-Code
-                ,(request (.toHTML))
+                $(request (.toHTML))
 \end_layout
 
 \begin_layout Subsubsection
