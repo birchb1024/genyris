@@ -141,3 +141,17 @@ catch syntax-error
   mx
 assert syntax-error
 
+#
+# Issue 63:    Biscuit is Missing builtin class - fatal!
+#
+@prefix sys "http://www.genyris.org/lang/system#"
+@prefix u "http://www.genyris.org/lang/utilities#"
+             
+defmacro sys:procedure-missing(&rest args) 
+   quote (list 123 456)
+assert (a-missing-function)
+
+defmacro sys:procedure-missing(&rest args) ^(unboundsymbol)
+
+assertEqual Biscuit (left (some-undefined-function)!classes)
+ 

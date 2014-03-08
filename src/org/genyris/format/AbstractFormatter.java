@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.genyris.core.Bignum;
+import org.genyris.core.Biscuit;
 import org.genyris.core.Dictionary;
 import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
@@ -62,6 +63,10 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 
     public void visitTailCall(TailCall tc) throws GenyrisException {
         write(tc.toString());
+    }
+
+    public void visitBiscuit(Biscuit b) throws GenyrisException {
+        write(b.toString());
     }
 
     public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {

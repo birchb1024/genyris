@@ -19,6 +19,7 @@ public class Pair extends ExpWithEmbeddedClasses {
 
     private Exp _car;
     private Exp _cdr;
+    private static boolean alreadyInProcedureMissing = false; // TODO: Not re-entrant
 
     public Pair(Exp car, Exp cdr) {
         _car = car;
@@ -90,14 +91,42 @@ public class Pair extends ExpWithEmbeddedClasses {
                 proc = (Closure) (toEvaluate.car().eval(env));
             } catch (UnboundException e1) {
                 try {
+                   // Is there are sys:procedure-missing defined?
                     proc = env.getSymbolTable().PROCEDUREMISSING()
                             .lookupVariableValue(env);
                 } catch (UnboundException e2) {
+                    // no - just throw exception
                     throw e1;
                 }
-                arguments = prependArgument(toEvaluate.car(),
-                        proc.computeArguments(env, toEvaluate.cdr()));
-                return proc.applyFunction(env, arguments);
+                if( alreadyInProcedureMissing ) {
+                    // protect user by catching undefineds in a sys:procedure-missing
+                    alreadyInProcedureMissing  = false;
+                    throw new GenyrisException("Unbound symbol within " 
+                            + env.getSymbolTable().PROCEDUREMISSING() + " " 
+                            + e1.getMessage());
+                }
+                // Now process the missing function logic...
+                alreadyInProcedureMissing  = true;
+                try {
+                    arguments = prependArgument(toEvaluate.car(),
+                    proc.computeArguments(env, toEvaluate.cdr()));
+                    retval = proc.applyFunction(env, arguments);
+                } catch (GenyrisException e3) {
+                    // turn off the flag and re-throw any exceptions
+                    throw e3;
+                } finally {
+                    alreadyInProcedureMissing  = false;
+                }
+                // Process a trampoline if returned...
+                if(retval instanceof Biscuit) {
+                    toEvaluate = ((Biscuit)retval).getExpression();
+                    if( ! (toEvaluate instanceof Pair) ) {
+                        // can only use this do-while loop for expressions, 
+                        // have to use function call for all others.
+                        return toEvaluate.eval(env);
+                    }
+                }
+                return retval;
             }
             arguments = proc.computeArguments(env, toEvaluate.cdr());
             retval = proc.applyFunction(env, arguments);

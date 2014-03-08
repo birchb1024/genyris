@@ -14,13 +14,12 @@ public class Biscuit extends Atom {
 
     @Override
     public String toString() {
-        return this.getClass().getName();
+        return "<" + this.getClass().getName() + " " + expression.toString() + ">";
     }
 
     @Override
     public void acceptVisitor(Visitor guest) throws GenyrisException {
-        // TODO Auto-generated method stub
-        
+        guest.visitBiscuit(this);  
     }
 
     @Override

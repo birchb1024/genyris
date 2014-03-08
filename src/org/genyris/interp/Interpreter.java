@@ -237,6 +237,7 @@ public class Interpreter {
                 builtin);
         standardClassDict.addSuperClass(dictionary);
         StandardClass.mkClass(Constants.BIGNUM, env, builtin);
+        StandardClass.mkClass(Constants.BISCUIT, env, builtin);
         StandardClass.mkClass(Constants.STRING, env, builtin);
         StandardClass.mkClass(Constants.FILE, env, builtin);
         StandardClass.mkClass(Constants.READER, env, builtin);

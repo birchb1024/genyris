@@ -50,4 +50,6 @@ public interface Visitor {
 
     public void visitTailCall(TailCall tc) throws GenyrisException;
 
+    public void visitBiscuit(Biscuit biscuit) throws GenyrisException;
+
 }

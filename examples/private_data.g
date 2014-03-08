@@ -10,6 +10,10 @@
 ###
 ### Examples of encapsulation via information hiding.
 ###
+@prefix sys "http://www.genyris.org/lang/system#"
+
+def sys:procedure-missing(&rest args)
+  raise ("procedure missing: %s"(.format args))
 
 ##
 ## Example of an object created with private field.

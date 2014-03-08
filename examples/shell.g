@@ -4,6 +4,19 @@
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
 
+#
+# Linux:
+df sys:procedure-missing(&rest args)
+   # most elementary version returns list of lines
+   apply os!exec args
+
+df sys:procedure-missing(&rest args)
+   # simple quoted version 
+   for line in (left (apply os!exec args))
+         u:format "%a\n" line
+       
+#
+# Windows:
 def sys:procedure-missing(&rest args)
    left
       apply os!exec (append ^(cmd /c) args)
