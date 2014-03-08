@@ -9,7 +9,7 @@ description Person
   type Dictionary
 
 description
-  rdf:about ,Person
+  rdf:about $Person
   rdf:type rdf:Class
 
 description

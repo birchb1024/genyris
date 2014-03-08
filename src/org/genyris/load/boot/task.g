@@ -10,7 +10,7 @@ class Task()
 eval # patch to get Task not Dictionary
    template
       def task:id() 
-         tag Task (,(the task:id))
+         tag Task ($(the task:id))
 var sleep task:sleep
     
 def spawn(&rest args)

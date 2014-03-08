@@ -1,12 +1,12 @@
-^contact:person rdf:about ,who
-        contact:fullName ,name
-        contact:mailbox ,email
-        contact:personalTitle  ,title 
+^contact:person rdf:about $who
+        contact:fullName $name
+        contact:mailbox $email
+        contact:personalTitle  $title 
 
-^contact:person rdf:about ,who
-        contact:fullName ,name
-        contact:mailbox ,email
-        contact:personalTitle  ,title 
+^contact:person rdf:about $who
+        contact:fullName $name
+        contact:mailbox $email
+        contact:personalTitle  $title 
         
 @prefix ex "http.//some/example/"
 ex:Person

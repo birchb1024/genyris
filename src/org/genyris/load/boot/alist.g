@@ -12,8 +12,8 @@ class Alist()
    def renderRow(apair)
       template
           tr()
-              td() ,(left apair)
-              td() ,(right apair)
+              td() $(left apair)
+              td() $(right apair)
 
    def renderRows(alist)
        cond
@@ -50,5 +50,5 @@ class Alist()
    def .toHTML()
       template
           table ((border = 1) (cellpadding = 4))
-             ,@(renderRows .self)
+             $@(renderRows .self)
 

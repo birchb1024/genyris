@@ -20,7 +20,7 @@ defmacro myclass (name superclasses &rest body)
          map-left superclasses symbol-value
       add-to-subclasses superclasses klass
    template
-      (define ,name ,klass) ,@body
+      (define $name $klass) $@body
 
 def add-to-subclasses (supers klass)
    nil  # not coded
@@ -46,7 +46,7 @@ class MyMetaClass()
          def .new()
             define .wheat nil
       template
-         define ,name ,klass
+         define $name $klass
 
 ## Create a new class
 (MyMetaClass.new) Rye(Thing)

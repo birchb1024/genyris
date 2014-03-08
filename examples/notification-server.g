@@ -52,7 +52,7 @@ class UsbLamp()
           System
              apply .exec
                 template
-                    ,exePath "/c" "C:\\workspace\\notifications\\usblamp\\USBDOSAP.EXE " ,@(codes(.split))
+                    $exePath "/c" "C:\\workspace\\notifications\\usblamp\\USBDOSAP.EXE " $@(codes(.split))
       
    def change((op = String))
        var codes (operations (.lookup op))
@@ -166,7 +166,7 @@ class BuildNotification()
   def addToLog(message style client)
     setq lastmessage message
     u:format "%a %a %a %n" (u:getLocalTime) client message
-    setq log (cons (template (tr() (td() ,(u:getLocalTime)) (td((style = ,style)) ,message)(td(()) ,client))) log)
+    setq log (cons (template (tr() (td() $(u:getLocalTime)) (td((style = $style)) $message)(td(()) $client))) log)
 
   def .addToLog(message style)
     addToLog message style client
@@ -222,7 +222,7 @@ def process-request (request)
                title() "Lamp Server"
              body()
                 form()
-                   input((name="op") (size="100") (value = ,operation)) ""
+                   input((name="op") (size="100") (value = $operation)) ""
                    verbatim() "&nbsp;&nbsp;&nbsp;"
                    input((type="submit") (value="Go"))
                 form()
@@ -232,7 +232,7 @@ def process-request (request)
                 a((href ="/?op=redon")) "  Red  |"
                 a((href ="/?op=blueon")) "  Blue  "
                 table()
-                    ,(BuildNotification(.getLog))
+                    $(BuildNotification(.getLog))
    result
 
 

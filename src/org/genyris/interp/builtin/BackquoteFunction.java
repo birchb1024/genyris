@@ -18,12 +18,12 @@ import org.genyris.interp.Interpreter;
 
 public class BackquoteFunction extends ApplicableFunction {
 
-	private Exp COMMA, COMMA_AT;
+	private Exp DOLLAR, AT;
 
 	public BackquoteFunction(Interpreter interp) {
 		super(interp, Constants.TEMPLATE, false);
-		COMMA = interp.getSymbolTable().COMMA();
-		COMMA_AT = interp.getSymbolTable().COMMA_AT();
+		DOLLAR = interp.getSymbolTable().DOLLAR();
+		AT = interp.getSymbolTable().DOLLAR_AT();
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
@@ -37,9 +37,9 @@ public class BackquoteFunction extends ApplicableFunction {
 			return sexp;
 		} else {
 			Pair list = (Pair) sexp;
-			if (list.car() == COMMA) {
+			if (list.car() == DOLLAR) {
 				return list.cdr().car().eval(env);
-			} else if (list.car().isPair() && list.car().car() == COMMA_AT) {
+			} else if (list.car().isPair() && list.car().car() == AT) {
 				Exp res = list.car().cdr().car().eval(env);
 				Exp rest = backQuoteAux(env, list.cdr());
 				return append(res, rest);

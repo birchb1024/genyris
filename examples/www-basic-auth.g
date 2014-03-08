@@ -32,9 +32,9 @@ def backtrace (request errors)
                head()
                       title() "Internal error"
                body()
-                      p() "*** Error - " ,errors
-                      p() ,bt
-                      div() ,(request (.toHTML))
+                      p() "*** Error - " $errors
+                      p() $bt
+                      div() $(request (.toHTML))
 
 def raw-serve (request)
    # basic page
@@ -55,8 +55,8 @@ def handle-authenticated-request(request username)
                    head()
                       title() "Basic Auth demo"
                    body()
-                      p() ,('Welcome %s, you are authorized.' (.format username))
-                      ,(request (.toHTML))
+                      p() $('Welcome %s, you are authorized.' (.format username))
+                      $(request (.toHTML))
 
 def login(request)
    # Needs auth page

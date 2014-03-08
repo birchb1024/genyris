@@ -27,9 +27,9 @@ df httpd-serve (request)
                 form((action="/"))
                    input((type="hidden")(name="expression")(value="(include 'examples/apps/inspector/inspect.g')"))
                    input((type="submit")(value="reload"))
-                pre() ,("%s"(.format expression))
+                pre() $("%s"(.format expression))
                 verbatim() '<hr>'
-                pre() ,("%s"(.format result))
+                pre() $("%s"(.format result))
                 verbatim() '<hr>'
                 form((action="/"))
                    input((type="textarea")(name="expression")(length="32"))

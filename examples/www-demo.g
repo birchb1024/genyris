@@ -12,10 +12,10 @@ df httpd-serve (request)
              head()
                 title() "Genyris demo"
              body()
-                div() "Hit number: " ,counter
+                div() "Hit number: " $counter
                 pre() 
-                    verbatim() ,sys:argv
-                ,(request (.toHTML))
+                    verbatim() $sys:argv
+                $(request (.toHTML))
 
 
 cond

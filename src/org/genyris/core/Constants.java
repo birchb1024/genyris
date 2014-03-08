@@ -13,7 +13,7 @@ public class Constants {
         public static final char LISPCOMMENTCHAR = ';';
         public static final char BQUOTECHAR = '`';
         public static final char QUOTECHAR = '^';
-        public static final char COMMACHAR = ',';
+        public static final char DOLLARCHAR = '$';
         public static final char ATCHAR = '@';
         public static final char CDRCHAR = '=';
         public static final char LISPCDRCHAR = '.';
@@ -33,8 +33,8 @@ public class Constants {
         public static final String LAMBDAM = "lambdam";
         public static final String DICT = "dict";
         public static final String DICTIONARY = "Dictionary";
-        public static final String COMMA = "comma";
-        public static final String COMMA_AT = "comma-at";
+        public static final String DOLLAR = "dollar";
+        public static final String DOLLAR_AT = "dollar-at";
         public static final String REST = "&rest";
         public static final String PRINTWITHEQ = "PRINTWITHEQ";
         public static final String STANDARDCLASS = "StandardClass";

@@ -18,16 +18,16 @@ def myparse (string)
 
 def tryToParseSymbol (str)
     define result
-       catch $errors (myparse (str))
-    if $errors
+       catch errors (myparse (str))
+    if errors
         do
-            print $errors
+            print errors
             intern str
         result
 
 def tryToParse (str)
     define result
-       catch $errors (myparse (str))
+       catch errors (myparse (str))
     if (equal? (asString result) str)
         result
         str
@@ -37,23 +37,23 @@ define store nil
 def loadDataFromCSV(url)
     var in (web:get url)
     setq store (graph)
-    define $line ""
-    while (not (equal? EOF (setq $line (in(.getline)))))
-        define aslist ($line(.split ","))
+    define line ""
+    while (not (equal? EOF (setq line (in(.getline)))))
+        define aslist (line(.split ","))
         cond
             (equal? (length aslist) 1)
-                u:format "%s - %s %a%n" (length aslist) $line aslist
+                u:format "%s - %s %a%n" (length aslist) line aslist
             else
                 if (equal? (length aslist) 2)
                     define object ""
                     define object (nth 2 aslist)
                 define subject (tryToParseSymbol (nth 0 aslist))
                 define predicate (tryToParseSymbol (nth 1 aslist))
-                catch $error
+                catch derror
                    define tr (triple subject predicate object)
                 cond
-                   $error
-                      u:format "triple error: %s %s %s %s%n" $error subject predicate object
+                   derror
+                      u:format "triple error: %s %s %s %s%n" derror subject predicate object
                 store
                    .add tr
     in (.close)
@@ -96,11 +96,11 @@ def renderTriple (t)
    template
       tr()
          td()
-            a((href = ,(searchURL s))) ,s
+            a((href = $(searchURL s))) $s
          td()
-            a((href = ,(searchURL p))) ,p
+            a((href = $(searchURL p))) $p
          td()
-            a((href = ,(searchURL o))) ,o
+            a((href = $(searchURL o))) $o
 
 def renderTripleList (ts)
     define result nil
@@ -115,7 +115,7 @@ def renderTripleList (ts)
                         strong() "Property"
                     td()
                         strong() "Object"
-                    ,result
+                    $result
 define DEFAULT "\"Environment\""
 
 
@@ -136,8 +136,8 @@ df httpd-serve (request)
             setq renderedResults
                template
                    "Reloaded from "
-                      a((href = ,CSVURL))
-                         ,CSVURL
+                      a((href = $CSVURL))
+                         $CSVURL
        else
             setq searchResults ((searchStore query)(.asTriples))
             setq renderedResults (renderTripleList searchResults)
@@ -150,12 +150,12 @@ df httpd-serve (request)
              body()
                 h2() "CMDB Search"
                 form()
-                   input((name ="query") (size ="100") (value = ,query)) ""
+                   input((name ="query") (size ="100") (value = $query)) ""
                    verbatim() '&nbsp;&nbsp;&nbsp;'
                    input((type ="submit") (name ="op") (value ="Search"))
                    input((type ="submit") (name ="op") (value ="Reload"))
                 div()
-                    ,renderedResults
+                    $renderedResults
    result
 catch errors
   define CSVURL (nth 1 sys:argv)

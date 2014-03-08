@@ -16,34 +16,34 @@ class NilSymbol(Symbol)
 tag NilSymbol ^nil
 
 # Some aliases
-defmacro define (variable valu) (template (defvar ^,variable ,valu))
+defmacro define (variable valu) (template (defvar ^$variable $valu))
 
 define include s:include
 define function lambda
 define var define
 defmacro df (name args &rest body)
     template
-        defvar ^,name (lambdaq ,args ,@body)
+        defvar ^$name (lambdaq $args $@body)
 
 defmacro defmethod (name args &rest body)
     # this macro binds 'this' inside a function.
     template
-        def ,name ,args (defvar ^this .self) ,@body
+        def $name $args (defvar ^this .self) $@body
 
 df // (&rest ignore)
 
-defmacro setq (variable valu) (template (set ^,variable ,valu))
+defmacro setq (variable valu) (template (set ^$variable $valu))
 
 defmacro if (test success-result failure-result)
    template
       cond
-         ,test ,success-result
-         else ,failure-result
+         $test $success-result
+         else $failure-result
 
 
 defmacro do (&rest expression) 
    template
-     (lambda () ,@expression)
+     (lambda () $@expression)
 
 def else()
    raise "Hanging else"
@@ -61,11 +61,11 @@ def abs (x)
 
 defmacro -- (varname)
    template
-       setq ,varname (- ,varname 1)
+       setq $varname (- $varname 1)
 
 defmacro ++ (varname)
    template
-       setq ,varname (+ ,varname 1)
+       setq $varname (+ $varname 1)
 
 System
    define .HOME

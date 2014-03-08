@@ -15,8 +15,8 @@ def make-env ()
   defmacro if (test success-result failure-result)
     template
        cond
-          ,test (list ,success-result "env-OK")
-          true (list ,failure-result "env-Fail")
+          $test (list $success-result "env-OK")
+          true (list $failure-result "env-Fail")
   def run-example ()
       if true 11 22
   the run-example
@@ -35,8 +35,8 @@ context
   defmacro .if (test success-result failure-result)
     template
        cond
-          ,test (list ,success-result "OK")
-          true (list ,failure-result "Fail")
+          $test (list $success-result "OK")
+          true (list $failure-result "Fail")
 
 assert
    equal?
@@ -52,8 +52,8 @@ class MySuperClass ()
   defmacro .if (test success-result failure-result)
     template
        cond
-          ,test (list ,success-result "my-OK")
-          true (list ,failure-result "my-Fail")
+          $test (list $success-result "my-OK")
+          true (list $failure-result "my-Fail")
 
 
 class MyClass (MySuperClass)       # sub-class it

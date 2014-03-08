@@ -29,7 +29,7 @@ assert (equal? [1 2 3] (list 1 2 3) )
 
 defmacro curlyBracket(&rest args)
     template
-         dict ,@args
+         dict $@args
 {(.a = 23) (.b = 45)}
 
 ##--------------------------

@@ -36,12 +36,12 @@ public class ObjectOrientationTests extends TestCase {
     }
 
     public void testExcerciseEval() throws GenyrisException {
-        eval("(defvar ^$global 999)");
-        checkEval("$global", "999");
+        eval("(defvar ^global 999)");
+        checkEval("global", "999");
 
         eval("(defvar ^Standard-Class (dict (.classname = ^Standard-Class)))");
         checkEval("Standard-Class", "(dict (.classname = Standard-Class))");
-        checkEval("(defvar ^Account (dict (.classes = (list Standard-Class)) (.print = (lambda () (cons $global .balance))) ))",
+        checkEval("(defvar ^Account (dict (.classes = (list Standard-Class)) (.print = (lambda () (cons global .balance))) ))",
                 "(dict (.print = <EagerProc: <anonymous lambda>>))");
 
         checkEval("(Account " +

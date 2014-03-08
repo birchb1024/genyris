@@ -234,12 +234,12 @@ public class Parser {
         } else if (cursym == _lexer.QUOTE_TOKEN) {
             nextsym();
             tree = cons(_table.QUOTE(), cons(parseExpression(), NIL, startline), startline);
-        } else if (cursym == _lexer.COMMA_TOKEN) {
+        } else if (cursym == _lexer.DOLLAR_TOKEN) {
             nextsym();
-            tree = cons(_table.COMMA(), cons(parseExpression(), NIL, startline), startline);
-        } else if (cursym == _lexer.COMMA_AT_TOKEN) {
+            tree = cons(_table.DOLLAR(), cons(parseExpression(), NIL, startline), startline);
+        } else if (cursym == _lexer.DOLLAR_AT_TOKEN) {
             nextsym();
-            tree = cons(_table.COMMA_AT(), cons(parseExpression(), NIL, startline), startline);
+            tree = cons(_table.DOLLAR_AT(), cons(parseExpression(), NIL, startline), startline);
         } else if (cursym == _lexer.DYNAMIC_TOKEN) {
             nextsym();
             if (cursym instanceof SimpleSymbol) {

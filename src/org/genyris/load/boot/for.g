@@ -11,5 +11,5 @@ defmacro for (varname keyword container &rest body)
   cond ((not (equal? keyword ^in)) (raise 'syntax error: for was expecting in'))
   define lexp (gensym 'lexp')
   template
-   (function (,lexp)  (while (not (eq? (define ,varname (,lexp)) ^sys:StopIteration)) ,@body)) (,container(.mkIterator))
+   (function ($lexp)  (while (not (eq? (define $varname ($lexp)) ^sys:StopIteration)) $@body)) ($container(.mkIterator))
 

@@ -13,8 +13,8 @@ class Years
 var twenty 20
 var statements
    graph 
-      `(,twenty units ,Years)
-      `(,twenty type |http://people.org/type#age|)
+      `($twenty units $Years)
+      `($twenty type |http://people.org/type#age|)
 assertEqual
    statements(.asTriples)
    list (triple twenty ^units Years) (triple twenty ^type ^|http://people.org/type#age|)

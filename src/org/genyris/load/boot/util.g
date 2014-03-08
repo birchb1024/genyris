@@ -7,7 +7,7 @@ def u:format(&rest args)
 
 defmacro u:debug(thing)
   template
-    u:format "%a => %a%n" ^,thing ,thing
+    u:format "%a => %a%n" ^$thing $thing
 
 def u:getLocalTime()
    tag ShortDateTimeString

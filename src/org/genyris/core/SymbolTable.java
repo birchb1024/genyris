@@ -43,8 +43,8 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _square;
 	private SimpleSymbol _curly;
 	private SimpleSymbol _quote;
-	private SimpleSymbol _comma;
-	private SimpleSymbol _comma_at;
+	private SimpleSymbol _dollar;
+	private SimpleSymbol _dollar_at;
 	private SimpleSymbol _prefix;
 	private SimpleSymbol _BIGNUM;
 	private SimpleSymbol _EAGERPROC;
@@ -118,8 +118,8 @@ public class SymbolTable implements Internable {
       _square = bindKeyword(Constants.SQUARE);
       _curly = bindKeyword(Constants.CURLY);
       _quote = bindKeyword(Constants.QUOTE);
-      _comma = bindKeyword(String.valueOf(Constants.COMMA));
-      _comma_at = bindKeyword(String.valueOf(Constants.COMMA_AT));
+      _dollar = bindKeyword(String.valueOf(Constants.DOLLAR));
+      _dollar_at = bindKeyword(String.valueOf(Constants.DOLLAR_AT));
       _prefix = bindKeyword(String.valueOf(Constants.PREFIX));
 
   	_BIGNUM = bindKeyword(String.valueOf(Constants.BIGNUM));
@@ -324,11 +324,11 @@ public class SymbolTable implements Internable {
 		return _quote;
 	}
 
-	public SimpleSymbol COMMA() {
-		return _comma;
+	public SimpleSymbol DOLLAR() {
+		return _dollar;
 	}
-	public SimpleSymbol COMMA_AT() {
-		return _comma_at;
+	public SimpleSymbol DOLLAR_AT() {
+		return _dollar_at;
 	}
 
 	public SimpleSymbol PREFIX() {

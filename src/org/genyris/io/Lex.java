@@ -28,9 +28,9 @@ public class Lex {
 	private char _cdrCharacter, _commentCharacter;
 
 	public Symbol EOF_TOKEN, QUOTE_TOKEN, DYNAMIC_TOKEN, BACKQUOTE_TOKEN,
-			COMMA_AT_TOKEN;
+			DOLLAR_AT_TOKEN;
 
-	public Symbol COMMA_TOKEN;
+	public Symbol DOLLAR_TOKEN;
 
 	public Symbol LEFT_PAREN_TOKEN, RIGHT_PAREN_TOKEN, CDR_TOKEN;
 	public Symbol LEFT_SQUARE_TOKEN, RIGHT_SQUARE_TOKEN;
@@ -49,8 +49,8 @@ public class Lex {
 
 		QUOTE_TOKEN = new SimpleSymbol("QuoteToken");
 		BACKQUOTE_TOKEN = new SimpleSymbol("BackquoteToken");
-		COMMA_AT_TOKEN = new SimpleSymbol("COMMA_AT_TOKEN");
-		COMMA_TOKEN = new SimpleSymbol("COMMA_TOKEN");
+		DOLLAR_AT_TOKEN = new SimpleSymbol("DOLLAR_AT_TOKEN");
+		DOLLAR_TOKEN = new SimpleSymbol("DOLLAR_TOKEN");
 		DYNAMIC_TOKEN = new SimpleSymbol("DYNAMIC_TOKEN");
 		EOF_TOKEN = new SimpleSymbol("EOF_TOKEN");
 		LEFT_PAREN_TOKEN = new SimpleSymbol("leftParenToken");
@@ -297,21 +297,21 @@ public class Lex {
 				return QUOTE_TOKEN;
 			case Constants.BQUOTECHAR:
 				return BACKQUOTE_TOKEN;
-			case Constants.COMMACHAR: {
-				if (_input.hasData()) {
-					ch = _input.readNext();
-					if (ch == Constants.ATCHAR) {
-						return COMMA_AT_TOKEN;
-					} else {
-						_input.unGet(ch);
-						ch = Constants.COMMACHAR;
-						return COMMA_TOKEN;
-					}
-				} else {
-					return COMMA_TOKEN;
-				}
-
+			case Constants.DOLLARCHAR: {
+               if (_input.hasData()) {
+                   ch = _input.readNext();
+                   if (ch == Constants.ATCHAR) {
+                       return DOLLAR_AT_TOKEN;
+                   } else {
+                       _input.unGet(ch);
+                       ch = Constants.DOLLARCHAR;
+                       return DOLLAR_TOKEN;
+                   }
+               } else {
+                       return DOLLAR_TOKEN;
+               }
 			}
+			    
 			case Constants.SYMBOLESCAPE:
 				return parseIdentEscaped();
 			default:

@@ -4,7 +4,7 @@
 do
    def atomTohtml(klass cell)
       template
-          td((class=,klass)) ,cell
+          td((class=$klass)) $cell
    Bignum
       def .:html() (atomTohtml 'bignum' .self)
    String
@@ -13,7 +13,7 @@ do
       def .:html() 
          template
              td((class='symbol')) 
-               verbatim() ,.self
+               verbatim() $.self
 
 type:Record
    def .:html()
@@ -21,13 +21,13 @@ type:Record
       for cell in .self # TODO replace with a map
          setq guts (append guts (list(cell(.:html))))
       template
-         tr((class='record')) ,guts
+         tr((class='record')) $guts
 type:SequenceOfRecords
    def .:html()
       define guts nil
       for row in .self # TODO replace with a map
          setq guts (append guts (list(row (type:Record!:html))))
       template
-         table((class='sequenceofrecords')) ,guts
+         table((class='sequenceofrecords')) $guts
 type:Table
 type:HeadedTable

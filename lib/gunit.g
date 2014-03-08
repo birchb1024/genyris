@@ -76,42 +76,42 @@ defmacro :test (headline &rest block)
    template
       do
          setq :test-counter (+ 1 :test-counter)
-         catch test-errors ,@block
+         catch test-errors $@block
          cond
             test-errors
                setq :test-failed-counter (+ 1 :test-failed-counter)
-               :found-error ,headline test-errors
+               :found-error $headline test-errors
             else
                display
                   "Test passed: %s\n"
-                     .format ,headline
+                     .format $headline
 #
 #  Asserts
 #
 defmacro :assert (expression)
   template
      cond
-        (null? ,expression)
-            raise (list "assert failed on expression: " ^,expression)
+        (null? $expression)
+            raise (list "assert failed on expression: " ^$expression)
 
 defmacro :assertNil (expression)
   template
      cond
-        (,expression)
-            raise (list "assertNil failed on expression: " ^,expression)
+        ($expression)
+            raise (list "assertNil failed on expression: " ^$expression)
 
 defmacro :assertEqual (a b)
   template
      cond
-        (equal? ,a ,b)
+        (equal? $a $b)
         else
-          raise (list "assert failed on expression: " ^,a ^,b "values:" ,a ,b)
+          raise (list "assert failed on expression: " ^$a ^$b "values:" $a $b)
 
 defmacro :assertException (exceptn &rest block)
   template
      do
-        catch exception-error  ,@block
+        catch exception-error  $@block
         cond
             exception-error nil
             else
-                raise (list "assertException not raised on expression: " ^,block)
+                raise (list "assertException not raised on expression: " ^$block)

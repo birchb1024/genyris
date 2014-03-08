@@ -54,7 +54,7 @@ Pair
    # (^(a b c)(.nth 1))
    defmacro .each (args &rest body)
        template
-          loop-left .self (function (,(left args)) ,@body)
+          loop-left .self (function ($(left args)) $@body)
    # Example:
    # ^(1 2 3 4)
    #   .each (f)

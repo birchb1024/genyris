@@ -14,7 +14,7 @@ java:import 'javax.mail.internet.MimeMessage'
 MimeMessage
   def .setRecipients(to-list)
     for recipient in to-list
-        .addRecipient-javax_mail_Message$RecipientType-javax_mail_Address Message$RecipientType!TO =
+        .|addRecipient-javax_mail_Message$RecipientType-javax_mail_Address Message$RecipientType!TO| =
             (InternetAddress(.new-java_lang_String recipient))
 
 def .postMail(recipients subject message from server)

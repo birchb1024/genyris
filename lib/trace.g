@@ -8,7 +8,7 @@ defmacro trace (stuff)
    define trace-result (gensym 'trace-result')
    template
       do
-         define ,trace-result ,stuff
-         u:format "trace: %s => %s\n" ^,stuff ,trace-result
-         ,trace-result    
+         define $trace-result $stuff
+         u:format "trace: %s => %s\n" ^$stuff $trace-result
+         $trace-result    
 

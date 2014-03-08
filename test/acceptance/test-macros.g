@@ -21,8 +21,8 @@ assert (equal? result expected)
 defmacro Square-Sum-Broken (X Y)
    template
       do
-         define First ,X
-         define Second ,Y
+         define First $X
+         define Second $Y
          define Sum (+ First Second)
          * Sum Sum
 
@@ -32,11 +32,11 @@ defmacro Square-Sum (X Y)
    define Sum (gensym 'Sum')
    template
       do
-         define ,First ,X
-         define ,Second ,Y
-         define ,Sum (+ ,First ,Second)
-         print ,Sum
-         * ,Sum ,Sum
+         define $First $X
+         define $Second $Y
+         define $Sum (+ $First $Second)
+         print $Sum
+         * $Sum $Sum
 
 define First 9
 Square-Sum-Broken 1 First

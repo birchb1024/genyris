@@ -15,7 +15,7 @@ defmacro import (moduleName)
    define themodule (import-aux moduleName)
    if themodule
        template
-           define ,moduleName ,themodule
+           define $moduleName $themodule
        '%s already defined'
             .format moduleName
 
@@ -66,7 +66,7 @@ defmacro reload (moduleName)
             .remove (left notNew)
         define themodule (sys:mk-module moduleName(oldmodule.filename))
         template
-            define ,moduleName ,themodule
+            define $moduleName $themodule
     else
          raise ('%s was not loaded yet'(.format moduleName))
 

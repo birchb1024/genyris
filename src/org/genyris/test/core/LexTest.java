@@ -303,11 +303,11 @@ public class LexTest extends TestCase {
 	}
 
 	public void testSpecialLexComma() throws Exception {
-		excerciseSpecialParsing(",a", "(comma a)");
+		excerciseSpecialParsing("$a", "(dollar a)");
 	}
 
 	public void testSpecialLexCommaAt() throws Exception {
-		excerciseSpecialParsing(",@12", "(comma-at 12)");
+		excerciseSpecialParsing("$@12", "(dollar-at 12)");
 	}
 
 	public void testSquarebracket() throws Exception {

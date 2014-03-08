@@ -13,5 +13,5 @@ defmacro perf (&rest body)
    template
       do
         define start ((os.ticks))
-        ,@body
+        $@body
         - ((os.ticks)) start

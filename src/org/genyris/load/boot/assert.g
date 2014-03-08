@@ -10,13 +10,13 @@
 defmacro assert (expression)
   template
      cond
-        (null? ,expression)
-            raise (list "assert failed on expression: " ^,expression)
+        (null? $expression)
+            raise (list "assert failed on expression: " ^$expression)
 
 defmacro assertEqual (a b)
   template
      cond
-        (equal? ,a ,b)
+        (equal? $a $b)
         else
-          raise (list "assert failed on expression: " ^,a ^,b "values:" ,a ,b)
+          raise (list "assert failed on expression: " ^$a ^$b "values:" $a $b)
 

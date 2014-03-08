@@ -12,11 +12,11 @@ ListOfLines
    def .toHTML()
       template
           pre()
-             ,@(renderLines .self)
+             $@(renderLines .self)
 
    def renderLine(aLine)
       template
-          ,aLine (br())
+          $aLine (br())
 
    def renderLines(lines)
        cond

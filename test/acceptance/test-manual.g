@@ -35,7 +35,7 @@ import queens
 # This whole line is a comment 
 - 4 3    # this comment goes to the end
 
-list ^Wednesday-12 ^_age ^*global* ^+$ ^<variablename>
+list ^Wednesday-12 ^_age ^*global* ^+d ^<variablename>
 
 list -3 23.78 -100.0089  34.45e7
 
@@ -101,8 +101,8 @@ trace (+ 1 2)
 defmacro my-if (test success-result failure-result)
    template
       cond
-         ,test ,success-result
-         else ,failure-result
+         $test $success-result
+         else $failure-result
          
 define test 3        # binding in the callers environment
 assertEqual
@@ -220,23 +220,23 @@ assertEqual 1111
    
 assertEqual ^(one (2 3) four)
     template
-        one ,(list 2 3) four
+        one $(list 2 3) four
 
 assertEqual ^(one 2 3 four)
     template
-        one ,@(list 2 3) four
+        one $@(list 2 3) four
         
-assertEqual ^(comma 3) ^,3
-assertEqual ^(comma-at 3) ^,@3
+assertEqual ^(dollar 3) ^$3
+assertEqual ^(dollar-at 3) ^$@3
 
 var t12 't12'
 assertEqual
-   template (,t12)
+   template ($t12)
    ^('t12')
 
 var t13 ^(13)
 assertEqual
-   template (foo ,@t13)
+   template (foo $@t13)
    ^(foo 13)
         
 def func(a) (cons a a)
@@ -271,7 +271,7 @@ assertEqual
 
 defmacro @ (variable valu)
    template
-      defvar ^,variable ,valu
+      defvar ^$variable $valu
 assertEqual
    @ w 123
    123

@@ -8,7 +8,7 @@ defmacro end (x)
    cond
      (cdr av)
         template
-           end ^,(cdr av)
+           end ^$(cdr av)
      else
         list quote av
 
@@ -39,7 +39,7 @@ defmacro incrloop (i)
         ^^'done'
      else
         template
-            incrloop ^,(+ 1 (eval i))
+            incrloop ^$(+ 1 (eval i))
 
 assertEqual 'done' (incrloop 0)
 

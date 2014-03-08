@@ -133,9 +133,9 @@ assert
 in (.close)
 define in
    fi (.open ^read)
-define $line ""
-while (not (equal? EOF (setq $line (in(.getline)))))
-    define aslist ($line(.split ","))
+define dline ""
+while (not (equal? EOF (setq dline (in(.getline)))))
+    define aslist (dline(.split ","))
     define tr (triple (parse (car aslist)) (parse (cadr aslist)) (parse (cadr (cdr aslist))))
     print tr
 in (.close)

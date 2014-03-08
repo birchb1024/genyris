@@ -13,12 +13,12 @@ defmacro printlistm(alist)
       else
          print (car alist)
          template            # return the following code snippet to be re-evaluated in the caller
-            printlistm ,(cdr alist)
+            printlistm $(cdr alist)
 
 def printlist (al)
   # a wrapper function which evaluates it's argument and passes to the recursive macro.
   eval
     template
-      printlistm ,al
+      printlistm $al
 
 printlist ^(1 2 3 4 5)
