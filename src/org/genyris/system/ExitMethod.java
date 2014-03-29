@@ -23,14 +23,19 @@ public class ExitMethod extends AbstractMethod {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
-        checkArguments(arguments, 1);
-        Class[] types = {Bignum.class};
-        checkArgumentTypes(types, arguments);
-        System.exit(((Bignum)arguments[0]).bigDecimalValue().intValue());
-        return NIL;
+        if( arguments.length < 1 ) {
+            System.exit(0); // default ok  exit
+            return NIL;
+        } else {
+            checkArguments(arguments, 1);
+            Class[] types = {Bignum.class};
+            checkArgumentTypes(types, arguments);
+            System.exit(((Bignum)arguments[0]).bigDecimalValue().intValue());
+            return NIL;
+        }
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethodInstance(Constants.SYSTEM, new ExitMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.OS, new ExitMethod(interpreter));
     }
 }

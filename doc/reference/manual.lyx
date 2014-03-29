@@ -18941,35 +18941,6 @@ The System module allows interaction with the interpreter itself.
 \end_layout
 
 \begin_layout Subsection
-.exit
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-.exit
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection*
-Syntax: 
-\end_layout
-
-\begin_layout LyX-Code
-System!exit <process return>
-\end_layout
-
-\begin_layout Standard
-This function requests the interpreter to terminate all threads and exit
- the operating system process.
- The single parameter is an integer value which the operating system returns
- as the process status.
-\end_layout
-
-\begin_layout Subsection
 .HOME
 \begin_inset Index idx
 status open
@@ -19183,6 +19154,35 @@ Example - Here we spawn a Windows command shell with a one-line echo statement.
  '/tmp' or 'C:
 \backslash
 temp' on windows.
+\end_layout
+
+\begin_layout Subsection
+.exit
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+.exit
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Syntax: 
+\end_layout
+
+\begin_layout LyX-Code
+os!exit <process return>
+\end_layout
+
+\begin_layout Standard
+This function requests the interpreter to terminate all threads and exit
+ the operating system process.
+ The optional single parameter (which defaults to zero if absent) is an
+ integer value which the operating system returns as the process status.
 \end_layout
 
 \begin_layout Subsection
