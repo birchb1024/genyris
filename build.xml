@@ -197,8 +197,7 @@
             <arg value="genyris-manual-${version}.lyx" />
             <arg value="genyris-manual-${version}.html" />
         </exec>
-        <exec executable="/usr/bin/python" dir="dist" failonerror="true" os="Linux">
-            <arg value="/home/birchb/apps/elyxer/elyxer-1.0.4/elyxer.py" />
+        <exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" os="Linux">
             <arg value="genyris-manual-${version}.lyx" />
             <arg value="genyris-manual-${version}.html" />
         </exec>
