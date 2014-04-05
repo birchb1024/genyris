@@ -11,6 +11,8 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.genyris.exception.AccessException;
@@ -119,6 +121,32 @@ public class StrinG extends Atom {
 
     public StrinG concat(StrinG str) {
         return new StrinG(this._value.concat(str._value));
+    }
+
+    public Exp ss(Symbol nil, Symbol true1, StrinG regex)
+            throws GenyrisException {
+        try {
+            return (_value.matches(regex._value) ? true1 : nil);
+        } catch (PatternSyntaxException e) {
+            throw new GenyrisException(e.getMessage());
+        }
+    }
+
+    public Exp regex(Symbol NIL, Symbol true1, StrinG regex)
+            throws GenyrisException {
+        try {
+            Exp retval = NIL;
+            Pattern p = Pattern.compile(regex._value);
+            Matcher m = p.matcher(_value);
+            if( m.find() ) {
+                for(int i=m.groupCount(); i >= 0; i--) {
+                    retval = Pair.cons(new StrinG(m.group(i)), retval);
+                }
+            }
+            return retval;
+        } catch (PatternSyntaxException e) {
+            throw new GenyrisException(e.getMessage());
+        }
     }
 
     public Exp match(Symbol nil, Symbol true1, StrinG regex)

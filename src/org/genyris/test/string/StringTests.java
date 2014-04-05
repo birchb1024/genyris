@@ -124,6 +124,31 @@ public class StringTests extends TestCase {
         checkEvalBad("('A'(.match 34))");
         checkEval("('http://www.genyris.org/path/index.html'(.match 'http://[^/]+/.*'))", "true");
     }
+    public void testStringRegex() throws GenyrisException {
+        checkEval("('abc'(.regex 'a.c'))", "('abc')");
+        checkEval("('abc'(.regex 'a.d'))", "nil");
+        checkEval("(''(.regex ''))", "('')");
+        checkEvalBad("(3(.regex ''))");
+        checkEvalBad("('A'(.regex))");
+        checkEvalBad("('A'(.regex 34))");
+        checkEval("('http://www.genyris.org/path/index.html'(.regex 'http://[^/]+/.*'))", 
+                "('http://www.genyris.org/path/index.html')");
+        checkEval("('This order was placed for QT3000! OK?'(.regex '(.*)(\\\\d+)(.*)'))",
+                "('This order was placed for QT3000! OK?' 'This order was placed for QT300' '0' '! OK?')");
+        checkEval("('http://www.genyris.org/path/index.html'(.regex 'http://([^/]+)(/.*)'))", 
+                "('http://www.genyris.org/path/index.html' 'www.genyris.org' '/path/index.html')");
+        checkEval("('http://www.genyris.org/path/index.html'(.regex '([a-z]+)://([^/]+)(/.*)'))", 
+                "('http://www.genyris.org/path/index.html' 'http' 'www.genyris.org' '/path/index.html')");
+        checkEval("('http://www.genyris.org:8080/path/index.html'(.regex '([a-z]+)://([^/]+):([0-9]+)(/.*)'))", 
+                "('http://www.genyris.org:8080/path/index.html' 'http' 'www.genyris.org' '8080' '/path/index.html')");
+        checkEval("('1212'(.regex '(\\\\d\\\\d)\\\\1'))", "('1212' '12')");
+        
+        checkEval("('http://stackoverflow.com/questions/tagged/regex'(.regex '(?:http|ftp)://([^/]+)(/.*)'))",
+                // non-capturing group
+                "('http://stackoverflow.com/questions/tagged/regex' 'stackoverflow.com' '/questions/tagged/regex')");
+        
+        
+    }
     public void testStringToLowerCase() throws GenyrisException {
     	checkEval("(''(.toLowerCase))", "''");
         checkEval("('ABCDEFGH'(.toLowerCase))", "'abcdefgh'");

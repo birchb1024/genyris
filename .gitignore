@@ -27,3 +27,8 @@ rel
 # Eclipse Workspace data
 .metadata
 .settings/org.eclipse.mylyn.tasks.ui.prefs
+
+.hg*
+.settings
+build.number
+doc/reference/manual.pdf

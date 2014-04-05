@@ -68,6 +68,7 @@ public class Constants {
         public static final String TOLOWERCASE = "toLowerCase";
         public static final String CONCAT = "+";
         public static final String MATCH = "match";
+        public static final String REGEX = "regex";
         public static final String LENGTH = "length";
         public static final String FILE = "File";
         public static final String WRITER = "Writer";
