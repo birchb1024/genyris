@@ -5,6 +5,7 @@
 //
 package org.genyris.interp;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -144,9 +145,15 @@ public class Interpreter {
     }
 
     public Exp init(boolean verbose) throws GenyrisException {
-        return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this
+        Writer nullW = new NullWriter();
+        Exp retval =  SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this
                 .getSymbolTable(), "org/genyris/load/boot/init.g",
-                verbose ? _defaultOutput : (Writer) new NullWriter());
+                verbose ? _defaultOutput : nullW);
+        try {
+            nullW.close();
+        } catch (IOException ignored) {;
+        }
+        return retval;
     }
 
     public Parser newParser(InStream input) {

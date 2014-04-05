@@ -5,6 +5,7 @@
 //
 package org.genyris.load;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import org.genyris.core.Constants;
@@ -23,24 +24,30 @@ public class ImportFunction extends ApplicableFunction {
         super(interp, Constants.PREFIX_SYSTEM + "import", true);
     }
 
+    @SuppressWarnings("resource")
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
             throws GenyrisException {
-        Exp result;
-        Writer out = new NullWriter();
-        this.checkArguments(arguments, 1, 2);
-        if (!(arguments[0] instanceof StrinG)) {
-            throw new GenyrisException(
-                    "non-String argument passed to sys:import: "
-                            + arguments[0].toString());
-        }
-        if (arguments.length > 1) {
-            if (arguments[1] == TRUE) {
-                out = _interp.getDefaultOutputWriter();
+        Exp result = NIL;
+        try {
+            Writer out = new NullWriter();
+            this.checkArguments(arguments, 1, 2);
+            if (!(arguments[0] instanceof StrinG)) {
+                out.close();
+                throw new GenyrisException("non-String argument passed to sys:import: "
+                        + arguments[0].toString());
             }
+            if (arguments.length > 1) {
+                if (arguments[1] == TRUE) {
+                    out.close();
+                    out = _interp.getDefaultOutputWriter();
+                }
+            }
+            result = SourceLoader.loadScriptFromFile(env, _interp.getSymbolTable(),
+                    arguments[0].toString(), out);
+            out.close();
+            return result;
+        } catch (IOException unknown) {
+            throw new GenyrisException(unknown.getMessage());
         }
-        result = SourceLoader.loadScriptFromFile(env, _interp.getSymbolTable(),
-                arguments[0].toString(), out);
-
-        return result;
     }
 }

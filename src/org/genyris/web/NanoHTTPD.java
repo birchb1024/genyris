@@ -730,6 +730,7 @@ public class NanoHTTPD {
 			fis = new FileInputStream(f);
 			long actuallySkipped = fis.skip(startFrom);
 			if( actuallySkipped != startFrom) {
+			    fis.close();
 				return new NanoResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT,
 						"INTERNAL ERRROR: serveFile(): '"
 								+ homeDir.getAbsolutePath() + "' Sorry, skip to " + startFrom + " failed.");

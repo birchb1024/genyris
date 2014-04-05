@@ -5,6 +5,7 @@
 //
 package org.genyris.load;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import org.genyris.core.Exp;
@@ -23,18 +24,27 @@ public class LoadFunction extends ApplicableFunction {
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
-        Exp result;
+        Exp result = NIL;
         checkMinArguments(arguments, 1);
-        Writer out = new NullWriter();
-        if( !( arguments[0] instanceof StrinG) ) {
-            throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
-        }
-        if( arguments.length > 1 ) {
-            if( arguments[1] == TRUE) {
-                out = _interp.getDefaultOutputWriter();
+        try {
+            @SuppressWarnings("resource")
+            Writer out = new NullWriter();
+            if( !( arguments[0] instanceof StrinG) ) {
+                out.close();
+                throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
             }
+            if( arguments.length > 1 ) {
+                if( arguments[1] == TRUE) {
+                    out.close();
+                    out = _interp.getDefaultOutputWriter();
+                }
+            }
+            result = SourceLoader.loadScriptFromClasspath(_interp.getGlobalEnv(), 
+                    _interp.getSymbolTable(), arguments[0].toString(), out);
+            out.close();
+        } catch (IOException unknown) {
+            throw new GenyrisException(unknown.getMessage());
         }
-        result = SourceLoader.loadScriptFromClasspath(_interp.getGlobalEnv(), _interp.getSymbolTable(), arguments[0].toString(), out);
         return result;
     }
 
