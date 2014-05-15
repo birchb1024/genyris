@@ -25,14 +25,14 @@ public class GraphFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		for (int i = 0; i < arguments.length; i++) {
 			addTripleFromList(ts, arguments[i]);
 		}
 		return ts;
 	}
 
-	private void addTripleFromList(Graph ts, Exp exp)
+	private void addTripleFromList(AbstractGraph ts, Exp exp)
 			throws GenyrisException {
 		ts.add(Triple.mkTripleFromList(exp));
 	}
@@ -70,14 +70,14 @@ public class GraphFunction extends ApplicableFunction {
 			super(interp, name);
 		}
 
-		protected Graph getSelfGraph(Environment env)
+		protected AbstractGraph getSelfGraph(Environment env)
 				throws GenyrisException {
 			getSelf(env);
-			if (!(_self instanceof Graph)) {
+			if (!(_self instanceof AbstractGraph)) {
 				throw new GenyrisException(
 						"Non-Graph passed to a Graph method.");
 			} else {
-				return (Graph) _self;
+				return (AbstractGraph) _self;
 			}
 		}
 	}
@@ -90,7 +90,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 1);
 			Class[] types = { Triple.class };
 			checkArgumentTypes(types, arguments);
@@ -107,7 +107,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 2);
 			Class[] types = { Exp.class, Symbol.class };
 			checkArgumentTypes(types, arguments);
@@ -123,7 +123,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 2);
 			Class[] types = { Exp.class, Symbol.class };
 			checkArgumentTypes(types, arguments);
@@ -139,7 +139,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 3);
 			Class[] types = { Exp.class, Symbol.class, Exp.class };
 			checkArgumentTypes(types, arguments);
@@ -156,7 +156,7 @@ public class GraphFunction extends ApplicableFunction {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            Graph self = getSelfGraph(env);
+            AbstractGraph self = getSelfGraph(env);
             return self.subjects(NIL);
         }
     }
@@ -170,10 +170,10 @@ public class GraphFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
             checkArguments(arguments, 1);
-            Class[] types = { Graph.class };
+            Class[] types = { AbstractGraph.class };
             checkArgumentTypes(types, arguments);
-			Graph self = getSelfGraph(env);
-			Graph other = (Graph)arguments[0]; 
+			AbstractGraph self = getSelfGraph(env);
+			AbstractGraph other = (AbstractGraph)arguments[0]; 
 			return self.union(other);
 		}
 	}
@@ -186,7 +186,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			return new Bignum(self.length());
 		}
 	}
@@ -200,7 +200,7 @@ public class GraphFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			Closure closure = null;
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			checkMinArguments(arguments, 3);
 			Class[] types = { Exp.class, Symbol.class, Exp.class };
 			checkArgumentTypes(types, arguments);
@@ -231,7 +231,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			return self.asTripleList(NIL);
 		}
 	}
@@ -244,7 +244,7 @@ public class GraphFunction extends ApplicableFunction {
 
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
-			Graph self = getSelfGraph(env);
+			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 1);
 			Class[] types = { Triple.class };
 			checkArgumentTypes(types, arguments);

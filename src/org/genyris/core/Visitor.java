@@ -5,7 +5,7 @@
 //
 package org.genyris.core;
 
-import org.genyris.dl.Graph;
+import org.genyris.dl.AbstractGraph;
 import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -40,7 +40,7 @@ public interface Visitor {
 
 	public void visitTriple(Triple triple) throws GenyrisException;
 
-	public void visitGraph(Graph store) throws GenyrisException;
+	public void visitGraph(AbstractGraph store) throws GenyrisException;
 
 	public void visitDynamicSymbol(DynamicSymbol symbol)  throws GenyrisException;
 

@@ -11,8 +11,9 @@ import org.genyris.core.DynamicSymbol;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.Symbol;
+import org.genyris.dl.AbstractGraph;
 import org.genyris.dl.Triple;
-import org.genyris.dl.Graph;
+import org.genyris.dl.GraphList;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.ApplicableFunction;
@@ -98,7 +99,7 @@ public class ObjectFunction extends ApplicableFunction {
 			// TODO move this code int Dictionary
 			// TODO also collect ExpWithEmbeddedClasses classes triples.
 			Exp alist = self.asAlist().cdr();
-			Graph results = new Graph();
+			AbstractGraph results = new GraphList();
 			while (alist != NIL) {
 				results.add(new Triple(self, ((DynamicSymbol) (alist.car().car())).getRealSymbol(),
 						alist.car().cdr()));

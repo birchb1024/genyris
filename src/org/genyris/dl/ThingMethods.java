@@ -26,7 +26,7 @@ public class ThingMethods {
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
             checkArguments(arguments, 0);
-            Graph ts = new Graph();
+            AbstractGraph ts = new GraphList();
             ExpWithEmbeddedClasses self = (ExpWithEmbeddedClasses) env
                     .getSelf();
             Exp classes = self.getClasses(env);

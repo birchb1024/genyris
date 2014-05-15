@@ -20,7 +20,7 @@ import org.genyris.core.StandardClass;
 import org.genyris.core.StrinG;
 import org.genyris.core.URISymbol;
 import org.genyris.core.Visitor;
-import org.genyris.dl.Graph;
+import org.genyris.dl.AbstractGraph;
 import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
@@ -126,7 +126,7 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
         write(")");
     }
 
-    public void visitGraph(Graph ts) throws GenyrisException {
+    public void visitGraph(AbstractGraph ts) throws GenyrisException {
         write(ts.toString());
     }
 

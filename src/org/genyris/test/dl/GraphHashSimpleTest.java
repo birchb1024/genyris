@@ -8,12 +8,13 @@ import org.genyris.core.NilSymbol;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.StrinG;
+import org.genyris.dl.AbstractGraph;
 import org.genyris.dl.Triple;
-import org.genyris.dl.Graph;
+import org.genyris.dl.GraphHashSimple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.test.interp.TestUtilities;
 
-public class GraphTest extends TestCase {
+public class GraphHashSimpleTest extends TestCase {
 
 	private TestUtilities interpreter;
 
@@ -35,10 +36,10 @@ public class GraphTest extends TestCase {
 	}
 
 	public void testBasicGraph1() throws GenyrisException {
-		Graph ts = new Graph();
+		GraphHashSimple ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
-		Graph ts2 = new Graph();
+		AbstractGraph ts2 = new GraphHashSimple();
 		assertTrue(ts.equals(ts2));
 
 		Bignum subject = new Bignum(1);
@@ -51,12 +52,12 @@ public class GraphTest extends TestCase {
 				new StrinG("$")));
 		assertFalse(ts.equals(ts2));
 
-		Graph result = ts.select(subject, null, null, null, null);
+		AbstractGraph result = ts.select(subject, null, null, null, null);
 		assertEquals(ts, result);
 	}
 
 	public void testBasicGraph2() {
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -74,7 +75,7 @@ public class GraphTest extends TestCase {
 	}
 
 	public void testGetOK() {
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -96,7 +97,7 @@ public class GraphTest extends TestCase {
 	}
 
 	public void testGetNone() {
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -110,7 +111,7 @@ public class GraphTest extends TestCase {
 	}
 
 	public void testGetTooMany() {
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -134,7 +135,7 @@ public class GraphTest extends TestCase {
 
 	public void testGetListOne() {
 		Exp NIL = new NilSymbol();
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -147,7 +148,7 @@ public class GraphTest extends TestCase {
 
 	public void testGetListNone() {
 		Exp NIL = new NilSymbol();
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -160,7 +161,7 @@ public class GraphTest extends TestCase {
 
 	public void testGetListMany() {
 		Exp NIL = new NilSymbol();
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -181,7 +182,7 @@ public class GraphTest extends TestCase {
 	}
 
 	public void testPutOK() {
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 
@@ -206,7 +207,7 @@ public class GraphTest extends TestCase {
 	}
 
 	public void testPutWasEmpty() {
-		Graph ts = new Graph();
+		AbstractGraph ts = new GraphHashSimple();
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 

@@ -11,7 +11,7 @@ import org.genyris.test.core.LexTest;
 import org.genyris.test.core.LexTestNumbers;
 import org.genyris.test.core.LsymbolTest;
 import org.genyris.test.core.SymbolTableTest;
-import org.genyris.test.dl.GraphTest;
+import org.genyris.test.dl.GraphListTest;
 import org.genyris.test.dl.TripleTest;
 import org.genyris.test.format.BasicFormatterTest;
 import org.genyris.test.format.IndentedFormatterTest;
@@ -44,7 +44,7 @@ public class AllTestSuite {
         suite.addTestSuite(LsymbolTest.class);
         suite.addTestSuite(SymbolTableTest.class);
         // dl
-        suite.addTestSuite(GraphTest.class);
+        suite.addTestSuite(GraphListTest.class);
         suite.addTestSuite(TripleTest.class);
         // string
         suite.addTestSuite(StringTests.class);

@@ -7,80 +7,60 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.genyris.core.Atom;
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Pair;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
-import org.genyris.core.Visitor;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 
-public class Graph extends Atom {
+public class GraphList extends AbstractGraph {
 
-	private List triples;
+	List triples;
 
-	public Graph() {
+	public GraphList() {
 		triples = new CopyOnWriteArrayList();
 	}
 
-	public Graph(Set triples2) {
+	public GraphList(Set triples2) {
 		Iterator iter = triples2.iterator();
 		while (iter.hasNext()) {
 			add((Triple)iter.next());
 		}
 	}
 
-	public Iterator iterator() {
+	@Override
+    public Iterator iterator() {
 	    //
 	    // Iterate over the triples in the Graph.
 	    //
 	    return triples.iterator();
 	}
-	public boolean equals(Object compare) {
-		if (!(compare instanceof Graph)) {
-			return false;
-		} else {
-			int matches = 0;
-			Graph otherTS = (Graph) compare;
-			Iterator iter = iterator();
-			while (iter.hasNext()) {
-				Triple item = (Triple)iter.next();
-				if(otherTS.contains(item.subject, item.predicate, item.object)) {
-					matches++;
-				}
-			}
-			if ( matches == triples.size() && matches == otherTS.triples.size()) {
-				return true;
-			}
-			return false;
-		}
-	}
-
-	public void acceptVisitor(Visitor guest) throws GenyrisException {
-		guest.visitGraph(this);
-	}
-
-	public String toString() {
+	@Override
+    public String toString() {
 		return "(graph" + ")";
 	}
 
-	public Symbol getBuiltinClassSymbol(Internable table) {
+	@Override
+    public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.GRAPH();
 	}
 
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return triples.hashCode();
 	}
 
-	public int length() {
+	@Override
+    public int length() {
 		return triples.size();
 	}
 
-	public boolean contains(Exp subject, Exp predicate, Exp object) {
+	@Override
+    public boolean contains(Exp subject, Exp predicate, Exp object) {
 		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
@@ -93,7 +73,8 @@ public class Graph extends Atom {
 		return false;
 	}
 	
-	public void remove(Exp subject, Exp predicate, Exp object) {
+	@Override
+    public void remove(Exp subject, Exp predicate, Exp object) {
 		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
@@ -105,7 +86,8 @@ public class Graph extends Atom {
 		}
 	}
 
-	public void add(Triple t) {
+	@Override
+    public void add(Triple t) {
 		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
@@ -118,9 +100,10 @@ public class Graph extends Atom {
 		triples.add(t);
 	}
 
-	public Graph select(Exp subject, Exp predicate, Exp object,
+	@Override
+    public GraphList select(Exp subject, Exp predicate, Exp object,
 			Closure condition, Environment env) throws GenyrisException {
-		Graph results = new Graph();
+		GraphList results = new GraphList();
 		Iterator iter = iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
@@ -144,7 +127,8 @@ public class Graph extends Atom {
 		return results;
 	}
 
-	public Exp get(Exp subject, Exp predicate) throws GenyrisException {
+	@Override
+    public Exp get(Exp subject, Exp predicate) throws GenyrisException {
 		Exp result = null;
 		Iterator iter = iterator();
 		while (iter.hasNext()) {
@@ -164,7 +148,8 @@ public class Graph extends Atom {
 		return result;
 	}
 
-	public Exp getList(Exp subject, Symbol predicate, Exp NIL) {
+	@Override
+    public Exp getList(Exp subject, Symbol predicate, Exp NIL) {
 		Exp result = NIL;
 		Iterator iter = iterator();
 		while (iter.hasNext()) {
@@ -177,15 +162,18 @@ public class Graph extends Atom {
 		return result;
 	}
 	
-	public boolean empty() {
+	@Override
+    public boolean empty() {
 		return triples.isEmpty();
 	}
 
-	public void remove(Triple triple) {
+	@Override
+    public void remove(Triple triple) {
 		triples.remove(triple);
 	}
 
-	public Exp asTripleList(Exp NIL) {
+	@Override
+    public Exp asTripleList(Exp NIL) {
 		Exp result = NIL;
 		List sorted = new ArrayList(triples);
 		Collections.sort(sorted);
@@ -195,35 +183,6 @@ public class Graph extends Atom {
 			result = new Pair(new Triple(item.subject, (SimpleSymbol) item.predicate, item.object ), result);
 		}
 		return result;
-	}
-
-	public Graph difference(Graph toRemove) throws GenyrisException {
-		Graph result =  new Graph();
-		Iterator iter = iterator();
-		while(iter.hasNext()) {
-			Triple item = (Triple)iter.next();
-			remove(item.subject, item.predicate, item.object);
-		}
-		return result;
-	}
-
-    public Graph union(Graph other) throws GenyrisException {
-        Graph result =  new Graph();
-        Iterator iter = iterator();
-        while(iter.hasNext()) {
-            Triple item = (Triple)iter.next();
-            result.add(item);
-        }
-        iter = other.iterator();
-        while(iter.hasNext()) {
-            Triple item = (Triple)iter.next();
-            result.add(item);
-        }
-        return result;
-    }
-
-    public Exp eval(Environment env) throws GenyrisException {
-		return this;
 	}
 
 	public void put(Exp subject, Symbol predicate, Exp object) {
@@ -238,7 +197,8 @@ public class Graph extends Atom {
 		add(new Triple(subject, predicate, object));
 	}
 
-	public Exp subjects(Exp NIL) {
+	@Override
+    public Exp subjects(Exp NIL) {
 		Exp result = NIL;
 		Iterator iter = iterator();
 		while (iter.hasNext()) {
