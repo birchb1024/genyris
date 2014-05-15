@@ -34,13 +34,19 @@ public class Graph extends Atom {
 		}
 	}
 
+	public Iterator iterator() {
+	    //
+	    // Iterate over the triples in the Graph.
+	    //
+	    return triples.iterator();
+	}
 	public boolean equals(Object compare) {
 		if (!(compare instanceof Graph)) {
 			return false;
 		} else {
 			int matches = 0;
 			Graph otherTS = (Graph) compare;
-			Iterator iter = triples.iterator();
+			Iterator iter = iterator();
 			while (iter.hasNext()) {
 				Triple item = (Triple)iter.next();
 				if(otherTS.contains(item.subject, item.predicate, item.object)) {
@@ -75,7 +81,7 @@ public class Graph extends Atom {
 	}
 
 	public boolean contains(Exp subject, Exp predicate, Exp object) {
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
 			if(rec.subject == subject
@@ -88,7 +94,7 @@ public class Graph extends Atom {
 	}
 	
 	public void remove(Exp subject, Exp predicate, Exp object) {
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
 			if(rec.subject == subject
@@ -100,7 +106,7 @@ public class Graph extends Atom {
 	}
 
 	public void add(Triple t) {
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
 			if(rec.subject == t.subject
@@ -115,7 +121,7 @@ public class Graph extends Atom {
 	public Graph select(Exp subject, Exp predicate, Exp object,
 			Closure condition, Environment env) throws GenyrisException {
 		Graph results = new Graph();
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
  			if (   (subject   != null && item.subject   != subject) 
@@ -140,7 +146,7 @@ public class Graph extends Atom {
 
 	public Exp get(Exp subject, Exp predicate) throws GenyrisException {
 		Exp result = null;
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
  			if (   (item.subject   == subject) 
@@ -160,7 +166,7 @@ public class Graph extends Atom {
 
 	public Exp getList(Exp subject, Symbol predicate, Exp NIL) {
 		Exp result = NIL;
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
  			if (   (item.subject   == subject) 
@@ -193,7 +199,7 @@ public class Graph extends Atom {
 
 	public Graph difference(Graph toRemove) throws GenyrisException {
 		Graph result =  new Graph();
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple item = (Triple)iter.next();
 			remove(item.subject, item.predicate, item.object);
@@ -203,12 +209,12 @@ public class Graph extends Atom {
 
     public Graph union(Graph other) throws GenyrisException {
         Graph result =  new Graph();
-        Iterator iter = triples.iterator();
+        Iterator iter = iterator();
         while(iter.hasNext()) {
             Triple item = (Triple)iter.next();
             result.add(item);
         }
-        iter = other.triples.iterator();
+        iter = other.iterator();
         while(iter.hasNext()) {
             Triple item = (Triple)iter.next();
             result.add(item);
@@ -221,7 +227,7 @@ public class Graph extends Atom {
 	}
 
 	public void put(Exp subject, Symbol predicate, Exp object) {
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while(iter.hasNext()) {
 			Triple rec = (Triple) iter.next();
 			if(rec.subject == subject
@@ -234,7 +240,7 @@ public class Graph extends Atom {
 
 	public Exp subjects(Exp NIL) {
 		Exp result = NIL;
-		Iterator iter = triples.iterator();
+		Iterator iter = iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
 			if(!memberp(item.subject, result, NIL)) {
