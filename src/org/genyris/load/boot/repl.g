@@ -23,11 +23,16 @@ def sys:read-eval-print-loop()
         versioninfo.title
         versioninfo.version
         System.HOME
-   define looping true          
+   define looping true
+   define parser (IndentedParser(.new stdin true))
+   parser
+      .prefix ^sys "http://www.genyris.org/lang/system#"
+      .prefix ^u "http://www.genyris.org/lang/utilities#"
+      .prefix ^java 'http://www.genyris.org/lang/java#'            
    while looping
        define bt nil
        catch (errors bt)
-           define expression (read true)
+           define expression (parser (.read))
            define result (eval expression)
        cond
            errors
