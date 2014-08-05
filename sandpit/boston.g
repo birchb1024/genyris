@@ -10,14 +10,20 @@ var boston                   # variable declaration
 
 # Library from culturevulture.org
 @prefix c "http://culturevulture.org/styles#"
-class c:EastCoast
+
+class c:EastCoast()
 tag c:EastCoast boston # marks the object with a class
 
 # Library from politics.com
 @prefix pl "http://politics.com/leanings#"
-class pl:Democrat
+class pl:Democrat()
 tag pl:Democrat boston # marks the object with an additional class
 
-is-instance? boston pl:Democrat
-is-instance? boston c:EastCoast
+assert
+  and
+    is-instance? boston pl:Democrat
+    is-instance? boston c:EastCoast
 
+print boston 
+for c in (boston.classes)
+  print c!name

@@ -8,17 +8,23 @@ class Inches(Bignum)
    def .toMeters()
       * .self 0.0254
 
+# syntactic sugar
+def inches()
+   tag Inches .self
+
+# create some data
 define a-foot
-   tag Inches 12
+   12(inches)
 
 assert
    equal?
        a-foot (.toMeters)
        0.3048
 
+# Now add a super-class and another Unit...
 class Length()
    def .toMeters()
-      raise "Oops - you invoked an abstract class."
+      raise "Oops - you called an abstract class."
 
 class Inches(Length)
    def .toMeters()
@@ -26,6 +32,8 @@ class Inches(Length)
 
 class Meters(Length)
    def .toMeters() .self
+def meter()
+   tag Meters .self
 
 Length
    def .add(other)
@@ -34,10 +42,12 @@ Length
             other (.toMeters)
 
 
-define a-meter
-   tag Meters 1
+# create some data
+define a-meter 
+   1(meter)
 
-define a-foot (tag Inches 12)
+define a-foot
+   12(inches)
 
 assert
    equal?
