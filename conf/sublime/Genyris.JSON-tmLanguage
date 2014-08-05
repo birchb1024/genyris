@@ -1,0 +1,63 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+    { "name": "Genyris",
+  "scopeName": "source.genyris",
+  "fileTypes": ["g"],
+  "uuid": "002d094e-95fa-4b3a-b4b7-d14343bbbebe",
+
+  "patterns": [
+    {
+            "match": "\\b[\\d\\.]+\\b",
+            "name": "constant.numeric"
+    }
+    ,
+    {
+            "match": "\\b(is-instance|map-left|sleep|thread|httpd|include|java:import|u:format|set|display|triple|graph|left|right|intern|function|cons|cadr|cadar|caar|class|def|define|defmacro|df|defmethod|dict|lambda|length|last|list|var|print|setq|tag|the|in|eq?|is?|bound?|.valid?|is-instance?|.format|.match|template|assert|assertEqual|assertNil|equal|null|valid|rest)\\b",
+            "name": "keyword.other"
+    },
+    {
+            "match": "\\b(catch|and|or|apply|quote|not|use|tailcall|cond|in|if|import|else|then|do|eval|while|for|assert|assertEqual|raise|\\&rest)\\b",
+            "name": "keyword.control"
+    },
+    {
+            "match": "true|nil|stdout",
+            "name": "constant.language"
+    },
+    {
+            "match": ".self|this",
+            "name": "variable.language"
+    },
+    {
+            "match": "^@prefix\\s[A-Za-z\\:\\<]+\\s",
+            "name": "keyword.other"
+    }
+    ,
+    {
+            "match": "\\b(CSVReader|Thing|Object|Sound|String|Bignum|Symbol|File|Triple|Pipe|Process|Graph|HttpRequest)\\b",
+            "name": "support.class"
+    }
+    ,
+    {
+            "match": "(\\>|-|\\+|/|\\^|\\!|\\*|\\<|=|car|cdr|\\(|\\)|\\^|\\~)",
+            "name": "keyword.operator"
+    },
+    {
+            "match": "\\b([A-Za-z0-9\\_\\.\\-\\:]+)\\b",
+            "name": "variable.parameter"
+    },
+    {
+            "match": "#.*$",
+            "name": "comment.number-sign"
+    },
+    {
+            "match": "\\'[^\\']*\\'",
+            "name": "string.single"
+    },
+    {
+            "match": "(\"[^\"]*\")",
+            "name": "string.double"
+    } ,
+    {
+            "match": "\\b(html|head|body|div|span|a|href|pre|verbatim|table|tr|td)\\b",
+            "name": "support"
+    } ]
+}
