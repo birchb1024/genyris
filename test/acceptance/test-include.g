@@ -21,7 +21,7 @@ assert (equal? err 'loadScriptFromInputStream: could not open: does-not-exist.g'
 
 catch err
    load 234234
-assert (equal? err 'non-string argument passed to load: 234234')
+assert (equal? err 'non-string file path argument passed to load: 234234')
 
 # test include with sys:path
 setq sys:path (cons ((System.HOME) (.+ '/test/fixtures')) sys:path)

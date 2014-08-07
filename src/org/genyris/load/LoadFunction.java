@@ -27,18 +27,19 @@ public class LoadFunction extends ApplicableFunction {
         Exp result = NIL;
         checkMinArguments(arguments, 1);
         try {
-            @SuppressWarnings("resource")
-            Writer out = new NullWriter();
             if( !( arguments[0] instanceof StrinG) ) {
-                out.close();
-                throw new GenyrisException("non-string argument passed to load: " + arguments[0].toString());
+                throw new GenyrisException("non-string file path argument passed to load: " + arguments[0].toString());
             }
             if( arguments.length > 1 ) {
                 if( arguments[1] == TRUE) {
-                    out.close();
-                    out = _interp.getDefaultOutputWriter();
+                    Writer out = _interp.getDefaultOutputWriter();
+                    result = SourceLoader.loadScriptFromClasspath(_interp.getGlobalEnv(), 
+                            _interp.getSymbolTable(), arguments[0].toString(), out);
+                    return result;
                 }
             }
+        
+            Writer out = new NullWriter();
             result = SourceLoader.loadScriptFromClasspath(_interp.getGlobalEnv(), 
                     _interp.getSymbolTable(), arguments[0].toString(), out);
             out.close();
