@@ -13,6 +13,15 @@ public class GenyrisException extends Exception {
 	private static final long serialVersionUID = 2930499792506317096L;
 	protected Exp _reason;
 
+	public GenyrisException(Exception e) {
+		super(e);
+	    String message = e.getMessage();
+	    if( message == null) {
+	        message = e.toString();
+	    }
+		this._reason = new StrinG(message);
+	}
+	
 	public GenyrisException(String message) {
 		super(message);
 		this._reason = new StrinG(message);

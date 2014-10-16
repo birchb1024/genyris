@@ -53,7 +53,7 @@ public class Sound {
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(soundFile);
 		} catch (Exception e) {
-			throw new GenyrisException(e.getMessage());
+			throw new GenyrisException(e);
 		}
 		/*
 		 * From the AudioInputStream, i.e. from the sound file, we fetch
@@ -87,9 +87,9 @@ public class Sound {
 			 */
 			line.open(audioFormat);
 		} catch (LineUnavailableException e) {
-			throw new GenyrisException(e.getMessage());
+			throw new GenyrisException(e);
 		} catch (Exception e) {
-			throw new GenyrisException(e.getMessage());
+			throw new GenyrisException(e);
 		}
 		/*
 		 * Still not enough. The line now can receive data, but will not pass
@@ -111,7 +111,7 @@ public class Sound {
 			try {
 				nBytesRead = audioInputStream.read(abData, 0, abData.length);
 			} catch (IOException e) {
-				throw new GenyrisException(e.getMessage());
+				throw new GenyrisException(e);
 			}
 			if (nBytesRead >= 0) {
 				// int nBytesWritten =
