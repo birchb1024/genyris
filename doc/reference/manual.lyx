@@ -12915,6 +12915,34 @@ read
 \begin_layout Paragraph
 
 \emph on
+.readAll
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.readAll
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Returns the entire content of the stream as a 
+\emph on
+String
+\emph default
+.
+ EOF will be returned if the file is empty or if readAll is called more
+ than once.
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
 .copy
 \begin_inset Index idx
 status open
