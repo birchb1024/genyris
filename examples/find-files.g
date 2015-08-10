@@ -16,7 +16,7 @@ def findAllFiles (top regexp func)
       define path ('%a/%a' (.format top f))
       func top f
       cond
-         (File!static-is-dir? path)
+         (File!is-dir? path)
               findAllFiles path regexp func
 
 findAllFiles '.' '' printIt

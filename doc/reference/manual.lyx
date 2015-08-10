@@ -1,60 +1,51 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 1.6.10 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+% Added by lyx2lyx
+%  for proper underlining
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+\let\cite@rig\cite
+\newcommand{\b@xcite}[2][\%]{\def\def@pt{\%}\def\pas@pt{#1}
+  \mbox{\ifx\def@pt\pas@pt\cite@rig{#2}\else\cite@rig[#1]{#2}\fi}}
+\renewcommand{\underbar}[1]{{\let\cite\b@xcite\uline{#1}}}
+\end_preamble
 \use_default_options false
-\maintain_unincluded_children false
 \language english
-\language_package default
 \inputencoding auto
-\fontencoding global
 \font_roman default
 \font_sans default
 \font_typewriter default
 \font_default_family default
-\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
-\default_output_format default
-\output_sync 0
-\bibtex_command default
-\index_command default
 \paperfontsize default
 \use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
-\use_mhchem 1
-\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
-\use_indices false
 \paperorientation portrait
-\suppress_date false
-\use_refstyle 0
-\index Index
-\shortcut idx
-\color #008000
-\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
-\paragraph_indentation default
+\defskip medskip
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\html_math_output 0
-\html_css_as_file 0
-\html_be_strict false
+\author "" 
 \end_header
 
 \begin_body
@@ -116,7 +107,7 @@ LatexCommand tableofcontents
 Conventions used in this document:
 \end_layout
 
-\begin_layout Labeling
+\begin_layout List
 \labelwidthstring 00.00.0000
 
 \emph on
@@ -125,7 +116,7 @@ italicized
 Snippets of Genyris programs
 \end_layout
 
-\begin_layout Labeling
+\begin_layout List
 \labelwidthstring 00.00.0000
 
 \family typewriter
@@ -203,7 +194,7 @@ genyris
 Genyris is developed in Java hence needs a Java runtime.
  You don't need to understand Java to use Genyris.
  However you will need the Oracle Java 1.6 JRE
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -327,7 +318,7 @@ To test the installation change to the genyris home directory and run the
 >
 \series bold
 sys:self-test
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -368,7 +359,7 @@ The release binary file includes some examples in the
 examples
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -383,7 +374,7 @@ folder.
 include
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -550,7 +541,7 @@ Comments
 
 \begin_layout Standard
 All characters following a hash
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -630,7 +621,7 @@ Other escape sequences are encoded as follows:
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="bottom" width="0">
 <row>
@@ -653,7 +644,7 @@ n
 
 \begin_layout Plain Layout
 newline
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -860,7 +851,7 @@ The two styles of string are internally identical, which allows you to avoid
 
 \begin_layout LyX-Code
 '"After all," said the young man, "golf
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -885,7 +876,7 @@ Symbols are a group of any printable characters with the following exceptions:
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="13" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -903,7 +894,7 @@ $
 
 \begin_layout Plain Layout
 dollar
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1218,7 +1209,7 @@ interned
  and
 \emph on
  kookaburra
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1250,7 +1241,7 @@ Expressions and Sub-expressions
 
 \begin_layout Standard
 All Genyris expressions
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1292,7 +1283,7 @@ Alpha
 
 \begin_layout Standard
 Indentations must line up with previous indentations
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1352,7 +1343,7 @@ Echo
 
 \begin_layout Subsubsection
 Pairs
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1371,7 +1362,7 @@ status open
 
 \begin_layout Plain Layout
 Lisp Cons
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1387,7 +1378,7 @@ Cons
 
 .
  Pairs have two elements, the left
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1397,7 +1388,7 @@ left
 \end_inset
 
  and right
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1417,7 +1408,7 @@ Pair
 
 \begin_layout LyX-Code
 (1 =
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1456,7 +1447,7 @@ is shorthand for :
 
 \begin_layout Standard
 Lists
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1523,7 +1514,7 @@ New pairs can be created explicitly with the cons function which takes two
 
 \begin_layout LyX-Code
 > cons
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1569,7 +1560,7 @@ list
 
 \begin_layout LyX-Code
       list
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1587,7 +1578,7 @@ Carat characters are a shorthand notation to save typing.
  wraps it within a
 \emph on
  quote
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1745,7 +1736,7 @@ Philip K.
 
 \begin_layout Subsubsection
 Line Continuation
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1766,7 +1757,7 @@ Sometimes long expressions become unwieldy and must be continued on following
 
 \begin_layout LyX-Code
 list 1 2 3 4 5 =
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1805,7 +1796,7 @@ list 1 2 3 4 5 6 7 8
 \begin_layout Standard
 The second and preferred method is the special line continuation character
  (the tilde
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1815,7 +1806,7 @@ tilde
 \end_inset
 
  ~
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1825,7 +1816,7 @@ status open
 \end_inset
 
 ) which continues the previous line indentation
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1894,7 +1885,7 @@ Genyris also supports three other special syntactic quotes similar to the
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -1927,7 +1918,7 @@ Translated Expression
 
 \begin_layout Plain Layout
 $
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1946,7 +1937,7 @@ $
 
 \begin_layout Plain Layout
 (dollar
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1967,7 +1958,7 @@ dollar
 
 \begin_layout Plain Layout
 $@
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -1986,7 +1977,7 @@ $@
 
 \begin_layout Plain Layout
 (dollar-at
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2007,7 +1998,7 @@ dollar-at
 
 \begin_layout Plain Layout
 `
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2026,7 +2017,7 @@ status open
 
 \begin_layout Plain Layout
 (template
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2050,7 +2041,7 @@ template
 
 \begin_layout Subsubsection
 Square and Curly Brackets
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2064,7 +2055,7 @@ Brackets
 
 \begin_layout Standard
 The square []
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2074,7 +2065,7 @@ status open
 \end_inset
 
  and curly {}
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2093,7 +2084,7 @@ s.
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -2279,7 +2270,7 @@ Genyris also provides a parser for a Lisp-like syntax based on parentheses
 
 \begin_layout Subsection
 Variables
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2295,7 +2286,7 @@ Variables
 New variables are created with the
 \emph on
  define
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2365,7 +2356,7 @@ setq name 'William Pitt'
 A predicate function
 \emph on
  bound?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2386,7 +2377,7 @@ bound?
  if the variable is defined otherwise
 \emph on
  nil
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2452,7 +2443,7 @@ Yields the addition of the two numbers (79).
 The function
 \emph on
  the
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2484,7 +2475,7 @@ Eager Functions
 
 \begin_layout Standard
 Eager
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2498,7 +2489,7 @@ Eager
  Mathematical functions such as
 \emph on
 +
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2510,7 +2501,7 @@ status open
 \end_inset
 
  -
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2522,7 +2513,7 @@ status open
 \end_inset
 
  *
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2536,7 +2527,7 @@ status open
 
 \emph default
  and /
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2569,7 +2560,7 @@ Notice that the + function can have many arguments.
  list
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2619,7 +2610,7 @@ Pair
 
 \begin_layout Subsubsection
 Lazy
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2643,7 +2634,7 @@ In contrast to Eager functions, Lazy functions do not evaluate their arguments.
  The
 \emph on
  quote
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2687,7 +2678,7 @@ Functions in Genyris are defined in the usual way for functional programming
  The
 \emph on
  def
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2701,7 +2692,7 @@ def
 
 \emph default
  function binds a name to a lexical closure
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2723,7 +2714,7 @@ def identity (arg) arg
 
 \begin_layout Standard
 Genyris has two kinds of user-defined functions 'eager
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2733,7 +2724,7 @@ eager
 \end_inset
 
 ' and 'lazy
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2748,7 +2739,7 @@ lazy
  Traditional functions such as '+' and
 \emph on
  the
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2765,7 +2756,7 @@ the
 
 \emph on
  list
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2787,7 +2778,7 @@ Here is a more complex function definition:
 
 \begin_layout LyX-Code
 def factorial
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2815,7 +2806,7 @@ factorial
 The
 \emph on
  if
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2835,7 +2826,7 @@ if
  if
 \emph default
  is a macro
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2859,7 +2850,7 @@ Definition of Variables
 New variables are created with the
 \emph on
  defvar
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2875,7 +2866,7 @@ defvar
  or
 \emph on
  define
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2963,7 +2954,7 @@ Variable values can be updated with the
 
 \begin_layout LyX-Code
 set ^name 'William Pitt
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -2983,7 +2974,7 @@ setq name 'William Pitt'
 
 \emph on
 var
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3030,7 +3021,7 @@ Example
 
 \emph on
 defvar
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3083,7 +3074,7 @@ assertEqual
 
 \emph on
 define
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3132,7 +3123,7 @@ assertEqual twenty 20
 
 \emph on
 bound?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3150,7 +3141,7 @@ bound?
 An eager predicate function 
 \emph on
 bound?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3197,7 +3188,7 @@ It returns the symbol
  if the variable is defined otherwise
 \emph on
  nil
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3277,7 +3268,7 @@ Assignment
 
 \emph on
 setq
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3320,7 +3311,7 @@ assertEqual 200 (setq twenty 200)
 
 \emph on
 set
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3363,7 +3354,7 @@ Definition of Functions
 
 \emph on
 def
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3458,7 +3449,7 @@ assertEqual 64 (square 8)
 
 \emph on
 df
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3565,7 +3556,7 @@ assertEqual
 
 \emph on
 defmacro
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3687,7 +3678,7 @@ assertEqual w 123
 
 \emph on
 symbol-value
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3782,7 +3773,7 @@ n" v (D (symbol-value v))
 
 \emph on
 dynamic-symbol-value
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3884,7 +3875,7 @@ Predicates are a general class of functions which either return
 
 \emph on
 nil
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3919,7 +3910,7 @@ This symbol is used to denote an empty list, the end of a list.
 
 \begin_layout Subsubsection
 true
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -3973,7 +3964,7 @@ The
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -4099,7 +4090,7 @@ The
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -4276,7 +4267,7 @@ nil
 
 \begin_layout Paragraph
 not
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4308,7 +4299,7 @@ If the argument is
 
 \begin_layout Paragraph
 and
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4336,7 +4327,7 @@ Otherwise execution continues to the last argument whose value is returned.
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="3">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -4494,7 +4485,7 @@ nil
 
 \begin_layout Paragraph
 or
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4523,7 +4514,7 @@ nil
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="3">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -4691,7 +4682,7 @@ cond
 The
 \emph on
  cond
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4759,7 +4750,7 @@ Each condition is evaluated in turn until one returns which is not
  The symbol
 \emph on
  else
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4812,7 +4803,7 @@ else
 The function
 \emph on
  equal?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4828,7 +4819,7 @@ equal?
  returns
 \emph on
  true
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4861,7 +4852,7 @@ true
 
 \emph on
 if
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4929,7 +4920,7 @@ Looping and Iterators
 Simple looping with
 \emph on
  while
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -4993,7 +4984,7 @@ Russell
 
 \begin_layout Subsubsection
 Creating Iterators with .mkIterator
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5297,7 +5288,7 @@ def .toMeters()
 Catching exceptions with
 \emph on
  catch
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5437,7 +5428,7 @@ n>> '
 Inserting program checks with
 \emph on
  assert
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5535,7 +5526,7 @@ Anonymous Functions
 Actually the
 \emph on
  def
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5551,7 +5542,7 @@ def
  and
 \emph on
  defmacro
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5571,7 +5562,7 @@ defmacro
  The function
 \emph on
  function
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5587,7 +5578,7 @@ function
  (aka
 \emph on
  lambda
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5687,7 +5678,7 @@ lambda
  function
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status collapsed
 
 \begin_layout Plain Layout
@@ -5708,7 +5699,7 @@ lambda
 The
 \emph on
  function
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5726,7 +5717,7 @@ function
 
 \emph on
  lambda
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5768,7 +5759,7 @@ lambda
 If the argument list includes &rest, all the remaining real arguments are
  collected into a list and passed to the function in a single argument,
  the name of which is specified after the &rest
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -5802,7 +5793,7 @@ The validator must be a symbol bound to a dictionary or class which has
  a validator function (
 \emph on
 .valid?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6065,7 +6056,7 @@ Explicit Evaluation
 
 \begin_layout Subsubsection
 eval
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6137,7 +6128,7 @@ do
 
 \begin_layout Subsubsection
 apply
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6246,7 +6237,7 @@ Anonymous Lazy Functions
 To defer evaluation, a lazy function can be defined using the
 \emph on
  lambdaq
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6262,7 +6253,7 @@ lambdaq
  or
 \emph on
  lambdam
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6313,7 +6304,7 @@ lambdaq
 
 \emph on
 lambadq
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6340,7 +6331,7 @@ This macro is identical in syntax to
 
 \emph on
 lambdam
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6369,7 +6360,7 @@ Defining Macros
 
 \begin_layout Standard
 Macros
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6380,7 +6371,7 @@ Macros
 
  are lazy functions which are very handy for extending the syntax of the
  language or creating Domain-Specific Languages
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6390,7 +6381,7 @@ Domain-Specific Languages
 \end_inset
 
  (DSL
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6421,7 +6412,7 @@ This macro prints an expression which is then evaluated.
  The keyword
 \emph on
  &rest
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6487,7 +6478,7 @@ defmacro my-if (test success-result failure-result)
 This macro uses the
 \emph on
  template
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6503,7 +6494,7 @@ template
  function and
 \emph on
  dollar
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6548,7 +6539,7 @@ An Example: Executable Comments
 
 \begin_layout Standard
 Sometimes it's necessary to temporarily 'comment
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6561,7 +6552,7 @@ comment
  This is done via the function
 \emph on
  '//
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6654,7 +6645,7 @@ def myfun()
 
 \emph on
 template
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -6870,7 +6861,7 @@ Syntax
 
 \begin_layout LyX-Code
 sys:procedure-missing
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7024,7 +7015,7 @@ Introduction
 \begin_layout Standard
 The Genyris evaluator expects the first element of a list to be some kind
  of procedure
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7125,7 +7116,7 @@ If an atom is called with no arguments, it simply returns itself.
 \begin_layout Standard
 As well as executing the sequence of expressions, an execution environment
  was created in which the number 12 is a bound to the dynamic variable
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7137,7 +7128,7 @@ dynamic variable
 
 \emph on
 .self
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7276,7 +7267,7 @@ my-do
 
 \begin_layout Subsection
 Dynamic Variables
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7308,7 +7299,7 @@ The number 12 above has two dynamic variables,
  and
 \emph on
  .classes
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7412,7 +7403,7 @@ status open
 
 \begin_layout Plain Layout
 The choice of this syntax is a tribute to Martin Richards
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7431,7 +7422,7 @@ Martin Richards and BCPL
 
 \begin_layout Standard
 The exclamation mark
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7441,7 +7432,7 @@ exclamation mark
 \end_inset
 
 , ! (aka pling
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7458,7 +7449,7 @@ pling
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -7781,7 +7772,7 @@ Genyris includes basic arithmetic operations on Bignum obects.
 +
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7803,7 +7794,7 @@ This function computes the sum of its arguments, which may be many.
 
 \emph on
 -
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7829,7 +7820,7 @@ This function computes the accumulated difference of its arguments, which
 
 \begin_layout Paragraph
 *
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7848,7 +7839,7 @@ This function computes the product of its arguments, which must number two
 
 \begin_layout Paragraph
 /
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7876,7 +7867,7 @@ This function computes the remainder of its first argument divided by the
 
 \begin_layout Paragraph
 power
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7897,7 +7888,7 @@ This function calculates the first argument raised to the power of the second.
 
 \begin_layout Paragraph
 scale
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7943,7 +7934,7 @@ Lists and Pairs
 
 \begin_layout Standard
 Like its forbears Lisp and Scheme, Genyris is a list-processing
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7961,7 +7952,7 @@ list-processing
  Trees are constructed with the
 \emph on
  cons
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -7999,7 +7990,7 @@ The interpreter prints an equal sign between the left and right halves of
  The individual elements of a Pair can be accessed with the
 \emph on
  left
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8015,7 +8006,7 @@ left
  and
 \emph on
  right
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8047,7 +8038,7 @@ right
 Alternatively the dynamic variables
 \emph on
  .left
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8063,7 +8054,7 @@ status open
  and
 \emph on
  .right
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8314,7 +8305,7 @@ String
 
 \emph on
 .match
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8364,7 +8355,7 @@ target "http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.htm
 
 \emph on
 .regex
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8451,7 +8442,7 @@ target "http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.htm
 
 \emph on
 .length
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8485,7 +8476,7 @@ This method returns the number of characters in a string.
 
 \emph on
 .split
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8552,7 +8543,7 @@ If the
 
 \emph on
 .replace
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8597,7 +8588,7 @@ Example:
 
 \emph on
 .+
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8640,7 +8631,7 @@ The plus method appends the strings provided as arguments.
 
 \emph on
 .toBase64
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8656,7 +8647,7 @@ status open
 
 \begin_layout Standard
 Returns the string converted into a Base64
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8671,7 +8662,7 @@ Base64
 Base64EncodedString
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8696,7 +8687,7 @@ Base64EncodedString
 
 \emph on
 .fromBase64
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8742,7 +8733,7 @@ Genyris provides
 \end_inset
 
 dictionary
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8762,7 +8753,7 @@ dictionary
 \end_inset
 
 properties
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8779,7 +8770,7 @@ properties
  A dictionary is created with the
 \emph on
  dict
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8809,7 +8800,7 @@ define pitt
 
 \series bold
       .name  = 'Willam Pitt
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8954,7 +8945,7 @@ pitt
 
 \series bold
 setq
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -8979,7 +8970,7 @@ setq
 New properties can be created with
 \emph on
  define
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9020,7 +9011,7 @@ magic
  variable
 \emph on
  .vars
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9228,7 +9219,7 @@ es) can belong to one or more classes.
 \end_inset
 
 Object-Oriented
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9256,7 +9247,7 @@ Object-Oriented
 .classes
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9276,7 +9267,7 @@ status open
 .vars
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9296,7 +9287,7 @@ status open
 .classname
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9316,7 +9307,7 @@ status open
 .superclasses
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9336,7 +9327,7 @@ status open
 .subclasses
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9354,7 +9345,7 @@ status open
 Genyris has a number of built-in classes beginning with
 \emph on
  Thing
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9374,7 +9365,7 @@ Thing
 \begin_layout Standard
 To add behaviour to a class, we need to add a dynamic variable bound to
  a closure object - in other words we need to define a method
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9389,7 +9380,7 @@ method
  Bignum
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9419,7 +9410,7 @@ Notice that the method uses the
  .self
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9533,7 +9524,7 @@ Classes are relatively complex objects so the language provides a built-in
 >
 \series bold
 class
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9588,7 +9579,7 @@ tag
 The
 \emph on
  tag
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9898,7 +9889,7 @@ Type-Checked Function Arguments
 
 \begin_layout Standard
 Genyris supports type annotations
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9917,7 +9908,7 @@ type annotations
 
 \begin_layout LyX-Code
 def safe-call ((a =
-\begin_inset Index idx
+\begin_inset Index
 status collapsed
 
 \begin_layout Plain Layout
@@ -9948,7 +9939,7 @@ Genyris provides another mechanism for checking type constraints.
  The
 \emph on
  is?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -9968,7 +9959,7 @@ is?
 ?
 \emph on
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10055,7 +10046,7 @@ Inheritance and Class Properties
 
 \begin_layout Standard
 The inheritance
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10119,7 +10110,7 @@ Class Validators
 To help define membership of a class, the class can provide a
 \emph on
  .valid?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10178,7 +10169,7 @@ Length
 The
 \emph on
  is-instance?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10206,7 +10197,7 @@ Traditional Constructors and Factories
 \begin_layout Standard
 While the philosophy of Genyris is to classify objects after construction,
  it does not inhibit using traditional constructors
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10265,7 +10256,7 @@ A more general approach is to provide a
 new
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10296,7 +10287,7 @@ init
  For example here is a class with an
 \emph on
  .init
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10312,7 +10303,7 @@ status open
  member which creates properties in a dict created by
 \emph on
  .new
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10348,7 +10339,7 @@ class PersonTraditional (Object)
 
 \emph on
 Object
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10466,7 +10457,7 @@ Functions on classes
 
 \emph on
 class
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10542,7 +10533,7 @@ StandardClass
 
 \emph on
 tag
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10591,7 +10582,7 @@ expression
 
 \emph on
 remove-tag
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10652,7 +10643,7 @@ remove-tag
 
 \emph on
 is-instance?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10691,7 +10682,7 @@ Automating Classification
 \begin_layout Standard
 This language embodies the opinion that objects are created first, then
  they are classified - rather than the classification
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10704,7 +10695,7 @@ classification
  Let's explore how the
 \emph on
  .valid?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10760,7 +10751,7 @@ examples/classify.g
  It defines a simple
 \emph on
  classify
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10883,7 +10874,7 @@ The result shows the classifier has recognised
  as a
 \emph on
  Boomer
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -10991,7 +10982,7 @@ Duck Typing
 \emph default
 .
  Duck typing
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11082,7 +11073,7 @@ Introduction
 
 \begin_layout Standard
 RDF
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11102,7 +11093,7 @@ Resouce Description Framework
 \end_inset
 
  concepts such as triples
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11112,7 +11103,7 @@ triple
 \end_inset
 
  and graphs
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11163,7 +11154,7 @@ http://www.w3.org/TR/rdf-primer/
 
 .
  A triple
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11175,7 +11166,7 @@ triple
  consists of three atoms, a
 \emph on
  Subject
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11191,7 +11182,7 @@ Subject
 ,
 \emph on
  Predicate
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11207,7 +11198,7 @@ Predicate
  and
 \emph on
  Object
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11270,7 +11261,7 @@ Triples alone are not particularly useful without a way of comparing them
 
 \emph on
  Graphs
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11295,7 +11286,7 @@ Creating triples with
  triple
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11358,7 +11349,7 @@ Accessing parts of a triple with
  .subject
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11372,7 +11363,7 @@ status open
  .predicate
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11384,7 +11375,7 @@ status open
  and
 \emph on
  .object
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11433,7 +11424,7 @@ Triple Equality
 Two triples are considered
 \emph on
  equal?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11527,7 +11518,7 @@ Graphs
 
 \begin_layout Standard
 Genyris provides a special container class for triples, the 'graph
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11556,7 +11547,7 @@ Creating Graphs with
 The
 \emph on
  graph
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11609,7 +11600,7 @@ Two graphs are
 Adding Triples with
 \emph on
  .add
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11650,7 +11641,7 @@ ts(.add (triple ^s ^p ^o))
 Removing Triples with
 \emph on
  .remove
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11691,7 +11682,7 @@ ts(.remove (triple ^s ^p ^o))
 Querying Triples with
 \emph on
  .select
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11760,7 +11751,7 @@ This is likely to change since
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -11950,7 +11941,7 @@ assert
 Retrieving unique values with
 \emph on
  .get
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -11966,7 +11957,7 @@ status open
 
 \begin_layout Standard
 Often graphs will contain unique triples
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12004,7 +11995,7 @@ Syntax:
 Retrieving multiple values with
 \emph on
  .get-list
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12052,7 +12043,7 @@ The
 Updating with
 \emph on
  .put
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12090,7 +12081,7 @@ The
 If there are no matching triples no error is raised, the triple is simply
  added.
  This operation is intended to support the pattern of a unique triples
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12106,7 +12097,7 @@ unique triples
 Fetching all the triples with
 \emph on
  .asTriples
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12132,7 +12123,7 @@ The
 Triplification with
 \emph on
  .asGraph
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12256,7 +12247,7 @@ var kr (triple ^KevinRudd ^role ^PrimeMinister)
 
 \begin_layout LyX-Code
 (triple KevinRudd
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12315,7 +12306,7 @@ Output
 \end_layout
 
 \begin_layout Subparagraph
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12369,7 +12360,7 @@ n'
 
 \emph on
 write
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12406,7 +12397,7 @@ write ^(1 2 (e) 'w')
 \end_layout
 
 \begin_layout Subparagraph
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12453,7 +12444,7 @@ n' (x y))
 
 \emph on
 u:format
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12494,7 +12485,7 @@ stdout(.format <format string> args ...)
 
 \begin_layout Subsubsection
 Class 
-\begin_inset Index idx
+\begin_inset Index
 status collapsed
 
 \begin_layout Plain Layout
@@ -12518,7 +12509,7 @@ Methods
 
 \emph on
 .close
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12538,7 +12529,7 @@ status open
 
 \emph on
 .flush
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12558,7 +12549,7 @@ status open
 
 \emph on
 .format
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12629,7 +12620,7 @@ Global Variables
 
 \emph on
 stdin
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12653,7 +12644,7 @@ stdout
 
 \emph on
 stdout
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12677,7 +12668,7 @@ stdout
 
 \emph on
 stderr
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12705,7 +12696,7 @@ Input
 
 \emph on
 EOF
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12724,7 +12715,7 @@ Used to denote the End Of File, this symbol causes a parser to exit if seen.
 \end_layout
 
 \begin_layout Subsubsection
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12756,7 +12747,7 @@ An optional argument if non-nil tells the reader to use PairSource objects
 
 \emph on
 stdin
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12832,7 +12823,7 @@ Methods
 
 \emph on
 .close
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12858,7 +12849,7 @@ The
 
 \emph on
 .read
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12893,7 +12884,7 @@ read
 
 \emph on
 .hasData
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12921,7 +12912,7 @@ read
 
 \emph on
 .readAll
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12949,7 +12940,7 @@ String
 
 \emph on
 .copy
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -12980,7 +12971,7 @@ stdin (.copy stdout)
 
 \begin_layout Paragraph
 .mk-iterator
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13043,7 +13034,7 @@ reference "sub:Syntax"
 
 \emph on
 .new
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13130,7 +13121,7 @@ n"
 
 \emph on
 .read
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13164,7 +13155,7 @@ parser(.read)
 
 \begin_layout Paragraph
 .prefix
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13204,7 +13195,7 @@ str-parser
 
 \emph on
 .close
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13335,7 +13326,7 @@ Example:
 
 \emph on
 StringFormatStream
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13492,7 +13483,7 @@ A string
 
 \emph on
 .new
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13515,7 +13506,7 @@ g Reader.
 
 \emph on
 File
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13527,25 +13518,144 @@ File
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The File class provides access to the operating systems' directories and
+ files.
+ File objects are Dictionaries.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+.new
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.new
+\end_layout
+
+\end_inset
+
+ <String filename>
+\end_layout
+
+\begin_layout Standard
+The .new class method creates and returns a new File object from a String
+ giving the path to the file.
+\end_layout
+
+\begin_layout LyX-Code
+> File!new '/tmp/foo'
+\end_layout
+
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.filename = '/tmp/foo')) # File Dictionary
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+.open
+\begin_inset Index
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.open
+\end_layout
+
+\end_inset
+
+ <mode>
+\end_layout
+
+\begin_layout Standard
+The .open method creates stream objects for access to files.
+ If the 
+\emph on
+mode
 \emph default
-s
+ is 
+\emph on
+^read
+\emph default
+ a 
+\emph on
+Reader
+\emph default
+ stream object is created for reading the file.
+ Multiple Readers may be created at a time.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> ((File!new '.gitignore')(.open ^read))(.readAll)
+\end_layout
+
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+'#
+\backslash
+n# Reading, Conferences...
 \end_layout
 
 \begin_layout Standard
-TODO
+If the 
+\emph on
+mode
+\emph default
+ is 
+\emph on
+^write
+\emph default
+ the file is created and a Writer stream is returned.
+ If the file already exists it is truncated.
+\end_layout
+
+\begin_layout LyX-Code
+> ((File!new '/tmp/foo')(.open ^write))
+\end_layout
+
+\begin_layout LyX-Code
+: .format "A new line."
+\end_layout
+
+\begin_layout LyX-Code
+: .close
+\end_layout
+
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+nil # NilSymbol SimpleSymbol
 \end_layout
 
 \begin_layout Subsubsection
 
 \emph on
-.new
-\begin_inset Index idx
+.list
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-.new
+.list
 \end_layout
 
 \end_inset
@@ -13554,20 +13664,40 @@ status open
 \end_layout
 
 \begin_layout Standard
-TODO
+if the 
+\emph on
+File
+\emph default
+ object is a directory, the 
+\emph on
+.list
+\emph default
+ method returns a list of the files in the directory.
+\end_layout
+
+\begin_layout LyX-Code
+> (File!new '/etc')(.list)
+\end_layout
+
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+('NetworkManager' 'PackageKit' 'Trolltech.conf' 'X11' 'abrt' 'acpi' ...
 \end_layout
 
 \begin_layout Subsubsection
 
 \emph on
-.open
-\begin_inset Index idx
+.abs-path
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-.open
+.abs-path
 \end_layout
 
 \end_inset
@@ -13576,122 +13706,142 @@ status open
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.abs-path
+\emph default
+ method returns the absolute path of the file with all relative paths removed.
+\end_layout
+
+\begin_layout LyX-Code
+> (File!new '/etc/..')(.abs-path)
+\end_layout
+
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+'/' # String
+\end_layout
+
+\begin_layout Standard
+see java.io.File.getCanonicalFile
 \end_layout
 
 \begin_layout Subsubsection
 
 \emph on
-.format
-\begin_inset Index idx
+.exists
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-.format
+.exists
 \end_layout
 
 \end_inset
 
-
+ <String filename>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.exists 
+\emph default
+class method returns true if the file exists otherwise nil.
+\end_layout
+
+\begin_layout LyX-Code
+> File!exists "/tmp/null"
+\end_layout
+
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+nil # NilSymbol SimpleSymbol
+\end_layout
+
+\begin_layout LyX-Code
+> File!exists "/tmp/foo"
+\end_layout
+
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+true # SimpleSymbol
 \end_layout
 
 \begin_layout Subsubsection
 
 \emph on
-.close
-\begin_inset Index idx
+.is-dir?
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
 
 \emph on
-.close
+.is-dir?
 \end_layout
 
 \end_inset
 
-
+ <String filename>
 \end_layout
 
 \begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Subsubsection
-
+The 
 \emph on
-.hasData
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
+.is-dir? 
+\emph default
+class method returns true if the file is a directory otherwise 
 \emph on
-.hasData
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Subsubsection
-
+nil
+\emph default
+.
+ if the file does not exist 
 \emph on
-.read
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.read
+nil
+\emph default
+ is returned so this function could have been called does-the-file-exist-and-is-
+it-a-directory?
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+> File!is-dir? "/tmp/null"
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+:
 \end_layout
 
-\begin_layout Subsubsection
-
-\emph on
-.static-open
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.static-open
+\begin_layout LyX-Code
+nil # NilSymbol SimpleSymbol
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+> File!is-dir? "/tmp"
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+:
+\end_layout
+
+\begin_layout LyX-Code
+true # SimpleSymbol
 \end_layout
 
 \begin_layout Subsection
 Pipes
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13711,7 +13861,7 @@ Genyris provides named pipes within the JVM which allows tasks to communicate
 
 \begin_layout Subsubsection
 .list
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13737,7 +13887,7 @@ This function returns a list of the string names of the pipes currently
 \end_layout
 
 \begin_layout Subsubsection
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13771,7 +13921,7 @@ Pipe
 
 \begin_layout Subsubsection
 .output
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13801,7 +13951,7 @@ Writer
 
 \begin_layout Subsubsection
 .input
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13831,7 +13981,7 @@ Reader
 
 \begin_layout Subsubsection
 .delete
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -13857,7 +14007,7 @@ This function closes a pipe and removes it from the global list of pipes.
 
 \begin_layout Subsubsection
 Pipe Examples
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14024,7 +14174,7 @@ n')
 Interacting with Web Servers with 
 \emph on
 HTTP
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14042,7 +14192,7 @@ HTTP
 
 \emph on
 web:get
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14097,7 +14247,7 @@ Functions are provided to allow files of source code to be read and executed.
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="3">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -14201,7 +14351,7 @@ Free format LISP Syntax with parentheses in place of indentation.
 
 \begin_layout Subsubsection
 load
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14249,7 +14399,7 @@ load
 
 \begin_layout Subsubsection
 include
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14318,7 +14468,7 @@ name "sub:Namespaces"
 
 \begin_layout Standard
 A way to prevent name clashes is to use symbol prefixes to define 'namespaces
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14337,7 +14487,7 @@ namespaces
 @prefix
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14407,7 +14557,7 @@ x is consumed by the parser, and any subsequent symbols it sees starting
 
 \begin_layout LyX-Code
 ~ http://my.org/2008/spells/accio # URISymbol
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14696,7 +14846,7 @@ Semantic Markup
 
 \begin_layout Standard
 Namespaces are compatible with RDF
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14767,7 +14917,7 @@ Modules
 \begin_layout Standard
 We have seen how names can be grouped within a Dictionary object.
  This idea is made easier through modules
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14847,7 +14997,7 @@ Notice we don't need to declare a dictionary since this is provided by
  import
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14868,7 +15018,7 @@ import
 
 \begin_layout LyX-Code
 setq sys:path
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14928,7 +15078,7 @@ If we change the source code of
  and need to load the new code, we must use the
 \emph on
  reload
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -14955,7 +15105,7 @@ etc...
 
 \begin_layout Subsubsection
 sys:import
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15001,7 +15151,7 @@ The
 
 \begin_layout Subsubsection
 import
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15076,7 +15226,7 @@ queens!queens 5  # call the module's public function
 
 \begin_layout Subsubsection
 reload
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15269,7 +15419,7 @@ TODO: How to extract it by code
 
 \emph on
 StandardClass
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15287,7 +15437,7 @@ StandardClass
 
 \emph on
 .classname
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15305,7 +15455,7 @@ status open
 
 \emph on
 .subclasses
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15323,7 +15473,7 @@ status open
 
 \emph on
 .superclasses
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15341,7 +15491,7 @@ status open
 
 \emph on
 .vars
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15359,7 +15509,7 @@ status open
 
 \emph on
 Builtin
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15377,7 +15527,7 @@ Builtin
 
 \emph on
 Thing
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15399,7 +15549,7 @@ TODO
 
 \emph on
 .vars
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15413,7 +15563,7 @@ status open
 
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status collapsed
 
 \begin_layout Plain Layout
@@ -15433,7 +15583,7 @@ TODO
 
 \emph on
 .self
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15447,7 +15597,7 @@ status open
 
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status collapsed
 
 \begin_layout Plain Layout
@@ -15467,7 +15617,7 @@ TODO
 
 \emph on
 .classes
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15481,7 +15631,7 @@ status open
 
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status collapsed
 
 \begin_layout Plain Layout
@@ -15501,7 +15651,7 @@ TODO
 
 \emph on
 .valid?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15515,7 +15665,7 @@ status open
 
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status collapsed
 
 \begin_layout Plain Layout
@@ -15535,7 +15685,7 @@ TODO
 
 \emph on
 NilSymbol
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15557,7 +15707,7 @@ TODO
 
 \emph on
 Closure
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15579,7 +15729,7 @@ TODO
 
 \emph on
 LazyProcedure
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15601,7 +15751,7 @@ TODO
 
 \emph on
 EagerProcedure
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15629,7 +15779,7 @@ name "sub:Pair"
 
 \emph on
 Pair
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15651,7 +15801,7 @@ TODO
 
 \emph on
 list
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15669,7 +15819,7 @@ list
 
 \emph on
 car
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15687,7 +15837,7 @@ car
 
 \emph on
 cdr
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15705,7 +15855,7 @@ cdr
 
 \emph on
 left
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15723,7 +15873,7 @@ left
 
 \emph on
 right
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15741,7 +15891,7 @@ right
 
 \emph on
 cons
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15759,7 +15909,7 @@ cons
 
 \emph on
 .left
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15777,7 +15927,7 @@ status open
 
 \emph on
 .right
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15795,7 +15945,7 @@ status open
 
 \emph on
 rplaca
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15813,7 +15963,7 @@ rplaca
 
 \emph on
 rplacd
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15831,7 +15981,7 @@ rplacd
 
 \emph on
 reverse
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15849,7 +15999,7 @@ reverse
 
 \emph on
 length
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15867,7 +16017,7 @@ length
 
 \emph on
 map-left
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15885,7 +16035,7 @@ map-left
 
 \emph on
 member?
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15907,7 +16057,7 @@ TODO
 
 \emph on
 Alist
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15925,7 +16075,7 @@ Alist
 
 \emph on
 .lookup
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15949,7 +16099,7 @@ TODO
 .
 \emph on
 getKeys
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15971,7 +16121,7 @@ TODO
 
 \emph on
 .hasKey
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -15995,7 +16145,7 @@ TODO
 
 \emph on
 .render
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16017,7 +16167,7 @@ TODO
 
 \emph on
 Object
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16035,7 +16185,7 @@ Object
 
 \emph on
 .new
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16057,7 +16207,7 @@ TODO
 
 \emph on
 .init
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16103,7 +16253,7 @@ Unix
 Add an environment variable called
 \emph on
  GENYRIS_HOME
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16181,7 +16331,7 @@ Command line options
 
 \begin_layout Standard
 Genyris is started by the Java interpreter from the command line
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16460,7 +16610,7 @@ load
  
 \series default
 'org/genyris/load/boot/init.g
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16474,7 +16624,7 @@ init.g
 
 \begin_layout Section
 Tasks
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16506,7 +16656,7 @@ ed code yet retains the advantages of asynchronous execution and multi-core
 Running Multiple Interpreters in the Same Process with 
 \emph on
 spawn
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16533,7 +16683,7 @@ Spawn creates a new Genyris interpreter instance which is then executed
  The function returns a
 \emph on
  Task
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16624,7 +16774,7 @@ kill
 Tasks and the underlying Java threads are killed with the
 \emph on
  task:kill
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16641,7 +16791,7 @@ task:kill
  This is also available as the
 \emph on
  .kill
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16661,7 +16811,7 @@ Task
  class
 \emph on
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16697,7 +16847,7 @@ task:kill <integer Java thread id>
 
 \begin_layout Subsubsection
 Thread Safety
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16744,7 +16894,7 @@ Genyris
 
 \emph on
 task:synchronized
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16898,7 +17048,7 @@ ps
 The
 \emph on
  ps
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -16937,7 +17087,7 @@ Starting a web server
 A new interpreter can be started as a server with the
 \emph on
  httpd
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -17043,7 +17193,7 @@ Processing Web Requests
 The web server main loop expects to fnd a function called
 \emph on
  httpd-serve
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -17085,7 +17235,7 @@ The request parameter is an object of class
  HttpRequest
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -17425,7 +17575,7 @@ Java symbol names used for fields, classnames etc have a different syntax
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -17512,7 +17662,7 @@ Importing a Java Class with
 The
 \emph on
  java:import
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -17720,7 +17870,7 @@ Java objects are contained within
 The special field 
 \emph on
 java:class
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -17843,7 +17993,7 @@ The following table lists the conversions of base types in method calls,
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="15" columns="2">
-<features tabularvalignment="middle">
+<features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -18888,7 +19038,7 @@ The Build
 To compile from source you need install
 \emph on
 Ant
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -18999,7 +19149,7 @@ Reflection
 
 \emph on
 symlist
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19021,7 +19171,7 @@ TODO
 
 \emph on
 sys:self-test
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19187,7 +19337,7 @@ TODO
 
 \begin_layout Section
 System
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19205,7 +19355,7 @@ The System module allows interaction with the interpreter itself.
 
 \begin_layout Subsection
 .HOME
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19244,7 +19394,7 @@ GENYRIS_HOME/libs
 
 \emph on
 os
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19265,7 +19415,7 @@ This module contains variables and functions that allow interaction with
 
 \begin_layout Subsection
 .getProperties
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19303,7 +19453,7 @@ Example:
 
 \emph on
 .exec
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19325,7 +19475,7 @@ TODO
 
 \emph on
 .getenv
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19349,7 +19499,7 @@ TODO
 spawn
 \emph default
 
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19421,7 +19571,7 @@ temp' on windows.
 
 \begin_layout Subsection
 .exit
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19544,7 +19694,7 @@ Time and Date
 
 \emph on
 os!ticks
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19592,7 +19742,7 @@ os!ticks
 
 \emph on
 now
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19620,7 +19770,7 @@ os!ticks
 
 \emph on
 format-date
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19656,7 +19806,7 @@ For example:
 
 \emph on
 calendar
-\begin_inset Index idx
+\begin_inset Index
 status open
 
 \begin_layout Plain Layout
@@ -19893,7 +20043,6 @@ Index
 \begin_layout Standard
 \begin_inset CommandInset index_print
 LatexCommand printindex
-type "idx"
 
 \end_inset
 

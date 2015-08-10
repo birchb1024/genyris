@@ -18,10 +18,10 @@ catch err
    File!static-open "/undefined/path/qwerty" ^write
 assert err
 
-assert (File!static-is-dir? '.')
+assert (File!is-dir? '.')
 assert
    not
-      File!static-is-dir? (prepend-home 'test/fixtures/test.pipe')
+      File!is-dir? (prepend-home 'test/fixtures/test.pipe')
    
 cond
     (os!name(.match "Windows.*"))

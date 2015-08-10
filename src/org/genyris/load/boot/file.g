@@ -27,3 +27,6 @@ File
         if (equal? error nil)
             true
             nil
+
+    define .is-dir? .static-is-dir? 
+       
