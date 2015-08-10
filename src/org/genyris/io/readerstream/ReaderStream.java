@@ -124,6 +124,26 @@ public class ReaderStream extends Atom {
     		return new StrinG(buf.toString());
         }
     }
+    public static class ReadAllMethod extends AbstractReaderMethod {
+
+        public ReadAllMethod(Interpreter interp) {
+            super(interp, "readAll");
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            ReaderStream self = getSelfReader(env);
+            StringBuffer buf = new StringBuffer();
+            if(!self._input.hasData()) {
+                return env.getSymbolTable().EOF();
+            }
+            do {
+                int ch = self._input.readNext();
+                buf.append((char)ch);
+            }  while(self._input.hasData());
+            return new StrinG(buf.toString());
+        }
+    }
     public static class HasDataMethod extends AbstractReaderMethod {
 
         public HasDataMethod(Interpreter interp) {
@@ -176,6 +196,7 @@ public class ReaderStream extends Atom {
         interpreter.bindMethodInstance(Constants.READER, new CloseMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new GetLineMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new CopyMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.READER, new ReadAllMethod(interpreter));
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;

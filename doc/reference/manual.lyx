@@ -8383,7 +8383,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Matches 
+Matches within lines in 
 \emph on
 self
 \emph default
@@ -8410,7 +8410,12 @@ nil
 
 \end_deeper
 \begin_layout Standard
-Where 
+To match across line breaks, replace the line breaks with another char such
+ as space.
+\end_layout
+
+\begin_layout Standard
+ 
 \emph on
 regex
 \emph default
@@ -12915,6 +12920,34 @@ read
 \begin_layout Paragraph
 
 \emph on
+.readAll
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.readAll
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Returns the entire content of the stream as a 
+\emph on
+String
+\emph default
+.
+ EOF will be returned if the file is empty or if readAll is called more
+ than once.
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
 .copy
 \begin_inset Index idx
 status open
@@ -13317,7 +13350,142 @@ StringFormatStream
 \end_layout
 
 \begin_layout Standard
-TODO
+The StringFormatStream is a charcter-based filter class that parses an input
+ stream looking for
+\end_layout
+
+\begin_layout Standard
+embedded mark-up with the suyntax #{..}.
+ Its output consists of a sequence of
+\end_layout
+
+\begin_layout Standard
+Strings, interspersed with the embedded markup.
+ For example an input stream consisting of the following: 
+\end_layout
+
+\begin_layout LyX-Code
+Hello World #{
+\end_layout
+
+\begin_layout LyX-Code
+(+ 1 2 3 4 5)
+\end_layout
+
+\begin_layout LyX-Code
+} --
+\end_layout
+
+\begin_layout LyX-Code
+#{"A string"}
+\end_layout
+
+\begin_layout LyX-Code
+<a href="#{(+ 4 5)}">A link</a>
+\end_layout
+
+\begin_layout Standard
+is returned as the following character sequence:
+\end_layout
+
+\begin_layout LyX-Code
+'"Hello World "
+\backslash
+n(+ 1 2 3 4 5)
+\backslash
+n" --
+\backslash
+n""A string""
+\backslash
+n<a href=
+\backslash
+""(+ 4 5)"
+\backslash
+">A link</a>
+\backslash
+n"'
+\end_layout
+
+\begin_layout Standard
+This is a tool for creating tools whose input file is predominantly strings
+ with small amounts of embedded code such as in server-side HTML templates
+ with embedded excutable code.
+\end_layout
+
+\begin_layout Standard
+The following example shows how a file in StringFormatStream syntax can
+ be read from a file, and the embedded #{} strings evaluated by the interpreter:
+\end_layout
+
+\begin_layout LyX-Code
+def eval-sfs-file()
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+  var fi (File(.new (prepend-home "test/fixtures/test.sfs")))
+\end_layout
+
+\begin_layout LyX-Code
+  var in (fi (.open ^read))
+\end_layout
+
+\begin_layout LyX-Code
+  var sfs (StringFormatStream(.new in))
+\end_layout
+
+\begin_layout LyX-Code
+  var parser (ParenParser(.new sfs))
+\end_layout
+
+\begin_layout LyX-Code
+  var exp nil
+\end_layout
+
+\begin_layout LyX-Code
+  while
+\end_layout
+
+\begin_layout LyX-Code
+     not
+\end_layout
+
+\begin_layout LyX-Code
+        equal? EOF
+\end_layout
+
+\begin_layout LyX-Code
+           setq exp (eval (parser(.read)))
+\end_layout
+
+\begin_layout LyX-Code
+     display exp
+\end_layout
+
+\begin_layout LyX-Code
+  parser(.close)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+When given the same input as above, this function prints the input with
+ execution of the embedded #{} expressions:
+\end_layout
+
+\begin_layout LyX-Code
+Hello World 15 --
+\end_layout
+
+\begin_layout LyX-Code
+A string
+\end_layout
+
+\begin_layout LyX-Code
+<a href="9">A link</a>
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Paragraph
@@ -13335,11 +13503,12 @@ status open
 
 \end_inset
 
-
+ <Reader>
 \end_layout
 
 \begin_layout Standard
-TODO
+Creates a new StringFormatStream from a Reader stream and returns an encompassin
+g Reader.
 \end_layout
 
 \begin_layout Subsection
