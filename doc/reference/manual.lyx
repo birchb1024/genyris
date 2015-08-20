@@ -65,6 +65,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -198912657 "birchb" 
 \end_header
 
 \begin_body
@@ -1546,11 +1547,11 @@ cons
 \end_layout
 
 \begin_layout LyX-Code
-
+:
 \end_layout
 
 \begin_layout LyX-Code
-123 = 456 # Pair
+(123 = 456) # Pair
 \end_layout
 
 \begin_layout Subsubsection
@@ -1668,10 +1669,10 @@ To allow entire sub-trees to be quoted, the quote function needs to be used
 
 \begin_layout LyX-Code
       list 1 2
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-         quote
+\begin_layout LyX-Code
+        quote
 \begin_inset Newline newline
 \end_inset
 
@@ -1709,15 +1710,27 @@ Example:
 \end_layout
 
 \begin_layout LyX-Code
-raise
+> raise
 \end_layout
 
 \begin_layout LyX-Code
-   "Error in %a at %a."      
+:    "Error in %a at %a."      
 \end_layout
 
 \begin_layout LyX-Code
-        .format @FILE @LINE
+:         .format @FILE @LINE
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+*** Error - 'Error in console at 356.'
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Standard
@@ -1725,11 +1738,11 @@ Example of data file using line numbers:
 \end_layout
 
 \begin_layout LyX-Code
-id @LINE 
+id = @LINE 
 \end_layout
 
 \begin_layout LyX-Code
-    name 
+    name = 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1742,7 +1755,7 @@ Philip K.
 \end_layout
 
 \begin_layout LyX-Code
-    DOB 
+    DOB = 
 \begin_inset Quotes eld
 \end_inset
 
@@ -7949,6 +7962,13 @@ scale 1.5 0 -> 2
 
 \begin_layout Subsection
 Lists and Pairs
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Lists-and-Pairs"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -14229,7 +14249,7 @@ web:get
 
 \begin_layout Standard
 Content can be sent to and fetched from web servers using the web: get function.
- This takes as input a URL string and an option alist of request headers.
+ This takes as input a URL string and an optional list of request headers.
  It sends the GET request to web server and the returns the response content
  in a Reader stream.
  The response must have the 200 'OK' status code otherwise an exception
@@ -16022,6 +16042,7 @@ mat calendar task:sleep abs include utilities:getLocalTime member? map-left
 \end_layout
 
 \begin_layout Subsection
+class 
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Pair"
@@ -16046,114 +16067,43 @@ Pair
 \end_layout
 
 \begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Subsubsection
-
+Pair objects are builtin 'cons' cells - a n object with two properties which
+ refer to any Genyris object.
+ The slots are named 
 \emph on
-list
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
+.left
+\emph default
+ and 
 \emph on
-list
-\end_layout
+.right.
+ 
+\emph default
+Refer section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Lists-and-Pairs"
 
 \end_inset
 
-
+.
+ These objects are members of class 
+\emph on
+Pair.
 \end_layout
 
-\begin_layout Subsubsection
-
-\emph on
-car
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-car
+\begin_layout LyX-Code
+> (cons 1 2)
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+: 
 \end_layout
 
-\begin_layout Subsubsection
-
-\emph on
-cdr
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-cdr
+\begin_layout LyX-Code
+(1 = 2) # Pair 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-left
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-left
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-right
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-right
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-cons
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-cons
-\end_layout
-
-\end_inset
-
+\begin_layout LyX-Code
 
 \end_layout
 
@@ -16168,132 +16118,6 @@ status open
 
 \emph on
 .left
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-.right
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-.right
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-rplaca
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-rplaca
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-rplacd
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-rplacd
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-reverse
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-reverse
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-length
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-length
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-map-left
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-map-left
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\emph on
-member?
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-member?
 \end_layout
 
 \end_inset
@@ -16302,15 +16126,64 @@ member?
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.left 
+\emph default
+property holds the 
+\emph on
+left
+\emph default
+ property of the Pair.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+.right
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.right
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+.right 
+\emph default
+property holds the 
+\emph on
+right
+\emph default
+ property of the Pair.
 \end_layout
 
 \begin_layout Subsection
+class 
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+PairSource
+\end_layout
+
+\end_inset
+
 PairSource
 \end_layout
 
 \begin_layout Standard
-TODO
+Builtin PairSource objects are created by Parser classes.
+ PairSource is a subclass of Pair.
 \end_layout
 
 \begin_layout LyX-Code
@@ -16350,11 +16223,33 @@ TODO
 \end_layout
 
 \begin_layout LyX-Code
+> ^(x)!filename                                                     
+\end_layout
 
+\begin_layout LyX-Code
+:                                      
+\end_layout
+
+\begin_layout LyX-Code
+'console' # String  
 \end_layout
 
 \begin_layout Subsubsection
-.line-number 
+.line-number
+\end_layout
+
+\begin_layout Standard
+This property holds the line number of the source file or stream where the
+ Pair was created during the parse.
+\end_layout
+
+\begin_layout Subsubsection
+.filename
+\end_layout
+
+\begin_layout Standard
+This property holds the name of the source file or stream where the Pair
+ was created during the parse.
 \end_layout
 
 \begin_layout Subsubsection
@@ -16362,9 +16257,550 @@ TODO
 \end_layout
 
 \begin_layout Subsection
+Functions for Pairs and Lists
+\end_layout
+
+\begin_layout Standard
+To keep compatibility with Lisp, Genyris has functions for manipulating
+ Pair objects, some with identical names from Lisp.
+\end_layout
+
+\begin_layout Subsubsection
 
 \emph on
-Alist
+list
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+list
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The eager 
+\emph on
+list
+\emph default
+ function returns its arguments as a List made of Pairs.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> list 1 "2" ^(3)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(1 "2" (3)) # Pair 
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+car
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+car
+\end_layout
+
+\end_inset
+
+ <Pair>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+car
+\emph default
+ function returns the 
+\emph on
+.left
+\emph default
+ property of a 
+\emph on
+Pair
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+cdr
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+cdr
+\end_layout
+
+\end_inset
+
+ <Pair>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+cdr
+\emph default
+ function returns the 
+\emph on
+.right
+\emph default
+ property of a 
+\emph on
+Pair
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+left
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+left
+\end_layout
+
+\end_inset
+
+ <Pair>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+left
+\emph default
+ function returns the 
+\emph on
+.left
+\emph default
+ property of a 
+\emph on
+Pair
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+right
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+right
+\end_layout
+
+\end_inset
+
+ <Pair>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+right
+\emph default
+ function returns the 
+\emph on
+.right
+\emph default
+ property of a 
+\emph on
+Pair
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+cons
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+cons
+\end_layout
+
+\end_inset
+
+ <left> <right>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+cons
+\emph default
+ function returns a 
+\emph on
+Pair
+\emph default
+ object comprising properties of its two arguments left and right respectively.
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+rplaca
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+rplaca
+\end_layout
+
+\end_inset
+
+ <Pair> <obj>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+rplaca
+\emph default
+ replaces the left property of a Pair in its with the value of its second
+ paramenter.
+ This 
+\emph on
+modifies
+\emph default
+ the <obj> it does not create a copy of the object.
+ The <obj> is returned.
+ This function can be used to create self-referential structures.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> define x (cons 1 2)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(1 = 2) # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+> rplaca x 99
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(99 = 2) # Pair 
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+rplacd
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+rplacd
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+rplacd
+\emph default
+ replaces the right property of a Pair in its with the value of its second
+ paramenter.
+ This 
+\emph on
+modifies
+\emph default
+ the <obj> it does not create a copy of the object.
+ The <obj> is returned.
+ This function can be used to create self-referential structures.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> define x (cons 1 2)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(1 = 2) # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+> rplacd x 99
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(2 = 99) # Pair 
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+reverse
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+reverse
+\end_layout
+
+\end_inset
+
+ <list>
+\end_layout
+
+\begin_layout Standard
+The revese function returns a new list with the elements in reverse order.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> reverse ^(1 2 3)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(3 2 1) # Pair
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+length
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+length
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The length function returns a count of the number of elements in a list,
+ or number of characters in a 
+\emph on
+String
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+> length ^(1 2 3)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+3 # Bignum 
+\end_layout
+
+\begin_layout LyX-Code
+> length "123"
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+3 # Bignum 
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+map-left
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+map-left
+\end_layout
+
+\end_inset
+
+ <List> <function-closure>
+\end_layout
+
+\begin_layout Standard
+The map-left function applies its second parameter (a function) to each
+ element in its first parameter (a list) and returns a list of the returns.
+\end_layout
+
+\begin_layout LyX-Code
+> var x ^(1 2 3 4 5 6)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(1 2 3 4 5 6) # PairSource 
+\end_layout
+
+\begin_layout LyX-Code
+> map-left x (lambda (y) (> y 3))
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(nil nil nil true true true) # Pair 
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+member?
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+member?
+\end_layout
+
+\end_inset
+
+ <List> <obj>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+member? 
+\emph default
+function returns 
+\emph on
+nil
+\emph default
+ if the second parameter is not 
+\emph on
+equal? to 
+\emph default
+an element in the second parameter, otherwise it returns some other object
+ not equal to 
+\emph on
+nil
+\emph default
+.
+\end_layout
+
+\begin_layout LyX-Code
+> var x ^(1 2 (4))
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(1 2 (4)) # PairSource 
+\end_layout
+
+\begin_layout LyX-Code
+> member? ^(1) x 
+\end_layout
+
+\begin_layout LyX-Code
+:  
+\end_layout
+
+\begin_layout LyX-Code
+nil # NilSymbol SimpleSymbol
+\end_layout
+
+\begin_layout LyX-Code
+> member? ^(4) x
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+((4)) # PairSource 
+\end_layout
+
+\begin_layout Subsection
+
+\emph on
+class Alist
 \begin_inset Index idx
 status open
 
@@ -16377,6 +16813,75 @@ Alist
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+Alist
+\emph default
+ class models the associative list of Lisp.
+ An ALis is a flat list comprising cons cells where the left property constitute
+s a key and the right a value.
+ Methods are provided for accessing the key=value pairs.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+tag AList ^((day = 1) (month = 1) (year = 1970))
+\end_layout
+
+\begin_layout Standard
+Here's a more complete example:
+\end_layout
+
+\begin_layout LyX-Code
+df data (&rest args) args # quote multiple args
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+var assoc
+\end_layout
+
+\begin_layout LyX-Code
+  tag Alist 
+\end_layout
+
+\begin_layout LyX-Code
+    data
+\end_layout
+
+\begin_layout LyX-Code
+      about = "http://publisher/books#12312"
+\end_layout
+
+\begin_layout LyX-Code
+      title = "It Was A Dark And Stormy Night"
+\end_layout
+
+\begin_layout LyX-Code
+      author = "Fred Nurke"
+\end_layout
+
+\begin_layout Standard
+The variable 
+\emph on
+assoc
+\emph default
+ holds the Alist.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+assert  (assoc(.hasKey ^title))
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual nil (assoc(.hasKey ^ZZZ))
 \end_layout
 
 \begin_layout Paragraph
@@ -16396,11 +16901,48 @@ status open
 
 
 \emph default
-(key)
+<key>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.lookup
+\emph default
+ method searches the Alist left to right, if the key is 
+\emph on
+equal?
+\emph default
+ to the 
+\emph on
+.left
+\emph default
+ of an 
+\emph on
+Alist
+\emph default
+ pair, the 
+\emph on
+.right
+\emph default
+ of the pair is returned.
+ If there is no match, 
+\emph on
+nil
+\emph default
+ is returned.
+\end_layout
+
+\begin_layout LyX-Code
+> assoc(.lookup ^title)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+"It Was A Dark And Stormy Night" # String 
 \end_layout
 
 \begin_layout Paragraph
@@ -16419,10 +16961,32 @@ getKeys
 \end_inset
 
 
+\change_inserted -198912657 1440079594
+
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.getKeys
+\emph default
+ method returns the 
+\emph on
+.left
+\emph default
+ of each element of the list.
+\end_layout
+
+\begin_layout LyX-Code
+> assoc(.getKeys)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(about title author) # Pair 
 \end_layout
 
 \begin_layout Paragraph
@@ -16442,33 +17006,33 @@ status open
 
 
 \emph default
-(key)
+<key>
 \end_layout
 
 \begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Paragraph
-
+The method 
 \emph on
-.render
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
+.hasKey
+\emph default
+ returns nil if the first parameter is not a left of one of the Alist elements,
+ otherwise a non-
 \emph on
-.render
+nil
+\emph default
+ object is returned.
+ 
 \end_layout
 
-\end_inset
-
-
+\begin_layout LyX-Code
+> ((assoc(.hasKey ^titleZ)))
 \end_layout
 
-\begin_layout Standard
-TODO
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+nil # NilSymbol SimpleSymbol 
 \end_layout
 
 \begin_layout Subsection
