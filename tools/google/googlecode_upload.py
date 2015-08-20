@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 #
 # Copyright 2006, 2007 Google Inc. All Rights Reserved.
 # Author: danderson@google.com (David Anderson)
@@ -57,7 +57,6 @@ import sys
 
 
 def upload(file, project_name, user_name, password, summary, labels=None):
-  print "Uploading ...", file, summary, labels
   """Upload a file to a Google Code project's file server.
 
   Args:
@@ -168,14 +167,6 @@ def upload_find_auth(file_path, project_name, summary, labels=None,
     user_name: Your Google account name.
     tries: How many attempts to make.
   """
-  if user_name is None or password is None:
-    from netrc import netrc
-    authenticators = netrc().authenticators("code.google.com")
-    if authenticators:
-      if user_name is None:
-        user_name = authenticators[0]
-      if password is None:
-        password = authenticators[2]
 
   while tries > 0:
     if user_name is None:
@@ -240,9 +231,11 @@ def main():
   else:
     labels = None
 
-  status, reason, url = upload_find_auth(file_path, options.project,
-                                         options.summary, labels,
-                                         options.user, options.password)
+def upload_file(file, project, summary, labels, username, password):
+
+  status, reason, url = upload_find_auth(file, project,
+                                         summary, labels,
+                                         username, password)
   if url:
     print 'The file was uploaded successfully.'
     print 'URL: %s' % url
