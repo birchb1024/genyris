@@ -18,8 +18,16 @@ import javax.sound.sampled.SourceDataLine;
 import org.genyris.exception.GenyrisException;
 
 public class Sound {
-	private static final int EXTERNAL_BUFFER_SIZE = 128000;
+	private static final int EXTERNAL_BUFFER_SIZE = 1280;
 
+	private static void sleep(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);  
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+	}
+	
 	public static void play(String strFilename) throws GenyrisException {
 		/*
 		 * Copyright (c) 1999 - 2001 by Matthias Pfisterer All rights reserved.
@@ -123,10 +131,12 @@ public class Sound {
 		 * bug noted below. (If we do not wait, we would interrupt the playback
 		 * by prematurely closing the line and exiting the VM.)
 		 * 
-		 * Thanks to Margie Fitch for bringing me on the right path to this
-		 * solution.
 		 */
-		line.drain();
+		while( line.isRunning() ){
+	        // See Issue https://github.com/birchb1024/genyris/issues/15
+		    sleep(100);  // 0.1 second.
+		}
+	    line.drain(); 
 		/*
 		 * All data are played. We can close the shop.
 		 */
