@@ -69,5 +69,3 @@ assert
 import Sound
 catch ignore-errors # e.g. when running ssh over X there's no sound 
     Sound(.play (prepend-home "test/fixtures/boing.wav"))
-
-print "DONE"
