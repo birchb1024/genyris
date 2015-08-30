@@ -66,6 +66,7 @@ assert
       equal?  0 :total-test-failed-counter
       equal? nil :failed-files
 
-import Sound
-catch ignore-errors # e.g. when running ssh over X there's no sound 
-    Sound(.play (prepend-home "test/fixtures/boing.wav"))
+# Refer https://github.com/birchb1024/genyris/issues/15
+# import Sound
+# catch ignore-errors # e.g. when running ssh over X there's no sound 
+#    Sound(.play (prepend-home "test/fixtures/boing.wav"))
