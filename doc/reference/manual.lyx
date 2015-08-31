@@ -101,19 +101,12 @@ Peter William Birch
 \begin_layout Standard
 \noindent
 \align center
-birchb@genyris.org
+birchb1024@gmail.com
 \end_layout
 
 \begin_layout Abstract
-This document is the user manual for the Genyris scripting language, that
- combines influences from the Semantic Web, Scheme, Smalltalk and Python.
- 
-\end_layout
-
-\begin_layout Abstract
-Incomplete sections marked 
-\emph on
-'TODO'.
+This document is the user manual for the Genyris scripting language, the
+ language that provides multi-class objects and support for semantic programs.
 \end_layout
 
 \begin_layout Standard
@@ -20172,7 +20165,13 @@ sys:self-test
 \end_layout
 
 \begin_layout Standard
-TODO
+Genyris is provided with unit and acceptance test scripts.
+ The 
+\emph on
+http://www.genyris.org/lang/system#self-test
+\emph default
+ function runs the self test suite.
+ This can be used to validate the platform on which the interpreter is running.
 \end_layout
 
 \begin_layout Subsection
@@ -20318,7 +20317,51 @@ ListOfLines
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+os!exec
+\emph default
+ method returns a of 
+\emph on
+ListOfLines
+\emph default
+.
+ A 
+\emph on
+ListOfLines
+\emph default
+ is a list of strings.
+ each string being a sequential line without the trailing line feed.
+ 
+\emph on
+ListOfLines
+\emph default
+ has a method 
+\emph on
+.toHTML
+\emph default
+ which returns HTML in %x format.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> ((os!exec 'date').left)(.toHTML)
+\end_layout
+
+\begin_layout LyX-Code
+((os!exec 'date').left)(.toHTML)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(pre nil (('Monday 31 August  22:37:17 AEST 2015' (br nil)))) # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Section
@@ -20423,16 +20466,31 @@ Example:
 \end_layout
 
 \begin_layout LyX-Code
-> os!getProperties
+> print (os!getProperties)
 \end_layout
 
 \begin_layout LyX-Code
-
+: 
 \end_layout
 
 \begin_layout LyX-Code
-(dict (.|awt.toolkit| = 'sun.awt.windows.WToolkit') (.|file.encoding| = 'Cp1252')
- (.|file.encoding.pkg| = 'sun.io') .....
+dict (.|file.encoding| = 'UTF-8')
+\end_layout
+
+\begin_layout LyX-Code
+      .|file.encoding.pkg| = 'sun.io'
+\end_layout
+
+\begin_layout LyX-Code
+      .|file.separator| = '/'
+\end_layout
+
+\begin_layout LyX-Code
+      .|java.awt.graphicsenv| = 'sun.awt.X11GraphicsEnvironment'
+\end_layout
+
+\begin_layout LyX-Code
+      .|java.awt.printerjob| = 'sun.print.PSPrinterJob'
 \end_layout
 
 \begin_layout Subsection
@@ -20450,11 +20508,97 @@ status open
 
 \end_inset
 
-
+ <arg>...
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.exec
+\emph default
+ method spawns an operating system process using the arguments supplied
+ as arguments to the command which is the first argument.
+ The method returns a 
+\emph on
+Pair,
+\emph default
+ the .
+\emph on
+left
+\emph default
+ holding a 
+\emph on
+ListOfLines
+\emph default
+ with the stdout of the process, and the .
+\emph on
+right
+\emph default
+ holding a 
+\emph on
+ListOfLines
+\emph default
+ from stderr.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> for l in ((os!exec 'ps' '-ef').left) (print l)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+~ 'UID        PID  PPID  C STIME TTY          TIME CMD'
+\end_layout
+
+\begin_layout LyX-Code
+~ 'root         1     0  0 19:28 ?        00:00:01 /sbin/init'
+\end_layout
+
+\begin_layout LyX-Code
+~ 'root         2     0  0 19:28 ?        00:00:00 [kthreadd]'
+\end_layout
+
+\begin_layout LyX-Code
+....
+\end_layout
+
+\begin_layout Standard
+If the command cannot run, an exception is thrown which will indicate the
+ error cause.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> catch error
+\end_layout
+
+\begin_layout LyX-Code
+:   os!exec "Foo"
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+nil # ListOfLines NilSymbol SimpleSymbol 
+\end_layout
+
+\begin_layout LyX-Code
+> print error
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+~ 'exec failed, message is: Cannot run program "Foo": java.io.IOException:
+ error=2, No such file or directory'
 \end_layout
 
 \begin_layout Subsection
@@ -20472,11 +20616,66 @@ status open
 
 \end_inset
 
-
+ [varname]
 \end_layout
 
 \begin_layout Standard
-TODO
+When called with no arguments, the 
+\emph on
+.getenv
+\emph default
+ method returns a 
+\emph on
+Dictionary
+\emph default
+ containing the current OS process environment.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> os!getenv
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.DISPLAY = ':0') (.EDITOR = 'vi') (.GENYRIS_HOME = '/home/birchb/workspace/g
+enyris')
+\end_layout
+
+\begin_layout LyX-Code
+...
+\end_layout
+
+\begin_layout LyX-Code
+) # Dictionary 
+\end_layout
+
+\begin_layout Standard
+If an environment variable name parameter is passed in, 
+\emph on
+.getenv
+\emph default
+ returns only the value of the environment variable specified.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> os!getenv 'GENYRIS_HOME'
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'/home/birchb/workspace/genyris' # String 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Subsection
@@ -20504,7 +20703,14 @@ This function starts an operating system process and returns immediately
 \emph on
 Process
 \emph default
- (see below), or an exception is raised.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Class-Process"
+
+\end_inset
+
+), or an exception is raised.
 \end_layout
 
 \begin_layout Standard
@@ -20585,7 +20791,24 @@ This function requests the interpreter to terminate all threads and exit
 \end_layout
 
 \begin_layout Subsection
-Class Process
+Class 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Class-Process"
+
+\end_inset
+
+Process
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Process
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -21011,15 +21234,34 @@ Sound
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+Sound
+\emph default
+ class is a wrapper for playing sound files.
+ 
 \end_layout
 
 \begin_layout Subsubsection
-.play
+.play <soundfile>
 \end_layout
 
 \begin_layout Standard
-TODO
+The 
+\emph on
+.play
+\emph default
+ method sends the nominated file to the default Java sound device to be
+ played and waits for the the playback to conclude.
+
+\emph on
+ 
+\shape smallcaps
+Note: This implemention depends upon the Java javax.sound classes.
+ javax.sound may not work perfectly on all platforms.
+
+\shape default
+ 
 \end_layout
 
 \begin_layout Part*
