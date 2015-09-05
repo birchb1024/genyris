@@ -62,6 +62,7 @@ public class Constants {
         public static final String FILENAME = "filename";
 
         public static final String SLICE = "slice";
+        public static final String JOIN = "join";
         public static final String SPLIT = "split";
         public static final String TOINTS = "toInts";
         public static final String FROMINTS = "fromInts";

@@ -8536,7 +8536,7 @@ The
 \emph on
 .split
 \emph default
- method takes a string splits it into substrings using the 
+ method takes a string and splits it into substrings using the 
 \emph on
 <delimiter string>
 \emph default
@@ -8565,7 +8565,7 @@ If the
 \end_layout
 
 \begin_layout LyX-Code
-> "wqweqweq"(.split "")
+> "wqweqweq"(.split '')
 \end_layout
 
 \begin_layout LyX-Code
@@ -8573,11 +8573,62 @@ If the
 \end_layout
 
 \begin_layout LyX-Code
-('' 'w' 'q' 'w' 'e' 'q' 'w' 'e' 'q') # Pair 
+('w' 'q' 'w' 'e' 'q' 'w' 'e' 'q') # Pair 
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+.join
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+join
+\end_layout
+
+\end_inset
+
+ <list>
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+.join
+\emph default
+ method takes a list of objects as a parameter and returns a string consisting
+ of the list items with the string as a spacer.
+ For example:
 \end_layout
 
 \begin_layout LyX-Code
+> "."(.join ^(1 1 1970))
+\end_layout
 
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'1.1.1970' # String 
+\end_layout
+
+\begin_layout Standard
+Joining with an empty string concatenetes the arguments.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> ''(.join ^(Once upon a time))
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'Onceuponatime' # String 
 \end_layout
 
 \begin_layout Subsubsection

@@ -29,6 +29,8 @@ public class StringTests extends TestCase {
 
     public void testStringSplit() throws GenyrisException {
         checkEval("(''(.split))", "('')");
+        checkEval("(''(.split ''))", "('')");
+        checkEval("('12345'(.split ''))", "('1' '2' '3' '4' '5')");
         checkEval("('1 2 3 4 5'(.split))", "('1' '2' '3' '4' '5')");
         checkEval("('1,2,3,4,5'(.split ','))", "('1' '2' '3' '4' '5')");
         checkEval("('1    2 \t3  4 5'(.split '[ \\t]+'))", "('1' '2' '3' '4' '5')");
@@ -37,6 +39,28 @@ public class StringTests extends TestCase {
 
         checkEval("('http://www.genyris.org/path/index.html'(.split 'http://'))", "('' 'www.genyris.org/path/index.html')");
 
+    }
+
+    public void testJoin() throws GenyrisException {
+        checkEvalBad("(''(.join))");
+        checkEvalBad("(''(.join nil))");
+        checkEval("(','(.join ^(1)))", "'1'");
+        checkEval("(','(.join ^(1 2)))", "'1,2'");
+        checkEval("(','(.join ^(1 2 3)))", "'1,2,3'");
+        checkEval("(''(.join ^(1 2 3)))", "'123'");
+        checkEval("('\n'(.join ^(1 2 3)))", "'1\\n2\\n3'");
+        checkEval("(','(.join ^(1.1 2.1 3.1)))", "'1.1,2.1,3.1'");
+        checkEval("(','(.join ^(a b c)))", "'a,b,c'");
+        checkEval("(','(.join ^('a' 'b' 'c')))", "'a,b,c'");
+        checkEval("('..'(.join ^(1 2 3)))", "'1..2..3'");
+        checkEval("('.'(.join ^(a b c)))", "'a.b.c'");
+        checkEval("('.'(.join ^('a' 'b' 'c')))", "'a.b.c'");
+        checkEval("('.'(.join ^(1 ('a'))))", "'1.(a)'");
+        checkEval("('.'(.join ^(1 ('a' 12 \"34\" [3]))))", "'1.(a 12 34 (squareBracket 3))'");
+    }
+
+    public void testSplitJoin() throws GenyrisException {
+        checkEval("('.'(.join('1,2,3,4,5'(.split ','))))", "'1.2.3.4.5'");
     }
 
     public void testStringToInts() throws GenyrisException {
@@ -173,5 +197,5 @@ public class StringTests extends TestCase {
         checkEval("('foo:bar'(.toBase64))", "'Zm9vOmJhcg=='");
         checkEval("('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'(.toBase64))", "'enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eno='");
     }
-        
+
 }

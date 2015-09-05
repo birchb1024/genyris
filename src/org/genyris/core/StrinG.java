@@ -48,6 +48,13 @@ public class StrinG extends Atom {
         _quoteWith = '\'';
     }
 
+    public StrinG(char c) {
+        char[] array = new char [1];
+        array[0] = c;
+        _value = new String(array);
+        _quoteWith = '\'';
+    }
+
     public char getQuoteChar() {
         return _quoteWith;
     }
@@ -91,6 +98,16 @@ public class StrinG extends Atom {
 
     public Exp split(Exp NIL, StrinG regex) throws GenyrisException {
         Exp result = NIL;
+        if( regex.toString().equals("")) {
+            if( _value.equals("") ) {
+                return new Pair(new StrinG(""), NIL);
+            }
+            char[] array = _value.toCharArray();
+            for (int i = _value.length() - 1; i >= 0; i--) {
+                result = new Pair(new StrinG(array[i]), result);
+            }
+            return result;
+        }
         try {
             String[] splitted = _value.split(regex._value);
             for (int i = splitted.length - 1; i >= 0; i--) {
