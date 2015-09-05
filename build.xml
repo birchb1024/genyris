@@ -88,7 +88,7 @@
 
     <target name="git-info" description="Extract Git information." depends="only-git-workspace, only-git-status">
         <property name="specification-version" value="${git.workspace.specification.version}"/>
-        <buildnumber file="${git.workspace.version}-build-number.txt"/>
+        <buildnumber file="${git.workspace.version}-build.number"/>
         <property name="build.id" value="${build.number}"/>
         <echo>specification version = ${specification-version}</echo>
         <echo>Build Number = ${build.id}</echo>
@@ -321,6 +321,7 @@
         </exec>
         <checksum file="rel/genyris_windows_${version.underscores}.exe" forceOverwrite="yes" />
         <checksum file="rel/genyris_linux_${version.underscores}.deb" forceOverwrite="yes" />
+        <checksum file="rel/genyris_linux_${version.underscores}.rpm" forceOverwrite="yes" />
         <checksum file="rel/genyris_macos_${version.underscores}.dmg" forceOverwrite="yes" />
     </target>
 
