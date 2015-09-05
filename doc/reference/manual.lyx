@@ -1689,6 +1689,44 @@ which is the same as:
       list 1 2 (quote (x y z))
 \end_layout
 
+\begin_layout Standard
+
+\emph on
+quote 
+\emph default
+will only handle one argument, a multi-argument quote function is provided
+ by 
+\emph on
+data
+\emph default
+.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+data
+\end_layout
+
+\begin_layout LyX-Code
+   "type" "person"
+\end_layout
+
+\begin_layout LyX-Code
+   "owns" "Ford, Falcon"
+\end_layout
+
+\begin_layout LyX-Code
+   "worksAt" "office"
+\end_layout
+
+\begin_layout Standard
+evaluates to the list:
+\end_layout
+
+\begin_layout LyX-Code
+(("type" "person") ("owns" "Ford, Falcon") ("worksAt" "office")) 
+\end_layout
+
 \begin_layout Subsubsection
 Lexer Macros
 \end_layout

@@ -4,11 +4,11 @@
 import csv
 
 define fixture
-  quote
-         ("#subject" "object" "predicate")
-               "Joe" "type" "person"
-               "Joe" "owns" "Ford, Falcon"
-               "Joe" "worksAt" "office"
+  data
+    "#subject" "object" "predicate"
+    "Joe" "type" "person"
+    "Joe" "owns" "Ford, Falcon"
+    "Joe" "worksAt" "office"
 
 def testCSV (filename field-seperator quote-char)
     define fd (File(.new (prepend-home filename)))
@@ -21,7 +21,3 @@ testCSV "test/fixtures/test.csv" ',' '"'
 testCSV "test/fixtures/test.tab" '\t' '"'
 testCSV "test/fixtures/test.pipe" '|' '"'
 testCSV "test/fixtures/test.tabpipe" '\t' '|'
-
-
-      
-       

@@ -7,8 +7,6 @@ assertEqual nil (empty(.getKeys))
 assert (not(empty(.hasKey ^title)))
 assertEqual nil (empty(.hasKey ^ZZZ))
 
-df data (&rest args) args # quote multiple args
-
 var assoc
   tag Alist 
     data

@@ -15,8 +15,8 @@ assert (equal? EOF (readAfileOnce "test/fixtures/empty.txt"))
 
 # Read a small file
 define expected '123456\n\n\\end_inset\n</cell>\n<cell alignment="center" valignment="top" usebox="none">\n\\begin_inset Text\n'
-define data (readAfileOnce "test/fixtures/getline.txt")
-assert (equal? data expected)
+define getlineData (readAfileOnce "test/fixtures/getline.txt")
+assert (equal? getlineData expected)
 
 # Test EOF on second read..
 define fd 

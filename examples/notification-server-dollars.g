@@ -22,8 +22,8 @@ class UsbLamp()
    var exePath "C:\\WINNT\\system32\\cmd.exe"
    var operations
       tag Alist
-         quote
-            ("allflashoff"    = "10 20 7 0")
+         data
+               "allflashoff"  = "10 20 7 0"
                "alldark"      = "10 12 0 7"
                "allon"        = "10 12 7 0"
                "blueflash"    = "10 20 0 4"

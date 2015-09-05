@@ -33,10 +33,10 @@ class UnauthorizedRequest(UncheckedRequest)
         null? (request(.getAuthorizationHeader))
     def .reply()
         list '401 Unauthorized' 
-            quote
-               ('Content-Type' = "text/plain")
-                  'WWW-Authenticate' = "NTLM"
-                  'Connection' = 'Keep-Alive'
+            data
+               'Content-Type' = "text/plain"
+               'WWW-Authenticate' = "NTLM"
+               'Connection' = 'Keep-Alive'
             ~ "401 Login Required"
 
 

@@ -32,6 +32,8 @@ defmacro defmethod (name args &rest body)
 
 df // (&rest ignore)
 
+df data (&rest args) args
+
 defmacro setq (variable valu) (template (set ^$variable $valu))
 
 defmacro if (test success-result failure-result)
