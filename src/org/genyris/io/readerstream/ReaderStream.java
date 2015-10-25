@@ -30,6 +30,9 @@ import org.genyris.io.ReaderInStream;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.writerstream.WriterStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 public class ReaderStream extends Atom {
     private InStream _input;
@@ -186,6 +189,39 @@ public class ReaderStream extends Atom {
             return NIL;
         }
     }
+    public static class NewMethod extends AbstractReaderMethod {
+
+        public static String getStaticName() {return "new";};
+        public NewMethod(Interpreter interp) {
+            super(interp, getStaticName());
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Class[] types = {StrinG.class};
+            checkArgumentTypes(types,arguments);
+            StrinG theString = (StrinG)arguments[0];
+            ReaderStream result = new ReaderStream(theString.toString());
+            return result;
+        }
+    }
+    public static class DigestMethod extends AbstractReaderMethod {
+
+        public static String getStaticName() {return "digest";};
+        public DigestMethod(Interpreter interp) {
+            super(interp, getStaticName());
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            Class[] types = {StrinG.class};
+            checkArgumentTypes(types,arguments);
+            StrinG theDigestType = (StrinG)arguments[0];
+            ReaderStream r = getSelfReader(env);
+            String md5 = r.digest(theDigestType.toString());
+            return new StrinG(md5);
+        }
+    }
     public Symbol getBuiltinClassSymbol(Internable table) {
         return table.READER();
     }
@@ -197,6 +233,8 @@ public class ReaderStream extends Atom {
         interpreter.bindMethodInstance(Constants.READER, new GetLineMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new CopyMethod(interpreter));
         interpreter.bindMethodInstance(Constants.READER, new ReadAllMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.READER, new NewMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.READER, new DigestMethod(interpreter));
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
@@ -221,5 +259,30 @@ public class ReaderStream extends Atom {
 			}
 		}
 	}
-
+    public String digest(String digestName) throws GenyrisException {
+        // 
+        // Compute the digest of the input stream,
+        // return the digest in Hex.
+        // 
+        // Digest Names: MD5, SHA-1, SHA-256
+        //
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance(digestName);
+        } catch (NoSuchAlgorithmException e) {
+            throw new GenyrisException(e.getMessage());
+        }
+        while( _input.hasData()) {
+            char ch = _input.readNext();
+            char[] charray = {ch};
+            String temp = new String(charray); // default encoding
+            md.update(temp.getBytes());
+        }
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for (byte b : digest) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        return sb.toString();
+    }
 }

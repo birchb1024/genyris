@@ -12914,6 +12914,14 @@ The reader object allow access to streams of bytes and characters as Genyris
 \end_layout
 
 \begin_layout Itemize
+by the 
+\emph on
+Reader!new
+\emph default
+ method
+\end_layout
+
+\begin_layout Itemize
 
 \emph on
 stdin
@@ -12947,6 +12955,65 @@ Process(.getOutput)
 
 \begin_layout Paragraph
 Methods
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.new <String>
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.new
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+.new
+\emph default
+ class method creates a new instance of 
+\emph on
+Reader
+\emph default
+ from a 
+\emph on
+String
+\emph default
+.
+ This method returns a Reader object which uses a String as its input.
+ Once read, the content from the String cannot be re-read.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> (Reader!new "secret
+\backslash
+n")
+\end_layout
+
+\begin_layout LyX-Code
+:    .copy stdout
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+secret
+\end_layout
+
+\begin_layout LyX-Code
+nil # NilSymbol SimpleSymbol 
 \end_layout
 
 \begin_layout Paragraph
@@ -13097,6 +13164,60 @@ EOF
 
 \begin_layout LyX-Code
 stdin (.copy stdout)
+\end_layout
+
+\begin_layout Paragraph
+
+\emph on
+.digest
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.digest <type>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+.digest
+\emph default
+ method computes a message digest for all items in the stream.
+ It reads the entire stream and calculates the digest.
+ The digest value is returned as 
+\emph on
+String
+\emph default
+ hexedecimal value.
+ The stream must be a character stream.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> (Reader!new "secret")
+\end_layout
+
+\begin_layout LyX-Code
+:   .digest "MD5"
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'5ebe2294ecd0e0f08eab7690d2a6ee69' # String 
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Paragraph
