@@ -98,28 +98,6 @@ public class HTTPpostFunction extends ApplicableFunction {
             else
                 throw e;
         }
-        /*
-         * 
-         * try { URL url = new URL(URI); URLConnection conn =
-         * url.openConnection();
-         * 
-         * HttpURLConnection httpConn = (HttpURLConnection)conn; while (headers
-         * != NIL) { conn.addRequestProperty(headers.car().car().toString(),
-         * headers.car().cdr().toString()); headers = headers.cdr(); }
-         * httpConn.connect(); if (httpConn.getResponseCode() != 200) { throw
-         * new GenyrisException("Server returned non 200 Response Code: " +
-         * Integer.toString(httpConn.getResponseCode())); } BufferedReader in =
-         * new BufferedReader(new InputStreamReader(conn.getInputStream()));
-         * return new ReaderStream((Reader)in, URI); } catch
-         * (MalformedURLException e1) { throw new
-         * GenyrisException(e1.getMessage()); } catch (IOException e) { throw
-         * new GenyrisException(e.getMessage()); } catch
-         * (java.lang.RuntimeException e) { if(e.getMessage().equals(
-         * "java.lang.IllegalArgumentException: protocol = http host = null"))
-         * throw new
-         * GenyrisException("Proably got a 302 redirection to a bad URL?" +
-         * e.getMessage()); else throw e; }
-         */
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter)
