@@ -3,35 +3,44 @@
 
 def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
 
-def readPage(url)
-    var wstream (web:get url)
-    var count 0
-    while (wstream(.hasData))
-         setq count (+ count 1)
-         write (wstream(.read)) ^-
-    wstream(.close)
-    u:format "%nRead %a bytes%n" count
-    count
+var threads
+    list
+        httpd 7778 (prepend-home "test/mocks/www-text.g") "."
+        httpd 7779 (prepend-home "test/mocks/www-static.g") "."
+        httpd 7780 (prepend-home "test/mocks/www-post.g") "."
+sleep 1000    
 
-def run-web()
-    var thread (httpd 7776 (prepend-home "test/mocks/www-text.g"))
-    sleep 1000
+def test-web-get()
+    var response
+        web:get 'http://127.0.0.1:7778/?A=1&B=2' 
+    var receivedData
+        response(.readAll)         
+    assertEqual receivedData '~ "hello world"'
+
+
+def test-web-static-get()
+    var result (web:get "http://localhost:7779/LICENSE")
+    var sum (result(.digest "MD5"))
+    assertEqual sum "73ddde084d8b0dfc11ef415f14ba2cb0"
+
+
+def test-web-post()
+    var response
+        web:post 'http://127.0.0.1:7780/' 
+            data
+                a = 'test-web-post'
+                x = 908
+            data
+                'authorization' = 'Basic Zm9vOmJhcg=='
+    var receivedData
+        response(.readAll)
+    assertEqual receivedData "('a' = 'test-web-post') ('x' = '908')" 
+
+test-web-get
+test-web-static-get
+test-web-post
+
+for thread in threads
     thread(.kill)
 
-def run-web-get()
-    var thread (httpd 7778 (prepend-home "test/mocks/www-text.g"))
-    sleep 1000
-    var result (readPage "http://localhost:7778/")
-    thread(.kill)
-    result
 
-def run-web-static-get()
-    var thread (httpd 7778 (prepend-home "test/mocks/www-static.g") ".")
-    sleep 1000
-    var result (readPage "http://localhost:7778/LICENSE")
-    thread(.kill)
-    result
-
-run-web
-run-web-get
-run-web-static-get

@@ -32,6 +32,7 @@
 :load-class-by-name "org.genyris.format.AbstractFormatFunction"
 :load-class-by-name "org.genyris.task.TaskFunction"
 :load-class-by-name "org.genyris.web.HTTPgetFunction"
+:load-class-by-name "org.genyris.web.HTTPpostFunction"
 :load-class-by-name "org.genyris.classification.IsInstanceFunction"
 :load-class-by-name "org.genyris.test.JunitRunnerFunction"
 :load-class-by-name "org.genyris.system.ExitMethod"

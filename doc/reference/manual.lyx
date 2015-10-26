@@ -14422,15 +14422,15 @@ n')
 \end_layout
 
 \begin_layout Subsection
-Interacting with Web Servers with 
+Interacting with Web Servers with HTTP
 \emph on
-HTTP
+
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
-\emph on
+\emph off
 HTTP
 \end_layout
 
@@ -14460,10 +14460,18 @@ web:get
 \end_layout
 
 \begin_layout Standard
-Content can be sent to and fetched from web servers using the web: get function.
+Content can be sent to and fetched from web servers using the 
+\emph on
+web:get
+\emph default
+ function.
  This takes as input a URL string and an optional list of request headers.
  It sends the GET request to web server and the returns the response content
- in a Reader stream.
+ in a 
+\emph on
+Reader
+\emph default
+ stream.
  The response must have the 200 'OK' status code otherwise an exception
  is raised.
 \end_layout
@@ -14479,6 +14487,85 @@ web:get 'http://localhost:8080/' =
 
 \begin_layout LyX-Code
         ^(('authorization' = 'Basic Zm9vOmJhcg=='))
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+web:post
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+web:post
+\end_layout
+
+\end_inset
+
+
+\emph default
+ <url> [<params assoc>] [<request headers>]
+\end_layout
+
+\begin_layout Standard
+Content can also be sent to and fetched from web servers using the 
+\emph on
+web:post
+\emph default
+ function.
+ This takes as input a URL string and an optional lists of request POST
+ parameters and headers.
+ It sends the POST request to web server and the returns the response content
+ in a 
+\emph on
+Reader
+\emph default
+ stream.
+ The response must have the 200 'OK' status code otherwise an exception
+ is raised.
+\end_layout
+
+\begin_layout Standard
+For example, to send a POST with two parameters, and read the response to
+ a string: 
+\end_layout
+
+\begin_layout LyX-Code
+    var response
+\end_layout
+
+\begin_layout LyX-Code
+        web:post 'http://127.0.0.1:7780/' 
+\end_layout
+
+\begin_layout LyX-Code
+            data
+\end_layout
+
+\begin_layout LyX-Code
+                a = 'test-web-post'
+\end_layout
+
+\begin_layout LyX-Code
+                x = 908
+\end_layout
+
+\begin_layout LyX-Code
+            data
+\end_layout
+
+\begin_layout LyX-Code
+                'authorization' = 'Basic Zm9vOmJhcg=='
+\end_layout
+
+\begin_layout LyX-Code
+    var receivedData
+\end_layout
+
+\begin_layout LyX-Code
+        response(.readAll)
 \end_layout
 
 \begin_layout Section

@@ -10,7 +10,7 @@ df httpd-serve (request)
       template
           html()
              head()
-                title() "Genyris demo"
+                title() $sys:argv
              body()
                 div() "Hit number: " $counter
                 pre() 
@@ -19,7 +19,7 @@ df httpd-serve (request)
 
 
 cond
-    (and sys:argv (equal? (task:id)!name 'main'))
-         httpd 8000 sys:argv!left
-         u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
-         read
+  (and sys:argv (equal? (task:id)!name 'main'))
+    httpd 8000 sys:argv!left
+    u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
+    read
