@@ -736,7 +736,6 @@ public class NanoHTTPD {
 								+ homeDir.getAbsolutePath() + "' Sorry, skip to " + startFrom + " failed.");
 			}
 			NanoResponse r = new NanoResponse(HTTP_OK, mime, fis);
-			r.addHeader("Content-length", "" + (f.length() - startFrom));
 			r.addHeader("Content-range", "" + startFrom + "-"
 					+ (f.length() - 1) + "/" + f.length());
 			return r;

@@ -15,9 +15,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -84,7 +88,21 @@ public class HTTPpostFunction extends ApplicableFunction {
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
-            return new ReaderStream((Reader) in, URI);
+            Map responseHeaders = conn.getHeaderFields();
+            Exp headerList = NIL;
+            Set<Map.Entry<String, List<String>>> entrySet = responseHeaders.entrySet();
+            for (Map.Entry<String, List<String>> entry : entrySet) {
+                //String headerName = entry.getKey();
+                Exp headerName = entry.getKey() == null ? NIL : new StrinG(entry.getKey());
+                List<String> headerValues = entry.getValue();
+                Exp valueList = NIL;
+                for (String value : headerValues) {
+                    valueList = Pair.cons(new StrinG(value), valueList);
+                }
+                Exp thisHeader = Pair.cons(headerName, Pair.reverse(valueList, NIL));
+                headerList = Pair.cons(thisHeader, headerList); 
+            }
+            return Pair.cons2(new ReaderStream((Reader) in, URI), Pair.reverse(headerList, NIL), NIL);
 
         } catch (MalformedURLException e) {
             throw new GenyrisException(e.getMessage());
