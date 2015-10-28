@@ -1,3 +1,5 @@
+#!/home/birchb/workspace/genyris/bin/genyris
+
 @prefix u   "http://www.genyris.org/lang/utilities#"
 @prefix web "http://www.genyris.org/lang/web#"
 
@@ -21,7 +23,6 @@ def test-web-get()
 
 def test-web-static-get()
     var result (web:get "http://localhost:7779/LICENSE")
-    print result
     assertEqual  (nth 3 (nth 1 result)) ^('Content-Length' '1559')
     var sum ((left result)(.digest "MD5"))
     assertEqual sum "73ddde084d8b0dfc11ef415f14ba2cb0"

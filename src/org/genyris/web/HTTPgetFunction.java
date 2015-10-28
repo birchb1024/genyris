@@ -64,11 +64,9 @@ public class HTTPgetFunction extends ApplicableFunction {
             Set<Map.Entry<String, List<String>>> entrySet = responseHeaders.entrySet();
             for (Map.Entry<String, List<String>> entry : entrySet) {
                 Exp headerName = entry.getKey() == null ? NIL : new StrinG(entry.getKey());
-                System.out.println(headerName.toString());
                 List<String> headerValues = entry.getValue();
                 Exp valueList = NIL;
                 for (String value : headerValues) {
-                    System.out.println(value);
                     valueList = Pair.cons(new StrinG(value), valueList);
                 }
                 Exp thisHeader = Pair.cons(headerName, Pair.reverse(valueList, NIL));
