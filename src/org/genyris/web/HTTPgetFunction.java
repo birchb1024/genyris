@@ -13,23 +13,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.UnboundException;
 import org.genyris.io.readerstream.ReaderStream;
 
-public class HTTPgetFunction extends ApplicableFunction {
+public class HTTPgetFunction extends HTTPclientFunction {
 
     public HTTPgetFunction(Interpreter interp) {
         super(interp, Constants.WEB + "get", true);
@@ -59,20 +54,8 @@ public class HTTPgetFunction extends ApplicableFunction {
             	throw new GenyrisException("Server returned non 200 Response Code: " + Integer.toString(httpConn.getResponseCode()));
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            Map responseHeaders = conn.getHeaderFields(); // TODO DRY see Post
-            Exp headerList = NIL;
-            Set<Map.Entry<String, List<String>>> entrySet = responseHeaders.entrySet();
-            for (Map.Entry<String, List<String>> entry : entrySet) {
-                Exp headerName = entry.getKey() == null ? NIL : new StrinG(entry.getKey());
-                List<String> headerValues = entry.getValue();
-                Exp valueList = NIL;
-                for (String value : headerValues) {
-                    valueList = Pair.cons(new StrinG(value), valueList);
-                }
-                Exp thisHeader = Pair.cons(headerName, Pair.reverse(valueList, NIL));
-                headerList = Pair.cons(thisHeader, headerList); 
-            }
-            return Pair.cons2(new ReaderStream((Reader) in, URI), Pair.reverse(headerList, NIL), NIL);
+            Exp headerList = getResponseHeadersAsList(conn);
+            return Pair.cons2(new ReaderStream((Reader) in, URI), headerList, NIL);
 
         } catch (MalformedURLException e1) {
             throw new GenyrisException(e1.getMessage());
@@ -84,8 +67,5 @@ public class HTTPgetFunction extends ApplicableFunction {
         	else
         		throw e;
         }
-    }
-    public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedureInstance(new HTTPgetFunction(interpreter));
     }
 }

@@ -10,33 +10,31 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
+import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.interp.UnboundException;
 import org.genyris.io.readerstream.ReaderStream;
 
-public class HTTPpostFunction extends ApplicableFunction {
+public class HTTPpostFunction extends HTTPclientFunction {
 
     public HTTPpostFunction(Interpreter interp) {
         super(interp, Constants.WEB + "post", true);
     }
 
+    @Override
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
         String charset = "UTF-8";
@@ -64,19 +62,7 @@ public class HTTPpostFunction extends ApplicableFunction {
                         .cdr().toString());
                 headers = headers.cdr();
             }
-            String query = "";
-            while (params != NIL) {
-                query = query.concat(URLEncoder.encode(params.car().car().toString(),
-                        charset));
-                query = query.concat("=");
-                query = query.concat(URLEncoder.encode(params.car().cdr().toString(),
-                        charset));
-                if (params.cdr() != NIL) {
-                    query = query.concat("&");
-                }
-                params = params.cdr();
-            }
-            query = query.concat("\r\n");
+            String query = urlEncodeParameters(charset, params);
             
             OutputStream output = conn.getOutputStream();
             output.write(query.getBytes(charset));
@@ -88,21 +74,8 @@ public class HTTPpostFunction extends ApplicableFunction {
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
-            Map responseHeaders = conn.getHeaderFields();
-            Exp headerList = NIL;
-            Set<Map.Entry<String, List<String>>> entrySet = responseHeaders.entrySet();
-            for (Map.Entry<String, List<String>> entry : entrySet) {
-                //String headerName = entry.getKey();
-                Exp headerName = entry.getKey() == null ? NIL : new StrinG(entry.getKey());
-                List<String> headerValues = entry.getValue();
-                Exp valueList = NIL;
-                for (String value : headerValues) {
-                    valueList = Pair.cons(new StrinG(value), valueList);
-                }
-                Exp thisHeader = Pair.cons(headerName, Pair.reverse(valueList, NIL));
-                headerList = Pair.cons(thisHeader, headerList); 
-            }
-            return Pair.cons2(new ReaderStream((Reader) in, URI), Pair.reverse(headerList, NIL), NIL);
+            Exp headerList = getResponseHeadersAsList(conn);
+            return Pair.cons2(new ReaderStream((Reader) in, URI), headerList, NIL);
 
         } catch (MalformedURLException e) {
             throw new GenyrisException(e.getMessage());
@@ -118,8 +91,22 @@ public class HTTPpostFunction extends ApplicableFunction {
         }
     }
 
-    public static void bindFunctionsAndMethods(Interpreter interpreter)
-            throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedureInstance(new HTTPpostFunction(interpreter));
+    private String urlEncodeParameters(String charset, Exp params)
+            throws UnsupportedEncodingException, AccessException {
+        String query = "";
+        while (params != NIL) {
+            query = query.concat(URLEncoder.encode(params.car().car().toString(),
+                    charset));
+            query = query.concat("=");
+            query = query.concat(URLEncoder.encode(params.car().cdr().toString(),
+                    charset));
+            if (params.cdr() != NIL) {
+                query = query.concat("&");
+            }
+            params = params.cdr();
+        }
+        query = query.concat("\r\n");
+        return query;
     }
+
 }
