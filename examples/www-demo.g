@@ -11,12 +11,36 @@ df httpd-serve (request)
           html()
              head()
                 title() $sys:argv
+                style()
+                    verbatim() "table, th, td { border: 1px solid black; border-collapse: collapse; }"
              body()
-                div() "Hit number: " $counter
-                pre() 
-                    verbatim() $sys:argv
-                $(request (.toHTML))
-
+                div() 
+                    "Hit number: " $counter
+                div()
+                    $(request (.toHTML))
+                div()
+                    a((href="/")) "GET link"
+                    " "
+                    a((href="/geted?variable=value&another=42")) "GET link with arguments"
+                div()
+                    form((action="posted") (method="post"))
+                        fieldset()
+                            legend()
+                                "POST Form:"
+                            "Text: " 
+                            input((type="text")(name="Text")(value='text here'))
+                            "Password: " 
+                            input((type="password")(name="password")(value='secret'))
+                            br()
+                            "Checked: "
+                            input((type="checkbox")(name="checkbox") (value="Checked"))    
+                            input((type="radio")(name="radio") (value="yes") (checked="true"))
+                                "Yes"
+                            input((type="radio")(name="radio") (value="no"))
+                                'No'
+                            br()
+                            input((type="submit")(name="Submit")(value="submit"))
+                        
 
 cond
   (and sys:argv (equal? (task:id)!name 'main'))
