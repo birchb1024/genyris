@@ -14,16 +14,18 @@ sleep 1000
 
 def test-web-get()
     var response
-        web:get 'http://127.0.0.1:7778/?A=1&B=2' 
+        web:get 'http://127.0.0.1:7778/?A=1&B=2'
     var receivedData
-        (left response)(.readAll)         
-    assertEqual  (nth 2 (nth 1 response)) ^('Content-Length' '15')
+        (left response)(.readAll)
+    var headers (tag Alist (nth 1 response))          
+    assertEqual '15' (headers(.lookup 'Content-Length'))
     assertEqual receivedData '~ "hello world"'
 
 
 def test-web-static-get()
     var result (web:get "http://localhost:7779/LICENSE")
-    assertEqual  (nth 3 (nth 1 result)) ^('Content-Length' '1559')
+    var headers (tag Alist (nth 1 result))          
+    assertEqual '1559' (headers(.lookup 'Content-Length'))
     var sum ((left result)(.digest "MD5"))
     assertEqual sum "73ddde084d8b0dfc11ef415f14ba2cb0"
 
@@ -39,7 +41,8 @@ def test-web-post()
     var receivedData
         (left response)
             .readAll
-    assertEqual  (nth 2 (nth 1 response)) ^('Content-Length' '37')
+    var headers (tag Alist (nth 1 response))          
+    assertEqual '37' (headers(.lookup 'Content-Length'))
     assertEqual receivedData "('a' = 'test-web-post') ('x' = '908')" 
 
 test-web-get

@@ -14471,7 +14471,7 @@ web:get
 \emph on
 Reader
 \emph default
- stream followed by a list of response headers.
+ stream followed by an assoc list of response headers.
  For example:
 \end_layout
 
@@ -14480,19 +14480,19 @@ Reader
 \end_layout
 
 \begin_layout LyX-Code
-   ((nil 'HTTP/1.1 200') 
+   ((nil = 'HTTP/1.1 200') 
 \end_layout
 
 \begin_layout LyX-Code
-      ('Date' 'Tue, 27 Oct 2015 08:38:39 GMT') 
+      ('Date' = 'Tue, 27 Oct 2015 08:38:39 GMT') 
 \end_layout
 
 \begin_layout LyX-Code
-      ('Content-Length' '37') 
+      ('Content-Length' = '37') 
 \end_layout
 
 \begin_layout LyX-Code
-      ('Content-Type' 'text/plain')))
+      ('Content-Type' = 'text/plain')))
 \end_layout
 
 \begin_layout Standard
@@ -14543,7 +14543,7 @@ web:post
 \emph on
 Reader
 \emph default
- stream followed by a list of response headers.
+ stream followed by a assoc list of response headers.
  For example:
 \end_layout
 
@@ -14552,19 +14552,19 @@ Reader
 \end_layout
 
 \begin_layout LyX-Code
-   ((nil 'HTTP/1.1 200') 
+   ((nil = 'HTTP/1.1 200') 
 \end_layout
 
 \begin_layout LyX-Code
-      ('Date' 'Tue, 27 Oct 2015 08:38:39 GMT') 
+      ('Date' = 'Tue, 27 Oct 2015 08:38:39 GMT') 
 \end_layout
 
 \begin_layout LyX-Code
-      ('Content-Length' '37') 
+      ('Content-Length' = '37') 
 \end_layout
 
 \begin_layout LyX-Code
-      ('Content-Type' 'text/plain')))
+      ('Content-Type' = 'text/plain')))
 \end_layout
 
 \begin_layout Standard

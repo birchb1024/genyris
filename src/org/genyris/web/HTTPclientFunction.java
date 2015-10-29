@@ -1,9 +1,6 @@
 package org.genyris.web;
 
 import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
@@ -28,18 +25,14 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
         //
         //  Go into an HTTPresponse and retrieve headers as a nested list.
         //
-        Map responseHeaders = conn.getHeaderFields();
         Exp headerList = NIL;
-        Set<Map.Entry<String, List<String>>> entrySet = responseHeaders.entrySet();
-        for (Map.Entry<String, List<String>> entry : entrySet) {
-            Exp headerName = entry.getKey() == null ? NIL : new StrinG(entry.getKey());
-            List<String> headerValues = entry.getValue();
-            Exp valueList = NIL;
-            for (String value : headerValues) {
-                valueList = Pair.cons(new StrinG(value), valueList);
-            }
-            Exp thisHeader = Pair.cons(headerName, Pair.reverse(valueList, NIL));
+        int headerIndex = 1;
+        String headerName;
+        while( (headerName = conn.getHeaderFieldKey(headerIndex)) != null ) {
+            StrinG headerValue = new StrinG(conn.getHeaderField(headerIndex));
+            Exp thisHeader = Pair.cons(new StrinG(headerName), headerValue);
             headerList = Pair.cons(thisHeader, headerList);
+            headerIndex += 1;
         }
         return Pair.reverse(headerList, NIL);
     }
