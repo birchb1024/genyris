@@ -21,9 +21,18 @@ def test-web-get()
     assertEqual '15' (headers(.lookup 'Content-Length'))
     assertEqual receivedData '~ "hello world"'
 
+def test-web-get-1()
+    var response
+        web:get 'http://127.0.0.1:7778/?A=1&B=2' nil '1.0'
+    var receivedData
+        (left response)(.readAll)
+    var headers (tag Alist (nth 1 response))          
+    assertEqual '15' (headers(.lookup 'Content-Length'))
+    assertEqual receivedData '~ "hello world"'
+
 
 def test-web-static-get()
-    var result (web:get "http://localhost:7779/LICENSE")
+    var result (web:get "http://localhost:7779/LICENSE" nil '1.1')
     var headers (tag Alist (nth 1 result))          
     assertEqual '1559' (headers(.lookup 'Content-Length'))
     var sum ((left result)(.digest "MD5"))
@@ -45,9 +54,27 @@ def test-web-post()
     assertEqual '37' (headers(.lookup 'Content-Length'))
     assertEqual receivedData "('a' = 'test-web-post') ('x' = '908')" 
 
+def test-web-post-1()
+    var response
+        web:post 'http://127.0.0.1:7780/'
+            data
+                a = 'test-web-post'
+                x = 908
+            data
+                'authorization' = 'Basic Zm9vOmJhcg=='
+            ~ '1.0'
+    var receivedData
+        (left response)
+            .readAll
+    var headers (tag Alist (nth 1 response))          
+    assertEqual '37' (headers(.lookup 'Content-Length'))
+    assertEqual receivedData "('a' = 'test-web-post') ('x' = '908')" 
+
 test-web-get
+test-web-get-1
 test-web-static-get
 test-web-post
+test-web-post-1
 
 for thread in threads
     thread(.kill)

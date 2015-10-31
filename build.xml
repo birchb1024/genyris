@@ -1,329 +1,332 @@
 <project name="Genyris" default="build-workspace" basedir=".">
-    
-    <property name="build.compiler" value="javac1.6"/>
-    <property name="needed.lib.dir" value="needed" />
-    <property name="junit.lib.dir" value="needed" />
-    <property name="build.dir" value="build" />
-    <property name="dist.dir" value="dist" />
-    <property name="rel.dir" value="rel" />
-    <property name="src.compile.dir" value="${build.dir}/classes" />
-    <property name="src.dir" value="src" />
-    <property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
-    <property file="secrets.properties" />
-    <property name="git.describe.file" value="${build.dir}/git-describe.txt"/>
 
-    <taskdef resource="checkstyletask.properties" classpath="${needed.lib.dir}/checkstyle-5.3-all.jar" />
+	<property name="build.compiler" value="javac1.6" />
+	<property name="needed.lib.dir" value="needed" />
+	<property name="junit.lib.dir" value="needed" />
+	<property name="build.dir" value="build" />
+	<property name="dist.dir" value="dist" />
+	<property name="rel.dir" value="rel" />
+	<property name="src.compile.dir" value="${build.dir}/classes" />
+	<property name="src.dir" value="src" />
+	<property name="version.dir" value="${src.dir}/org/genyris/load/boot" />
+	<property file="secrets.properties" />
+	<property name="git.describe.file" value="${build.dir}/git-describe.txt" />
 
-    <tstamp>
-        <format property="TODAY" pattern="dd/MM/yyyy HH:mm:ss" />
-    </tstamp>
+	<taskdef resource="checkstyletask.properties" classpath="${needed.lib.dir}/checkstyle-5.3-all.jar" />
 
-    <target name="clean" depends="only-clean" />
+	<tstamp>
+		<format property="TODAY" pattern="dd/MM/yyyy HH:mm:ss" />
+	</tstamp>
 
-    <target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
-    <target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar, zips, documentation, installers" />
-    <target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
-    <target name="build-workspace" depends="only-clean, only-init, version-default, binary, package, test, reports"
-      description="Build and test current workspace contents."/>
-    <target name="release" depends="tagged-version, binary, package, test, reports" 
-      description="Build a formal tagged release using only the latest tag."/>
+	<target name="clean" depends="only-clean" />
 
-    <!-- Libraries required  -->
-    <fileset id="needed.libs" dir="${needed.lib.dir}">
-        <include name="bsf.jar" />
-        <include name="commons-logging-1.1.jar" />
-        <include name="servlet-api.jar" />
-        <include name="junit.jar" />
-        <include name="dsn.jar" />
-        <include name="imap.jar" />
-        <include name="mail.jar" />
-        <include name="mailapi.jar" />
-        <include name="pop3.jar" />
-        <include name="smtp.jar" />
-        <include name="opencsv-1.8.jar" />
-        <include name="jline-2.11.jar" />
-        <include name="commons-io-2.4.jar" />
-        </fileset>
+	<target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
+	<target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar, zips, documentation, installers" />
+	<target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
+	<target name="build-workspace" depends="only-clean, only-init, version-default, binary, package, test, reports" description="Build and test current workspace contents." />
+	<target name="release" depends="tagged-version, binary, package, test, reports" description="Build a formal tagged release using only the latest tag." />
 
-    <!-- Properties files from the classpath -->
-    <fileset id="product.properties.files" dir="${java.src.dir}">
-        <include name="*.properties" />
-    </fileset>
+	<!-- Libraries required  -->
+	<fileset id="needed.libs" dir="${needed.lib.dir}">
+		<include name="bsf.jar" />
+		<include name="commons-logging-1.1.jar" />
+		<include name="servlet-api.jar" />
+		<include name="junit.jar" />
+		<include name="dsn.jar" />
+		<include name="imap.jar" />
+		<include name="mail.jar" />
+		<include name="mailapi.jar" />
+		<include name="pop3.jar" />
+		<include name="smtp.jar" />
+		<include name="opencsv-1.8.jar" />
+		<include name="jline-2.11.jar" />
+		<include name="commons-io-2.4.jar" />
+		<include name="httpcore-4.4.3.jar" />
+		<include name="httpclient-4.5.1.jar" />
+	</fileset>
 
-    <!-- Classpath for JUnit testing -->
-    <fileset id="junit.libs" file="${junit.lib.dir}/junit.jar" />
+	<!-- Properties files from the classpath -->
+	<fileset id="product.properties.files" dir="${java.src.dir}">
+		<include name="*.properties" />
+	</fileset>
 
-
-    <!-- ================================================================== -->
-    <!--                        Classpaths                                  -->
-    <!-- ================================================================== -->
-    <path id="src.compile.classpath">
-        <fileset refid="needed.libs" />
-        <fileset refid="junit.libs" />
-    </path>
-
-    <!-- ================================================================== -->
-    <!--                        Targets                                     -->
-    <!-- ================================================================== -->
-    <target name="debug">
-        <echoproperties />
-    </target>
-
-    <target name="version-default" depends="git-info" description="Compute version number from Git.">
-        <property name="implementation-version" value="${git.workspace.version}-${build.id}"/>
-        <property name="version" value="${implementation-version}"/>
-        <loadresource property="version.underscores">
-            <propertyresource name="implementation-version"/>
-            <filterchain>
-                <tokenfilter>
-                <filetokenizer/>
-                <replacestring from="." to="_"/>
-                </tokenfilter>
-            </filterchain>
-        </loadresource>
-        <echo>Version = ${version}</echo>
-        <echo>Version.underscores = '${version.underscores}'</echo>
-        <echo>implementation-version = '${implementation-version}'</echo>
-    </target>
-
-    <target name="git-info" description="Extract Git information." depends="only-git-workspace, only-git-status">
-        <property name="specification-version" value="${git.workspace.specification.version}"/>
-        <buildnumber file="${git.workspace.version}-build.number"/>
-        <property name="build.id" value="${build.number}"/>
-        <echo>specification version = ${specification-version}</echo>
-        <echo>Build Number = ${build.id}</echo>
-        <echo>version = ${version}</echo>
-    </target>
-
-    <target name="git-committed" description="Fail if uncommitted changes" depends="only-git-status">
-        <fail if="working-folder-has-uncommited-changes" />
-    </target>
-
-    <target name="only-git-status" description="look for uncommitted files">
-        <exec executable="bash" outputproperty="git.status" errorproperty="git.error" failonerror="true">
-            <arg value="-c"/>
-            <arg value="git status --porcelain | wc -l" />
-        </exec>
-        <condition property="working-folder-has-uncommited-changes">
-            <not>
-                <equals arg1="${git.status}" arg2="0" />
-            </not>
-        </condition>
-        <echo>git.status = ${git.status}</echo>
-        <echo>working-folder-has-uncommited-changes = ${working-folder-has-uncommited-changes}</echo>
-    </target>
-
-    <target name="only-git-workspace">
-        <exec executable="git" outputproperty="git.workspace.version" errorproperty="git.error" failonerror="true">
-            <arg value="describe"/>
-            <arg value="--tags" />
-        </exec>
-        <echo>git.workspace.version = ${git.workspace.version}</echo>
-        <exec executable="git" output="${git.describe.file}" errorproperty="git.error" failonerror="true">
-            <arg value="describe"/>
-            <arg value="--tags" />
-            <arg value="--abbrev=0" />
-        </exec>
-        <loadfile srcfile="${git.describe.file}" property="git.workspace.tag"/>
-        <echo>git.workspace.tag = ${git.workspace.tag}</echo>
-        <condition property="workspace-contains-a-tagged-version">
-            <equals arg1="${git.workspace.tag}" arg2="${git.workspace.version}" />
-        </condition>
-        <echo>workspace-contains-a-tagged-version = ${workspace-contains-a-tagged-version}</echo>
-        <loadfile srcfile="${git.describe.file}" property="git.workspace.specification.version">
-            <filterchain>
-               <headfilter lines="1" skip="0"/>
-               <tokenfilter>
-                  <replaceregex pattern="\.[0-9]+$" replace="" flags="gi"/>
-               </tokenfilter>
-               <striplinebreaks/>
-            </filterchain>
-        </loadfile>
-        <echo>git.workspace.specification.version = ${git.workspace.specification.version}</echo>
-   </target>
-   
-   <target name="tagged-version" depends="git-info, git-committed">
-        <fail unless="workspace-contains-a-tagged-version" />
-   </target>
-
-   <target name="only-init">
-        <mkdir dir="${build.dir}" />
-        <mkdir dir="${version.dir}" />
-        <mkdir dir="${dist.dir}" />
-        <mkdir dir="${rel.dir}" />
-        <mkdir dir="${src.compile.dir}" />
-    </target>
-
-    <target name="only-clean">
-        <delete dir="${build.dir}" />
-        <delete dir="${dist.dir}" />
-        <delete dir="${rel.dir}" />
-    </target>
-
-    <target name="only-compile">
-        <javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath"
-                  source="1.6" target="1.6" verbose="no" includeantruntime="false">
-            <include name="org/**" />
-            <include name="com/**" />
-        </javac>
-    </target>
-
-    <target name="only-compile-docs" description="Creat PDF manual" depends="git-info">
-        <copy file="doc/reference/manual.lyx" tofile="dist/genyris-manual-${version}.lyx" verbose="true" overwrite="true">
-            <filterchain>
-                <replacetokens>
-                      <token key="GENYRIS-SPECIFICATION-VERSION" value="${specification-version}"/>
-                      <token key="GENYRIS-IMPLEMENTATION-VERSION" value="${implementation-version}"/>
-                </replacetokens>
-            </filterchain>
-        </copy>
-        <copy todir="dist" verbose="true">
-            <fileset dir="${basedir}/doc/reference/">
-                <include name="*jpg" />
-            </fileset>
-        </copy>
-        <exec executable="lyx" dir="dist" failonerror="true" os="Linux">
-            <arg value="--export" />
-            <arg value="pdf" />
-            <arg value="genyris-manual-${version}.lyx" />
-        </exec>
-        <exec executable="C:\Program Files\LyX16\bin\lyx.exe" dir="dist" failonerror="true" os="Windows XP">
-            <arg value="--export" />
-            <arg value="pdf" />
-            <arg value="genyris-manual-${version}.lyx" />
-        </exec>
-        <exec executable="C:\Python27\python.exe" dir="dist" failonerror="true" os="Windows XP">
-            <arg value="C:\downloads\elyxer\elyxer-1.0.4\elyxer.py" />
-            <arg value="genyris-manual-${version}.lyx" />
-            <arg value="genyris-manual-${version}.html" />
-        </exec>
-        <exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" os="Linux">
-            <arg value="genyris-manual-${version}.lyx" />
-            <arg value="genyris-manual-${version}.html" />
-        </exec>
-        <delete verbose="true">
-            <fileset dir="dist">
-                <include name="*jpg" />
-                <include name="*lyx" />
-                <include name="*dvi" />
-            </fileset>
-        </delete>
-        <copy file="dist/genyris-manual-${version}.pdf" tofile="rel/genyris-manual-${version}.pdf" verbose="true" />
-        <checksum file="rel/genyris-manual-${version}.pdf" forceOverwrite="yes" />
-        <copy file="dist/genyris-manual-${version}.html" tofile="rel/genyris-manual-${version}.html" verbose="true" />
-        <checksum file="rel/genyris-manual-${version}.html" forceOverwrite="yes" />
-
-    </target>
-
-    <target name="only-binary" depends="make-jar, only-compile-docs" description="Make a binary release">
-        <tstamp />
-        <copy todir="dist" verbose="false">
-            <fileset dir="${basedir}">
-                <include name="needed/**/*jar" />
-            </fileset>
-        </copy>
-        <zip destfile="rel/genyris-binary-${version}.zip" duplicate="fail" defaultexcludes="no">
-            <fileset dir="${basedir}">
-                <include name="LICENSE" />
-                <include name="README" />
-                <include name="dist/**/*" />
-                <include name="lib/**/*" />
-                <include name="bin/**/*" />
-                <include name="examples/**/*" />
-                <include name="test/**/*" />
-            </fileset>
-        </zip>
-        <checksum file="rel/genyris-binary-${version}.zip" forceOverwrite="yes" />
-    </target>
-
-    <target name="archive" depends="make-jar" description="Make a backup">
-        <input message="Destination directory for archive?" addproperty="archive.dest" />
-        <tstamp />
-
-        <jar destfile="${archive.dest}/genyris-archive-${DSTAMP}${TSTAMP}.jar" duplicate="fail" defaultexcludes="no">
-            <fileset dir="${basedir}" includes="*" />
-            <fileset dir="${basedir}" includes="*/**/*">
-                <exclude name="idebuild/**/*" />
-                <exclude name="build/**/*" />
-            </fileset>
-        </jar>
-    </target>
+	<!-- Classpath for JUnit testing -->
+	<fileset id="junit.libs" file="${junit.lib.dir}/junit.jar" />
 
 
-    <target name="only-make-jar">
-        <jar destfile="${dist.dir}/genyris-bin-${version}.jar" duplicate="fail">
-            <fileset dir="${basedir}" includes="README LICENSE" />
-            <fileset dir="${build.dir}" includes="version/**/*" />
-            <fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
-            <fileset dir="${needed.lib.dir}" includes="junit/**/*" />
-            <fileset dir="${src.dir}" includes="**/*.g" />
-            <fileset dir="${src.dir}" includes="**/*.properties" />
-            <fileset dir="${basedir}" includes="test/**/*" />
-            <manifest>
-                <attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop" />
-                <attribute name="Class-Path" value="needed/junit.jar needed/mail.jar needed/mailapi.jar needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar needed/jline-2.11.jar needed/commons-io-2.4.jar" />
-                <attribute name="Specification-Title" value="Genyris" />
-                <attribute name="Specification-Version" value="${specification-version}" />
-                <attribute name="Specification-Vendor" value="genyris.org" />
-                <attribute name="Implementation-Title" value="Genyris" />
-                <attribute name="Implementation-Version" value="${implementation-version}" />
-                <attribute name="Implementation-Vendor" value="Peter William Birch" />
-                <attribute name="Implementation-Date" value="${TODAY}" />
-            </manifest>
-        </jar>
-    </target>
+	<!-- ================================================================== -->
+	<!--                        Classpaths                                  -->
+	<!-- ================================================================== -->
+	<path id="src.compile.classpath">
+		<fileset refid="needed.libs" />
+		<fileset refid="junit.libs" />
+	</path>
 
-    <target name="test" depends="binary, only-test"/>
-    <target name="only-test" depends="git-info">
-        <exec executable="java" failonerror="true">
-         <env key="GENYRIS_HOME" value="${basedir}"/>
-            <arg value="-showversion" />
-            <arg value="-jar" />
-            <arg value="dist/genyris-bin-${version}.jar" />
-            <arg value="test/acceptance/suite.g" />
-        </exec>
-    </target>
+	<!-- ================================================================== -->
+	<!--                        Targets                                     -->
+	<!-- ================================================================== -->
+	<target name="debug">
+		<echoproperties />
+	</target>
 
-   <target name="reports" depends="only-report-todo"/>
-   <target name="only-report-todo">
-        <exec executable="java" failonerror="true">
-            <env key="GENYRIS_HOME" value="${basedir}"/>
-            <arg value="-jar" />
-            <arg value="dist/genyris-bin-${version}.jar" />
-            <arg value="examples/file-lines.g" />
-            <arg value=".*\.g$|.*\.java$|.*\.lyx" />
-            <arg value=".*TODO.*|.*FIXME.*" />
-            <arg value="${basedir}" />
-        </exec>
-   </target>
+	<target name="version-default" depends="git-info" description="Compute version number from Git.">
+		<property name="implementation-version" value="${git.workspace.version}-${build.id}" />
+		<property name="version" value="${implementation-version}" />
+		<loadresource property="version.underscores">
+			<propertyresource name="implementation-version" />
+			<filterchain>
+				<tokenfilter>
+					<filetokenizer />
+					<replacestring from="." to="_" />
+				</tokenfilter>
+			</filterchain>
+		</loadresource>
+		<echo>Version = ${version}</echo>
+		<echo>Version.underscores = '${version.underscores}'</echo>
+		<echo>implementation-version = '${implementation-version}'</echo>
+	</target>
 
-   <target name="checkstyle" description="Check Java code Style.">
-      <mkdir dir="reports" />
-      <checkstyle config="conf/BillBirchCheck.xml">
-         <fileset dir="${src.dir}" includes="**/*.java" />
-         <formatter type="plain"/>
-         <formatter type="xml" toFile="dist/checkstyle_errors.xml" />
-      </checkstyle>
-   </target>
+	<target name="git-info" description="Extract Git information." depends="only-git-workspace, only-git-status">
+		<property name="specification-version" value="${git.workspace.specification.version}" />
+		<buildnumber file="${git.workspace.version}-build.number" />
+		<property name="build.id" value="${build.number}" />
+		<echo>specification version = ${specification-version}</echo>
+		<echo>Build Number = ${build.id}</echo>
+		<echo>version = ${version}</echo>
+	</target>
 
-    <target name="package" depends="version-default" description="Install4j Packaging, generates exe, deb and dmg">
-	    <copy file="package/genyris.install4j" tofile="dist/genyris.install4j" verbose="true" overwrite="true">
-            <filterchain>
-                <replacetokens>
-                      <token key="GENYRIS-VERSION" value="${version}"/>
-                </replacetokens>
-            </filterchain>
-        </copy>
+	<target name="git-committed" description="Fail if uncommitted changes" depends="only-git-status">
+		<fail if="working-folder-has-uncommited-changes" />
+	</target>
 
-        <exec executable="bash" failonerror="true">
-            <arg value="-c"/>
-            <arg value="install4jc dist/genyris.install4j" />
-        </exec>
-        <checksum file="rel/genyris_windows_${version.underscores}.exe" forceOverwrite="yes" />
-        <checksum file="rel/genyris_linux_${version.underscores}.deb" forceOverwrite="yes" />
-        <checksum file="rel/genyris_linux_${version.underscores}.rpm" forceOverwrite="yes" />
-        <checksum file="rel/genyris_macos_${version.underscores}.dmg" forceOverwrite="yes" />
-    </target>
+	<target name="only-git-status" description="look for uncommitted files">
+		<exec executable="bash" outputproperty="git.status" errorproperty="git.error" failonerror="true">
+			<arg value="-c" />
+			<arg value="git status --porcelain | wc -l" />
+		</exec>
+		<condition property="working-folder-has-uncommited-changes">
+			<not>
+				<equals arg1="${git.status}" arg2="0" />
+			</not>
+		</condition>
+		<echo>git.status = ${git.status}</echo>
+		<echo>working-folder-has-uncommited-changes = ${working-folder-has-uncommited-changes}</echo>
+	</target>
+
+	<target name="only-git-workspace">
+		<exec executable="git" outputproperty="git.workspace.version" errorproperty="git.error" failonerror="true">
+			<arg value="describe" />
+			<arg value="--tags" />
+		</exec>
+		<echo>git.workspace.version = ${git.workspace.version}</echo>
+		<exec executable="git" output="${git.describe.file}" errorproperty="git.error" failonerror="true">
+			<arg value="describe" />
+			<arg value="--tags" />
+			<arg value="--abbrev=0" />
+		</exec>
+		<loadfile srcfile="${git.describe.file}" property="git.workspace.tag" />
+		<echo>git.workspace.tag = ${git.workspace.tag}</echo>
+		<condition property="workspace-contains-a-tagged-version">
+			<equals arg1="${git.workspace.tag}" arg2="${git.workspace.version}" />
+		</condition>
+		<echo>workspace-contains-a-tagged-version = ${workspace-contains-a-tagged-version}</echo>
+		<loadfile srcfile="${git.describe.file}" property="git.workspace.specification.version">
+			<filterchain>
+				<headfilter lines="1" skip="0" />
+				<tokenfilter>
+					<replaceregex pattern="\.[0-9]+$" replace="" flags="gi" />
+				</tokenfilter>
+				<striplinebreaks />
+			</filterchain>
+		</loadfile>
+		<echo>git.workspace.specification.version = ${git.workspace.specification.version}</echo>
+	</target>
+
+	<target name="tagged-version" depends="git-info, git-committed">
+		<fail unless="workspace-contains-a-tagged-version" />
+	</target>
+
+	<target name="only-init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${version.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${rel.dir}" />
+		<mkdir dir="${src.compile.dir}" />
+	</target>
+
+	<target name="only-clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${rel.dir}" />
+	</target>
+
+	<target name="only-compile">
+		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="1.6" target="1.6" verbose="no" includeantruntime="false">
+			<include name="org/**" />
+			<include name="com/**" />
+		</javac>
+	</target>
+
+	<target name="only-compile-docs" description="Creat PDF manual" depends="git-info">
+		<copy file="doc/reference/manual.lyx" tofile="dist/genyris-manual-${version}.lyx" verbose="true" overwrite="true">
+			<filterchain>
+				<replacetokens>
+					<token key="GENYRIS-SPECIFICATION-VERSION" value="${specification-version}" />
+					<token key="GENYRIS-IMPLEMENTATION-VERSION" value="${implementation-version}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+		<copy todir="dist" verbose="true">
+			<fileset dir="${basedir}/doc/reference/">
+				<include name="*jpg" />
+			</fileset>
+		</copy>
+		<exec executable="lyx" dir="dist" failonerror="true" os="Linux">
+			<arg value="--export" />
+			<arg value="pdf" />
+			<arg value="genyris-manual-${version}.lyx" />
+		</exec>
+		<exec executable="C:\Program Files\LyX16\bin\lyx.exe" dir="dist" failonerror="true" os="Windows XP">
+			<arg value="--export" />
+			<arg value="pdf" />
+			<arg value="genyris-manual-${version}.lyx" />
+		</exec>
+		<exec executable="C:\Python27\python.exe" dir="dist" failonerror="true" os="Windows XP">
+			<arg value="C:\downloads\elyxer\elyxer-1.0.4\elyxer.py" />
+			<arg value="genyris-manual-${version}.lyx" />
+			<arg value="genyris-manual-${version}.html" />
+		</exec>
+		<exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" os="Linux">
+			<arg value="genyris-manual-${version}.lyx" />
+			<arg value="genyris-manual-${version}.html" />
+		</exec>
+		<delete verbose="true">
+			<fileset dir="dist">
+				<include name="*jpg" />
+				<include name="*lyx" />
+				<include name="*dvi" />
+			</fileset>
+		</delete>
+		<copy file="dist/genyris-manual-${version}.pdf" tofile="rel/genyris-manual-${version}.pdf" verbose="true" />
+		<checksum file="rel/genyris-manual-${version}.pdf" forceOverwrite="yes" />
+		<copy file="dist/genyris-manual-${version}.html" tofile="rel/genyris-manual-${version}.html" verbose="true" />
+		<checksum file="rel/genyris-manual-${version}.html" forceOverwrite="yes" />
+
+	</target>
+
+	<target name="only-binary" depends="make-jar, only-compile-docs" description="Make a binary release">
+		<tstamp />
+		<copy todir="dist" verbose="false">
+			<fileset dir="${basedir}">
+				<include name="needed/**/*jar" />
+			</fileset>
+		</copy>
+		<zip destfile="rel/genyris-binary-${version}.zip" duplicate="fail" defaultexcludes="no">
+			<fileset dir="${basedir}">
+				<include name="LICENSE" />
+				<include name="README" />
+				<include name="dist/**/*" />
+				<include name="lib/**/*" />
+				<include name="bin/**/*" />
+				<include name="examples/**/*" />
+				<include name="test/**/*" />
+			</fileset>
+		</zip>
+		<checksum file="rel/genyris-binary-${version}.zip" forceOverwrite="yes" />
+	</target>
+
+	<target name="archive" depends="make-jar" description="Make a backup">
+		<input message="Destination directory for archive?" addproperty="archive.dest" />
+		<tstamp />
+
+		<jar destfile="${archive.dest}/genyris-archive-${DSTAMP}${TSTAMP}.jar" duplicate="fail" defaultexcludes="no">
+			<fileset dir="${basedir}" includes="*" />
+			<fileset dir="${basedir}" includes="*/**/*">
+				<exclude name="idebuild/**/*" />
+				<exclude name="build/**/*" />
+			</fileset>
+		</jar>
+	</target>
 
 
-   </project>
+	<target name="only-make-jar">
+		<jar destfile="${dist.dir}/genyris-bin-${version}.jar" duplicate="fail">
+			<fileset dir="${basedir}" includes="README LICENSE" />
+			<fileset dir="${build.dir}" includes="version/**/*" />
+			<fileset dir="${src.compile.dir}" includes="**/*.class" excludes="**/GenyrisServlet.class" />
+			<fileset dir="${needed.lib.dir}" includes="junit/**/*" />
+			<fileset dir="${src.dir}" includes="**/*.g" />
+			<fileset dir="${src.dir}" includes="**/*.properties" />
+			<fileset dir="${basedir}" includes="test/**/*" />
+			<manifest>
+				<attribute name="Main-Class" value="org.genyris.interp.ClassicReadEvalPrintLoop" />
+				<attribute name="Class-Path" value="needed/httpcore-4.4.3.jar needed/httpclient-4.5.1.jar 
+                	needed/junit.jar needed/mail.jar needed/mailapi.jar 
+                    needed/dsn.jar needed/imap.jar needed/smtp.jar needed/pop3.jar needed/opencsv-1.8.jar 
+                	needed/jline-2.11.jar needed/commons-io-2.4.jar  needed/commons-logging-1.1.jar 
+                    " />
+				<attribute name="Specification-Title" value="Genyris" />
+				<attribute name="Specification-Version" value="${specification-version}" />
+				<attribute name="Specification-Vendor" value="genyris.org" />
+				<attribute name="Implementation-Title" value="Genyris" />
+				<attribute name="Implementation-Version" value="${implementation-version}" />
+				<attribute name="Implementation-Vendor" value="Peter William Birch" />
+				<attribute name="Implementation-Date" value="${TODAY}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="test" depends="binary, only-test" />
+	<target name="only-test" depends="git-info">
+		<exec executable="java" failonerror="true">
+			<env key="GENYRIS_HOME" value="${basedir}" />
+			<arg value="-showversion" />
+			<arg value="-jar" />
+			<arg value="dist/genyris-bin-${version}.jar" />
+			<arg value="test/acceptance/suite.g" />
+		</exec>
+	</target>
+
+	<target name="reports" depends="only-report-todo" />
+	<target name="only-report-todo">
+		<exec executable="java" failonerror="true">
+			<env key="GENYRIS_HOME" value="${basedir}" />
+			<arg value="-jar" />
+			<arg value="dist/genyris-bin-${version}.jar" />
+			<arg value="examples/file-lines.g" />
+			<arg value=".*\.g$|.*\.java$|.*\.lyx" />
+			<arg value=".*TODO.*|.*FIXME.*" />
+			<arg value="${basedir}" />
+		</exec>
+	</target>
+
+	<target name="checkstyle" description="Check Java code Style.">
+		<mkdir dir="reports" />
+		<checkstyle config="conf/BillBirchCheck.xml">
+			<fileset dir="${src.dir}" includes="**/*.java" />
+			<formatter type="plain" />
+			<formatter type="xml" toFile="dist/checkstyle_errors.xml" />
+		</checkstyle>
+	</target>
+
+	<target name="package" depends="version-default" description="Install4j Packaging, generates exe, deb and dmg">
+		<copy file="package/genyris.install4j" tofile="dist/genyris.install4j" verbose="true" overwrite="true">
+			<filterchain>
+				<replacetokens>
+					<token key="GENYRIS-VERSION" value="${version}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+
+		<exec executable="bash" failonerror="true">
+			<arg value="-c" />
+			<arg value="install4jc dist/genyris.install4j" />
+		</exec>
+		<checksum file="rel/genyris_windows_${version.underscores}.exe" forceOverwrite="yes" />
+		<checksum file="rel/genyris_linux_${version.underscores}.deb" forceOverwrite="yes" />
+		<checksum file="rel/genyris_linux_${version.underscores}.rpm" forceOverwrite="yes" />
+		<checksum file="rel/genyris_macos_${version.underscores}.dmg" forceOverwrite="yes" />
+	</target>
+
+
+</project>

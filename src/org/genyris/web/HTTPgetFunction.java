@@ -5,24 +5,20 @@
 //
 package org.genyris.web;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
+import org.apache.http.HttpVersion;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.io.readerstream.ReaderStream;
 
 public class HTTPgetFunction extends HTTPclientFunction {
 
@@ -32,40 +28,44 @@ public class HTTPgetFunction extends HTTPclientFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        checkArguments(arguments, 1, 2);
+        checkArguments(arguments, 1, 3);
         Class[] types = {StrinG.class};
         checkArgumentTypes(types, arguments);
         String URI = arguments[0].toString();
-        Exp headers = (arguments.length == 2 ? arguments[1] : NIL);
+        Exp headers = (arguments.length >= 2 ? arguments[1] : NIL);
+        if( ! (headers == NIL || headers instanceof org.genyris.core.Pair) ) {
+            throw new GenyrisException("Headers must be a list.");
+        }
+        Exp protocol = (arguments.length >= 3 ? arguments[2] : NIL);
+        if( ! (protocol == NIL || protocol instanceof org.genyris.core.StrinG) ) {
+            throw new GenyrisException("Protocol must be a String.");
+        }
+        HttpVersion httpVersion = parseProtocol(protocol);
+
+        CloseableHttpClient httpclient = HttpClients.createDefault();
 
         try {
-            URL url = new URL(URI);
-            URLConnection conn = url.openConnection();
-            if(!(conn instanceof HttpURLConnection)) {
-                throw new GenyrisException("Not an HttpURLConnection: " + conn);
-            }
-            HttpURLConnection httpConn = (HttpURLConnection)conn;
-            while (headers != NIL) {
-            	conn.addRequestProperty(headers.car().car().toString(), headers.car().cdr().toString());
-            	headers = headers.cdr();
-            }
-        	httpConn.connect();
-        	if (httpConn.getResponseCode() != 200) {
-            	throw new GenyrisException("Server returned non 200 Response Code: " + Integer.toString(httpConn.getResponseCode()));
-            }
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            Exp headerList = getResponseHeadersAsList(conn);
-            return Pair.cons2(new ReaderStream((Reader) in, URI), headerList, NIL);
 
-        } catch (MalformedURLException e1) {
-            throw new GenyrisException(e1.getMessage());
+            HttpGet httpGet = new HttpGet(URI);
+            httpGet.setProtocolVersion(httpVersion);
+
+            addHeadersToRequest(headers, charset, httpGet);
+
+            CloseableHttpResponse response = httpclient.execute(httpGet);
+
+            return processResponse(URI, response);
         } catch (IOException e) {
             throw new GenyrisException(e.getMessage());
         } catch (java.lang.RuntimeException e) {
-        	if(e.getMessage().equals("java.lang.IllegalArgumentException: protocol = http host = null"))	
-        		throw new GenyrisException("Proably got a 302 redirection to a bad URL?" + e.getMessage());
-        	else
-        		throw e;
+            throw new GenyrisException(e.toString());
         }
+        finally {
+            try {
+                httpclient.close();
+            } catch (IOException ignored) {
+                ignored.printStackTrace();
+            }
+        }
+
     }
 }

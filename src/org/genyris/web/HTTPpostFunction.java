@@ -5,28 +5,25 @@
 //
 package org.genyris.web;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
-import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
-import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
-import org.genyris.io.readerstream.ReaderStream;
 
 public class HTTPpostFunction extends HTTPclientFunction {
 
@@ -37,76 +34,54 @@ public class HTTPpostFunction extends HTTPclientFunction {
     @Override
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        String charset = "UTF-8";
 
-        checkArguments(arguments, 1, 3);
+        checkArguments(arguments, 1, 4);
         Class[] types = { StrinG.class };
         checkArgumentTypes(types, arguments);
         String URI = arguments[0].toString();
         Exp params = (arguments.length >= 2 ? arguments[1] : NIL);
-        Exp headers = (arguments.length == 3 ? arguments[2] : NIL);
+        Exp headers = (arguments.length >= 3 ? arguments[2] : NIL);
+        if( ! (headers == NIL || headers instanceof org.genyris.core.Pair) ) {
+            throw new GenyrisException("Headers must be a list.");
+        }
+        Exp protocol = (arguments.length >= 4 ? arguments[3] : NIL);
+        if( ! (protocol == NIL || protocol instanceof org.genyris.core.StrinG) ) {
+            throw new GenyrisException("Protocol must be a String.");
+        }
+        HttpVersion httpVersion = parseProtocol(protocol);
+        CloseableHttpClient httpclient = HttpClients.createDefault();
 
         try {
-            URLConnection conn = new URL(URI).openConnection();
-            if (!(conn instanceof HttpURLConnection)) {
-                throw new GenyrisException("Not an HttpURLConnection: " + conn);
-            }
-            HttpURLConnection httpConn = (HttpURLConnection) conn;
-            httpConn.setRequestMethod("POST");
-            conn.setDoOutput(true); // Triggers POST.
-            conn.setRequestProperty("Accept-Charset", charset);
-            conn.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded;charset=" + charset);
-            while (headers != NIL) {
-                conn.addRequestProperty(headers.car().car().toString(), headers.car()
-                        .cdr().toString());
-                headers = headers.cdr();
-            }
-            String query = urlEncodeParameters(charset, params);
-            
-            OutputStream output = conn.getOutputStream();
-            output.write(query.getBytes(charset));
-            output.flush();
-            httpConn.connect();
-            if (httpConn.getResponseCode() != 200) {
-                throw new GenyrisException("Server returned non 200 Response Code: "
-                        + Integer.toString(httpConn.getResponseCode()));
-            }
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    conn.getInputStream()));
-            Exp headerList = getResponseHeadersAsList(conn);
-            return Pair.cons2(new ReaderStream((Reader) in, URI), headerList, NIL);
 
-        } catch (MalformedURLException e) {
-            throw new GenyrisException(e.getMessage());
+            HttpPost httpPost = new HttpPost(URI);
+            httpPost.setProtocolVersion(httpVersion);
+
+            addHeadersToRequest(headers, charset, httpPost);
+
+            // Now add post parameters...
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+            while (params != NIL) {
+                nvps.add(new BasicNameValuePair(params.car().car().toString(), params
+                        .car().cdr().toString()));
+                params = params.cdr();
+            }
+            httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+
+            return processResponse(URI, response);
         } catch (IOException e) {
             throw new GenyrisException(e.getMessage());
         } catch (java.lang.RuntimeException e) {
-            if (e.getMessage().equals(
-                    "java.lang.IllegalArgumentException: protocol = http host = null"))
-                throw new GenyrisException("Proably got a 302 redirection to a bad URL?"
-                        + e.getMessage());
-            else
-                throw e;
+            throw new GenyrisException(e.toString());
         }
-    }
-
-    private String urlEncodeParameters(String charset, Exp params)
-            throws UnsupportedEncodingException, AccessException {
-        String query = "";
-        while (params != NIL) {
-            query = query.concat(URLEncoder.encode(params.car().car().toString(),
-                    charset));
-            query = query.concat("=");
-            query = query.concat(URLEncoder.encode(params.car().cdr().toString(),
-                    charset));
-            if (params.cdr() != NIL) {
-                query = query.concat("&");
+        finally {
+            try {
+                httpclient.close();
+            } catch (IOException ignored) {
+                ignored.printStackTrace();
             }
-            params = params.cdr();
         }
-        query = query.concat("\r\n");
-        return query;
+
     }
 
 }

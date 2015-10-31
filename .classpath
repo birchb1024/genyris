@@ -15,5 +15,7 @@
 	<classpathentry kind="lib" path="needed/opencsv-1.8.jar"/>
 	<classpathentry kind="lib" path="needed/jline-2.11.jar" sourcepath="/home/birchb/workspace/jline/jline2/src/main/java"/>
 	<classpathentry kind="lib" path="needed/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/home/birchb/workspace/genyris/needed/httpclient-4.5.1.jar"/>
+	<classpathentry kind="lib" path="/home/birchb/workspace/genyris/needed/httpcore-4.4.3.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
