@@ -31,3 +31,14 @@ type:SequenceOfRecords
          table((class='sequenceofrecords')) $guts
 type:Table
 type:HeadedTable
+   def .:html()
+      define first_row_guts ()
+      for cell in (left .self) 
+         setq first_row_guts (append first_row_guts (list(template (th() $cell))))
+      define guts nil
+      for row in (right .self)
+         setq guts (append guts (list(row (type:Record!:html))))
+      template
+         table((class='headedtable')) 
+            tr() $first_row_guts
+            $guts
