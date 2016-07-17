@@ -45,7 +45,9 @@ class Hippie (Boomer)
   # A baby boomer who owns a bong
   def .valid? (obj)
     obj
-       bound? ^.bong
+       and
+            bound? ^.bong
+            .bong
 
 # Let's create some data and assign to variables...
 define neil
