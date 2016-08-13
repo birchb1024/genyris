@@ -155,3 +155,17 @@ defmacro sys:procedure-missing(&rest args) ^(unboundsymbol)
 
 assertEqual Biscuit (left (some-undefined-function)!classes)
  
+#
+# Issue 21: Smiley Crash
+#
+catch bad-def-error
+  def fn
+assert bad-def-error
+
+catch bad-def-error
+  df fn
+assert bad-def-error
+
+catch bad-def-error
+  defmacro fn
+assert bad-def-error

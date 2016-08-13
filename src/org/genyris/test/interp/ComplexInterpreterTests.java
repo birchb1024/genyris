@@ -18,132 +18,144 @@ public class ComplexInterpreterTests extends TestCase {
         interpreter = new TestUtilities();
     }
 
-    private void excerciseEval(String exp, String expected) throws Exception {
+    private void exerciseEval(String exp, String expected) throws Exception {
         assertEquals(expected,  interpreter.eval(exp));
     }
 
-    private void excerciseBadEval(String exp) {
+    private void exerciseBadEval(String exp) {
         try {
 			interpreter.eval(exp);
 			fail();
 		} catch (GenyrisException e) {}
     }
 
-    public void testExcerciseEval() throws Exception {
-        excerciseEval("(defvar (quote foo) 23)", "23");
-        excerciseEval("foo", "23");
+    public void testexerciseEval() throws Exception {
+        exerciseEval("(defvar (quote foo) 23)", "23");
+        exerciseEval("foo", "23");
     }
 
     public void testMacro() throws Exception {
-        excerciseEval("(defvar ^w 99)", "99");
-        excerciseEval("((lambdam (x) ^w) 45)", "99");
+        exerciseEval("(defvar ^w 99)", "99");
+        exerciseEval("((lambdam (x) ^w) 45)", "99");
     }
 
 
     public void testMacroWithDefmacro() throws Exception {
-        excerciseEval("(defmacro nil$ (x) (list ^defvar (list quote x) 0))", "<LazyProcedure: <nil$>>");
-        excerciseEval("(nil$ a)", "0");
-        excerciseEval("a", "0");
+        exerciseEval("(defmacro nil$ (x) (list ^defvar (list quote x) 0))", "<LazyProcedure: <nil$>>");
+        exerciseEval("(nil$ a)", "0");
+        exerciseEval("a", "0");
+    }
+
+    public void testDefs() throws Exception {
+        exerciseEval("(def fn (a b c) 12)", "<EagerProc: <fn>>");
+        exerciseEval("(df fn (x y z) 23)","<LazyProcedure: <anonymous lambdaq>>");
+        exerciseEval("(defmacro fn (j k) (template ($j $k)))","<LazyProcedure: <fn>>");
+    }
+
+    public void testDefBad() throws Exception {
+        exerciseBadEval("(def fn)");
+        exerciseBadEval("(df fn)");
+        exerciseBadEval("(defmacro fn)");
     }
 
     public void testMacroWithDefmacroDeep() throws Exception {
-        excerciseEval("(def fn (y) (defmacro nil$ (x) (list ^defvar (list quote x) y)) nil$)", "<EagerProc: <fn>>");
-        excerciseEval("(defvar ^m (fn 99))", "<LazyProcedure: <nil$>>");
-        excerciseEval("(m w)", "99");
-        excerciseEval("w", "99");
+        exerciseEval("(def fn (y) (defmacro nil$ (x) (list ^defvar (list quote x) y)) nil$)", "<EagerProc: <fn>>");
+        exerciseEval("(defvar ^m (fn 99))", "<LazyProcedure: <nil$>>");
+        exerciseEval("(m w)", "99");
+        exerciseEval("w", "99");
     }
 
     public void testMacroWithDefmacroDeep2() throws Exception {
-        excerciseEval("(defvar ^y 7777)", "7777");
-        excerciseEval("(def fn () (defmacro mac (x) (list ^defvar (list quote x) y)) mac)", "<EagerProc: <fn>>");
-        excerciseEval("(def fun (y) (defvar ^m (fn)) m)", "<EagerProc: <fun>>");
-        excerciseEval("((fun 5555) w)", "7777");
-        excerciseEval("w", "7777");
+        exerciseEval("(defvar ^y 7777)", "7777");
+        exerciseEval("(def fn () (defmacro mac (x) (list ^defvar (list quote x) y)) mac)", "<EagerProc: <fn>>");
+        exerciseEval("(def fun (y) (defvar ^m (fn)) m)", "<EagerProc: <fun>>");
+        exerciseEval("((fun 5555) w)", "7777");
+        exerciseEval("w", "7777");
     }
 
     public void testRecursion() throws Exception {
-        excerciseEval("(defvar ^null (lambda (exp) (cond (exp nil) (true true))))", "<EagerProc: <anonymous lambda>>");
-        excerciseEval("(defvar ^last (lambda (x) (cond ((null (cdr x)) (car x)) (true (last (cdr x))))))", "<EagerProc: <anonymous lambda>>");
-        excerciseEval("(last ^(1 2 3 4))", "4");
+        exerciseEval("(defvar ^null (lambda (exp) (cond (exp nil) (true true))))", "<EagerProc: <anonymous lambda>>");
+        exerciseEval("(defvar ^last (lambda (x) (cond ((null (cdr x)) (car x)) (true (last (cdr x))))))", "<EagerProc: <anonymous lambda>>");
+        exerciseEval("(last ^(1 2 3 4))", "4");
 
     }
 
     public void testLexicalScope() throws Exception {
-        excerciseEval("(defvar ^x -1)", "-1");
-        excerciseEval("(defvar ^mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <anonymous lambda>>");
-        excerciseEval("(mk-func 10)", "<EagerProc: <anonymous lambda>>");
-        excerciseEval("((mk-func 10) 88)", "(10 = 88)");
+        exerciseEval("(defvar ^x -1)", "-1");
+        exerciseEval("(defvar ^mk-func (lambda (x) (lambda (y) (cons x y))))", "<EagerProc: <anonymous lambda>>");
+        exerciseEval("(mk-func 10)", "<EagerProc: <anonymous lambda>>");
+        exerciseEval("((mk-func 10) 88)", "(10 = 88)");
     }
 
     public void testRestArgs() throws Exception {
-        excerciseEval("(defvar ^fn (lambda (x &rest body) (list x body)))", "<EagerProc: <anonymous lambda>>");
-        excerciseEval("(fn 1 2 3 4 5 6)", "(1 (2 3 4 5 6))");
-        excerciseEval("(defvar ^fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <anonymous lambdaq>>");
-        excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
-        excerciseEval("(defvar ^fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <anonymous lambdaq>>");
-        excerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
-        excerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
+        exerciseEval("(defvar ^fn (lambda (x &rest body) (list x body)))", "<EagerProc: <anonymous lambda>>");
+        exerciseEval("(fn 1 2 3 4 5 6)", "(1 (2 3 4 5 6))");
+        exerciseEval("(defvar ^fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <anonymous lambdaq>>");
+        exerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
+        exerciseEval("(defvar ^fnq (lambdaq (x &rest body) body))", "<LazyProcedure: <anonymous lambdaq>>");
+        exerciseEval("(fnq 1 2 3 4 5 6)", "(2 3 4 5 6)");
+        exerciseEval("(fnq foo bar 1 2)", "(bar 1 2)");
 
-        excerciseEval("(defvar ^fnq (lambdam (x &rest body) body))", "<LazyProcedure: <anonymous lambdam>>");
-        excerciseEval("(fnq 12 cons 1 2)", "(1 = 2)");
+        exerciseEval("(defvar ^fnq (lambdam (x &rest body) body))", "<LazyProcedure: <anonymous lambdam>>");
+        exerciseEval("(fnq 12 cons 1 2)", "(1 = 2)");
     }
     public void testFrame() throws Exception {
-        excerciseEval("(dict (.a = 1) (.b = 2) (.c = 3))",
+        exerciseEval("(dict (.a = 1) (.b = 2) (.c = 3))",
                 "(dict (.a = 1) (.b = 2) (.c = 3))");
-        excerciseEval("(eq? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
-        excerciseEval("(equal? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
+        exerciseEval("(eq? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
+        exerciseEval("(equal? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
     }
 
     public void testEnvCapture() throws Exception {
-        excerciseEval("(defvar ^mk-fn  (lambda (x) (defvar ^bal x) (defvar ^fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <anonymous lambda>>");
-        excerciseEval("(defvar ^ff (mk-fn 44))","<EagerProc: <anonymous lambda>>");
-        excerciseEval("(ff 99)", "(44 = 99)");
+        exerciseEval("(defvar ^mk-fn  (lambda (x) (defvar ^bal x) (defvar ^fn (lambda (y) (cons bal y))) fn))", "<EagerProc: <anonymous lambda>>");
+        exerciseEval("(defvar ^ff (mk-fn 44))","<EagerProc: <anonymous lambda>>");
+        exerciseEval("(ff 99)", "(44 = 99)");
     }
     public void testEnvCaptureWithDef() throws Exception {
-        excerciseEval("(def mk-fn (x) (defvar ^bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <mk-fn>>");
-        excerciseEval("(defvar ^ff (mk-fn 44))","<EagerProc: <fn>>");
-        excerciseEval("(ff 99)", "(44 = 99)");
+        exerciseEval("(def mk-fn (x) (defvar ^bal x) (def fn (y) (cons bal y)) fn)", "<EagerProc: <mk-fn>>");
+        exerciseEval("(defvar ^ff (mk-fn 44))","<EagerProc: <fn>>");
+        exerciseEval("(ff 99)", "(44 = 99)");
     }
 
 
     public void testLeftRight() throws Exception {
-        excerciseEval("(defvar ^p (cons 1 2))", "(1 = 2)");
-        excerciseEval("(p .left)", "1");
-        excerciseEval("(p .right)", "2");
-        excerciseEval("(p (set ^.left 99))", "99");
-        excerciseEval("p", "(99 = 2)");
-        excerciseEval("(p (set ^.right 98))", "98");
-        excerciseEval("p", "(99 = 98)");
+        exerciseEval("(defvar ^p (cons 1 2))", "(1 = 2)");
+        exerciseEval("(p .left)", "1");
+        exerciseEval("(p .right)", "2");
+        exerciseEval("(p (set ^.left 99))", "99");
+        exerciseEval("p", "(99 = 2)");
+        exerciseEval("(p (set ^.right 98))", "98");
+        exerciseEval("p", "(99 = 98)");
     }
 
     public void testDynamicVariablesWithDef() throws Exception {
-        excerciseEval("(defvar ^d (dict))", "(dict)");
-        excerciseEval("(def function-which-declares-dynamic-var () (defvar ^.x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
-        excerciseEval("(def function-which-uses-dynamic-var () (list .x .x))", "<EagerProc: <function-which-uses-dynamic-var>>");
-        excerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
-        excerciseEval("(bound? ^.x)","nil");
+        exerciseEval("(defvar ^d (dict))", "(dict)");
+        exerciseEval("(def function-which-declares-dynamic-var () (defvar ^.x 88) (function-which-uses-dynamic-var))","<EagerProc: <function-which-declares-dynamic-var>>");
+        exerciseEval("(def function-which-uses-dynamic-var () (list .x .x))", "<EagerProc: <function-which-uses-dynamic-var>>");
+        exerciseEval("(d (function-which-declares-dynamic-var))","(88 88)");
+        exerciseEval("(bound? ^.x)","nil");
     }
 
     public void testDynamicVariablesWithDef2() throws Exception {
-        excerciseEval("(defvar ^d (dict))", "(dict)");
-        excerciseEval("(d (defvar ^.x 11111))", "11111");
-        excerciseEval("(def define-some-global-y (x) (defvar ^.y 'global .y') (cons .x .y))", "<EagerProc: <define-some-global-y>>");
-        excerciseEval("(d (define-some-global-y 33))", "(11111 = 'global .y')");
+        exerciseEval("(defvar ^d (dict))", "(dict)");
+        exerciseEval("(d (defvar ^.x 11111))", "11111");
+        exerciseEval("(def define-some-global-y (x) (defvar ^.y 'global .y') (cons .x .y))", "<EagerProc: <define-some-global-y>>");
+        exerciseEval("(d (define-some-global-y 33))", "(11111 = 'global .y')");
     }
     public void testMagicEnv() throws Exception {
-        excerciseEval("(23 .self)", "23");
-        excerciseEval("(23 (defvar ^x 43) x)", "43");
-        excerciseEval("(23 (defvar ^x 43) (set ^x 99)x)", "99");
-        excerciseEval("(23 (defvar ^.classes (list Bignum)) 3)", "3");
-        excerciseBadEval("(23 (defvar ^.self 3)");
-        excerciseBadEval("(23 (setq .left 3)");
-        excerciseBadEval("(23 (setq .right 3)");
+        exerciseEval("(23 .self)", "23");
+        exerciseEval("(23 (defvar ^x 43) x)", "43");
+        exerciseEval("(23 (defvar ^x 43) (set ^x 99)x)", "99");
+        exerciseEval("(23 (defvar ^.classes (list Bignum)) 3)", "3");
+        exerciseBadEval("(23 (defvar ^.self 3)");
+        exerciseBadEval("(23 (setq .left 3)");
+        exerciseBadEval("(23 (setq .right 3)");
     }
 	public void testParseAString() throws Exception {
-		excerciseEval("((ParenParser(.new '(+ 1 2 3)'))(.read))", "(+ 1 2 3)");
+		exerciseEval("((ParenParser(.new '(+ 1 2 3)'))(.read))", "(+ 1 2 3)");
 	}
 	public void testprefixeddynamic() throws Exception {
-		excerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".|http://foo/sys#foo|");
+		exerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".|http://foo/sys#foo|");
 	}
 	
 }

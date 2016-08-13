@@ -24,7 +24,7 @@ public class DefMacroFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		checkMinArguments(arguments, 1);
+		checkMinArguments(arguments, 2);
 		Class[] types = {Symbol.class};
 		checkArgumentTypes(types, arguments);
         checkFormalArgumentSyntax(arguments[1]);
