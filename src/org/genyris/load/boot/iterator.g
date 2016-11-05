@@ -48,4 +48,8 @@ Reader
                 else
                    ^sys:StopIteration
       
+Graph
+   def .mkIterator()
+        (.asTriples)
+            .mkIterator
                    
