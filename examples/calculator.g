@@ -52,19 +52,24 @@ def print-vars (vlist)
 #
 # User command definition
 #
-define commands
-  tag Alist ^()
+define commands (graph)
 
 df define-command (label help-text &rest body)
-    u:format '  %a %a\n' label help-text
     define tmpfunc
         eval
             template
                 lambda () $@body
-    setq commands
-        cons (cons label tmpfunc) commands
-    tag Alist commands
+    commands
+        .put label ^code tmpfunc
+        .put label ^documentation help-text
 
+def list-commands()
+    for com in (commands(.select nil ^documentation nil))
+        u:format "   %s\t%s\n" com!subject com!object
+
+define-command h "list the commands"
+    list-commands
+    
 define-command x "eXchange the top two stack elements."
     exchange
 
@@ -117,6 +122,7 @@ define-command % "remainder"
 define calc-finished nil
 
 def calc ()
+    list-commands
     u:format prompt
     while (not (calc-finished))
         var input_line (read)
@@ -129,12 +135,12 @@ def calc ()
                     cond
                         (is-instance? input Bignum)
                             push input
-                        (commands(.hasKey input))
-                            apply (commands(.lookup input)) nil
+                        (commands(.get-list input ^code))
+                            apply (commands(.get input ^code)) nil
                         (is-instance? input Symbol)
                             push input
                         else
-                            u:format "Unknown command ignored %s\n" input
+                            u:format "Unknown command ignored %s - type h for help\n" input
                 print-vars variables
                 print stack
                 u:format prompt
