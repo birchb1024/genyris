@@ -20,7 +20,7 @@ public class TailCall extends Atom {
 
     @Override
     public String toString() {
-        String repr = "TailCall ";
+        String repr = "TailCall " + proc.toString() + " ";
         for( int i=0; i< arguments.length;  i++) {
             repr += arguments[i].toString() + " ";
         }

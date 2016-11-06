@@ -24,7 +24,7 @@ public class TailCallFunction extends BuiltinFunction {
             throw new GenyrisException("tailcall expected closure as first argument but got nothing.");
         }
         if(!(arguments[0] instanceof Closure)) {
-            throw new GenyrisException("tailcall expected closure as first argumetn but got: " + arguments[0]);
+            throw new GenyrisException("tailcall expected closure as first argument but got: " + arguments[0]);
         }
         Exp[] newargs = new Exp[arguments.length -1];
         System.arraycopy(arguments, 1, newargs, 0, newargs.length);
