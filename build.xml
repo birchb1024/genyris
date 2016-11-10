@@ -273,25 +273,19 @@
 
 	<target name="test" depends="binary, only-test" />
 	<target name="only-test" depends="git-info">
-		<exec executable="java" failonerror="true">
+		<exec executable="bash" failonerror="true">
 			<env key="GENYRIS_HOME" value="${basedir}" />
-			<arg value="-showversion" />
-			<arg value="-jar" />
-			<arg value="dist/genyris-bin-${version}.jar" />
-			<arg value="test/acceptance/suite.g" />
+			<arg value="-c" />
+			<arg value="java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
 		</exec>
 	</target>
 
 	<target name="reports" depends="only-report-todo" />
 	<target name="only-report-todo">
-		<exec executable="java" failonerror="true">
+		<exec executable="bash" failonerror="true">
 			<env key="GENYRIS_HOME" value="${basedir}" />
-			<arg value="-jar" />
-			<arg value="dist/genyris-bin-${version}.jar" />
-			<arg value="examples/file-lines.g" />
-			<arg value=".*\.g$|.*\.java$|.*\.lyx" />
-			<arg value=".*TODO.*|.*FIXME.*" />
-			<arg value="${basedir}" />
+			<arg value="-c" />
+			<arg value="java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop examples/file-lines.g '.*\.g$|.*\.java$|.*\.lyx' '.*TODO.*|.*FIXME.*' ${basedir}"/>
 		</exec>
 	</target>
 
