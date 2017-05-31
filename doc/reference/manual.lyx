@@ -13240,8 +13240,16 @@ This method creates a closure which when called, returns a line from the
 \emph on
 sys:StopIteration 
 \emph default
-at he end of the stream.
- Can be used where a call to .mkIterator is requires, such as by for.
+at the end of the stream.
+ Can be used where a call to 
+\emph on
+.mkIterator
+\emph default
+ is required, such as in 
+\emph on
+for
+\emph default
+.
  Example:
 \end_layout
 
