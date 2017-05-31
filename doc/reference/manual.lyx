@@ -15251,7 +15251,7 @@ foaf:name
 \emph default
 .
  However the program source lacks semantic mark-up.
- DEpending on the application both techniques may be appropriate.
+ Depending on the application both techniques may be appropriate.
 \end_layout
 
 \begin_layout Subsubsection
@@ -18111,8 +18111,6 @@ Termination with
 \family typewriter
 \emph on
 kill
-\emph default
-:
 \end_layout
 
 \begin_layout Standard
@@ -18227,9 +18225,10 @@ Genyris
 \emph default
  are not
 \emph on
- Threads
+ Threads.
+
 \emph default
- the intent is that they are self-contained, supporting single-threaded
+ The intent is that they are self-contained, supporting single-threaded
  applications only.
  However since the underlying Java objects must be shared between tasks
  for inter-task communication, a means of making this thread-safe is provided.
@@ -18252,7 +18251,7 @@ task:synchronized
 
 
 \emph default
- - Controlling access to shared objects
+ - Control access to shared resources
 \end_layout
 
 \begin_layout Standard
