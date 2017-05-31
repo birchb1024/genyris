@@ -12926,7 +12926,7 @@ Reader!new
 \emph on
 stdin
 \emph default
- # global variable.
+ # global variable
 \end_layout
 
 \begin_layout Itemize
@@ -13096,11 +13096,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Returns true if the stream has data for .
-\emph on
-read
-\emph default
- otherwise
+Returns true if the stream has data for reading otherwise
 \emph on
  nil.
 \end_layout
@@ -13131,6 +13127,26 @@ String
 .
  EOF will be returned if the file is empty or if readAll is called more
  than once.
+\end_layout
+
+\begin_layout Paragraph
+.getline
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+.getline
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reads the next line fron the input stream and returns it minus the trailing
+ line-feed.
+ Carriage return characters are ignored.
 \end_layout
 
 \begin_layout Paragraph
