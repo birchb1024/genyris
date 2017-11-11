@@ -10,7 +10,7 @@ df httpd-serve (request)
         request(.getParameters)
 
 cond
-  (and sys:argv (equal? (task:id)!name 'main'))
-    httpd 8000 sys:argv!left
+  (equal? (task:id)!name 'main')
+    httpd 8000 @FILE
     u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
     read

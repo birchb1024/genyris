@@ -7,13 +7,20 @@
 ##
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
-print sys:argv
-cond
-   (not (equal? (length sys:argv) 3))
-       raise "Usage: web-server.g <port> <root directory>"
+@prefix task "http://www.genyris.org/lang/task#"
 
-var port (nth 1 sys:argv)
+define number-threads 10
+
+var port (parse (nth 1 sys:argv))
 var rootdir (nth 2 sys:argv)
-u:format "Serving web pages on port %a from %a%n" port rootdir
-httpd port 'test/mocks/www-static.g' rootdir
 
+
+df httpd-serve (request)
+   list ^SERVE-FILE rootdir (request(.getPath)) ^ls
+
+cond
+    (equal? (task:id)!name 'main')
+        for _ in (range 1 number-threads)
+            httpd port @FILE (nth 1 sys:argv) rootdir
+        u:format "Serving web pages on port %a from %a\n" port rootdir
+        read

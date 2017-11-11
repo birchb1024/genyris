@@ -34,7 +34,7 @@ type:HeadedTable
    def .:html()
       define first_row_guts ()
       for cell in (left .self) 
-         setq first_row_guts (append first_row_guts (list(template (th() $cell))))
+         setq first_row_guts (append first_row_guts (list(template (th() (verbatim() $cell)))))
       define guts nil
       for row in (right .self)
          setq guts (append guts (list(row (type:Record!:html))))

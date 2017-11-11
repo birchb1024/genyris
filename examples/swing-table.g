@@ -11,6 +11,7 @@ java:import 'javax.swing.ListSelectionModel' as ListSelectionModel
 java:import 'javax.swing.DefaultListSelectionModel' as DefaultListSelectionModel
 
 def getValueAt(row col)
+   print ("getValueAt: row %s col %s"(.format row col))
    * (+ row 1) (+ col 1)
 
 def getColumnCount() 12
@@ -18,10 +19,10 @@ def getColumnCount() 12
 def getRowCount() 12
 
 def setValueAt(row col value)
-  print value
+  print ("setValueAt: row %s col %s value = %s"(.format row col value))
 
 def callback(&rest args)
-   print args
+   print ("callback: %s"(.format args))
                
 
 def createAndShowGUI() 
