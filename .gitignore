@@ -37,3 +37,6 @@ rel
 .settings
 build.number
 doc/reference/manual.pdf
+out
+.directory
+.idea
