@@ -25,7 +25,7 @@ public class DetailedDateTimeFunction extends AbstractDateTimeFunction {
 		TimeZone tz;
 		checkMinArguments(arguments, 1);
 		if (arguments.length == 2) {
-			tz = TimeZone.getTimeZone(arguments[2].toString());
+			tz = TimeZone.getTimeZone(arguments[1].toString());
 		} else {
 			tz = TimeZone.getDefault();
 		}
