@@ -4,6 +4,20 @@
 
 include 'classify.g'
 
+define script
+    (File(.new @FILE))
+        .abs-path
+
+define script-dir
+   "The same as (script(.dirname))"
+    '/'
+        .join 
+            reverse
+                right
+                    reverse
+                        script (.split '/')
+
+
 class ListOfInts()
     defmethod .beginsWith?(other)
        beginsWith? other this
@@ -140,7 +154,11 @@ class NtlmAuthorizationType3(NtlmAuthorizationInts)
           
         
 df httpd-serve (request)
-      request
+   cond 
+      (equal? (request(.getPath)) '/favicon.ico')
+         list ^SERVE-FILE script-dir (request(.getPath)) ^ls
+      else
+        request
             print .self
             classify UncheckedRequest .self
             define response (.reply)

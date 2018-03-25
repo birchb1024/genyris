@@ -9,6 +9,19 @@
 
 include 'examples/www-basic-auth.g'
 
+define script
+    (File(.new @FILE))
+        .abs-path
+
+define script-dir
+    '/'
+        .join 
+            reverse
+                right
+                    reverse
+                        script (.split '/')
+
+
 var *users* (graph)
 *users*
     .add 
@@ -26,7 +39,7 @@ def valid-logon?(username password)
 
 
 def handle-authenticated-request (request username)
-   list ^SERVE-FILE '/' (request(.getPath)) ^ls
+   list ^SERVE-FILE script-dir (request(.getPath)) ^ls
 
 
 cond

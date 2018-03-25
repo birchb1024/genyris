@@ -5,12 +5,21 @@
 define script
     (File(.new @FILE))
         .abs-path
+
+define script-dir
+   "The same as (script(.dirname))"
+    '/'
+        .join 
+            reverse
+                right
+                    reverse
+                        script (.split '/')
 define counter 0
 df httpd-serve (request)
     print request
     cond 
         (equal? (request(.getPath)) '/favicon.ico')
-            list 404 "text/plain" ^("Not Found")
+            list ^SERVE-FILE script-dir (request(.getPath)) ^ls
         else
             setq counter (+ counter 1)
             list 200 "text/html"

@@ -1,4 +1,19 @@
 @prefix sys "http://www.genyris.org/lang/system#"
+
+define script
+    (File(.new @FILE))
+        .abs-path
+
+define script-dir
+   "The same as (script(.dirname))"
+    '/'
+        .join 
+            reverse
+                right
+                    reverse
+                        script (.split '/')
+
+
 define context (dict)
 def myparse (string)
    # parse a string returning the expression
@@ -8,9 +23,10 @@ def myparse (string)
       .read
 
 df httpd-serve (request)
+    print request
     cond 
         (equal? (request(.getPath)) '/favicon.ico')
-            list 404 "text/plain" ^("Not Found")
+            list ^SERVE-FILE script-dir (request(.getPath)) ^ls
         else
            define expression nil
            define expression-string ''

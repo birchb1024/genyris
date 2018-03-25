@@ -2,6 +2,19 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 @prefix task "http://www.genyris.org/lang/task#"
 
+define script
+    (File(.new @FILE))
+        .abs-path
+
+define script-dir
+   "The same as (script(.dirname))"
+    '/'
+        .join 
+            reverse
+                right
+                    reverse
+                        script (.split '/')
+
 def valid-logon?(username password)
    # redefine to suit
    (and (equal? username 'foo') (equal? password 'bar')) 
@@ -15,13 +28,17 @@ def authenticate(request)
 
 df httpd-serve (request)
    # Serve web page, catch an errors and report with backtrace.
-   var response nil
-   catch errors
-        setq response (raw-serve request)
-   cond
-       (not errors) response
-       else
-           backtrace request errors
+   cond 
+      (equal? (request(.getPath)) '/favicon.ico')
+         list ^SERVE-FILE script-dir (request(.getPath)) ^ls
+      else
+         var response nil
+         catch errors
+              setq response (raw-serve request)
+         cond
+             (not errors) response
+             else
+                 backtrace request errors
 
 def backtrace (request errors)
    # Error page

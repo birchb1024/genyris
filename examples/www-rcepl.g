@@ -11,6 +11,18 @@ include "lib/classify.g"
 
 include "examples/people.g"
 
+define script
+    (File(.new @FILE))
+        .abs-path
+
+define script-dir
+    '/'
+        .join 
+            reverse
+                right
+                    reverse
+                        script (.split '/')
+
 Bignum
   def .new(obj)
      define parser (ParenParser(.new obj))
@@ -103,38 +115,42 @@ df httpd-serve (request)
         err
             setq expression err
 
-    list 200 "text/html"
-      template
-          html()
-             head()
-                title() $sys:argv
-                style()
-                    verbatim() "table, th, td { padding: 10px; border: 1px solid black; border-collapse: collapse; }"
-             body()
-                div()
-                    form((action="posted") (method="post"))
-                        fieldset()
-                            legend()
-                                "Read-Eval-Classify-Render Form:"
-                            textarea
-                                (rows="10")
-                                    cols="50"
-                                    name="recr"
-                                    wrap="physical"
-                                ~$input_line
-                            br()
-                            input((type="submit")(name="Submit")(value="submit"))
-                div()
-                    'Classes: '
-                    ul()
-                        $(map-left (use expression .classes) StandardClass!render:html)
-                div()
-                    pre() 
-                        $(asString expression)
-                fieldset()
-                    legend()
-                        "Render as HTML:"
-                    $(catch err (expression(.render:html)))
+    cond 
+        (equal? (request(.getPath)) '/favicon.ico')
+            list ^SERVE-FILE script-dir (request(.getPath)) ^ls
+        else
+            list 200 "text/html"
+               template
+                   html()
+                      head()
+                         title() $sys:argv
+                         style()
+                             verbatim() "table, th, td { padding: 10px; border: 1px solid black; border-collapse: collapse; }"
+                      body()
+                         div()
+                             form((action="posted") (method="post"))
+                                 fieldset()
+                                     legend()
+                                         "Read-Eval-Classify-Render Form:"
+                                     textarea
+                                         (rows="10")
+                                             cols="50"
+                                             name="recr"
+                                             wrap="physical"
+                                         ~$input_line
+                                     br()
+                                     input((type="submit")(name="Submit")(value="submit"))
+                         div()
+                             'Classes: '
+                             ul()
+                                 $(map-left (use expression .classes) StandardClass!render:html)
+                         div()
+                             pre() 
+                                 $(asString expression)
+                         fieldset()
+                             legend()
+                                 "Render as HTML:"
+                             $(catch err (expression(.render:html)))
                         
 
 cond
