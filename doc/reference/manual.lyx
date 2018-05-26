@@ -14553,6 +14553,10 @@ The response must have the 200 'OK' status code otherwise an exception is
 \end_layout
 
 \begin_layout LyX-Code
+@prefix web "http://www.genyris.org/lang/web#"
+\end_layout
+
+\begin_layout LyX-Code
 web:get 'http://localhost:8080/' =
 \end_layout
 
