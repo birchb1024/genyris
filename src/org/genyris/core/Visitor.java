@@ -35,14 +35,17 @@ public interface Visitor {
 	public void visitSimpleSymbol(SimpleSymbol simpleSymbol)
 			throws GenyrisException;
 
+	public void visitFullyQualifiedSymbol(EscapedSymbol sym)
+			throws GenyrisException;
+
 	public void visitFullyQualifiedSymbol(URISymbol sym)
 			throws GenyrisException;
+
+	public void visitDynamicSymbol(DynamicSymbol symbol)  throws GenyrisException;
 
 	public void visitTriple(Triple triple) throws GenyrisException;
 
 	public void visitGraph(AbstractGraph store) throws GenyrisException;
-
-	public void visitDynamicSymbol(DynamicSymbol symbol)  throws GenyrisException;
 
 	public void visitJavaWrapper(JavaWrapper javaWrapper)  throws GenyrisException;
 

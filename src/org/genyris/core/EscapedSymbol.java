@@ -6,6 +6,8 @@
 package org.genyris.core;
 
 
+import org.genyris.exception.GenyrisException;
+
 public class EscapedSymbol extends SimpleSymbol {
 
     public EscapedSymbol(String name) {
@@ -14,4 +16,7 @@ public class EscapedSymbol extends SimpleSymbol {
 	public String toString() {
 		return "|" + getPrintName() + "|";
 	}
+    public void acceptVisitor(Visitor guest) throws GenyrisException {
+        guest.visitFullyQualifiedSymbol(this);
+    }
 }

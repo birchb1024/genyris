@@ -20,6 +20,7 @@ import org.genyris.format.BasicFormatter;
 import org.genyris.format.DisplayFormatter;
 import org.genyris.format.Formatter;
 import org.genyris.format.HTMLFormatter;
+import org.genyris.format.JSONFormatter;
 import org.genyris.format.UrlFormatter;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -120,6 +121,16 @@ public class WriterStream extends Atom {
                 } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'n') {
                     i++;
                     _value.append('\n');
+                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'j') {
+                    i++;
+                    if (argCounter > args.length) {
+                        break;
+                    }
+                    Formatter formatter = new JSONFormatter(_value);
+                    if(argCounter == args.length) {
+                        throw new GenyrisException("Bad format: " + format + " too few real arguments.");
+                    }
+                    args[argCounter++].acceptVisitor(formatter);
                 } else if (format.charAt(i) == escape && format.charAt(i + 1) == escape) {
                     i++;
                     _value.append(escape);

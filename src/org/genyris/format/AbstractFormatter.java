@@ -8,18 +8,7 @@ package org.genyris.format;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Biscuit;
-import org.genyris.core.Dictionary;
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
-import org.genyris.core.NilSymbol;
-import org.genyris.core.Pair;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StandardClass;
-import org.genyris.core.StrinG;
-import org.genyris.core.URISymbol;
-import org.genyris.core.Visitor;
+import org.genyris.core.*;
 import org.genyris.dl.AbstractGraph;
 import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
@@ -78,6 +67,11 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
     }
 
     public void visitFullyQualifiedSymbol(URISymbol sym)
+            throws GenyrisException {
+        write(sym.toString());
+    }
+
+    public void visitFullyQualifiedSymbol(EscapedSymbol sym)
             throws GenyrisException {
         write(sym.toString());
     }
