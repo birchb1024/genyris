@@ -1,7 +1,9 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 474
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
 \begin_document
 \begin_header
+\save_transient_properties true
+\origin unavailable
 \textclass article
 \begin_preamble
 % Added by lyx2lyx
@@ -19,16 +21,16 @@
 \language_package default
 \inputencoding auto
 \fontencoding global
-\font_roman default
-\font_sans default
-\font_typewriter default
-\font_math auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
-\font_sf_scale 100
-\font_tt_scale 100
+\font_sf_scale 100 100
+\font_tt_scale 100 100
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -74,7 +76,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
-\author -198912657 "birchb" 
+\author -198912657 "birchb"
 \end_header
 
 \begin_body
@@ -215,7 +217,7 @@ genyris
 \begin_layout Standard
 Genyris is developed in Java hence needs a Java runtime.
  You don't need to understand Java to use Genyris.
- However you will need the Oracle Java 1.6 JRE
+ However you will need the Open JDK 8 JRE
 \begin_inset Index idx
 status open
 
@@ -226,7 +228,6 @@ JRE
 \end_inset
 
  or later to run the Genyris interpreter.
- Java can be downloaded from Oracle.
  Check your JRE version with this command:
 \end_layout
 
@@ -465,7 +466,7 @@ Introduction
 \begin_layout Subsection
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Syntax"
+name "subsec:Syntax"
 
 \end_inset
 
@@ -636,6 +637,10 @@ She said "sea shells"
 
 \begin_layout Standard
 Other escape sequences are encoded as follows:
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -643,7 +648,7 @@ Other escape sequences are encoded as follows:
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="left" valignment="top">
 <column alignment="left" valignment="bottom">
 <row>
@@ -891,6 +896,10 @@ Symbols
 
 \begin_layout Standard
 Symbols are a group of any printable characters with the following exceptions:
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -898,7 +907,7 @@ Symbols are a group of any printable characters with the following exceptions:
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="13" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -1950,6 +1959,10 @@ Genyris also supports three other special syntactic quotes similar to the
 \emph default
  function, but can be used for anything else.
  These are converted by the parser into expressions as follows:
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1957,7 +1970,7 @@ Genyris also supports three other special syntactic quotes similar to the
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -2149,6 +2162,10 @@ status open
  brackets are parsed specially so they can be used by the user in the expression
 s.
  In both cases they are converted to a list with a symbol as follows:
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2156,7 +2173,7 @@ s.
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -2274,7 +2291,7 @@ Translated Expression
 Non-Indented Syntax
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Non-Indented-Syntax"
+name "subsec:Non-Indented-Syntax"
 
 \end_inset
 
@@ -4036,7 +4053,7 @@ The
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -4162,7 +4179,7 @@ The
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -4399,7 +4416,7 @@ Otherwise execution continues to the last argument whose value is returned.
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="3">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -4586,7 +4603,7 @@ nil
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="3">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -7521,7 +7538,7 @@ pling
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -8004,7 +8021,7 @@ scale 1.5 0 -> 2
 Lists and Pairs
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Lists-and-Pairs"
+name "subsec:Lists-and-Pairs"
 
 \end_inset
 
@@ -8257,7 +8274,7 @@ PairSource
 Refer also to section 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "sub:Pair"
+reference "subsec:Pair"
 
 \end_inset
 
@@ -8467,6 +8484,10 @@ nil
 
 \begin_layout LyX-Code
 (<group 0, which always represents the entire expression> 
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -11881,7 +11902,7 @@ This is likely to change since
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -12696,6 +12717,10 @@ status open
  The format string is a normal string with the special format sequences.
  Each format sequence must be matched by a corresponding argument to format,
  used in order.
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -12715,6 +12740,10 @@ status open
 
 \begin_layout Description
 %u Outputs the argument as a URL encoded string suitable for HTTP URLS
+\end_layout
+
+\begin_layout Description
+%j Outputs the argument in JSON format
 \end_layout
 
 \begin_layout Description
@@ -13298,7 +13327,7 @@ IndentedParser
  object understands the indented syntax described in section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Syntax"
+reference "subsec:Syntax"
 
 \end_inset
 
@@ -13450,7 +13479,7 @@ prefix
  method adds a namespace prefix to the parser as described in section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Namespaces"
+reference "subsec:Namespaces"
 
 \end_inset
 
@@ -13516,7 +13545,7 @@ ParenParser
  object understands the non-indented syntax described in section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Non-Indented-Syntax"
+reference "subsec:Non-Indented-Syntax"
 
 \end_inset
 
@@ -13685,6 +13714,10 @@ The following example shows how a file in StringFormatStream syntax can
 
 \begin_layout LyX-Code
 def eval-sfs-file()
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -14661,7 +14694,7 @@ Functions are provided to allow files of source code to be read and executed.
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="3">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -14873,7 +14906,7 @@ The return value is a string with the actual file path loaded.
 Namespaces
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Namespaces"
+name "subsec:Namespaces"
 
 \end_inset
 
@@ -16420,7 +16453,7 @@ mat calendar task:sleep abs include utilities:getLocalTime member? map-left
 class 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Pair"
+name "subsec:Pair"
 
 \end_inset
 
@@ -16456,7 +16489,7 @@ Pair objects are builtin 'cons' cells - a n object with two properties which
 Refer section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Lists-and-Pairs"
+reference "subsec:Lists-and-Pairs"
 
 \end_inset
 
@@ -18684,6 +18717,10 @@ Then the file referred to by the path <root Directory Path>/<Path to File>
 
 \begin_layout LyX-Code
 df httpd-serve (request)
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -18741,6 +18778,10 @@ This type of response must be in the XML format as used by the
 
 \begin_layout LyX-Code
 xml=tree :== html-tag ((attribute = 'value')...)
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -18919,7 +18960,7 @@ Java symbol names used for fields, classnames etc have a different syntax
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -19337,7 +19378,7 @@ The following table lists the conversions of base types in method calls,
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="15" columns="2">
-<features rotate="0" tabularvalignment="middle">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -20371,7 +20412,7 @@ The Source
 \end_layout
 
 \begin_layout Standard
-The source is Java 1.6 level and will compile on Oracle JDK 1.6 or later.
+The source is Java 1.6 level and will compile on Open-JDK 8 or later.
 \end_layout
 
 \begin_layout Subsubsection
@@ -21078,7 +21119,7 @@ Process
  (
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Class-Process"
+reference "subsec:Class-Process"
 
 \end_inset
 
@@ -21166,7 +21207,7 @@ This function requests the interpreter to terminate all threads and exit
 Class 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Class-Process"
+name "subsec:Class-Process"
 
 \end_inset
 

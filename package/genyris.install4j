@@ -1261,7 +1261,7 @@ return console.askYesNo(message, true);
         <customAttributes />
       </autoUpdate>
     </windows>
-    <linuxDeb name="Linux Deb Archive" id="113" customizedId="" mediaFileName="" installDir="/opt/genyris" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="" manualJREEntry="false" overwriteNeverAsConfigFiles="false" bzip="false" description="Genyris Programming Language" dependencies="openjdk-7-jdk" maintainerEmail="birchb1024@gmail.com" architectureSet="false" architecture="">
+    <linuxDeb name="Linux Deb Archive" id="113" customizedId="" mediaFileName="" installDir="/opt/genyris" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="" manualJREEntry="false" overwriteNeverAsConfigFiles="false" bzip="false" description="Genyris Programming Language" dependencies="openjdk-8-jdk" maintainerEmail="birchb1024@gmail.com" architectureSet="false" architecture="">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedLaunchers>
