@@ -170,26 +170,18 @@ Getting Genyris
 \end_layout
 
 \begin_layout Standard
-The Genyris project is hosted on Google Code here:
+The Genyris project is hosted on GitHub.
+ Source code is here:
 \emph on
- http://code.google.com/p/genyris/.
+ https://github.com/birchb1024/genyris.
  
 \emph default
-In the 
+Binaries may be available on Sourcefourge here: https://sourceforge.net/projects/
+genyris/ In the 
 \emph on
-Downloads
+Files
 \emph default
- tab, look for the latest binary file which has the form
-\emph on
- genyris-binary-NNN-XXXXXXXXXXXX.BB.zip.
- 
-\emph default
-The release number is the 
-\emph on
-NNN
-\emph default
-, choose the file with the largest release number.
- 
+ tab, look for the latest binary file.
 \end_layout
 
 \begin_layout Subsection*
@@ -18681,7 +18673,7 @@ The return value from the
  httpd-serve
 \emph default
  function is anlaysed by the web server and executed as required.
- There are two types of response:
+ There are three types of response:
 \end_layout
 
 \begin_layout Itemize
@@ -18690,6 +18682,10 @@ Instruction to serve a file from the file system as a 'static' page
 
 \begin_layout Itemize
 A data structure to be converted to XHTML and transmittted
+\end_layout
+
+\begin_layout Itemize
+A data structure to be converted to JSON format
 \end_layout
 
 \begin_layout Paragraph
@@ -18730,7 +18726,7 @@ list ^SERVE-FILE '/' (request(.getPath)) ^ls
 
 \end_deeper
 \begin_layout Paragraph
-Http Responses in XML list structures
+Http Responses based on mime type
 \end_layout
 
 \begin_layout Standard
@@ -18754,7 +18750,16 @@ text/plain
 \begin_layout Standard
 This type of response uses the parenthesised Genyris output formatter to
  display the <tree>.
- It is equivalent to the %s directive in the %format instruction.
+ It is equivalent to the %s directive in the %format function.
+\end_layout
+
+\begin_layout Subparagraph
+application/json
+\end_layout
+
+\begin_layout Standard
+This type of response converts the <tree> to JSON formatted text.
+ It is equivalent to the %j directive in the %format function.
 \end_layout
 
 \begin_layout Subparagraph

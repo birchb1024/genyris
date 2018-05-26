@@ -89,6 +89,13 @@ public class JSONFormatter extends AbstractFormatter {
         while( !head.isNil() ) {
             head.car().acceptVisitor(this);
             head = head.cdr();
+            if( !head.isNil() && !head.isPair() ) {
+                // end of list item or Assoc perhaps
+                write(" , ");
+                head.acceptVisitor(this);
+                write(" ]");
+                return;
+            }
             if( !head.isNil() )
                 write(" , ");
         }

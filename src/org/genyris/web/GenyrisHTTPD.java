@@ -24,6 +24,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.HTMLFormatter;
 import org.genyris.format.IndentedFormatter;
+import org.genyris.format.JSONFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
@@ -190,7 +191,10 @@ public class GenyrisHTTPD extends NanoHTTPD {
             }
             if (mime.equals("text/html")) {
                 formatter = new HTMLFormatter(output);
-            } else {
+            } else if ( mime.equals("application/json")) {
+                formatter = new JSONFormatter(output);
+            }
+            else {
                 formatter = new IndentedFormatter(output, 2);
             }
             result = result.cdr().car();

@@ -42,6 +42,9 @@ public class JSONFormatterTest extends TestCase {
     public void test3() throws Exception {
         excerciseFormatter("(45 89)", "[ 45 , 89 ]");
     }
+    public void testcdr() throws Exception {
+        excerciseFormatter("(45 = 89)", "[ 45 , 89 ]");
+    }
     public void testSymbolsStrange() throws Exception {
         excerciseFormatter("(|foo| |\\\" | .|jhg| )",
                 "[ \"foo\" , \"\\\" \" , \"jhg\" ]");
