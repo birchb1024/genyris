@@ -20,3 +20,6 @@
             - git
             - openjdk-8-jdk
             - openjdk-8-jre
+            - lyx
+            - elyxer
+            
