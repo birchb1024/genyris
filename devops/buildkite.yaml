@@ -1,0 +1,44 @@
+#
+#
+# Simple playbook to install a buildkite agent on Debian 9
+#
+# Usage:
+#
+#   Ansible version 2.6
+#
+#    ansible-playbook -i 178.128.53.252, buildkite.yaml  -e 'agent_token=blah'
+#
+---
+  - hosts: all
+    remote_user: root
+    tasks:
+      - name: Install Pre-requisite packages
+        package:
+          name: "{{ item }}"
+          state: present
+        with_items: 
+          - apt-transport-https 
+          - sudo
+      - name: Add buildkite apt repo
+        lineinfile:
+          path: /etc/apt/sources.list.d/buildkite-agent.list
+          create: yes
+          line: deb https://apt.buildkite.com/buildkite-agent stable main
+      - name: Add the buildkite repo key to apt
+        apt_key:
+          keyserver: hkp://keyserver.ubuntu.com:80
+          id: 32A37959C2FA5C3C99EFBC32A79206696452D198
+      - name: Install buildkite package
+        apt:
+          update_cache: yes
+          name: buildkite-agent
+      - name: Inject my agent token
+        replace:
+          path: /etc/buildkite-agent/buildkite-agent.cfg
+          regexp: 'xxx'
+          replace: "{{ agent_token }}"
+      - name: enable and start the buildkite agent
+        systemd:
+          name: buildkite-agent
+          state: started
+          enabled: yes
