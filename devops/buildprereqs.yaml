@@ -42,3 +42,10 @@
 
       - name: inject install4j license key
         shell: install4jc -L {{ install4j_license | quote }}
+        register: i4j_result
+        when: install4j_check_deb.rc == 1
+
+      - name: print license key result
+        debug:
+          var: i4j_result
+        when: install4j_check_deb.rc == 1
