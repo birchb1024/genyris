@@ -41,6 +41,8 @@
         when: install4j_check_deb.rc == 1
 
       - name: inject install4j license key
+        become: yes # TODO
+        become_user: buildkite-agent # TODO
         shell: install4jc -L {{ install4j_license | quote }}
         register: i4j_result
         when: install4j_check_deb.rc == 1
