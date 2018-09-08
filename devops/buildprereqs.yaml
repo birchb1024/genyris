@@ -6,7 +6,7 @@
 #
 #   Ansible version 2.6
 #
-#    ansible-playbook -i 178.128.53.252, buildprereqs.yaml
+#    ansible-playbook -i 178.128.53.252, buildprereqs.yaml -e install4j_license=blah
 #
 ---
   - hosts: all
@@ -39,3 +39,6 @@
         apt: 
           deb: "/tmp/install4j_linux_7_0_7.deb"
         when: install4j_check_deb.rc == 1
+
+      - name: inject install4j license key
+        shell: install4jc -L {{ install4j_license | quote }}
