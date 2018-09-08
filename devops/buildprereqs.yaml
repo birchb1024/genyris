@@ -15,4 +15,8 @@
       - name: Install Pre-requisite packages
         apt:
           update_cache: yes
-          name: ant
+          name: 
+            - ant
+            - git
+            - openjdk-8-jdk
+            - openjdk-8-jre
