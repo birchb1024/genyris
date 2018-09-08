@@ -22,4 +22,20 @@
             - openjdk-8-jre
             - lyx
             - elyxer
-            
+
+      - name: Check if install4j is installed
+        command: dpkg-query -W install4j
+        register: install4j_check_deb
+        failed_when: install4j_check_deb.rc > 1
+        changed_when: install4j_check_deb.rc == 1
+
+      - name: Download install4j
+        get_url: 
+          url: "https://download-keycdn.ej-technologies.com/install4j/install4j_linux_7_0_7.deb"
+          dest: "/tmp/install4j_linux_7_0_7.deb"
+        when: install4j_check_deb.rc == 1
+
+      - name: Install install4j
+        apt: 
+          deb: "/tmp/install4j_linux_7_0_7.deb"
+        when: install4j_check_deb.rc == 1
