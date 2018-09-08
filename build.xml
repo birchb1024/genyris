@@ -309,9 +309,10 @@
 
 		<exec executable="bash" failonerror="true">
 			<arg value="-c" />
-			<arg value="install4jc dist/genyris.install4j" />
+			<arg value="install4jc --disable-bundling dist/genyris.install4j" />
 		</exec>
-		<checksum file="rel/genyris_windows-x64_${version.underscores}.exe" forceOverwrite="yes" />
+		<checksum file="rel/genyris_windows-x64_${version.underscores}.zip" forceOverwrite="yes" />
+		<checksum file="rel/genyris_unix_${version.underscores}.tar.gz" forceOverwrite="yes" />
 		<checksum file="rel/genyris_linux_${version.underscores}.deb" forceOverwrite="yes" />
 		<checksum file="rel/genyris_linux_${version.underscores}.rpm" forceOverwrite="yes" />
 		<checksum file="rel/genyris_macos_${version.underscores}.dmg" forceOverwrite="yes" />
