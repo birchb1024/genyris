@@ -1,0 +1,18 @@
+#
+#
+# Simple playbook to install build pre-requisites on Debian 9
+#
+# Usage:
+#
+#   Ansible version 2.6
+#
+#    ansible-playbook -i 178.128.53.252, buildprereqs.yaml
+#
+---
+  - hosts: all
+    remote_user: root
+    tasks:
+      - name: Install Pre-requisite packages
+        apt:
+          update_cache: yes
+          name: ant
