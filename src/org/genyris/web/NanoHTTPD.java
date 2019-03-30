@@ -307,8 +307,10 @@ public class NanoHTTPD {
 					if(is.available() > 0) {
 						handleRequest();
 					} else {
-						mySocket.close();
-						return;
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+						}
 					}
 				}
                 try {
