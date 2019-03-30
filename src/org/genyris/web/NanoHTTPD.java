@@ -308,7 +308,7 @@ public class NanoHTTPD {
 						handleRequest();
 					} else {
 						try {
-							Thread.sleep(500);
+							Thread.sleep(1);
 						} catch (InterruptedException e) {
 						}
 					}
