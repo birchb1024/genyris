@@ -303,31 +303,18 @@ public class NanoHTTPD {
 
 		public void run() {
 			try {
-				while(keepAlive) {
-					if(is.available() > 0) {
-						handleRequest();
-					} else {
-						try {
-							Thread.sleep(1);
-						} catch (InterruptedException e) {
-						}
-					}
-				}
-                try {
-                    mySocket.close();
-                } catch (IOException ignore) { }
-
+			    handleRequest();
 			} catch (NanoException e) {
 				try {
 					mySocket.close();
 				} catch (IOException ignore) { }
 				System.out.println(e.getMessage());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            } 
+            try {
+                   mySocket.close();
+            } catch (IOException ignore) { }
 
-		}
+			}
 
 		public void handleRequest() throws NanoException {
 			try {
