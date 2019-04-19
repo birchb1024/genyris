@@ -65,6 +65,8 @@ public class Constants {
         public static final String JOIN = "join";
         public static final String SPLIT = "split";
         public static final String TOINTS = "toInts";
+        public static final String FROMJSON = "fromJSON";
+        public static final String TOJSON = "toJSON";
         public static final String FROMINTS = "fromInts";
         public static final String TOLOWERCASE = "toLowerCase";
         public static final String CONCAT = "+";

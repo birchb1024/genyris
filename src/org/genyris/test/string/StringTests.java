@@ -5,6 +5,8 @@ import junit.framework.TestCase;
 
 import org.genyris.exception.GenyrisException;
 import org.genyris.test.interp.TestUtilities;
+import org.json.JSONObject;
+
 
 public class StringTests extends TestCase {
 
@@ -74,6 +76,31 @@ public class StringTests extends TestCase {
         checkEval("('\r\n'(.toInts 'ASCII'))", "(13 10)");
 
     }
+
+    public void testStringFromJSONbad() throws GenyrisException {
+        checkEvalBad("(''(.fromJSON))");
+        checkEvalBad("('{\"ZZ\"'(.fromJSON))");
+        checkEvalBad("('[]'(.fromJSON))");
+    }
+    public void testStringFromJSON() throws GenyrisException {
+        checkEval("('{}'(.fromJSON))", "nil");
+
+        checkEval("('{\"alpha\": 1, \"bravo\": NULL, \"charlie\" : \"C\" }'(.fromJSON))", "(dict (.alpha = 1) (.bravo = nil) (.charlie = 'C'))");
+        checkEval("('{\"alpha\": { \"bravo\": NULL, \"charlie\" : \"C\" }}'(.fromJSON))", "(dict (.alpha = (dict (.bravo = nil) (.charlie = 'C'))))");
+        checkEval("('{\"yes\": True, \"no\" : False}'(.fromJSON))", "(dict (.no = nil) (.yes = true))");
+        checkEval("('{\"int\": 12, \"float\" : 1.233453e37 }'(.fromJSON)!int)", "12");
+        checkEval("(scale ('{\"int\": 12, \"float\" : 1.233453e3 }'(.fromJSON)!float) 4)", "1233.453");
+
+        checkEval("('[]'(.fromJSON))", "nil");
+        checkEval("('[ 1, True, False, null, \"A\"]'(.fromJSON))", "(1 true nil nil 'A')");
+        checkEval("('[ 42, { \"A\" : 1} ]'(.fromJSON))", "(42 (dict (.A = 1)))");
+
+        checkEval("('{\"array\": [1,2,3],}'(.fromJSON))", "(dict (.array = (1 2 3)))");
+        checkEval("('{\"array\": [],}'(.fromJSON))", "(dict (.array = nil))");
+        checkEval("('{\"array\": [1,2,3],}'(.fromJSON))", "(dict (.array = (1 2 3)))");
+
+    }
+
     public void testStringToIntsInternational() throws GenyrisException {
         checkEval("('0123456789'(.toInts 'GBK'))", "(48 49 50 51 52 53 54 55 56 57)");
         checkEval("('1 2 3 4 5'(.toInts 'UTF-16LE'))", "(49 0 32 0 50 0 32 0 51 0 32 0 52 0 32 0 53 0)");

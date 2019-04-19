@@ -41,6 +41,7 @@ public abstract class AbstractStringMethod extends AbstractMethod {
         interpreter.bindMethodInstance(Constants.STRING, new FromIntsMethod(interpreter));
         interpreter.bindMethodInstance(Constants.STRING, new SliceMethod(interpreter));
         interpreter.bindMethodInstance(Constants.STRING, new JoinMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.STRING, new FromJSONMethod(interpreter));
     }
 
 }
