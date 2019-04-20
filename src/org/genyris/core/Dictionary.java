@@ -5,10 +5,7 @@
 //
 package org.genyris.core;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
@@ -63,15 +60,23 @@ public class Dictionary extends Atom implements Environment {
 	}
 
 	public Exp asAlist() {
-		Map keys = new TreeMap(_dict);
-		Iterator iter = keys.keySet().iterator();
-		// TODO Sort the keyset to get a consistent result for test cases.
-		Exp result = _parent.getNil();
+        Exp NIL = _parent.getNil();
+		SortedSet keys = new TreeSet( _dict.keySet());
+		Iterator<Exp> iter = keys.iterator();
+		Exp result = NIL;
+		Exp tail = result;
 		while (iter.hasNext()) {
-			Exp key = (Exp)iter.next();
-			Exp value = (Exp)  _dict.get(key);
-			Exp tmp = new PairEquals( new DynamicSymbol((SimpleSymbol)key), value);
-			result = new Pair(tmp, result);
+			Exp key = iter.next();
+			Exp value = (Exp) _dict.get(key);
+			Pair association = new PairEquals( new DynamicSymbol((SimpleSymbol)key), value);
+			Pair newEnd = new Pair(association, NIL); // TODO Add an efficient append() function for conses.
+			if( tail == NIL) {
+			    result = tail = newEnd;
+            }
+            else {
+                ((Pair)tail).setCdr(newEnd);
+			    tail = newEnd;
+            }
 		}
 		return new Pair(_parent.getSymbolTable().DICT(), result);
 	}

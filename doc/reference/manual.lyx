@@ -8866,6 +8866,267 @@ Base64EncodedString
 'foo:bar' # String
 \end_layout
 
+\begin_layout Subsubsection
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+.fromJSON
+\end_layout
+
+\end_inset
+
+.fromJSON
+\end_layout
+
+\begin_layout Standard
+Assuming the string holds a JSON text, this method returns the equivalent
+ in Genyris objects.
+ The mapping between JSON types and Genyris objects is as follows:
+\end_layout
+
+\begin_layout Itemize
+Atomic types (strings, integers, float) are converted to the corresponding
+ Genyris type (
+\emph on
+String
+\emph default
+, 
+\emph on
+Bignum
+\emph default
+),
+\end_layout
+
+\begin_layout Itemize
+JSON 
+\emph on
+null
+\emph default
+ is converted to 
+\emph on
+nil,
+\end_layout
+
+\begin_layout Itemize
+JSON 
+\emph on
+True
+\emph default
+ and 
+\emph on
+False
+\emph default
+ are converted to 
+\emph on
+true
+\emph default
+ and 
+\emph on
+nil
+\emph default
+ respectively,
+\end_layout
+
+\begin_layout Itemize
+JSON arrays are converted to lists,
+\end_layout
+
+\begin_layout Itemize
+JSON maps are converted to 
+\emph on
+dict
+\emph default
+, each key is interned and converted to a Dynamic symbol.
+\end_layout
+
+\begin_layout Standard
+Example: First read a file of JSON (indentation added for this document)
+\end_layout
+
+\begin_layout LyX-Code
+> var j (((File!new 'test/fixtures/json.json')(.open ^read))(.readAll))
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'{"menu": {
+\backslash
+n
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+"id": "file",
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+"value": "File",
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+"popup": {
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+   "menuitem": [
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+      {"value": "New", 
+\end_layout
+
+\begin_layout LyX-Code
+        "onclick": "CreateNewDoc()"} 
+\backslash
+n
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+{"value": "Open", "onclick": "OpenDoc()"},
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+{"value": "Close", "onclick": "CloseDoc()"}
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+]
+\backslash
+n
+\end_layout
+
+\begin_layout LyX-Code
+}
+\backslash
+n
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+}}
+\backslash
+n' # String
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Now convert to a Genyris structure: (with added indents)
+\end_layout
+
+\begin_layout LyX-Code
+> print (j(.fromJSON))
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+dict (.menu = 
+\end_layout
+
+\begin_layout LyX-Code
+(dict 
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+(.id = 'file') 
+\end_layout
+
+\begin_layout LyX-Code
+(.popup = 
+\end_layout
+
+\begin_layout LyX-Code
+  (dict (.menuitem = 
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+((dict (.onclick = 'CreateNewDoc()') 
+\end_layout
+
+\begin_layout LyX-Code
+       (.value = 'New')) 
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.onclick = 'OpenDoc()') 
+\end_layout
+
+\begin_layout LyX-Code
+      (.value = 'Open'))
+\end_layout
+
+\begin_layout LyX-Code
+(dict (.onclick = 'CloseDoc()')
+\end_layout
+
+\begin_layout LyX-Code
+      (.value = 'Close')))))) 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+(.value = 'File'))) true # SimpleSymbol 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Example: REST APIs can be consumed with 
+\emph on
+.fromJSON.
+ 
+\emph default
+This example fetches the user's IP Address froma web service as follows:
+\end_layout
+
+\begin_layout LyX-Code
+var response (left (web:get 'https://api.ipify.org/?format=json'))
+\end_layout
+
+\begin_layout LyX-Code
+var theJSON (response(.readAll))
+\end_layout
+
+\begin_layout LyX-Code
+print theJSON
+\end_layout
+
+\begin_layout LyX-Code
+print (theJSON(.fromJSON))!ip
+\end_layout
+
+\begin_layout Standard
+Output:
+\end_layout
+
+\begin_layout Standard
+~ '{"ip":"192.168.238.37"}'
+\end_layout
+
+\begin_layout Standard
+~ '192.168.238.37'
+\end_layout
+
 \begin_layout Subsection
 Dictionaries
 \end_layout
@@ -12763,6 +13024,106 @@ stdout(.format '%s %a %x %n' 'Hello' 'World' ^(img ((width= 23))))
 'Hello' World <img width="23"/>
 \end_layout
 
+\begin_layout Standard
+Genyris objects are converted to JSON as follows:
+\end_layout
+
+\begin_layout Itemize
+Atomic types (
+\emph on
+String, Bignum)
+\emph default
+ are converted to similar JSON types,
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+nil
+\emph default
+ is converted to an empty array []
+\end_layout
+
+\begin_layout Itemize
+The symbol 
+\emph on
+true
+\emph default
+ is converted to 
+\emph on
+true,
+\end_layout
+
+\begin_layout Itemize
+The symbol 
+\emph on
+false
+\emph default
+ is converted to 
+\emph on
+false,
+\end_layout
+
+\begin_layout Itemize
+Symbols are converted to strings,
+\end_layout
+
+\begin_layout Itemize
+Lists are converted to Arrays,
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+dict
+\emph default
+s are converted to maps.
+\end_layout
+
+\begin_layout Standard
+Example: JSON conversion, and back again
+\end_layout
+
+\begin_layout LyX-Code
+> var x (list (dict (.a = 2) (.b = ^(1 2 3))) ^Symbol "String")
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+((dict (.a = 2) (.b = (1 2 3))) Symbol "String") # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+> "%j"(.format x)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'[ { "a" : 2 , "b" : [ 1 , 2 , 3 ] } , "Symbol" , "String" ]' # String 
+\end_layout
+
+\begin_layout LyX-Code
+> ("%j"(.format x))(.fromJSON)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+((dict (.a = 2) (.b = (1 2 3))) 'Symbol' 'String') # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
 \begin_layout Paragraph
 Global Variables
 \end_layout
@@ -13637,8 +13998,8 @@ StringFormatStream
 \end_layout
 
 \begin_layout Standard
-The StringFormatStream is a charcter-based filter class that parses an input
- stream looking for
+The StringFormatStream is a character-based filter class that parses an
+ input stream looking for
 \end_layout
 
 \begin_layout Standard

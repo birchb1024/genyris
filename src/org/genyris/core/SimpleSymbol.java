@@ -29,8 +29,9 @@ public class SimpleSymbol extends Symbol implements Comparable {
         return super.hashCode();
     }
     public int compareTo(Object arg0) {
-    	if( equals(arg0) ) return 0;
-        return ((SimpleSymbol) arg0)._printName.compareTo(this._printName);
+    	if( equals(arg0) )
+    		return 0;
+    	return this._printName.compareTo(((SimpleSymbol) arg0)._printName);
     }
 
 	

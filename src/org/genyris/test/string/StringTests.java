@@ -80,7 +80,7 @@ public class StringTests extends TestCase {
     public void testStringFromJSONbad() throws GenyrisException {
         checkEvalBad("(''(.fromJSON))");
         checkEvalBad("('{\"ZZ\"'(.fromJSON))");
-        checkEvalBad("('[]'(.fromJSON))");
+        checkEvalBad("('['(.fromJSON))");
     }
     public void testStringFromJSON() throws GenyrisException {
         checkEval("('{}'(.fromJSON))", "nil");

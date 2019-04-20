@@ -6,11 +6,10 @@
 package org.genyris.format;
 
 import java.io.Writer;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.genyris.core.*;
+import org.genyris.core.Dictionary;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.Environment;
@@ -56,14 +55,11 @@ public class JSONFormatter extends AbstractFormatter {
 
     public void visitDictionary(Dictionary frame) throws GenyrisException {
         Map _dict = frame.getMap();
-        Environment _parent = frame.getParent();
-        Map keys = new TreeMap(_dict);
-        Iterator iter = keys.keySet().iterator();
-        // TODO Sort the keyset to get a consistent result for test cases.
+        SortedSet keys = new TreeSet( _dict.keySet());
+        Iterator<Exp> iter = keys.iterator();
         write("{ ");
-        Exp result = _parent.getNil();
         while (iter.hasNext()) {
-            Exp key = (Exp)iter.next();
+            Exp key = iter.next();
             Exp value = (Exp)  _dict.get(key);
             key.acceptVisitor(this);
             write(" : ");
