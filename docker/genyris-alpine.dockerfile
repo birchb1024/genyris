@@ -7,7 +7,7 @@
 #
 # Make the docker image:
 #
-#   $ docker build -f docker/genyris-alpine.dockerfile --tag genyris-alpine:0.9.4.1 .
+#   $ docker build -f docker/genyris-alpine.dockerfile --tag genyris-alpine:latest --tag genyris-alpine:$(git describe --tags) .
 # 
 #  REPL:
 #
@@ -29,7 +29,7 @@
 #
 
 FROM openjdk:8-alpine
-RUN apk update && apk add bash
+RUN apk update && apk add bash && apk add xvfb
 ADD docker/genyris-alpine.dockerfile /Dockerfile
 ADD dist/ /genyris/dist/
 ADD bin/ /genyris/bin/
@@ -39,5 +39,7 @@ ADD test/ /genyris/test/
 RUN /bin/bash -c 'echo Alpine $(cat /etc/alpine-release) && \
 	java -version 2>&1 && \
 	/genyris/bin/genyris < /dev/null'
+
+USER 1000:1000
 CMD genyris/bin/genyris
 
