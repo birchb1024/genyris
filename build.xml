@@ -1,5 +1,6 @@
 <project name="Genyris" default="build-workspace" basedir=".">
 
+        <property environment="env"/>  
 	<property name="build.compiler" value="javac1.6" />
 	<property name="needed.lib.dir" value="needed" />
 	<property name="junit.lib.dir" value="needed" />
@@ -168,7 +169,7 @@
 		</javac>
 	</target>
 
-	<target name="only-compile-docs" description="Creat PDF manual" depends="git-info">
+	<target name="only-compile-docs" description="Create PDF manual" depends="git-info">
 		<copy file="doc/reference/manual.lyx" tofile="dist/genyris-manual-${version}.lyx" verbose="true" overwrite="true">
 			<filterchain>
 				<replacetokens>
@@ -182,22 +183,13 @@
 				<include name="*jpg" />
 			</fileset>
 		</copy>
-		<exec executable="lyx" dir="dist" failonerror="true" os="Linux">
+		<exec executable="lyx" dir="dist" failonerror="true" output="dist/lyx.log" >
+		        <arg value="-batch" />
 			<arg value="--export" />
 			<arg value="pdf" />
 			<arg value="genyris-manual-${version}.lyx" />
 		</exec>
-		<exec executable="C:\Program Files\LyX16\bin\lyx.exe" dir="dist" failonerror="true" os="Windows XP">
-			<arg value="--export" />
-			<arg value="pdf" />
-			<arg value="genyris-manual-${version}.lyx" />
-		</exec>
-		<exec executable="C:\Python27\python.exe" dir="dist" failonerror="true" os="Windows XP">
-			<arg value="C:\downloads\elyxer\elyxer-1.0.4\elyxer.py" />
-			<arg value="genyris-manual-${version}.lyx" />
-			<arg value="genyris-manual-${version}.html" />
-		</exec>
-		<exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" os="Linux">
+		<exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" output="dist/elyxer.log">
 			<arg value="genyris-manual-${version}.lyx" />
 			<arg value="genyris-manual-${version}.html" />
 		</exec>
@@ -277,7 +269,9 @@
 		<exec executable="bash" failonerror="true">
 			<env key="GENYRIS_HOME" value="${basedir}" />
 			<arg value="-c" />
-			<arg value="java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
+			<arg value="-u" />
+			<arg value="-x" />
+			<arg value="xvfb-run java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
 		</exec>
 	</target>
 
@@ -309,8 +303,10 @@
 		</copy>
 
 		<exec executable="bash" failonerror="true">
-			<arg value="-c" />
-			<arg value="install4jc --disable-bundling dist/genyris.install4j" />
+		        <arg value="-c" />
+		        <arg value="-x" />
+			<arg value="-u" />
+			<arg value="install4jc --disable-bundling --license=&quot;$INSTALL4J_LICENSE&quot; dist/genyris.install4j" />
 		</exec>
 		<checksum file="rel/genyris_windows-x64_${version.underscores}.zip" forceOverwrite="yes" />
 		<checksum file="rel/genyris_unix_${version.underscores}.tar.gz" forceOverwrite="yes" />

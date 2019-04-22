@@ -9,8 +9,6 @@ var theJSON (response(.readAll))
 print theJSON
 print (theJSON(.fromJSON))!ip
 
-exit
-
 var response (left (web:get 'https://api.squiggle.com.au/?q=games;year=2018;complete=100'))
 var decode (response(.readAll))
 for game in ((decode(.fromJSON)).games)
