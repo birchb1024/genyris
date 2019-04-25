@@ -111,6 +111,8 @@ public class Parser {
             Exp arg0 = input.cdr().car();
             if (input.cdr().cdr() != NIL) {
                 StrinG arg1 = (StrinG) input.cdr().cdr().car();
+                // TODO notify the interpreter a new prefix is in use with _interp.collectPrefix(prefix, expansion);
+                //   - means changing Parser ctor signatures..
                 _lexer.addprefix(((SimpleSymbol) arg0).getPrintName(),
                         arg1.toString());
             } else {

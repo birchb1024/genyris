@@ -225,8 +225,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
     private void interpreterSetup() throws GenyrisException {
         interpreter = new Interpreter();
         interpreter.init(false);
-        Symbol ARGS = interpreter.intern('|' + Constants.GENYRIS + "system#"
-                + Constants.ARGS + '|');
+        Symbol ARGS = interpreter.internEscaped(Constants.GENYRIS + "system#" + Constants.ARGS);
         NIL = interpreter.NIL;
         interpreter.getGlobalEnv().defineVariable(ARGS,
                 makeListOfArray(NIL, argv));

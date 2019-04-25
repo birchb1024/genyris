@@ -5,6 +5,7 @@
 //
 package org.genyris.interp.builtin;
 
+import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -15,7 +16,7 @@ import org.genyris.interp.Interpreter;
 public class BackTraceFunction extends ApplicableFunction {
 
     public BackTraceFunction(Interpreter interp) {
-    	super(interp, "http://www.genyris.org/lang/system#backtrace", false);
+    	super(interp, Constants.GENYRIS + "system#backtrace", false);
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         

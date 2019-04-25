@@ -13,7 +13,7 @@ public class StandardClass extends Dictionary {
 
 	private SimpleSymbol NIL;
 
-	public StandardClass(SimpleSymbol classname, SimpleSymbol symbolicName,
+	public StandardClass(Symbol classname, Symbol symbolicName,
 			Environment env) {
 		super(classname, symbolicName, env);
 		CLASSNAME = env.getSymbolTable().CLASSNAME();
@@ -41,7 +41,7 @@ public class StandardClass extends Dictionary {
 		StandardClass standardClassDict = (StandardClass) env
 				.lookupVariableValue(STANDARDCLASS);
 		SimpleSymbol classname = table.CLASSNAME();
-		SimpleSymbol symbolicName = table.internString(name);
+		Symbol symbolicName = table.internString(name);
 
 		StandardClass newClass = makeTheClass(env, superClass, table,
 				standardClassDict, classname, symbolicName);
@@ -52,9 +52,9 @@ public class StandardClass extends Dictionary {
 	}
 
 	private static StandardClass makeTheClass(Environment env,
-			StandardClass superClass, Internable table,
-			StandardClass standardClassDict, SimpleSymbol classname,
-			SimpleSymbol symbolicName) throws GenyrisException {
+											  StandardClass superClass, Internable table,
+											  StandardClass standardClassDict, Symbol classname,
+											  Symbol symbolicName) throws GenyrisException {
 		StandardClass newClass = new StandardClass(classname, symbolicName, env);
 		newClass.defineVariableRaw(table.SUPERCLASSES(), env.getNil());
 		newClass.defineVariableRaw(table.SUBCLASSES(), env.getNil());

@@ -141,7 +141,6 @@ public class JlineStdioInStream implements InStream {
             char ch = buffer.charAt(pos);
             return Character.isWhitespace(ch) || ch == '(' || ch == ')'
                     || ch == '[' || ch == ']' || ch == ','
-                    // || ch == '!'
                     || ch == '\'' || ch == '"' || ch == '#'
                     || ch == '^' || ch == '{' || ch == '}';
         }

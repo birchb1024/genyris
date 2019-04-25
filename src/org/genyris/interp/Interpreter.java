@@ -16,16 +16,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.genyris.core.Constants;
+import org.genyris.core.*;
 import org.genyris.core.Dictionary;
-import org.genyris.core.Exp;
-import org.genyris.core.Internable;
-import org.genyris.core.NilSymbol;
-import org.genyris.core.Pair;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StandardClass;
-import org.genyris.core.Symbol;
-import org.genyris.core.SymbolTable;
 import org.genyris.dl.AbstractGraph;
 import org.genyris.dl.GraphList;
 import org.genyris.exception.AccessException;
@@ -130,7 +122,7 @@ public class Interpreter {
             throws UnboundException, GenyrisException {
         Dictionary stringClass = (Dictionary) _globalEnvironment
                 .lookupVariableValue(_table.internString(className));
-        SimpleSymbol nameSymbol = _table.internString(proc.getName());
+        Symbol nameSymbol = _table.internString(proc.getName());
         stringClass.defineVariableRaw(nameSymbol, new EagerProcedure(stringClass, NIL,
                 (ApplicableFunction) proc));
 
@@ -174,11 +166,15 @@ public class Interpreter {
         return _table;
     }
 
-    public SimpleSymbol intern(String name) {
+    public Symbol intern(String name) {
         return _table.internString(name);
     }
 
-    public SimpleSymbol intern(SimpleSymbol name) {
+    public Symbol internEscaped(String name) {
+        return _table.internSymbol(new EscapedSymbol(name));
+    }
+
+    public Symbol intern(SimpleSymbol name) {
         return _table.internSymbol(name);
     }
 
@@ -322,15 +318,16 @@ public class Interpreter {
             List<String> symbols) {
         ArrayList<String> retval = new ArrayList<String>();
         for (String s : symbols) {
+            String item_result = s;
             for (Map.Entry<String, String> entry : prefixTable.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 if (s.startsWith(value)) {
-                    retval.add(s.replace(value, key + ":"));
+                    item_result = s.replace(value, key + ":");
                     break;
                 }
             }
-            retval.add(s);
+            retval.add(item_result);
         }
         return retval;
     }
@@ -345,14 +342,15 @@ public class Interpreter {
         }
         List<Exp> symbols = _table.getSymbolsAsListOfExp();
         ArrayList<String> retval = new ArrayList<String>();
-        for (Exp s : symbols) {
+        for (Exp se : symbols) {
+            Symbol s = (Symbol) se;
             if (env.isBound((Symbol) s)) {
-                String name = ((Symbol) s).toString();
+                String name = s.getPrintName();
                 retval.add(name);
                 try {
-                    Exp varList = env.lookupVariableValue((Symbol) s).dir(_table);
+                    Exp varList = env.lookupVariableValue(s).dir(_table);
                     while (varList != NIL) {
-                        String the_symbol = ((Symbol) varList.car()).toString();
+                        String the_symbol = ((Symbol) varList.car()).getPrintName();
                         Stream<String> boringPropertiesStream = Arrays.stream(boringProperties);
                         if( ! boringPropertiesStream.anyMatch(the_symbol::equals) ) {
                             retval.add(name + the_symbol);

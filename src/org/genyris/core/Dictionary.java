@@ -32,7 +32,7 @@ public class Dictionary extends Atom implements Environment {
 		_parent = parent;
 	}
 
-	public Dictionary(SimpleSymbol key, Exp value, Environment parent) {
+	public Dictionary(Symbol key, Exp value, Environment parent) {
 		_dict = mapFactory();
 		_dict.put(key, value);
 		_parent = parent;
@@ -81,7 +81,7 @@ public class Dictionary extends Atom implements Environment {
 		return new Pair(_parent.getSymbolTable().DICT(), result);
 	}
 
-	public void defineVariableRaw(SimpleSymbol sym, Exp valu) throws GenyrisException {
+	public void defineVariableRaw(Symbol sym, Exp valu) throws GenyrisException {
 		if (sym == CLASSES()) {
 			setClasses(valu, _parent.getNil());
 			return;
@@ -181,7 +181,7 @@ public class Dictionary extends Atom implements Environment {
 	public void setVariableValue(Symbol symbol, Exp valu) throws UnboundException {
 		symbol.setVariableValue(this, valu);
 	}
-	public void setDynamicVariableValueRaw(SimpleSymbol sym, Exp valu) throws UnboundException {
+	public void setDynamicVariableValueRaw(Symbol sym, Exp valu) throws UnboundException {
 		if (sym == CLASSES()) {
 			try {
 				setClasses(valu, _parent.getNil());

@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 import org.genyris.core.Bignum;
 import org.genyris.core.Dictionary;
 import org.genyris.core.NilSymbol;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.StandardEnvironment;
 
@@ -26,7 +26,7 @@ public class DictTest extends TestCase {
     }
     public void test1() throws Exception {
 
-        SimpleSymbol a = _interpreter.intern("a");
+        Symbol a = _interpreter.intern("a");
         assertEquals(false, _frame.hasKey(a));
         _frame.defineVariableRaw(a, new Bignum(12));
         assertEquals(true, _frame.hasKey(a));

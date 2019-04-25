@@ -6,9 +6,9 @@ import org.genyris.interp.UnboundException;
 
 public class DynamicSymbol extends Symbol {
 
-	private SimpleSymbol _realSymbol;
+	private Symbol _realSymbol;
 	
-	public DynamicSymbol(SimpleSymbol sym) {
+	public DynamicSymbol(Symbol sym) {
 		_realSymbol = sym;
 	}
     public int compareTo(Object arg0) {
@@ -39,7 +39,7 @@ public class DynamicSymbol extends Symbol {
 	public String getPrintName() {
 		return "."+ _realSymbol.getPrintName();
 	}
-	public SimpleSymbol getRealSymbol() {
+	public Symbol getRealSymbol() {
 		return _realSymbol;
 	}
 	public void defineVariable(Environment env, Exp valu) throws GenyrisException {

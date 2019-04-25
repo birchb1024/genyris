@@ -2,8 +2,8 @@ package org.genyris.core;
 
 public interface Internable {
 
-	public SimpleSymbol internSymbol(SimpleSymbol newSym);
-	public SimpleSymbol internString(String newname);
+	public Symbol internSymbol(Symbol newSym);
+	public Symbol internString(String newname);
 	public SimpleSymbol SELF();
 	public SimpleSymbol CLASSES();
 	public SimpleSymbol SUPERCLASSES();

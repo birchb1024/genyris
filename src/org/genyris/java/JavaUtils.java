@@ -211,7 +211,7 @@ public class JavaUtils {
             } else {
                 gmethod = new JavaMethod(interp, name, methods[i], params);
             }
-            SimpleSymbol sym = interp.intern(name);
+            Symbol sym = interp.intern(name);
             genyrisClass.defineDynamicVariable(new DynamicSymbol(sym),
                     new EagerProcedure(env, interp.NIL, gmethod));
 

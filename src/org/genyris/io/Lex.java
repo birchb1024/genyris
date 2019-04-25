@@ -131,7 +131,7 @@ public class Lex {
 		}
 	}
 
-	private boolean isIdentCharacter(char c) {
+	public boolean isIdentCharacter(char c) {
 		if (c == _cdrCharacter)
 			return false;
 

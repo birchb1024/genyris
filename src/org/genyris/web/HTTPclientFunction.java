@@ -32,22 +32,6 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException;
 
-//    protected Exp getResponseHeadersAsList(URLConnection conn) throws GenyrisException {
-//        //
-//        //  Go into an HTTPresponse and retrieve headers as a nested list.
-//        //
-//        Exp headerList = NIL;
-//        int headerIndex = 1;
-//        String headerName;
-//        while( (headerName = conn.getHeaderFieldKey(headerIndex)) != null ) {
-//            StrinG headerValue = new StrinG(conn.getHeaderField(headerIndex));
-//            Exp thisHeader = Pair.cons(new StrinG(headerName), headerValue);
-//            headerList = Pair.cons(thisHeader, headerList);
-//            headerIndex += 1;
-//        }
-//        return Pair.reverse(headerList, NIL);
-//    }
-
     protected Exp processResponse(String URI, CloseableHttpResponse response) throws IOException {
         try {
             HttpEntity entity = response.getEntity();

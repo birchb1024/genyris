@@ -110,8 +110,8 @@ public class ClassicReadEvalPrintLoop {
 
     private static void setArgs(String[] args, Interpreter interpreter)
             throws GenyrisException {
-        Symbol ARGS = interpreter.intern(Constants.GENYRIS + "system#"
-                + Constants.ARGS);
+        Symbol ARGS = interpreter.internEscaped(Constants.GENYRIS + "system#"
+                + Constants.ARGS );
         Exp argsAlist = makeListOfStrings(interpreter.getSymbolTable().NIL(),
                 args, 0);
         interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);

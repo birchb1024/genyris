@@ -176,19 +176,19 @@ public class SymbolTable implements Internable {
         }
     }
 
-    public SimpleSymbol internString(String newSym) {
+    public Symbol internString(String newSym) {
         if (_table.containsKey(newSym)) {
-            return (SimpleSymbol)_table.get(newSym);
+            return (Symbol)_table.get(newSym);
         } else {
-            SimpleSymbol sym = new SimpleSymbol(newSym);
-            _table.put(newSym, sym);
+			Symbol sym = Symbol.symbolFactory(newSym, false);
+			_table.put(newSym, sym);
             return sym;
         }
     }
 
-    public SimpleSymbol internSymbol(SimpleSymbol newSym) {
+    public Symbol internSymbol(Symbol newSym) {
         if (_table.containsKey(newSym.getPrintName())) {
-            return (SimpleSymbol)_table.get(newSym.getPrintName());
+            return (Symbol)_table.get(newSym.getPrintName());
         } else {
             _table.put(newSym.getPrintName(), newSym);
             return newSym;

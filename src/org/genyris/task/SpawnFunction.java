@@ -11,7 +11,7 @@ import java.io.Writer;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.exception.GenyrisInterruptedException;
 import org.genyris.interp.Closure;
@@ -49,7 +49,7 @@ public class SpawnFunction extends TaskFunction {
 				interpreter = new Interpreter();
 				interpreter.init(false);
 				Writer output = new PrintWriter(System.out);
-				SimpleSymbol ARGS = interpreter.intern(Constants.GENYRIS + "system#" + Constants.ARGS);
+				Symbol ARGS = interpreter.internEscaped(Constants.GENYRIS + "system#" + Constants.ARGS );
 				interpreter.getGlobalEnv().defineVariable(ARGS, arrayToExpList(interpreter.NIL, arguments));
 	    		if( arguments.length != 0) {
 	    			String filename = arguments[0].toString();

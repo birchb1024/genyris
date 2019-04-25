@@ -68,7 +68,7 @@ public class JavaClass extends StandardClass {
 		return super.lookupDynamicVariableValue(dsymbol);
 	}
 
-	public void setDynamicVariableValueRaw(SimpleSymbol symbol, Exp valu) throws UnboundException {
+	public void setDynamicVariableValueRaw(Symbol symbol, Exp valu) throws UnboundException {
 		if(staticFields.containsKey(symbol.toString())) {
 			Field field = (Field)staticFields.get(symbol.toString());
 			try {
