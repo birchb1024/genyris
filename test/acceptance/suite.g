@@ -60,6 +60,8 @@ for sp in spawn-files
 :runTests ('%a/test/acceptance'(.format System!HOME)) example-files
 <:format "Total # of JUnit tests: %s\n" junit-summary!right
 <:format "Total # of JUnit errors: %s\n" junit-summary!left
+<:format "Total errors: %s\n" (+ junit-summary!left :total-test-failed-counter (length :failed-files))
+
 assert 
    and 
       equal? 0 junit-summary!left

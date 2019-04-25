@@ -98,14 +98,34 @@ assert
       d(.method1-*Ljava_lang_String; ^('a' 'b' 'c'))
       ^('a' 'b' 'c')
 print Dummy!vars
-catch error 
-   d(.failmethod1)
-assert error
-u:format "caught error1 = %s\n" error
-catch error 
-   d(.failmethod2)
-assert error
-u:format "caught error2 = %s\n" error
+
+java:import 'java.io.PrintStream' as java_PrintStream
+java:import 'java.lang.System' as java_System
+
+defmacro silent(&rest body)
+   'Send Java error stream to /dev/null so that backtraces are not printed.'
+   template
+      do
+         var saved_stderr java_System!err
+
+         java_System
+            .setErr-java_io_PrintStream
+               java_PrintStream
+                  .new-java_lang_String '/dev/null'
+         $@body
+         java_System
+            .setErr-java_io_PrintStream saved_stderr
+   
+silent
+   catch error 
+      d(.failmethod1)
+   assert error
+   u:format "caught error1 = %s\n" error
+
+   catch error 
+      d(.failmethod2)
+   assert error
+   u:format "caught error2 = %s\n" error
 
 
 java:toJava int 34

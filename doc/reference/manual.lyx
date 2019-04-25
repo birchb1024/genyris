@@ -19437,8 +19437,11 @@ ors of the Java class.
 \end_layout
 
 \begin_layout LyX-Code
-@prefix java 'http://www.genyris.org/lang/java#' java:import <java class string>
- [as <shorthand name>]
+@prefix java 'http://www.genyris.org/lang/java#'
+\end_layout
+
+\begin_layout LyX-Code
+java:import <java class string> [as <shorthand name>]
 \end_layout
 
 \begin_layout Standard
