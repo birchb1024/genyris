@@ -5,6 +5,7 @@
 //
 package org.genyris.math;
 
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -20,8 +21,11 @@ public abstract class AbstractMathBooleanFunction extends ApplicableFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		if (arguments.length != 2)
-			throw new GenyrisException("Not two arguments to math function");
+		if (arguments.length != 2) {
+            throw new GenyrisException("Not two arguments to math function");
+        }
+		Class[] types = { Bignum.class, Bignum.class };
+		checkArgumentTypes(types, arguments);
 		try {
 			return mathOperation(arguments[0], arguments[1]);
 		} catch (RuntimeException e) {
