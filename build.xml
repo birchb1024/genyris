@@ -163,7 +163,7 @@
 	</target>
 
 	<target name="only-compile">
-		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="1.6" target="1.6" verbose="no" includeantruntime="false">
+		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="1.8" target="1.8" verbose="no" includeantruntime="false">
 			<include name="org/**" />
 			<include name="com/**" />
 		</javac>
