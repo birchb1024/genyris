@@ -4,12 +4,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
-import org.genyris.core.Dictionary;
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -24,9 +19,14 @@ public class DetailedDateTimeFunction extends AbstractDateTimeFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		TimeZone tz;
 		checkMinArguments(arguments, 1);
+
 		if (arguments.length == 2) {
+            Class[] types = { Bignum.class, StrinG.class };
+            checkArgumentTypes(types, arguments);
 			tz = TimeZone.getTimeZone(arguments[1].toString());
 		} else {
+            Class[] types = { Bignum.class };
+            checkArgumentTypes(types, arguments);
 			tz = TimeZone.getDefault();
 		}
 		GregorianCalendar cal = new GregorianCalendar(tz);
