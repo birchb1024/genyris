@@ -105,7 +105,6 @@ public class Constants {
         public static final String PREFIX_WEB = "http://www.genyris.org/lang/web#";
         public static final String PREFIX_SYNTAX = "http://www.genyris.org/lang/syntax#";
         public static final String PREFIX_SYSTEM = "http://www.genyris.org/lang/system#";
-        public static final String PREFIX_VERSION = "http://www.genyris.org/lang/version#";
         public static final String PREFIX_TYPES = "http://www.genyris.org/lang/types#";
         public static final String PREFIX_TASK = "http://www.genyris.org/lang/task#";
 		public static final String PREFIX_DATE = "http://www.genyris.org/lang/date#";

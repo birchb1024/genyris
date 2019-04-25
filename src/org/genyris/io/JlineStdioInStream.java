@@ -118,6 +118,11 @@ public class JlineStdioInStream implements InStream {
         refreshTabCompletion();
     }
 
+    public void setEnvironment(Environment env) {
+        _environment = env;
+        refreshTabCompletion();
+    }
+
     public void withinExpression(Environment env) {
         _environment = env;
         refreshTabCompletion();
@@ -136,7 +141,8 @@ public class JlineStdioInStream implements InStream {
             char ch = buffer.charAt(pos);
             return Character.isWhitespace(ch) || ch == '(' || ch == ')'
                     || ch == '[' || ch == ']' || ch == ','
-                    || ch == '!' || ch == '\'' || ch == '"' || ch == '#'
+                    // || ch == '!'
+                    || ch == '\'' || ch == '"' || ch == '#'
                     || ch == '^' || ch == '{' || ch == '}';
         }
     }

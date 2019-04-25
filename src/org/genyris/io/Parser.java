@@ -275,9 +275,8 @@ public class Parser {
     public void setUsualPrefixes(Interpreter interp) throws GenyrisException {
         addPrefix(interp, "u", Constants.PREFIX_UTIL);
         addPrefix(interp, "web", Constants.PREFIX_WEB);
-        addPrefix(interp, "g", Constants.PREFIX_SYNTAX);
+        addPrefix(interp, "syn", Constants.PREFIX_SYNTAX);
         addPrefix(interp, "sys", Constants.PREFIX_SYSTEM);
-        addPrefix(interp, "ver", Constants.PREFIX_VERSION);
         addPrefix(interp, "task", Constants.PREFIX_TASK);
         addPrefix(interp, "types", Constants.PREFIX_TYPES);
         addPrefix(interp, "date", Constants.PREFIX_DATE);

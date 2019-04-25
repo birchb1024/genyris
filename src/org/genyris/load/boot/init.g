@@ -3,13 +3,13 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-@prefix g "http://www.genyris.org/lang/syntax#"
-@prefix s "http://www.genyris.org/lang/system#"
+@prefix syn "http://www.genyris.org/lang/syntax#"
+@prefix sys "http://www.genyris.org/lang/system#"
 @prefix u "http://www.genyris.org/lang/utilities#"
 @prefix date "http://www.genyris.org/lang/date#"
 
-class g:Keyword(SimpleSymbol)
-tag g:Keyword ^function
+class syn:Keyword(SimpleSymbol)
+tag syn:Keyword ^function
 
 # nil is in a class of it's own
 class NilSymbol(Symbol)
@@ -18,7 +18,7 @@ tag NilSymbol ^nil
 # Some aliases
 defmacro define (variable valu) (template (defvar ^$variable $valu))
 
-define include s:include
+define include sys:include
 define function lambda
 define var define
 defmacro df (name args &rest body)
@@ -95,7 +95,7 @@ load "org/genyris/load/boot/triple.g"
 load "org/genyris/load/boot/for.g"
 load "org/genyris/load/boot/import.g"
 
-setq s:path (append (list System!LIBS System!HOME) s:path)
+setq sys:path (append (list System!LIBS System!HOME) sys:path)
 
 load "org/genyris/load/boot/task.g"
 load "org/genyris/load/boot/process.g"
@@ -115,5 +115,5 @@ class Calendar
 def calendar(epochmilliseconds)
     tag Calendar (date:calendar  epochmilliseconds)
 
-def s:self-test()
+def sys:self-test()
     include 'test/acceptance/suite.g'

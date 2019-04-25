@@ -41,3 +41,5 @@
 :load-class-by-name "org.genyris.java.AbstractJavaMethod"
 
 :load-class-by-name "org.genyris.io.pipe.Pipe"
+
+:load-class-by-name "org.genyris.io.JlineUseEnvironmentFunction"

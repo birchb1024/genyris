@@ -13,11 +13,8 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Stream;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Dictionary;
@@ -339,6 +336,10 @@ public class Interpreter {
     }
 
     public List<String> getBoundSymbolsAsListOfStrings(Environment env) {
+        //
+        //
+        //
+        String[] boringProperties = {".classes", ".name", ".self", ".source", ".vars"};
         if (env == null) {
             env = this._globalEnvironment;
         }
@@ -346,30 +347,30 @@ public class Interpreter {
         ArrayList<String> retval = new ArrayList<String>();
         for (Exp s : symbols) {
             if (env.isBound((Symbol) s)) {
-                String name = ((Symbol) s).getPrintName();
+                String name = ((Symbol) s).toString();
+                retval.add(name);
                 try {
                     Exp varList = env.lookupVariableValue((Symbol) s).dir(_table);
                     while (varList != NIL) {
-                        if (!(compareName(varList, ".classes") || // skip boring
-                                                                  // properties
-                                compareName(varList, ".vars") || compareName(varList,
-                                    ".self"))) {
-                            retval.add(name + varList.car().toString());
+                        String the_symbol = ((Symbol) varList.car()).toString();
+                        Stream<String> boringPropertiesStream = Arrays.stream(boringProperties);
+                        if( ! boringPropertiesStream.anyMatch(the_symbol::equals) ) {
+                            retval.add(name + the_symbol);
                         }
                         varList = varList.cdr();
                     }
                 } catch (UnboundException e) {
-                    ;
+                    System.out.println(e.getMessage());
                 } catch (AccessException e) {
-
+                    System.out.println(e.getMessage());
                 }
             }
         }
         return applyPrefixes(_prefixesUsed, retval);
     }
 
-    private boolean compareName(Exp varList, String name) throws AccessException {
-        return ((Symbol) varList.car()).getPrintName().equals(name);
+    private boolean compareName(Symbol var, String name) throws AccessException {
+        return var.getPrintName().equals(name);
     }
 
     public void collectPrefix(String pre, String full) {

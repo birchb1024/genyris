@@ -1,5 +1,4 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
-@prefix ver "http://www.genyris.org/lang/version#"
 @prefix sys "http://www.genyris.org/lang/system#"
 @prefix java 'http://www.genyris.org/lang/java#'
 
@@ -17,6 +16,7 @@ def sys:printBackTrace(bt)
        print (left bt)
        setq bt (cdr bt)
 
+
 def sys:read-eval-print-loop()
    u:format "*** Welcome %a, %a version %a, home %a is listening...%n"
         (os(.getProperties)).|user.name|
@@ -26,12 +26,19 @@ def sys:read-eval-print-loop()
    define looping true
    define parser (IndentedParser(.new stdin true))
    parser
-      .prefix ^sys "http://www.genyris.org/lang/system#"
       .prefix ^u "http://www.genyris.org/lang/utilities#"
-      .prefix ^java 'http://www.genyris.org/lang/java#'            
+      .prefix ^web "http://www.genyris.org/lang/web#"
+      .prefix ^syn "http://www.genyris.org/lang/syntax#"
+      .prefix ^sys 'http://www.genyris.org/lang/system#'
+      .prefix ^task 'http://www.genyris.org/lang/task#'
+      .prefix ^types 'http://www.genyris.org/lang/types#'
+      .prefix ^date 'http://www.genyris.org/lang/date#'
+      .prefix ^java 'http://www.genyris.org/lang/java#'
+
    while looping
        define bt nil
        catch (errors bt)
+           sys:jline-use-current-environment
            define expression (parser (.read))
            define result (eval expression)
        cond
