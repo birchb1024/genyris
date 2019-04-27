@@ -22,7 +22,7 @@ public abstract class AbstractMathBooleanFunction extends ApplicableFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
 		if (arguments.length != 2) {
-            throw new GenyrisException("Not two arguments to math function");
+            throw new GenyrisException("Not two arguments to function " + getName());
         }
 		Class[] types = { Bignum.class, Bignum.class };
 		checkArgumentTypes(types, arguments);
