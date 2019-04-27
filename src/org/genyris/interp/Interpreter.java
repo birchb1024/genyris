@@ -298,9 +298,11 @@ public class Interpreter {
     }
 
     public Exp evalStringInGlobalEnvironment(String script) throws GenyrisException {
+        String truncatedScript = script;
+        if( script.length() > 9 )
+            truncatedScript = script.substring(0, 10) + "...";
         InStream is = new UngettableInStream(new ConvertEofInStream(new IndentStream(
-                new UngettableInStream(new ReaderInStream(new StringReader(script),
-                        script.substring(0, 10) + "...")), true)));
+                new UngettableInStream(new ReaderInStream(new StringReader(script), truncatedScript)), true)));
 
         Parser parser = newParser(is);
         parser.setUsualPrefixes(this);
