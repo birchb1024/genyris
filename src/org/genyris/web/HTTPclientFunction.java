@@ -2,13 +2,25 @@ package org.genyris.web;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
+import org.genyris.core.Bignum;
 import org.genyris.core.Exp;
 import org.genyris.core.Pair;
 import org.genyris.core.StrinG;
@@ -29,6 +41,32 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
         super(interp, name, eager);
     }
 
+    protected static CloseableHttpClient getCloseableHttpClient(Exp options) {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+
+        if (options.toString().equals("insecure")) {
+            // https://stackoverflow.com/questions/19517538/ignoring-ssl-certificate-in-apache-httpclient-4-3
+            try {
+                SSLContextBuilder builder = new SSLContextBuilder();
+                builder.loadTrustMaterial(null, new TrustStrategy() {
+                    public boolean isTrusted(X509Certificate[] chain, String authType)
+                            throws CertificateException {
+                        return true;
+                    }
+                });
+                SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            }
+        }
+        return httpclient;
+    }
+
     public abstract Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)
             throws GenyrisException;
 
@@ -43,8 +81,10 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
                         new StrinG(responseHeaders[i].getName()), new StrinG(
                                 responseHeaders[i].getValue())), headerList);
             }
-            return Pair.cons2(new ReaderStream( new InputStreamReader(entity.getContent()), URI),
-                    headerList, NIL);
+
+            return Pair.cons3(new ReaderStream( new InputStreamReader(entity.getContent()), URI),
+                    headerList, Pair.cons2(new Bignum(response.getStatusLine().getStatusCode()),
+                            new StrinG(response.getStatusLine().getReasonPhrase()),NIL), NIL);
         } finally {
             response.close();
         }
@@ -63,9 +103,11 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
     }
 
     protected HttpVersion parseProtocol(Exp protocol) {
-        String protocolstring = protocol.toString();
         HttpVersion httpVersion = HttpVersion.HTTP_1_1;
-        if ( protocolstring.equals("1.0") ) {   
+        if( protocol == NIL )
+            return httpVersion;
+
+        if ( protocol.toString().equals("1.0") ) {
             httpVersion = HttpVersion.HTTP_1_0;
         }
         return httpVersion;

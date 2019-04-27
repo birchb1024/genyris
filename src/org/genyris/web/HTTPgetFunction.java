@@ -11,10 +11,8 @@ import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.genyris.core.Constants;
-import org.genyris.core.Exp;
-import org.genyris.core.StrinG;
+
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -26,23 +24,17 @@ public class HTTPgetFunction extends HTTPclientFunction {
         super(interp, Constants.WEB + "get", true);
     }
 
+
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        checkArguments(arguments, 1, 3);
-        Class[] types = {StrinG.class};
-        checkArgumentTypes(types, arguments);
-        String URI = arguments[0].toString();
-        Exp headers = (arguments.length >= 2 ? arguments[1] : NIL);
-        if( ! (headers == NIL || headers instanceof org.genyris.core.Pair) ) {
-            throw new GenyrisException("Headers must be a list.");
-        }
-        Exp protocol = (arguments.length >= 3 ? arguments[2] : NIL);
-        if( ! (protocol == NIL || protocol instanceof org.genyris.core.StrinG) ) {
-            throw new GenyrisException("Protocol must be a String.");
-        }
-        HttpVersion httpVersion = parseProtocol(protocol);
 
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        String URI = getArg(arguments, 0, StrinG.class, true).toString();
+        Exp headers = getArg(arguments, 1, Exp.class);
+        Exp protocol = getArg(arguments, 2, Exp.class);
+        Exp options = getArg(arguments, 3, Symbol.class);
+
+        CloseableHttpClient httpclient = getCloseableHttpClient(options);
+        HttpVersion httpVersion = parseProtocol(protocol);
 
         try {
 
@@ -68,4 +60,5 @@ public class HTTPgetFunction extends HTTPclientFunction {
         }
 
     }
+
 }

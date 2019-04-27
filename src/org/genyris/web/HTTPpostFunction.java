@@ -20,6 +20,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -35,21 +36,14 @@ public class HTTPpostFunction extends HTTPclientFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
 
-        checkArguments(arguments, 1, 4);
-        Class[] types = { StrinG.class };
-        checkArgumentTypes(types, arguments);
-        String URI = arguments[0].toString();
-        Exp params = (arguments.length >= 2 ? arguments[1] : NIL);
-        Exp headers = (arguments.length >= 3 ? arguments[2] : NIL);
-        if( ! (headers == NIL || headers instanceof org.genyris.core.Pair) ) {
-            throw new GenyrisException("Headers must be a list.");
-        }
-        Exp protocol = (arguments.length >= 4 ? arguments[3] : NIL);
-        if( ! (protocol == NIL || protocol instanceof org.genyris.core.StrinG) ) {
-            throw new GenyrisException("Protocol must be a String.");
-        }
+        String URI = getArg(arguments, 0, StrinG.class, true).toString();
+        Exp params = getArg(arguments, 1, Exp.class);
+        Exp headers = getArg(arguments, 2, Exp.class);
+        Exp protocol = getArg(arguments, 3, Exp.class);
+        Exp options = getArg(arguments, 4, Symbol.class);
+
+        CloseableHttpClient httpclient = getCloseableHttpClient(options);
         HttpVersion httpVersion = parseProtocol(protocol);
-        CloseableHttpClient httpclient = HttpClients.createDefault();
 
         try {
 

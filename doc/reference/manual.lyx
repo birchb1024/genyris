@@ -9120,11 +9120,11 @@ Output:
 \end_layout
 
 \begin_layout Standard
-~ '{"ip":"192.168.238.37"}'
+~ '{"ip":"192.168.38.37"}'
 \end_layout
 
 \begin_layout Standard
-~ '192.168.238.37'
+~ '192.168.38.37'
 \end_layout
 
 \begin_layout Subsection
@@ -14866,7 +14866,7 @@ web:get
 
 
 \emph default
- <url> [<request headers> [<protocol version>]]
+ <url> [<request headers> [<protocol version> [^insecure]]]
 \end_layout
 
 \begin_layout Standard
@@ -14876,7 +14876,19 @@ web:get
 \emph default
  function.
  This takes as input a URL string and an optional list of request headers.
- The HTTP protocol can be specified as either '1.0' or '1.1' (default).
+ The HTTP protocol can be specified as either 
+\emph on
+nil
+\emph default
+, 
+\emph on
+'1.0'
+\emph default
+ or 
+\emph on
+'1.1'
+\emph default
+ (default).
  It sends the GET request to web server then returns a list containing the
  response content in a 
 \emph on
@@ -14907,9 +14919,7 @@ Reader
 \end_layout
 
 \begin_layout Standard
-The response must have the 200 'OK' status code otherwise an exception is
- raised.
- Example, fetching the root file from the localhost server on port 80, using
+Example, fetching the root file from the localhost server on port 80, using
  HTTP/1.0 and providing a 'Basic' authentication header.
 \end_layout
 
@@ -14942,7 +14952,7 @@ web:post
 
 
 \emph default
- <url> [<params assoc>] [<request headers> [<protocol version>]]
+ <url> [<params assoc>] [<request headers> [<protocol version> [^insecure]]]
 \end_layout
 
 \begin_layout Standard
@@ -14984,9 +14994,7 @@ Reader
 \end_layout
 
 \begin_layout Standard
-The response must have the 200 'OK' status code otherwise an exception is
- raised.
- For example, to send a HTTP/1.1 POST with two parameters, a basic auth login,
+For example, to send a HTTP/1.1 POST with two parameters, a basic auth login,
  and read the response to a string: 
 \end_layout
 
@@ -15032,6 +15040,89 @@ The response must have the 200 'OK' status code otherwise an exception is
 
 \begin_layout LyX-Code
             .readAll
+\end_layout
+
+\begin_layout Subsubsection
+Handling Responses
+\end_layout
+
+\begin_layout Standard
+The web functions return a list of the following items:
+\end_layout
+
+\begin_layout Itemize
+A Reader object wrapping the returned data,
+\end_layout
+
+\begin_layout Itemize
+A Assoc list with HTTP response headers,
+\end_layout
+
+\begin_layout Itemize
+A list containing the status code then the status line text string - usually
+ 
+\emph on
+(200 'OK')
+\emph default
+ 
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout LyX-Code
+[Exp: org.genyris.io.ReaderInStream@dd8ba08]
+\end_layout
+
+\begin_layout LyX-Code
+(('Date' = 'Sat, 27 Apr 2019 09:44:10 GMT')
+\end_layout
+
+\begin_layout LyX-Code
+   ('Server' = 'Apache/2.4.25 (Debian)')
+\end_layout
+
+\begin_layout LyX-Code
+   ('Vary' = 'Accept-Encoding')
+\end_layout
+
+\begin_layout LyX-Code
+   ('Keep-Alive' = 'timeout=5, max=100')
+\end_layout
+
+\begin_layout LyX-Code
+   ('Connection' = 'Keep-Alive')
+\end_layout
+
+\begin_layout LyX-Code
+   ('Content-Type' = 'text/html;charset=UTF-8'))
+\end_layout
+
+\begin_layout LyX-Code
+200 'OK' 
+\end_layout
+
+\begin_layout Subsubsection
+Disabling SSL Security
+\end_layout
+
+\begin_layout Standard
+If the optional 
+\emph on
+insecure
+\emph default
+ symbol is given as the last argument of these two functions, they ignore
+ HTTPS (SSL) issues which would normally generate an error.
+ SSL issues ignored include: Expired server certificates, self-signed certificat
+es, mismatched hostname, revoked certificates, untrusted root CA and many
+ others.
+ 
+\emph on
+This mode is useful for testing but should not be used for real data.
+
+\emph default
+ 
 \end_layout
 
 \begin_layout Section

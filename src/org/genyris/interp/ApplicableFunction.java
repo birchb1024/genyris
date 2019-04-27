@@ -120,4 +120,24 @@ public abstract class ApplicableFunction {
         }
     }
 
+    public Exp getArg(Exp[] arguments, int index,  Class klass, boolean mandatory) throws GenyrisException {
+        Exp retval = NIL;
+        if( arguments.length <= index ) {
+            if (mandatory) {
+                throw new GenyrisException("Missing argument " + klass + " at arg " + index);
+            }
+        }
+        else {
+            retval = arguments[index];
+            if( ! klass.isInstance(retval) ) {
+                throw new GenyrisException("Expecting type " + klass + " at arg " + index);
+            }
+        }
+        return retval;
+    }
+
+    public Exp getArg(Exp[] arguments, int index,  Class klass) throws GenyrisException {
+        return getArg(arguments, index, klass, false);
+    }
+
 }
