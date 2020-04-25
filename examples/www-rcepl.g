@@ -11,6 +11,8 @@ include "lib/classify.g"
 
 include "examples/people.g"
 
+define forever (power 2 62)
+
 define script
     (File(.new @FILE))
         .abs-path
@@ -156,5 +158,5 @@ df httpd-serve (request)
 cond
   (equal? (task:id)!name 'main')
     httpd 8000 @FILE
-    u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
-    read
+    u:format "Server listening on http://127.0.0.1:8000/\n"
+    sleep forever

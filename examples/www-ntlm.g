@@ -4,6 +4,8 @@
 
 include 'classify.g'
 
+define forever (power 2 62)
+
 define script
     (File(.new @FILE))
         .abs-path
@@ -35,10 +37,17 @@ class ListOfInts()
 
 class UncheckedRequest(HttpRequest)
     def .valid?(request) true #TODO
+    def .reply()
+        list '401 Unauthorized' 
+            data
+               'Content-Type' = "text/plain"
+               'WWW-Authenticate' = "NTLM"
+               'Connection' = 'Keep-Alive'
+            ~ "401 Login Required"
 
 class FaviconRequest(UncheckedRequest)
     def .valid?(request)
-        equal? '/favicon.ico' (nth 1 (left request))
+        equal? (request(.getPath)) '/favicon.ico'
     def .reply()
         list '404 Not Found' ^(('Content-Type' = "text/html")) "404 Not Found"
         
@@ -168,5 +177,5 @@ df httpd-serve (request)
 cond
     (equal? (task:id)!name 'main')
          httpd 8000 @FILE
-         u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
-         read   
+         u:format "Server listening on http://127.0.0.1:8000/\n"
+         sleep forever   

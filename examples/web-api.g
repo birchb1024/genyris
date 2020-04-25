@@ -1,5 +1,5 @@
 #
-# Example
+# Example hit some REST APIS on the Intenet.
 #
 @prefix u   "http://www.genyris.org/lang/utilities#"
 @prefix web "http://www.genyris.org/lang/web#"

@@ -2,6 +2,8 @@
 @prefix task "http://www.genyris.org/lang/task#"
 @prefix u   "http://www.genyris.org/lang/utilities#"
 
+define forever (power 2 62)
+
 define script
     (File(.new @FILE))
         .abs-path
@@ -62,7 +64,7 @@ df httpd-serve (request)
 
 cond
   (equal? (task:id)!name 'main')
-    print script
-    httpd 8000 script
-    u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
-    read
+    for _ in (range 1 10)
+        httpd 8000 script
+    u:format "Server listening on http://127.0.0.1:8000/\n"
+    sleep forever

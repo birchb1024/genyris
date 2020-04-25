@@ -308,7 +308,7 @@ public class NanoHTTPD {
 				try {
 					mySocket.close();
 				} catch (IOException ignore) { }
-				System.out.println(e.getMessage());
+				//System.out.println(e.getMessage());
             } 
             try {
                    mySocket.close();

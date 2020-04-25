@@ -9,6 +9,7 @@
 @prefix u "http://www.genyris.org/lang/utilities#"
 @prefix task "http://www.genyris.org/lang/task#"
 
+define forever (power 2 62)
 define number-threads 10
 
 var port (parse (nth 1 sys:argv))
@@ -23,4 +24,4 @@ cond
         for _ in (range 1 number-threads)
             httpd port @FILE (nth 1 sys:argv) rootdir
         u:format "Serving web pages on port %a from %a\n" port rootdir
-        read
+        sleep forever

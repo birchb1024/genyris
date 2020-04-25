@@ -2,6 +2,8 @@
 @prefix task "http://www.genyris.org/lang/task#"
 @prefix u   "http://www.genyris.org/lang/utilities#"
 
+define forever (power 2 62)
+
 define script
     (File(.new @FILE))
         .abs-path
@@ -61,6 +63,6 @@ cond
             httpd 8005 'examples/www-rcepl.g'
             httpd 8007 'examples/web-server.g' '8007' 'examples'
             httpd 8008 'examples/apps/inspector/inspect.g'
-        u:format "Server listening on http://127.0.0.1:8000/\nType Ctrl-C to halt."
-        while true
-            sleep (* 60 60 1000)
+            httpd 8888 'examples/www-json.g'
+        u:format "Server listening on http://127.0.0.1:8000/\n"
+        sleep forever
