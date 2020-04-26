@@ -1,7 +1,3 @@
-# Ant
-# Build your Java projects and run tests with Apache Ant.
-# Add steps that save build artifacts and more:
-# https://docs.microsoft.com/vsts/pipelines/languages/java
 
 pool:
   vmImage: 'Ubuntu 16.04'
