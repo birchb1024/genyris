@@ -7,12 +7,12 @@ container:
   options: --user 0:0
 
 steps:
-- task: Ant@1
+- task: Bash@3
   inputs:
-    buildFile: 'build.xml'
-    options: 
-    targets: 'binary'
-    publishJUnitResults: false
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
+    targetType: 'inline'
+    script: |
+      cd /genyris
+      ant
+    noProfile: false
+    noRc: false
 
