@@ -1,6 +1,6 @@
 
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: 'birchb1024/genyris-build'
 
 steps:
 - task: Ant@1
