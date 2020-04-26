@@ -15,5 +15,3 @@ steps:
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.8'
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
