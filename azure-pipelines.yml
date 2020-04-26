@@ -4,7 +4,7 @@ pool:
 
 container:
   image: 'docker.io/birchb1024/genyris-build:latest'
-  options: --user 0:0
+  options: --user 0:0 -e INSTALL4J_LICENSE
 
 steps:
 - task: Bash@3
