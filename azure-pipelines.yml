@@ -7,7 +7,7 @@ steps:
   inputs:
     buildFile: 'build.xml'
     options: 
-    targets: 'make-jar'
+    targets: 'only-clean,only-init,make-jar'
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.8'
