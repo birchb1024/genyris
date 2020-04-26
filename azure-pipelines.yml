@@ -2,7 +2,9 @@
 pool:
   vmImage: 'Ubuntu 18.04'
 
-container: 'docker.io/birchb1024/genyris-build:latest'
+container:
+  image: 'docker.io/birchb1024/genyris-build:latest'
+  options: --user 1000:1000
 
 steps:
 - task: Ant@1
