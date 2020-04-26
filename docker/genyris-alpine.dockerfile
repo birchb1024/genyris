@@ -1,5 +1,5 @@
 #
-# Inspired by the Semantic Web, Genyris presents a new programming paradigm. Objects can 
+# Genyris presents a new programming paradigm. Objects can 
 # belong to multiple classes independant from construction. Indentation reduces parentheses 
 # yet retains the power of Lisp. External Java libraries can be imported.
 #
