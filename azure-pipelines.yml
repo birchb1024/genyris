@@ -9,10 +9,11 @@ pool:
 steps:
 - task: Ant@1
   inputs:
-    workingDirectory: ''
     buildFile: 'build.xml'
+    options: 
+    targets: 'make-jar'
+    publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
+    publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
