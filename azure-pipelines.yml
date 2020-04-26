@@ -1,13 +1,16 @@
 
 pool:
-  vmImage: 'birchb1024/genyris-build'
+  vmImage: 'Ubuntu 18.04'
+
+container: 'docker.io/birchb1024/genyris-build'
 
 steps:
 - task: Ant@1
   inputs:
     buildFile: 'build.xml'
     options: 
-    targets: 'only-clean only-init make-jar'
+    targets: 'binary'
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.8'
+
