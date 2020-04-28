@@ -11,6 +11,7 @@ import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -70,6 +71,7 @@ import java.util.TimeZone;
  * See the end of the source file for distribution license (Modified BSD
  * licence)
  */
+
 public class NanoHTTPD {
 
 	protected static final int SERVER_SOCKET_TIMEOUT = 0;
@@ -329,19 +331,17 @@ public class NanoHTTPD {
 					throw new NanoException(ioe.getMessage());
 				}
 				if( reqline == null ) {
-					return;					
+					sendError(HTTP_BADREQUEST, "BAD REQUEST ");
 				}
 				StringTokenizer st = new StringTokenizer(reqline);
                 // System.out.println("request line = '" + reqline + "'");
 				if (!st.hasMoreTokens())
-					sendError(HTTP_BADREQUEST,
-							"BAD REQUEST: Syntax error. Usage: GET /example/file.html");
+					sendError(HTTP_BADREQUEST, "BAD REQUEST " + toHex(reqline));
 
 				String method = st.nextToken();
 
 				if (!st.hasMoreTokens())
-					sendError(HTTP_BADREQUEST,
-							"BAD REQUEST: Missing URI. Usage: GET /example/file.html");
+					sendError(HTTP_BADREQUEST, "BAD REQUEST " + toHex(reqline));
 
 				String uri = decodePercent(st.nextToken());
 
@@ -371,6 +371,9 @@ public class NanoHTTPD {
 					if( line != null)
 						while (line.trim().length() > 0) {
 							int p = line.indexOf(':');
+							if(p <= 0) {
+								sendError(HTTP_BADREQUEST, "BAD REQUEST Malformed Header " + toHex(line));
+							}
 							header.put(line.substring(0, p).trim().toLowerCase(),
 									line.substring(p + 1).trim());
 							line = in.readLine();
@@ -413,11 +416,10 @@ public class NanoHTTPD {
 				else
 					sendResponse(r.status, r.mimeType, r.header, r.data);
 
-			} catch (IOException ioe) {
+			} catch (Exception e) {
 				try {
-					sendError(HTTP_INTERNALERROR,
-							"SERVER INTERNAL ERROR: IOException: "
-									+ ioe.getMessage());
+					// Hackers end up here
+					sendError(HTTP_BADREQUEST, "BAD REQUEST: " + e.getMessage());
 				} catch (Throwable t) {
 				}
 			}
@@ -448,7 +450,7 @@ public class NanoHTTPD {
 				}
 				return new String(sb.toString().getBytes());
 			} catch (Exception e) {
-				sendError(HTTP_BADREQUEST, "BAD REQUEST: Bad percent-encoding.");
+				sendError(HTTP_BADREQUEST, "BAD REQUEST: " + toHex(str));
 				return null;
 			}
 		}
@@ -475,7 +477,7 @@ public class NanoHTTPD {
 
 		/**
 		 * Returns an error message as a HTTP response and throws
-		 * GenyrisInterruptedException to stop furhter request processing.
+		 * GenyrisInterruptedException to stop further request processing.
 		 */
 		private void sendError(String status, String msg) throws NanoException {
 			sendResponse(status, MIME_PLAINTEXT, null,
@@ -765,6 +767,14 @@ public class NanoHTTPD {
 		gmtFrmt = new java.text.SimpleDateFormat(
 				"E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
 		gmtFrmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+	}
+
+	public static String toHex(String arg) {
+		byte[] ba = arg.getBytes();
+		StringBuilder str = new StringBuilder();
+		for(int i = 0; i < ba.length; i++)
+			str.append(String.format("%x", ba[i]));
+		return str.toString();
 	}
 
 	/**

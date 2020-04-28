@@ -44,3 +44,4 @@ out
 doc/genyris.wiki
 
 tools/*deb
+*.retry
