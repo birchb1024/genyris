@@ -19098,7 +19098,7 @@ HttpRequest
 \end_layout
 
 \begin_layout Description
-.getClient() gives a Pair containing the client's IP address and hostname
+.getClient() gives a Pair containing the client's IP address
 \end_layout
 
 \begin_layout Description
@@ -19404,7 +19404,6 @@ In this case the response headers are sent to the client as given, the 'Content-
 Type' header determines the processing of the <tree> as described above.
  ie using the mime type.
 \end_layout
-
 
 \begin_layout Subsubsection
 Starting a static web server

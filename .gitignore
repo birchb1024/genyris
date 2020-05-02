@@ -45,3 +45,37 @@ doc/genyris.wiki
 
 tools/*deb
 *.retry
+sandpit/GenyrisIssuesFromGoogleCode.ods
+sandpit/path.g
+sandpit/table.g
+doc/presentations/ColesTeamTalk/ColesTeamTalk.pptx
+doc/presentations/OSDC2010/Genyris-OSDC2010.ppt
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/length.html
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-1.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-2.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-3.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-4.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-5.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-6.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-7.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-8.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-9.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/osdc2010-10.pdf
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/people.html
+doc/presentations/OSDC2010/Genyris-OSDC2010-snapshot/types.html
+doc/screenshots/GenyrisLogo.png
+doc/screenshots/GenyrisLogo2.ico
+doc/screenshots/GenyrisLogo2.png
+doc/screenshots/GenyrisScreenshot.jpg
+doc/screenshots/GenyrisScreenshot.png
+doc/screenshots/Screenshot-1.png
+doc/screenshots/Screenshot.png
+strangeloop/genyris in 5 minutes.osp
+strangeloop/thumbnail/classes_avi_1.png
+strangeloop/thumbnail/close_avi_1.png
+strangeloop/thumbnail/dynamic_avi_1.png
+strangeloop/thumbnail/genyris_avi_1.png
+strangeloop/thumbnail/genyris_avi_4.png
+doc/articles/GenyrisEssay.html
+doc/articles/GenyrisEssay.text
+.vscode/settings.json

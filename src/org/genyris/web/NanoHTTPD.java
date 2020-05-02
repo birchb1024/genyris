@@ -15,6 +15,7 @@ import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
@@ -75,6 +76,7 @@ import java.util.TimeZone;
 public class NanoHTTPD {
 
 	protected static final int SERVER_SOCKET_TIMEOUT = 0;
+	protected static final int CONNECTION_TIMEOUT_SECONDS = 10;
 
 	public static class NanoException extends Exception {
 		private static final long serialVersionUID = 8521291173564816199L;
@@ -116,7 +118,7 @@ public class NanoHTTPD {
 	 * @return HTTP response, see class NanoResponse for details
 	 */
 	public NanoResponse serve(long sessionNumber, Socket mySocket, String uri, String method, Properties header,
-			Properties parms, String rootdir, String IP, String name) {
+			Properties parms, String rootdir, String IP) {
 		return serveFile(uri, header, new File(rootdir), true);
 	}
 
@@ -259,7 +261,6 @@ public class NanoHTTPD {
 		private String rootdir;
 		private InputStream is;
 		private String clientIP;
-		private String clientName;
 		private BufferedReader in;
 		private long sessionNumber;
         private boolean keepAlive;
@@ -283,18 +284,15 @@ public class NanoHTTPD {
 			sessionCount  += 1;
 			this.sessionNumber = sessionCount;
 			try {
-				 mySocket.setSoTimeout(1000*10);
+				 mySocket.setSoTimeout(1000*CONNECTION_TIMEOUT_SECONDS);
 				 is = mySocket.getInputStream();
 				 clientIP = mySocket.getInetAddress().getHostAddress();
-				 clientName = mySocket.getInetAddress().getCanonicalHostName();
 				 in = new BufferedReader( new InputStreamReader(is));
 
 			} catch (SocketException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return;
 			}
@@ -310,7 +308,6 @@ public class NanoHTTPD {
 				try {
 					mySocket.close();
 				} catch (IOException ignore) { }
-				//System.out.println(e.getMessage());
             } 
             try {
                    mySocket.close();
@@ -326,15 +323,17 @@ public class NanoHTTPD {
 				String reqline;
 				try {
 					 reqline = in.readLine();
-				} catch (Exception ioe) {
-					System.err.print(ioe.getMessage());
-					throw new NanoException(ioe.getMessage());
+				} catch (SocketTimeoutException toe) {
+					throw new NanoException(toe.getMessage());
+				}
+				catch (Exception ioe) {
+					String msg = ioe.getClass().getCanonicalName() + " " + ioe.getMessage();
+					throw new NanoException(msg);
 				}
 				if( reqline == null ) {
-					sendError(HTTP_BADREQUEST, "BAD REQUEST ");
+					sendError(HTTP_BADREQUEST, "BAD REQUEST reqline == null");
 				}
 				StringTokenizer st = new StringTokenizer(reqline);
-                // System.out.println("request line = '" + reqline + "'");
 				if (!st.hasMoreTokens())
 					sendError(HTTP_BADREQUEST, "BAD REQUEST " + toHex(reqline));
 
@@ -409,19 +408,16 @@ public class NanoHTTPD {
 
 				// Ok, now do the serve()
 				NanoResponse r = serve(this.sessionNumber, this.mySocket, uri, method, header, parms, rootdir,
-						clientIP, clientName);
+						clientIP);
 				if (r == null)
 					sendError(HTTP_INTERNALERROR,
 							"SERVER INTERNAL ERROR: Serve() returned a null response.");
-				else
+				else {
 					sendResponse(r.status, r.mimeType, r.header, r.data);
+				}
 
 			} catch (Exception e) {
-				try {
-					// Hackers end up here
-					sendError(HTTP_BADREQUEST, "BAD REQUEST: " + e.getMessage());
-				} catch (Throwable t) {
-				}
+				throw new NanoException( e.getMessage());
 			}
 		}
 
@@ -506,6 +502,7 @@ public class NanoHTTPD {
 
 				if (header == null || header.getProperty("Date") == null)
 					pw.print("Date: " + gmtFrmt.format(new Date()) + "\r\n");
+					pw.print("Connection-Timeout: " + CONNECTION_TIMEOUT_SECONDS + "\r\n");
 
 				if (header != null) {
 					Enumeration e = header.keys();

@@ -29,6 +29,7 @@ df httpd-serve (request)
 
 cond
   (equal? (task:id)!name 'main')
-    httpd 8888 script
+    for _ in (range 1 10)
+        httpd 8888 script
     u:format "Server listening on http://127.0.0.1:8888/\n"
     sleep forever
