@@ -19378,6 +19378,35 @@ df httpd-serve (request)
 \end_layout
 
 \begin_layout Subsubsection
+Http Responses With Headers
+\end_layout
+
+\begin_layout Standard
+Headers are passed the response is a list of the form:
+\end_layout
+
+\begin_layout LyX-Code
+<integer status code> <headers assoc> <tree>
+\end_layout
+
+\begin_layout Standard
+Where <headers assoc> is a association list containing headers.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+list 401 ^(('Content-Type' = "text/html")('WWW-Authenticate' = 'Basic realm="Sec
+ure Area"')) "401 Login Required" 
+\end_layout
+
+\begin_layout Standard
+In this case the response headers are sent to the client as given, the 'Content-
+Type' header determines the processing of the <tree> as described above.
+ ie using the mime type.
+\end_layout
+
+
+\begin_layout Subsubsection
 Starting a static web server
 \end_layout
 
