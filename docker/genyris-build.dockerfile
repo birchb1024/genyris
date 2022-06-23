@@ -16,7 +16,7 @@
 #   Now run the build in the current directory using the tools in the container. This
 #   runs as user id 1000 aka 'builder'.  
 #
-#   $ docker run --rm -it -v "${PWD}":/genyris -w /genyris --env INSTALL4J_LICENSE=${INSTALL4J_LICENSE} genyris-build 
+#   $ docker run --rm --user $(id -u):$(id -g) -it -e INSTALL4J_LICENSE=${INSTALL4J_LICENSE} -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "${PWD}":/genyris -w /genyris genyris-build
 #
 FROM debian:9-slim
 

@@ -187,6 +187,8 @@
 		        <arg value="-batch" />
 			<arg value="--export" />
 			<arg value="pdf" />
+			<arg value="-userdir" />
+			<arg value="/tmp" />
 			<arg value="genyris-manual-${version}.lyx" />
 		</exec>
 		<exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" output="dist/elyxer.log">
