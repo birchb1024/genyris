@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -31,6 +31,8 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -59,6 +61,7 @@
 \suppress_date false
 \justification true
 \use_refstyle 0
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -67,7 +70,10 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -209,7 +215,7 @@ genyris
 \begin_layout Standard
 Genyris is developed in Java hence needs a Java runtime.
  You don't need to understand Java to use Genyris.
- However you will need the Open JDK 8 JRE
+ However you will need the Open JDK 17 JRE
 \begin_inset Index idx
 status open
 
@@ -8433,6 +8439,7 @@ regex
 \begin_inset CommandInset href
 LatexCommand href
 target "http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html#sum"
+literal "false"
 
 \end_inset
 
@@ -8506,6 +8513,7 @@ regex
 \begin_inset CommandInset href
 LatexCommand href
 target "http://docs.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html#sum"
+literal "false"
 
 \end_inset
 
@@ -18293,6 +18301,7 @@ JLine is very configurable.
 \begin_inset CommandInset href
 LatexCommand href
 target "https://github.com/jline/jline2#readme"
+literal "false"
 
 \end_inset
 
@@ -22149,6 +22158,8 @@ Index
 \begin_inset CommandInset index_print
 LatexCommand printindex
 type "idx"
+name "Index"
+literal "true"
 
 \end_inset
 

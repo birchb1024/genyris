@@ -187,13 +187,13 @@
 		<exec executable="lyx" dir="dist" failonerror="true" output="dist/lyx.log" >
 		        <arg value="-batch" />
 			<arg value="--export" />
-			<arg value="pdf" />
+			<arg value="pdf2" />
 			<arg value="genyris-manual-${version}.lyx" />
 		</exec>
-		<exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" output="dist/elyxer.log">
+		<!--exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" output="dist/elyxer.log">
 			<arg value="genyris-manual-${version}.lyx" />
 			<arg value="genyris-manual-${version}.html" />
-		</exec>
+		</exec-->
 		<delete verbose="true">
 			<fileset dir="dist">
 				<include name="*jpg" />
@@ -203,8 +203,8 @@
 		</delete>
 		<copy file="dist/genyris-manual-${version}.pdf" tofile="rel/genyris-manual-${version}.pdf" verbose="true" />
 		<checksum file="rel/genyris-manual-${version}.pdf" forceOverwrite="yes" />
-		<copy file="dist/genyris-manual-${version}.html" tofile="rel/genyris-manual-${version}.html" verbose="true" />
-		<checksum file="rel/genyris-manual-${version}.html" forceOverwrite="yes" />
+		<!--copy file="dist/genyris-manual-${version}.html" tofile="rel/genyris-manual-${version}.html" verbose="true" />
+		<checksum file="rel/genyris-manual-${version}.html" forceOverwrite="yes" /-->
 
 	</target>
 
@@ -272,7 +272,7 @@
 			<arg value="-c" />
 			<arg value="-u" />
 			<arg value="-x" />
-			<arg value="xvfb-run java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
+			<arg value="xvfb-run -n 98 java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
 		</exec>
 	</target>
 
