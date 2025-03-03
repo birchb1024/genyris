@@ -54,7 +54,7 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
                         return true;
                     }
                 });
-                SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
                 httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();

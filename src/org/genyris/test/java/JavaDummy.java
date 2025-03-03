@@ -49,7 +49,7 @@ public class JavaDummy {
 	public static Integer[] staticMethod2(int count) {
 		Integer[] retval = new Integer[count];
 		for(int i=0;i<count;i++) {
-			retval[i] = new Integer(i);
+			retval[i] = Integer.valueOf(i);
 		}
 		return retval;
 	}

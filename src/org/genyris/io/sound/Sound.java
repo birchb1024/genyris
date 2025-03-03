@@ -34,7 +34,7 @@ public class Sound {
                 clip = (Clip)AudioSystem.getLine(info);
                 clip.open(inputStream);
                 clip.start();
-                retval = new Long(clip.getMicrosecondLength());
+                retval = Long.valueOf(clip.getMicrosecondLength());
             } else {
                 throw new GenyrisException("Sound: file not found: " + fileName);
             }
