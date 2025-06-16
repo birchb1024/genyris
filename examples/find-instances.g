@@ -12,7 +12,7 @@ def find-instances(klass)
         use (eval s) 
           cond
             (equal? klass (left .classes)) # is it the class we want?
-              u:format "%s " s
+              u:format "%a\n" s
   print ''            
 #
 # Example

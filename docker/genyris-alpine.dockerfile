@@ -7,7 +7,7 @@
 #
 # Make the docker image:
 #
-#   $ docker build -f docker/genyris-alpine.dockerfile --tag genyris-alpine:latest --tag genyris-alpine:$(git describe --tags) .
+#   $ docker build -f docker/genyris-alpine.dockerfile --tag birchb1024/genyris-alpine:latest --tag birchb1024/genyris-alpine:$(git describe --tags) .
 # 
 #  REPL:
 #
