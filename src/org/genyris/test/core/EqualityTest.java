@@ -54,9 +54,9 @@ public class EqualityTest extends TestCase {
 
     public void testHashMap() throws Exception {
         Map dict1 = new HashMap();
-        dict1.put(new Double(123.345), new Integer(2));
+        dict1.put(Double.valueOf(123.345), Integer.valueOf(2));
         Map dict2 = new HashMap();
-        dict2.put(new Double(123.345), new Integer(2));
+        dict2.put(Double.valueOf(123.345), Integer.valueOf(2));
         assertTrue("foo".equals("foo"));
         assertTrue(dict1.equals(dict2));
     }

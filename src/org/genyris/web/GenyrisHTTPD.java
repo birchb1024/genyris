@@ -55,12 +55,12 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     private static synchronized ServerSocket getSharedServerSocket(int port)
             throws IOException {
-        if (serverSockets.containsKey(new Integer(port))) {
-            return (ServerSocket) serverSockets.get(new Integer(port));
+        if (serverSockets.containsKey(Integer.valueOf(port))) {
+            return (ServerSocket) serverSockets.get(Integer.valueOf(port));
         } else {
             ServerSocket ss = new ServerSocket(port);
             ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
-            serverSockets.put(new Integer(port), ss);
+            serverSockets.put(Integer.valueOf(port), ss);
             return ss;
         }
     }

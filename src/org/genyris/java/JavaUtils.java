@@ -112,18 +112,18 @@ public class JavaUtils {
         } else if (exp instanceof Bignum) {
             BigDecimal big = ((Bignum) exp).bigDecimalValue();
             if (klass == java.lang.Byte.TYPE || klass == java.lang.Byte.class) {
-                return new java.lang.Byte(big.byteValue());
+                return java.lang.Byte.valueOf(big.byteValue());
             } else if (klass == java.lang.Short.TYPE || klass == java.lang.Short.class) {
-                return new java.lang.Short(big.shortValue());
+                return java.lang.Short.valueOf(big.shortValue());
             } else if (klass == java.lang.Integer.TYPE
                     || klass == java.lang.Integer.class) {
-                return new java.lang.Integer(big.intValue());
+                return java.lang.Integer.valueOf(big.intValue());
             } else if (klass == java.lang.Long.TYPE || klass == java.lang.Long.class) {
-                return new java.lang.Long(big.longValue());
+                return java.lang.Long.valueOf(big.longValue());
             } else if (klass == java.lang.Float.TYPE || klass == java.lang.Float.class) {
-                return new java.lang.Float(big.floatValue());
+                return java.lang.Float.valueOf(big.floatValue());
             } else if (klass == java.lang.Double.TYPE || klass == java.lang.Double.class) {
-                return new java.lang.Double(big.doubleValue());
+                return java.lang.Double.valueOf(big.doubleValue());
             } else if (klass == java.lang.String.class) {
                 return big.toString();
             } else if (klass == java.lang.Object.class) {
@@ -135,7 +135,7 @@ public class JavaUtils {
             return ((ReaderStream) exp).getReader();
         } else if (StrinG.class.isInstance(exp) || Symbol.class.isInstance(exp)) {
             if (klass == java.lang.Character.TYPE || klass == java.lang.Character.class) {
-                return new java.lang.Character(exp.toString().charAt(0));
+                return java.lang.Character.valueOf(exp.toString().charAt(0));
             } else
                 return exp.toString();
         } else if (klass == (new byte[1]).getClass()) {

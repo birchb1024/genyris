@@ -163,9 +163,10 @@
 	</target>
 
 	<target name="only-compile">
-		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="1.8" target="1.8" verbose="no" includeantruntime="false">
+		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="17" target="17" verbose="no" includeantruntime="false">
 			<include name="org/**" />
 			<include name="com/**" />
+			<compilerarg value="-Xlint:deprecation"/>
 		</javac>
 	</target>
 
@@ -186,12 +187,15 @@
 		<exec executable="lyx" dir="dist" failonerror="true" output="dist/lyx.log" >
 		        <arg value="-batch" />
 			<arg value="--export" />
-			<arg value="pdf" />
+			<arg value="pdf2" />
 			<arg value="genyris-manual-${version}.lyx" />
 		</exec>
-		<exec executable="/usr/bin/elyxer" dir="dist" failonerror="true" output="dist/elyxer.log">
-			<arg value="genyris-manual-${version}.lyx" />
+		<exec executable="lyx" dir="dist" failonerror="true" output="dist/lyx.log" >
+		        <arg value="-batch" />
+			<arg value="--export-to" />
+			<arg value="xhtml" />
 			<arg value="genyris-manual-${version}.html" />
+			<arg value="genyris-manual-${version}.lyx" />
 		</exec>
 		<delete verbose="true">
 			<fileset dir="dist">
@@ -202,9 +206,9 @@
 		</delete>
 		<copy file="dist/genyris-manual-${version}.pdf" tofile="rel/genyris-manual-${version}.pdf" verbose="true" />
 		<checksum file="rel/genyris-manual-${version}.pdf" forceOverwrite="yes" />
+
 		<copy file="dist/genyris-manual-${version}.html" tofile="rel/genyris-manual-${version}.html" verbose="true" />
 		<checksum file="rel/genyris-manual-${version}.html" forceOverwrite="yes" />
-
 	</target>
 
 	<target name="only-binary" depends="make-jar, only-compile-docs" description="Make a binary release">
@@ -271,7 +275,7 @@
 			<arg value="-c" />
 			<arg value="-u" />
 			<arg value="-x" />
-			<arg value="xvfb-run java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
+			<arg value="xvfb-run -n 98 java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
 		</exec>
 	</target>
 

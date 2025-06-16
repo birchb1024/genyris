@@ -82,7 +82,7 @@ public class Bignum extends Atom {
 
 	public Bignum divide(Bignum other) {
 		return new Bignum(_value.divide(other._value , 150,
-		BigDecimal.ROUND_HALF_UP));
+		 java.math.RoundingMode.HALF_UP));
 	}
 
 	public boolean lessThan(Bignum other) {
@@ -132,6 +132,6 @@ public class Bignum extends Atom {
 
     public Exp scale(Bignum scale) {
         return (new Bignum(_value.setScale((scale._value).intValue(), 
-                BigDecimal.ROUND_HALF_UP) ));
+                java.math.RoundingMode.HALF_UP) ));
     }
 }
