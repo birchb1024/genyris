@@ -15,72 +15,74 @@ import org.genyris.exception.GenyrisException;
 
 public class SymbolTable implements Internable {
 	private Map          _table;
-    private SimpleSymbol NIL;
-	private SimpleSymbol _self;
-	private SimpleSymbol _classes;
-	private SimpleSymbol _superclasses;
-	private SimpleSymbol _classname;
-	private SimpleSymbol _left;
-	private SimpleSymbol _right;
-    private SimpleSymbol _lineNumber;
-    private SimpleSymbol _filename;
-    private SimpleSymbol _dynamic;
-	private SimpleSymbol _rest;
-	private SimpleSymbol _dict;
-	private SimpleSymbol _true;
-	private SimpleSymbol _false;
 	
-	private SimpleSymbol _standardclass;
-	private SimpleSymbol _subclasses;
-	private SimpleSymbol _thing;
-	private SimpleSymbol _validate;
-	private SimpleSymbol _vars;
-	private SimpleSymbol _lambda;
-	private SimpleSymbol _lambdaq;
-	private SimpleSymbol _lambdam;
-	private SimpleSymbol _eof;
-	private SimpleSymbol _template;
-	private SimpleSymbol _square;
+	
+	private SimpleSymbol _BIGNUM;
+    private SimpleSymbol _BISCUIT;
+	private SimpleSymbol _classes;
+	private SimpleSymbol _classname;
 	private SimpleSymbol _curly;
-	private SimpleSymbol _quote;
+	private SimpleSymbol _dict;
+	private SimpleSymbol _dictionary;
 	private SimpleSymbol _dollar;
 	private SimpleSymbol _dollar_at;
-	private SimpleSymbol _prefix;
-	private SimpleSymbol _BIGNUM;
+    private SimpleSymbol _dynamic;
+	private SimpleSymbol _DYNAMICSYMBOLREF;
 	private SimpleSymbol _EAGERPROC;
+	private SimpleSymbol _eof;
+	private SimpleSymbol _false;
+    private SimpleSymbol _filename;
+    private SimpleSymbol _GLOBALGRAPH;
+	private SimpleSymbol _GRAPH;
+	private SimpleSymbol _INDENTEDPARSER;
+	private SimpleSymbol _JAVACLASS;
+	private SimpleSymbol _JAVACTOR;
+	private SimpleSymbol _JAVAMETHOD;
+	private SimpleSymbol _JAVASTATICMETHOD;
+	private SimpleSymbol _JAVAWRAPPER;
+	private SimpleSymbol _lambda;
+	private SimpleSymbol _lambdam;
+	private SimpleSymbol _lambdaq;
 	private SimpleSymbol _LAZYPROC;
+	private SimpleSymbol _left;
+    private SimpleSymbol _lineNumber;
+	private SimpleSymbol _NAME;
+    private SimpleSymbol NIL;
+	private SimpleSymbol _OBJECT;
 	private SimpleSymbol _PAIR;
 	private SimpleSymbol _PAIREQUAL;
     private SimpleSymbol _PAIRSOURCE;
     private SimpleSymbol _PARENPARSER;
-	private SimpleSymbol _INDENTEDPARSER;
-	private SimpleSymbol _READER;
-	private SimpleSymbol _SIMPLESYMBOL;
-	private SimpleSymbol _STRING;
-	private SimpleSymbol _WRITER;
-	private SimpleSymbol _dictionary;
-	private SimpleSymbol _URISYMBOL;
-	private SimpleSymbol _TRIPLE;
-	private SimpleSymbol _GRAPH;
-    private SimpleSymbol _TYPE;
-	private SimpleSymbol _SUBCLASSOF;
-	private SimpleSymbol _DYNAMICSYMBOLREF;
-	private SimpleSymbol _SOURCE;
-	private SimpleSymbol _NAME;
-	private SimpleSymbol _SUBJECT;
-	private SimpleSymbol _PREDICATE;
-	private SimpleSymbol _OBJECT;
-	private SimpleSymbol _JAVAWRAPPER;
-	private SimpleSymbol _JAVACTOR;
-	private SimpleSymbol _JAVAMETHOD;
-	private SimpleSymbol _JAVASTATICMETHOD;
-	private SimpleSymbol _JAVACLASS;
 	private SimpleSymbol _PIPE;
+	private SimpleSymbol _PREDICATE;
+	private SimpleSymbol _prefix;
 	private SimpleSymbol _PROCEDUREMISSING;
-    private SimpleSymbol _GLOBALGRAPH;
-    private SimpleSymbol _BISCUIT;
+	private SimpleSymbol _quote;
+	private SimpleSymbol _READER;
+	private SimpleSymbol _rest;
+	private SimpleSymbol _right;
+	private SimpleSymbol _self;
+	private SimpleSymbol _SIMPLESYMBOL;
+	private SimpleSymbol _SOURCE;
+	private SimpleSymbol _square;
+	private SimpleSymbol _standardclass;
+	private SimpleSymbol _STRING;
+	private SimpleSymbol _subclasses;
+	private SimpleSymbol _SUBCLASSOF;
+	private SimpleSymbol _SUBJECT;
+	private SimpleSymbol _superclasses;
     private SimpleSymbol _TAILCALL;
-	
+	private SimpleSymbol _template;
+	private SimpleSymbol _thing;
+	private SimpleSymbol _TRIPLE;
+	private SimpleSymbol _true;
+    private SimpleSymbol _TYPE;
+	private SimpleSymbol _URISYMBOL;
+	private SimpleSymbol _validate;
+	private SimpleSymbol _vars;
+	private SimpleSymbol _WRITER;
+    private SimpleSymbol _XMLPARSER;
+
     public SymbolTable() {
         _table = new HashMap();
     }
@@ -130,6 +132,7 @@ public class SymbolTable implements Internable {
     _PAIRSOURCE = bindKeyword(String.valueOf(Constants.PAIRESOURCE));
 
 	_PARENPARSER = bindKeyword(String.valueOf(Constants.PARENPARSER));
+	_XMLPARSER = bindKeyword(String.valueOf(Constants.XMLPARSER));
 	_INDENTEDPARSER = bindKeyword(String.valueOf(Constants.INDENTEDPARSER));
 	_READER = bindKeyword(String.valueOf(Constants.READER));
 	_SIMPLESYMBOL = bindKeyword(String.valueOf(Constants.SIMPLESYMBOL));
@@ -361,6 +364,10 @@ public class SymbolTable implements Internable {
 
 	public SimpleSymbol PARENPARSER() {
 		return _PARENPARSER;
+	}
+
+	public SimpleSymbol XMLPARSER() {
+		return _XMLPARSER;
 	}
 
 	public SimpleSymbol READER() {

@@ -24,7 +24,7 @@ public class Parser {
 
     private Exp cursym;
 
-    private Exp NIL;
+    protected Exp NIL;
 
     private Exp _prefix;
 

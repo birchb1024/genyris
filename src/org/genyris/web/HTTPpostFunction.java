@@ -42,8 +42,15 @@ public class HTTPpostFunction extends HTTPclientFunction {
         Exp protocol = getArg(arguments, 3, Exp.class);
         Exp options = getArg(arguments, 4, Symbol.class);
 
-        CloseableHttpClient httpclient = getCloseableHttpClient(options);
-        HttpVersion httpVersion = parseProtocol(protocol);
+        CloseableHttpClient httpclient;
+        HttpVersion httpVersion;
+
+        try {
+            httpclient = getCloseableHttpClient(options);
+            httpVersion = parseProtocol(protocol);
+        } catch (Exception e) {
+            throw new GenyrisException(e.toString());
+        }
 
         try {
 
@@ -63,9 +70,7 @@ public class HTTPpostFunction extends HTTPclientFunction {
             CloseableHttpResponse response = httpclient.execute(httpPost);
 
             return processResponse(URI, response);
-        } catch (IOException e) {
-            throw new GenyrisException(e.getMessage());
-        } catch (java.lang.RuntimeException e) {
+        } catch (Exception e) {
             throw new GenyrisException(e.toString());
         }
         finally {

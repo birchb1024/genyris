@@ -87,6 +87,7 @@ public class Constants {
         public static final String ABSTRACTPARSER = "AbstractParser";
         public static final String INDENTEDPARSER = "IndentedParser";
         public static final String PARENPARSER = "ParenParser";
+        public static final String XMLPARSER = "XMLParser";
         public static final String STDIN = "stdin";
         public static final String PREFIX = "@prefix";
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";

@@ -17,6 +17,7 @@
 :load-class-by-name "org.genyris.io.parser.StreamParser"
 :load-class-by-name "org.genyris.io.parser.ParenStreamParser"
 :load-class-by-name "org.genyris.io.parser.IndentedStreamParser"
+:load-class-by-name "org.genyris.io.parser.XMLStreamParser"
 :load-class-by-name "org.genyris.io.StringFormatStream"
 :load-class-by-name "org.genyris.dl.ThingMethods"
 :load-class-by-name "org.genyris.os.ExecMethod"

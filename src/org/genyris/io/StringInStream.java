@@ -5,9 +5,10 @@
 //
 package org.genyris.io;
 
+import java.io.Reader;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-
 
 public class StringInStream implements InStream {
 
@@ -19,6 +20,10 @@ public class StringInStream implements InStream {
         _value = astring.toCharArray();
         _readPointer = 0;
         _lineCount = 1;
+    }
+
+    public Reader getReader() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException(); 
     }
 
     public boolean hasData() {

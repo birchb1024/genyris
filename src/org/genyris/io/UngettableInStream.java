@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import java.io.Reader;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
@@ -14,7 +16,6 @@ public class UngettableInStream implements InStream {
         private InStream _input;
         private char[] _ungetChars;
         private int _readPointer;
-
 
         public UngettableInStream(InStream aStream, int size) {
             _input = aStream;
@@ -26,6 +27,10 @@ public class UngettableInStream implements InStream {
             _input = aStream;
             _ungetChars = new char[10];
             _readPointer = -1;        }
+
+        public Reader getReader() {
+            return _input.getReader();
+        }
 
         private boolean bufferEmpty() {
             return _readPointer < 0;

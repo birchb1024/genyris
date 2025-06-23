@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!--
+    Licensed Materials - Property of IBM
+    (c) Copyright IBM Corporation 2013, 2019. All Rights Reserved.
+   
+    Note to U.S. Government Users Restricted Rights:  
+    Use, duplication or disclosure restricted by GSA ADP Schedule 
+    Contract with IBM Corp. 
+ -->
+
+<rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:dc="http://purl.org/dc/terms/" xmlns:jfs="http://jazz.net/xmlns/prod/jazz/jfs/1.0/"
+	xmlns:jd="http://jazz.net/xmlns/prod/jazz/discovery/1.0/" xmlns:jdb="http://jazz.net/xmlns/prod/jazz/dashboard/1.0/"
+	xmlns:jp06="http://jazz.net/xmlns/prod/jazz/process/0.6/" xmlns:jp="http://jazz.net/xmlns/prod/jazz/process/1.0/"
+	xmlns:jtp="http://jazz.net/xmlns/prod/jazz/jtp/0.6/" xmlns:ju="http://jazz.net/ns/ui#"
+	xmlns:oslc="http://open-services.net/ns/core#" xmlns:rm="http://www.ibm.com/xmlns/rdm/rdf/"
+	xmlns:oslc_rm="http://open-services.net/xmlns/rm/1.0/" 
+	xmlns:oslc_config="http://open-services.net/ns/config#"
+	xmlns:trs2="http://open-services.net/ns/core/trs#"
+	rdf:about="https://clm.rational.com/rm/rootservices">
+
+   <!-- 
+  		Root services resource template for applications based on JAF SDK.
+  		Contains required contributions both for applications and for the JTS.
+  		Applications may add additional services, but may only remove services noted as being "JTS only".
+  		Specification is available at https://jazz.net/wiki/bin/view/Main/RootServicesSpec
+   -->
+
+	<!-- Modify to provide a descriptive title for the application -->
+	<dc:title xml:lang="en">Doors Next</dc:title>
+	<dc:description>This application provides the capabilities to create
+		and manage requirements and trace them to modeling, testing, and
+		change and configuration management. You can define, elicit, capture,
+		elaborate, discuss, and review requirements and supporting artifacts.
+	</dc:description>
+
+	<!-- The following services must be included in both the JTS and applications -->
+
+	<jd:discovery rdf:resource="https://clm.rational.com/rm/discovery" />
+	<jd:friends rdf:resource="https://clm.rational.com/rm/friends" />
+	<jd:infocenterRoot rdf:resource="https://clm.rational.com/jts/../clmhelp" />
+	<jd:viewletServiceRoot rdf:resource="https://clm.rational.com/jts" />
+	<jd:viewletWebUIRoot rdf:resource="https://clm.rational.com/rm" />
+
+    <jd:jsaSsoEnabled>false</jd:jsaSsoEnabled>
+  
+	<jfs:oauthDomain>https://clm.rational.com/jts,https://clm.rational.com/rm</jfs:oauthDomain>
+	<jfs:oauthRealmName>Jazz</jfs:oauthRealmName>
+	<jfs:oauthAccessTokenUrl rdf:resource="https://clm.rational.com/jts/oauth-access-token" />
+	<jfs:oauthApprovalModuleUrl	rdf:resource="https://clm.rational.com/jts/_ajax-modules/com.ibm.team.repository.AuthorizeOAuth" />
+	<jfs:oauthExpireTokenUrl rdf:resource="https://clm.rational.com/jts/oauth-expire-token" />
+	<jfs:oauthRequestConsumerKeyUrl	rdf:resource="https://clm.rational.com/jts/oauth-request-consumer" />
+	<jfs:oauthRequestTokenUrl rdf:resource="https://clm.rational.com/jts/oauth-request-token" />
+	<jfs:oauthUserAuthorizationUrl rdf:resource="https://clm.rational.com/jts/oauth-authorize" />
+
+	<jfs:jauthCheckAuthUrl rdf:resource="https://clm.rational.com/jts/jauth-check-auth" />
+	<jfs:jauthCheckTokenUrl rdf:resource="https://clm.rational.com/jts/jauth-check-token" />
+	<jfs:jauthIssueTokenUrl rdf:resource="https://clm.rational.com/jts/jauth-issue-token" />
+	<jfs:jauthProxyUrl rdf:resource="https://clm.rational.com/jts/jauth-proxy" />
+	<jfs:jauthRevokeTokenUrl rdf:resource="https://clm.rational.com/jts/jauth-revoke-token" />
+	<jfs:jauthSigninUrl rdf:resource="https://clm.rational.com/jts/jauth-signin" />
+
+	<jfs:baselines rdf:resource="https://clm.rational.com/rm/baselines" />
+	<jfs:bulkOperations rdf:resource="https://clm.rational.com/rm/bulk" />
+	<jfs:changes rdf:resource="https://clm.rational.com/rm/changes" />
+	<jfs:currentUser rdf:resource="https://clm.rational.com/jts/whoami" />
+	<jfs:history rdf:resource="https://clm.rational.com/rm/history" />
+	<jfs:indexing rdf:resource="https://clm.rational.com/rm/indexing" />
+	<jfs:mailer rdf:resource="https://clm.rational.com/jts/mailer" />
+	<jfs:query rdf:resource="https://clm.rational.com/rm/query" />
+	<jfs:search rdf:resource="https://clm.rational.com/rm/search" />
+	<jfs:storage rdf:resource="https://clm.rational.com/rm/storage" />
+	<jfs:users rdf:resource="https://clm.rational.com/jts/users" />
+
+	<jfs:setupWizardDescriptor rdf:resource="https://clm.rational.com/rm/service/com.ibm.team.repository.service.internal.setup.ISetupWizardDescriptorService" />
+
+	<jdb:dashboards rdf:resource="https://clm.rational.com/jts/dashboards" />
+
+	<ju:widgetCatalog rdf:resource="https://clm.rational.com/rm/RmWidgetCatalog" />
+
+	<jp06:processSecurity rdf:resource="https://clm.rational.com/rm/process-security" />
+	<jp06:processTemplates rdf:resource="https://clm.rational.com/rm/process/templates" />
+	<jp06:projectAreas rdf:resource="https://clm.rational.com/rm/process/project-areas" />
+
+	<jtp:associations rdf:resource="https://clm.rational.com/rm/process-authoring/associations" />
+	<jtp:defaultPracticeLibraryUrl rdf:resource="https://clm.rational.com/rm/process-authoring/libraries/shared" />
+	<jtp:file rdf:resource="https://clm.rational.com/rm/process-authoring/file" />
+	<jtp:license rdf:resource="https://clm.rational.com/rm/process-authoring/license" />
+	<jtp:practices rdf:resource="https://clm.rational.com/rm/process-authoring/practices" />
+	<jtp:processDescriptions rdf:resource="https://clm.rational.com/rm/process-authoring/descriptions" />
+
+	<oslc:publisher rdf:resource="https://clm.rational.com/rm/application-about" />
+
+	<!-- End of services common to JTS and applications -->
+
+	<!-- Applications may add any services they provide here -->
+	<oslc_rm:rmServiceProviders rdf:resource="https://clm.rational.com/rm/oslc_rm/catalog" />
+
+	<oslc_rm:majorVersion>7</oslc_rm:majorVersion>
+	<oslc_rm:version>7.0.2</oslc_rm:version>
+	<oslc_rm:buildVersion>7.0.2</oslc_rm:buildVersion>
+	
+	<oslc_config:cmServiceProviders	rdf:resource="https://clm.rational.com/rm/oslc_config"/>	
+	
+	<rm:glossaryTermsQuery rdf:resource="https://clm.rational.com/rm/glossary/termslookup" />
+	<rm:components rdf:resource="https://clm.rational.com/rm/cm/component/ldpc" />
+	<rm:projectAreas rdf:resource="https://clm.rational.com/rm/projects" />
+	<rm:cmpProjectAreas rdf:resource="https://clm.rational.com/rm/rm-projects" />
+	<rm:rrcExtensions>0.1.3-0.1.5</rm:rrcExtensions>
+
+	<!-- The admin Web UI service should be uncommented in applications -->
+	<jfs:adminWebUI rdf:resource="https://clm.rational.com/rm/admin" />
+
+	<!-- The registration handler service should be uncommented for application  that do not supply their own -->
+	<jd:registration rdf:resource="https://clm.rational.com/rm/service/com.ibm.team.repository.service.internal.setup.IRegistrationHandlerService" />
+	
+	<!--  Process Component Tracked Resource Set 2.0 Provider -->
+	<rm:trackedResourceSetProvider>
+		<trs2:TrackedResourceSet>
+			<trs2:trackedResourceSet rdf:resource="https://clm.rational.com/rm/process-trs2" />
+			<dc:title>TRS 2.0 for DOORS Next Process Resources</dc:title>
+			<dc:description>TRS 2.0 feed for process resources in DOORS Next</dc:description>
+			<dc:type     rdf:resource="http://jazz.net/ns/process#" />
+			<oslc:domain rdf:resource="http://jazz.net/ns/process#" />
+		</trs2:TrackedResourceSet>
+	</rm:trackedResourceSetProvider>
+	
+	<!-- End of application-specific services -->
+
+</rdf:Description>

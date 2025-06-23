@@ -5,10 +5,10 @@
 //
 package org.genyris.io;
 
+import java.io.Reader;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-
-
 
 public interface InStream {
 
@@ -21,4 +21,5 @@ public interface InStream {
     void beginningExpression();
     int getLineNumber();
     String getFilename();
+    Reader getReader() throws UnsupportedOperationException ;
 }

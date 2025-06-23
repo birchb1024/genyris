@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<em:Employees xmlns:dc="http://purl.org/dc/terms/" xmlns:em="http://olivetreeit.net/example/" >
+	<dc:title xml:lang="en">Doors Next</dc:title>
+	<dc:description>This application provides</dc:description>
+	<em:Employee id="1">
+		<em:age>29</em:age>A
+		<em:name>
+			Allen
+		</em:name>
+		B
+		<em:gender>Male</em:gender>
+		C
+		<em:role>Java Developer</em:role>
+	</em:Employee>
+	<em:Employee id="4">
+		<em:age>25</em:age>
+		<em:name>Jane</em:name>
+		<em:gender>Female</em:gender>
+		<em:role>Manager</em:role>
+	</em:Employee>
+</em:Employees>

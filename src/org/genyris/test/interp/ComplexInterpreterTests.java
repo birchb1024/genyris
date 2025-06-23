@@ -157,5 +157,8 @@ public class ComplexInterpreterTests extends TestCase {
 	public void testprefixeddynamic() throws Exception {
 		exerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".|http://foo/sys#foo|");
 	}
+	public void testParseXMLString() throws Exception {
+		exerciseEval("((XMLParser(.new '(+ 1 2 3)'))(.read))", "(+ 1 2 3)");
+	}
 	
 }

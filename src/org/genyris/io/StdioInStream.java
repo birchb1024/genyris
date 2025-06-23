@@ -6,6 +6,8 @@
 package org.genyris.io;
 
 import java.io.IOException;
+import java.io.Reader;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
@@ -19,7 +21,11 @@ public class StdioInStream implements InStream {
     private boolean _gotByte;
     private int _lineCount;
     private static StdioInStream singleton = null;
-    
+ 
+    public Reader getReader() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException(); 
+    }
+
     public static synchronized StdioInStream knew() { // the 'k' is silent.
     	if( singleton == null ) {
     		singleton = new StdioInStream();

@@ -2,6 +2,7 @@ package org.genyris.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Reader;
 
 import jline.console.ConsoleReader;
 import jline.console.completer.ArgumentCompleter;
@@ -27,6 +28,10 @@ public class JlineStdioInStream implements InStream {
     private static JlineStdioInStream singleton = null;
     private static Interpreter _interp;
     private int _lineCount;
+
+    public Reader getReader() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException(); 
+    }
 
     public static synchronized JlineStdioInStream knew() { // the 'k' is silent.
         if (singleton == null) {

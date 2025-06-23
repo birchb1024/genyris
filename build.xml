@@ -22,7 +22,7 @@
 	<target name="clean" depends="only-clean" />
 
 	<target name="compile" depends="only-clean, only-init, only-compile" description="Compile the Java" />
-	<target name="binary" depends="version-default,compile, only-make-jar, only-compile-docs, only-binary" description="create jar, zips, documentation, installers" />
+	<target name="binary" depends="version-default,compile, only-make-jar, distributable" description="create jar, zips, installers" />
 	<target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
 	<target name="build-workspace" depends="only-clean, only-init, version-default, binary, package, test, reports" description="Build and test current workspace contents." />
 	<target name="release" depends="tagged-version, binary, package, test, reports" description="Build a formal tagged release using only the latest tag." />
@@ -170,7 +170,7 @@
 		</javac>
 	</target>
 
-	<target name="only-compile-docs" description="Create PDF manual" depends="git-info">
+	<target name="compile-docs" description="Create PDF and HTML manual" depends="git-info, version-default">
 		<copy file="doc/reference/manual.lyx" tofile="dist/genyris-manual-${version}.lyx" verbose="true" overwrite="true">
 			<filterchain>
 				<replacetokens>
@@ -211,7 +211,7 @@
 		<checksum file="rel/genyris-manual-${version}.html" forceOverwrite="yes" />
 	</target>
 
-	<target name="only-binary" depends="make-jar, only-compile-docs" description="Make a binary release">
+	<target name="distributable" depends="make-jar" description="Make a binary release">
 		<tstamp />
 		<copy todir="dist" verbose="false">
 			<fileset dir="${basedir}">

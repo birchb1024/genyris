@@ -39,10 +39,16 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
 
     public HTTPclientFunction(Interpreter interp, String name, boolean eager) {
         super(interp, name, eager);
-    }
+    } 
+    
+    protected static CloseableHttpClient getCloseableHttpClient(Exp options) throws GenyrisException {
+        CloseableHttpClient httpclient;
 
-    protected static CloseableHttpClient getCloseableHttpClient(Exp options) {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        try {
+            httpclient = HttpClients.createDefault();
+        } catch (Exception e) {
+            throw new GenyrisException(e.toString());
+        }
 
         if (options.toString().equals("insecure")) {
             // https://stackoverflow.com/questions/19517538/ignoring-ssl-certificate-in-apache-httpclient-4-3
@@ -62,6 +68,8 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
                 e.printStackTrace();
             } catch (KeyStoreException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                throw new GenyrisException(e.toString());
             }
         }
         return httpclient;

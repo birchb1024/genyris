@@ -250,6 +250,7 @@ public class Interpreter {
                 env, builtin);
         StandardClass.mkClass(Constants.INDENTEDPARSER, env, abstractParser);
         StandardClass.mkClass(Constants.PARENPARSER, env, abstractParser);
+        StandardClass.mkClass(Constants.XMLPARSER, env, abstractParser);
         StandardClass.mkClass(Constants.STRINGFORMATSTREAM, env, builtin);
         StandardClass.mkClass(Constants.TRIPLE, env, builtin);
         StandardClass.mkClass(Constants.GRAPH, env, builtin);

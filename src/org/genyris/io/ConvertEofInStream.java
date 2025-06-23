@@ -5,6 +5,8 @@
 //
 package org.genyris.io;
 
+import java.io.Reader;
+
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
@@ -21,6 +23,12 @@ public class ConvertEofInStream implements InStream {
         _nextByte = (char)-1;
         _haveSavedByte = false;
     }
+    
+    public Reader getReader() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException(); 
+    }
+
+
     public void unGet(char x) throws LexException {
         throw new LexException("unGet() not implemented in ConvertEofInStream!");
     }
