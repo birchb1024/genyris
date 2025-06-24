@@ -1,4 +1,4 @@
-package org.genyris.io;
+package org.genyris.io.parser;
 
 import java.io.IOException;
 import org.xml.sax.InputSource;
@@ -14,6 +14,8 @@ import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.PairSource;
 import org.genyris.exception.GenyrisException;
+import org.genyris.io.Parser;
+import org.genyris.io.InStream;
 
 public class ParserXML extends Parser {
     private SAXParser saxParser;

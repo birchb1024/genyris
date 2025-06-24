@@ -12,7 +12,7 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
 import org.genyris.io.Parser;
-import org.genyris.io.ParserXML;
+import org.genyris.io.parser.ParserXML;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
