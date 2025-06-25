@@ -75,7 +75,11 @@ public class HTMLFormatter extends AbstractFormatter {
 					body = cons.cdr();
 				}
 			}
-			if (tag.getPrintName().equals("verbatim")) {
+			if  (tag.getPrintName().equals("nil") && cons.cdr().isNil()) {
+				// skip
+				return;
+			}
+			else if (tag.getPrintName().equals("verbatim")) {
 				while (!body.isNil()) {
 					DisplayFormatter formatter = new DisplayFormatter(_output);
 					body.car().acceptVisitor(formatter);
@@ -132,7 +136,13 @@ public class HTMLFormatter extends AbstractFormatter {
 					write(attributes.toString());
 					return;
 				}
-				write(attributes.car().car().toString());
+				Exp attrName = attributes.car().car();
+				if(! (attrName instanceof Symbol)) {
+					write("*** error bad HTML attribute: ");
+					write(attributes.toString());
+					return;
+				}
+				write(((Symbol)attrName).getPrintName());
 				write("=\"");
 				write(attributes.car().cdr().toString());
 				write("\"");

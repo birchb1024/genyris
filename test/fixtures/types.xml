@@ -1,0 +1,45 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rmWorkflow="http://www.ibm.com/xmlns/rdm/workflow/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:jfs="http://jazz.net/xmlns/foundation/1.0/"
+    xmlns:h="http://www.w3.org/TR/REC-html40"
+    xmlns:xs="http://schema.w3.org/xs/"
+    xmlns:rm="http://www.ibm.com/xmlns/rdm/rdf/"
+    xmlns:rmTypes="http://www.ibm.com/xmlns/rdm/types/">
+  <rm:ObjectType rdf:about="https://clm.rational.com/rm/types/OT_1sJsG52QEeyGJN6OvU5cQQ">
+    <rm:hasSystemAttribute rdf:resource="http://purl.org/dc/terms/creator"/>
+    <dc:creator>https://clm.rational.com/jts/users/elmadmin</dc:creator>
+    <rm:inCreationMenu>true</rm:inCreationMenu>
+    <dcterms:created>2022-03-06T21:03:15.806Z</dcterms:created>
+    <rm:iconReference rdf:resource="http://www.ibm.com/rdm/images/vision"/>
+    <rm:defaultFormat rdf:resource="http://www.ibm.com/xmlns/rdm/types/ArtifactFormats#Module"/>
+    <dcterms:modified>2022-03-06T21:03:15.806Z</dcterms:modified>
+    <rm:hasSystemAttribute rdf:resource="http://purl.org/dc/terms/identifier"/>
+    <rm:actionId>60616824-_w3GBUJ2QEeyGJN6OvU5cQQ</rm:actionId>
+    <rm:preferredModuleContent rdf:parseType="Resource">
+      <rm:preferredArtifactTypes>
+        <rdf:Seq>
+          <rdf:li rdf:resource="https://clm.rational.com/rm/types/OT_1sJsFp2QEeyGJN6OvU5cQQ"/>
+          <rdf:li rdf:resource="https://clm.rational.com/rm/types/OT_1sJsIJ2QEeyGJN6OvU5cQQ"/>
+          <rdf:li rdf:resource="https://clm.rational.com/rm/types/OT_1sJsJ52QEeyGJN6OvU5cQQ"/>
+        </rdf:Seq>
+      </rm:preferredArtifactTypes>
+    </rm:preferredModuleContent>
+    <rm:hasAttribute rdf:resource="http://www.ibm.com/xmlns/rdm/types/PrimaryText"/>
+    <rm:hasAttribute rdf:resource="https://clm.rational.com/rm/types/AD_1qzn-J2QEeyGJN6OvU5cQQ"/>
+    <rm:hasAttribute rdf:resource="https://clm.rational.com/rm/types/AD_1qzoAZ2QEeyGJN6OvU5cQQ"/>
+    <rm:hasSystemAttribute rdf:resource="http://purl.org/dc/terms/created"/>
+    <rm:hasAttribute rdf:resource="http://purl.org/dc/terms/description"/>
+    <rm:hasAttribute rdf:resource="https://clm.rational.com/rm/types/AD_1qzn9Z2QEeyGJN6OvU5cQQ"/>
+    <rm:hasAttribute rdf:resource="http://www.ibm.com/xmlns/rdm/types/ArtifactFormat"/>
+    <dcterms:title>Lifecycle Scenario</dcterms:title>
+    <rm:attributeOrdering>https://clm.rational.com/rm/types/AD_1qzoAZ2QEeyGJN6OvU5cQQ,https://clm.rational.com/rm/types/AD_1qzn9Z2QEeyGJN6OvU5cQQ,https://clm.rational.com/rm/types/AD_1qzn-J2QEeyGJN6OvU5cQQ</rm:attributeOrdering>
+    <rm:hasSystemAttribute rdf:resource="http://purl.org/dc/terms/modified"/>
+    <rm:hasSystemAttribute rdf:resource="http://purl.org/dc/terms/contributor"/>
+    <dc:contributor>https://clm.rational.com/jts/users/elmadmin</dc:contributor>
+    <rm:hasAttribute rdf:resource="http://purl.org/dc/terms/title"/>
+    <dcterms:description>An end-to-end storyboard describing a customer solution. A Lifecycle Scenario is an end-to-end workflow or usage model that a customer might follow to successfully accomplish a particular goal or handle a specific situation or event. In Rational, this was once called a “Green thread”  A scenario is comprised of multiple "acts" which propel the motion. Acts are comprised of scenes (a user story)  A scene is comprised of steps a user takes to complete their task.  A scenario = end to end flow of a team of people through the lifecycle of a project</dcterms:description>
+  </rm:ObjectType>
+</rdf:RDF>

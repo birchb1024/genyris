@@ -21,11 +21,13 @@ public class ParserXML extends Parser {
     private SAXParser saxParser;
     private InStream inputStream;
     private Internable _symtab;
-    
-    public ParserXML(Internable table, InStream stream) throws GenyrisException {
+    private boolean _optionQname;
+
+    public ParserXML(Internable table, InStream stream, boolean optionQname) throws GenyrisException {
         super(table, stream, Constants.DYNAMICSCOPECHAR2, Constants.CDRCHAR,
                 Constants.COMMENTCHAR);
         inputStream = stream;
+        _optionQname = optionQname;
         _symtab = table;
         try {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
@@ -40,7 +42,7 @@ public class ParserXML extends Parser {
 
     @Override
     public Exp read(Environment env) throws GenyrisException {
-        SAXHandler handler = new SAXHandler(_symtab.NIL());
+        SAXHandler handler = new SAXHandler(env, _optionQname);
         try {
             saxParser.parse(new InputSource(inputStream.getReader()), handler);
         }

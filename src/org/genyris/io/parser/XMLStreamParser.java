@@ -11,32 +11,23 @@ import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.interp.UnboundException;
-import org.genyris.io.Parser;
-import org.genyris.io.parser.ParserXML;
 import org.genyris.io.StringInStream;
 import org.genyris.io.UngettableInStream;
 import org.genyris.io.readerstream.ReaderStream;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-
-
-
 public class XMLStreamParser extends StreamParser {
-    public XMLStreamParser(Interpreter interp, ReaderStream reader) throws GenyrisException {
+    private final boolean _optionQname;
+
+    public XMLStreamParser(Interpreter interp, ReaderStream reader, boolean optionQname) throws GenyrisException {
+        _optionQname = optionQname;
         _input = new UngettableInStream(reader.getInStream());
-        _parser = new ParserXML(interp.getSymbolTable(), _input); 
+        _parser = new ParserXML(interp.getSymbolTable(), _input, _optionQname);
     }
 
-    public XMLStreamParser(Interpreter interp, StrinG script) throws GenyrisException {
-		_input = new UngettableInStream( new StringInStream(script.toString()));
-        _parser =  new ParserXML(interp.getSymbolTable(), _input); 
+    public XMLStreamParser(Interpreter interp, StrinG script, boolean optionQname) throws GenyrisException {
+        _optionQname = optionQname;
+        _input = new UngettableInStream( new StringInStream(script.toString()));
+        _parser =  new ParserXML(interp.getSymbolTable(), _input, _optionQname);
 	}
 
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
@@ -58,10 +49,16 @@ public class XMLStreamParser extends StreamParser {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
+            boolean optionQname = true;
+            if (arguments.length == 2) {
+                if ( arguments[0].isNil() ) {
+                    optionQname = false;
+                }
+            }
             if (arguments[0] instanceof ReaderStream) {
-            	return new XMLStreamParser(_interp, (ReaderStream) arguments[0]);
+            	return new XMLStreamParser(_interp, (ReaderStream) arguments[0], optionQname);
             } else if (arguments[0] instanceof StrinG){
-            	return new XMLStreamParser(_interp, (StrinG)arguments[0]);
+            	return new XMLStreamParser(_interp, (StrinG)arguments[0], optionQname);
             }
             else {
                 throw new GenyrisException("Bad arg to new method of Parser");

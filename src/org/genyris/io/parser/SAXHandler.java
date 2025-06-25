@@ -1,48 +1,85 @@
 package org.genyris.io.parser;
 
-import java.io.Reader;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Environment;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.SAXException;
 
 public class SAXHandler extends DefaultHandler {
 
+    private Environment _env;
     private Exp NIL;
     private Stack<Elem> _stack;
     private Elem _tree;
+    private Map<String, String> _prefixes;
+    private boolean _optionQname;
 
-    public SAXHandler(Exp nil) {
-        System.err.println("SAXHandler constructor");
-        NIL = nil;
+    public SAXHandler(Environment e, boolean optionQname) {
+        //System.err.println("SAXHandler constructor");
+        _env = e;
+        NIL = _env.getNil();
         _stack = new Stack<Elem>();
+        _prefixes = new HashMap<String, String>();
+        _optionQname = optionQname;
     }
-    
+
+    public String prefixize(String value) {
+        // replace known prefixes with the shorter prefix
+        for (Map.Entry<String, String> entry : _prefixes.entrySet()) {
+            if (value.startsWith(entry.getValue())) {
+                value = value.replace(entry.getValue(), entry.getKey() + ":");
+                return value;
+            }
+        }
+        return value;
+    }
+
     public Exp getTree() throws GenyrisException {
-        System.err.println("SAXHandler getTree"/* + tree.toString()*/);
-        return Elem.Elem2Exp(_tree, NIL);
+        //System.err.println("SAXHandler getTree"/* + tree.toString()*/);
+        Dictionary pres = new Dictionary(_env);
+        for (Map.Entry<String, String> entry : _prefixes.entrySet()) {
+            pres.addProperty(_env, entry.getKey(), new StrinG(entry.getValue()));
+        }
+
+        return Pair.cons(pres, Pair.cons(Elem.Elem2Exp(_tree, _env, _optionQname), NIL));
+    }
+
+    public void startPrefixMapping(String prefix, String uri) throws org.xml.sax.SAXException {
+        _prefixes.put(prefix, uri);
+    }
+
+    public void endPrefixMapping(String prefix, String uri) throws org.xml.sax.SAXException {
+        _prefixes.remove(prefix);
     }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        Elem tag = new Elem(NIL);
-        Exp tagAttributes = NIL;
-        for( int index = 0 ; index < attributes.getLength(); index++ ) {
-            tagAttributes = Pair.cons(
-                Pair.cons(
-                    new StrinG(attributes.getQName(index)), 
-                    new StrinG(attributes.getValue(index))),
-                tagAttributes); 
+        Elem tag = new Elem();
+        tag.uri = uri;
+        tag.localName = localName;
+        tag.qName = qName;
+        Exp attrs = NIL;
+        for ( int i = 0; i<  attributes.getLength(); i++) {
+            String canonical = attributes.getQName(i);
+            if(!_optionQname) {
+                canonical = attributes.getURI(i) + attributes.getLocalName(i);
+            }
+            attrs = Pair.cons(
+                Pair.cons(_env.internString(canonical), new StrinG(prefixize(attributes.getValue(i)))),
+                attrs);
         }
 
-        tag.uri = new StrinG(uri); 
-        tag.localName = new StrinG(localName);  
-        tag.qName = new StrinG(qName); 
+        tag.attributes = attrs;
         _stack.push(tag);
-        System.err.printf("startElement %s", tag);
+        if (_stack.size() == 1) {
+            _tree = _stack.peek();
+        }
+        //System.err.printf("startElement %s", tag);
     }
 
     public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -55,7 +92,7 @@ public class SAXHandler extends DefaultHandler {
             _tree = parent;
         } 
 
-        System.err.println("endElement " + localName + " " + qName + " >" + start.text.toString().strip() + "< ");
+        //System.err.println("endElement " + localName + " " + qName + " >" + start.text.toString().strip() + "< ");
     }
 
     public void characters(char ch[], int start, int length) throws SAXException {
