@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Exp;
 import org.genyris.core.StrinG;
+import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -22,6 +23,10 @@ public class AsStringFunction extends ApplicableFunction {
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment environment) throws GenyrisException {
         checkArguments(arguments, 1);
+        if(arguments[0] instanceof Symbol){
+            Symbol sym =  (Symbol)arguments[0];
+            return new StrinG(sym.getPrintName());
+        }
         return new StrinG(arguments[0].toString());
     }
 

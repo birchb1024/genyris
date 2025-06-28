@@ -6,6 +6,7 @@
 package org.genyris.io;
 
 import java.io.Reader;
+import java.io.StringReader;
 
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
@@ -23,7 +24,7 @@ public class StringInStream implements InStream {
     }
 
     public Reader getReader() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException(); 
+        return new StringReader(_value.toString());
     }
 
     public boolean hasData() {
