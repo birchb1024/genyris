@@ -17,6 +17,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 
+// TODO actually make this class use Maps
 public class GraphHashSimple extends AbstractGraph {
 
 	List triples;
@@ -151,7 +152,10 @@ public class GraphHashSimple extends AbstractGraph {
 	@Override
     public Exp getList(Exp subject, Symbol predicate, Exp NIL) {
 		Exp result = NIL;
-		Iterator iter = iterator();
+		List sorted = new ArrayList(triples);
+		Collections.sort(sorted);
+		Collections.reverse(sorted);
+		Iterator iter = sorted.iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
  			if (   (item.subject   == subject) 
@@ -177,6 +181,7 @@ public class GraphHashSimple extends AbstractGraph {
 		Exp result = NIL;
 		List sorted = new ArrayList(triples);
 		Collections.sort(sorted);
+		Collections.reverse(sorted);
 		Iterator iter = sorted.iterator();
 		while(iter.hasNext()) {
 			Triple item = (Triple)iter.next();
@@ -200,7 +205,10 @@ public class GraphHashSimple extends AbstractGraph {
 	@Override
     public Exp subjects(Exp NIL) {
 		Exp result = NIL;
-		Iterator iter = iterator();
+		List sorted = new ArrayList(triples);
+		Collections.sort(sorted);
+		Collections.reverse(sorted);
+		Iterator iter = sorted.iterator();
 		while (iter.hasNext()) {
 			Triple item = (Triple)iter.next();
 			if(!memberp(item.subject, result, NIL)) {
