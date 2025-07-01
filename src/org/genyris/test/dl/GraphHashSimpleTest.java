@@ -274,17 +274,17 @@ public class GraphHashSimpleTest extends TestCase {
 		eval("(equal? ts (ts(.select ^s ^X ^o)))", "nil");
 		eval("(equal? ts (ts(.select ^s ^p ^X)))", "nil");
 		eval("(ts(.asTriples))",
-				"((triple s p o1) (triple s p o2) (triple x p z))");
+				"((triple x p z) (triple s p o2) (triple s p o1))");
 		eval("((ts(.select ^s nil nil))(.asTriples))",
-				"((triple s p o1) (triple s p o2))");
+				"((triple s p o2) (triple s p o1))");
 		eval("((ts(.select ^s ^p nil))(.asTriples))",
-				"((triple s p o1) (triple s p o2))");
+				"((triple s p o2) (triple s p o1))");
 		eval("((ts(.select ^s ^p ^o1))(.asTriples))", "((triple s p o1))");
 		eval("((ts(.select ^s ^p ^o2))(.asTriples))", "((triple s p o2))");
 		eval("((ts(.select nil ^p ^o2))(.asTriples))", "((triple s p o2))");
 		eval("((ts(.select nil nil ^o2))(.asTriples))", "((triple s p o2))");
 		eval("((ts(.select nil ^p nil))(.asTriples))",
-				"((triple s p o1) (triple s p o2) (triple x p z))");
+				"((triple x p z) (triple s p o2) (triple s p o1))");
 	}
 
 	public void testInterpEquals1() throws Exception {
