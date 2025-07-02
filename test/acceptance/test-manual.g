@@ -197,7 +197,6 @@ def archive(filename)
 @prefix sys "http://www.genyris.org/lang/system#"
 setq sys:path (cons 'examples' sys:path)
 import file
-reload file
 
 Bignum
    def .square() (* .self .self)

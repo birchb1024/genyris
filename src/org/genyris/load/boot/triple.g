@@ -18,7 +18,7 @@ Thing
       the o
    defmethod .addprop(p o)
       *global-graph*
-           .add(triple this p o)
+           .add (triple this p o)
       the o
    defmethod .getprop(p)
       *global-graph*
@@ -27,7 +27,7 @@ Thing
       *global-graph*
           .get-list this p
    defmethod .get-properties()
-      (this(.asGraph))
+      (this(.asGraph .self))
          .union
             *global-graph*
                 .select this nil nil

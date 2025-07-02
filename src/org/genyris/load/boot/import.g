@@ -57,7 +57,7 @@ def sys:mk-module (moduleName path)
      themodule
 
 defmacro reload (moduleName)
-   # macro ensures module binding is create in the scope of caller
+   # macro ensures module binding is created in the scope of caller
    define notNew (sys:module-defined? moduleName)
    cond
     (notNew)

@@ -33,6 +33,4 @@ public class TestUtilities {
         result.acceptVisitor(formatter);
         return out.getBuffer().toString();
     }
-
-
 }

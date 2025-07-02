@@ -34,7 +34,11 @@ public class GraphFunction extends ApplicableFunction {
 
 	private void addTripleFromList(AbstractGraph ts, Exp exp)
 			throws GenyrisException {
-		ts.add(Triple.mkTripleFromList(exp));
+		Symbol subject = toSymbol(exp.car());
+        Symbol predicate = toSymbol(exp.cdr().car());
+        Exp object = exp.cdr().cdr().car();
+
+		ts.add(new Triple(subject, predicate, object));
 	}
 
 	public static void bindFunctionsAndMethods(Interpreter interpreter)
@@ -105,13 +109,12 @@ public class GraphFunction extends ApplicableFunction {
 			super(interp, "get");
 		}
 
-		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
-				throws GenyrisException {
+		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 2);
-			Class[] types = { Exp.class, Symbol.class };
+			Class[] types = { Exp.class, Exp.class };
 			checkArgumentTypes(types, arguments);
-			return self.get(arguments[0], (Symbol) arguments[1]);
+			return self.get(toSymbol(arguments[0]), toSymbol(arguments[1]));
 		}
 	}
 
@@ -125,9 +128,9 @@ public class GraphFunction extends ApplicableFunction {
 				throws GenyrisException {
 			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 2);
-			Class[] types = { Exp.class, Symbol.class };
+			Class[] types = { Exp.class, Exp.class };
 			checkArgumentTypes(types, arguments);
-			return self.getList(arguments[0], (Symbol) arguments[1], NIL);
+			return self.getList(toSymbol(arguments[0]), toSymbol(arguments[1]), NIL);
 		}
 	}
 
@@ -141,9 +144,9 @@ public class GraphFunction extends ApplicableFunction {
 				throws GenyrisException {
 			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 3);
-			Class[] types = { Exp.class, Symbol.class, Exp.class };
+			Class[] types = { Exp.class, Exp.class, Exp.class };
 			checkArgumentTypes(types, arguments);
-			self.put(arguments[0], (Symbol) arguments[1], arguments[2]);
+			self.put(toSymbol(arguments[0]), toSymbol(arguments[1]), arguments[2]);
 			return _self;
 		}
 	}
@@ -202,10 +205,10 @@ public class GraphFunction extends ApplicableFunction {
 			Closure closure = null;
 			AbstractGraph self = getSelfGraph(env);
 			checkMinArguments(arguments, 3);
-			Class[] types = { Exp.class, Symbol.class, Exp.class };
+			Class[] types = { Exp.class, Exp.class, Exp.class };
 			checkArgumentTypes(types, arguments);
-			Exp subject = arguments[0];
-			Symbol predicate = (Symbol) arguments[1];
+			Symbol subject = toSymbol(arguments[0]);
+			Symbol predicate = toSymbol(arguments[1]);
 			Exp object = arguments[2];
 			if (arguments[0] == NIL) {
 				subject = null;
@@ -216,9 +219,10 @@ public class GraphFunction extends ApplicableFunction {
 			if (arguments[2] == NIL) {
 				object = null;
 			}
-			if (arguments.length == 4 && arguments[3] != NIL) {
+/* #TODO			if (arguments.length == 4 && arguments[3] != NIL) {
 				closure = (Closure) arguments[3];
 			}
+*/
 			return self.select(subject, predicate, object, closure, env);
 		}
 	}

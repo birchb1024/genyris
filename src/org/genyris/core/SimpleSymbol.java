@@ -15,6 +15,9 @@ public class SimpleSymbol extends Symbol implements Comparable {
 
     protected String _printName;
 
+    public SimpleSymbol(int newSym) {
+        _printName = String.valueOf(newSym);
+    }
     public SimpleSymbol(String newSym) {
         _printName = newSym;
     }

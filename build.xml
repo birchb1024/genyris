@@ -45,6 +45,10 @@
 		<include name="httpcore-4.4.3.jar" />
 		<include name="httpclient-4.5.1.jar" />
 		<include name="org.json.jar" />
+		<include name="failureaccess-1.0.3.jar" />
+		<include name="guava-33.4.8-jre.jar" />
+
+
 	</fileset>
 
 	<!-- Properties files from the classpath -->

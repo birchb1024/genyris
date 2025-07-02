@@ -5,15 +5,10 @@
 //
 package org.genyris.interp.builtin;
 
-import org.genyris.core.Constants;
-import org.genyris.core.Dictionary;
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.dl.AbstractGraph;
+import org.genyris.dl.GraphHashSimple;
 import org.genyris.dl.Triple;
-import org.genyris.dl.GraphList;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.ApplicableFunction;
@@ -70,15 +65,17 @@ public class ObjectFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			Dictionary self = getSelfAsDictionary(env);
-			checkArguments(arguments, 0);
+			checkArguments(arguments, 1);
 			Exp alist = self.asAlist().cdr();
 			// TODO move this code int Dictionary as a method
 			// TODO also collect ExpWithEmbeddedClasses classes triples.
 
 			Exp results = NIL;
 			while (alist != NIL) {
-				results = new Pair(new Triple(self,
-						((DynamicSymbol) (alist.car().car())).getRealSymbol(), alist.car().cdr()),
+				results = new Pair(
+						new Triple(toSymbol(arguments[0]),
+								toSymbol(((DynamicSymbol) (alist.car().car())).getRealSymbol()),
+								alist.car().cdr()),
 						results);
 				alist = alist.cdr();
 			}
@@ -95,13 +92,15 @@ public class ObjectFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			Dictionary self = getSelfAsDictionary(env);
-			checkArguments(arguments, 0);
-			// TODO move this code int Dictionary
-			// TODO also collect ExpWithEmbeddedClasses classes triples.
+			checkArguments(arguments, 1);
+			// #TODO move this code int Dictionary?
+			// #TODO also collect ExpWithEmbeddedClasses classes triples?
 			Exp alist = self.asAlist().cdr();
-			AbstractGraph results = new GraphList();
+			AbstractGraph results = new GraphHashSimple();
 			while (alist != NIL) {
-				results.add(new Triple(self, ((DynamicSymbol) (alist.car().car())).getRealSymbol(),
+				results.add(new Triple(
+						toSymbol(arguments[0]),
+						toSymbol(((DynamicSymbol) (alist.car().car())).getRealSymbol()),
 						alist.car().cdr()));
 				alist = alist.cdr();
 			}

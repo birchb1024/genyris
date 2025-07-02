@@ -8,6 +8,7 @@ package org.genyris.dl;
 import org.genyris.core.Exp;
 import org.genyris.core.ExpWithEmbeddedClasses;
 import org.genyris.core.Pair;
+import org.genyris.core.SimpleSymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -25,15 +26,13 @@ public class ThingMethods {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-            checkArguments(arguments, 0);
-            AbstractGraph ts = new GraphList();
-            ExpWithEmbeddedClasses self = (ExpWithEmbeddedClasses) env
-                    .getSelf();
+            checkArguments(arguments, 1);
+            AbstractGraph ts = new GraphHashSimple();
+            ExpWithEmbeddedClasses self = (ExpWithEmbeddedClasses) env.getSelf();
             Exp classes = self.getClasses(env);
             // TODO move this code int ExpWithEmbeddedClasses as a method
             while (classes != NIL) {
-                ts.add(new Triple(self, env.getSymbolTable().TYPE(), classes
-                        .car()));
+                ts.add(new Triple(toSymbol(arguments[0]), env.getSymbolTable().TYPE(), classes.car()));
                 classes = classes.cdr();
             }
             return ts;
@@ -51,11 +50,11 @@ public class ThingMethods {
             Exp results = NIL;
             ExpWithEmbeddedClasses self = (ExpWithEmbeddedClasses) env
                     .getSelf();
-            checkArguments(arguments, 0);
+            checkArguments(arguments, 1);
             Exp classes = self.getClasses(env);
             // TODO move this code int ExpWithEmbeddedClasses as a method
             while (classes != NIL) {
-                results = new Pair(new Triple(self, env.getSymbolTable()
+                results = new Pair(new Triple(toSymbol(arguments[0]), env.getSymbolTable()
                         .TYPE(), classes.car()), results);
                 classes = classes.cdr();
             }

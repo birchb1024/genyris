@@ -25,18 +25,18 @@ public abstract class AbstractGraph extends Atom {
 
     public abstract boolean empty();
 
-    public abstract Exp getList(Exp subject, Symbol predicate, Exp NIL);
+    public abstract Exp getList(Symbol subject, Symbol predicate, Exp NIL);
 
-    public abstract Exp get(Exp subject, Exp predicate) throws GenyrisException;
+    public abstract Exp get(Symbol subject, Symbol predicate) throws GenyrisException;
 
-    public abstract AbstractGraph select(Exp subject, Exp predicate, Exp object, Closure condition,
+    public abstract AbstractGraph select(Symbol subject, Symbol predicate, Exp object, Closure condition,
             Environment env) throws GenyrisException;
 
     public abstract void add(Triple t);
 
-    public abstract void remove(Exp subject, Exp predicate, Exp object);
+    public abstract void remove(Symbol subject, Symbol predicate, Exp object);
 
-    public abstract boolean contains(Exp subject, Exp predicate, Exp object);
+    public abstract Triple contains(Symbol subject, Symbol predicate, Exp object);
 
     public abstract int length();
 
@@ -57,7 +57,7 @@ public abstract class AbstractGraph extends Atom {
     		Iterator iter = iterator();
     		while (iter.hasNext()) {
     			Triple item = (Triple)iter.next();
-    			if(otherTS.contains(item.subject, item.predicate, item.object)) {
+    			if(otherTS.contains(item.subject, item.predicate, item.object) != null) {
     				matches++;
     			}
     		}
@@ -72,18 +72,20 @@ public abstract class AbstractGraph extends Atom {
     	guest.visitGraph(this);
     }
 
-    public GraphList difference(GraphList toRemove) throws GenyrisException {
-    	GraphList result =  new GraphList();
+   public AbstractGraph difference(AbstractGraph toRemove) throws GenyrisException { return this ; }
+/*
+   #TODO this code is bogus:
+    	AbstractGraph result =  new GraphHashSimple();
     	Iterator iter = iterator();
     	while(iter.hasNext()) {
     		Triple item = (Triple)iter.next();
     		remove(item.subject, item.predicate, item.object);
     	}
     	return result;
-    }
+    }*/
 
-    public GraphList union(AbstractGraph other) throws GenyrisException {
-        GraphList result =  new GraphList();
+    public AbstractGraph union(AbstractGraph other) throws GenyrisException {
+        AbstractGraph result =  new GraphHashSimple();
         Iterator iter = iterator();
         while(iter.hasNext()) {
             Triple item = (Triple)iter.next();
@@ -101,7 +103,7 @@ public abstract class AbstractGraph extends Atom {
     	return this;
     }
 
-    public void put(Exp subject, Symbol predicate, Exp object) {
+    public void put(Symbol subject, Symbol predicate, Exp object) {
     	Iterator iter = iterator();
     	while(iter.hasNext()) {
     		Triple rec = (Triple) iter.next();

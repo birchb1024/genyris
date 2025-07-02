@@ -22,6 +22,6 @@ public class InternFunction extends ApplicableFunction {
 		checkArguments(arguments, 1);
 
         // TODO - probably a bit too general ? Takes anything!
-        return _interp.intern(Symbol.symbolFactory(arguments[0].toString(),true));
+        return _interp.intern(Symbol.symbolFactory(arguments[0].toString(),false));
     }
 }

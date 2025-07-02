@@ -2,12 +2,7 @@ package org.genyris.test.dl;
 
 import junit.framework.TestCase;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StrinG;
-import org.genyris.core.SymbolTable;
+import org.genyris.core.*;
 import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.test.interp.TestUtilities;
@@ -33,19 +28,19 @@ public class TripleTest extends TestCase {
     }
 
     public void testToString() {
-        assertEquals(new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99)).toString(),
+        assertEquals(new Triple(new SimpleSymbol(34), new SimpleSymbol("s"), new Bignum(99)).toString(),
                 "(triple 34 s 99)");
     }
 
     public void testTriple() {
-        assertTrue(new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99))
-            != new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99)));
-        assertNotSame(new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99))
-            , new Triple(new Bignum(34), new SimpleSymbol("s"), new Bignum(99)));
+        assertTrue(new Triple(new SimpleSymbol(34), new SimpleSymbol("s"), new Bignum(99))
+            != new Triple(new SimpleSymbol(34), new SimpleSymbol("s"), new Bignum(99)));
+        assertNotSame(new Triple(new SimpleSymbol(34), new SimpleSymbol("s"), new Bignum(99))
+            , new Triple(new SimpleSymbol(34), new SimpleSymbol("s"), new Bignum(99)));
     }
     public void testTripleEquals() {
 
-        Exp subject = new Bignum(34);
+        SimpleSymbol subject = new SimpleSymbol (34);
         SimpleSymbol predicate = new SimpleSymbol("p");
         assertTrue(new Triple(subject, predicate, new Bignum(99)).equals(
             new Triple(subject, predicate, new Bignum(99))));
@@ -53,28 +48,27 @@ public class TripleTest extends TestCase {
                 new Triple(subject, predicate, new StrinG("foo"))));
         assertTrue(new Triple(subject, predicate, new Pair(new StrinG("foo"),new Bignum(99))).equals(
                 new Triple(subject, predicate, new Pair(new StrinG("foo"),new Bignum(99)))));
-        assertFalse(new Triple(new Pair(subject, subject), predicate, new Pair(new StrinG("foo"),new Bignum(99))).equals(
-                new Triple(new Pair(subject, subject), predicate, new Pair(new StrinG("foo"),new Bignum(99)))));
     }
 
     public void testGetBuiltinClassSymbol() {
         SymbolTable table =  new SymbolTable();
         table.init(new SimpleSymbol("nil"));
-        assertEquals("Triple", new Triple(new Bignum(34), new SimpleSymbol("s")
+        assertEquals("Triple", new Triple(new SimpleSymbol(34), new SimpleSymbol("s")
             , new Bignum(99)).getBuiltinClassSymbol(table).toString());
     }
 
     public void testTripleFunction() throws Exception {
         excerciseEval("(triple 1 ^s 34)", "(triple 1 s 34)");
-        excerciseBadEval("(triple 1 \"s\" 34)");
         excerciseEval("(triple 1 ^|http://foo/| 23)", "(triple 1 |http://foo/| 23)");
-        excerciseEval("((triple 1 ^|http://foo/| 23).classes)", "(<class Triple (Builtin)>)");
-        excerciseEval("(equal? (triple 1 ^S 23) (triple 1 ^S 23))", "nil");
+        excerciseEval("((triple ^1 ^|http://foo/| 23).classes)", "(<class Triple (Builtin)>)");
+        excerciseEval("(equal? (triple 1 ^S 23) (triple 1 ^S 23))", "true");
         excerciseEval("(equal? (triple ^s ^S 23) (triple ^s ^S 23))", "true");
         excerciseEval("(equal? (triple ^S ^P ^O) (triple ^S ^P ^O))", "true");
-        excerciseEval("(equal? (triple (cons 1 2) ^P ^O) (triple (cons 1 2) ^P ^O))", "nil");
 
+        excerciseBadEval("(triple ^(1) \"s\" 34)");
+        excerciseBadEval("(equal? (triple (cons 1 2) ^P ^O) (triple (cons 1 2) ^P ^O))");
     }
+
     public void testTripleAccessorsFunction() throws Exception {
         excerciseEval("((triple 1 ^s 34).subject)", "1");
         excerciseEval("((triple 1 ^s 34).predicate)", "s");

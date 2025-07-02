@@ -5,10 +5,7 @@
 //
 package org.genyris.interp;
 
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.PairSource;
-import org.genyris.core.SimpleSymbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 
 public abstract class ApplicableFunction {
@@ -20,6 +17,14 @@ public abstract class ApplicableFunction {
     private boolean _eager;
     protected SimpleSymbol REST;
 
+    public Symbol toSymbol(Exp x) throws GenyrisException {
+        if( x instanceof Bignum ||  x instanceof StrinG ||  x instanceof Symbol ) {
+            return _interp.intern(x.toString());
+        }
+        else {
+            throw new GenyrisException( "Cannot make a triple with " + x.toString() + " " + x.getClass().getName());
+        }
+    }
 
     public ApplicableFunction(Interpreter interp, String name, boolean eager) {
         _name = name;

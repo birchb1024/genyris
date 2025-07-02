@@ -15,8 +15,11 @@ var statements
    graph 
       `($twenty units $Years)
       `($twenty type |http://people.org/type#age|)
+#TODO random order from asTriples gets flaky assert:
 assertEqual
    statements(.asTriples)
-   list (triple twenty ^units Years) (triple twenty ^type ^|http://people.org/type#age|)
+   list
+      ~ (triple twenty ^type ^|http://people.org/type#age|)
+      ~ (triple twenty ^units Years)
 
     

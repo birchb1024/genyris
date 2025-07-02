@@ -1,33 +1,19 @@
 package org.genyris.dl;
 
-import org.genyris.core.Atom;
-import org.genyris.core.Exp;
-import org.genyris.core.Internable;
-import org.genyris.core.Pair;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.Symbol;
-import org.genyris.core.Visitor;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
 public class Triple extends Atom implements Comparable {
 
-    public final Exp subject;
+    public final Symbol subject;
     public final Symbol predicate;
     public final Exp object;
 
-    public Triple(Exp subject, Symbol arguments, Exp object) {
+    public Triple(Symbol subject, Symbol predicate, Exp object) {
         this.subject = subject;
-        this.predicate = arguments;
+        this.predicate = predicate;
         this.object = object;
-    }
-
-    public static Triple mkTripleFromList(Exp exp) throws GenyrisException {
-        Exp subject = exp.car();
-        Exp predicate = exp.cdr().car();
-        Exp object = exp.cdr().cdr().car();
-        assertIsSymbol(predicate, "mkTripleFromList was expecting a Symbol predicate, got: ");
-        return new Triple(subject, (SimpleSymbol) predicate, object);
     }
 
     public void acceptVisitor(Visitor guest) throws GenyrisException {
@@ -55,8 +41,7 @@ public class Triple extends Atom implements Comparable {
     public boolean equals(Object compare) {
         if (compare instanceof Triple) {
             Triple t = (Triple) compare;
-            return subject == t.subject // subject.equals(t.subject)
-                && predicate == t.predicate
+            return subject == t.subject && predicate == t.predicate
                 && object.equals(t.object);
         }
         else {

@@ -9,13 +9,8 @@ def test-equality()
    assert
       not
           equal?
-              triple ^(1=2) ^O ^(w = 45)
-              triple ^(1=2) ^O ^(w = 45)
-   var someDict (dict (.a = 3))
-   assert
-      equal?
-          triple someDict ^O 89
-          triple someDict ^O 89
+              triple ^a ^O ^(w = 45)
+              triple ^a ^O ^(w = 42)
    var eighty 80
    assert
       equal?
@@ -130,9 +125,11 @@ def test-put()
          ~ ^(joe age 13)
          ~ ^(joe height 22)
          ~ ^("John" age 223)
+   print (ts(.asTriples))
    var result
       ts
         .put ^joe ^age 98
+   print (ts(.asTriples))
    assert (equal? (ts(.length)) 3)
 
 def test-union()

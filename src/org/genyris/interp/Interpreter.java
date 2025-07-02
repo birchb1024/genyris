@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 import org.genyris.core.*;
 import org.genyris.core.Dictionary;
 import org.genyris.dl.AbstractGraph;
-import org.genyris.dl.GraphList;
+import org.genyris.dl.GraphHashSimple;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.io.ConvertEofInStream;
@@ -66,7 +66,7 @@ public class Interpreter {
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
-        _theGlobalGraph = new GraphList();
+        _theGlobalGraph = new GraphHashSimple();
         Dictionary SYMBOL = new Dictionary(_globalEnvironment);
         _defaultOutput = new OutputStreamWriter(out);
         {
