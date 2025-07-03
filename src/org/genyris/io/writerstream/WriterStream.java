@@ -13,7 +13,7 @@ import org.genyris.interp.*;
 import java.io.IOException;
 import java.io.Writer;
 
-public class WriterStream extends Atom {
+public class WriterStream extends Atom implements Comparable{
     private final Writer _value;
 
     public WriterStream(Writer w) {
@@ -261,5 +261,11 @@ public class WriterStream extends Atom {
     public Writer getWriter() {
         return _value;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 
 }

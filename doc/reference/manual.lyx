@@ -19188,6 +19188,29 @@ ps
  objects for each of the current tasks.
 \end_layout
 
+\begin_layout Subsubsection
+
+\emph on
+id
+\emph default
+ - obtain the current threads's one id
+\end_layout
+
+\begin_layout Standard
+This function id
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+id
+\end_layout
+
+\end_inset
+
+ returns the id of this Thread.
+ 
+\end_layout
+
 \begin_layout Section
 Running Web Servers
 \end_layout

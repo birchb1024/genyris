@@ -149,4 +149,9 @@ public class Pipe extends Atom {
 	public String toString() {
 		return "[Pipe: " + name + "]";
 	}
+	    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 }

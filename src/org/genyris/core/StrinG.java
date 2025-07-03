@@ -218,4 +218,8 @@ public class StrinG extends Atom {
         }
     }
 
+    @Override
+    public int compareTo(Object o) {
+        return this._value.compareTo(((StrinG) o)._value);
+    }
 }

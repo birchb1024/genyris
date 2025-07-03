@@ -120,4 +120,11 @@ public class JavaWrapper extends Atom {
 			return false;
 		}
 	}
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 }
+
+

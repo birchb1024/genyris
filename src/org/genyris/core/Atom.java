@@ -5,7 +5,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.ExpressionEnvironment;
 
-public abstract class Atom extends ExpWithEmbeddedClasses {
+public abstract class Atom extends ExpWithEmbeddedClasses implements Comparable {
 
 	public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 	public abstract Exp eval(Environment env) throws GenyrisException;
@@ -47,5 +47,9 @@ public abstract class Atom extends ExpWithEmbeddedClasses {
 
 	public Environment  makeEnvironment(Environment parent) throws GenyrisException {
 		return new ExpressionEnvironment(parent, this);
+	}
+
+	public int compareTo(Object other) {
+		return this == other ? 0 : 1;
 	}
 }

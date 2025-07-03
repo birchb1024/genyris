@@ -9,6 +9,7 @@ import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.Environment;
+import org.genyris.interp.LazyProcedure;
 import org.genyris.interp.UnboundException;
 
 import java.util.*;
@@ -309,4 +310,10 @@ public class Dictionary extends Atom implements Environment {
     public boolean isBound(Symbol s) {
         return hasKey(s);
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 }

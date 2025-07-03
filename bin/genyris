@@ -2,4 +2,4 @@
 #
 export GENYRIS_HOME="`dirname $0`/.."
 #java -Djavax.net.debug=SSL -Xmx1G -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\*:${GENYRIS_HOME}/needed/\*  org.genyris.interp.ClassicReadEvalPrintLoop $*
-java -Xmx1G -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\*:${GENYRIS_HOME}/needed/\*  org.genyris.interp.ClassicReadEvalPrintLoop $*
+java -XX:ActiveProcessorCount=2 -Xmx5G -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\*:${GENYRIS_HOME}/needed/\*  org.genyris.interp.ClassicReadEvalPrintLoop $*

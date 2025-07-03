@@ -42,4 +42,8 @@ public class TailCall extends Atom {
         return table.TAILCALL();
     }
 
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
 }

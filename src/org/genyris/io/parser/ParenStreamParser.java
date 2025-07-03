@@ -60,4 +60,9 @@ public class ParenStreamParser extends StreamParser {
         interpreter.bindMethodInstance(Constants.PARENPARSER, new ParenStreamParser.NewMethod(interpreter));
     }
 
+        @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 }

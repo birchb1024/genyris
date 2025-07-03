@@ -285,4 +285,9 @@ public class ReaderStream extends Atom {
         }
         return sb.toString();
     }
+        @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 }

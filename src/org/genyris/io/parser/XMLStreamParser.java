@@ -69,4 +69,9 @@ public class XMLStreamParser extends StreamParser {
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
         interpreter.bindMethodInstance(Constants.XMLPARSER, new XMLStreamParser.NewMethod(interpreter));
     }
+            @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 }

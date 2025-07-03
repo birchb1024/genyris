@@ -12,7 +12,7 @@ public class DynamicSymbol extends Symbol {
 		_realSymbol = sym;
 	}
     public int compareTo(Object arg0) {
-        return ((DynamicSymbol) arg0)._realSymbol.compareTo(_realSymbol);
+		return ((DynamicSymbol) arg0)._realSymbol.compareTo(_realSymbol);
     }
 
     public boolean equals(Object arg0) {
@@ -36,6 +36,7 @@ public class DynamicSymbol extends Symbol {
     public String toString() {
         return "."+ _realSymbol.toString();
     }
+
 	public String getPrintName() {
 		return "."+ _realSymbol.getPrintName();
 	}

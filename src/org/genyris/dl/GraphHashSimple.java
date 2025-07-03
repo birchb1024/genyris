@@ -254,5 +254,10 @@ public class GraphHashSimple extends AbstractGraph {
         }
         return result;
     }
+	    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
+
 }
 

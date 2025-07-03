@@ -15,7 +15,7 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.PairEnvironment;
 import org.genyris.interp.UnboundException;
 
-public class Pair extends ExpWithEmbeddedClasses {
+public class Pair extends ExpWithEmbeddedClasses implements Comparable {
 
     private Exp _car;
     private Exp _cdr;
@@ -230,4 +230,8 @@ public class Pair extends ExpWithEmbeddedClasses {
                 new DynamicSymbol(table.RIGHT()), super.dir(table));
     }
 
+    @Override
+    public int compareTo(Object o) { // #TODO one day make lists comparable as well
+        return this == o ? 0 : 1;
+    }
 }

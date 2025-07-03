@@ -80,5 +80,9 @@ public class IndentedStreamParser extends StreamParser {
         interpreter.bindMethodInstance(Constants.INDENTEDPARSER,
                 new IndentedStreamParser.NewMethod(interpreter));
     }
+        @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
 
 }

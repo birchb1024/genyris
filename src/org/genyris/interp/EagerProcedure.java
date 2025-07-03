@@ -45,5 +45,9 @@ public class EagerProcedure extends AbstractClosure  {
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
 	}
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
 
 }

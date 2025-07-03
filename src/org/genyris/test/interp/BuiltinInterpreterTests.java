@@ -41,6 +41,20 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseBadEval("(nth 22 ^(a b c))");
         excerciseBadEval("(nth -1 ^(a b c))");
     }
+    public void testSort() throws Exception {
+        excerciseEval("(sort ^(1))", "(1)");
+        excerciseEval("(sort ^(a b c))", "(a b c)");
+        excerciseEval("(sort ^(z  x  y))", "(x y z)");
+        excerciseEval("(sort ^(\"z\"  \"x\"  \"y\"))", "(\"x\" \"y\" \"z\")");
+
+        excerciseBadEval("(sort ^())");
+        excerciseBadEval("(sort 1)");
+        excerciseBadEval("(sort 1 2)");
+        excerciseBadEval("(sort ^(1 (2)))");
+        excerciseBadEval("(sort ^(\"a\" 2))");
+        excerciseBadEval("(sort (list (dict) (dict)))");
+        excerciseBadEval("(sort (list ^A ^B ^  c 3 2 \"3\" \"e\" \"t\" (2) (3) (^w) (\"l\") (dict)))");
+    }
     public void testEquality() throws Exception {
         excerciseEval("(equal? 1 1)", "true");
         excerciseEval("(equal? 1.2e4 1.2e4)", "true");

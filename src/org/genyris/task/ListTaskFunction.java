@@ -20,13 +20,15 @@ public class ListTaskFunction extends TaskFunction {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
+        Thread myself = Thread.currentThread();
         final Thread[] threads = new Thread[Thread.activeCount()];
         Thread.enumerate(threads);
         Exp threadList = NIL;
         for ( int i=0 ; i < threads.length; i++) {
-        	if(threads[i] != null)
+        	if(threads[i] != null && threads[i].getId() != myself.getId())
                 threadList = new Pair(getThreadAsDictionary(threads[i], envForBindOperations), threadList);
         }
+        threadList = new Pair(getThreadAsDictionary(myself, envForBindOperations), threadList);
         return threadList;
     }
 

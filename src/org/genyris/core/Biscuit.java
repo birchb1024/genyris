@@ -3,7 +3,7 @@ package org.genyris.core;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 
-public class Biscuit extends Atom {
+public class Biscuit extends Atom  implements Comparable{
 
 
     private Exp expression;
@@ -34,6 +34,11 @@ public class Biscuit extends Atom {
 
     public Exp getExpression() {
         return expression;
+    }
+
+        @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
     }
 
 

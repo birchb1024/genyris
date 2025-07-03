@@ -13,7 +13,7 @@ import org.genyris.interp.Environment;
 //
 // Exp is short for 'Expression'
 //
-public abstract class Exp implements Classifiable, Closure {
+public abstract class Exp implements Classifiable, Closure, Comparable {
 
     public abstract void acceptVisitor(Visitor guest) throws GenyrisException;
 
@@ -103,4 +103,5 @@ public abstract class Exp implements Classifiable, Closure {
     }
 
 
+    public abstract int compareTo(Object o);
 }

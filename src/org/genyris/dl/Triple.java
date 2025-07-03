@@ -53,7 +53,7 @@ public class Triple extends Atom implements Comparable {
 	}
 
 	public int compareTo(Object arg0) {
-		return this.toString().compareTo(((Triple)arg0).toString());
+        return this.toString().compareTo(((Triple)arg0).toString()); // #TODO use the Triples fields
 	}
 	
 	public Exp dir(Internable table) {

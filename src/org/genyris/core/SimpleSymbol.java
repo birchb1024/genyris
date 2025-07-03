@@ -11,7 +11,7 @@ import org.genyris.interp.UnboundException;
 
 
 
-public class SimpleSymbol extends Symbol implements Comparable {
+public class SimpleSymbol extends Symbol {
 
     protected String _printName;
 

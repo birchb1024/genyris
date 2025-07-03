@@ -52,4 +52,8 @@ public class LazyProcedure extends AbstractClosure {
     public void checkTooManyArgumentCount(Exp[] arguments) throws GenyrisException {
     }
 
+    @Override
+    public int compareTo(Object o) {
+        return this == o ? 0 : 1;
+    }
 }

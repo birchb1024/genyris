@@ -10,8 +10,9 @@ import java.math.MathContext;
 
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
+import org.genyris.interp.LazyProcedure;
 
-public class Bignum extends Atom {
+public class Bignum extends Atom  implements Comparable {
 	private BigDecimal _value;
 
 	public Symbol getBuiltinClassSymbol(Internable table) {
@@ -134,4 +135,9 @@ public class Bignum extends Atom {
         return (new Bignum(_value.setScale((scale._value).intValue(), 
                 java.math.RoundingMode.HALF_UP) ));
     }
+	    @Override
+    public int compareTo(Object o) {
+        return this._value.compareTo(_value);
+    }
+
 }
