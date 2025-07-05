@@ -62,8 +62,9 @@ public class HTTPpostFunction extends HTTPclientFunction {
             // Now add post parameters...
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             while (params != NIL) {
-                nvps.add(new BasicNameValuePair(params.car().car().toString(), params
-                        .car().cdr().toString()));
+                nvps.add(new BasicNameValuePair(
+                        params.car().car().toString(),
+                        params.car().cdr().toString()));
                 params = params.cdr();
             }
             httpPost.setEntity(new UrlEncodedFormEntity(nvps));

@@ -17678,6 +17678,38 @@ The revese function returns a new list with the elements in reverse order.
 \begin_layout Subsubsection
 
 \emph on
+sort <list of basic type>
+\end_layout
+
+\begin_layout Standard
+A list of simple values is sorted and returned in a new list.
+ These types can be sorted:
+\end_layout
+
+\begin_layout Itemize
+Bignum
+\end_layout
+
+\begin_layout Itemize
+String
+\end_layout
+
+\begin_layout Itemize
+Symbol
+\end_layout
+
+\begin_layout Standard
+All the elements of the list must have the same type.
+ Example:
+\end_layout
+
+\begin_layout Standard
+> sort ^
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
 length
 \begin_inset Index idx
 status open
