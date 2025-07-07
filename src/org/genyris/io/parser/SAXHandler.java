@@ -15,8 +15,8 @@ public class SAXHandler extends DefaultHandler {
 
     private Environment _env;
     private Exp NIL;
-    private Stack<Elem> _stack;
-    private Elem _tree;
+    private Stack<XMLelement> _stack;
+    private XMLelement _tree;
     private Map<String, String> _prefixes;
     private boolean _optionQname;
 
@@ -24,7 +24,7 @@ public class SAXHandler extends DefaultHandler {
         //System.err.println("SAXHandler constructor");
         _env = e;
         NIL = _env.getNil();
-        _stack = new Stack<Elem>();
+        _stack = new Stack<XMLelement>();
         _prefixes = new HashMap<String, String>();
         _optionQname = optionQname;
     }
@@ -47,7 +47,7 @@ public class SAXHandler extends DefaultHandler {
             pres.addProperty(_env, entry.getKey(), new StrinG(entry.getValue()));
         }
 
-        return Pair.cons(pres, Pair.cons(Elem.Elem2Exp(_tree, _env, _optionQname), NIL));
+        return Pair.cons(pres, Pair.cons(XMLelement.Elem2Exp(_tree, _env, _optionQname), NIL));
     }
 
     public void startPrefixMapping(String prefix, String uri) throws org.xml.sax.SAXException {
@@ -59,7 +59,7 @@ public class SAXHandler extends DefaultHandler {
     }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        Elem tag = new Elem();
+        XMLelement tag = new XMLelement();
         tag.uri = uri;
         tag.localName = localName;
         tag.qName = qName;
@@ -85,9 +85,9 @@ public class SAXHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         
         _tree = _stack.peek();
-        Elem start = _stack.pop();
+        XMLelement start = _stack.pop();
         if (!_stack.empty()) {
-            Elem parent = _stack.peek();
+            XMLelement parent = _stack.peek();
             parent.children.add(start);
             _tree = parent;
         } 

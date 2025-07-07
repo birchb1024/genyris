@@ -15,7 +15,7 @@ public abstract class Symbol extends Atom {
             if(uri.isAbsolute())
                 return new URISymbol(name);
         } catch (URISyntaxException e) { }
-        return (escaped?new EscapedSymbol(name):new SimpleSymbol(name));
+        return (escaped ? new EscapedSymbol(name) : new SimpleSymbol(name));
     }
 
     public boolean isNil() {

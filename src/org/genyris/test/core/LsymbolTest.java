@@ -19,6 +19,9 @@ public class LsymbolTest extends TestCase {
 		sym = new SimpleSymbol("G1");
 		assertEquals("G1", sym.getPrintName());
 
+		sym = SimpleSymbol.symbolFactory("http://foo.bvar/quux", false);
+		assertEquals("http://foo.bvar/quux", sym.getPrintName());
+		assertEquals("|http://foo.bvar/quux|", sym.toString());
 	}
 
 }

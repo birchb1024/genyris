@@ -18,8 +18,8 @@ public class BuiltinInterpreterTests extends TestCase {
         interpreter = new TestUtilities();
     }
 
-    private void excerciseEval(String exp, String expected) throws Exception {
-        assertEquals(expected,  interpreter.eval(exp));
+    private void excerciseEval(String input, String expected) throws Exception {
+        assertEquals(expected,  interpreter.eval(input));
     }
 
     private void excerciseBadEval(String exp) {
@@ -73,6 +73,12 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseEval("(dict (.a = 1) (.b = 2))","(dict (.a = 1) (.b = 2))");
         excerciseEval("(dict (.a) (.b = 2))", "(dict (.a = nil) (.b = 2))");
         excerciseEval("(dict (.a = ^(1)) (.b = 2))", "(dict (.a = (1)) (.b = 2))");
+    }
+    public void testAsString() throws Exception {
+        excerciseEval("(intern 'http://foo.bar/quux')","|http://foo.bar/quux|");
+        excerciseEval("(asString(intern 'http://foo.bar/quux'))","'http://foo.bar/quux'");
+        excerciseEval("(asString(intern 'https://foo.bar/quux'))","'https://foo.bar/quux'");
+        excerciseEval("(asString(intern ^|https://foo.bar/quux|))","'https://foo.bar/quux'");
     }
 
 }

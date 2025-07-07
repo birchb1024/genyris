@@ -5,8 +5,7 @@
 //
 package org.genyris.interp.builtin;
 
-import org.genyris.core.Exp;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -20,8 +19,13 @@ public class InternFunction extends ApplicableFunction {
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
 		checkArguments(arguments, 1);
-
-        // TODO - probably a bit too general ? Takes anything!
-        return _interp.intern(Symbol.symbolFactory(arguments[0].toString(),false));
+        if( arguments[0] instanceof Symbol) {
+            return _interp.intern((Symbol)arguments[0]);
+        }
+        if( arguments[0] instanceof StrinG ||
+            arguments[0] instanceof Bignum) {
+            return _interp.intern(Symbol.symbolFactory(arguments[0].toString(), false));
+        }
+        throw new GenyrisException("Unable to intern object "  + arguments[0].toString() + " with type " + arguments[0].getClass().getName());
     }
 }

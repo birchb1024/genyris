@@ -174,7 +174,7 @@ public class Interpreter {
         return _table.internSymbol(new EscapedSymbol(name));
     }
 
-    public Symbol intern(SimpleSymbol name) {
+    public Symbol intern(Symbol name) {
         return _table.internSymbol(name);
     }
 

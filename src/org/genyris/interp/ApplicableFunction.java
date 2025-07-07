@@ -18,12 +18,13 @@ public abstract class ApplicableFunction {
     protected SimpleSymbol REST;
 
     public Symbol toSymbol(Exp x) throws GenyrisException {
-        if( x instanceof Bignum ||  x instanceof StrinG ||  x instanceof Symbol ) {
+        if( x instanceof Bignum ||  x instanceof StrinG ) {
             return _interp.intern(x.toString());
         }
-        else {
-            throw new GenyrisException( "Cannot make a triple with " + x.toString() + " " + x.getClass().getName());
+        if(x instanceof Symbol){
+            return _interp.intern((Symbol)x);
         }
+        throw new GenyrisException( "Cannot make a triple with " + x.toString() + " " + x.getClass().getName());
     }
 
     public ApplicableFunction(Interpreter interp, String name, boolean eager) {

@@ -7,27 +7,24 @@ import java.util.ArrayList;
 import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
-import org.xml.sax.Attributes;
 
-import javax.management.Attribute;
-
-public class Elem {
+public class XMLelement {
     public String uri;
     public String localName;
     public String qName;
     public Exp attributes;
-    public List<Elem> children;
+    public List<XMLelement> children;
     public StringBuilder text; 
     
-    public Elem() {
+    public XMLelement() {
         text = new StringBuilder();
-        children = new ArrayList<Elem>();
+        children = new ArrayList<XMLelement>();
     }
     
-    public static Exp Elem2Exp(Elem e, Environment env, boolean qName ) throws GenyrisException {
+    public static Exp Elem2Exp(XMLelement e, Environment env, boolean qName ) throws GenyrisException {
         Exp kids = env.getNil();
         Collections.reverse(e.children);
-        for ( Elem child : e.children ) {
+        for ( XMLelement child : e.children ) {
             kids = Pair.cons(Elem2Exp(child, env, qName), kids);
         }
         String text = e.text.toString().strip();
