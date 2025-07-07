@@ -25,7 +25,7 @@
 	<target name="binary" depends="version-default,compile, only-make-jar, distributable" description="create jar, zips, installers" />
 	<target name="make-jar" depends="version-default,compile, only-make-jar" description="compile and create jar" />
 	<target name="build-workspace" depends="only-clean, only-init, version-default, binary, package, test, reports" description="Build and test current workspace contents." />
-	<target name="release" depends="tagged-version, binary, package, test, reports" description="Build a formal tagged release using only the latest tag." />
+	<target name="release" depends="version-default, tagged-version, binary, package, test, reports" description="Build a formal tagged release using only the latest tag." />
 
 	<!-- Libraries required  -->
 	<fileset id="needed.libs" dir="${needed.lib.dir}">
