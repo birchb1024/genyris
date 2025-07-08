@@ -15,19 +15,19 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public class PrefixMapper {
-    private static final String PREFIXCHAR = ":";
-	private Map         _prefixes;
+    private static final String ABBREVIATION_SEPARATOR_CHAR = ":";
+	private Map _abbreviations;
     private char _dynaChar;
 
     public PrefixMapper(char dynaChar) {
-        _prefixes = new HashMap();
+        _abbreviations = new HashMap();
         _dynaChar = dynaChar;
     }
 
 
-    public void addprefix(String prefix, String uri) throws GenyrisException {
-    	if(prefix.equals(PREFIXCHAR)) {
-    		prefix = "";
+    public void addAbbreviation(String abbrev, String uri) throws GenyrisException {
+    	if(abbrev.equals(ABBREVIATION_SEPARATOR_CHAR)) {
+    		abbrev = "";
     	}
         try {
             new URL(uri);
@@ -35,55 +35,57 @@ public class PrefixMapper {
         catch (MalformedURLException e) {
             throw new GenyrisException("prefix is not mapped to a valid URL: " + uri);
         }
-        if(prefix.startsWith(String.valueOf(_dynaChar))) {
-            throw new GenyrisException("cannot start a prefix with " + _dynaChar + " in parse: " + prefix);
+        if(abbrev.startsWith(String.valueOf(_dynaChar))) {
+            throw new GenyrisException("cannot start a abbreviation with " + _dynaChar + " in parse: " + abbrev);
         }
-        if (_prefixes.containsKey(prefix)) {
-            if(!_prefixes.get(prefix).equals(uri)) {
-                throw new GenyrisException("conflicting prefix in parse: " + prefix + " " + uri);
+        if (_abbreviations.containsKey(abbrev)) {
+            if(!_abbreviations.get(abbrev).equals(uri)) {
+                throw new GenyrisException("conflicting abbreviation in parse: " + abbrev + " " + uri);
             }
         } else {
-            _prefixes.put(prefix, uri);
+            _abbreviations.put(abbrev, uri);
         }
     }
 
-    private static boolean hasPrefix(String symbol) {
-        return symbol.contains(PREFIXCHAR);
+    private static boolean hasAbbreviation(String symbol) {
+        return symbol.contains(ABBREVIATION_SEPARATOR_CHAR);
     }
 
-    private static String getPrefix(String symbol) {
-        return symbol.substring(0, symbol.indexOf(PREFIXCHAR));
+    private static String getAbbreviation(String symbol) {
+        return symbol.substring(0, symbol.indexOf(ABBREVIATION_SEPARATOR_CHAR));
     }
 
-    private static String getSuffix(String symbol) {
-        return symbol.substring(symbol.indexOf(PREFIXCHAR) + 1);
+    private static String getLocalname(String symbol) {
+        return symbol.substring(symbol.indexOf(ABBREVIATION_SEPARATOR_CHAR) + 1);
     }
 
     public SimpleSymbol symbolFactory(String news) throws GenyrisException {
-        String prefix;
-        if(news.equals(PREFIXCHAR) || !hasPrefix(news) ) {
+        // #TODO maybe here add PrefixSymbols?
+        // #TODO just print a warning if there are two abbreviations for the same prefix
+        String abbrev;
+        if(news.equals(ABBREVIATION_SEPARATOR_CHAR) || !hasAbbreviation(news) ) {
             return Symbol.symbolFactory(news, false);
         }
         else {
-            prefix = getPrefix(news);
-            if (!_prefixes.containsKey(prefix)) {
-                throw new GenyrisException("Unknown prefix: " + prefix);
+            abbrev = getAbbreviation(news);
+            if (!_abbreviations.containsKey(abbrev)) {
+                throw new GenyrisException("Unknown abbreviation: " + abbrev);
             } else {
-                return Symbol.symbolFactory(_prefixes.get(prefix) + getSuffix(news), false);
+                return Symbol.symbolFactory(_abbreviations.get(abbrev) + getLocalname(news), false);
             }
         }
     }
     public String getCannonicalSymbol(String news) throws GenyrisException {
-        String prefix;
-        if(news.equals(PREFIXCHAR) || !hasPrefix(news) ) {
+        String abbrev;
+        if(news.equals(ABBREVIATION_SEPARATOR_CHAR) || !hasAbbreviation(news) ) {
             return news;
         }
         else {
-            prefix = getPrefix(news);
-            if (!_prefixes.containsKey(prefix)) {
-                throw new GenyrisException("Unknown prefix: " + prefix);
+            abbrev = getAbbreviation(news);
+            if (!_abbreviations.containsKey(abbrev)) {
+                throw new GenyrisException("Unknown prefix: " + abbrev);
             } else {
-                return _prefixes.get(prefix) + getSuffix(news);
+                return _abbreviations.get(abbrev) + getLocalname(news);
             }
         }
     }
