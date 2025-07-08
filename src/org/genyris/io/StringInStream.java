@@ -5,6 +5,7 @@
 //
 package org.genyris.io;
 
+import java.io.CharArrayReader;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -24,7 +25,7 @@ public class StringInStream implements InStream {
     }
 
     public Reader getReader() throws UnsupportedOperationException {
-        return new StringReader(_value.toString());
+        return new CharArrayReader(_value);
     }
 
     public boolean hasData() {

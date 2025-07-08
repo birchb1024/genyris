@@ -7,6 +7,7 @@ package org.genyris.test.core;
 
 import junit.framework.TestCase;
 
+import org.genyris.core.PrefixSymbol;
 import org.genyris.core.SimpleSymbol;
 
 public class LsymbolTest extends TestCase {
@@ -22,6 +23,10 @@ public class LsymbolTest extends TestCase {
 		sym = SimpleSymbol.symbolFactory("http://foo.bvar/quux", false);
 		assertEquals("http://foo.bvar/quux", sym.getPrintName());
 		assertEquals("|http://foo.bvar/quux|", sym.toString());
+
+
+		sym = new PrefixSymbol("quux", "wobble", "http://foo.bvar/quux/");
+
 	}
 
 }

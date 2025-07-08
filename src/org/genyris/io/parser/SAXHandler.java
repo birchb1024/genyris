@@ -41,13 +41,15 @@ public class SAXHandler extends DefaultHandler {
     }
 
     public Exp getTree() throws GenyrisException {
-        //System.err.println("SAXHandler getTree"/* + tree.toString()*/);
-        Dictionary pres = new Dictionary(_env);
+        // namespces in a Alist
+        Exp prefixes = NIL;
         for (Map.Entry<String, String> entry : _prefixes.entrySet()) {
-            pres.addProperty(_env, entry.getKey(), new StrinG(entry.getValue()));
+            prefixes =  Pair.cons(
+                            Pair.cons(new StrinG(entry.getKey()), new StrinG(entry.getValue())),
+                            prefixes);
         }
 
-        return Pair.cons(pres, Pair.cons(XMLelement.Elem2Exp(_tree, _env, _optionQname), NIL));
+        return Pair.cons(prefixes, Pair.cons(XMLelement.Elem2Exp(_tree, _env, _prefixes), NIL));
     }
 
     public void startPrefixMapping(String prefix, String uri) throws org.xml.sax.SAXException {

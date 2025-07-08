@@ -7,7 +7,13 @@ package org.genyris.test.interp;
 
 import junit.framework.TestCase;
 
+import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
+import org.genyris.interp.Interpreter;
+import org.genyris.io.InStream;
+import org.genyris.io.StringInStream;
+import org.genyris.io.UngettableInStream;
+import org.genyris.io.parser.ParserXML;
 
 public class ComplexInterpreterTests extends TestCase {
 
@@ -157,9 +163,21 @@ public class ComplexInterpreterTests extends TestCase {
 	public void testprefixeddynamic() throws Exception {
 		exerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".|http://foo/sys#foo|");
 	}
-    /* #TODO write some unit tests please
+
 	public void testParseXMLString() throws Exception {
-		exerciseEval("((XMLParser(.new '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a><b x=\"2\"/></a>'))(.read))", "(+ 1 2 3)");
+	    String input =  """
+                        <?xml version="1.0" encoding="utf-8"?>
+                        <rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/terms/">
+                               	<dc:title xml:lang="en">Doors Next</dc:title>
+                        </rdf:Description>""";
+        String expected = "((('dc' = 'http://purl.org/dc/terms/') ('rdf' = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')) (http://www.w3.org/1999/02/22-rdf-syntax-ns#Description nil ((http://purl.org/dc/terms/title ((|http://www.w3.org/XML/1998/namespacelang| = 'en')) 'Doors Next'))))";
+        InStream fd = new UngettableInStream( new StringInStream(input));
+        Interpreter interp = new Interpreter();
+        interp.init(false);
+        ParserXML parser =  new ParserXML(interp.getSymbolTable(), fd, false);
+        Exp result = parser.read(interp.getGlobalEnv());
+        assertEquals(expected , (new TestUtilities()).renderExp(result) );
+
 	}
-	*/
+
 }

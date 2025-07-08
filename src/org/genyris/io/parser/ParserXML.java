@@ -1,6 +1,8 @@
 package org.genyris.io.parser;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -44,7 +46,8 @@ public class ParserXML extends Parser {
     public Exp read(Environment env) throws GenyrisException {
         SAXHandler handler = new SAXHandler(env, _optionQname);
         try {
-            saxParser.parse(new InputSource(inputStream.getReader()), handler);
+            InputSource is = new InputSource(inputStream.getReader());
+            saxParser.parse(is, handler);
         }
         catch (SAXException | IOException  e) {
             throw new GenyrisException(e.getMessage());
