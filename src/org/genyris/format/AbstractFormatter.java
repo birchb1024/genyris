@@ -22,11 +22,17 @@ import org.genyris.java.JavaWrapper;
 public abstract class AbstractFormatter implements Visitor, Formatter {
 
     protected Writer _output;
+    protected boolean _expandPrefix;
 
     public AbstractFormatter(Writer out) {
         _output = out;
+        _expandPrefix = false;
     }
 
+    public AbstractFormatter(Writer out,  Boolean expandPrefix) {
+        _output = out;
+        _expandPrefix = expandPrefix;
+    }
     public abstract void visitDictionary(Dictionary frame)
             throws GenyrisException;
 
@@ -48,6 +54,11 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
 
     public void visitSimpleSymbol(SimpleSymbol sym) throws GenyrisException {
         write(sym.toString());
+    }
+
+    public void visitPrefixSymbol(PrefixSymbol sym)
+            throws GenyrisException {
+        write(sym.getEscapedPrintName());
     }
 
     public void visitTailCall(TailCall tc) throws GenyrisException {

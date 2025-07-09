@@ -9,20 +9,17 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
-import org.genyris.core.Dictionary;
-import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.Pair;
-import org.genyris.core.PairEquals;
-import org.genyris.core.StrinG;
+import org.genyris.core.*;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
 
 public class BasicFormatter extends AbstractFormatter {
+
+	public BasicFormatter(Writer out, boolean expandPrefix) {
+		super(out, expandPrefix);
+	}
 
 	public BasicFormatter(Writer out) {
 		super(out);
@@ -125,6 +122,10 @@ public class BasicFormatter extends AbstractFormatter {
 			return n;
 		}
 	}
+
+	public void visitPrefixSymbol(PrefixSymbol sym) throws GenyrisException {
+		write(sym.getPrintNameOpt(_expandPrefix));
+    }
 
 
 }

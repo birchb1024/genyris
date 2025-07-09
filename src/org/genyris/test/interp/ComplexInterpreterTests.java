@@ -161,7 +161,7 @@ public class ComplexInterpreterTests extends TestCase {
 		exerciseEval("((ParenParser(.new '(+ 1 2 3)'))(.read))", "(+ 1 2 3)");
 	}
 	public void testprefixeddynamic() throws Exception {
-		exerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".|http://foo/sys#foo|");
+		exerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".erk:foo");
 	}
 
 	public void testParseXMLString() throws Exception {
@@ -170,14 +170,20 @@ public class ComplexInterpreterTests extends TestCase {
                         <rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/terms/">
                                	<dc:title xml:lang="en">Doors Next</dc:title>
                         </rdf:Description>""";
-        String expected = "((('dc' = 'http://purl.org/dc/terms/') ('rdf' = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')) (http://www.w3.org/1999/02/22-rdf-syntax-ns#Description nil ((http://purl.org/dc/terms/title ((|http://www.w3.org/XML/1998/namespacelang| = 'en')) 'Doors Next'))))";
+        String big = "((('dc' = 'http://purl.org/dc/terms/') ('rdf' = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')) (|http://www.w3.org/1999/02/22-rdf-syntax-ns#Description| nil ((|http://purl.org/dc/terms/title| ((|http://www.w3.org/XML/1998/namespacelang| = 'en')) 'Doors Next'))))";
+        evalForXML(input, big, true);
+
+        String little = "((('dc' = 'http://purl.org/dc/terms/') ('rdf' = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')) (rdf:Description nil ((dc:title ((xml:lang = 'en')) 'Doors Next'))))";
+        evalForXML(input, little, false);
+    }
+
+    private static void evalForXML(String input, String expected, boolean expandAbbreviation ) throws GenyrisException {
         InStream fd = new UngettableInStream( new StringInStream(input));
         Interpreter interp = new Interpreter();
         interp.init(false);
-        ParserXML parser =  new ParserXML(interp.getSymbolTable(), fd, false);
+        ParserXML parser =  new ParserXML(interp.getSymbolTable(), fd);
         Exp result = parser.read(interp.getGlobalEnv());
-        assertEquals(expected , (new TestUtilities()).renderExp(result) );
-
-	}
+        assertEquals(expected, (new TestUtilities()).renderExp(result, expandAbbreviation) );
+    }
 
 }

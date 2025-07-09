@@ -168,7 +168,7 @@ public class Lex {
 		char ch;
 		StringBuffer collect = new StringBuffer();
 		if (!_input.hasData()) {
-			throw new LexException("unexpected end of file");
+			throw new LexException("unexpected end of file " + _input.getFilename() + ":" + _input.getLineNumber());
 		}
 		while (_input.hasData()) {
 			ch = _input.readNext();
@@ -179,7 +179,7 @@ public class Lex {
 					ch = _input.readNext();
 				collect.append(ch);
 			} else {
-				throw new LexException("unexpected end of escaped symbol");
+				throw new LexException("unexpected end of escaped symbol"  + _input.getFilename() + ":" + _input.getLineNumber());
 			}
 		}
 		return _symbolTable.internSymbol(Symbol.symbolFactory(collect.toString(), true));

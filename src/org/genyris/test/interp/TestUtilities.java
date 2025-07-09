@@ -28,14 +28,13 @@ public class TestUtilities {
         Exp expression = Parser.parseSingleExpressionFromString(_interpreter.getSymbolTable(), script);
         Exp result = _interpreter.evalInGlobalEnvironment(expression);
 
-        return renderExp(result);
+        return renderExp(result, false);
     }
 
-    public static String renderExp(Exp X) throws GenyrisException {
+    public static String renderExp(Exp X, boolean expandAbbreviation) throws GenyrisException {
         StringWriter out = new StringWriter();
-        Formatter formatter = new BasicFormatter(out);
+        Formatter formatter = new BasicFormatter(out, expandAbbreviation);
         X.acceptVisitor(formatter);
         return out.getBuffer().toString();
-
     }
 }

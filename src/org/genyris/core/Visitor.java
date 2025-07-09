@@ -41,6 +41,8 @@ public interface Visitor {
 	public void visitFullyQualifiedSymbol(URISymbol sym)
 			throws GenyrisException;
 
+	public void visitPrefixSymbol(PrefixSymbol sym) throws GenyrisException;
+
 	public void visitDynamicSymbol(DynamicSymbol symbol)  throws GenyrisException;
 
 	public void visitTriple(Triple triple) throws GenyrisException;

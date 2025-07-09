@@ -8,17 +8,7 @@ package org.genyris.format;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
-import org.genyris.core.Dictionary;
-import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.NilSymbol;
-import org.genyris.core.Pair;
-import org.genyris.core.PairEquals;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StrinG;
-import org.genyris.core.URISymbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
@@ -30,7 +20,11 @@ public class IndentedFormatter extends AbstractFormatter {
 	private Formatter _basic;
 
 	public IndentedFormatter(Writer out, int indentDepth) {
-		super(out);
+		this( out, indentDepth, false);
+	}
+
+	public IndentedFormatter(Writer out, int indentDepth, boolean expandPrefix) {
+		super(out,  expandPrefix);
 		INDENT_DEPTH = indentDepth;
 		_consDepth = 0;
 		_basic = new BasicFormatter(out);
@@ -137,6 +131,11 @@ public class IndentedFormatter extends AbstractFormatter {
 			throws GenyrisException {
 		writeAtom(sym);
 	}
+
+	public void visitPrefixSymbol(PrefixSymbol sym) throws GenyrisException {
+		write(sym.getPrintNameOpt(_expandPrefix));
+    }
+
 
 	public void visitStrinG(StrinG lst) throws GenyrisException {
 		writeAtom(lst);

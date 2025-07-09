@@ -7,15 +7,7 @@ package org.genyris.format;
 
 import java.io.Writer;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Dictionary;
-import org.genyris.core.Exp;
-import org.genyris.core.ExpWithEmbeddedClasses;
-import org.genyris.core.NilSymbol;
-import org.genyris.core.Pair;
-import org.genyris.core.StandardClass;
-import org.genyris.core.StrinG;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.EagerProcedure;
 import org.genyris.interp.LazyProcedure;
@@ -56,30 +48,36 @@ public class HTMLFormatter extends AbstractFormatter {
 		emit(proc.toString());
 	}
 
-	public void visitPair(Pair cons) throws GenyrisException {
+	private String abbreviate(Symbol T){
+		if (T instanceof PrefixSymbol) {
+			return ((PrefixSymbol)T).getAbbreviatedPrintName();
+		}
+		return T.getPrintName();
+	}
+	public void visitPair(Pair exp) throws GenyrisException {
 
-		if (cons.car() instanceof Symbol) {
-			Symbol tag = (Symbol) cons.car();
+		if (exp.car() instanceof Symbol) {
+			Symbol tag = (Symbol) exp.car();
 			Exp attributes = new NilSymbol();
 			Exp body = new NilSymbol();
-			if (cons.cdr() instanceof NilSymbol) {
+			if (exp.cdr() instanceof NilSymbol) {
 				// no attributes or body
-				body = attributes = cons.cdr();
+				body = attributes = exp.cdr();
 			} else {
-				if (cons.cdr().isPair()) {
-					attributes = cons.cdr().car();
-					body = cons.cdr().cdr();
+				if (exp.cdr().isPair()) {
+					attributes = exp.cdr().car();
+					body = exp.cdr().cdr();
 
 				} else {
 					; // skip bad or missing attributes list
-					body = cons.cdr();
+					body = exp.cdr();
 				}
 			}
-			if  (tag.getPrintName().equals("nil") && cons.cdr().isNil()) {
+			if  (abbreviate(tag).equals("nil") && exp.cdr().isNil()) {
 				// skip
 				return;
 			}
-			else if (tag.getPrintName().equals("verbatim")) {
+			else if (abbreviate(tag).equals("verbatim")) {
 				while (!body.isNil()) {
 					DisplayFormatter formatter = new DisplayFormatter(_output);
 					body.car().acceptVisitor(formatter);
@@ -87,7 +85,7 @@ public class HTMLFormatter extends AbstractFormatter {
 				}
 				return;
 			}
-			if (tag.getPrintName().equals("stream")) {
+			if (abbreviate(tag).equals("stream")) {
 				if (!body.isNil()) {
 					if( body.car() instanceof ReaderStream) {
 						ReaderStream str = (ReaderStream)body.car();
@@ -96,29 +94,25 @@ public class HTMLFormatter extends AbstractFormatter {
 						throw new GenyrisException("non-Reader passed in stream tag.");
 					}
 				} else {
-					throw new GenyrisException("non body in stream tag.");					
+					throw new GenyrisException("non body in stream tag.");
 				}
 				return;
 			}
-			write("<" + tag.getPrintName());
+			write("<" + abbreviate(tag));
 			writeAttributes(attributes);
 			if (body instanceof NilSymbol) {
 				write("/>");
 			} else {
 				write(">");
 				body.acceptVisitor(this);
-				write("</" + tag.getPrintName() + ">");
+				write("</" + abbreviate(tag) + ">");
 			}
 		} else {
-			Exp head = cons;
+			Exp head = exp;
 			while( !head.isNil() ) {
 				head.car().acceptVisitor(this);
 				head = head.cdr();
 			}
-//			cons.car().acceptVisitor(this);
-//			if (!(cons.cdr() instanceof NilSymbol)) {
-//				cons.cdr().acceptVisitor(this);
-//			}
 		}
 	}
 
@@ -142,7 +136,7 @@ public class HTMLFormatter extends AbstractFormatter {
 					write(attributes.toString());
 					return;
 				}
-				write(((Symbol)attrName).getPrintName());
+				write(abbreviate((Symbol)attrName));
 				write("=\"");
 				write(attributes.car().cdr().toString());
 				write("\"");
@@ -186,4 +180,10 @@ public class HTMLFormatter extends AbstractFormatter {
 	public void print(String message) throws GenyrisException {
 		emit(message);
 	}
+
+	public void visitPrefixSymbol(PrefixSymbol sym)
+            throws GenyrisException {
+        emit(sym.getAbbreviatedPrintName());
+    }
+
 }

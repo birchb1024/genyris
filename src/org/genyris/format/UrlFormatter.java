@@ -13,7 +13,7 @@ import org.genyris.exception.GenyrisException;
 
 public class UrlFormatter extends BasicFormatter {
     public UrlFormatter(Writer out) {
-        super(out);
+        super(out, true);
     }
 
     public void visitStrinG(StrinG lst) throws GenyrisException {

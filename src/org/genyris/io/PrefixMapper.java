@@ -10,13 +10,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.genyris.core.PrefixSymbol;
 import org.genyris.core.SimpleSymbol;
 import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public class PrefixMapper {
     private static final String ABBREVIATION_SEPARATOR_CHAR = ":";
-	private Map _abbreviations;
+	private Map _abbreviations; // #TODOuse a Map<>
     private char _dynaChar;
 
     public PrefixMapper(char dynaChar) {
@@ -60,18 +61,18 @@ public class PrefixMapper {
     }
 
     public SimpleSymbol symbolFactory(String news) throws GenyrisException {
-        // #TODO maybe here add PrefixSymbols?
-        // #TODO just print a warning if there are two abbreviations for the same prefix
-        String abbrev;
         if(news.equals(ABBREVIATION_SEPARATOR_CHAR) || !hasAbbreviation(news) ) {
             return Symbol.symbolFactory(news, false);
         }
         else {
-            abbrev = getAbbreviation(news);
+            String abbrev = getAbbreviation(news);
+            String localName = getLocalname(news);
             if (!_abbreviations.containsKey(abbrev)) {
                 throw new GenyrisException("Unknown abbreviation: " + abbrev);
             } else {
-                return Symbol.symbolFactory(_abbreviations.get(abbrev) + getLocalname(news), false);
+                String prefix = (String)_abbreviations.get(abbrev);
+                PrefixSymbol pre =  new PrefixSymbol(prefix, localName, abbrev);
+                return pre;
             }
         }
     }

@@ -42,9 +42,9 @@ public class XMLelement {
             env.getSymbolTable().internSymbol(new SimpleSymbol(e.qName));
         }
         else if  (sliced.length == 2) {  // "dcterms:foobar"
-            String prefix =  sliced[0];
+            String abbrev =  sliced[0];
             String name =  sliced[1];
-            PrefixSymbol ps = new PrefixSymbol(prefix, name, e.uri);
+            PrefixSymbol ps = new PrefixSymbol(e.uri, name, abbrev);
             tag = env.getSymbolTable().internSymbol(ps);
         }
         Exp result = Pair.cons2(tag, e.attributes, env.getNil());

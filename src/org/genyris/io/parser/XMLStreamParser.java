@@ -21,13 +21,13 @@ public class XMLStreamParser extends StreamParser {
     public XMLStreamParser(Interpreter interp, ReaderStream reader, boolean optionQname) throws GenyrisException {
         _optionQname = optionQname;
         _input = new UngettableInStream(reader.getInStream());
-        _parser = new ParserXML(interp.getSymbolTable(), _input, _optionQname);
+        _parser = new ParserXML(interp.getSymbolTable(), _input);
     }
 
     public XMLStreamParser(Interpreter interp, StrinG script, boolean optionQname) throws GenyrisException {
         _optionQname = optionQname;
         _input = new UngettableInStream( new StringInStream(script.toString()));
-        _parser =  new ParserXML(interp.getSymbolTable(), _input, _optionQname);
+        _parser =  new ParserXML(interp.getSymbolTable(), _input);
 	}
 
 	public void acceptVisitor(Visitor guest) throws GenyrisException {

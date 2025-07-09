@@ -54,10 +54,16 @@ public class WriterStream extends Atom implements Comparable{
         char escape = '%';
         try {
             for (int i = 0; i < format.length(); i++) {
-                if ((format.charAt(i) == escape) && (i == format.length() - 1)) {
+                char ch = format.charAt(i);
+                if(ch != escape){
+                    _value.append(ch);
+                    continue;
+                }
+                if ((ch == escape) && (i == format.length() - 1)) {
                     throw new GenyrisException("Bad format: " + format);
                 }
-                if (format.charAt(i) == escape && format.charAt(i + 1) == 'a') {
+                char order = format.charAt(i + 1);
+                if (ch == escape && order == 'a') {
                     // display - TODO DRY
                     i++;
                     if (argCounter > args.length) {
@@ -68,29 +74,29 @@ public class WriterStream extends Atom implements Comparable{
                         throw new GenyrisException("Bad format: " + format + " too few real arguments.");
                     }
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'i') {
+                } else if (ch == escape && (order == 'i' || order == 'I')) {
                     // write - TODO DRY
                     i++;
                     if (argCounter > args.length) {
                         break;
                     }
-                    Formatter formatter = new IndentedFormatter(_value, 3);
+                    Formatter formatter = new IndentedFormatter(_value, 3, (Character.isUpperCase(order)?true:false));
                     if (argCounter == args.length) {
                         throw new GenyrisException("Bad format: " + format + " too few real arguments.");
                     }
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 's') {
+                } else if (ch == escape && (order == 's' ||order == 'S')) {
                     // write - TODO DRY
-                    i++;
                     if (argCounter > args.length) {
                         break;
                     }
-                    Formatter formatter = new BasicFormatter(_value);
+                    Formatter formatter = new BasicFormatter(_value, (Character.isUpperCase(order)?true:false));
                     if (argCounter == args.length) {
                         throw new GenyrisException("Bad format: " + format + " too few real arguments.");
                     }
+                    i++;
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'x') {
+                } else if (ch == escape && order == 'x') {
                     // write - TODO DRY
                     i++;
                     if (argCounter > args.length) {
@@ -101,7 +107,7 @@ public class WriterStream extends Atom implements Comparable{
                         throw new GenyrisException("Bad format: " + format + " too few real arguments.");
                     }
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'u') {
+                } else if (ch == escape && order == 'u') {
                     // write - TODO DRY
                     i++;
                     if (argCounter > args.length) {
@@ -112,10 +118,10 @@ public class WriterStream extends Atom implements Comparable{
                         throw new GenyrisException("Bad format: " + format + " too few real arguments.");
                     }
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'n') {
+                } else if (ch == escape && order == 'n') {
                     i++;
                     _value.append('\n');
-                } else if (format.charAt(i) == escape && format.charAt(i + 1) == 'j') {
+                } else if (ch == escape && order == 'j') {
                     i++;
                     if (argCounter > args.length) {
                         break;
@@ -125,11 +131,11 @@ public class WriterStream extends Atom implements Comparable{
                         throw new GenyrisException("Bad format: " + format + " too few real arguments.");
                     }
                     args[argCounter++].acceptVisitor(formatter);
-                } else if (format.charAt(i) == escape && format.charAt(i + 1) == escape) {
+                } else if (ch == escape && order == escape) {
                     i++;
                     _value.append(escape);
                 } else {
-                    _value.append(format.charAt(i));
+                    _value.append(ch);
                 }
             }
             if (argCounter != args.length) {

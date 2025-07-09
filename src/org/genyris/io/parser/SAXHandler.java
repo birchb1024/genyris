@@ -20,17 +20,16 @@ public class SAXHandler extends DefaultHandler {
     private Map<String, String> _prefixes;
     private boolean _optionQname;
 
-    public SAXHandler(Environment e, boolean optionQname) {
+    public SAXHandler(Environment e) {
         //System.err.println("SAXHandler constructor");
         _env = e;
         NIL = _env.getNil();
         _stack = new Stack<XMLelement>();
         _prefixes = new HashMap<String, String>();
-        _optionQname = optionQname;
     }
 
     public String prefixize(String value) {
-        // replace known prefixes with the shorter prefix
+        // replace known prefixes with the shorter abbreviation
         for (Map.Entry<String, String> entry : _prefixes.entrySet()) {
             if (value.startsWith(entry.getValue())) {
                 value = value.replace(entry.getValue(), entry.getKey() + ":");
@@ -67,12 +66,10 @@ public class SAXHandler extends DefaultHandler {
         tag.qName = qName;
         Exp attrs = NIL;
         for ( int i = 0; i<  attributes.getLength(); i++) {
-            String canonical = attributes.getQName(i);
-            if(!_optionQname) {
-                canonical = attributes.getURI(i) + attributes.getLocalName(i);
-            }
+            String abbrev = attributes.getQName(i).split(":")[0];
+            PrefixSymbol attrname = new PrefixSymbol(attributes.getURI(i), attributes.getLocalName(i),  abbrev);
             attrs = Pair.cons(
-                Pair.cons(_env.internString(canonical), new StrinG(prefixize(attributes.getValue(i)))),
+                Pair.cons(_env.getSymbolTable().internSymbol(attrname), new StrinG(prefixize(attributes.getValue(i)))),
                 attrs);
         }
 

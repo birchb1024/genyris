@@ -19,7 +19,7 @@ import org.genyris.io.readerstream.ReaderStream;
 public class JSONFormatter extends AbstractFormatter {
 
     public JSONFormatter(Writer out) {
-        super(out);
+        super(out, true);
     }
 
     private void emit(String s) throws GenyrisException {
@@ -28,6 +28,11 @@ public class JSONFormatter extends AbstractFormatter {
 
     public void visitDynamicSymbol(DynamicSymbol sym) throws GenyrisException {
         emitStringEscaped(sym.getRealSymbol().getPrintName());
+    }
+
+    public void visitPrefixSymbol(PrefixSymbol sym)
+            throws GenyrisException {
+        emitStringEscaped(sym.getPrintName());
     }
 
     public void visitFullyQualifiedSymbol(URISymbol sym)

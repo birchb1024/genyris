@@ -7,14 +7,18 @@ var fd
 var parser (XMLParser(.new fd nil))
 var result 
       parser(.read)
-stdout(.format '%j' (cdr result))
+stdout(.format '%S' result)
 
 
-#var fd 
-#   (File(.new (prepend-home 'test/fixtures/rootservices.xml')))
-#      .open ^read
-#var parser (XMLParser(.new fd))
-#var result 
-#      parser(.read)
-#print result
+var fd
+   (File(.new (prepend-home 'test/fixtures/rootservices.xml')))
+      .open ^read
+var parser (XMLParser(.new fd))
+var result
+      parser(.read)
+stdout(.format '%x' result)
+
+
+
+
 
