@@ -1,13 +1,13 @@
 #
 # Test reading of indented syntax streams
 #
-var fd 
+var fd
    (File(.new (prepend-home 'test/fixtures/types.xml')))
       .open ^read
 var parser (XMLParser(.new fd nil))
 var result 
       parser(.read)
-stdout(.format '%S' result)
+#stdout(.format '%S' result)
 
 
 var fd
@@ -16,7 +16,7 @@ var fd
 var parser (XMLParser(.new fd))
 var result
       parser(.read)
-stdout(.format '%x' result)
+stdout(.format '%x' (right result))
 
 
 
