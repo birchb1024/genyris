@@ -17,7 +17,7 @@ assertEqual EOF
       parser(.read)
 parser(.close)
 
-var str-parser (IndentedParser(.new "# comment\n@prefix : 'http://www.foo.bar/quux#'\n:one\n   two\n      'three'\n      4\n      5.6\n"))
+var str-parser (IndentedParser(.new "# comment\n@ns : 'http://www.foo.bar/quux#'\n:one\n   two\n      'three'\n      4\n      5.6\n"))
 assertEqual 
       ^(|http://www.foo.bar/quux#one| (two ('three') (4) (5.6)))
       str-parser(.read)

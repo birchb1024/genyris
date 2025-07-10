@@ -1,5 +1,5 @@
-@prefix : 'http://www.genyris.org/lib/gunit#'
-@prefix < "http://www.genyris.org/lang/utilities#"
+@ns : 'http://www.genyris.org/lib/gunit#'
+@ns < "http://www.genyris.org/lang/utilities#"
 
 :test 'append'
         :assertEqual (append ^(1 2) ^(3 4)) ^(1 2 3 4)

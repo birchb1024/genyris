@@ -1,9 +1,9 @@
 #
 # Pipes Example - read an expression from a pipe 
 #
-@prefix task 'http://www.genyris.org/lang/task#'
-@prefix sys 'http://www.genyris.org/lang/system#'
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns task 'http://www.genyris.org/lang/task#'
+@ns sys 'http://www.genyris.org/lang/system#'
+@ns u "http://www.genyris.org/lang/utilities#"
 
 print
   "Reading from %s\n"

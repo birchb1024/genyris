@@ -1,6 +1,6 @@
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
-@prefix fubar 'https://fubar.org/quux#'
+@ns fubar 'https://fubar.org/quux#'
 
 var fubar:alpha 42
 
@@ -18,7 +18,7 @@ u:format '%x\n' sexp
 
 var prefixes-list (graph)
 def list-prefixes-in (Tree)
-    var P (symbol-prefix Tree)
+    var P (symbol-namespace Tree)
     #print @LINE P
     cond
         (P)
@@ -26,7 +26,7 @@ def list-prefixes-in (Tree)
         (is-instance? Tree Pair)
             list-prefixes-in (left Tree)
             list-prefixes-in (right Tree)
-symbol-prefix ^fubar:c
+symbol-namespace ^fubar:c
 
 list-prefixes-in ^(fubar:quux (fubar:alpha) fubar:beta)
 

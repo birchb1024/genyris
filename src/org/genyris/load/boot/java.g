@@ -1,4 +1,4 @@
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns java 'http://www.genyris.org/lang/java#'
 
 var int 'java.lang.Integer'
 var short 'java.lang.Short'

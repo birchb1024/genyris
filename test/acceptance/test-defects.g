@@ -1,5 +1,5 @@
 #
-# 001 @prefix - prefixes bleed over from include into the top-level sessions...
+# 001 @ns - prefixes bleed over from include into the top-level sessions...
 #
 
 
@@ -144,8 +144,8 @@ assert syntax-error
 #
 # Issue 63:    Biscuit is Missing builtin class - fatal!
 #
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns u "http://www.genyris.org/lang/utilities#"
              
 defmacro sys:procedure-missing(&rest args) 
    quote (list 123 456)

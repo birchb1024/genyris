@@ -1,7 +1,7 @@
-@prefix : 'http://www.genyris.org/lib/gunit#'
-@prefix u 'http://www.genyris.org/lang/utilities#'
-@prefix type 'http://www.genyris.org/lang/types#'
-@prefix render "http://www.genyris.org/lib/render#"
+@ns : 'http://www.genyris.org/lib/gunit#'
+@ns u 'http://www.genyris.org/lang/utilities#'
+@ns type 'http://www.genyris.org/lang/types#'
+@ns render "http://www.genyris.org/lib/render#"
 
 include 'lib/gunit.g'
 include 'lib/types.g'

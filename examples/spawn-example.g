@@ -1,4 +1,4 @@
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
    
 define count 5
 while (> count 0)

@@ -1,8 +1,8 @@
 #
 # Pipes Example - read from a pipe 
 #
-@prefix task 'http://www.genyris.org/lang/task#'
-@prefix sys 'http://www.genyris.org/lang/system#'
+@ns task 'http://www.genyris.org/lang/task#'
+@ns sys 'http://www.genyris.org/lang/system#'
 
 print
   "Reading from %s\n"

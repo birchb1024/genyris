@@ -1,5 +1,5 @@
 # comment
-@prefix : 'http://www.foo.bar/quux#'
+@ns : 'http://www.foo.bar/quux#'
 :one
    two
       'three'

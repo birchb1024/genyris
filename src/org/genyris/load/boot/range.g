@@ -1,7 +1,7 @@
 #
 # Ranges of integers
 #
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 
 class Range()

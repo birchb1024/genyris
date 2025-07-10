@@ -1,4 +1,4 @@
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 define script
     (File(.new @FILE))
@@ -18,8 +18,8 @@ define context (dict)
 def myparse (string)
    # parse a string returning the expression
    (ParenParser(.new string))
-      .prefix "rdf" "http://w3c/rdf#"
-      .prefix "rdfs" "http://w3c/rdfs#"
+      .namespace "rdf" "http://w3c/rdf#"
+      .namespace "rdfs" "http://w3c/rdfs#"
       .read
 
 df httpd-serve (request)

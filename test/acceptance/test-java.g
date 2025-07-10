@@ -1,5 +1,5 @@
-@prefix java 'http://www.genyris.org/lang/java#'
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns java 'http://www.genyris.org/lang/java#'
+@ns u "http://www.genyris.org/lang/utilities#"
 
 java:import 'java.lang.Object' as Jobject
 java:import 'java.lang.Class' as JClass

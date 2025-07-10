@@ -1,6 +1,6 @@
 ## File Handling Module (using prefixes)
 
-@prefix file "http://files.org/"
+@ns file "http://files.org/"
 
 
 def file:copy(from to) etc
@@ -9,7 +9,7 @@ def file:zip(file) etc
 
 
 ## Use of the file module
-@prefix f "http://files.org/"
+@ns f "http://files.org/"
 
 def archive(filename)
     f:copy filename "/tmp/foo"

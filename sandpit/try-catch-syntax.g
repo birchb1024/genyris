@@ -1,4 +1,4 @@
-@prefix ex "http://rdf.genyris.org/Exception#"
+@ns ex "http://rdf.genyris.org/Exception#"
 class ex.Error()
 class ex:FooError(ex:Error)
 class ex:BarError(ex:Error)

@@ -1,8 +1,8 @@
 #
 #  Example Swing program using Java FFI
 #
-@prefix java 'http://www.genyris.org/lang/java#'
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns java 'http://www.genyris.org/lang/java#'
+@ns u "http://www.genyris.org/lang/utilities#"
 
 java:import 'javax.swing.JFrame' as JFrame
 java:import 'java.awt.Dimension' as Dimension

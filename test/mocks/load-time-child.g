@@ -3,8 +3,8 @@
 # spawning a new task. we get passed the start time as argv 1
 # next arg is the number of times to repeat after this one.
 #
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 #print sys:argv
 stdout(.flush)

@@ -1,4 +1,4 @@
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns java 'http://www.genyris.org/lang/java#'
 
 java:import 'au.com.bytecode.opencsv.CSVReader' as CSVReader
 java:import 'java.util.ArrayList' as ArrayList

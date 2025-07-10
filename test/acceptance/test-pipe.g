@@ -1,7 +1,7 @@
 #
 # Pipes Examples
 #
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns u "http://www.genyris.org/lang/utilities#"
 for pipe in (Pipe!list)
    Pipe!delete pipe
 def killall(subst)

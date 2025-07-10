@@ -1,5 +1,5 @@
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix date "http://www.genyris.org/lang/date#"
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns date "http://www.genyris.org/lang/date#"
 
 def u:format(&rest args)
    stdout

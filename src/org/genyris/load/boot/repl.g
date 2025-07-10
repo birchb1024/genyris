@@ -1,6 +1,6 @@
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns java 'http://www.genyris.org/lang/java#'
 
 import versioninfo
 
@@ -26,14 +26,14 @@ def sys:read-eval-print-loop()
    define looping true
    define parser (IndentedParser(.new stdin true))
    parser
-      .prefix ^u "http://www.genyris.org/lang/utilities#"
-      .prefix ^web "http://www.genyris.org/lang/web#"
-      .prefix ^syn "http://www.genyris.org/lang/syntax#"
-      .prefix ^sys 'http://www.genyris.org/lang/system#'
-      .prefix ^task 'http://www.genyris.org/lang/task#'
-      .prefix ^types 'http://www.genyris.org/lang/types#'
-      .prefix ^date 'http://www.genyris.org/lang/date#'
-      .prefix ^java 'http://www.genyris.org/lang/java#'
+      .namespace ^u "http://www.genyris.org/lang/utilities#"
+      .namespace ^web "http://www.genyris.org/lang/web#"
+      .namespace ^syn "http://www.genyris.org/lang/syntax#"
+      .namespace ^sys 'http://www.genyris.org/lang/system#'
+      .namespace ^task 'http://www.genyris.org/lang/task#'
+      .namespace ^types 'http://www.genyris.org/lang/types#'
+      .namespace ^date 'http://www.genyris.org/lang/date#'
+      .namespace ^java 'http://www.genyris.org/lang/java#'
 
    while looping
        define bt nil

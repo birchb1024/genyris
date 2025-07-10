@@ -1,7 +1,7 @@
 #
 # Test nested imports.
 #
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 load "org/genyris/load/boot/pair.g" true
 

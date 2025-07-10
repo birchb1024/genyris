@@ -1,4 +1,4 @@
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 include 'lib/find.g'
 
 def count-strings-in-file(regex path)

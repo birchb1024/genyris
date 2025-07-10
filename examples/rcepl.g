@@ -1,9 +1,9 @@
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix ver "http://www.genyris.org/lang/version#"
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix java 'http://www.genyris.org/lang/java#'
-@prefix : "http://www.genyris.org/lang/types#"
-@prefix foaf 'http://xmlns.com/foaf/0.1/'
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns ver "http://www.genyris.org/lang/version#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns java 'http://www.genyris.org/lang/java#'
+@ns : "http://www.genyris.org/lang/types#"
+@ns foaf 'http://xmlns.com/foaf/0.1/'
 
 include "lib/types.g"
 include "lib/classify.g"
@@ -16,10 +16,10 @@ def read-classify-eval-print-loop(root-classes)
    define looping true
    define parser (IndentedParser(.new stdin true))
    parser
-      .prefix ^sys "http://www.genyris.org/lang/system#"
-      .prefix ^u "http://www.genyris.org/lang/utilities#"
-      .prefix ^java 'http://www.genyris.org/lang/java#'
-      .prefix ^foaf 'http://xmlns.com/foaf/0.1/'
+      .namespace ^sys "http://www.genyris.org/lang/system#"
+      .namespace ^u "http://www.genyris.org/lang/utilities#"
+      .namespace ^java 'http://www.genyris.org/lang/java#'
+      .namespace ^foaf 'http://xmlns.com/foaf/0.1/'
    while looping
        u:format '\n> '
        define bt nil

@@ -27,7 +27,7 @@
             "name": "variable.language"
     },
     {
-            "match": "^@prefix\\s[A-Za-z\\:\\<]+\\s",
+            "match": "^@ns\\s[A-Za-z\\:\\<]+\\s",
             "name": "keyword.other"
     }
     ,

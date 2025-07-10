@@ -2,8 +2,8 @@
 #### Taken from "Lisp" by Winston & Horn 2nd edition
 #### problem 11-9
 ####
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix rdf "http://www.genyris.org/rdf#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns rdf "http://www.genyris.org/rdf#"
 
 # public module-level code
 cond 

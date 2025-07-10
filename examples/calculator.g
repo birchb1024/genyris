@@ -2,7 +2,7 @@
 # Reverse-Polish pocket Calculator
 #
 #
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
 
 define prompt "? "

@@ -1,4 +1,4 @@
-@prefix : "http://www.genyris.org/lang/types#"
+@ns : "http://www.genyris.org/lang/types#"
 
 class :ProperAtom()
    # atomic atoms !

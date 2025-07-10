@@ -3,8 +3,8 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-@prefix : "http://www.genyris.org/lib/gunit#"
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns : "http://www.genyris.org/lib/gunit#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
 ## Test parsing & conversion functions
 

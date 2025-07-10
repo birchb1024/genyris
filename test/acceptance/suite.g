@@ -6,9 +6,9 @@
 #
 # Run Regression Tests
 #
-@prefix < "http://www.genyris.org/lang/utilities#"
-@prefix : 'http://www.genyris.org/lib/gunit#'
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns < "http://www.genyris.org/lang/utilities#"
+@ns : 'http://www.genyris.org/lib/gunit#'
+@ns sys "http://www.genyris.org/lang/system#"
 
 include 'lib/gunit.g'
 

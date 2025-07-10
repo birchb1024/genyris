@@ -1,7 +1,7 @@
 #
 #
 #
-@prefix task 'http://www.genyris.org/lang/task#'
+@ns task 'http://www.genyris.org/lang/task#'
 
 class Task()
     def .kill()

@@ -1,7 +1,7 @@
 #!/home/birchb/workspace/genyris/bin/genyris
 
-@prefix u   "http://www.genyris.org/lang/utilities#"
-@prefix web "http://www.genyris.org/lang/web#"
+@ns u   "http://www.genyris.org/lang/utilities#"
+@ns web "http://www.genyris.org/lang/web#"
 
 def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
 

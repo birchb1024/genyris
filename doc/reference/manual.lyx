@@ -2320,7 +2320,7 @@ Genyris also provides a parser for a Lisp-like syntax based on parentheses
 \end_layout
 
 \begin_layout LyX-Code
-(@prefix u "http://www.genyris.org/lang/utilities#")
+(@ns u "http://www.genyris.org/lang/utilities#")
 \end_layout
 
 \begin_layout LyX-Code
@@ -3934,8 +3934,31 @@ assertEqual
           dynamic-symbol-value (intern 'right')
 \end_layout
 
-\begin_layout LyX-Code
+\begin_layout Subsubsection
+symbol-prefix
+\begin_inset Index idx
+status open
 
+\begin_layout Plain Layout
+symbol-prefix
+\end_layout
+
+\end_inset
+
+ <symbol>
+\end_layout
+
+\begin_layout Standard
+The function returns a Pair containing the symbol's namespace prefix and
+ namespace URL if any, otherwise NIL.
+\end_layout
+
+\begin_layout LyX-Code
+> symbol-namespace ^u:format 
+\end_layout
+
+\begin_layout LyX-Code
+:  ('u' = 'http://www.genyris.org/lang/utilities#') # Pair  
 \end_layout
 
 \begin_layout Section
@@ -11497,7 +11520,7 @@ include 'examples/people.g'
 \end_layout
 
 \begin_layout LyX-Code
-@prefix foaf 'http://xmlns.com/foaf/0.1/'
+@ns foaf 'http://xmlns.com/foaf/0.1/'
 \end_layout
 
 \begin_layout Standard
@@ -13166,7 +13189,7 @@ Syntax:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix u 'http://www.genyris.org/lang/utilities#'
+@ns u 'http://www.genyris.org/lang/utilities#'
 \end_layout
 
 \begin_layout LyX-Code
@@ -14049,7 +14072,7 @@ var str-parser
 \begin_layout LyX-Code
       .new "# comment
 \backslash
-n@prefix : 'http://www.foo.bar/quux#'
+n@ns : 'http://www.foo.bar/quux#'
 \backslash
 n
 \end_layout
@@ -14105,12 +14128,12 @@ parser(.read)
 \end_layout
 
 \begin_layout Paragraph
-.prefix
+.namespace
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-.prefix
+.namespace
 \end_layout
 
 \end_inset
@@ -14121,7 +14144,7 @@ status open
 \begin_layout Standard
 The .
 \emph on
-prefix
+namespace
 \emph default
  method adds a namespace prefix to the parser as described in section 
 \begin_inset CommandInset ref
@@ -14139,7 +14162,7 @@ str-parser
 \end_layout
 
 \begin_layout LyX-Code
-   .prefix "rdf" "http://w3c/rdf#"
+   .namespace "rdf" "http://w3c/rdf#"
 \end_layout
 
 \begin_layout Paragraph
@@ -14199,7 +14222,7 @@ reference "subsec:Non-Indented-Syntax"
 .
  The methods 
 \emph on
-.new, .read, .prefix
+.new, .read, .namespace
 \emph default
  and .
 \emph on
@@ -14234,11 +14257,11 @@ Example:
 \end_layout
 
 \begin_layout LyX-Code
-:       .prefix "rdf" "http://w3c/rdf#"
+:       .namespace "rdf" "http://w3c/rdf#"
 \end_layout
 
 \begin_layout LyX-Code
-:       .prefix "rdfs" "http://w3c/rdfs#"
+:       .namespace "rdfs" "http://w3c/rdfs#"
 \end_layout
 
 \begin_layout LyX-Code
@@ -15012,11 +15035,11 @@ The reader task is launched and executes this code:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix task 'http://www.genyris.org/lang/task#'
+@ns task 'http://www.genyris.org/lang/task#'
 \end_layout
 
 \begin_layout LyX-Code
-@prefix sys 'http://www.genyris.org/lang/system#'
+@ns sys 'http://www.genyris.org/lang/system#'
 \end_layout
 
 \begin_layout LyX-Code
@@ -15080,11 +15103,11 @@ The writer tasks open the pipe and repeatedly write lines:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix task 'http://www.genyris.org/lang/task#'
+@ns task 'http://www.genyris.org/lang/task#'
 \end_layout
 
 \begin_layout LyX-Code
-@prefix sys 'http://www.genyris.org/lang/system#'
+@ns sys 'http://www.genyris.org/lang/system#'
 \end_layout
 
 \begin_layout LyX-Code
@@ -15218,7 +15241,7 @@ Example, fetching the root file from the localhost server on port 80, using
 \end_layout
 
 \begin_layout LyX-Code
-@prefix web "http://www.genyris.org/lang/web#"
+@ns web "http://www.genyris.org/lang/web#"
 \end_layout
 
 \begin_layout LyX-Code
@@ -15673,7 +15696,7 @@ namespaces
 
 
 \emph on
-@prefix
+@ns
 \emph default
 
 \begin_inset Index idx
@@ -15692,7 +15715,7 @@ status open
 
 \end_inset
 
-@prefix
+@ns
 \end_layout
 
 \end_inset
@@ -15705,15 +15728,15 @@ status open
 \end_layout
 
 \begin_layout LyX-Code
-@prefix magic 'http://my.org/2008/spells/'
+@ns magic 'http://my.org/2008/spells/'
 \end_layout
 
 \begin_layout Standard
 Here the expression starting with
 \emph on
- @prefi
+ @ns
 \emph default
-x is consumed by the parser, and any subsequent symbols it sees starting
+ is consumed by the parser, and any subsequent symbols it sees starting
  with the prefix
 \emph on
  magic
@@ -15737,7 +15760,7 @@ x is consumed by the parser, and any subsequent symbols it sees starting
 \end_layout
 
 \begin_layout LyX-Code
-> @prefix magic 'http://my.org/2008/spells/'
+> @ns magic 'http://my.org/2008/spells/'
 \end_layout
 
 \begin_layout LyX-Code
@@ -15763,11 +15786,11 @@ Here is the previous example re-worked using a namespace:
 \end_layout
 
 \begin_layout LyX-Code
-## File Handling Module (using prefixes)
+## File Handling Module (using namespaces)
 \end_layout
 
 \begin_layout LyX-Code
-@prefix file 'http://my/files/'
+@ns file 'http://my/files/'
 \end_layout
 
 \begin_layout LyX-Code
@@ -15791,7 +15814,7 @@ def file:zip(file) etc
 \end_layout
 
 \begin_layout LyX-Code
-@prefix f 'http://my/files/'
+@ns f 'http://my/files/'
 \end_layout
 
 \begin_layout LyX-Code
@@ -15833,7 +15856,7 @@ Like RDF, Genyris supports sharing of property names (or method names) amongst
 \end_layout
 
 \begin_layout LyX-Code
-@prefix foaf 'http://xmlns.com/foaf/0.1/' 
+@ns foaf 'http://xmlns.com/foaf/0.1/'
 \end_layout
 
 \begin_layout LyX-Code
@@ -15891,11 +15914,11 @@ If extensive use of mixins or multiple inheritance is used, name clashes
 \end_layout
 
 \begin_layout LyX-Code
-@prefix graphics 'http://www.gameslib.org/interfaces/'
+@ns graphics 'http://www.gameslib.org/interfaces/'
 \end_layout
 
 \begin_layout LyX-Code
-@prefix weapon 'http://mygame.com/007/'
+@ns weapon 'http://mygame.com/007/'
 \end_layout
 
 \begin_layout LyX-Code
@@ -16052,7 +16075,7 @@ RDF
 \end_layout
 
 \begin_layout LyX-Code
-> @prefix us "http://places.org/usa#"
+> @ns us "http://places.org/usa#"
 \end_layout
 
 \begin_layout LyX-Code
@@ -16705,7 +16728,7 @@ The class tree can be inspected by traversing the
 \end_layout
 
 \begin_layout LyX-Code
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns u "http://www.genyris.org/lang/utilities#"
 \end_layout
 
 \begin_layout LyX-Code
@@ -18879,7 +18902,7 @@ The
 \end_layout
 
 \begin_layout LyX-Code
-@prefix sys 'http://www.genyris.org/lang/system#'
+@ns sys 'http://www.genyris.org/lang/system#'
 \end_layout
 
 \begin_layout LyX-Code
@@ -18989,7 +19012,7 @@ or
 \end_layout
 
 \begin_layout LyX-Code
-@prefix task 'http://www.genyris.org/lang/task#'
+@ns task 'http://www.genyris.org/lang/task#'
 \end_layout
 
 \begin_layout LyX-Code
@@ -19906,7 +19929,7 @@ ors of the Java class.
 \end_layout
 
 \begin_layout LyX-Code
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns java 'http://www.genyris.org/lang/java#'
 \end_layout
 
 \begin_layout LyX-Code

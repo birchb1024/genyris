@@ -1,9 +1,9 @@
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix task "http://www.genyris.org/lang/task#"
-@prefix u   "http://www.genyris.org/lang/utilities#"
-@prefix : "http://www.genyris.org/lang/types#"
-@prefix render "http://www.genyris.org/lib/render#"
-@prefix foaf 'http://xmlns.com/foaf/0.1/'
+@ns sys "http://www.genyris.org/lang/system#"
+@ns task "http://www.genyris.org/lang/task#"
+@ns u   "http://www.genyris.org/lang/utilities#"
+@ns : "http://www.genyris.org/lang/types#"
+@ns render "http://www.genyris.org/lib/render#"
+@ns foaf 'http://xmlns.com/foaf/0.1/'
 
 include "lib/types.g"
 include "lib/types-render.g"
@@ -84,11 +84,11 @@ class DemoDate(DemoString)
 def parse_string (string)
     " parse a string returning the expression "
     (IndentedParser(.new string))
-        .prefix ^sys "http://www.genyris.org/lang/system#"
-        .prefix ^u "http://www.genyris.org/lang/utilities#"
-        .prefix ^java 'http://www.genyris.org/lang/java#'
-        .prefix ^foaf 'http://xmlns.com/foaf/0.1/'
-        .prefix ^type 'http://www.genyris.org/lang/types#'
+        .namespace ^sys "http://www.genyris.org/lang/system#"
+        .namespace ^u "http://www.genyris.org/lang/utilities#"
+        .namespace ^java 'http://www.genyris.org/lang/java#'
+        .namespace ^foaf 'http://xmlns.com/foaf/0.1/'
+        .namespace ^type 'http://www.genyris.org/lang/types#'
         .read
 
 define root_classes (list :Record :SequenceOfRecords DemoString foaf:Person)

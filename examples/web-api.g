@@ -1,8 +1,8 @@
 #
 # Example hit some REST APIS on the Intenet.
 #
-@prefix u   "http://www.genyris.org/lang/utilities#"
-@prefix web "http://www.genyris.org/lang/web#"
+@ns u   "http://www.genyris.org/lang/utilities#"
+@ns web "http://www.genyris.org/lang/web#"
 
 def get-response-body(url)
     var response (web:get url)

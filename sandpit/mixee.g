@@ -2,7 +2,7 @@
 ##
 ##
 include "examples/mixin.g"
-@prefix m "MyMixin#"
+@ns m "MyMixin#"
 
 class Mixee(m:Mixin)
   def .foo() "foo"

@@ -1,8 +1,8 @@
 #
 # A very simple shell
 #
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
 define OS (os(.getProperties))!|os.name|
 

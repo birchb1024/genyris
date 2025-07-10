@@ -1,5 +1,5 @@
-@prefix task "http://www.genyris.org/lang/task#"
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns task "http://www.genyris.org/lang/task#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
 def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
 

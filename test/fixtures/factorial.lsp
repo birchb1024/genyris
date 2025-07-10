@@ -7,7 +7,7 @@
 #  Factorial function
 #
 
-(@prefix u "http://www.genyris.org/lang/utilities#")
+(@ns u "http://www.genyris.org/lang/utilities#")
 (u:format "Factorial")
 
 (assertEqual ^2 (quote 2))

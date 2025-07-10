@@ -1,6 +1,6 @@
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix task "http://www.genyris.org/lang/task#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns task "http://www.genyris.org/lang/task#"
 
 u:format "Child: %s\n" sys:argv
 var shared (nth 1 sys:argv)

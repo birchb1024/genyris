@@ -89,7 +89,7 @@ public class Constants {
         public static final String PARENPARSER = "ParenParser";
         public static final String XMLPARSER = "XMLParser";
         public static final String STDIN = "stdin";
-        public static final String PREFIX = "@prefix";
+        public static final String PREFIX = "@ns";
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";
         public static final String GENYRIS = "http://www.genyris.org/lang/";
         public static final String ARGS = "argv";

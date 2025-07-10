@@ -3,9 +3,9 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-@prefix u   "http://www.genyris.org/lang/utilities#"
-@prefix web "http://www.genyris.org/lang/web#"
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns u   "http://www.genyris.org/lang/utilities#"
+@ns web "http://www.genyris.org/lang/web#"
+@ns sys "http://www.genyris.org/lang/system#"
 import csv
 include 'lib/classify.g'
 
@@ -27,10 +27,10 @@ define store (graph)
 def myparse (string)
    # parse a string returning the expression
    (ParenParser(.new string))
-      .prefix "rdf" "http://w3c/rdf#"
-      .prefix "rdfs" "http://w3c/rdfs#"
-      .prefix "dw" "http://coles/data-warehouse#"
-      .prefix "scm" "http://coles/scm#"
+      .namespace "rdf" "http://w3c/rdf#"
+      .namespace "rdfs" "http://w3c/rdfs#"
+      .namespace "dw" "http://coles/data-warehouse#"
+      .namespace "scm" "http://coles/scm#"
       .read
 
 def tryToParseSymbol (str)

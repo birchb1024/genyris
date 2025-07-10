@@ -1,4 +1,4 @@
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 assert
    equal?
@@ -181,20 +181,20 @@ def archive(filename)
     file!zip "/tmp/foo"
     file!delete filename
       
-@prefix file "http://my/files/"
+@ns file "http://my/files/"
 
 def file:copy(from to) etc
 def file:delete(filename) etc
 def file:zip(file) etc
 
 ## Use of the file module
-@prefix f "http://my/files/"
+@ns f "http://my/files/"
 def archive(filename)
     f:copy filename "/tmp/foo"
     f:zip "/tmp/foo"
     f:delete filename
 
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 setq sys:path (cons 'examples' sys:path)
 import file
 

@@ -5,7 +5,7 @@
 ##
 load "lib/classify.g"
 
-@prefix p "http://www.humans.org/people#"
+@ns p "http://www.humans.org/people#"
 
 def between (low it high)
    and

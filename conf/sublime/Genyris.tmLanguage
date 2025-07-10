@@ -42,7 +42,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>^@prefix\s[A-Za-z\:\&lt;]+\s</string>
+			<string>^@ns\s[A-Za-z\:\&lt;]+\s</string>
 			<key>name</key>
 			<string>keyword.other</string>
 		</dict>

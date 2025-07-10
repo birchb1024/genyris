@@ -34,7 +34,7 @@ public class PrefixMapper {
             new URL(uri);
         }
         catch (MalformedURLException e) {
-            throw new GenyrisException("prefix is not mapped to a valid URL: " + uri);
+            throw new GenyrisException("namespace for '" + abbrev +"' is not a valid URL: " + uri);
         }
         if(abbrev.startsWith(String.valueOf(_dynaChar))) {
             throw new GenyrisException("cannot start a abbreviation with " + _dynaChar + " in parse: " + abbrev);

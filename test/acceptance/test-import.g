@@ -1,7 +1,7 @@
 #
 # Test nested imports.
 #
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 assertEqual (prepend-home 'foo') ('%a/foo' (.format System!HOME))
 cond

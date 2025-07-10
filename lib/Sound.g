@@ -1,4 +1,4 @@
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns java 'http://www.genyris.org/lang/java#'
 
 java:import 'org.genyris.io.sound.Sound'
 

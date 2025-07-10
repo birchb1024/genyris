@@ -2,7 +2,7 @@
 # Script to locate executables on the windows
 # system path.
 #
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
 def which(exe)
     var result nil

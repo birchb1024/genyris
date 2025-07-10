@@ -1,6 +1,6 @@
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix task "http://www.genyris.org/lang/task#"
-@prefix u   "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns task "http://www.genyris.org/lang/task#"
+@ns u   "http://www.genyris.org/lang/utilities#"
 
 define forever (power 2 62)
 

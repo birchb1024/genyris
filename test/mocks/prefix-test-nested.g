@@ -1,4 +1,4 @@
-@prefix myprefix "http://nested-prefix#"
+@ns myprefix "http://nested-prefix#"
 var myprefix:foo 1
 assert
     equal? (intern "http://nested-prefix#foo") ^myprefix:foo

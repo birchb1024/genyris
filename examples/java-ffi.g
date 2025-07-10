@@ -1,5 +1,5 @@
-@prefix java 'http://www.genyris.org/lang/java#'
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns java 'http://www.genyris.org/lang/java#'
+@ns u "http://www.genyris.org/lang/utilities#"
 #
 #  Example shows use of Java FFI calls
 #

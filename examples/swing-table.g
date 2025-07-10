@@ -1,4 +1,4 @@
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns java 'http://www.genyris.org/lang/java#'
 java:import 'javax.swing.JFrame' as JFrame
 java:import 'javax.swing.JPanel' as JPanel
 java:import 'javax.swing.JTable' as JTable

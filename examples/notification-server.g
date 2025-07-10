@@ -1,6 +1,6 @@
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix email "http://www.genyris.org/lang/email#"
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns email "http://www.genyris.org/lang/email#"
 
 include "/workspace/genyris/lib/classify.g"
 

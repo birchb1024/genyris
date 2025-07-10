@@ -14,7 +14,7 @@
 # The   FizzBuzz   problem was presented as the lowest level of comprehension 
 # required to illustrate adequacy.
 #
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
 # The traditional version
 def fizzbuzz (n)

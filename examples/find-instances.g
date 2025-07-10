@@ -1,7 +1,7 @@
 #
 # Find objects at the root with a particular class
 #
-@prefix u 'http://www.genyris.org/lang/utilities#'
+@ns u 'http://www.genyris.org/lang/utilities#'
 
 def find-instances(klass)
   print klass

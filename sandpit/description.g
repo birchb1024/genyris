@@ -1,6 +1,6 @@
-@prefix ex "http://example.org/schemas/vehicles#"
-@prefix rdf "http://rdf.org/stuff#"
-@prefix s "http://example.org/students#"
+@ns ex "http://example.org/schemas/vehicles#"
+@ns rdf "http://rdf.org/stuff#"
+@ns s "http://example.org/students#"
 
 df description (&rest args) args
 
@@ -45,7 +45,7 @@ description
         |ftp://ftp3.example.org/|
 
 
-@prefix p "http://mine.org/person#"
+@ns p "http://mine.org/person#"
 
 description
    p:Name

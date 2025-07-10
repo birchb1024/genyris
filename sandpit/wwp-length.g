@@ -1,4 +1,4 @@
-@prefix l "http://www.measures.org/length#"
+@ns l "http://www.measures.org/length#"
 
 class l:Inches(Bignum)
    def .toMeters()

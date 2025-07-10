@@ -30,7 +30,7 @@ public abstract class StreamParser extends Atom {
 
     public static class PrefixMethod extends AbstractParserMethod {
         public PrefixMethod(Interpreter interp) {
-            super(interp, "prefix");
+            super(interp, "namespace");
         }
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

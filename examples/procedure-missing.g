@@ -1,7 +1,7 @@
 #
 # Example of hooking undefined function calls.
 #
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 def sys:procedure-missing(&rest args)
   cond

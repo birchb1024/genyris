@@ -1,7 +1,7 @@
 #
 #
 #
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 define private-var1 123
 define .public-var1 145

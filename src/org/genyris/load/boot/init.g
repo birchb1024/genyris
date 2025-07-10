@@ -3,10 +3,10 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-@prefix syn "http://www.genyris.org/lang/syntax#"
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix date "http://www.genyris.org/lang/date#"
+@ns syn "http://www.genyris.org/lang/syntax#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns date "http://www.genyris.org/lang/date#"
 
 class syn:Keyword(SimpleSymbol)
 tag syn:Keyword ^function

@@ -5,7 +5,7 @@
 ##
 
 # Uses Friend Of A Friend class names.
-@prefix foaf 'http://xmlns.com/foaf/0.1/'
+@ns foaf 'http://xmlns.com/foaf/0.1/'
 
 include "lib/classify.g"
 

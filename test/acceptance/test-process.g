@@ -1,7 +1,7 @@
 #
 #  Test OS Process Spawning, and reading from its output.
 #
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns java 'http://www.genyris.org/lang/java#'
 
 print Process!vars
 var OS-name 

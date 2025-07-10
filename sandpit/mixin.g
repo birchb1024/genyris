@@ -2,7 +2,7 @@
 ### Mixins
 ###
 
-@prefix m "MyMixin#"
+@ns m "MyMixin#"
 class m:Mixin()
    def .m:aMethod() "aMixinMethod"
 

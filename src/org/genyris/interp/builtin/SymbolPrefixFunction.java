@@ -15,7 +15,7 @@ import org.genyris.interp.Interpreter;
 public class SymbolPrefixFunction extends ApplicableFunction {
 
     public SymbolPrefixFunction(Interpreter interp) {
-    	super(interp, "symbol-prefix", true);
+    	super(interp, "symbol-namespace", true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations)

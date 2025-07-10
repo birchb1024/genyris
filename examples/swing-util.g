@@ -1,4 +1,4 @@
-@prefix java 'http://www.genyris.org/lang/java#'
+@ns java 'http://www.genyris.org/lang/java#'
 java:import 'java.awt.Color' as Color
 java:import 'java.awt.Graphics' as Graphics
 java:import 'javax.swing.JFrame' as JFrame

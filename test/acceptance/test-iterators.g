@@ -2,8 +2,8 @@
 # Tests for various kinds of iterators and macros.
 #
 
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 # Ranges
 

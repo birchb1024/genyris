@@ -1,7 +1,7 @@
 #
 # Test hooking undefined function calls.
 #
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 #
 # Test to make sure that if sys:procedure-missing is broken it gives

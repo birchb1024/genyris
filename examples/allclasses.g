@@ -1,7 +1,7 @@
 #
 # print out the class hierarchy
 #
-@prefix u "http://www.genyris.org/lang/utilities#"
+@ns u "http://www.genyris.org/lang/utilities#"
 
 def indent(depth)
     while (> depth 0)

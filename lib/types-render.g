@@ -1,5 +1,5 @@
-@prefix type "http://www.genyris.org/lang/types#"
-@prefix : "http://www.genyris.org/lib/render#"
+@ns type "http://www.genyris.org/lang/types#"
+@ns : "http://www.genyris.org/lib/render#"
 
 do
    def atomTohtml(klass cell)

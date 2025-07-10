@@ -1,7 +1,7 @@
 #
 # Time and date tests
 #
-@prefix date "http://www.genyris.org/lang/date#"
+@ns date "http://www.genyris.org/lang/date#"
 
 var epoch (dict (.am-pm = ^am) (.day-of-month = 1) (.day-of-week = 5) (.day-of-week-in-month = 1) (.day-of-year = 1) (.dst-offset = 0) (.era = ^AD) (.hour = 0) (.hour-of-day = 0) (.leap-year = nil) (.millisecond = 0) (.minute = 0) (.month = 0) (.second = 0) (.week-of-month = 1) (.week-of-year = 1) (.year = 1970) (.zone-offset = 0)) # Calendar Dictionary
 assert

@@ -3410,7 +3410,7 @@ A way to prevent name clashes between modules is to use symbol prefixes
 \begin_inset Quotes eld
 \end_inset
 
-@prefix
+@ns
 \begin_inset Quotes erd
 \end_inset
 
@@ -3418,7 +3418,7 @@ A way to prevent name clashes between modules is to use symbol prefixes
 \end_layout
 
 \begin_layout LyX-Code
-@prefix magic "http://my.org/2008/spells/"
+@ns magic "http://my.org/2008/spells/"
 \end_layout
 
 \begin_layout Standard
@@ -3450,7 +3450,7 @@ http://my.org/2008/spells/accio
 \end_layout
 
 \begin_layout LyX-Code
-> @prefix magic "http://my.org/2008/spells/"
+> @ns magic "http://my.org/2008/spells/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3470,7 +3470,7 @@ Here is the previous example re-worked using a namespace:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix file "genyris:/files/"
+@ns file "genyris:/files/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -3494,7 +3494,7 @@ def file.zip(file) ...
 \end_layout
 
 \begin_layout LyX-Code
-@prefix f "genyris:/files/"
+@ns f "genyris:/files/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -4856,7 +4856,7 @@ A simple nominative approach could be used to designate a non-validating
 \end_layout
 
 \begin_layout LyX-Code
-@prefix streams "http://myproject.org/interfaces/2008/streams/"
+@ns streams "http://myproject.org/interfaces/2008/streams/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -4884,7 +4884,7 @@ Usage in another file:
 \end_layout
 
 \begin_layout LyX-Code
-@prefix str "http://myproject.org/interfaces/2008/streams/"
+@ns str "http://myproject.org/interfaces/2008/streams/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -4956,7 +4956,7 @@ file.
 \end_layout
 
 \begin_layout LyX-Code
-@prefix file "genyris:/files/"
+@ns file "genyris:/files/"
 \end_layout
 
 \begin_layout LyX-Code
@@ -4989,11 +4989,11 @@ Because symbols have properties, and properties can have prefixes, we can
 \end_layout
 
 \begin_layout LyX-Code
-@prefix rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+@ns rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 \end_layout
 
 \begin_layout LyX-Code
-@prefix dc "http://purl.org/dc/elements/1.1/"
+@ns dc "http://purl.org/dc/elements/1.1/"
 \end_layout
 
 \begin_layout LyX-Code

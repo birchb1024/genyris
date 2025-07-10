@@ -5,7 +5,7 @@
 # Example:
 #   for f in ^(a b c d)
 #      print f
-@prefix sys "http://www.genyris.org/lang/system#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 defmacro for (varname keyword container &rest body)
   cond ((not (equal? keyword ^in)) (raise 'syntax error: for was expecting in'))

@@ -5,9 +5,9 @@
 ## root path directory name - e.g. "F:\\foo\\bar\\"
 ##
 ##
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix u "http://www.genyris.org/lang/utilities#"
-@prefix task "http://www.genyris.org/lang/task#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns u "http://www.genyris.org/lang/utilities#"
+@ns task "http://www.genyris.org/lang/task#"
 
 define forever (power 2 62)
 define number-threads 10

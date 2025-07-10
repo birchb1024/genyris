@@ -161,7 +161,7 @@ public class ComplexInterpreterTests extends TestCase {
 		exerciseEval("((ParenParser(.new '(+ 1 2 3)'))(.read))", "(+ 1 2 3)");
 	}
 	public void testprefixeddynamic() throws Exception {
-		exerciseEval("(@prefix erk 'http://foo/sys#')^.erk:foo",".erk:foo");
+		exerciseEval("(@ns erk 'http://foo/sys#')^.erk:foo",".erk:foo");
 	}
 
 	public void testParseXMLString() throws Exception {

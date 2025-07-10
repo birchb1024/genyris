@@ -1,9 +1,9 @@
 #
 # Server to return POST request parameters
 #
-@prefix sys "http://www.genyris.org/lang/system#"
-@prefix task "http://www.genyris.org/lang/task#"
-@prefix u   "http://www.genyris.org/lang/utilities#"
+@ns sys "http://www.genyris.org/lang/system#"
+@ns task "http://www.genyris.org/lang/task#"
+@ns u   "http://www.genyris.org/lang/utilities#"
 
 df httpd-serve (request)
    list 200 "text/plain"

@@ -3,7 +3,7 @@
 ## This software may be used and distributed according to the terms
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
-@prefix : "http://www.genyris.org/lang/system#"
+@ns : "http://www.genyris.org/lang/system#"
 #
 # Load extension functions
 #     These have to be before any interpreted code since they define functions in the interpreter.

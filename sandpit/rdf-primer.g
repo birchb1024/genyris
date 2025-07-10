@@ -8,14 +8,14 @@
         contact:mailbox $email
         contact:personalTitle  $title 
         
-@prefix ex "http.//some/example/"
+@ns ex "http.//some/example/"
 ex:Person
     rdf:type g:Class
     g:description "This class yada yada yada..."
     g:superclass ex:Item
     
-@prefix ex "http://example.org/schemas/vehicles"
-@prefix rdf "http://example.org/schemas/vehicles"
+@ns ex "http://example.org/schemas/vehicles"
+@ns rdf "http://example.org/schemas/vehicles"
 ex:MotorVehicle       rdf:type          rdfs:Class 
 ex:PassengerVehicle   rdf:type          rdfs:Class 
 ex:Van                rdf:type          rdfs:Class 
