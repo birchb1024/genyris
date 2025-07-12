@@ -105,15 +105,7 @@ load "org/genyris/load/boot/os.g"
 
 import Base64
 
-class ShortDateTimeString(String)
-def format-date(epoch format)
-   tag ShortDateTimeString
-      date:format-date epoch format
 def now() (os!ticks)
-
-class Calendar
-def calendar(epochmilliseconds)
-    tag Calendar (date:calendar  epochmilliseconds)
 
 def sys:self-test()
     include 'test/acceptance/suite.g'

@@ -22194,7 +22194,7 @@ os!ticks
 
 
 \emph default
- - Current system time in milliseconds since the epoch
+ - Current UTC system time in milliseconds since the epoch
 \end_layout
 
 \begin_layout LyX-Code
@@ -22214,7 +22214,7 @@ os!ticks
 \end_layout
 
 \begin_layout LyX-Code
-> format-date 0 "dd MMM yyyy HH:mm:ss Z" 'GMT'
+> date:format-date 0 "dd MMM yyyy HH:mm:ss Z" 'GMT'
 \end_layout
 
 \begin_layout LyX-Code
@@ -22256,7 +22256,7 @@ os!ticks
 \begin_layout Subsection
 
 \emph on
-format-date
+date:format-date
 \begin_inset Index idx
 status open
 
@@ -22270,15 +22270,15 @@ format-date
 
 
 \emph default
- <epoch milliseconds> <format String> <timezone>
+ <epoch milliseconds> <format String> [timezone]
 \end_layout
 
 \begin_layout Standard
-For example:
+examples:
 \end_layout
 
 \begin_layout LyX-Code
-> format-date (os!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
+> date:format-date (os!ticks) "dd MMM yyyy HH:mm:ss z" "Australia/Melbourne"
 \end_layout
 
 \begin_layout LyX-Code
@@ -22286,13 +22286,33 @@ For example:
 \end_layout
 
 \begin_layout LyX-Code
-'24 Feb 2010 18:11:41 EST' # String
+'12 July 2025 02:13:15 AEST' # String
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> date:format-date (os!ticks) "dd MMM yyyy HH:mm:ss Z" "Australia/Melbourne"
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+'12 July 2025 02:13:15 +1000 # String 
+\end_layout
+
+\begin_layout Standard
+The default timezone is the local timezone of the system.
 \end_layout
 
 \begin_layout Subsection
 
 \emph on
-calendar
+date:calendar
 \begin_inset Index idx
 status open
 
@@ -22306,7 +22326,7 @@ calendar
 
 
 \emph default
- <epoch milliseconds> <timezone>
+ <epoch milliseconds> [timezone]
 \end_layout
 
 \begin_layout Standard
@@ -22460,6 +22480,10 @@ dict (.am-pm = pm)
 
 \begin_layout LyX-Code
 .zone-offset = 10
+\end_layout
+
+\begin_layout Standard
+The default timezone is the local timezone of the system.
 \end_layout
 
 \begin_layout Section
