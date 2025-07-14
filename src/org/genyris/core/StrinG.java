@@ -156,8 +156,12 @@ public class StrinG extends Atom {
             Pattern p = Pattern.compile(regex._value);
             Matcher m = p.matcher(_value);
             if( m.find() ) {
-                for(int i=m.groupCount(); i >= 0; i--) {
-                    retval = Pair.cons(new StrinG(m.group(i)), retval);
+                for(int i = m.groupCount(); i >= 0; i--) {
+                    String match = m.group(i);
+                    if( match == null ) {
+                        return NIL; // this group did not match
+                    }
+                    retval = Pair.cons(new StrinG(match), retval);
                 }
             }
             return retval;
