@@ -24,7 +24,7 @@ public abstract class ApplicableFunction {
         if(x instanceof Symbol){
             return _interp.intern((Symbol)x);
         }
-        throw new GenyrisException( "Cannot make a triple with " + x.toString() + " " + x.getClass().getName());
+        throw new GenyrisException( "Cannot intern " + x.toString() + " " + x.getClass().getName());
     }
 
     public ApplicableFunction(Interpreter interp, String name, boolean eager) {

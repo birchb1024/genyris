@@ -7,7 +7,7 @@
         :assertEqual (append nil ^(A)) ^(A)
         :assertEqual (append ^(B) nil) ^(B)
         :assertEqual (append ^(C) ^(D)) ^(C D)
-        :assertException 'attempt to take car of non-pair: E'
+        :assertException 'attempt to take left of non-pair: E'
             append ^E ^(3 4)
         :assertEqual (append ^(3 4) ^F) ^(3 4 = F)
 

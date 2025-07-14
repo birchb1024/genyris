@@ -16484,10 +16484,6 @@ Here is the default class hierarchy:
 \end_layout
 
 \begin_layout LyX-Code
-    Calendar
-\end_layout
-
-\begin_layout LyX-Code
     HttpRequest
 \end_layout
 
@@ -16600,7 +16596,7 @@ Here is the default class hierarchy:
 \end_layout
 
 \begin_layout LyX-Code
-             |http://www.genyris.org/lang/syntax#Keyword|
+             syn:Keyword
 \end_layout
 
 \begin_layout LyX-Code
@@ -16652,6 +16648,10 @@ Here is the default class hierarchy:
 \end_layout
 
 \begin_layout LyX-Code
+          XMLParser
+\end_layout
+
+\begin_layout LyX-Code
           ParenParser
 \end_layout
 
@@ -16685,10 +16685,6 @@ Here is the default class hierarchy:
 
 \begin_layout LyX-Code
        String
-\end_layout
-
-\begin_layout LyX-Code
-          ShortDateTimeString
 \end_layout
 
 \begin_layout LyX-Code

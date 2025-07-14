@@ -28,21 +28,21 @@ public abstract class Atom extends ExpWithEmbeddedClasses implements Comparable 
 	}
 
 	public Exp car() throws AccessException {
-		throw new AccessException("attempt to take car of non-pair: "
+		throw new AccessException("attempt to take left of non-pair: "
 				+ this.toString());
 	}
 
 	public Exp cdr() throws AccessException {
-		throw new AccessException("attempt to take cdr of non-pair: "
+		throw new AccessException("attempt to take right of non-pair: "
 				+ this.toString());
 	}
 
 	public Exp setCar(Exp exp) throws AccessException {
-		throw new AccessException("attempt to set car of non-cons");
+		throw new AccessException("attempt to set left of non-pair");
 	}
 
 	public Exp setCdr(Exp exp) throws AccessException {
-		throw new AccessException("attempt to set car of non-cons");
+		throw new AccessException("attempt to set left of non-pair");
 	}
 
 	public Environment  makeEnvironment(Environment parent) throws GenyrisException {
