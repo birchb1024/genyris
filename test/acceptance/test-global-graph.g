@@ -18,5 +18,5 @@ def test-an-exp(anExp)
    for t in ((anExp(.get-properties))(.asTriples @LINE))
       print t
 test-an-exp ^symbol
-test-an-exp 1
-test-an-exp 'string'
+test-an-exp (intern 1)
+test-an-exp (intern 'string')

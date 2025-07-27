@@ -144,7 +144,7 @@ public class GraphFunction extends ApplicableFunction {
 				throws GenyrisException {
 			AbstractGraph self = getSelfGraph(env);
 			checkArguments(arguments, 3);
-			Class[] types = { Exp.class, Exp.class, Exp.class };
+			Class[] types = { Symbol.class, Symbol.class, Exp.class };
 			checkArgumentTypes(types, arguments);
 			self.put(toSymbol(arguments[0]), toSymbol(arguments[1]), arguments[2]);
 			return _self;
