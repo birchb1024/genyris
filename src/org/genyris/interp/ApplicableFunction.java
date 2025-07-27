@@ -21,7 +21,7 @@ public abstract class ApplicableFunction {
         if( x instanceof Bignum ||  x instanceof StrinG ) {
             return _interp.intern(x.toString());
         }
-        if(x instanceof Symbol){
+        if(x instanceof Symbol && !(x instanceof DynamicSymbol)){
             return _interp.intern((Symbol)x);
         }
         throw new GenyrisException( "Cannot intern " + x.toString() + " " + x.getClass().getName());
