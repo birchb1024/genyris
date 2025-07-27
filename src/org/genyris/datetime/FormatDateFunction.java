@@ -4,10 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
-import org.genyris.core.Exp;
-import org.genyris.core.StrinG;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -22,14 +19,24 @@ public class FormatDateFunction extends AbstractDateTimeFunction {
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
 		TimeZone tz;
+
+		checkArguments(arguments, 3);
+		Class[] types = { Bignum.class, StrinG.class, StrinG.class };
+		checkArgumentTypes(types, arguments);
+
 		if (arguments.length == 2) {
 			tz = TimeZone.getDefault();
 		} else {
 			tz = TimeZone.getTimeZone(arguments[2].toString());
 		}
 		Date in = new Date(((Bignum)arguments[0]).bigDecimalValue().longValue());
-		SimpleDateFormat df = new SimpleDateFormat(arguments[1].toString());
-		df.setTimeZone(tz);
-		return new StrinG(df.format(in));
+		try {
+			SimpleDateFormat df = new SimpleDateFormat(arguments[1].toString());
+			df.setTimeZone(tz);
+			return new StrinG(df.format(in));
+		}
+		catch (Exception e) {
+			throw new GenyrisException(e.getMessage());
+		}
 	}
 }
