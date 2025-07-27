@@ -11,8 +11,4 @@ public class GenyrisUserException extends GenyrisException {
     public GenyrisUserException(Exp exp, Environment env) {
         super(exp);
     }
-	public String getMessage() {
-		return GenyrisUserException.class.toString() + ": " 
-		+ (_reason != null ? _reason.toString() : super.getMessage());
-	}	
 }

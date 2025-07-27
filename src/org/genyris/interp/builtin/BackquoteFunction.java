@@ -5,10 +5,7 @@
 //
 package org.genyris.interp.builtin;
 
-import org.genyris.core.Constants;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.PairEquals;
+import org.genyris.core.*;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -39,14 +36,18 @@ public class BackquoteFunction extends ApplicableFunction {
 			Pair list = (Pair) sexp;
 			if (list.car() == DOLLAR) {
 				return list.cdr().car().eval(env);
-			} else if (list.car().isPair() && list.car().car() == AT) {
+			}
+			if (list.car().isPair() && list.car().car() == AT) {
 				Exp res = list.car().cdr().car().eval(env);
 				Exp rest = backQuoteAux(env, list.cdr());
 				return append(res, rest);
-			} else {
-				return new Pair(backQuoteAux(env, list.car()), backQuoteAux(
-						env, list.cdr()));
 			}
+			if (list instanceof PairSource) {
+				return new PairSource(backQuoteAux(env, list.car()),
+						backQuoteAux(env, list.cdr()),
+						((PairSource)list).filename, ((PairSource)list).lineNumber);
+			}
+			return new Pair(backQuoteAux(env, list.car()), backQuoteAux( env, list.cdr()));
 		}
 	}
 
@@ -56,9 +57,11 @@ public class BackquoteFunction extends ApplicableFunction {
 		}
 		if (l1 instanceof PairEquals) {
 			return new PairEquals(l1.car(), append(l1.cdr(), l2));
-
-		} else {
-			return new Pair(l1.car(), append(l1.cdr(), l2));
 		}
+		if (l1 instanceof PairSource) {
+			PairSource tmp = new PairSource(l1.car(), append(l1.cdr(), l2), ((PairSource)l1).filename, ((PairSource)l1).lineNumber);
+			return tmp;
+		}
+		return new Pair(l1.car(), append(l1.cdr(), l2));
 	}
 }

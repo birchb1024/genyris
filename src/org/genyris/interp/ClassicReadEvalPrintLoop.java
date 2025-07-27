@@ -74,7 +74,7 @@ public class ClassicReadEvalPrintLoop {
                     interpreter.getSymbolTable(), filename, output);
             return 0;
         } catch (GenyrisException e) {
-            output.write("*** Error in file : " + filename + " " + e.getData());
+            output.write("*** Error in file : " + filename + " " + e.getMessage());
             output.flush();
             return -1;
         }
@@ -96,7 +96,7 @@ public class ClassicReadEvalPrintLoop {
             System.exit(result == interp.NIL ? 0 : 1);
 
         } catch (GenyrisException e) {
-            output.write("*** Error in script: " + e.getData());
+            output.write("*** Error in script: " + e.getMessage());
             output.flush();
             System.exit(-1);
         }

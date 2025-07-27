@@ -35,7 +35,7 @@ public abstract class Exp implements Classifiable, Closure, Comparable {
     public abstract Exp eval(Environment env) throws GenyrisException;
 
     public Exp evalSequence(Environment env) throws GenyrisException {
-        throw new GenyrisException("Callto abstract evalSequence.");
+        throw new GenyrisException("Call to abstract evalSequence.");
     }
 
     public Exp applyFunction(Environment environment, Exp[] arguments)

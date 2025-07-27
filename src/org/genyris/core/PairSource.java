@@ -9,10 +9,9 @@ public class PairSource extends Pair {
     public String filename;
     public int lineNumber;
 
-
-    public PairSource(Exp car, Exp cdr, String filename, int lineNUmber) {
+    public PairSource(Exp car, Exp cdr, String filename, int lineNumber) {
         super(car, cdr);
-        this.lineNumber = lineNUmber;
+        this.lineNumber = lineNumber;
         this.filename = filename;
     }
     public Symbol getBuiltinClassSymbol(Internable table) {
@@ -30,4 +29,16 @@ public class PairSource extends Pair {
         return new PairSource(l, r, l.filename, l.lineNumber);
     }
 
+    public Exp eval(Environment env) throws GenyrisException {
+        try {
+            return super.eval(env);
+        }
+        catch (GenyrisException e) {
+            if (e.filename == null ) {
+                e.filename = this.filename;
+                e.lineNumber = this.lineNumber;
+            }
+            throw e;
+        }
+    }
 }

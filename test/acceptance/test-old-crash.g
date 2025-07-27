@@ -22,10 +22,9 @@ def test-fd(&rest args)
             #print err
             assert err
 
-test-fd date:format-date 37
+test-fd 0 37
 test-fd 42
 test-fd 0 '2'
 test-fd 0 666 666
 test-fd 0 'foo' 666
 test-fd 0 'fubar' ''
-
