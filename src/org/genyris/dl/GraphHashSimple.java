@@ -218,7 +218,7 @@ public class GraphHashSimple extends AbstractGraph {
         while(iter.hasNext()) {
             Triple item = (Triple)iter.next();
             result = new Pair(
-						new Triple((Symbol)item.subject, (SimpleSymbol) item.predicate, item.object ),
+						new Triple((Symbol)item.subject, (Symbol) item.predicate, item.object ),
 						result);
         }
         return result;
