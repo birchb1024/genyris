@@ -18,4 +18,7 @@ public class LexException extends GenyrisException {
         super(string);
     }
 
+    public LexException(String msg, String filename, int lineNumber) {
+        super(msg, filename, lineNumber);
+    }
 }

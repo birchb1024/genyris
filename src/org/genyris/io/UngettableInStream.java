@@ -66,7 +66,7 @@ public class UngettableInStream implements InStream {
             _input.close();
         }
 
-		public void resetAfterError() {
+		public void resetAfterError() throws LexException {
 		    _readPointer = -1;
 			_input.resetAfterError();
 		}

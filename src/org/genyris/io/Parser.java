@@ -270,7 +270,7 @@ public class Parser {
         return expression;
     }
 
-    public void resetAfterError() {
+    public void resetAfterError() throws LexException {
         _lexer.resetAfterError();
     }
 

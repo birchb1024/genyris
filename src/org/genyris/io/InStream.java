@@ -16,7 +16,7 @@ public interface InStream {
     char readNext() throws LexException;
     public boolean hasData() throws LexException;
     public void close() throws GenyrisException;
-	void resetAfterError();
+	void resetAfterError() throws LexException;
     void withinExpression(Environment env);
     void beginningExpression();
     int getLineNumber();

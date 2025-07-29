@@ -40,6 +40,13 @@ public class GenyrisException extends Exception {
 		this.lineNumber = lineNumber;
 	}
 
+	public GenyrisException(String message, String  filename, int lineNumber) {
+		super(message);
+		this._reason = new StrinG(message);
+		this.filename = filename;
+		this.lineNumber = lineNumber;
+	}
+
 	public GenyrisException(Exp data) {
 		super(data.toString());
 		this._reason = data;

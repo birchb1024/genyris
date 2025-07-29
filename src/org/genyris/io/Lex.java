@@ -379,7 +379,7 @@ public class Lex {
 
 	}
 
-	public void resetAfterError() {
+	public void resetAfterError() throws LexException {
 		_input.resetAfterError();
 	}
 

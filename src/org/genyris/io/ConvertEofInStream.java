@@ -52,7 +52,7 @@ public class ConvertEofInStream implements InStream {
     public void close() throws GenyrisException {
         _input.close();
     }
-	public void resetAfterError() {
+	public void resetAfterError() throws LexException {
         _nextByte = (char)-1;
         _haveSavedByte = false;
 		_input.resetAfterError();

@@ -16,7 +16,7 @@ public interface InStreamEOF {
 
     void close() throws GenyrisException;
 
-    void resetAfterError();
+    void resetAfterError() throws LexException;
 
     void withinExpression(Environment env);
 

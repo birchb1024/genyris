@@ -60,6 +60,7 @@ public class IndentStream implements InStreamEOF {
 	private int _maxTab;
 	private char _stringType;
 	private int _lineCount;
+	private int _parenCount;
 
 	public IndentStream(InStream in, boolean interactiveMode) {
 		_instream = in;
@@ -70,13 +71,41 @@ public class IndentStream implements InStreamEOF {
 		_parseState = LEADING_WHITE_SPACE;
 		_maxTab = 1;
 		_interactive = interactiveMode;
+		_parenCount = 0;
 	}
 
 	public void unGet(char x) throws LexException {
 		throw new LexException("unGet() not implemented in IndentStream!");
 	}
 
-	void startLine() {
+	void trace() {
+				trace(" ");
+	}
+	void trace(String sign) {
+//				System.out.printf("%s:%d %d %s %c %d\n",
+//						this._instream.getFilename() ,
+//						this._instream.getLineNumber(),
+//						this._parseState,
+//						sign,
+//						ch,
+//						_parenCount);
+	}
+	void incrementParenCount(){
+		_parenCount += 1;
+		trace("+");
+	}
+	void decrementParenCount(){
+		_parenCount -= 1;
+		trace("-");
+	}
+	void checkParens() throws LexException {
+		if(_parenCount != 0) {
+			startLine();
+			throw new LexException("unbalanced parentheses ", _instream.getFilename(), (_instream.getLineNumber() - 1) );
+		}
+	}
+
+	void startLine() throws LexException {
 		_lineLevel = 0;
 		_parseState = LEADING_WHITE_SPACE;
 		_numberOfLeadingSpaces = 0;
@@ -114,11 +143,12 @@ public class IndentStream implements InStreamEOF {
 		}
 		return result;
 	}
-	public void resetAfterError() {
+	public void resetAfterError() throws LexException {
 		startLine();
 		_bufferitReadPtr = _bufferitWritePtr = 0;
 		_currentLevel = 0;
 		_instream.resetAfterError();
+		_parenCount = 0;
 	}
 
 	public int getChar() throws LexException {
@@ -132,6 +162,7 @@ public class IndentStream implements InStreamEOF {
 					break;
 				}
 				input();
+				trace();
 				if (ch == ' ') {
 					_numberOfLeadingSpaces++;
 					break;
@@ -153,6 +184,7 @@ public class IndentStream implements InStreamEOF {
 						_lineCount++;
 						break;
 					} else {
+						checkParens();
 						startLine();
 					}
 					break;
@@ -166,13 +198,13 @@ public class IndentStream implements InStreamEOF {
 					// with the previous level
 					// Example:
 					// foo
-					// bar 1 2
-					// ~ '(1 2 3 4 5)
+					//   bar 1 2
+					//   ~ '(1 2 3 4 5)
 					// Gives: (foo (bar 1 2) '(1 2 3 4 5))
 					// xyz
-					// foo
-					// bar 1 2
-					// ~ quux
+					//   foo
+					//   bar 1 2
+					//   ~ quux
 					// Gives: (xyz (foo (bar 1 2)) quux)
 
 					stripLeadingSpaces();
@@ -206,6 +238,12 @@ public class IndentStream implements InStreamEOF {
 					}
 					if (ch == '"' || ch == '\'') {
 						_instream.unGet(ch);
+					} else if(ch == '(') {
+						incrementParenCount();
+						bufferit(ch);
+					} else if(ch == ')') {
+						decrementParenCount();
+						bufferit(ch);
 					} else {
 						bufferit(ch);
 					}
@@ -225,6 +263,7 @@ public class IndentStream implements InStreamEOF {
 
 			case IN_SYMBOL:
 				if (!_instream.hasData()) {
+					checkParens();
 					finish();
 					break;
 				}
@@ -237,6 +276,7 @@ public class IndentStream implements InStreamEOF {
 					return (ch);
 
 				case '\n':
+					checkParens();
 					startLine();
 					break;
 					
@@ -246,6 +286,7 @@ public class IndentStream implements InStreamEOF {
 
 			case IN_STRING:
 				if (!_instream.hasData()) {
+					checkParens();
 					finish();
 					break;
 				}
@@ -266,10 +307,12 @@ public class IndentStream implements InStreamEOF {
 
 			case IN_STATEMENT:
 				if (!_instream.hasData()) {
+					checkParens();
 					finish();
 					break;
 				}
 				input();
+				trace();
 				switch (ch) {
 				case '\'':
 				case '"':
@@ -286,9 +329,17 @@ public class IndentStream implements InStreamEOF {
 					break;
 
 				case '\n':
+					checkParens();
 					startLine();
 					break;
 
+				case '(':
+					incrementParenCount();
+					return (ch);
+
+				case ')':
+					decrementParenCount();
+					return (ch);
 				default:
 					return (ch);
 				}
@@ -298,6 +349,7 @@ public class IndentStream implements InStreamEOF {
 				if (_instream.hasData()) {
 					input();
 					if (ch == '\n') {
+						checkParens();
 						startLine();
 						break;
 					}

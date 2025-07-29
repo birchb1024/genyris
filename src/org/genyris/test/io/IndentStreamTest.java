@@ -156,10 +156,6 @@ public class IndentStreamTest extends TestCase {
 		excerciseIndentInteractive("~(3)", " (3)");
 	}
 
-	public void testIndentStream24() throws LexException {
-		excerciseIndentInteractive("~(3 \n~ 4)", " (3  4)");
-	}
-
 	public void testIndentStream25() throws LexException {
 		excerciseIndentInteractive("~1\n~2\n~3", " 1 2 3");
 		// ~1
