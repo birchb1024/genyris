@@ -75,7 +75,7 @@ public class Lex {
 		StringBuffer collect = new StringBuffer();
 		char ch;
 		if (!_input.hasData()) {
-			throw new LexException("unexpected end of file");
+			throw lexError("unexpected end of file");
 		}
 		ch = _input.readNext();
 		if (ch == '-') {
@@ -95,7 +95,7 @@ public class Lex {
 		try {
 			return new BigDecimal(collect.toString());
 		} catch (NumberFormatException e) {
-			throw new LexException("NumberFormatException on " + collect.toString());
+			throw lexError("NumberFormatException on " + collect.toString());
 		}
 	}
 
@@ -168,7 +168,7 @@ public class Lex {
 		char ch;
 		StringBuffer collect = new StringBuffer();
 		if (!_input.hasData()) {
-			throw new LexException("unexpected end of file " + _input.getFilename() + ":" + _input.getLineNumber());
+			throw lexError("unexpected end of file");
 		}
 		while (_input.hasData()) {
 			ch = _input.readNext();
@@ -179,17 +179,22 @@ public class Lex {
 					ch = _input.readNext();
 				collect.append(ch);
 			} else {
-				throw new LexException("unexpected end of escaped symbol"  + _input.getFilename() + ":" + _input.getLineNumber());
+				throw lexError("unexpected end of escaped symbol " + ch);
 			}
 		}
 		return _symbolTable.internSymbol(Symbol.symbolFactory(collect.toString(), true));
 	}
 
+	public LexException lexError(String msg) {
+		return new LexException(msg, _input.getFilename(),  _input.getLineNumber());
+	}
+
+
 	public Exp parseIdent() throws GenyrisException {
 		char ch;
 		StringBuffer collect = new StringBuffer("");
 		if (!_input.hasData()) {
-			throw new LexException("unexpected end of file");
+			throw lexError("unexpected end of file");
 		}
 		while (_input.hasData()) {
 			ch = _input.readNext();
@@ -319,7 +324,7 @@ public class Lex {
 					_input.unGet(ch);
 					return parseIdent();
 				} else {
-					throw new LexException("invalid input character");
+					throw lexError("invalid input character " + ch);
 				}
 			}
 		} while (true);
@@ -336,7 +341,7 @@ public class Lex {
 			} else {
 				if (ch == '\\') {
 					if (!_input.hasData())
-						throw new LexException("unexpected end of file");
+						throw lexError("unexpected end of file");
 					char ch2 = _input.readNext();
 					switch (ch2) {
 					case 'a':

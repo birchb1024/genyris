@@ -47,6 +47,11 @@ public class Parser {
     protected Exp cons(Exp l, Exp r, int line) {
         return new Pair(l,r);
     }
+
+    public ParseException parseError(String msg) {
+        return new ParseException(msg, _lexer.getFilename(), _lexer.getLineNumber());
+    }
+
     public void nextsym() throws GenyrisException {
         if (pushback == null) {
             cursym = _lexer.nextToken();
@@ -131,9 +136,9 @@ public class Parser {
         Exp old = cursym;
         nextsym();
         if (!(cursym instanceof Symbol)) {
-            throw new ParseException("Bad indirection: " + cursym.toString());
+            throw parseError("Bad indirection: " + cursym.toString());
         } else if (cursym == _lexer.DYNAMIC_TOKEN) {
-            throw new ParseException("Bad indirection: " + cursym.toString());
+            throw parseError("Bad indirection: " + cursym.toString());
         }
         tree = cons(tree, cons(
                 new DynamicSymbol((SimpleSymbol) cursym), NIL, startline), startline);
@@ -199,35 +204,35 @@ public class Parser {
         int startline = _lexer.getLineNumber();
         Exp tree = NIL;
         if (cursym.equals(_lexer.PLING_TOKEN)) {
-            throw new ParseException("unexpected !");
+            throw parseError("unexpected !");
         }
         if (cursym.equals(_lexer.CDR_TOKEN)) {
-            throw new ParseException("unexpected =");
+            throw parseError("unexpected =");
         }
         if (cursym.equals(_lexer.EOF_TOKEN)) {
-            throw new ParseException("unexpected End of File");
+            throw parseError("unexpected End of File");
         }
         if (cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
-            throw new ParseException("unexpected right paren");
+            throw parseError("unexpected right paren");
         }
         if (cursym.equals(_lexer.LEFT_PAREN_TOKEN)) {
             tree = parseList(NIL);
             if (!cursym.equals(_lexer.RIGHT_PAREN_TOKEN)) {
-                throw new ParseException("missing right paren - found: "
+                throw parseError("missing right paren - found: "
                         + cursym);
             }
         } else if (cursym.equals(_lexer.LEFT_SQUARE_TOKEN)) {
             tree = parseList(NIL);
             tree = cons(_table.SQUARE(), tree, startline);
             if (!cursym.equals(_lexer.RIGHT_SQUARE_TOKEN)) {
-                throw new ParseException("missing right square brace - found: "
+                throw parseError("missing right square brace - found: "
                         + cursym);
             }
         } else if (cursym.equals(_lexer.LEFT_CURLY_TOKEN)) { // TOD DRY - SQUARE
             tree = parseList(NIL);
             tree = cons(_table.CURLY(), tree, startline);
             if (!cursym.equals(_lexer.RIGHT_CURLY_TOKEN)) {
-                throw new ParseException("missing right curly brace - found: "
+                throw parseError("missing right curly brace - found: "
                         + cursym);
             }
         } else if (cursym == _lexer.BACKQUOTE_TOKEN) {
@@ -247,7 +252,7 @@ public class Parser {
             if (cursym instanceof SimpleSymbol) {
                 tree = new DynamicSymbol((SimpleSymbol) cursym);
             } else {
-                throw new ParseException("period found before non-symbol: "
+                throw parseError("period found before non-symbol: "
                         + cursym);
             }
         } else {

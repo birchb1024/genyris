@@ -15,4 +15,7 @@ public class ParseException extends GenyrisException {
             super(string);
         }
 
+    public ParseException(String string, String filename, int lineNumber) {
+        super( string,  filename,  lineNumber);
     }
+}

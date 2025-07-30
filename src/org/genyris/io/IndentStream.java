@@ -75,7 +75,7 @@ public class IndentStream implements InStreamEOF {
 	}
 
 	public void unGet(char x) throws LexException {
-		throw new LexException("unGet() not implemented in IndentStream!");
+		throw lexError("unGet() not implemented in IndentStream!");
 	}
 
 	void trace() {
@@ -101,10 +101,13 @@ public class IndentStream implements InStreamEOF {
 	void checkParens() throws LexException {
 		if(_parenCount != 0) {
 			startLine();
-			throw new LexException("unbalanced parentheses ", _instream.getFilename(), (_instream.getLineNumber() - 1) );
+			throw lexError("unbalanced parentheses");
 		}
 	}
 
+	LexException lexError(String message) {
+		return new LexException(message, _instream.getFilename(), _instream.getLineNumber() - 1);
+	}
 	void startLine() throws LexException {
 		_lineLevel = 0;
 		_parseState = LEADING_WHITE_SPACE;
@@ -123,7 +126,7 @@ public class IndentStream implements InStreamEOF {
 	void bufferit(int ch, int num) throws LexException {
 		while (num > 0) {
 			if (_bufferitWritePtr > _bufferit.length) {
-				throw new LexException("lexer buffer overrun");
+				throw lexError("lexer buffer overrun");
 			}
 			_bufferit[_bufferitWritePtr++] = ch;
 			num--;
@@ -136,7 +139,7 @@ public class IndentStream implements InStreamEOF {
 
 	int bufferitReadNext() throws LexException {
 		if (bufferitEmpty())
-			throw new LexException("Tried to read past end of buffer.");
+			throw lexError("Tried to read past end of buffer.");
 		int result = _bufferit[_bufferitReadPtr++];
 		if (bufferitEmpty()) {
 			_bufferitReadPtr = _bufferitWritePtr = 0;
@@ -189,7 +192,7 @@ public class IndentStream implements InStreamEOF {
 					}
 					break;
 				} else if (ch == '\t') {
-					throw new LexException(
+					throw lexError(
 							"illegal tab character before statement at line "
 									+ Integer.toString(getLineNUmber()) +
 									" looking for new expresseion..." );
@@ -408,7 +411,7 @@ public class IndentStream implements InStreamEOF {
 	}
 
 	public boolean hasData() throws LexException {
-		throw new LexException("hasData() not implemented");
+		throw lexError("hasData() not implemented");
 	}
 
 	void removeTabsAfter(int newMax) {
@@ -422,7 +425,7 @@ public class IndentStream implements InStreamEOF {
 		}
 		if (numsp > _tabs[_maxTab - 1]) {
 			if (_maxTab > _tabs.length) {
-				throw new LexException("input stream indented too deeply");
+				throw lexError("input stream indented too deeply");
 			}
 			_tabs[_maxTab] = numsp; // remember the tabstop
 			_maxTab++;
@@ -439,7 +442,7 @@ public class IndentStream implements InStreamEOF {
 				}
 			}
 			// nothing matching, so it's an error
-			throw new LexException(
+			throw lexError(
 					"invalid indentation not matching previous indentation");
 		}
 	}
