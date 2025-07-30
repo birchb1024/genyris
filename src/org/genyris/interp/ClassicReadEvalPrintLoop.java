@@ -74,7 +74,7 @@ public class ClassicReadEvalPrintLoop {
                     interpreter.getSymbolTable(), filename, output);
             return 0;
         } catch (GenyrisException e) {
-            output.write("*** Error in file : " + filename + " " + e.getMessage());
+            output.write("*** Error in file " + e.getMessage());
             output.flush();
             return -1;
         }
