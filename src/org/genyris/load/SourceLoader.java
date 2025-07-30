@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.genyris.core.Exp;
 import org.genyris.core.Internable;
@@ -47,6 +49,17 @@ public class SourceLoader {
 	public static void execAndClose(Environment env, Internable table, InputStream in,
 			String filename, Writer writer) throws GenyrisException {
 		try {
+			String tok = filename.replaceAll("^file:", "");
+			Path parent = Paths.get(tok).getParent();
+			if (parent != null) {
+				String scriptDirectory = parent.toString();
+				env.defineVariable(env.internString("http://www.genyris.org/lang/system#script-directory"),
+					new StrinG(scriptDirectory));
+			} else {
+				env.defineVariable(env.internString("http://www.genyris.org/lang/system#script-directory"),
+					new StrinG("."));
+			}
+
 			executeScript(env, filename, table, new InputStreamReader(in), writer);
 		} finally {
 			try {
