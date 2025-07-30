@@ -5,19 +5,13 @@
 //
 package org.genyris.io;
 
-import org.genyris.core.Constants;
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
-import org.genyris.core.Internable;
-import org.genyris.core.Pair;
-import org.genyris.core.PairEquals;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StrinG;
-import org.genyris.core.Symbol;
-import org.genyris.exception.AccessException;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Parser {
     protected Lex _lexer;
@@ -62,12 +56,11 @@ public class Parser {
 
     }
 
-    public void pushbacksym(Exp token) throws GenyrisException {
+    public void pushbacksym(Exp token) throws ParseException {
         if (pushback == null) {
             pushback = token;
         } else {
-            throw new GenyrisException("Attempt to pushback to many: "
-                    + token.toString());
+            throw parseError("Attempt to pushback to many: " + token.toString());
         }
 
     }
@@ -90,7 +83,7 @@ public class Parser {
         Exp input = NIL;
         try {            
             input = readAux(env);
-            while (processOrder(input)) {
+            while (namespaceDeclaration(input)) {
                 input = readAux(env);
             }
         } catch (ParseException e) {
@@ -104,30 +97,38 @@ public class Parser {
         return read(null);
     }
 
-    private boolean processOrder(Exp input) throws GenyrisException {
-        // process parser orders
+    public boolean isURI(StrinG X) {
         try {
-            if (!input.isPair()) {
-                return false;
-            }
-            if (input.car() != _prefix) {
-                return false;
-            }
-            Exp arg0 = input.cdr().car();
-            if (input.cdr().cdr() != NIL) {
-                StrinG arg1 = (StrinG) input.cdr().cdr().car();
-                // TODO notify the interpreter a new prefix is in use with _interp.collectPrefix(prefix, expansion);
-                //   - means changing Parser ctor signatures..
-                _lexer.addprefix(((SimpleSymbol) arg0).getPrintName(),
-                        arg1.toString());
-            } else {
-                throw new GenyrisException("bad prefix in " + input);
-            }
-        } catch (AccessException e) {
-            return false;
-        } catch (ClassCastException e) {
+            URI uri = new URI(X.toString());
+            return uri.isAbsolute();
+        }
+        catch (URISyntaxException e) { }
+        return false;
+    }
+    private boolean namespaceDeclaration(Exp input) throws GenyrisException {
+        // process parser orders like @ns foo 'http://genyris.org/foo'
+        if (!input.isPair()) {
             return false;
         }
+        if (input.car() != _prefix) {
+            return false;
+        }
+        Exp namespace = input.cdr().car();
+        if(!(namespace instanceof Symbol)){
+            throw parseError("namespace not a symbol: " + namespace);
+        }
+        if (input.cdr().cdr() == NIL) {
+            throw parseError("namespace declaration missing prefix " + input);
+        }
+        Exp prefix = input.cdr().cdr().car();
+        if(!(prefix instanceof StrinG)) {
+            throw parseError("namespace prefix isn't a string: " + prefix);
+        }
+        if(!isURI((StrinG)prefix)){
+                throw parseError("namespace prefix is not a URL: " + prefix);
+        }
+        _lexer.addprefix(((Symbol) namespace).getPrintName(), // TODO notify the interpreter a new prefix is in use with _interp.collectPrefix(prefix, expansion);
+                        prefix.toString());                           //   - means changing Parser ctor signatures..
         return true;
     }
 
