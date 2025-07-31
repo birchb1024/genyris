@@ -3,22 +3,18 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-package org.genyris.system;
+package org.genyris.os;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
 import org.genyris.exception.GenyrisException;
-import org.genyris.interp.AbstractMethod;
-import org.genyris.interp.Closure;
-import org.genyris.interp.Environment;
-import org.genyris.interp.Interpreter;
-import org.genyris.interp.UnboundException;
+import org.genyris.interp.*;
 
-public class ExitMethod extends AbstractMethod {
+public class HaltMethod extends AbstractMethod {
 
-    public ExitMethod(Interpreter interp) throws GenyrisException {
-        super(interp, "exit");
+    public HaltMethod(Interpreter interp) throws GenyrisException {
+        super(interp, "halt");
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
@@ -31,12 +27,11 @@ public class ExitMethod extends AbstractMethod {
             status = ((Bignum)arguments[0]).bigDecimalValue().intValue();
             return NIL;
         }
-        //Runtime.getRuntime().halt(0);
-        System.exit(status);
+        Runtime.getRuntime().halt(0);
         return NIL;
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindMethodInstance(Constants.OS, new ExitMethod(interpreter));
+        interpreter.bindMethodInstance(Constants.OS, new HaltMethod(interpreter));
     }
 }

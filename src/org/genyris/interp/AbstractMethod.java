@@ -19,5 +19,4 @@ public abstract class AbstractMethod extends ApplicableFunction {
     protected void getSelf(Environment env) throws GenyrisException {
         _self = env.getSelf();
     }
-
 }

@@ -22060,6 +22060,40 @@ os!exit <process return>
 \begin_layout Standard
 This function requests the interpreter to terminate all threads and exit
  the operating system process.
+ 
+\emph on
+exit
+\emph default
+ may take some time to finish because threads are still running or busy.
+ The optional single parameter (which defaults to zero if absent) is an
+ integer value which the operating system returns as the process status.
+\end_layout
+
+\begin_layout Subsection
+.halt
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+.halt
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Syntax: 
+\end_layout
+
+\begin_layout LyX-Code
+os!halt <process return>
+\end_layout
+
+\begin_layout Standard
+This function requests the Java to terminate the operating system process
+ immediately.
  The optional single parameter (which defaults to zero if absent) is an
  integer value which the operating system returns as the process status.
 \end_layout
