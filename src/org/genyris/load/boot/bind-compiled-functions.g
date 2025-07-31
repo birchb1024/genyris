@@ -35,7 +35,7 @@
 :load-class-by-name "org.genyris.web.HTTPclientFunction"
 :load-class-by-name "org.genyris.classification.IsInstanceFunction"
 :load-class-by-name "org.genyris.test.JunitRunnerFunction"
-:load-class-by-name "org.genyris.system.ExitMethod"
+:load-class-by-name "org.genyris.os.ExitMethod"
 :load-class-by-name "org.genyris.os.HaltMethod"
 :load-class-by-name "org.genyris.os.SystemTicksMethod"
 :load-class-by-name "org.genyris.datetime.AbstractDateTimeFunction"

@@ -3,7 +3,7 @@
 // This software may be used and distributed according to the terms
 // of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 //
-package org.genyris.system;
+package org.genyris.os;
 
 import org.genyris.core.Bignum;
 import org.genyris.core.Constants;
