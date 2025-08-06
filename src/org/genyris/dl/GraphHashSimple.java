@@ -173,10 +173,10 @@ public class GraphHashSimple extends AbstractGraph {
 			}
 		}
 		if(found.size() == 0) {
-			throw new GenyrisException("More than one triple in graph matching " + S.toString() + " " + P.toString());
+			throw new GenyrisException("No triples in graph matching " + S.toString() + " " + P.toString());
 		}
 		if(found.size() > 1) {
-			throw new GenyrisException("More than one triple in graph matching " + S.toString() + " " + P.toString());
+			throw new GenyrisException("Multiple triples (" + found.size() + ") in graph matching " + S.toString() + " " + P.toString());
 		}
 		return found.get(0).object;
     }
