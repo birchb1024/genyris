@@ -15269,7 +15269,8 @@ web:post
 
 
 \emph default
- <url> [<params assoc>] [<request headers> [<protocol version> [^insecure]]]
+ <url> [<params Assoc>|<string>|<bignum>] [<request headers> [<protocol
+ version> [^insecure]]]
 \end_layout
 
 \begin_layout Standard
@@ -15311,7 +15312,9 @@ Reader
 \end_layout
 
 \begin_layout Standard
-For example, to send a HTTP/1.1 POST with two parameters, a basic auth login,
+If the second parameter is a Pair, it is assumed to be an Assoc, which is
+ converted in the body as form URL encoded parameters.
+ For example, to send a HTTP/1.1 POST with two parameters, a basic auth login,
  and read the response to a string: 
 \end_layout
 
@@ -15357,6 +15360,25 @@ For example, to send a HTTP/1.1 POST with two parameters, a basic auth login,
 
 \begin_layout LyX-Code
             .readAll
+\end_layout
+
+\begin_layout Standard
+If the second parameter is atomic, such as string or bignum, this is placed
+ in the post body verbatim, the user should specify the content-type in
+ a header.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+web:post 'http://ntfy.sh/'   
+\end_layout
+
+\begin_layout LyX-Code
+~ '{"topic":"ATISYMMLRAW", "message":"hello Bruce"}'
+\end_layout
+
+\begin_layout LyX-Code
+~ ^(('Content-Type' = 'application/json')) 
 \end_layout
 
 \begin_layout Subsubsection

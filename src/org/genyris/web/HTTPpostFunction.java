@@ -6,6 +6,8 @@
 package org.genyris.web;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +16,11 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.genyris.core.Constants;
-import org.genyris.core.Exp;
-import org.genyris.core.StrinG;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -32,11 +32,20 @@ public class HTTPpostFunction extends HTTPclientFunction {
         super(interp, Constants.WEB + "post", true);
     }
 
+    public static boolean isURI(StrinG X) {
+        try {
+            URI uri = new URI(X.toString());
+            return uri.isAbsolute();
+        }
+        catch (URISyntaxException e) { }
+        return false;
+    }
+
     @Override
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
 
-        String URI = getArg(arguments, 0, StrinG.class, true).toString();
+        StrinG URI = (StrinG)getArg(arguments, 0, StrinG.class, true);
         Exp params = getArg(arguments, 1, Exp.class);
         Exp headers = getArg(arguments, 2, Exp.class);
         Exp protocol = getArg(arguments, 3, Exp.class);
@@ -53,24 +62,29 @@ public class HTTPpostFunction extends HTTPclientFunction {
         }
 
         try {
-
-            HttpPost httpPost = new HttpPost(URI);
+            if(!isURI(URI)) {
+                throw new GenyrisException("post URI is not valid: " + URI.toString());
+            }
+            HttpPost httpPost = new HttpPost(URI.toString());
             httpPost.setProtocolVersion(httpVersion);
 
             addHeadersToRequest(headers, charset, httpPost);
 
             // Now add post parameters...
-            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-            while (params != NIL) {
-                nvps.add(new BasicNameValuePair(
-                        params.car().car().toString(),
-                        params.car().cdr().toString()));
-                params = params.cdr();
+            if(params instanceof Pair) {
+                List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+                while (params != NIL) {
+                    nvps.add(new BasicNameValuePair(
+                            params.car().car().toString(),
+                            params.car().cdr().toString()));
+                    params = params.cdr();
+                }
+                httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+            } else {
+                httpPost.setEntity(new StringEntity(params.toString()));
             }
-            httpPost.setEntity(new UrlEncodedFormEntity(nvps));
             CloseableHttpResponse response = httpclient.execute(httpPost);
-
-            return processResponse(URI, response);
+            return processResponse(URI.toString(), response);
         } catch (Exception e) {
             throw new GenyrisException(e.toString());
         }
