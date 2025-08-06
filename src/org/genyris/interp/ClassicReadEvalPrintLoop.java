@@ -75,6 +75,7 @@ public class ClassicReadEvalPrintLoop {
             return 0;
         } catch (GenyrisException e) {
             output.write("*** Error in file " + e.getMessage());
+            // TODOstack trace here too?
             output.flush();
             return -1;
         }
