@@ -63,19 +63,30 @@ public class ClassicReadEvalPrintLoop {
         try {
             Interpreter interpreter = new Interpreter();
             interpreter.init(false);
+            interpreter.getDebugBackTrace();
             setArgs(args, interpreter);
-            if (filename.equals("-")) {
-                SourceLoader.execAndClose(interpreter.getGlobalEnv(),
-                        interpreter.getSymbolTable(), System.in, filename,
-                        output);
+            try {
+                if (filename.equals("-")) {
+                    SourceLoader.execAndClose(interpreter.getGlobalEnv(),
+                            interpreter.getSymbolTable(), System.in, filename,
+                            output);
+                    return 0;
+                }
+                SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(),
+                        interpreter.getSymbolTable(), filename, output);
                 return 0;
+            } catch (GenyrisException e) {
+                output.write("*** Error in file " + e.getMessage() + "\n");
+                Exp bt = interpreter.getDebugBackTraceAsList();
+                while (bt != interpreter.NIL) {
+                    output.write("\t" + bt.car() + "\n");
+                    bt = bt.cdr();
+                }
+                output.flush();
+                return -1;
             }
-            SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(),
-                    interpreter.getSymbolTable(), filename, output);
-            return 0;
         } catch (GenyrisException e) {
-            output.write("*** Error in file " + e.getMessage());
-            // TODOstack trace here too?
+            output.write("*** Error in file " + e.getMessage() + "\n");
             output.flush();
             return -1;
         }

@@ -36,6 +36,8 @@ import org.genyris.io.writerstream.WriterStream;
 import org.genyris.load.LoadFunction;
 import org.genyris.load.SourceLoader;
 
+import static java.lang.Math.min;
+
 public class Interpreter {
     private static final String BIND_FUNCTIONS_AND_METHODS = "bindFunctionsAndMethods";
 
@@ -47,7 +49,8 @@ public class Interpreter {
 
     public NilSymbol NIL;
 
-    private Stack<Closure> _debugStack;
+    private Stack<Closure> _debugStack; // TODO make a single stack for these two
+    private Stack<Exp[]> _argStack;     // TODO make a single stack for these two
 
     private InStream _inputStream;
 
@@ -63,6 +66,7 @@ public class Interpreter {
         _prefixesUsed = new HashMap<String, String>();
         NIL = new NilSymbol();
         _debugStack = new Stack<Closure>();
+        _argStack = new Stack<Exp[]>();
         _table = new SymbolTable();
         _table.init(NIL);
         _globalEnvironment = new StandardEnvironment(this.getSymbolTable(), NIL);
@@ -276,26 +280,30 @@ public class Interpreter {
         StandardClass.mkClass(Constants.DYNAMICSYMBOLREF, env, symbol);
     }
 
-    public void debugStackPush(Closure proc) {
+    public void debugStackPush(Closure proc, Exp[] args) {
         _debugStack.push(proc);
+        _argStack.push(args.clone());
     }
 
-    public void debugStackPop(Closure proc) {
+    public void debugStackPop() {
 
-        if (_debugStack.empty()) {
+        if (_debugStack.empty() || _argStack.empty()) {
             return;
         }
         _debugStack.pop();
+        _argStack.pop();
     }
 
     public Stack<Closure> getDebugBackTrace() {
         return _debugStack;
     }
+    public Stack<Exp[]> getDebugArgsBackTrace() {
+        return _argStack;
+    }
 
-    public Stack<Closure> resetDebugBackTrace() {
-        Stack<Closure> retval = _debugStack;
+    public void resetDebugBackTrace() {
         _debugStack = new Stack<Closure>();
-        return retval;
+        _argStack = new Stack<Exp[]>();
     }
 
     public Exp evalStringInGlobalEnvironment(String script) throws GenyrisException {
@@ -380,9 +388,19 @@ public class Interpreter {
 
     public Exp getDebugBackTraceAsList() {
         Exp retval = NIL;
-        for (Closure c : this._debugStack) {
-            Exp frame = c.getPrintableFrame(NIL);
-            retval = new Pair(frame, retval);
+        int S = min(_argStack.size(), _debugStack.size());
+        for (int i = 0; i < S; i++) {
+            Exp frame = _debugStack.get(i).getPrintableFrame(NIL);
+            Exp[] args = _argStack.get(i);
+            retval = new Pair(new Pair(frame, arrayToList(args)), retval);
+        }
+        return retval;
+    }
+
+    public Exp arrayToList(Exp[] args) {
+        Exp retval = NIL;
+        for (int i = args.length - 1; i >= 0; i--) {
+            retval = new Pair(args[i], retval);
         }
         return retval;
     }

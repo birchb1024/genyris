@@ -41,9 +41,9 @@ public abstract class ApplicableFunction {
 
     public Exp bindAndExecuteAux(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {
-        _interp.debugStackPush(proc);
+        _interp.debugStackPush(proc, arguments);
     	Exp result = bindAndExecute(proc, arguments, envForBindOperations);
-    	_interp.debugStackPop(proc);
+    	_interp.debugStackPop();
     	return result;
     }
 
