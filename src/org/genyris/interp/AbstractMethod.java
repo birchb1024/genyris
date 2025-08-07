@@ -14,9 +14,9 @@ public abstract class AbstractMethod extends ApplicableFunction {
         super(interp, name, true);
     }
 
-    protected Exp _self;
+    public Exp _self;
 
-    protected void getSelf(Environment env) throws GenyrisException {
+    public void getSelf(Environment env) throws GenyrisException {
         _self = env.getSelf();
     }
 }

@@ -57,6 +57,9 @@ public class ReaderInStream implements InStream {
             if (_haveChar) {
                 return true;
             }
+            if (!_reader.ready()) {
+                return false;
+            }
             _nextByte = _reader.read();
         } catch (IOException e) {
             return false;

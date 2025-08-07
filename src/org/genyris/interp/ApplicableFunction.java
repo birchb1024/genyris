@@ -88,9 +88,13 @@ public abstract class ApplicableFunction {
 
     protected void checkArguments(Exp[] arguments, int minimum, int maximum)
             throws GenyrisException {
+        if(minimum == maximum && arguments.length != maximum) {
+            throw new GenyrisException("Incorrect number of arguments to "
+                    + getName() + ", was expecting "+ maximum + " .");
+        }
         if (arguments.length < minimum || arguments.length > maximum)
             throw new GenyrisException("Incorrect number of arguments to "
-                    + getName() + " was expecting between " + minimum + " and "
+                    + getName() + ", was expecting between " + minimum + " and "
                     + maximum + ".");
     }
 

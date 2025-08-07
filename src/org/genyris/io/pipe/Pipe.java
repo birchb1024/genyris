@@ -13,13 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.genyris.core.Atom;
-import org.genyris.core.Exp;
-import org.genyris.core.Internable;
-import org.genyris.core.Pair;
-import org.genyris.core.StrinG;
-import org.genyris.core.Symbol;
-import org.genyris.core.Visitor;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -46,6 +40,15 @@ public class Pipe extends Atom {
 			throw new GenyrisException(e.getMessage());
 		}
     }
+
+	public static String getPipeName(Exp argument) throws GenyrisException {
+		if(!(argument instanceof StrinG || argument instanceof Symbol || argument instanceof Bignum)) {
+			throw new GenyrisException("pipe name " + argument + "not String, Symbol or Bignum");
+		}
+		return  argument.toString();
+	}
+
+
     public static class PipeOpenMethod extends AbstractMethod {
 
         public PipeOpenMethod(Interpreter interp) {
@@ -54,8 +57,9 @@ public class Pipe extends Atom {
 
         public synchronized Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-        	String name =  ((StrinG)arguments[0]).toString();
-        	if( sharedPipeTable.containsKey(name) ) {
+			checkArguments(arguments, 1);
+			String name = getPipeName(arguments[0]);
+			if( sharedPipeTable.containsKey(name) ) {
         		return (Exp)sharedPipeTable.get(name);
         	} else {
             	Pipe newpipe = new Pipe(name);
@@ -63,7 +67,14 @@ public class Pipe extends Atom {
             	return newpipe;
         	}
        }
-    }
+	}
+	public static Pipe getSelfPipe(AbstractMethod m, Environment env) throws GenyrisException { // Go style
+		m.getSelf(env);
+		if(!(m._self instanceof Pipe)){
+			throw new GenyrisException(".input method called on non-Pipe " + m._self);
+		}
+		return (Pipe)m._self;
+	}
     public static class PipeInputMethod extends AbstractMethod {
 
         public PipeInputMethod(Interpreter interp) {
@@ -72,11 +83,12 @@ public class Pipe extends Atom {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-        	getSelf(env);
-        	Pipe self = (Pipe)_self;
+			checkArguments(arguments, 0);
+        	Pipe self = getSelfPipe(this, env);
         	return new ReaderStream(self.pipein, self.toString());
         }
     }
+
     public static class PipeOutputMethod extends AbstractMethod {
 
         public PipeOutputMethod(Interpreter interp) {
@@ -85,11 +97,12 @@ public class Pipe extends Atom {
 
         public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-        	getSelf(env);
-        	Pipe self = (Pipe)_self;
+			checkArguments(arguments, 0);
+        	Pipe self = getSelfPipe(this, env);
         	return new WriterStream(self.pipeout);
         }
     }
+
     public  static class PipeDeleteMethod extends AbstractMethod {
 
         public PipeDeleteMethod(Interpreter interp) {
@@ -98,7 +111,8 @@ public class Pipe extends Atom {
 
         public synchronized Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
                 throws GenyrisException {
-        	String name =  ((StrinG)arguments[0]).toString();
+			checkArguments(arguments, 1);
+			String name = getPipeName(arguments[0]);
         	if( sharedPipeTable.containsKey(name) ) {
         		Pipe pipe = (Pipe)sharedPipeTable.get(name);
         		try {
@@ -112,6 +126,7 @@ public class Pipe extends Atom {
         	}
         }
     }
+
     public static class PipeListMethod extends AbstractMethod {
 
         public PipeListMethod(Interpreter interp) {

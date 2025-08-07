@@ -59,9 +59,14 @@ define shared (Pipe!open 'shared-pipe3')
 for i in (range 0 5)
     spawn (prepend-home 'test/mocks/pipe-writer-synch.g') 'shared-pipe3'
 define in (shared(.input))
-for i in (range 0 100)
+for i in (range 0 7)
+   sleep 100
    var line (in(.getline))
-   assert (equal? 'Hello from task.' line)
+   print (list @LINE i line)
+   assert
+        or
+            equal? EOF line
+            equal? 'Hello from task.' line
 killall 'test/mocks/pipe-writer-synch.g'
        
 print

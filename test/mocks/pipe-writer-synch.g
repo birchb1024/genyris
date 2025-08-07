@@ -7,8 +7,11 @@
 define shared (Pipe(.open (nth 1 sys:argv)))
 define out
    shared(.output)
-while true
+for i in (range 0 99)
     task:synchronized shared
        catch errors
           out(.format 'Hello from task.\n')
-    sleep 500
+       cond
+            errors
+                print errors
+    sleep 10
