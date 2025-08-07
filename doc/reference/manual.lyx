@@ -13798,6 +13798,9 @@ status open
 Returns true if the stream has data for reading otherwise
 \emph on
  nil.
+ 
+\emph default
+Does not block the caller.
 \end_layout
 
 \begin_layout Paragraph
