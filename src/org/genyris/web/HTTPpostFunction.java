@@ -74,9 +74,13 @@ public class HTTPpostFunction extends HTTPclientFunction {
             if(params instanceof Pair) {
                 List<NameValuePair> nvps = new ArrayList<NameValuePair>();
                 while (params != NIL) {
+                    Exp item = params.car();
+                    if(!(item instanceof Pair)){
+                        throw new GenyrisException("post parameters are not an Assoc: " + params);
+                    }
                     nvps.add(new BasicNameValuePair(
-                            params.car().car().toString(),
-                            params.car().cdr().toString()));
+                            item.car().toString(),
+                            item.cdr().toString()));
                     params = params.cdr();
                 }
                 httpPost.setEntity(new UrlEncodedFormEntity(nvps));
