@@ -72,7 +72,7 @@ defmacro ++ (varname)
 System
    define .HOME
       File!static-abs-path
-         ((os!getenv).GENYRIS_HOME)
+         (os!getenv 'GENYRIS_HOME')
             .replace '\\' '/'
    define .LIBS 
        "%a/lib" (.format (System.HOME))

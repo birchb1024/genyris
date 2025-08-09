@@ -13,7 +13,7 @@ public abstract class ApplicableFunction {
 
     protected SimpleSymbol NIL, TRUE;
     protected SimpleSymbol _lambda, _lambdam, _lambdaq;
-    private String _name;
+    protected String _name;
     private boolean _eager;
     protected SimpleSymbol REST;
 

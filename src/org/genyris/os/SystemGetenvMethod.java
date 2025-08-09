@@ -8,12 +8,7 @@ package org.genyris.os;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.genyris.core.Constants;
-import org.genyris.core.Dictionary;
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.StrinG;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.Closure;
@@ -40,11 +35,13 @@ public class SystemGetenvMethod extends AbstractMethod {
     	} else {
     		Map environ = System.getenv();
     		Iterator iter = environ.keySet().iterator();
-    		Dictionary result = new Dictionary(env);
+    		Exp result = NIL;
             while (iter.hasNext()) {
             	String key = (String)iter.next();
             	String value = (String)environ.get((Object)key);
-                result.defineDynamicVariable(new DynamicSymbol((SimpleSymbol) env.internString(key)), (Exp)new StrinG(value));
+                result = new Pair(
+						new PairEquals(new StrinG(key), new StrinG(value)),
+						result);
             }
             return result;
 

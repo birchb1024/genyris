@@ -21900,6 +21900,52 @@ nil # ListOfLines NilSymbol SimpleSymbol
  error=2, No such file or directory'
 \end_layout
 
+\begin_layout Standard
+The .exec function cal also be called with two list parameters.
+ The first being a list of strings making the commnand line, the second
+ being an assoc containing environment variables.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+assertEqual ^(('123'))   
+\end_layout
+
+\begin_layout LyX-Code
+   os!exec ^('bash' '-c' 'echo $MY_ENV_VARIABLE') ^((MY_ENV_VARIABLE = 123))
+ 
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The environment variables supplied override the interpreter process environment
+ if they're present.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+> os!exec ^('bash' '-c' 'echo $SHELL')  
+\end_layout
+
+\begin_layout LyX-Code
+:  (('/bin/bash')) # Pair  
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> os!exec ^('bash' '-c' 'echo $SHELL') ^(('SHELL' = 123)) 
+\end_layout
+
+\begin_layout LyX-Code
+:  (('123')) # Pair  
+\end_layout
+
 \begin_layout Subsection
 
 \emph on
@@ -21923,33 +21969,20 @@ When called with no arguments, the
 \emph on
 .getenv
 \emph default
- method returns a 
-\emph on
-Dictionary
-\emph default
- containing the current OS process environment.
+ method returns an Assoc containing the current OS process environment.
  Example:
 \end_layout
 
 \begin_layout LyX-Code
-> os!getenv
+> os!getenv :  (('SHLVL' = '1') ('HOME' = '/mnt/HomeDisk2/birchb') 
 \end_layout
 
 \begin_layout LyX-Code
-: 
+:
 \end_layout
 
 \begin_layout LyX-Code
-(dict (.DISPLAY = ':0') (.EDITOR = 'vi') (.GENYRIS_HOME = '/home/birchb/workspace/g
-enyris')
-\end_layout
-
-\begin_layout LyX-Code
-...
-\end_layout
-
-\begin_layout LyX-Code
-) # Dictionary 
+# Pair 
 \end_layout
 
 \begin_layout Standard
