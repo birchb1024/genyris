@@ -214,6 +214,9 @@ public class StrinG extends Atom {
     }
 
     public Exp slice(BigDecimal start, BigDecimal end) throws GenyrisException {
+        if(this._value.length() == 0){
+            return this;
+        }
         int ending = Math.min(this._value.length(), end.intValue());
         if(start.intValue() >= this._value.length()){
             throw new GenyrisException("String slice start "+start+" beyond end of string "+this._value.length());

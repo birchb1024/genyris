@@ -142,8 +142,8 @@ public class StringTests extends TestCase {
     }
 
     public void testStringSlice() throws GenyrisException {
-        checkEvalBad("(''(.slice 0 1))");
         checkEvalBad("('qwe'(.slice 2 1))");
+        checkEval("(''(.slice 0 0))", "''");
         checkEval("('012'(.slice 0 0))", "''");
         checkEval("('012'(.slice 0 1))", "'0'");
         checkEval("('012'(.slice 1 2))", "'1'");
