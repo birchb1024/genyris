@@ -76,10 +76,10 @@ def isAbsolutePath?(filename)
    cond
       (((os!getProperties).|os.name|)(.match 'Windows.*'))
          or
-            equal? '/' (filename(.slice 0 0))  # leading \
+            equal? '/' (filename(.slice 0 1))  # leading \
             filename(.match '^[a-zA-Z]\\:.*')       # drive letter
       else
-         equal? '/' (filename(.slice 0 0))
+         equal? '/' (filename(.slice 0 1))
             
 def include((filename = String))
    cond

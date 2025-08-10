@@ -214,11 +214,17 @@ public class StrinG extends Atom {
     }
 
     public Exp slice(BigDecimal start, BigDecimal end) throws GenyrisException {
+        int ending = Math.min(this._value.length(), end.intValue());
+        if(start.intValue() >= this._value.length()){
+            throw new GenyrisException("String slice start "+start+" beyond end of string "+this._value.length());
+        }
+        if(start.intValue() > end.intValue()){
+            throw new GenyrisException("String slice start"+start+" bigger than end "+end);
+        }
         try {
-            return new StrinG(_value.substring(start.intValue(),
-                    end.intValue() + 1));
+            return new StrinG(_value.substring(start.intValue(), ending));
         } catch (StringIndexOutOfBoundsException e) {
-            throw new GenyrisException(e.getMessage());
+            throw new GenyrisException("String slice StringIndexOutOfBoundsException: " + e.getMessage());
         }
     }
 

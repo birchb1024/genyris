@@ -8661,6 +8661,83 @@ If the
 \begin_layout Subsubsection
 
 \emph on
+.slice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.split
+\end_layout
+
+\end_inset
+
+ <start> [<end>]
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+.slice
+\emph default
+ method takes a string and returns the substring beginning at index 
+\emph on
+start
+\emph default
+ and ending at 
+\emph on
+end
+\emph default
+.
+ The indexes are 0-based.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+> 'asdfgh'(.slice 1 3) 
+\end_layout
+
+\begin_layout LyX-Code
+:  'sd' # String  
+\end_layout
+
+\begin_layout LyX-Code
+> 'hamburger'(.slice 4 8) 
+\end_layout
+
+\begin_layout LyX-Code
+:  'urge' # String  
+\end_layout
+
+\begin_layout LyX-Code
+> 'smiles'(.slice 1 5) 
+\end_layout
+
+\begin_layout LyX-Code
+:  'mile' # String   
+\end_layout
+
+\begin_layout Standard
+When the optional end parameter is not provoded, the slice goes to the end.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+> 'smiles'(.slice 3)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+'les' # String 
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
 .join
 \begin_inset Index idx
 status open

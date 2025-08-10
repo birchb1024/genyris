@@ -26,14 +26,23 @@ public class SliceMethod extends AbstractStringMethod {
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 			throws GenyrisException {
-    	Class[] types = {Bignum.class, Bignum.class};
-    	checkArgumentTypes(types, arguments);
-		BigDecimal start = ((Bignum)arguments[0]).bigDecimalValue();
-		BigDecimal end = ((Bignum)arguments[1]).bigDecimalValue();
-		if(end.intValue() == -1) {
-			end = new BigDecimal(this.getSelfString(env).length(NIL)-1);
-		}
+		BigDecimal start;
+		BigDecimal end;
 		StrinG theString = getSelfString(env);
-		return theString.slice(start, end);
+		if(arguments.length == 2) {
+			Class[] types = {Bignum.class, Bignum.class};
+			checkArgumentTypes(types, arguments);
+			start = ((Bignum)arguments[0]).bigDecimalValue();
+			end = ((Bignum)arguments[1]).bigDecimalValue();
+			return theString.slice(start, end);
+		}
+		if(arguments.length == 1) {
+			Class[] types = {Bignum.class};
+			checkArgumentTypes(types, arguments);
+			start = ((Bignum)arguments[0]).bigDecimalValue();
+			end = new BigDecimal(this.getSelfString(env).length(NIL));
+			return theString.slice(start, end);
+		}
+		throw new GenyrisException("slice: invalid arguments length");
 	}
 }

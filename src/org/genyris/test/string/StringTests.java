@@ -143,16 +143,19 @@ public class StringTests extends TestCase {
 
     public void testStringSlice() throws GenyrisException {
         checkEvalBad("(''(.slice 0 1))");
-        checkEval("('012'(.slice 0 0))", "'0'");
-        checkEval("('012'(.slice 0 1))", "'01'");
-        checkEval("('012'(.slice 1 2))", "'12'");
-        checkEval("('012'(.slice 0 2))", "'012'");
-        checkEval("('012'(.slice 1 -1))", "'12'");
+        checkEvalBad("('qwe'(.slice 2 1))");
+        checkEval("('012'(.slice 0 0))", "''");
+        checkEval("('012'(.slice 0 1))", "'0'");
+        checkEval("('012'(.slice 1 2))", "'1'");
+        checkEval("('012'(.slice 0 2))", "'01'");
+        checkEval("('012'(.slice 1 99))", "'12'");
+        checkEval("('012'(.slice 1))", "'12'");
+        checkEval("('012'(.slice 0))", "'012'");
     }
     public void testStringSliceBase64() throws GenyrisException {
-    	checkEval("(('TlRMTVNTUAABAAAAB7IIogcABwA1AAAADQANACgAAAAFASgKAAAAD1cwMDFFNEZGMDQ5M0JPQ0VBTklB'(.fromBase64))(.slice 0 6))","'NTLMSSP'");
+    	checkEval("(('TlRMTVNTUAABAAAAB7IIogcABwA1AAAADQANACgAAAAFASgKAAAAD1cwMDFFNEZGMDQ5M0JPQ0VBTklB'(.fromBase64))(.slice 0 6))","'NTLMSS'");
     	checkEval("(('TlRMTVNTUAABAAAAB7IIogcABwA1AAAADQANACgAAAAFASgKAAAAD1cwMDFFNEZGMDQ5M0JPQ0VBTklB'(.fromBase64))(.length))","60");
-    	checkEval("(('TlRMTVNTUAABAAAAB7IIogcABwA1AAAADQANACgAAAAFASgKAAAAD1cwMDFFNEZGMDQ5M0JPQ0VBTklB'(.fromBase64))(.slice (- 59 6) 59))","'OCEANIA'");
+    	checkEval("(('TlRMTVNTUAABAAAAB7IIogcABwA1AAAADQANACgAAAAFASgKAAAAD1cwMDFFNEZGMDQ5M0JPQ0VBTklB'(.fromBase64))(.slice (- 59 6) 60))","'OCEANIA'");
 
     }
     public void testStringLength() throws GenyrisException {
