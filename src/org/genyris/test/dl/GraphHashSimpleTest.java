@@ -465,4 +465,15 @@ public class GraphHashSimpleTest extends TestCase {
 		AssertInterpretEquals("(('X'(.asGraph .self))(.asTriples))",
 				"((triple X type <class String (Builtin)>))");
 	}
+
+	public void testInterpSubjects() throws Exception {
+		AssertInterpretEquals("(defvar ^db (graph ^(a p o) ^(c c f) ^(a s d) ))", "(graph)");
+		AssertInterpretEquals("(db(.subjects)))", "(a c)");
+	}
+
+	public void testInterpPredicates() throws Exception {
+		AssertInterpretEquals("(defvar ^db (graph ^(a s o) ^(c c f) ^(a p d) ))", "(graph)");
+		AssertInterpretEquals("(db(.predicates ^a)))", "(p s)");
+	}
+
 }

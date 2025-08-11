@@ -241,18 +241,40 @@ public class GraphHashSimple extends AbstractGraph {
     }
 
 
-    public Exp subjects(Exp NIL) {
-        Exp result = NIL;
+    public Exp subjects(Exp NIL) throws AccessException {
         Iterator iter = subjects.values().iterator();
-		Set<Symbol> Ses = new HashSet();
+		Set<Symbol> Ses = new TreeSet();
         while (iter.hasNext()) {
             Triple t = (Triple)iter.next();
-			if( !Ses.contains(t.subject) ) {
-				Ses.add((Symbol)t.subject);
-            	result = new Pair(t.subject, result);
-			}
+			Ses.add((Symbol)t.subject);
         }
-        return result;
+		return getSetAsList(NIL, Ses);
+    }
+
+	private static Exp getSetAsList(Exp NIL, Set<Symbol> Ses) {
+		Iterator Piter = Ses.iterator();
+		Exp head = NIL;
+		Pair tail = null;
+		while (Piter.hasNext()) {
+			Pair newitem = new Pair((Exp)Piter.next(), NIL);
+			if(head == NIL){
+				head = tail = newitem;
+				continue;
+			}
+			tail.setCdr(newitem);
+			tail =  newitem;
+		}
+		return head;
+	}
+
+	public Exp predicates(Symbol S, Exp NIL) {
+        Set<Symbol> Ps = new TreeSet();
+		Iterator Ses = subjects.get(S).iterator();
+		while (Ses.hasNext()) {
+			Triple T = (Triple)Ses.next();
+			Ps.add((Symbol)T.predicate);
+		}
+		return getSetAsList(NIL, Ps);
     }
 	    @Override
     public int compareTo(Object o) {

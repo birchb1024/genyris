@@ -12918,6 +12918,125 @@ The
 \end_layout
 
 \begin_layout Subsubsection
+
+\emph on
+.subjects
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.subjects
+\end_layout
+
+\end_inset
+
+
+\emph default
+ 
+\emph on
+Fetches a sorted list of the subjects in the Graph
+\end_layout
+
+\begin_layout Standard
+The
+\emph on
+ .subjects
+\emph default
+ method returns a list containing all the unique subjects in the graph.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+> var G (graph ^(a p o) ^(c c f) ^(a s d) )
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(graph) # Graph 
+\end_layout
+
+\begin_layout LyX-Code
+> G(.subjects)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(a c) # Pair
+\end_layout
+
+\begin_layout Subsubsection
+
+\emph on
+.predicates
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+.subjects
+\end_layout
+
+\end_inset
+
+
+\emph default
+ 
+\emph on
+Fetches a sorted list of the predicates in the Graph with a given subject
+\end_layout
+
+\begin_layout Standard
+The
+\emph on
+ .predicates
+\emph default
+ method returns a list containing all the unique predicates for a subject
+ in the graph.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+> var G (graph ^(a p o) ^(c c f) ^(a s d) )
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(graph) # Graph 
+\end_layout
+
+\begin_layout LyX-Code
+> G(.predicates ^a)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(p s) # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Subsubsection
 Triplification with
 \emph on
  .asGraph

@@ -7,6 +7,7 @@ import org.genyris.core.Exp;
 import org.genyris.core.Internable;
 import org.genyris.core.Symbol;
 import org.genyris.core.Visitor;
+import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
@@ -17,7 +18,7 @@ public abstract class AbstractGraph extends Atom {
         super();
     }
 
-    public abstract Exp subjects(Exp NIL);
+    public abstract Exp subjects(Exp NIL) throws AccessException;
 
     public abstract Exp asTripleList(Exp NIL);
 
@@ -47,6 +48,8 @@ public abstract class AbstractGraph extends Atom {
     public abstract String toString();
 
     public abstract Iterator iterator();
+
+    public abstract Exp predicates(Symbol subject, Exp NIL);
 
     public boolean equals(Object compare) {
     	if (!(compare instanceof AbstractGraph)) {

@@ -41,30 +41,19 @@ public class GraphFunction extends ApplicableFunction {
 		ts.add(new Triple(subject, predicate, object));
 	}
 
-	public static void bindFunctionsAndMethods(Interpreter interpreter)
-			throws UnboundException, GenyrisException {
-		interpreter.bindGlobalProcedureInstance(new GraphFunction(
-				interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH, new AddMethod(
-				interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH, new SelectMethod(
-				interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH,
-				new AsTriplesMethod(interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH, new RemoveMethod(
-				interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH, new LengthMethod(
-				interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH, new GetMethod(
-				interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH, new PutMethod(
-				interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH,
-				new GetListMethod(interpreter));
-		interpreter.bindMethodInstance(Constants.GRAPH,
-				new SubjectsMethod(interpreter));
-        interpreter.bindMethodInstance(Constants.GRAPH,
-                new UnionMethod(interpreter));
+	public static void bindFunctionsAndMethods(Interpreter interpreter)throws UnboundException, GenyrisException {
+		interpreter.bindGlobalProcedureInstance(new GraphFunction(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new AddMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new AsTriplesMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new GetListMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new GetMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new LengthMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new PredicatesMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new PutMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new RemoveMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new SelectMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new SubjectsMethod(interpreter));
+		interpreter.bindMethodInstance(Constants.GRAPH, new UnionMethod(interpreter));
 	}
 
 	public abstract static class AbstractGraphMethod extends
@@ -161,6 +150,23 @@ public class GraphFunction extends ApplicableFunction {
                 throws GenyrisException {
             AbstractGraph self = getSelfGraph(env);
             return self.subjects(NIL);
+        }
+    }
+
+    public static class PredicatesMethod extends AbstractGraphMethod {
+
+        public PredicatesMethod(Interpreter interp) {
+            super(interp, "predicates");
+        }
+
+        public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
+                throws GenyrisException {
+            checkArguments(arguments, 1);
+            Class[] types = { Symbol.class };
+            checkArgumentTypes(types, arguments);
+			AbstractGraph self = getSelfGraph(env);
+			Symbol subject = (Symbol)arguments[0];
+            return self.predicates(subject, NIL);
         }
     }
 
