@@ -19,7 +19,7 @@ public class SynchronizeFunction extends TaskFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment env) throws GenyrisException {
-		checkMinArguments(arguments, 1);
+		checkMinArguments(arguments, 2);
 		Exp retval = NIL;
 		synchronized (arguments[0].eval(env)) {
             for(int i = 1 ; i < arguments.length; i++) {
