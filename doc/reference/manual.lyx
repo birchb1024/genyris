@@ -18927,7 +18927,7 @@ ed code yet retains the advantages of asynchronous execution and multi-core
 \end_layout
 
 \begin_layout Subsubsection
-Running Multiple Interpreters in the Same Process with 
+
 \emph on
 spawn
 \begin_inset Index idx
@@ -18942,6 +18942,8 @@ spawn
 \end_inset
 
 
+\emph default
+Running Multiple Interpreters in the Same Process 
 \end_layout
 
 \begin_layout LyX-Code
@@ -18984,11 +18986,12 @@ returns:
 \end_layout
 
 \begin_layout LyX-Code
-(dict (.id = 9) (.name = 'examples/spawn-example.g') 
-\begin_inset Newline newline
-\end_inset
+(dict (.id = 18) (.name = 'examples/spawn-example.g 1 2 3 4 5') (.state = 'NEW'))
+ # Task Dictionary 
+\end_layout
 
-(.state = 'RUNNABLE')) # Task Dictionary
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Standard

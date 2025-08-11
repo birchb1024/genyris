@@ -27,11 +27,10 @@ public class SpawnFunction extends TaskFunction {
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
 			Environment envForBindOperations) throws GenyrisException {
-		
+		checkMinArguments(arguments, 1);
 		BackGroundInterpreter task = new BackGroundInterpreter(arguments);
 		Thread thread = new Thread(task);
-		if( arguments.length > 0 )
-			thread.setName(arguments[0].toString());
+		thread.setName(arrayOfExpToString(arguments));
 		Exp result = getThreadAsDictionary(thread, envForBindOperations);
 		thread.start();
         return result;
@@ -76,4 +75,11 @@ public class SpawnFunction extends TaskFunction {
         return result;
     }
 
+	public static String arrayOfExpToString(Exp[] array) {
+		String result = "";
+		for (int i = 0; i<array.length; i++) {
+            result += (i>0?" ":"") + array[i].toString();
+        }
+        return result;
+    }
 }

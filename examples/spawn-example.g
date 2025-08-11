@@ -1,10 +1,6 @@
 @ns sys "http://www.genyris.org/lang/system#"
-   
-define count 5
-while (> count 0)
-   print (ps) 
-   print
-       'spawn-example: %s %s'
-           .format count sys:argv 
-   sleep 1000
-   -- count
+@ns sys 'http://www.genyris.org/lang/system#'
+
+while true
+   print sys:argv
+   sleep 5000
