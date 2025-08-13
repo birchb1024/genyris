@@ -42,10 +42,15 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseBadEval("(nth -1 ^(a b c))");
     }
     public void testSort() throws Exception {
-        excerciseEval("(sort ^(1))", "(1)");
+
         excerciseEval("(sort ^(a b c))", "(a b c)");
         excerciseEval("(sort ^(z  x  y))", "(x y z)");
+
         excerciseEval("(sort ^(\"z\"  \"x\"  \"y\"))", "(\"x\" \"y\" \"z\")");
+
+        excerciseEval("(sort ^(1))", "(1)");
+        excerciseEval("(sort ^(123.123 -12 0.0 112.12 -200))", "(-200 -12 0.0 112.12 123.123)");
+        excerciseEval("(sort ^(1755045567 1755045500 1755045599))", "(1755045500 1755045567 1755045599)");
 
         excerciseBadEval("(sort ^())");
         excerciseBadEval("(sort 1)");

@@ -137,7 +137,7 @@ public class Bignum extends Atom  implements Comparable {
     }
 	    @Override
     public int compareTo(Object o) {
-        return this._value.compareTo(_value);
+        return this._value.compareTo(((Bignum)o)._value);
     }
 
 }

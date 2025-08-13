@@ -52,7 +52,7 @@ public class SortFunction extends ApplicableFunction {
 		}
 		Collections.sort(tmp);
 		Collections.reverse(tmp);
-		Iterator<Exp> it = tmp.iterator();
+		Iterator<Exp> it = tmp.iterator(); // TODO extract method
 		Exp result = NIL;
 		while(it.hasNext()) {
 			Exp a = (Exp)it.next();
