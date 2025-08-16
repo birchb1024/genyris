@@ -19015,6 +19015,186 @@ init.g
 '
 \end_layout
 
+\begin_layout Subsubsection
+Variables Established at the Start
+\end_layout
+
+\begin_layout Standard
+During startup the interpreter sets global variables which can be used within
+ programs
+\end_layout
+
+\begin_layout Paragraph
+System
+\end_layout
+
+\begin_layout Standard
+This module contains variables: 
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+System!HOME 
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+System!HOME 
+\end_layout
+
+\end_inset
+
+
+\emph default
+- the home directory of the interpreter installation
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+System!LIBS
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+System!LIBS
+\end_layout
+
+\end_inset
+
+
+\emph default
+ - the directory containing standard Genyris library files
+\end_layout
+
+\begin_layout Paragraph
+sys:argv
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+sys:argv
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When arguments provided on the shell comman-line or via spawn are stored
+ in this list.
+ The first item is the script path string.
+\end_layout
+
+\begin_layout Paragraph
+sys:script-directory
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+sys:script-directory
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+If the interpreter is invoked as a script, the absolute path of the script
+ is placed here.
+ It is appended to the sys:path so that includes from the script can be
+ relative to the script itself.
+ Example
+\end_layout
+
+\begin_layout LyX-Code
+$ cat /tmp/a-script.g 
+\end_layout
+
+\begin_layout LyX-Code
+@ns sys 'http://www.genyris.org/lang/system#'
+\end_layout
+
+\begin_layout LyX-Code
+print sys:script-directory
+\end_layout
+
+\begin_layout LyX-Code
+map-left sys:path print
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+$ genyris /tmp/a-script.g
+\end_layout
+
+\begin_layout LyX-Code
+~ '/tmp'
+\end_layout
+
+\begin_layout LyX-Code
+~ '/mnt/HomeDisk2/birchb/work/genyris/lib'
+\end_layout
+
+\begin_layout LyX-Code
+~ '/mnt/HomeDisk2/birchb/work/genyris'
+\end_layout
+
+\begin_layout LyX-Code
+~ "."
+\end_layout
+
+\begin_layout LyX-Code
+~ '/tmp'
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Standard
+Otherwise 
+\emph on
+sys:script-directory
+\emph default
+ is unbound.
+ Example 
+\end_layout
+
+\begin_layout LyX-Code
+$ genyris -eval "bound? ^sys:script-dir"
+\end_layout
+
+\begin_layout LyX-Code
+~ nil # NilSymbol SimpleSymbol
+\end_layout
+
+\begin_layout Paragraph
+sys:path
+\end_layout
+
+\begin_layout Standard
+A list containing directories to search when
+\emph on
+ include
+\emph default
+-ing or 
+\emph on
+import
+\emph default
+ing.
+\end_layout
+
 \begin_layout Section
 Tasks
 \begin_inset Index idx

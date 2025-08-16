@@ -4,14 +4,15 @@
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
 @ns sys "http://www.genyris.org/lang/system#"
-
-define sys:path ^(".")
+define sys:path
+  list "."
+    (cond ((bound? ^sys:script-directory) sys:script-directory)) # in Java unit tests, this variable is not available yet
 define sys:modules (graph)
 
 class Module
 
 defmacro import (moduleName)
-   # macro ensures module binding is create in the scope of caller
+   # macro ensures module binding is created in the scope of caller
    define themodule (import-aux moduleName)
    if themodule
        template
@@ -80,7 +81,7 @@ def isAbsolutePath?(filename)
             filename(.match '^[a-zA-Z]\\:.*')       # drive letter
       else
          equal? '/' (filename(.slice 0 1))
-            
+
 def include((filename = String))
    cond
       (isAbsolutePath? filename)

@@ -8,6 +8,8 @@ package org.genyris.interp;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
@@ -62,7 +64,7 @@ public class ClassicReadEvalPrintLoop {
         Writer output = new PrintWriter(System.out);
         try {
             Interpreter interpreter = new Interpreter();
-            interpreter.init(false);
+            interpreter.init(false, getScriptDirectory(filename));
             interpreter.getDebugBackTrace();
             setArgs(args, interpreter);
             try {
@@ -120,13 +122,19 @@ public class ClassicReadEvalPrintLoop {
         System.exit(-1);
     }
 
-    private static void setArgs(String[] args, Interpreter interpreter)
-            throws GenyrisException {
-        Symbol ARGS = interpreter.internEscaped(Constants.GENYRIS + "system#"
-                + Constants.ARGS );
-        Exp argsAlist = makeListOfStrings(interpreter.getSymbolTable().NIL(),
-                args, 0);
-        interpreter.getGlobalEnv().defineVariable(ARGS, argsAlist);
+    private static void setArgs(String[] args, Interpreter interpreter) throws GenyrisException {
+        Symbol argv = interpreter.internEscaped(Constants.GENYRIS + "system#" + Constants.ARGS);
+        Exp argsAlist = makeListOfStrings(interpreter.getSymbolTable().NIL(), args, 0);
+        interpreter.getGlobalEnv().defineVariable(argv, argsAlist);
+    }
+
+    private static String getScriptDirectory(String filename) throws GenyrisException {
+        try {
+            Path scriptPath = Paths.get(filename).toRealPath();
+            return scriptPath.getParent().toString();
+        } catch (IOException e) {
+            throw new GenyrisException(e);
+        }
     }
 
     private int runWithJline(String[] args) {

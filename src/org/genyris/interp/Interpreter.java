@@ -138,6 +138,12 @@ public class Interpreter {
                 (Writer) new NullWriter());
     }
 
+    public Exp init(boolean verbose, String scriptDirectoryPath) throws GenyrisException {
+        Symbol scriptDirVar = internEscaped(Constants.GENYRIS + "system#" + Constants.SCRIPTDIR);
+        getGlobalEnv().defineVariable(scriptDirVar, new StrinG(scriptDirectoryPath));
+        return init(verbose);
+    }
+
     public Exp init(boolean verbose) throws GenyrisException {
         Writer nullW = new NullWriter();
         Exp retval =  SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this
@@ -149,7 +155,6 @@ public class Interpreter {
         }
         return retval;
     }
-
     public Parser newParser(InStream input) {
         return new ParserSource(_table, input);
     }
