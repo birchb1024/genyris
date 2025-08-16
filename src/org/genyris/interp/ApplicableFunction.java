@@ -110,7 +110,36 @@ public abstract class ApplicableFunction {
             }
         }
     }
+	public static Boolean isAllowed(Class[] allowed, Object O) {
+        Boolean AllowedClass = false;
+		for (Class a : allowed) {
+			if (a.isInstance(O)) {
+				AllowedClass = true;
+				break;
+			}
+		}
+		return AllowedClass;
+    }
 
+    public static String asString(Class[] classes) {
+        String result = classes[0].toString();
+        for  (int i = 1; i < classes.length; i++) {
+            result += ", " + classes[i];
+        }
+        return result;
+    }
+    protected void checkArgumentTypes(Class[][] types, Exp[] args)
+            throws GenyrisException {
+    	if( args.length < types.length ) {
+    		throw new GenyrisException(getName() + " not enough arguments.");
+    	}
+        for (int i = 0; i < types.length; i++) {
+            if (!isAllowed(types[i], args[i])) {
+                throw new GenyrisException(getName() + " expects one of "
+                        + asString(types[i]) + " at position " + i + " got <" + args[i] + "> a " + args[i].getClass().getName());
+            }
+        }
+    }
     protected void checkFormalArgumentSyntax(Exp formals) throws GenyrisException {
         if (formals == NIL) {
             return;
