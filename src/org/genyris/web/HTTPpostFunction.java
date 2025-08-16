@@ -29,7 +29,7 @@ import org.genyris.interp.Interpreter;
 public class HTTPpostFunction extends HTTPclientFunction {
 
     public HTTPpostFunction(Interpreter interp) {
-        super(interp, Constants.WEB + "post", true);
+        super(interp, "post", true);
     }
 
     public static boolean isURI(StrinG X) {

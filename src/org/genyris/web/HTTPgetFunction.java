@@ -21,7 +21,7 @@ import org.genyris.interp.Interpreter;
 public class HTTPgetFunction extends HTTPclientFunction {
 
     public HTTPgetFunction(Interpreter interp) {
-        super(interp, Constants.WEB + "get", true);
+        super(interp, "get", true);
     }
 
 

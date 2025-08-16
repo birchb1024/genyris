@@ -12,5 +12,5 @@ def sys:procedure-missing(&rest args)
   
 catch error
     call-a-function-which-does-not-exist
-assertEqual error 'Unbound symbol within http://www.genyris.org/lang/system#procedure-missing unbound variable: an-undefined-function'
+assertEqual error 'Unbound symbol within sys:procedure-missing unbound variable: an-undefined-function'
 

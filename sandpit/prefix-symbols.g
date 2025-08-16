@@ -1,7 +1,36 @@
 @ns u "http://www.genyris.org/lang/utilities#"
+@ns web "http://www.genyris.org/lang/web#"
+@ns sys "http://www.genyris.org/lang/system#"
 
 @ns fubar 'https://fubar.org/quux#'
 
+print (symbol-namespace ^web:get)
+print (symbol-namespace ^sys:argv)
+print (symbol-namespace ^u:format)
+
+var fubar:alpha 42
+intern 'http://foo.bar/quux'
+
+for S in (symlist)
+  cond
+    (member? URISymbol S!classes)
+      print (list 'URISymbol: ' S (symbol-namespace S) S!classes )
+
+for S in (symlist)
+  var L (length ((asString S)(.split ':')))
+  cond
+    (> L 1)
+      cond
+        (null? (symbol-namespace S))
+            print (list S (symbol-namespace S) (asString S) S!classes)
+#        list
+#          ~ S
+#          ~ L
+#          ~ (> L 1)
+#          ~ (asString S)
+#          ~ (cond ((> L 1)(the S)))
+
+os!exit
 var fubar:alpha 42
 
 print ^fubar:alpha
@@ -31,5 +60,4 @@ symbol-namespace ^fubar:c
 list-prefixes-in ^(fubar:quux (fubar:alpha) fubar:beta)
 
 print (prefixes-list(.asTriples))
-
 

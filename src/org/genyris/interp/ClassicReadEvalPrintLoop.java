@@ -11,11 +11,7 @@ import java.io.Writer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.genyris.core.Constants;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.StrinG;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.IndentedFormatter;
@@ -123,7 +119,7 @@ public class ClassicReadEvalPrintLoop {
     }
 
     private static void setArgs(String[] args, Interpreter interpreter) throws GenyrisException {
-        Symbol argv = interpreter.internEscaped(Constants.GENYRIS + "system#" + Constants.ARGS);
+        Symbol argv = interpreter.intern(new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGS, "sys"));
         Exp argsAlist = makeListOfStrings(interpreter.getSymbolTable().NIL(), args, 0);
         interpreter.getGlobalEnv().defineVariable(argv, argsAlist);
     }

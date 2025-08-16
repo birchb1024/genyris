@@ -12,8 +12,9 @@ public abstract class Symbol extends Atom {
     public static SimpleSymbol symbolFactory(String name, boolean escaped) {
         try {
             URI uri = new URI(name);
-            if(uri.isAbsolute())
+            if(uri.isAbsolute()) {
                 return new URISymbol(name);
+            }
         } catch (URISyntaxException e) { }
         return (escaped ? new EscapedSymbol(name) : new SimpleSymbol(name));
     }

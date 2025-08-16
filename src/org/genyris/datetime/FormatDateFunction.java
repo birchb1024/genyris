@@ -13,7 +13,7 @@ import org.genyris.interp.Interpreter;
 public class FormatDateFunction extends AbstractDateTimeFunction {
 
     public FormatDateFunction(Interpreter interp) {
-		super(interp, Constants.PREFIX_DATE + "format-date");
+		super(interp, "format-date");
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

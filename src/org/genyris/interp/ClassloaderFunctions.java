@@ -7,13 +7,14 @@ package org.genyris.interp;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.PrefixSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 
 public class ClassloaderFunctions extends ApplicableFunction {
 
     public ClassloaderFunctions(Interpreter interp) {
-        super(interp, Constants.PREFIX_SYSTEM + "load-class-by-name", true);
+        super(interp, new PrefixSymbol(Constants.PREFIX_SYSTEM, "load-class-by-name", "sys"), true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments,

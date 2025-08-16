@@ -21,12 +21,13 @@ public class TripleFunctions extends ApplicableFunction {
     }
 
     public Symbol toSymbol(Exp x) throws GenyrisException {
+        if( x instanceof Symbol ) {
+            return _interp.intern((Symbol)x);
+        }
         if( x instanceof Bignum ||  x instanceof StrinG ||  x instanceof Symbol ) {
             return _interp.intern(x.toString());
         }
-        else {
-            throw new GenyrisException( "Cannot make a triple with " + x.toString() + " " + x.getClass().getName());
-        }
+        throw new GenyrisException( "Cannot make a triple with " + x.toString() + " " + x.getClass().getName());
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments,
             Environment envForBindOperations) throws GenyrisException {

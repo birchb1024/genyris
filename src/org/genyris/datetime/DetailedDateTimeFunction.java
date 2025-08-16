@@ -13,7 +13,7 @@ import org.genyris.interp.Interpreter;
 public class DetailedDateTimeFunction extends AbstractDateTimeFunction {
 
     public DetailedDateTimeFunction(Interpreter interp) {
-		super(interp, Constants.PREFIX_DATE + "calendar");
+		super(interp, "calendar");
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {

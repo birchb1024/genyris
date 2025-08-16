@@ -5,6 +5,8 @@
 //
 package org.genyris.datetime;
 
+import org.genyris.core.Constants;
+import org.genyris.core.PrefixSymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Interpreter;
@@ -14,7 +16,7 @@ public abstract class AbstractDateTimeFunction extends ApplicableFunction {
 
     public AbstractDateTimeFunction(Interpreter interp,
             String name) {
-        super(interp, name, true);
+        super(interp, new PrefixSymbol(Constants.GENYRIS + "date#", name, name), true);
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws GenyrisException {

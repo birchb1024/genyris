@@ -3,6 +3,7 @@ package org.genyris.java.swing;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.PrefixSymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -13,7 +14,7 @@ import org.genyris.java.JavaWrapper;
 public class ListenerFunction extends ApplicableFunction {
 
 	public ListenerFunction(Interpreter interp) {
-		super(interp, Constants.PREFIX_JAVA + "actionListener", true);
+		super(interp, new PrefixSymbol(Constants.PREFIX_JAVA, "actionListener", "sys"), true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

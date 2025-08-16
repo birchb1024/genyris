@@ -7,6 +7,7 @@ package org.genyris.interp.builtin;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.PrefixSymbol;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Closure;
@@ -16,7 +17,7 @@ import org.genyris.interp.Interpreter;
 public class BackTraceFunction extends ApplicableFunction {
 
     public BackTraceFunction(Interpreter interp) {
-    	super(interp, Constants.GENYRIS + "system#backtrace", false);
+    	super(interp, new PrefixSymbol(Constants.PREFIX_SYSTEM, "backtrace", "sys"), false);
     }
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env) throws GenyrisException {
         

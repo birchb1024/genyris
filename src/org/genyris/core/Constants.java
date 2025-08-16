@@ -126,7 +126,7 @@ public class Constants {
 		public static final String JAVAMETHOD = "JavaMethod";
 		public static final String JAVASTATICMETHOD = "JavaStaticMethod";
 		public static final String JAVACLASS = PREFIX_JAVA + "class";
-		public static final String PROCEDUREMISSING = PREFIX_SYSTEM + "procedure-missing";
+		public static final String PROCEDUREMISSING = "procedure-missing";
         public static final String GLOBALGRAPH = "*global-graph*";
         public static final String ATFILE = "@FILE";
         public static final String ATLINE = "@LINE";

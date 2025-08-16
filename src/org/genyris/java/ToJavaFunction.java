@@ -3,6 +3,7 @@ package org.genyris.java;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.PrefixSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -13,7 +14,7 @@ import org.genyris.interp.Interpreter;
 public class ToJavaFunction extends ApplicableFunction {
 
 	public ToJavaFunction(Interpreter interp) {
-		super(interp, Constants.PREFIX_JAVA + "toJava", true);
+		super(interp, new PrefixSymbol(Constants.PREFIX_JAVA, "toJava", "java"), true);
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,

@@ -20,10 +20,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
-import org.genyris.core.Bignum;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.StrinG;
+import org.genyris.core.*;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -38,7 +35,7 @@ public abstract class HTTPclientFunction extends ApplicableFunction {
     String charset = "UTF-8";
 
     public HTTPclientFunction(Interpreter interp, String name, boolean eager) {
-        super(interp, name, eager);
+        super(interp, new PrefixSymbol(Constants.WEB, name, "web"), eager);
     } 
     
     protected static CloseableHttpClient getCloseableHttpClient(Exp options) throws GenyrisException {

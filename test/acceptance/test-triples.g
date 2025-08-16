@@ -16,11 +16,18 @@ def test-equality()
       equal?
            triple ^X ^O eighty
            triple ^X ^O eighty
+   assertEqual ^O (intern "O")
+   assert
+       equal?
+            triple ^X ^O eighty
+            triple ^X (intern "O") eighty
    assert
       not
-         equal?
-              triple ^X ^O eighty
-              triple ^X (gensym "O") eighty
+         equal? ^O (gensym "O")
+   assert
+       equal?
+            triple ^X ^O eighty
+            triple ^X (gensym "O") eighty
 
 test-equality
 
@@ -68,7 +75,6 @@ def test-remove2()
       equal?
          ts(.asTriples)
          list (triple ^z ^x 'w')
-
 def test-select()
    var joe "Joe"
    var ts

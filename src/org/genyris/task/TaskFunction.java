@@ -1,9 +1,6 @@
 package org.genyris.task;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
-import org.genyris.core.Dictionary;
-import org.genyris.core.StrinG;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
 import org.genyris.interp.Environment;
@@ -13,7 +10,7 @@ import org.genyris.interp.UnboundException;
 public abstract class TaskFunction extends ApplicableFunction {
 
     public TaskFunction(Interpreter interp, String name, boolean eager) {
-        super(interp, Constants.PREFIX_TASK+ name, eager);
+        super(interp, new PrefixSymbol(Constants.PREFIX_TASK, name, "task"), eager);
     }
 
     protected Dictionary getThreadAsDictionary( Thread tr, Environment env) throws GenyrisException {

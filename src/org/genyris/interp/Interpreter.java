@@ -111,13 +111,18 @@ public class Interpreter {
 
     private void bindProcedure(Environment env, ApplicableFunction proc)
             throws GenyrisException {
-        Symbol nameSymbol = _table.internString(proc.getName());
+        Symbol sym = null;
+        if(proc._nameSymbol != null) {
+            sym = _table.internSymbol(proc._nameSymbol);
+        } else {
+            sym = _table.internString(proc.getName());
+        }
 
         if (proc.isEager()) {
-            env.defineVariable(nameSymbol, new EagerProcedure(env, NIL,
+            env.defineVariable(sym, new EagerProcedure(env, NIL,
                     (ApplicableFunction) proc));
         } else {
-            env.defineVariable(nameSymbol, new LazyProcedure(env, NIL,
+            env.defineVariable(sym, new LazyProcedure(env, NIL,
                     (ApplicableFunction) proc));
         }
     }
@@ -139,7 +144,7 @@ public class Interpreter {
     }
 
     public Exp init(boolean verbose, String scriptDirectoryPath) throws GenyrisException {
-        Symbol scriptDirVar = internEscaped(Constants.GENYRIS + "system#" + Constants.SCRIPTDIR);
+        Symbol scriptDirVar = intern(new PrefixSymbol(Constants.PREFIX_SYSTEM, "script-directory", "sys"));
         getGlobalEnv().defineVariable(scriptDirVar, new StrinG(scriptDirectoryPath));
         return init(verbose);
     }

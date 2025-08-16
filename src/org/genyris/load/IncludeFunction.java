@@ -10,6 +10,7 @@ import java.io.Writer;
 
 import org.genyris.core.Constants;
 import org.genyris.core.Exp;
+import org.genyris.core.PrefixSymbol;
 import org.genyris.core.StrinG;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.ApplicableFunction;
@@ -21,7 +22,7 @@ import org.genyris.io.NullWriter;
 public class IncludeFunction extends ApplicableFunction {
 
     public IncludeFunction(Interpreter interp) {
-        super(interp, Constants.PREFIX_SYSTEM + "include", true);
+        super(interp, new PrefixSymbol(Constants.PREFIX_SYSTEM,  "include", "sys"), true);
     }
 
     public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)

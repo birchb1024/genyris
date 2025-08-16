@@ -159,7 +159,7 @@ public class SymbolTable implements Internable {
     _JAVASTATICMETHOD = bindKeyword(String.valueOf(Constants.JAVASTATICMETHOD));
     _JAVACLASS = bindKeyword(String.valueOf(Constants.JAVACLASS));
     _PIPE = bindKeyword(String.valueOf(Constants.PIPE));
-    _PROCEDUREMISSING = bindKeyword(String.valueOf(Constants.PROCEDUREMISSING));
+    _PROCEDUREMISSING = (SimpleSymbol)internSymbol(new PrefixSymbol(Constants.PREFIX_SYSTEM, Constants.PROCEDUREMISSING, "sys"));
     _BISCUIT = bindKeyword(String.valueOf(Constants.BISCUIT));
     _TAILCALL = bindKeyword(String.valueOf(Constants.TAILCALL));
 

@@ -16,7 +16,7 @@ import org.genyris.core.Symbol;
 import org.genyris.exception.GenyrisException;
 
 public class PrefixMapper {
-    private static final String ABBREVIATION_SEPARATOR_CHAR = ":";
+    public static final String ABBREVIATION_SEPARATOR_CHAR = ":";
 	private Map _abbreviations; // #TODOuse a Map<>
     private char _dynaChar;
 
@@ -48,7 +48,7 @@ public class PrefixMapper {
         }
     }
 
-    private static boolean hasAbbreviation(String symbol) {
+    public static boolean hasAbbreviation(String symbol) {
         return symbol.contains(ABBREVIATION_SEPARATOR_CHAR);
     }
 

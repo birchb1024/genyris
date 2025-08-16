@@ -13,6 +13,7 @@ public abstract class ApplicableFunction {
 
     protected SimpleSymbol NIL, TRUE;
     protected SimpleSymbol _lambda, _lambdam, _lambdaq;
+    protected PrefixSymbol _nameSymbol;
     protected String _name;
     private boolean _eager;
     protected SimpleSymbol REST;
@@ -27,6 +28,17 @@ public abstract class ApplicableFunction {
         throw new GenyrisException( "Cannot intern " + x.toString() + " " + x.getClass().getName());
     }
 
+    public ApplicableFunction(Interpreter interp, PrefixSymbol name, boolean eager) {
+        _nameSymbol = name;
+        _eager = eager;
+        _interp = interp;
+        NIL = interp.getSymbolTable().NIL();
+        TRUE = interp.getSymbolTable().TRUE();
+        _lambda = interp.getSymbolTable().LAMBDA();
+        _lambdaq = interp.getSymbolTable().LAMBDAQ();
+        _lambdam = interp.getSymbolTable().LAMBDAM();
+        REST = interp.getSymbolTable().REST();
+    }
     public ApplicableFunction(Interpreter interp, String name, boolean eager) {
         _name = name;
         _eager = eager;
@@ -63,10 +75,16 @@ public abstract class ApplicableFunction {
     }
 
     public String getName() {
+        if(_nameSymbol != null) {
+            return _nameSymbol.toString();
+        }
         return _name;
     }
 
     public String toString() {
+        if(_nameSymbol != null) {
+            return _nameSymbol.toString();
+        }
         return _name;
     }
     

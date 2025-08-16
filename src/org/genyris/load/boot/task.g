@@ -7,10 +7,12 @@ class Task()
     def .kill()
         task:kill .id
 
-eval # patch to get Task not Dictionary
-   template
-      def task:id() 
-         tag Task ($(the task:id))
+#eval # patch to get Task not Dictionary
+#   template
+#      def task:id()
+#         tag Task ($(the task:id))
+#TODO - wonder what the above was for. delete?
+#
 var sleep task:sleep
     
 def spawn(&rest args)
