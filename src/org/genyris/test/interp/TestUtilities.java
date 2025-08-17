@@ -20,7 +20,7 @@ public class TestUtilities {
 
     public TestUtilities() throws GenyrisException {
         _interpreter = new Interpreter();
-        _interpreter.init(false);
+        _interpreter.init(false, "TestUtilities");
     }
 
 

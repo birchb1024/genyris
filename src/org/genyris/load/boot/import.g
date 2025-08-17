@@ -4,9 +4,11 @@
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
 @ns sys "http://www.genyris.org/lang/system#"
-define sys:path
-  list "."
-    (cond ((bound? ^sys:script-directory) sys:script-directory)) # in Java unit tests, this variable is not available yet
+define sys:path ^('.')
+cond
+  (bound? ^sys:script-directory)
+    setq sys:path (list '.' sys:script-directory) # in Java unit tests, this variable is not available yet
+
 define sys:modules (graph)
 
 class Module
@@ -41,6 +43,7 @@ def sys:search-path(fileName)
     define result nil
     while tmp
         define file-path ((left tmp)(.+ "/" fileName))
+        # display ('searching for %s\n'(.format file-path))
         cond
             ((File.exists) file-path)
                   setq tmp nil

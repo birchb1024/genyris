@@ -38,7 +38,7 @@ public class ClassicReadEvalPrintLoop {
                         expression.append(" ");
                     }
                     expression.append("\n\n");
-                    evalString(expression.toString());
+                    evalString(expression.toString(), "-eval");
                     result = 0;
                 } else if (args[0].equals("-")) {
                     result = evalFileWithArguments(args[0], args);
@@ -60,7 +60,7 @@ public class ClassicReadEvalPrintLoop {
         Writer output = new PrintWriter(System.out);
         try {
             Interpreter interpreter = new Interpreter();
-            interpreter.init(false, getScriptDirectory(filename));
+            interpreter.init(false, getContainingDirectoryPath(filename));
             interpreter.getDebugBackTrace();
             setArgs(args, interpreter);
             try {
@@ -90,13 +90,13 @@ public class ClassicReadEvalPrintLoop {
         }
     }
 
-    private static void evalString(String script) throws IOException {
+    private static void evalString(String script, String name) throws IOException {
         Interpreter interp;
         Writer output = new PrintWriter(System.out);
         Formatter formatter = new IndentedFormatter(output, 2);
         try {
             interp = new Interpreter();
-            interp.init(false);
+            interp.init(false, name);
             Exp result = interp.evalStringInGlobalEnvironment(script);
             result.acceptVisitor(formatter);
             output.write(" " + Constants.COMMENTCHAR);
@@ -119,12 +119,12 @@ public class ClassicReadEvalPrintLoop {
     }
 
     private static void setArgs(String[] args, Interpreter interpreter) throws GenyrisException {
-        Symbol argv = interpreter.intern(new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGS, "sys"));
+        Symbol argv = interpreter.intern(new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGV, "sys"));
         Exp argsAlist = makeListOfStrings(interpreter.getSymbolTable().NIL(), args, 0);
         interpreter.getGlobalEnv().defineVariable(argv, argsAlist);
     }
 
-    private static String getScriptDirectory(String filename) throws GenyrisException {
+    public static String getContainingDirectoryPath(String filename) throws GenyrisException {
         try {
             Path scriptPath = Paths.get(filename).toRealPath();
             return scriptPath.getParent().toString();
@@ -138,7 +138,7 @@ public class ClassicReadEvalPrintLoop {
             JlineStdioInStream console = JlineStdioInStream.knew();
             _interpreter = new Interpreter((InStream) console,
                     console.getOutput());
-            _interpreter.init(false);
+            _interpreter.init(false, ".");
             setArgs(args, _interpreter);
             console.setInterpreter(_interpreter);
             _interpreter

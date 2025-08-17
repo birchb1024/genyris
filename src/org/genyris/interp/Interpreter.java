@@ -146,10 +146,10 @@ public class Interpreter {
     public Exp init(boolean verbose, String scriptDirectoryPath) throws GenyrisException {
         Symbol scriptDirVar = intern(new PrefixSymbol(Constants.PREFIX_SYSTEM, "script-directory", "sys"));
         getGlobalEnv().defineVariable(scriptDirVar, new StrinG(scriptDirectoryPath));
-        return init(verbose);
+        return initAux(verbose);
     }
 
-    public Exp init(boolean verbose) throws GenyrisException {
+    public Exp initAux(boolean verbose) throws GenyrisException {
         Writer nullW = new NullWriter();
         Exp retval =  SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this
                 .getSymbolTable(), "org/genyris/load/boot/init.g",
@@ -183,11 +183,7 @@ public class Interpreter {
     public Symbol intern(String name) {
         return _table.internString(name);
     }
-
-    public Symbol internEscaped(String name) {
-        return _table.internSymbol(new EscapedSymbol(name));
-    }
-
+    
     public Symbol intern(Symbol name) {
         return _table.internSymbol(name);
     }

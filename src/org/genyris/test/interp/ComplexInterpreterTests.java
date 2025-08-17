@@ -180,7 +180,7 @@ public class ComplexInterpreterTests extends TestCase {
     private static void evalForXML(String input, String expected, boolean expandAbbreviation ) throws GenyrisException {
         InStream fd = new UngettableInStream( new StringInStream(input));
         Interpreter interp = new Interpreter();
-        interp.init(false);
+        interp.init(false, "evalForXML");
         ParserXML parser =  new ParserXML(interp.getSymbolTable(), fd);
         Exp result = parser.read(interp.getGlobalEnv());
         assertEquals(expected, (new TestUtilities()).renderExp(result, expandAbbreviation) );

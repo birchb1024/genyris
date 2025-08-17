@@ -8,16 +8,15 @@ package org.genyris.task;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-import org.genyris.core.Constants;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.exception.GenyrisInterruptedException;
 import org.genyris.interp.Closure;
 import org.genyris.interp.Environment;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
+
+import static org.genyris.interp.ClassicReadEvalPrintLoop.getContainingDirectoryPath;
 
 public class SpawnFunction extends TaskFunction {
 
@@ -45,19 +44,19 @@ public class SpawnFunction extends TaskFunction {
         public void run() {
             Interpreter interpreter;
 			try {
-				interpreter = new Interpreter();
-				interpreter.init(false);
-				Writer output = new PrintWriter(System.out);
-				Symbol ARGS = interpreter.internEscaped(Constants.GENYRIS + "system#" + Constants.ARGS );
-				interpreter.getGlobalEnv().defineVariable(ARGS, arrayToExpList(interpreter.NIL, arguments));
 	    		if( arguments.length != 0) {
 	    			String filename = arguments[0].toString();
+					interpreter = new Interpreter();
+					interpreter.init(false, getContainingDirectoryPath(filename));
+					Writer output = new PrintWriter(System.out);
+					Symbol argv = interpreter.intern(new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGV, "sys"));
+					interpreter.getGlobalEnv().defineVariable(argv, arrayToExpList(interpreter.NIL, arguments));
 	    			SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter.getSymbolTable(), filename, output);
 	    		}
 			} catch (GenyrisException e) {
 				if(e instanceof GenyrisInterruptedException) {
 					System.out.println("*** GenyrisInterruptedException " + Thread.currentThread().getName() + ' ' + e.getMessage());
-//					Thread.currentThread().interrupt();
+					Thread.currentThread().interrupt();
 					return;
 				}
 				System.out.println("*** Error in thread " + Thread.currentThread().getName() + ' ' + e.getMessage());

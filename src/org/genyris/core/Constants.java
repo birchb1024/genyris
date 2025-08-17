@@ -92,7 +92,7 @@ public class Constants {
         public static final String PREFIX = "@ns";
         public static final String DYNAMIC_SYMBOL = "dynamic-symbol-value";
         public static final String GENYRIS = "http://www.genyris.org/lang/";
-        public static final String ARGS = "argv";
+        public static final String ARGV = "argv";
         public static final String SCRIPTDIR = "script-directory";
         public static final String WEB = GENYRIS + "web#";
         public static final String SYMBOL = "Symbol";

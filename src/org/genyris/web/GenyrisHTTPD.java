@@ -13,13 +13,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
-import org.genyris.core.Dictionary;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.StrinG;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.format.Formatter;
 import org.genyris.format.HTMLFormatter;
@@ -33,7 +27,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
     static HashMap serverSockets = new HashMap();
     Interpreter interpreter;
     String filename;
-    Exp[] argv;
+    Exp[] _argv;
 
     Symbol NIL;
 
@@ -43,7 +37,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
             throws GenyrisException {
         myTcpPort = port;
         this.filename = filename;
-        this.argv = argv;
+        this._argv = argv;
 
         try {
             ss = getSharedServerSocket(myTcpPort);
@@ -223,12 +217,10 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     private void interpreterSetup() throws GenyrisException {
         interpreter = new Interpreter();
-        interpreter.init(false);
-        Symbol ARGS = interpreter.internEscaped(Constants.GENYRIS + "system#" + Constants.ARGS);
+        interpreter.init(false, filename);
+        Symbol argv = interpreter.intern(new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGV, "sys"));
         NIL = interpreter.NIL;
-        interpreter.getGlobalEnv().defineVariable(ARGS,
-                makeListOfArray(NIL, argv));
-
+        interpreter.getGlobalEnv().defineVariable(argv, makeListOfArray(NIL, _argv));
         Writer output = new PrintWriter(System.out);
         HttpRequestClazz = (Dictionary) interpreter.lookupGlobalFromString("HttpRequest");
         AlistClazz = (Dictionary) interpreter.lookupGlobalFromString("Alist");
