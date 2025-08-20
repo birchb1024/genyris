@@ -22186,7 +22186,7 @@ status open
 
 \end_inset
 
- <arg>...
+ <args> [environment variables assoc]...
 \end_layout
 
 \begin_layout Standard
@@ -22301,7 +22301,7 @@ assertEqual ^(('123'))
 
 \begin_layout Standard
 The environment variables supplied override the interpreter process environment
- if they're present.
+ if they're present in a second argument.
  Example
 \end_layout
 
@@ -22322,7 +22322,19 @@ The environment variables supplied override the interpreter process environment
 \end_layout
 
 \begin_layout LyX-Code
-:  (('123')) # Pair  
+:  (('123')) # Pair 
+\end_layout
+
+\begin_layout Standard
+Environment variables may be the empty list, 
+\emph on
+()
+\emph default
+, or 
+\emph on
+nil
+\emph default
+.
 \end_layout
 
 \begin_layout Subsection

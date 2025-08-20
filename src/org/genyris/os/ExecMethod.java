@@ -125,7 +125,15 @@ public class ExecMethod extends AbstractMethod {
                 return CallType.ListofStringsNoEnv;
             }
         }
+        if( arguments.length == 2 && arguments[1] == NIL) {
+                Exp[] tmp = {arguments[0]};
+                return classifyArguments(tmp);
+        }
         if( arguments.length == 2 && isAllSameClass(Pair.class, arguments) ){
+            if(arguments[1] == NIL) {
+                Exp[] tmp = {arguments[0]};
+                return classifyArguments(tmp);
+            }
             if(isListAllSameClass(StrinG.class, arguments[0]) && isListAllSameClass(Pair.class, arguments[1]) ){
                 if(!isListSimpleAssoc(arguments[1])) {
                     throw error("Environment variables not strings " + arguments[1]);
