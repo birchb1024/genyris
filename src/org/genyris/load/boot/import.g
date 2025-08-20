@@ -103,9 +103,5 @@ def include-relative(filename)
            'include: could not locate %s' (.format filename)
 
 def sys:add-parent-to-path()
-    var up ('%a/..'(.format sys:script-directory))
     setq sys:path
-        cons
-            (File(.new up))
-                .abs-path
-            ~ sys:path
+        cons sys:script-directory sys:path
