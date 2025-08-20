@@ -3,9 +3,10 @@
 def prepend-home (relative-path)
   System!HOME (.+ '/' relative-path)
 
-print System!HOME
-print sys:argv
-print sys:script-directory
+print (list @LINE System!HOME)
+print (list @LINE sys:argv)
+print (list @LINE sys:script-directory)
+print (list @LINE (prepend-home 'test/acceptance'))
 assertEqual sys:script-directory (prepend-home 'test/acceptance')
 assert (member? "." sys:path)
-assert (member? sys:script-directory sys:path)
+

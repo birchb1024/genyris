@@ -13,9 +13,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
 
-import org.genyris.core.Exp;
-import org.genyris.core.Internable;
-import org.genyris.core.StrinG;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.io.ConvertEofInStream;
@@ -25,6 +23,8 @@ import org.genyris.io.Parser;
 import org.genyris.io.ParserSource;
 import org.genyris.io.ReaderInStream;
 import org.genyris.io.UngettableInStream;
+
+import static org.genyris.interp.ClassicReadEvalPrintLoop.getContainingDirectoryPath;
 
 public class SourceLoader {
 
@@ -87,6 +87,11 @@ public class SourceLoader {
 
 	public static Exp executeScript(Environment env, String filename, Internable table,
 			Reader reader, Writer output) throws GenyrisException {
+		if(filename != null) { // when a unit test has no file, it's a string
+			Symbol scriptDirVar = env.getSymbolTable().internSymbol(new PrefixSymbol(Constants.PREFIX_SYSTEM, "script-directory", "sys"));
+			env.defineVariable(scriptDirVar, new StrinG(getContainingDirectoryPath(filename)));
+		}
+
 		Parser parser = parserFactory(filename, reader, table);
 		Exp expression = null;
 		Exp result = null;

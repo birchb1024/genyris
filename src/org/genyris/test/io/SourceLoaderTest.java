@@ -25,7 +25,7 @@ public class SourceLoaderTest extends TestCase {
         interp.init(false, "excerciseSourceLoader");
         StringReader in = new StringReader(input);
         StringWriter out = new StringWriter();
-        SourceLoader.executeScript(interp.getGlobalEnv(), ".g",
+        SourceLoader.executeScript(interp.getGlobalEnv(), "-",
                 interp.getSymbolTable(), in, out);
         assertEquals(expected, out.toString());
 
@@ -51,17 +51,17 @@ public class SourceLoaderTest extends TestCase {
 
     public void testSourceLoader3() throws GenyrisException {
         Interpreter interp = new Interpreter();
-        interp.init(false, "testSourceLoader3");
+        interp.init(false, "test/fixtures");
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
+        SourceLoader.loadScriptFromFile(interp.getGlobalEnv(),
                 interp.getSymbolTable(), "test/fixtures/factorial.g", out);
     }
 
     public void testSourceLoaderLisp() throws GenyrisException {
         Interpreter interp = new Interpreter();
-        interp.init(false, "testSourceLoaderLisp");
+        interp.init(false, "test/fixtures");
         StringWriter out = new StringWriter();
-        SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
+        SourceLoader.loadScriptFromFile(interp.getGlobalEnv(),
                 interp.getSymbolTable(), "test/fixtures/factorial.lsp", out);
     }
 }

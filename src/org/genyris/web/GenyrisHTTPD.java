@@ -22,6 +22,8 @@ import org.genyris.format.JSONFormatter;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
+import static org.genyris.interp.ClassicReadEvalPrintLoop.getContainingDirectoryPath;
+
 public class GenyrisHTTPD extends NanoHTTPD {
 
     static HashMap serverSockets = new HashMap();
@@ -217,7 +219,7 @@ public class GenyrisHTTPD extends NanoHTTPD {
 
     private void interpreterSetup() throws GenyrisException {
         interpreter = new Interpreter();
-        interpreter.init(false, filename);
+        interpreter.init(false, getContainingDirectoryPath(filename));
         Symbol argv = interpreter.intern(new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGV, "sys"));
         NIL = interpreter.NIL;
         interpreter.getGlobalEnv().defineVariable(argv, makeListOfArray(NIL, _argv));
