@@ -41,18 +41,25 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseBadEval("(nth 22 ^(a b c))");
         excerciseBadEval("(nth -1 ^(a b c))");
     }
-    public void testSort() throws Exception {
-
+    public void testSortNil() throws Exception {
+        excerciseEval("(sort nil)", "nil");
+        excerciseEval("(sort ^())", "nil");
+    }
+    public void testSortSymbol() throws Exception {
         excerciseEval("(sort ^(a b c))", "(a b c)");
         excerciseEval("(sort ^(z  x  y))", "(x y z)");
-
+    }
+    public void testSortString() throws Exception {
         excerciseEval("(sort ^(\"z\"  \"x\"  \"y\"))", "(\"x\" \"y\" \"z\")");
+    }
 
+    public void testSortBignum() throws Exception {
         excerciseEval("(sort ^(1))", "(1)");
         excerciseEval("(sort ^(123.123 -12 0.0 112.12 -200))", "(-200 -12 0.0 112.12 123.123)");
         excerciseEval("(sort ^(1755045567 1755045500 1755045599))", "(1755045500 1755045567 1755045599)");
+    }
 
-        excerciseBadEval("(sort ^())");
+public void testSortBad() throws Exception {
         excerciseBadEval("(sort 1)");
         excerciseBadEval("(sort 1 2)");
         excerciseBadEval("(sort ^(1 (2)))");
@@ -60,6 +67,13 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseBadEval("(sort (list (dict) (dict)))");
         excerciseBadEval("(sort (list ^A ^B ^  c 3 2 \"3\" \"e\" \"t\" (2) (3) (^w) (\"l\") (dict)))");
     }
+    public void testSortTriples() throws Exception {
+        excerciseEval("(sort (list (triple ^q ^w 23)))", "((triple q w 23))");
+        excerciseEval("(sort (list (triple ^q ^w 23) (triple ^a ^s 45)))", "((triple a s 45) (triple q w 23))");
+        excerciseEval("(sort (list (triple ^q ^x 23) (triple ^q ^w 23)))", "((triple q w 23) (triple q x 23))");
+        excerciseEval("(sort (list (triple ^q ^x 24) (triple ^q ^x 23)))", "((triple q x 23) (triple q x 24))");
+    }
+
     public void testEquality() throws Exception {
         excerciseEval("(equal? 1 1)", "true");
         excerciseEval("(equal? 1.2e4 1.2e4)", "true");

@@ -52,8 +52,21 @@ public class Triple extends Atom implements Comparable {
 		return this;
 	}
 
-	public int compareTo(Object arg0) {
-        return this.toString().compareTo(((Triple)arg0).toString()); // #TODO use the Triples fields
+	public int compareTo(Object O) {
+        if(!(O instanceof Triple)){
+            return -1;
+        }
+        Triple other = (Triple) O; // do not call it ;-)
+        int comparison = subject.compareTo(other.subject);
+        if(comparison != 0) {
+            return comparison;
+        }
+        comparison = predicate.compareTo(other.predicate);
+        if(comparison != 0) {
+            return comparison;
+        }
+        comparison = object.compareTo(other.object);
+        return comparison;
 	}
 	
 	public Exp dir(Internable table) {

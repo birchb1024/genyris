@@ -24,9 +24,11 @@ public class SortFunction extends ApplicableFunction {
 		super(interp, "sort", true);
 	}
 
-	public Exp bindAndExecute(Closure proc, Exp[] arguments,
-			Environment envForBindOperations) throws GenyrisException {
+	public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment envForBindOperations) throws GenyrisException {
 		checkArguments(arguments, 1);
+		if(arguments[0] == NIL){
+			return NIL;
+		}
 		Class[] types = { Pair.class };
 		checkArgumentTypes(types, arguments);
 		Pair theList = (Pair) arguments[0];
@@ -34,7 +36,9 @@ public class SortFunction extends ApplicableFunction {
 		Exp item = head.car();
 		if(!(	item instanceof Bignum
 			 || item instanceof StrinG
-			 || item instanceof Symbol )) {
+			 || item instanceof Symbol
+			 || item instanceof Triple
+			)) {
 			throw new GenyrisException("item in argument to sort must be atomic, but got " + head.getClass().getName());
 		}
 		Class theClass = theList.car().getClass();

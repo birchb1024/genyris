@@ -17918,11 +17918,11 @@ The revese function returns a new list with the elements in reverse order.
 \begin_layout Subsubsection
 
 \emph on
-sort <list of basic type>
+sort <list>
 \end_layout
 
 \begin_layout Standard
-A list of simple values is sorted and returned in a new list.
+A list of values is sorted and returned in a new list.
  These types can be sorted:
 \end_layout
 
@@ -17938,13 +17938,41 @@ String
 Symbol
 \end_layout
 
+\begin_layout Itemize
+Triple
+\end_layout
+
 \begin_layout Standard
 All the elements of the list must have the same type.
  Example:
 \end_layout
 
-\begin_layout Standard
-> sort ^
+\begin_layout LyX-Code
+> sort ^(32234 54656 876)
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+(876 32234 54656) # Pair 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+> sort ^('q' 'w' 'e' 'r' 't')
+\end_layout
+
+\begin_layout LyX-Code
+: 
+\end_layout
+
+\begin_layout LyX-Code
+('e' 'q' 'r' 't' 'w') # Pair 
 \end_layout
 
 \begin_layout Subsubsection
