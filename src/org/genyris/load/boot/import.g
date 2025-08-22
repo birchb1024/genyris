@@ -4,10 +4,6 @@
 ## of the Genyris License, in the file "LICENSE", incorporated herein by reference.
 ##
 @ns sys "http://www.genyris.org/lang/system#"
-define sys:path ^('.')
-cond
-  (bound? ^sys:script-directory)
-    setq sys:path (list '.' sys:script-directory) # in Java unit tests, this variable is not available yet
 
 define sys:modules (graph)
 
@@ -39,11 +35,16 @@ def import-aux (moduleName)
                  raise ("Unable to locate import "(.+ (asString moduleName)))
 
 def sys:search-path(fileName)
-    define tmp sys:path
+    define tmp
+        cond
+            (bound? ^sys:script-directory)
+                (cons sys:script-directory sys:path)
+            else
+                sys:path
     define result nil
     while tmp
         define file-path ((left tmp)(.+ "/" fileName))
-        # display ('searching for %s\n'(.format file-path))
+        #display ('searching for %s\n'(.format file-path))
         cond
             ((File.exists) file-path)
                   setq tmp nil

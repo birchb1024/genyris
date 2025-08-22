@@ -7,7 +7,7 @@
 @ns sys "http://www.genyris.org/lang/system#"
 @ns u "http://www.genyris.org/lang/utilities#"
 @ns date "http://www.genyris.org/lang/date#"
-
+defvar ^sys:path ^('.')
 class syn:Keyword(SimpleSymbol)
 tag syn:Keyword ^function
 

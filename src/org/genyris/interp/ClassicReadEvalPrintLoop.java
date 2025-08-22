@@ -131,16 +131,14 @@ public class ClassicReadEvalPrintLoop {
             if(url == "-") {
                 return ".";
             }
-            if(url.startsWith("file:")) {
-                filename = url.substring("file:".length());
-                Path scriptPath = Paths.get(filename).toRealPath();
-                return scriptPath.getParent().toString();
-            }
             if(url.startsWith("jar:")) {
                 String[] path =  url.split("/");
-                String[] parent = Arrays.copyOfRange(path, 0, path.length);
+                String[] parent = Arrays.copyOfRange(path, 0, path.length-1);
                 String result = String.join("/", Arrays.asList(parent));
                 return result;
+            }
+            if(url.startsWith("file:")) {
+                filename = url.substring("file:".length());
             }
             Path scriptPath = Paths.get(filename).toRealPath();
             return scriptPath.getParent().toString();
