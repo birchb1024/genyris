@@ -12417,22 +12417,55 @@ The
 \emph on
  .add
 \emph default
- method adds a triple to a graph.
+ method adds a triples to a graph.
  If the triple is already present no error is thrown.
  The graph object is returned.
- Syntax is:
+ Syntax options are:
 \end_layout
 
 \begin_layout LyX-Code
 .add <triple>
 \end_layout
 
-\begin_layout Standard
-Example:
+\begin_layout LyX-Code
+.add <subject symbol> <predicate symbol> <object expression>
 \end_layout
 
 \begin_layout LyX-Code
-ts(.add (triple ^s ^p ^o))
+.add <subject symbol> ((<predicate symbol> = <object expression>) ...
+ )
+\end_layout
+
+\begin_layout Standard
+Examples:
+\end_layout
+
+\begin_layout LyX-Code
+ts(.add (triple ^s ^p 23))
+\end_layout
+
+\begin_layout LyX-Code
+ts(.add ^s ^p 45)
+\end_layout
+
+\begin_layout LyX-Code
+ts .add
+\end_layout
+
+\begin_layout LyX-Code
+   data
+\end_layout
+
+\begin_layout LyX-Code
+       p1 = 12
+\end_layout
+
+\begin_layout LyX-Code
+       p2 = 45
+\end_layout
+
+\begin_layout LyX-Code
+       p2 = 89
 \end_layout
 
 \begin_layout Subsubsection
