@@ -235,6 +235,24 @@ public class GraphHashSimpleTest extends TestCase {
 
 	}
 
+	public void testInterpAdd() throws Exception {
+		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
+		AssertInterpretEquals("(g (.add ^z ^x 42 ))","(graph)");
+		AssertInterpretEquals("(g (.add ^z ^x 43 ))","(graph)");
+		AssertInterpretEquals("(sort (g (.asTriples )))","((triple z x 42) (triple z x 43))");
+
+		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
+		AssertInterpretEquals("(g (.add ^s `((a = $(+ 2 5)) (b = $(+ 5 8))) ))","(graph)");
+		AssertInterpretEquals("(sort (g (.asTriples )))","((triple s a 7) (triple s b 13))");
+
+		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
+		AssertInterpretEquals("(g (.add ^s (data (a = 'A') (b = 'B')) ))","(graph)");
+		AssertInterpretEquals("(sort (g (.asTriples )))","((triple s a 'A') (triple s b 'B'))");
+
+		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
+		AssertInterpretEquals("(g (.add ^x (data (a = 'A') (a = 'B')) ))","(graph)");
+		AssertInterpretEquals("(sort (g (.asTriples)))","((triple x a 'A') (triple x a 'B'))");
+	}
 	public void testFormatting() throws Exception {
 		AssertInterpretEquals("(triple ^a ^b 'west')", "(triple a b 'west')");
 		AssertInterpretEquals("(triple 'X' ^b 'west')", "(triple X b 'west')");

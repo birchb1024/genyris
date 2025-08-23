@@ -158,6 +158,15 @@ public abstract class ApplicableFunction {
             }
         }
     }
+    protected void checkSuppliedArgumentTypes(Class[][] types, Exp[] args)
+            throws GenyrisException {
+        for (int i = 0; i < args.length; i++) {
+            if (!isAllowed(types[i], args[i])) {
+                throw new GenyrisException(getName() + " expects one of "
+                        + asString(types[i]) + " at position " + i + " got <" + args[i] + "> a " + args[i].getClass().getName());
+            }
+        }
+    }
     protected void checkFormalArgumentSyntax(Exp formals) throws GenyrisException {
         if (formals == NIL) {
             return;

@@ -5,10 +5,7 @@
 //
 package org.genyris.dl;
 
-import org.genyris.core.Bignum;
-import org.genyris.core.Constants;
-import org.genyris.core.Exp;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.AbstractMethod;
 import org.genyris.interp.ApplicableFunction;
@@ -84,11 +81,31 @@ public class GraphFunction extends ApplicableFunction {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			AbstractGraph self = getSelfGraph(env);
-			checkArguments(arguments, 1);
-			Class[] types = { Triple.class };
-			checkArgumentTypes(types, arguments);
-			self.add((Triple) arguments[0]);
+			checkArguments(arguments, 1, 3);
+			if(arguments.length == 1) {
+				Class[] types = { Triple.class };
+				checkArgumentTypes(types, arguments);
+				self.add((Triple) arguments[0]);
+				return _self;
+			}
+
+			checkArguments(arguments, 2, 3);
+			Class[][] types = { {Symbol.class}, {Symbol.class, Pair.class}, {Exp.class} };
+			checkSuppliedArgumentTypes(types, arguments);
+			if(arguments[1] instanceof Pair) {
+				Exp head = arguments[1];
+				while (head != NIL){
+					if( !(head.car() instanceof Pair)) {
+						throw new GenyrisException("non-pair in .add predicate " + head.car());
+					}
+					self.add(new Triple(toSymbol(arguments[0]), toSymbol(head.car().car()), head.car().cdr()));
+					head = head.cdr();
+				}
+				return _self;
+			}
+			self.add(new Triple(toSymbol(arguments[0]), toSymbol(arguments[1]), arguments[2]));
 			return _self;
+
 		}
 	}
 
