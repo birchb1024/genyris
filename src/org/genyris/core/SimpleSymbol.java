@@ -31,7 +31,11 @@ public class SimpleSymbol extends Symbol {
     public int hashCode() {
         return super.hashCode();
     }
+
     public int compareTo(Object arg0) {
+		if(!(arg0 instanceof SimpleSymbol)) {
+			return -1;
+		}
     	if( equals(arg0) )
     		return 0;
     	return this._printName.compareTo(((SimpleSymbol) arg0)._printName);

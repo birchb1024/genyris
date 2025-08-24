@@ -59,6 +59,20 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseEval("(sort ^(1755045567 1755045500 1755045599))", "(1755045500 1755045567 1755045599)");
     }
 
+    public void testSortPair() throws Exception {
+        excerciseEval("(sort ^((1)))", "((1))");
+        excerciseEval("(sort ^(()))", "(nil)");
+        excerciseEval("(sort ^((123.123 -12)))", "((123.123 -12))");
+        excerciseEval("(sort ^((5) (4) (3))))", "((3) (4) (5))");
+        excerciseEval("(sort ^((5 9) (5 8) (3))))", "((3) (5 8) (5 9))");
+        excerciseEval("(sort ^((5 = 9) (5 = 8) (3))))", "((3) (5 = 8) (5 = 9))");
+        excerciseEval("(sort ^(((5 1) = (5 0)) (5 = 8) (3))))", "((3) (5 = 8) ((5 1) = (5 0)))");
+        excerciseEval("(sort ^((d e f)(a b c)))", "((a b c) (d e f))");
+        excerciseEval("(sort ^((a (222) c)(a (0) c)))", "((a (0) c) (a (222) c))");
+        excerciseEval("(sort ^((9 (11 (111)) (9 (11 (777))))(a (0) c)))", "((a (0) c) (9 (11 (111)) (9 (11 (777)))))");
+
+    }
+
 public void testSortBad() throws Exception {
         excerciseBadEval("(sort 1)");
         excerciseBadEval("(sort 1 2)");

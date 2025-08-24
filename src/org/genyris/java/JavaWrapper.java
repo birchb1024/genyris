@@ -50,6 +50,16 @@ public class JavaWrapper extends Atom {
 			return _value.equals(((JavaWrapper) compare)._value);
 	}
 
+    @Override
+    public int compareTo(Object o) {
+		if (o.getClass() != this.getClass()) {
+			return -1;
+		}
+		if(o instanceof Comparable && o instanceof Comparable) {
+			return ((Comparable)_value).compareTo((Comparable) o);
+		}
+		return (this == o ? 0 : 1);
+    }
 	public Exp eval(Environment env) {
 		return this;
 	}
@@ -120,10 +130,6 @@ public class JavaWrapper extends Atom {
 			return false;
 		}
 	}
-    @Override
-    public int compareTo(Object o) {
-        return this == o ? 0 : 1;
-    }
 
 }
 

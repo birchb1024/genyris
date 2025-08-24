@@ -1,7 +1,7 @@
 package org.genyris.core;
 
 
-public class PairEquals extends Pair {
+public class PairEquals extends Pair implements Comparable {
 
     public PairEquals(Exp car, Exp cdr) {
         super(car, cdr);
@@ -9,5 +9,4 @@ public class PairEquals extends Pair {
 	public Symbol getBuiltinClassSymbol(Internable table) {
 		return table.PAIREQUAL();
 	}
-
 }

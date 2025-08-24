@@ -65,8 +65,7 @@ public class Triple extends Atom implements Comparable {
         if(comparison != 0) {
             return comparison;
         }
-        comparison = object.compareTo(other.object);
-        return comparison;
+        return object.compareTo(other.object);
 	}
 	
 	public Exp dir(Internable table) {

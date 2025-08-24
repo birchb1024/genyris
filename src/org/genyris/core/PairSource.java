@@ -5,7 +5,7 @@ import org.genyris.interp.Environment;
 import org.genyris.interp.PairSourceEnvironment;
 
 
-public class PairSource extends Pair {
+public class PairSource extends Pair implements Comparable {
     public String filename;
     public int lineNumber;
 

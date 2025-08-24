@@ -35,6 +35,8 @@ public class SortFunction extends ApplicableFunction {
 		Exp head = theList;
 		Exp item = head.car();
 		if(!(	item instanceof Bignum
+			 || item instanceof Pair
+			 || item instanceof PairEquals
 			 || item instanceof StrinG
 			 || item instanceof Symbol
 			 || item instanceof Triple
@@ -42,11 +44,14 @@ public class SortFunction extends ApplicableFunction {
 			throw new GenyrisException("item in argument to sort must be atomic, but got " + head.getClass().getName());
 		}
 		Class theClass = theList.car().getClass();
+		if(theClass.equals(PairEquals.class)) {
+			theClass = Pair.class; // Treat PairEquals exactl the same as Pair. TODO special case should be handled by isInstance or similar.
+		}
 		List<Exp> tmp = new ArrayList<Exp>();
 		try {
 			while(!head.isNil()) {
-				if(!head.car().getClass().equals(theClass)) {
-					throw new GenyrisException("item in argument to sort must be of the same atomic class" + theClass.getName() + " but was " + head.car().getClass().getName());
+				if(!theClass.isInstance(head.car())) {
+					throw new GenyrisException("item in argument to sort must be similar class " + theClass.getName() + " but was " + head.car().getClass().getName());
 				}
 				tmp.add(head.car());
 				head = head.cdr();

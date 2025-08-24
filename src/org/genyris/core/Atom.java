@@ -50,6 +50,10 @@ public abstract class Atom extends ExpWithEmbeddedClasses implements Comparable 
 	}
 
 	public int compareTo(Object other) {
-		return this == other ? 0 : 1;
+		if(this.getClass() != other.getClass()) {
+			return -1;
+		} else {
+			return this.toString().compareTo(((Atom) other).toString());
+		}
 	}
 }

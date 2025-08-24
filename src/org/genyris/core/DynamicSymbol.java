@@ -11,7 +11,11 @@ public class DynamicSymbol extends Symbol {
 	public DynamicSymbol(Symbol sym) {
 		_realSymbol = sym;
 	}
+
     public int compareTo(Object arg0) {
+		if(!(arg0 instanceof DynamicSymbol)){
+			return -1;
+		}
 		return ((DynamicSymbol) arg0)._realSymbol.compareTo(_realSymbol);
     }
 

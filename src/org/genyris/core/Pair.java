@@ -231,7 +231,14 @@ public class Pair extends ExpWithEmbeddedClasses implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) { // #TODO one day make lists comparable as well
-        return this == o ? 0 : 1;
+    public int compareTo(Object o) {
+        if(!((o instanceof  Pair) || !(o instanceof PairEquals))) {
+            return -1;
+        }
+        Pair p = (Pair)o;
+        if (this._car.compareTo(p._car) == 0) {
+            return this._cdr.compareTo(p._cdr);
+        }
+        return this._car.compareTo(p._car);
     }
 }
