@@ -38,7 +38,7 @@ public class SimpleSymbol extends Symbol {
 		}
     	if( equals(arg0) )
     		return 0;
-    	return this._printName.compareTo(((SimpleSymbol) arg0)._printName);
+    	return this.getPrintName().compareTo(((SimpleSymbol) arg0).getPrintName());
     }
 
 	

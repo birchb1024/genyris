@@ -70,10 +70,23 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseEval("(sort ^((d e f)(a b c)))", "((a b c) (d e f))");
         excerciseEval("(sort ^((a (222) c)(a (0) c)))", "((a (0) c) (a (222) c))");
         excerciseEval("(sort ^((9 (11 (111)) (9 (11 (777))))(a (0) c)))", "((a (0) c) (9 (11 (111)) (9 (11 (777)))))");
-
     }
-
-public void testSortBad() throws Exception {
+    public void testSortPrefixSymbol() throws Exception {
+        excerciseEval("(@ns fu 'http://fu.fu/')", "EOF");
+        excerciseEval("(@ns fu 'http://fu.fu/')(sort ^(fu:zulu fu:argv fu:bannister))", "(fu:argv fu:bannister fu:zulu)");
+        excerciseEval("(@ns fu 'http://fu.fu/')(@ns ba 'http://ba.ba/')(sort ^(ba:zulu fu:bannister fu:argv))", "(ba:zulu fu:argv fu:bannister)");
+    }
+    public void testSortEscapedSymbol() throws Exception {
+        excerciseEval("(sort ^(|zulu| |argv| |bannister|))", "(|argv| |bannister| |zulu|)");
+        excerciseEval("(sort ^(|zulu| |argv| |http://fu.fu/alpha#|))", "(|argv| |http://fu.fu/alpha#| |zulu|)");
+    }
+    public void testSortDiversSymbol() throws Exception {
+        excerciseEval("(@ns fu 'http://fu.fu/')(sort ^(zulu |argv| fu:bannister))", "(|argv| fu:bannister zulu)");
+        excerciseEval("(@ns fu 'http://fu.fu/')(sort ^(|argv| zulu  fu:bannister))", "(|argv| fu:bannister zulu)");
+        excerciseEval("(@ns fu 'http://fu.fu/')(sort ^(fu:bannister zulu |argv| ))", "(|argv| fu:bannister zulu)");
+        excerciseEval("(left(sort (symlist)))", "%");
+    }
+    public void testSortBad() throws Exception {
         excerciseBadEval("(sort 1)");
         excerciseBadEval("(sort 1 2)");
         excerciseBadEval("(sort ^(1 (2)))");

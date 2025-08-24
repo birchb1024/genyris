@@ -44,8 +44,12 @@ public class SortFunction extends ApplicableFunction {
 			throw new GenyrisException("item in argument to sort must be atomic, but got " + head.getClass().getName());
 		}
 		Class theClass = theList.car().getClass();
+		// Get parent classes. . .
 		if(theClass.equals(PairEquals.class)) {
 			theClass = Pair.class; // Treat PairEquals exactl the same as Pair. TODO special case should be handled by isInstance or similar.
+		}
+		if(theClass.equals(PrefixSymbol.class) || theClass.equals(EscapedSymbol.class) || theClass.equals(SimpleSymbol.class)) {
+			theClass = Symbol.class; // Treat all Symbols the same. TODO special case should be handled by isInstance or similar.
 		}
 		List<Exp> tmp = new ArrayList<Exp>();
 		try {
