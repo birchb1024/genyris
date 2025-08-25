@@ -7,7 +7,7 @@ import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Environment;
 import org.genyris.interp.UnboundException;
 
-public abstract class Symbol extends Atom {
+public abstract class Symbol extends Atom implements Comparable {
 
     public static SimpleSymbol symbolFactory(String name, boolean escaped) {
         try {
@@ -19,6 +19,16 @@ public abstract class Symbol extends Atom {
         return (escaped ? new EscapedSymbol(name) : new SimpleSymbol(name));
     }
 
+    public int hashCode() { // TODO make abstract
+        return getPrintName().hashCode();
+    }
+
+    public boolean equals(Object other) { // TODO make abstract
+        if(!(other instanceof Symbol )){
+            return false;
+        }
+        return getPrintName().equals(((Symbol)other).getPrintName());
+    }
     public boolean isNil() {
         return false;
     }

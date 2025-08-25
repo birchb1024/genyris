@@ -222,7 +222,7 @@ public class StrinG extends Atom {
             throw new GenyrisException("String slice start "+start+" beyond end of string "+this._value.length());
         }
         if(start.intValue() > end.intValue()){
-            throw new GenyrisException("String slice start"+start+" bigger than end "+end);
+            throw new GenyrisException("String slice start "+start+" bigger than end "+end);
         }
         try {
             return new StrinG(_value.substring(start.intValue(), ending));

@@ -142,7 +142,7 @@ public class Parser {
             throw parseError("Bad indirection: " + cursym.toString());
         }
         tree = cons(tree, cons(
-                new DynamicSymbol((SimpleSymbol) cursym), NIL, startline), startline);
+                new DynamicSymbol((SimpleSymbol) cursym), NIL, startline), startline); // TODO bad cast
         old = cursym;
         nextsym();
         if (cursym == _lexer.PLING_TOKEN) {

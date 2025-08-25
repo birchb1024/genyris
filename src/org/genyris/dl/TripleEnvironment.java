@@ -16,7 +16,7 @@ import org.genyris.interp.UnboundException;
 
 public class TripleEnvironment extends ExpressionEnvironment {
 	// This environment encompasses a Triple
-
+	// All TODO
 	SimpleSymbol _subject, _predicate, _object;
 
 	public TripleEnvironment(Environment runtime, Triple theObject)
@@ -36,7 +36,7 @@ public class TripleEnvironment extends ExpressionEnvironment {
 	public Exp lookupDynamicVariableValue(DynamicSymbol dsym)
 			throws UnboundException {
 		Symbol sym = dsym.getRealSymbol();
-		if (sym == _subject) {
+		if (sym == _subject) { // TODO equals no ==
 			return ((Triple) _theExpression).subject;
 		} else if (sym == _predicate) {
 			return ((Triple) _theExpression).predicate;

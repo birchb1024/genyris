@@ -22,17 +22,6 @@ public class GraphHashSimple extends AbstractGraph {
 		objects = ArrayListMultimap.create();
 	}
 
-	public GraphHashSimple(Set triples2) {
-		Iterator iter = triples2.iterator();
-		while (iter.hasNext()) {
-			Triple t = (Triple)iter.next();
-			add(t);
-			subjects.put((Symbol)t.subject, t);
-			predicates.put((Symbol)t.predicate, t);
-			objects.put((Symbol)t.object, t);
-		}
-	}
-
     @Override
     public Iterator iterator() {
 	    //
@@ -53,7 +42,7 @@ public class GraphHashSimple extends AbstractGraph {
 	@Override
     public int hashCode() {
 		return subjects.hashCode();
-	}
+	} // Bogus, TODO
 
 	public int length() {
 		return subjects.size();
@@ -77,8 +66,20 @@ public class GraphHashSimple extends AbstractGraph {
         subjects.put(t.subject, t);
 		predicates.put(t.predicate, t);
 		objects.put(t.object, t);
-    }
+	}
 
+	public void findDuplicateSubjectPredicates() {
+		Map<String, Triple> subPredMap = new HashMap<String, Triple>();
+		Iterator iterTriples = subjects.values().iterator();
+		while( iterTriples.hasNext() ) {
+			Triple t = (Triple)iterTriples.next();
+			String sp = t.subject.getPrintName() + t.predicate.getPrintName();
+			if(subPredMap.containsKey(sp) ) {
+				continue;
+			}
+			subPredMap.put(sp, t);
+		}
+	}
 	public AbstractGraph select(Symbol S, Symbol P, Exp O,
             Closure condition, Environment env) throws GenyrisException {
 		if (condition != null){
@@ -199,12 +200,12 @@ public class GraphHashSimple extends AbstractGraph {
 
 	public void remove(Symbol S, Symbol P, Exp O){
 		Triple existing = contains(S, P, O);
-		if (existing == null) {
-			return;
+		while (existing != null) {
+			subjects.remove(S, existing);
+			predicates.remove(P,  existing);
+			objects.remove(O,  existing);
+			existing = contains(S, P, O);
 		}
-        subjects.remove(S, existing);
-		predicates.remove(P,  existing);
-		objects.remove(O,  existing);
     }
 
 	public void remove(Triple t) {
@@ -229,7 +230,7 @@ public class GraphHashSimple extends AbstractGraph {
 		List<Triple> existing = new ArrayList();
         while (iter.hasNext()) {
             Triple t = (Triple)iter.next();
-			if( P == t.predicate) {
+			if( S.equals(t.subject) && P.equals(t.predicate)) {
 				existing.add(t);
 			}
 		}
@@ -280,6 +281,5 @@ public class GraphHashSimple extends AbstractGraph {
     public int compareTo(Object o) {
         return this == o ? 0 : 1;
     }
-
 }
 

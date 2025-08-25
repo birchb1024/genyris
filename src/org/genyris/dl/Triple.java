@@ -39,14 +39,11 @@ public class Triple extends Atom implements Comparable {
     }
 
     public boolean equals(Object compare) {
-        if (compare instanceof Triple) {
-            Triple t = (Triple) compare;
-            return subject == t.subject && predicate == t.predicate
-                && object.equals(t.object);
-        }
-        else {
+        if (!(compare instanceof Triple)) {
             return false;
         }
+        Triple t = (Triple) compare;
+        return subject.equals(t.subject) && predicate.equals(t.predicate) && object.equals(t.object);
     }
 	public Exp eval(Environment env) throws GenyrisException {
 		return this;
@@ -56,7 +53,7 @@ public class Triple extends Atom implements Comparable {
         if(!(O instanceof Triple)){
             return -1;
         }
-        Triple other = (Triple) O; // do not call it ;-)
+        Triple other = (Triple) O;
         int comparison = subject.compareTo(other.subject);
         if(comparison != 0) {
             return comparison;

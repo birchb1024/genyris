@@ -43,7 +43,7 @@ public class Pipe extends Atom {
 
 	public static String getPipeName(Exp argument) throws GenyrisException {
 		if(!(argument instanceof StrinG || argument instanceof Symbol || argument instanceof Bignum)) {
-			throw new GenyrisException("pipe name " + argument + "not String, Symbol or Bignum");
+			throw new GenyrisException("pipe name " + argument + " not String, Symbol or Bignum");
 		}
 		return  argument.toString();
 	}

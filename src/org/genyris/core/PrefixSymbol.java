@@ -19,8 +19,23 @@ public class PrefixSymbol extends SimpleSymbol implements Comparable {
         this._localName = name;
         this._abbrev = abbrev;
     }
+
+    @Override
     public String getPrintName() {
         return _prefix + _localName;
+    }
+
+    @Override
+    public int hashCode() {
+        return _prefix.hashCode() + _localName.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || !(other instanceof PrefixSymbol)) {
+            return false;
+        }
+        return _prefix.equals(((PrefixSymbol)other)._prefix) && _localName.equals(((PrefixSymbol)other)._localName) ;
     }
 
     public String toString() { return this._abbrev + ":" + this._localName; };

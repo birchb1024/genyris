@@ -21,26 +21,31 @@ public class SimpleSymbol extends Symbol {
     public SimpleSymbol(String newSym) {
         _printName = newSym;
     }
+    @Override
     public String getPrintName() {
         return _printName;
     }
-    public boolean equals(Object arg) {
-    	// keep FindBugs happy.
-    	return super.equals(arg);
-    }
+
+    @Override
     public int hashCode() {
-        return super.hashCode();
+        return _printName.hashCode();
     }
 
+    @Override
+	public boolean equals(Object other) {
+        if (other == null || !(other instanceof SimpleSymbol)) {
+            return false;
+        }
+        return _printName.equals(((SimpleSymbol)other)._printName) ;
+    }
+
+    @Override
     public int compareTo(Object arg0) {
 		if(!(arg0 instanceof SimpleSymbol)) {
 			return -1;
 		}
-    	if( equals(arg0) )
-    		return 0;
     	return this.getPrintName().compareTo(((SimpleSymbol) arg0).getPrintName());
     }
-
 	
 	public void acceptVisitor(Visitor guest) throws GenyrisException {
 		guest.visitSimpleSymbol(this);

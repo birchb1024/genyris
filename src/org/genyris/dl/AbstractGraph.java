@@ -41,7 +41,7 @@ public abstract class AbstractGraph extends Atom {
 
     public abstract int length();
 
-    public abstract int hashCode();
+    public abstract int hashCode(); // TODO
 
     public abstract Symbol getBuiltinClassSymbol(Internable table);
 
@@ -51,7 +51,9 @@ public abstract class AbstractGraph extends Atom {
 
     public abstract Exp predicates(Symbol subject, Exp NIL);
 
-    public boolean equals(Object compare) {
+    public abstract void put(Symbol subject, Symbol predicate, Exp object);
+
+    public boolean equals(Object compare) { // Bogus? TODO
     	if (!(compare instanceof AbstractGraph)) {
     		return false;
     	} else {
@@ -105,17 +107,4 @@ public abstract class AbstractGraph extends Atom {
     public Exp eval(Environment env) throws GenyrisException {
     	return this;
     }
-
-    public void put(Symbol subject, Symbol predicate, Exp object) {
-    	Iterator iter = iterator();
-    	while(iter.hasNext()) {
-    		Triple rec = (Triple) iter.next();
-    		if(rec.subject == subject
-    				&& rec.predicate == predicate) {
-    			remove(rec);
-    		}
-    	}
-    	add(new Triple(subject, predicate, object));
-    }
-
 }

@@ -6,12 +6,14 @@
 @ns : "http://www.genyris.org/lib/gunit#"
 @ns u "http://www.genyris.org/lang/utilities#"
 
+include 'gunit.g'
+
 ## Test built-in interning
 @ns p "http://server/#"
 
 :test "Escaped Intern tests"
     :assertEqual (intern "foo") ^|foo|
-    :assert (not (equal? (gensym "foo") ^|foo|))
+    :assert (not (eq? (gensym "foo") ^|foo|))
     :assertEqual (intern "http://server/#w") ^|http://server/#w|
 :test "Intern tests"
     :assertEqual ((intern "foo").classes) (list SimpleSymbol)
@@ -21,4 +23,4 @@
     :assertEqual (left (member? SimpleSymbol ((intern 23).classes))) SimpleSymbol
 :test "gensym tests"
     :assertEqual (eq? (gensym 23) (gensym 23)) nil
-    :assertEqual (equal? (gensym 23) (gensym 23)) nil
+    :assertEqual (equal? (gensym 23) (gensym 23)) true

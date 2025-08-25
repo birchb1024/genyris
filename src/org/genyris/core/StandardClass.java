@@ -213,7 +213,7 @@ public class StandardClass extends Dictionary {
 	public static void assertIsThisObjectAClass(Exp firstClass)
 			throws GenyrisException {
 		if (!(firstClass instanceof StandardClass)) {
-			throw new GenyrisException(firstClass + "is not a class.");
+			throw new GenyrisException(firstClass + " is not a class.");
 		}
 	}
 

@@ -47,9 +47,9 @@ public class EqualityTest extends TestCase {
         SymbolTable sym = new SymbolTable();
         sym.init(new NilSymbol());
         assertFalse(new SimpleSymbol("hello1").equals(new SimpleSymbol("hello2")));
-        assertFalse(new SimpleSymbol("hello").equals(new SimpleSymbol("hello")));
+        assertTrue(new SimpleSymbol("hello").equals(new SimpleSymbol("hello")));
         assertTrue(sym.internString("hello").equals(sym.internString("hello")));
-        assertFalse(sym.internString("hello").equals(new SimpleSymbol("hello")));
+        assertTrue(sym.internString("hello").equals(new SimpleSymbol("hello")));
     }
 
     public void testHashMap() throws Exception {

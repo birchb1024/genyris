@@ -22,8 +22,8 @@ def test-equality()
             triple ^X ^O eighty
             triple ^X (intern "O") eighty
    assert
-      not
-         equal? ^O (gensym "O")
+      equal? ^O (gensym "O")
+
    assert
        equal?
             triple ^X ^O eighty
