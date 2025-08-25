@@ -155,7 +155,7 @@ public class NanoHTTPD {
 		 * Adds given line to the header.
 		 */
 		public void addHeader(String name, String value) {
-			header.put(name, value);
+            header.setProperty(name, value);
 		}
 
 		/**
@@ -373,8 +373,7 @@ public class NanoHTTPD {
 							if(p <= 0) {
 								sendError(HTTP_BADREQUEST, "BAD REQUEST Malformed Header " + toHex(line));
 							}
-							header.put(line.substring(0, p).trim().toLowerCase(),
-									line.substring(p + 1).trim());
+                            header.setProperty(line.substring(0, p).trim().toLowerCase(), line.substring(p + 1).trim());
 							line = in.readLine();
 							if(line == null) break;
 						}
@@ -465,9 +464,7 @@ public class NanoHTTPD {
 			while (st.hasMoreTokens()) {
 				String e = st.nextToken();
 				int sep = e.indexOf('=');
-				if (sep >= 0)
-					p.put(decodePercent(e.substring(0, sep)).trim(),
-							decodePercent(e.substring(sep + 1)));
+				if (sep >= 0) p.setProperty(decodePercent(e.substring(0, sep)).trim(), decodePercent(e.substring(sep + 1)));
 			}
 		}
 
