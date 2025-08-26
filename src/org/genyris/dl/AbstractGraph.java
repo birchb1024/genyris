@@ -51,24 +51,8 @@ public abstract class AbstractGraph extends Atom {
 
     public abstract void put(Symbol subject, Symbol predicate, Exp object);
 
-    public boolean equals(Object compare) { // Bogus? TODO
-    	if (!(compare instanceof AbstractGraph)) {
-    		return false;
-    	} else {
-    		int matches = 0;
-    		AbstractGraph otherTS = (AbstractGraph) compare;
-    		Iterator iter = iterator();
-    		while (iter.hasNext()) {
-    			Triple item = (Triple)iter.next();
-    			if(otherTS.contains(item.subject, item.predicate, item.object) != null) {
-    				matches++;
-    			}
-    		}
-    		if ( matches == length() && matches == otherTS.length()) {
-    			return true;
-    		}
-    		return false;
-    	}
+    public boolean equals(Object compare) {
+    		return this == compare;
     }
 
     public void acceptVisitor(Visitor guest) throws GenyrisException {
