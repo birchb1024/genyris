@@ -37,6 +37,7 @@ public abstract class BuiltinFunction  extends ApplicableFunction {
         interpreter.bindGlobalProcedureInstance(new EqualsFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new EvalFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new GensymFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new HashCodeFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new IdentityFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new IsFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new InternFunction(interpreter));

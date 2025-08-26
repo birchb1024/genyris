@@ -39,11 +39,6 @@ public class GraphHashSimple extends AbstractGraph {
 		return table.GRAPH();
 	}
 
-	@Override
-    public int hashCode() {
-		return subjects.hashCode();
-	} // Bogus, TODO
-
 	public int length() {
 		return subjects.size();
 	}

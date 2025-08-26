@@ -41,8 +41,6 @@ public abstract class AbstractGraph extends Atom {
 
     public abstract int length();
 
-    public abstract int hashCode(); // TODO
-
     public abstract Symbol getBuiltinClassSymbol(Internable table);
 
     public abstract String toString();

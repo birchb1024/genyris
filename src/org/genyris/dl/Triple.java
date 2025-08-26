@@ -25,7 +25,6 @@ public class Triple extends Atom implements Comparable {
 		return new TripleEnvironment(parent, this);
 	}
 
-
     public String toString() {
         return "(triple " + subject + " " + predicate +  " " + object + ")";
     }
