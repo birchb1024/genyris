@@ -23,7 +23,6 @@ def find-abs-path((filename = String))
          sys:search-path filename
 
 def spawn(&rest args)
-    print (list @FILE @LINE args)
     cond
       (null? args)
           raise 'No arguments to spawn!'

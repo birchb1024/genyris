@@ -40,6 +40,7 @@ def sys:search-path(fileName)
             (bound? ^sys:script-directory)
                 (cons sys:script-directory sys:path)
             else
+                raise 'sys:script-directory not bound'
                 sys:path
     define result nil
     while tmp
