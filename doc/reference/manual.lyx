@@ -18267,6 +18267,89 @@ This property holds the name of the source file or stream where the Pair
  was created during the parse.
 \end_layout
 
+\begin_layout Subsubsection
+Usage for logging
+\end_layout
+
+\begin_layout Standard
+When logging error messages it is useful to know the filename and line number
+ from where the message originates, so we can quickly go to the source code.
+ You can do this with the builtin 
+\emph on
+@FILE
+\emph default
+ and 
+\emph on
+@LINE
+\emph default
+ parser instructions, which insert this information.
+ as in
+\end_layout
+
+\begin_layout LyX-Code
+u:format '%a:%a ERROR Insufficient funds in account %a
+\backslash
+n' @FILE @LINE account
+\end_layout
+
+\begin_layout Standard
+which produces
+\end_layout
+
+\begin_layout LyX-Code
+bank-teller.g:5 ERROR Insufficient funds in account 987878676
+\end_layout
+
+\begin_layout Standard
+We can do this more succinctly:
+\end_layout
+
+\begin_layout LyX-Code
+^(ERROR)(.log 'Insufficient funds in account' account-number) 
+\end_layout
+
+\begin_layout Standard
+This also prints an error message with the filename and line number:
+\end_layout
+
+\begin_layout LyX-Code
+(ERROR) bank-teller.g:7 Insufficient funds in account 987878676
+\end_layout
+
+\begin_layout Standard
+Implementation.
+ We define a method for the PairSource class called .log which uses the embedded
+ filename and line number.
+ The quoted list at the start of the expression captures the filename and
+ line number:
+\end_layout
+
+\begin_layout LyX-Code
+PairSource
+\end_layout
+
+\begin_layout LyX-Code
+    def .log(&rest args)
+\end_layout
+
+\begin_layout LyX-Code
+        var level .self
+\end_layout
+
+\begin_layout LyX-Code
+        var FN .filename
+\end_layout
+
+\begin_layout LyX-Code
+        var LN .line-number
+\end_layout
+
+\begin_layout LyX-Code
+        u:format '%a %a:%a %a
+\backslash
+n' level FN LN (" "(.join args))
+\end_layout
+
 \begin_layout Subsection
 
 \emph on
