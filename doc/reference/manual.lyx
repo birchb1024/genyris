@@ -18296,58 +18296,60 @@ n' @FILE @LINE account
 which produces
 \end_layout
 
-\begin_layout LyX-Code
-bank-teller.g:5 ERROR Insufficient funds in account 987878676
+\begin_layout Quotation
+
+\family typewriter
+\color blue
+bank-teller.g:10 ERROR Insufficient funds in account 987878676
 \end_layout
 
 \begin_layout Standard
-We can do this more succinctly:
+alternatively, using PairSource is succinct:
 \end_layout
 
 \begin_layout LyX-Code
-^(ERROR)(.log 'Insufficient funds in account' account-number) 
+log ^(ERROR) 'Account %s, Insufficient funds' account-number 
 \end_layout
 
 \begin_layout Standard
 This also prints an error message with the filename and line number:
 \end_layout
 
-\begin_layout LyX-Code
-(ERROR) bank-teller.g:7 Insufficient funds in account 987878676
+\begin_layout Quotation
+
+\family typewriter
+\color blue
+bank-teller.g:12 (ERROR) Account 987878676, Insufficient fund
+\color inherit
+s
 \end_layout
 
 \begin_layout Standard
 Implementation.
- We define a method for the PairSource class called .log which uses the embedded
- filename and line number.
- The quoted list at the start of the expression captures the filename and
- line number:
+ We define a function called 
+\emph on
+log
+\emph default
+ which uses PairSource The quoted list as the frst argument captures the
+ filename and line number:
 \end_layout
 
 \begin_layout LyX-Code
-PairSource
+def log ((level = PairSource) &rest args)
 \end_layout
 
 \begin_layout LyX-Code
-    def .log(&rest args)
+    u:format '%a:%a %a ' level!filename level!line-number level
 \end_layout
 
 \begin_layout LyX-Code
-        var level .self
+    apply u:format args
 \end_layout
 
 \begin_layout LyX-Code
-        var FN .filename
-\end_layout
-
-\begin_layout LyX-Code
-        var LN .line-number
-\end_layout
-
-\begin_layout LyX-Code
-        u:format '%a %a:%a %a
+    u:format '
 \backslash
-n' level FN LN (" "(.join args))
+n'
 \end_layout
 
 \begin_layout Subsection
