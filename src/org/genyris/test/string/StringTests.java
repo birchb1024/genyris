@@ -44,8 +44,8 @@ public class StringTests extends TestCase {
     }
 
     public void testJoin() throws GenyrisException {
-        checkEvalBad("(''(.join))");
-        checkEvalBad("(''(.join nil))");
+        checkEval("(''(.join ^()))", "''");
+        checkEval("(''(.join nil))", "''");
         checkEval("(','(.join ^(1)))", "'1'");
         checkEval("(','(.join ^(1 2)))", "'1,2'");
         checkEval("(','(.join ^(1 2 3)))", "'1,2,3'");

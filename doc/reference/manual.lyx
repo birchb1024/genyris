@@ -8774,7 +8774,7 @@ The
 \end_layout
 
 \begin_layout Standard
-Joining with an empty string concatenetes the arguments.
+Joining with an empty string concatenates the arguments.
  Example:
 \end_layout
 
@@ -8788,6 +8788,10 @@ Joining with an empty string concatenetes the arguments.
 
 \begin_layout LyX-Code
 'Onceuponatime' # String 
+\end_layout
+
+\begin_layout Standard
+With an empty list argument it returns the empty string.
 \end_layout
 
 \begin_layout Subsubsection

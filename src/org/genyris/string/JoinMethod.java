@@ -33,6 +33,9 @@ public class JoinMethod extends AbstractStringMethod {
 
         StringWriter output = new StringWriter();
         Formatter formatter = new DisplayFormatter(output);
+        if(arguments[0] == NIL){
+            return new StrinG("");
+        }
         Class[] types = { Pair.class };
         checkArgumentTypes(types, arguments);
         StrinG theString = getSelfString(env);
