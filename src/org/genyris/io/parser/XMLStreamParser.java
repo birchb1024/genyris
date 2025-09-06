@@ -61,7 +61,7 @@ public class XMLStreamParser extends StreamParser {
             	return new XMLStreamParser(_interp, (StrinG)arguments[0], optionQname);
             }
             else {
-                throw new GenyrisException("Bad arg to new method of Parser");
+                throw new GenyrisException("Argument to new method of XMLStreamParser is not Reader or String");
             }
         }
     }

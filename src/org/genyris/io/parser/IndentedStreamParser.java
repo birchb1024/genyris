@@ -70,7 +70,7 @@ public class IndentedStreamParser extends StreamParser {
             } else if (arguments[0] instanceof StrinG) {
                 return new IndentedStreamParser(_interp, (StrinG) arguments[0]);
             } else {
-                throw new GenyrisException("Bad arg to new method of Parser");
+                throw new GenyrisException("Argument to new method of IndentedStreamParser is not Reader or String");
             }
         }
     }

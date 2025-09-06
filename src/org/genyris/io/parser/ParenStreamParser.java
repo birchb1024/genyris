@@ -52,7 +52,7 @@ public class ParenStreamParser extends StreamParser {
             	return new ParenStreamParser(_interp, (StrinG)arguments[0]);
             }
             else {
-                throw new GenyrisException("Bad arg to new method of Parser");
+                throw new GenyrisException("Argument to new method of ParenStreamParser is not Reader or String");
             }
         }
     }
