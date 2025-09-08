@@ -8,15 +8,32 @@
 #  Asserts
 #
 defmacro assert (expression)
-  template
-     cond
-        (null? $expression)
-            raise (list "assert failed on expression: " ^$expression)
+  cond
+    (is-instance? expression PairSource)
+      template
+         cond
+            (null? $expression)
+                raise ("%a:%a macro assert failed on: %s value: %s"(.format $(expression!filename) $(expression!line-number) ^$expression $expression))
+    else
+      template
+         cond
+            (null? $expression)
+                raise ("macro assert failed on: %s value: %s"(.format ^$expression $expression))
 
 defmacro assertEqual (a b)
-  template
-     cond
-        (equal? $a $b)
-        else
-          raise (list "assert failed on expression: " ^$a ^$b "values:" $a $b)
-
+  cond
+    (is-instance? a PairSource)
+      template
+         cond
+            (not (equal? $a $b))
+              raise ("%a:%a macro assertEqual failed on: %s %s values: %s %s"(.format $(a!filename) $(a!line-number) ^$a ^$b $a $b))
+    (is-instance? b PairSource)
+      template
+         cond
+            (not (equal? $a $b))
+              raise ("%a:%a macro assertEqual failed on: %s %s values: %s %s"(.format $(b!filename) $(b!line-number) ^$a ^$b $a $b))
+    else
+      template
+         cond
+            (not (equal? $a $b))
+              raise ("macro assertEqual failed on: %s %s values: %s %s"(.format ^$a ^$b $a $b))
