@@ -87,11 +87,14 @@ public class SourceLoader {
 
 	public static Exp executeScript(Environment env, String filename, Internable table,
 			Reader reader, Writer output) throws GenyrisException {
+		Symbol scriptDirVar = env.getSymbolTable().internSymbol(new PrefixSymbol(Constants.PREFIX_SYSTEM, "script-directory", "sys"));
+		Exp currentScriptDirectory = table.NIL();
+		if( env.isBound(scriptDirVar) ) {
+			currentScriptDirectory = env.lookupVariableValue(scriptDirVar);
+		}
 		if(filename != null) { // when a unit test has no file, it's a string
-			Symbol scriptDirVar = env.getSymbolTable().internSymbol(new PrefixSymbol(Constants.PREFIX_SYSTEM, "script-directory", "sys"));
 			env.defineVariable(scriptDirVar, new StrinG(getContainingDirectoryPath(filename)));
 		}
-
 		Parser parser = parserFactory(filename, reader, table);
 		Exp expression = null;
 		Exp result = null;
@@ -102,6 +105,10 @@ public class SourceLoader {
 			}
 			result = expression.evalCatchOverFlow(env);
 		} while (true);
+		// restore sys:script-directory
+		if(currentScriptDirectory != table.NIL() ) {
+			env.defineVariable(scriptDirVar, currentScriptDirectory);
+		}
 		return result;
 	}
 

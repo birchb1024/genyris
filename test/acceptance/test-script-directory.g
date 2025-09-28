@@ -15,6 +15,13 @@ print (list @FILE @LINE (File!static-abs-path (prepend-home 'test/fixtures/spawn
 
 assertEqual sys:script-directory (prepend-home 'test/acceptance')
 assert (member? "." sys:path)
+
+# Test include does not chnage script-directory
+include '../fixtures/child-for-script-directory-1.g'
+assertEqual sys:script-directory (prepend-home 'test/acceptance')
+assert (member? "." sys:path)
+
+# Tests for spawned tasks
 var child-response (graph)
 
 # Test to see if script directory is set up in spawned tasks...
