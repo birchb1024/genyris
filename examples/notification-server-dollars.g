@@ -119,7 +119,7 @@ class Message(StringMessage)
       cond
         ((UsbMessage.valid?) str) nil # Message and UsbMessage mutually exclusive
         else
-           (function(pat) (str (.match pat))) .pattern-exp
+           (lambda (pat) (str (.match pat))) .pattern-exp
 
    def .pattern (str)
       var .pattern-exp str

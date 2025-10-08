@@ -84,7 +84,7 @@ def factorial (n)
 assertEqual (factorial 5) 120 
 
 assertEqual
-    (function (x) (* x x)) 3
+    (lambda (x) (* x x)) 3
     9
 
 assertEqual
@@ -211,7 +211,7 @@ assertEqual 6
    apply + ^(1 2 3)
 
 def make-fn (const)
-    function (a b c)
+    lambda (a b c)
         + const a b c
 define fn (make-fn 1000)
 assertEqual 1111
@@ -294,5 +294,5 @@ do
 
 assertEqual ^(23 = 23)
    apply
-      function(x) (cons x x)
+      lambda(x) (cons x x)
       ^(23)

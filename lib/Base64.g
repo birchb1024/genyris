@@ -15,7 +15,7 @@ String
    def .fromBase64asUnsignedIntegers()
       loop-left
          com_ostermiller_util_Base64!decodeToBytes-java_lang_String .self
-         function (x)
+         lambda (x)
             cond
                (< x 0)
                    + 256 x
@@ -27,7 +27,7 @@ def .encodeUnsignedIntegers(listOfInts)
    com_ostermiller_util_Base64!encodeToString-*B
         java:toJava '[B' 
               loop-left listOfInts
-                  function(x)
+                  lambda (x)
                      cond
                         (> x 256)
                             raise "number > 256"

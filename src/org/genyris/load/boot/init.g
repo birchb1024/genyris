@@ -19,7 +19,6 @@ tag NilSymbol ^nil
 defmacro define (variable valu) (template (defvar ^$variable $valu))
 
 define include sys:include
-define function lambda
 define var define
 defmacro df (name args &rest body)
     template

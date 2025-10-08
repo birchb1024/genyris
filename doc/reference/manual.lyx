@@ -5671,22 +5671,6 @@ defmacro
  kinds of in-built procedure-building functions.
  The function
 \emph on
- function
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-function
-\end_layout
-
-\end_inset
-
-
-\emph default
- (aka
-\emph on
  lambda
 \begin_inset Index idx
 status open
@@ -5701,13 +5685,13 @@ lambda
 
 
 \emph default
-) creates a user-defined eager procedure object which is a closure at the
+ creates a user-defined eager procedure object which is a closure at the
  point of definition.
  For example we can create an anonymous function at the command-line:
 \end_layout
 
 \begin_layout LyX-Code
-> function (x) (* x x)
+> lanbda (x) (* x x)
 \end_layout
 
 \begin_layout LyX-Code
@@ -5724,7 +5708,7 @@ To actually call it we place it wherever a function is expected, such as
 \end_layout
 
 \begin_layout LyX-Code
-> (function (x) (* x x)) 3
+> (lambda (x) (* x x)) 3
 \end_layout
 
 \begin_layout LyX-Code
@@ -5753,7 +5737,7 @@ define square
 \end_layout
 
 \begin_layout LyX-Code
-   function (x) (* x x)
+   lambda (x) (* x x)
 \end_layout
 
 \begin_layout LyX-Code
@@ -5783,11 +5767,7 @@ Closures are executable objects which retain the environment in which they
 \emph on
 lambda
 \emph default
- or
-\emph on
- function
-\emph default
-
+ 
 \begin_inset Index idx
 status collapsed
 
@@ -5801,30 +5781,12 @@ lambda
 \end_layout
 
 \begin_layout LyX-Code
-[function|lambda] ([arg1]...
+[lambda] ([arg1]...
  [&rest restargs] [= return-validator]) [body]
 \end_layout
 
 \begin_layout Standard
 The
-\emph on
- function
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\emph on
-function
-\end_layout
-
-\end_inset
-
-
-\emph default
- macro creates a lexical closure at the point of definition and returns
- an anonymous 'eager' procedure object.
-
 \emph on
  lambda
 \begin_inset Index idx
@@ -5840,11 +5802,33 @@ lambda
 
 
 \emph default
- is an alias for
+ macro creates a lexical closure at the point of definition and returns
+ an anonymous 'eager' procedure object.
+ The name
 \emph on
- function
+ 
+\begin_inset Quotes eld
+\end_inset
+
+lambda
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+lambda
+\end_layout
+
+\end_inset
+
+
 \emph default
- and is kept for historical reasons.
+ is used for historical reasons.
  The procedure object can be invoked as a function.
  When the procedure is called its real arguments must match the formal arguments
  specified in the function definition.
@@ -5935,7 +5919,7 @@ Examples:
 \end_layout
 
 \begin_layout LyX-Code
-function ()
+lambda ()
 \end_layout
 
 \begin_layout Standard
@@ -5947,7 +5931,7 @@ returns a procedure which returns nil
 \end_layout
 
 \begin_layout LyX-Code
-function (x y) (cons x y)
+lambda (x y) (cons x y)
 \end_layout
 
 \begin_layout Standard
@@ -5959,7 +5943,7 @@ returns a procedure with two mandatory arguments
 \end_layout
 
 \begin_layout LyX-Code
-function (x &rest y) (list x y)
+lambda (x &rest y) (list x y)
 \end_layout
 
 \begin_layout Standard
@@ -5971,7 +5955,7 @@ returns a procedure with one mandatory and one rest argument
 \end_layout
 
 \begin_layout LyX-Code
-function ((i = Bignum) (j = Bignum) = Bignum) (+ i j)
+lambda ((i = Bignum) (j = Bignum) = Bignum) (+ i j)
 \end_layout
 
 \begin_layout Standard
@@ -6018,7 +6002,7 @@ def make-withdraw (balance)
 \end_layout
 
 \begin_layout LyX-Code
-   function (amount)
+   lambda (amount)
 \end_layout
 
 \begin_layout LyX-Code
@@ -6288,7 +6272,7 @@ assertEqual ^(23 = 23)
 \end_layout
 
 \begin_layout LyX-Code
-      function(x) (cons x x)
+      lambda (x) (cons x x)
 \end_layout
 
 \begin_layout LyX-Code
@@ -6431,7 +6415,7 @@ lambadq
 \begin_layout Standard
 This macro is identical in syntax to
 \emph on
- function
+ lambda
 \emph default
  but it creates an anonymous lazy procedure (which does not execute it's
  arguments when called).
@@ -6458,7 +6442,7 @@ lambdam
 \begin_layout Standard
 This macro is identical in syntax to
 \emph on
- function
+ lambda
 \emph default
  but it creates a lazy procedure which re-executes it's return value in
  the environment of the caller - in other an anonymous macro.
@@ -6696,7 +6680,7 @@ and can be used as follows:
 \end_layout
 
 \begin_layout LyX-Code
-  function (x)
+  lambda (x)
 \end_layout
 
 \begin_layout LyX-Code
@@ -12682,7 +12666,7 @@ If the last parameter is present it must be a procedure which takes three
 \end_layout
 
 \begin_layout LyX-Code
-function(<subject> <predicate> <object>)
+lambda(<subject> <predicate> <object>)
 \end_layout
 
 \begin_layout Standard
