@@ -143,7 +143,7 @@ Conventions used in this document:
 \emph on
 italicized
 \emph default
-Snippets of Genyris programs
+ Snippets of Genyris programs
 \end_layout
 
 \begin_layout Labeling
@@ -1075,7 +1075,7 @@ at sign
 \begin_inset Text
 
 \begin_layout Plain Layout
-[
+
 \end_layout
 
 \end_inset
@@ -1095,7 +1095,7 @@ square
 \begin_inset Text
 
 \begin_layout Plain Layout
-]
+
 \end_layout
 
 \end_inset
@@ -1115,7 +1115,7 @@ brackets
 \begin_inset Text
 
 \begin_layout Plain Layout
-{
+
 \end_layout
 
 \end_inset
@@ -1135,7 +1135,7 @@ curly
 \begin_inset Text
 
 \begin_layout Plain Layout
-}
+
 \end_layout
 
 \end_inset
@@ -7835,7 +7835,7 @@ And now the source code property can be accessed:
 \end_layout
 
 \begin_layout Section
-Data Structures
+Built-in Data Types
 \end_layout
 
 \begin_layout Subsection
@@ -12366,7 +12366,7 @@ graph
 \end_layout
 
 \begin_layout LyX-Code
-(graph) # Graph
+(graph (triple joe age ten) (triple joe age three)) # Graph
 \end_layout
 
 \begin_layout Subsubsection
@@ -12378,8 +12378,7 @@ Two graphs are
 \emph on
  equal?
 \emph default
- if their constituent triples have an equal triple in the other graph and
- vice versa.
+ if they are the same Graph object.
 \end_layout
 
 \begin_layout Subsubsection
@@ -12745,15 +12744,8 @@ assert
 \end_layout
 
 \begin_layout LyX-Code
-   equal?
-\end_layout
-
-\begin_layout LyX-Code
-      result
-\end_layout
-
-\begin_layout LyX-Code
-      graph ^(joe age three) ^(joe age ten)
+   equal? (asString result) (asString (graph ^(joe age three) ^(joe age
+ ten)))
 \end_layout
 
 \begin_layout Subsubsection
@@ -12978,7 +12970,7 @@ The
 \end_layout
 
 \begin_layout LyX-Code
-(graph) # Graph 
+(graph (triple a p o) (triple a s d) (triple c c f)) # Graph 
 \end_layout
 
 \begin_layout LyX-Code
@@ -13034,7 +13026,7 @@ The
 \end_layout
 
 \begin_layout LyX-Code
-(graph) # Graph 
+(graph (triple a p o) (triple a s d) (triple c c f)) # Graph  
 \end_layout
 
 \begin_layout LyX-Code

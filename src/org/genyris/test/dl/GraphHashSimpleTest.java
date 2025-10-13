@@ -237,20 +237,20 @@ public class GraphHashSimpleTest extends TestCase {
 
 	public void testInterpAdd() throws Exception {
 		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
-		AssertInterpretEquals("(g (.add ^z ^x 42 ))","(graph)");
-		AssertInterpretEquals("(g (.add ^z ^x 43 ))","(graph)");
+		AssertInterpretEquals("(g (.add ^z ^x 42 ))","(graph (triple z x 42))");
+		AssertInterpretEquals("(g (.add ^z ^x 43 ))","(graph (triple z x 42) (triple z x 43))");
 		AssertInterpretEquals("(sort (g (.asTriples )))","((triple z x 42) (triple z x 43))");
 
 		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
-		AssertInterpretEquals("(g (.add ^s `((a = $(+ 2 5)) (b = $(+ 5 8))) ))","(graph)");
+		AssertInterpretEquals("(g (.add ^s `((a = $(+ 2 5)) (b = $(+ 5 8))) ))","(graph (triple s a 7) (triple s b 13))");
 		AssertInterpretEquals("(sort (g (.asTriples )))","((triple s a 7) (triple s b 13))");
 
 		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
-		AssertInterpretEquals("(g (.add ^s (data (a = 'A') (b = 'B')) ))","(graph)");
+		AssertInterpretEquals("(g (.add ^s (data (a = 'A') (b = 'B')) ))","(graph (triple s a A) (triple s b B))");
 		AssertInterpretEquals("(sort (g (.asTriples )))","((triple s a 'A') (triple s b 'B'))");
 
 		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
-		AssertInterpretEquals("(g (.add ^x (data (a = 'A') (a = 'B')) ))","(graph)");
+		AssertInterpretEquals("(g (.add ^x (data (a = 'A') (a = 'B')) ))","(graph (triple x a A) (triple x a B))");
 		AssertInterpretEquals("(sort (g (.asTriples)))","((triple x a 'A') (triple x a 'B'))");
 	}
 	public void testFormatting() throws Exception {
@@ -267,11 +267,11 @@ public class GraphHashSimpleTest extends TestCase {
 				"(null? (member? ^.asTriples ((car ((graph).classes)).vars)))","nil");
 		AssertInterpretEquals("(defvar ^ts (graph))", "(graph)");
 		AssertInterpretEquals("(ts.classes)", "(<class Graph (Builtin)>)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^s 3 ^o)))", "(graph)");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts(.add (triple ^s 3 ^o)))", "(graph (triple s 3 o) (triple s p o))");
 		AssertInterpretEquals("(ts(.asTriples))", "((triple s 3 o) (triple s p o))");
 
-		AssertInterpretEquals("(ts(.select ^s nil nil)))", "(graph)");
+		AssertInterpretEquals("(ts(.select ^s nil nil)))", "(graph (triple s 3 o) (triple s p o))");
 		AssertInterpretEquals("(equal? ts (ts(.select nil nil nil)))", "true");
 		AssertInterpretEquals("(equal? 2 ((ts(.select ^s nil nil))(.length)))", "true");
 		AssertInterpretEquals("(equal? 1 ((ts(.select ^s ^p nil))(.length)))", "true");
@@ -287,11 +287,11 @@ public class GraphHashSimpleTest extends TestCase {
 				"nil");
 		AssertInterpretEquals("(defvar ^ts (graph))", "(graph)");
 		AssertInterpretEquals("(ts.classes)", "(<class Graph (Builtin)>)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o1)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^x ^p ^z)))", "(graph)");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o1)))", "(graph (triple s p o1))");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o2)))", "(graph (triple s p o1) (triple s p o2))");
+		AssertInterpretEquals("(ts(.add (triple ^x ^p ^z)))", "(graph (triple s p o1) (triple s p o2) (triple x p z))");
 		BadAssertInterpretEquals("(ts(.add (triple ^s ^(1 = 2) ^o)))");
-		AssertInterpretEquals("(ts(.select ^s nil nil)))", "(graph)");
+		AssertInterpretEquals("(ts(.select ^s nil nil)))", "(graph (triple s p o1) (triple s p o2))");
 		AssertInterpretEquals("(equal? ts (ts(.select nil nil nil)))", "true");
 		AssertInterpretEquals("(equal? ts (ts(.select ^s nil nil)))", "nil");
 		AssertInterpretEquals("(equal? ts (ts(.select ^s ^p nil)))", "nil");
@@ -318,70 +318,73 @@ public class GraphHashSimpleTest extends TestCase {
 
 	public void testInterpEquals1() throws Exception {
 		AssertInterpretEquals("(defvar ^ts1 (graph))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p 99)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^x ^p 99)))", "(graph)");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o2)))", "(graph (triple s p o) (triple s p o2))");
+		AssertInterpretEquals("(ts1(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^x ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p 99) (triple x p o))");
 
 		AssertInterpretEquals("(defvar ^ts2 (graph))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p 99)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^x ^p 99)))", "(graph)");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o2)))", "(graph (triple s p o) (triple s p o2))");
+		AssertInterpretEquals("(ts2(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^x ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p 99) (triple x p o))");
 
-//		AssertInterpretEquals("(equal? ts1 ts2)", "true");
-//		AssertInterpretEquals("(equal? ts2 ts1)", "true");
+		AssertInterpretEquals("(equal? (asString ts1) (asString ts2))", "true");
+		AssertInterpretEquals("(equal? (asString ts2) (asString ts1))", "true");
 	}
 
 	public void testInterpEquals2() throws Exception {
 		AssertInterpretEquals("(defvar ^ts1 (graph))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p 99)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^x ^p 99)))", "(graph)");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o2)))", "(graph (triple s p o) (triple s p o2))");
+		AssertInterpretEquals("(ts1(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^x ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p 99) (triple x p o))");
 
 		AssertInterpretEquals("(defvar ^ts2 (graph))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p 99)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^x ^p 99)))", "(graph)");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o2)))", "(graph (triple s p o) (triple s p o2))");
+		AssertInterpretEquals("(ts2(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^x ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p 99) (triple x p o))");
 
-//		AssertInterpretEquals("(equal? ts1 ts2)", "true");
-//		AssertInterpretEquals("(equal? ts2 ts1)", "true");
+		AssertInterpretEquals("(equal? (asString ts1) (asString ts2))", "true");
+		AssertInterpretEquals("(equal? (asString ts2) (asString ts1))", "true");
 	}
 
 	public void testInterpEquals3() throws Exception {
 		AssertInterpretEquals("(defvar ^ts1 (graph))", "(graph)");
 		AssertInterpretEquals("(defvar ^ts2 (graph))", "(graph)");
-//		AssertInterpretEquals("(equal? ts1 ts2)", "true");
-//		AssertInterpretEquals("(equal? ts2 ts1)", "true");
+		AssertInterpretEquals("(equal? (asString ts1) (asString ts2))", "true");
+		AssertInterpretEquals("(equal? (asString ts2) (asString ts1))", "true");
 	}
 
 	public void testInterpEquals4() throws Exception {
 		AssertInterpretEquals("(defvar ^ts1 (graph))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p 99)))", "(graph)");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o2)))", "(graph (triple s p o) (triple s p o2))");
+		AssertInterpretEquals("(ts1(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p o))");
 
 		AssertInterpretEquals("(defvar ^ts2 (graph))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^s ^p 99)))", "(graph)");
-		AssertInterpretEquals("(ts2(.add (triple ^x ^p 99)))", "(graph)");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p ^o2)))", "(graph (triple s p o) (triple s p o2))");
+		AssertInterpretEquals("(ts2(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^s ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts2(.add (triple ^x ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p 99) (triple x p o))");
 
-		AssertInterpretEquals("(equal? ts1 ts2)", "nil");
-		AssertInterpretEquals("(equal? ts2 ts1)", "nil");
+		AssertInterpretEquals("(equal? (asString ts1) (asString ts1))", "true");
+		AssertInterpretEquals("(equal? (asString ts2) (asString ts2))", "true");
+
+		AssertInterpretEquals("(equal? (asString ts1) (asString ts2))", "nil");
+		AssertInterpretEquals("(equal? (asString ts2) (asString ts1))", "nil");
 	}
 
 	public void testInterpEquals5() throws Exception {
 		AssertInterpretEquals("(defvar ^ts1 (graph))", "(graph)");
-		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph)");
+		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
 
 		AssertInterpretEquals("(defvar ^ts2 (graph))", "(graph)");
 
@@ -392,16 +395,16 @@ public class GraphHashSimpleTest extends TestCase {
 	public void testInterpCondition() throws Exception {
 		// #TODO AssertInterpretEquals("(defvar ^isObject99 (lambda (s o p) (equal? p 99)))", "<EagerProc: <anonymous lambda>>");
 		AssertInterpretEquals("(defvar ^ts (graph))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o2)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p 99)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^x ^p 99)))", "(graph)");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o2)))", "(graph (triple s p o) (triple s p o2))");
+		AssertInterpretEquals("(ts(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p o))");
+		AssertInterpretEquals("(ts(.add (triple ^x ^p 99)))", "(graph (triple s p 99) (triple s p o) (triple s p o2) (triple x p 99) (triple x p o))");
 
 		AssertInterpretEquals("(length (ts(.asTriples)))", "5");
 
 
-		/* #TODO
+		/* #TODO when select takes a lambda again
 		AssertInterpretEquals("(defvar ^result (ts(.select nil nil nil isObject99))))",
 				"(graph)");
 		AssertInterpretEquals("(defvar ^result (ts(.select ^s nil nil isObject99))))",
@@ -421,12 +424,11 @@ public class GraphHashSimpleTest extends TestCase {
 		AssertInterpretEquals("(defvar ^isObject99 (lambda (s p o) (equal? o 99)))",
 				"<EagerProc: <anonymous lambda>>");
 		AssertInterpretEquals("(defvar ^ts (graph))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^x ^p ^o)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^s ^p ninenine)))", "(graph)");
-		AssertInterpretEquals("(ts(.add (triple ^x ^p ninenine)))", "(graph)");
-		AssertInterpretEquals("(defvar ^result (ts(.select ^s ^p ninenine isObject99))))",
-				"(graph)");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts(.add (triple ^x ^p ^o)))", "(graph (triple s p o) (triple x p o))");
+		AssertInterpretEquals("(ts(.add (triple ^s ^p ninenine)))", "(graph (triple s p 99) (triple s p o) (triple x p o))");
+		AssertInterpretEquals("(ts(.add (triple ^x ^p ninenine)))", "(graph (triple s p 99) (triple s p o) (triple x p 99) (triple x p o))");
+		AssertInterpretEquals("(defvar ^result (ts(.select ^s ^p ninenine isObject99))))","(graph (triple s p 99))");
 		AssertInterpretEquals("(result(.asTriples))", "((triple s p 99))");
 		AssertInterpretEquals(
 				"((SetList.equal?)(ts(.asTriples)) (list (triple ^s ^p ^o) (triple ^x ^p ^o) (triple ^x ^p ninenine) (triple ^s ^p ninenine)))",
@@ -436,14 +438,14 @@ public class GraphHashSimpleTest extends TestCase {
 	public void testInterpStoreConstruction() throws Exception {
 		AssertInterpretEquals("(defvar ^noop (lambda (&rest args)))",
 				"<EagerProc: <anonymous lambda>>");
-		AssertInterpretEquals("(graph ^(s p o))", "(graph)");
-		AssertInterpretEquals("(defvar ^ts (graph ^(s p o)))", "(graph)");
-		AssertInterpretEquals("(ts(.select ^s nil nil noop)))", "(graph)");
+		AssertInterpretEquals("(graph ^(s p o))", "(graph (triple s p o))");
+		AssertInterpretEquals("(defvar ^ts (graph ^(s p o)))", "(graph (triple s p o))");
+		AssertInterpretEquals("(ts(.select ^s nil nil noop)))", "(graph (triple s p o))"); // #TODO when select takes lambda
 		AssertInterpretEquals("(ts(.asTriples)))", "((triple s p o))");
 	}
 
 	public void testInterpStoreRemove() throws Exception {
-		AssertInterpretEquals("(defvar ^ts (graph ^(s p o)))", "(graph)");
+		AssertInterpretEquals("(defvar ^ts (graph ^(s p o)))", "(graph (triple s p o))");
 		AssertInterpretEquals("(ts(.asTriples)))", "((triple s p o))");
 		AssertInterpretEquals("(ts(.remove (triple ^s ^p ^o))))", "(graph)");
 		AssertInterpretEquals("(ts(.asTriples)))", "nil");
@@ -452,9 +454,9 @@ public class GraphHashSimpleTest extends TestCase {
 	public void testInterpStoreConstructionMulti() throws Exception {
 		AssertInterpretEquals("(defvar ^noop (lambda (&rest args)))",
 				"<EagerProc: <anonymous lambda>>");
-		AssertInterpretEquals("(graph ^(s p o) ^(s b c))", "(graph)");
-		AssertInterpretEquals("(defvar ^ts (graph ^(s p o) ^(s b c)))", "(graph)");
-		AssertInterpretEquals("(ts(.select ^s nil nil noop)))", "(graph)");
+		AssertInterpretEquals("(graph ^(s p o) ^(s b c))", "(graph (triple s b c) (triple s p o))");
+		AssertInterpretEquals("(defvar ^ts (graph ^(s p o) ^(s b c)))", "(graph (triple s b c) (triple s p o))");
+		AssertInterpretEquals("(ts(.select ^s nil nil noop)))", "(graph (triple s b c) (triple s p o))"); // #TODO selct with lamda
 		AssertInterpretEquals("(length (ts(.asTriples))))", "2");
 		AssertInterpretEquals(
 				"((SetList.equal?) (ts(.asTriples)) (list (tripleq s p o) (tripleq s b c)))",
@@ -485,12 +487,12 @@ public class GraphHashSimpleTest extends TestCase {
 	}
 
 	public void testInterpSubjects() throws Exception {
-		AssertInterpretEquals("(defvar ^db (graph ^(a p o) ^(c c f) ^(a s d) ))", "(graph)");
+		AssertInterpretEquals("(defvar ^db (graph ^(a p o) ^(c c f) ^(a s d) ))", "(graph (triple a p o) (triple a s d) (triple c c f))");
 		AssertInterpretEquals("(db(.subjects)))", "(a c)");
 	}
 
 	public void testInterpPredicates() throws Exception {
-		AssertInterpretEquals("(defvar ^db (graph ^(a s o) ^(c c f) ^(a p d) ))", "(graph)");
+		AssertInterpretEquals("(defvar ^db (graph ^(a s o) ^(c c f) ^(a p d) ))", "(graph (triple a p d) (triple a s o) (triple c c f))");
 		AssertInterpretEquals("(db(.predicates ^a)))", "(p s)");
 	}
 

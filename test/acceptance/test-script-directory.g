@@ -23,10 +23,9 @@ assert (member? "." sys:path)
 
 # Tests for spawned tasks
 var child-response (graph)
-
 # Test to see if script directory is set up in spawned tasks...
 spawn '../fixtures/spawn-for-script-directory-1.g' 'alpha' child-response
-sleep 1000
+sleep 2000
 task:synchronized child-response
   for T in  (child-response(.asTriples))
     print (list @FILE @LINE T)
@@ -35,7 +34,7 @@ task:synchronized child-response
 
 # Test to see if script directory is set up in spawned tasks...
 task:spawn ('%a/../fixtures/spawn-for-script-directory-1.g'(.format sys:script-directory)) 'bravo' child-response
-sleep 1000
+sleep 2000
 task:synchronized child-response
   for T in  (child-response(.asTriples))
     print (list @FILE @LINE T)

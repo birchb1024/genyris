@@ -31,7 +31,15 @@ public class GraphHashSimple extends AbstractGraph {
 	}
 	@Override
     public String toString() {
-		return "(graph" + ")";
+		String result = "(graph";
+		Collection<Triple> triples = subjects.values();
+		ArrayList<Triple> triarray = new ArrayList<>(triples);
+		Collections.sort(triarray);
+		for (Triple T: triarray) {
+			result += " " + T.toString();
+		}
+		result += ")";
+		return result;
 	}
 
 	@Override

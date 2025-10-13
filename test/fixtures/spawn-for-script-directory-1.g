@@ -14,7 +14,7 @@ task:synchronized response
   response(.put (intern id) ^HOME System!HOME)
   response(.put (intern id) ^sys:path sys:path)
   response(.put (intern id) ^sys:script-directory sys:script-directory)
-  response(.put (intern id) ^sys:argv sys:argv)
+  response(.put (intern id) ^sys:argv (asString sys:argv)) # asString prevents circular structure and stack overflow
   response(.put (intern id) (intern 'A') (equal? sys:script-directory (prepend-home 'test/fixtures')))
   response(.put (intern id) (intern 'B') (not (null? (member? "." sys:path))))
   response(.put (intern id) (intern 'C') true)
