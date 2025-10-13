@@ -1,5 +1,6 @@
 package org.genyris.dl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.genyris.core.Atom;
@@ -89,4 +90,6 @@ public abstract class AbstractGraph extends Atom {
     public Exp eval(Environment env) throws GenyrisException {
     	return this;
     }
+
+    public abstract ArrayList<Triple> toSortedTriplesArray();
 }

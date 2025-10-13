@@ -246,11 +246,11 @@ public class GraphHashSimpleTest extends TestCase {
 		AssertInterpretEquals("(sort (g (.asTriples )))","((triple s a 7) (triple s b 13))");
 
 		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
-		AssertInterpretEquals("(g (.add ^s (data (a = 'A') (b = 'B')) ))","(graph (triple s a A) (triple s b B))");
+		AssertInterpretEquals("(g (.add ^s (data (a = 'A') (b = 'B')) ))","(graph (triple s a 'A') (triple s b 'B'))");
 		AssertInterpretEquals("(sort (g (.asTriples )))","((triple s a 'A') (triple s b 'B'))");
 
 		AssertInterpretEquals("(defvar ^g (graph))","(graph)");
-		AssertInterpretEquals("(g (.add ^x (data (a = 'A') (a = 'B')) ))","(graph (triple x a A) (triple x a B))");
+		AssertInterpretEquals("(g (.add ^x (data (a = 'A') (a = 'B')) ))","(graph (triple x a 'A') (triple x a 'B'))");
 		AssertInterpretEquals("(sort (g (.asTriples)))","((triple x a 'A') (triple x a 'B'))");
 	}
 	public void testFormatting() throws Exception {

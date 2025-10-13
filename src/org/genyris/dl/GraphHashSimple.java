@@ -29,12 +29,16 @@ public class GraphHashSimple extends AbstractGraph {
 	    //
 	    return subjects.values().iterator();
 	}
-	@Override
-    public String toString() {
-		String result = "(graph";
+	public ArrayList<Triple> toSortedTriplesArray() {
 		Collection<Triple> triples = subjects.values();
 		ArrayList<Triple> triarray = new ArrayList<>(triples);
 		Collections.sort(triarray);
+		return triarray;
+	}
+	@Override
+    public String toString() {
+		String result = "(graph";
+		ArrayList<Triple> triarray = toSortedTriplesArray();
 		for (Triple T: triarray) {
 			result += " " + T.toString();
 		}

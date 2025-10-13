@@ -7,6 +7,9 @@ package org.genyris.format;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import org.genyris.core.*;
 import org.genyris.dl.AbstractGraph;
@@ -132,7 +135,13 @@ public abstract class AbstractFormatter implements Visitor, Formatter {
     }
 
     public void visitGraph(AbstractGraph ts) throws GenyrisException {
-        write(ts.toString());
+        write("(graph");
+		ArrayList<Triple> triarray = ts.toSortedTriplesArray();
+		for (Triple T: triarray) {
+			write(" ");
+            T.acceptVisitor(new BasicFormatter(_output));
+		}
+        write(")");
     }
 
     public void visitJavaWrapper(JavaWrapper javaWrapper)
