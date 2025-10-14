@@ -300,8 +300,6 @@ public class GraphHashSimpleTest extends TestCase {
 		AssertInterpretEquals("(equal? ts (ts(.select ^X ^p ^o)))", "nil");
 		AssertInterpretEquals("(equal? ts (ts(.select ^s ^X ^o)))", "nil");
 		AssertInterpretEquals("(equal? ts (ts(.select ^s ^p ^X)))", "nil");
-		// #TODO AssertInterpretEquals("(member? (ts(.asTriples)) ^(((triple s p o2) (triple s p o1) (triple x p z))((triple x p z) (triple s p o2) (triple s p o1))))", "true");
-		// Either sort the reult before comparing or test member? on a list of triples.
 
 		AssertInterpretEquals("((ts(.select ^s nil nil))(.asTriples))",
 				"((triple s p o2) (triple s p o1))");
@@ -310,13 +308,18 @@ public class GraphHashSimpleTest extends TestCase {
 		AssertInterpretEquals("((ts(.select ^s ^p ^o1))(.asTriples))", "((triple s p o1))");
 		AssertInterpretEquals("((ts(.select ^s ^p ^o2))(.asTriples))", "((triple s p o2))");
 
-		// #TODO random order makes flaky test -AssertInterpretEquals("(ts(.asTriples))", "((triple x p z) (triple s p o2) (triple s p o1))");
+		AssertInterpretEquals("(sort (ts(.asTriples)))", "((triple s p o1) (triple s p o2) (triple x p z))");
 		AssertInterpretEquals("((ts(.select nil ^p ^o2))(.asTriples))", "((triple s p o2))");
 
 		AssertInterpretEquals("((ts(.select nil nil ^o2))(.asTriples))", "((triple s p o2))");
-		// #TODO random order makes flaky test - AssertInterpretEquals("((ts(.select nil ^p nil))(.asTriples))","((triple x p z) (triple s p o2) (triple s p o1))");
+		AssertInterpretEquals("(sort ((ts(.select nil ^p nil))(.asTriples)))","((triple s p o1) (triple s p o2) (triple x p z))");
 	}
 
+	public void testInterpGraphCtor() throws Exception {
+		AssertInterpretEquals("(graph (triple ^s ^p ^o))", "(graph (triple s p o))");
+		AssertInterpretEquals("(graph ^(triple s p o))", "(graph (triple s p o))");
+		AssertInterpretEquals("(graph ^(s p o))", "(graph (triple s p o))");
+	}
 	public void testInterpEquals1() throws Exception {
 		AssertInterpretEquals("(defvar ^ts1 (graph))", "(graph)");
 		AssertInterpretEquals("(ts1(.add (triple ^s ^p ^o)))", "(graph (triple s p o))");

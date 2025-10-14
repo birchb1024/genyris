@@ -12369,6 +12369,56 @@ graph
 (graph (triple joe age ten) (triple joe age three)) # Graph
 \end_layout
 
+\begin_layout Standard
+Otherwise it will accept triples.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> graph
+\end_layout
+
+\begin_layout LyX-Code
+   (triple joe age three)
+\end_layout
+
+\begin_layout LyX-Code
+   (triple joe age ten)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(graph (triple joe age ten) (triple joe age three)) # Graph
+\end_layout
+
+\begin_layout Standard
+Alternatively it will accept a triple-like syntax.
+ Example:
+\end_layout
+
+\begin_layout LyX-Code
+> graph
+\end_layout
+
+\begin_layout LyX-Code
+   ^(triple joe age three)
+\end_layout
+
+\begin_layout LyX-Code
+   ^(triple joe age ten)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+(graph (triple joe age ten) (triple joe age three)) # Graph
+\end_layout
+
 \begin_layout Subsubsection
 Graph equality
 \end_layout

@@ -16,8 +16,11 @@ import org.genyris.interp.UnboundException;
 
 public class GraphFunction extends ApplicableFunction {
 
+	private Symbol _tripleSymbol;
+
 	public GraphFunction(Interpreter interp) {
 		super(interp, "graph", true);
+		_tripleSymbol = _interp.intern("triple");
 	}
 
 	public Exp bindAndExecute(Closure proc, Exp[] arguments,
@@ -29,13 +32,23 @@ public class GraphFunction extends ApplicableFunction {
 		return ts;
 	}
 
-	private void addTripleFromList(AbstractGraph ts, Exp exp)
-			throws GenyrisException {
-		Symbol subject = toSymbol(exp.car());
-        Symbol predicate = toSymbol(exp.cdr().car());
-        Exp object = exp.cdr().cdr().car();
-
-		ts.add(new Triple(subject, predicate, object));
+	private void addTripleFromList(AbstractGraph ts, Exp exp) throws GenyrisException {
+		// Accept either (s p o) or ^(triple s p o) or a Triple
+		if(exp instanceof Pair) {
+			if(exp.car().equals(_tripleSymbol )) {
+				exp = exp.cdr();
+			}
+			Symbol subject = toSymbol(exp.car());
+			Symbol predicate = toSymbol(exp.cdr().car());
+			Exp object = exp.cdr().cdr().car();
+			ts.add(new Triple(subject, predicate, object));
+		}
+		else if(exp instanceof Triple) {
+			ts.add((Triple)exp);
+		}
+		else {
+			throw new GenyrisException("unknown type in graph argument:" + exp.toString());
+		}
 	}
 
 	public static void bindFunctionsAndMethods(Interpreter interpreter)throws UnboundException, GenyrisException {
