@@ -27,6 +27,7 @@ public class ClassicReadEvalPrintLoop {
     private Interpreter _interpreter;
 
     public static void main(String[] args) {
+
         int result = 0;
         try {
             if (args.length == 0) {
@@ -64,6 +65,14 @@ public class ClassicReadEvalPrintLoop {
             interpreter.init(false, getContainingDirectoryPath(filename));
             interpreter.getDebugBackTrace();
             setArgs(args, interpreter);
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                System.err.println("Executing *shutdown-hook*");
+                try {
+                    interpreter.evalStringInGlobalEnvironment("(*shutdown-hook*)");
+                } catch (GenyrisException e) {
+                    System.err.println("Exception in shutdown hook" + e.getMessage());
+                }
+            }));
             try {
                 if (filename.equals("-")) {
                     SourceLoader.execAndClose(interpreter.getGlobalEnv(),

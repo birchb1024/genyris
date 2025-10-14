@@ -19960,6 +19960,84 @@ The server is terminated by killing the thread, or by coding an explicit
 \end_layout
 
 \begin_layout Subsubsection
+Graceful shutdown and *shutdown-hook*
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+*shutdown-hook*
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If the server keeps data in memory, or has other resources held, possibly
+ externally, then we want to close these resources or save information to
+ disk.
+ For this section we refer to it as running shutdown.
+ We can provide a web URL which invokes the shutdown when a deliberate shutdown
+ is needed.
+ 
+\end_layout
+
+\begin_layout Standard
+However there may be errors or operating system signals (SIGTERM, SIGINT,
+ SIGHUP) which can kill the process.
+ When a shutdown signal is received the interpreter will run the function
+ stored in the 
+\emph on
+*shutdown-hook*
+\emph default
+ variable before process termination.
+ This allows us to save or cleanup resources.
+ For example we set the shutdown hook in the main task:
+\end_layout
+
+\begin_layout LyX-Code
+def shutdown-hook ()
+\end_layout
+
+\begin_layout LyX-Code
+    stderr(.format '%a %a %a *shutdown-hook* started
+\backslash
+n' (os!ticks) @FILE @LINE)
+\end_layout
+
+\begin_layout LyX-Code
+    save-all data-dir 'tmp/backup'
+\end_layout
+
+\begin_layout LyX-Code
+    stderr(.format '%a %a %a *shutdown-hook* finished
+\backslash
+n' (os!ticks) @FILE @LINE)
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+cond
+\end_layout
+
+\begin_layout LyX-Code
+    (not (equal? (task:id)!name 'main'))
+\end_layout
+
+\begin_layout LyX-Code
+        setq *shutdown-hook* shutdown-hook
+\end_layout
+
+\begin_layout Standard
+A more complex shutdown function would signal running tasks to terminate
+ and so forth.
+\end_layout
+
+\begin_layout Subsubsection
 Processing Web Requests
 \end_layout
 

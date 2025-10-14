@@ -7,6 +7,7 @@
 @ns sys "http://www.genyris.org/lang/system#"
 @ns u "http://www.genyris.org/lang/utilities#"
 @ns date "http://www.genyris.org/lang/date#"
+
 defvar ^sys:path ^('.')
 class syn:Keyword(SimpleSymbol)
 tag syn:Keyword ^function
@@ -75,6 +76,9 @@ System
             .replace '\\' '/'
    define .LIBS 
        "%a/lib" (.format (System.HOME))
+
+def *shutdown-hook*()
+  stderr(.format '%a %a:%a default *shutdown-hook*\n' (os!ticks) @FILE @LINE)
 #
 # Load source functions and classes
 #
