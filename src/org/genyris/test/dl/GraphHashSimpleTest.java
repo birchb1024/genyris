@@ -35,7 +35,8 @@ public class GraphHashSimpleTest extends TestCase {
 		assertEquals(ts, ts);
 		assertEquals(ts.empty(), true);
 		AbstractGraph ts2 = new GraphHashSimple();
-		assertFalse(ts.equals(ts2));
+		assertEquals(ts2.empty(), true);
+		assertTrue(ts.equals(ts2));
 
 		Symbol subject = new SimpleSymbol("1".toString());
 		SimpleSymbol predicate = new SimpleSymbol("s");
@@ -43,11 +44,11 @@ public class GraphHashSimpleTest extends TestCase {
 		ts.add(new Triple(subject, predicate, object));
 		assertTrue(ts.contains(subject, predicate, object) != null);
 
-		ts2.add(new Triple(new SimpleSymbol("1"), new SimpleSymbol("s"),
-				new StrinG("$")));
-		// TODO assertFalse(ts.equals(ts2));
+		ts2.add(new Triple(new SimpleSymbol("1"), new SimpleSymbol("s"), new StrinG("$")));
+		assertTrue(ts.equals(ts2));
 
 		AbstractGraph result = ts.select(subject, null, null, null, null);
+		assertTrue(ts.equals(result));
 
 	}
 

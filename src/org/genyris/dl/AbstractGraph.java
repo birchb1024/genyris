@@ -53,7 +53,13 @@ public abstract class AbstractGraph extends Atom {
     public abstract void put(Symbol subject, Symbol predicate, Exp object);
 
     public boolean equals(Object compare) {
-    		return this == compare;
+        if (this == compare) {
+            return true; 
+        }
+        if (!(compare instanceof AbstractGraph)) {
+            return false;
+        }
+        return this.toString().equals(((AbstractGraph)compare).toString()); // TODO is this inefficient ?
     }
 
     public void acceptVisitor(Visitor guest) throws GenyrisException {
@@ -61,8 +67,8 @@ public abstract class AbstractGraph extends Atom {
     }
 
    public AbstractGraph difference(AbstractGraph toRemove) throws GenyrisException { return this ; }
-/*
-   #TODO this code is bogus:
+
+  /* #TODO this code is bogus:
     	AbstractGraph result =  new GraphHashSimple();
     	Iterator iter = iterator();
     	while(iter.hasNext()) {
