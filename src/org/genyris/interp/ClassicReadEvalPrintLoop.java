@@ -66,7 +66,6 @@ public class ClassicReadEvalPrintLoop {
             interpreter.getDebugBackTrace();
             setArgs(args, interpreter);
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                System.err.println("Executing *shutdown-hook*");
                 try {
                     interpreter.evalStringInGlobalEnvironment("(*shutdown-hook*)");
                 } catch (GenyrisException e) {
