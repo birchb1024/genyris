@@ -316,4 +316,13 @@ public class Dictionary extends Atom implements Environment {
         return this == o ? 0 : 1;
     }
 
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        return _dict.equals(((Dictionary) o)._dict);
+    }
 }

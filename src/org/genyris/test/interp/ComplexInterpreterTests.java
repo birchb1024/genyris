@@ -109,7 +109,7 @@ public class ComplexInterpreterTests extends TestCase {
         exerciseEval("(dict (.a = 1) (.b = 2) (.c = 3))",
                 "(dict (.a = 1) (.b = 2) (.c = 3))");
         exerciseEval("(eq? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
-        exerciseEval("(equal? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "nil");
+        exerciseEval("(equal? (dict (.a = 1) (.b = 2) (.c = 3)) (dict (.a = 1) (.b = 2) (.c = 3)))", "true");
     }
 
     public void testEnvCapture() throws Exception {

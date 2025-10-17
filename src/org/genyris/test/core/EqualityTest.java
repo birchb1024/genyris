@@ -68,6 +68,6 @@ public class EqualityTest extends TestCase {
         f1.defineVariableRaw(a, new StrinG("foo"));
         Dictionary f2 = new Dictionary(new StandardEnvironment(interp.getSymbolTable(), new NilSymbol()));
         f2.defineVariableRaw(a, new StrinG("foo"));
-        assertFalse(f1.equals(f2));
+        assertTrue(f1.equals(f2));
     }
 }
