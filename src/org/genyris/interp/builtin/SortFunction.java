@@ -41,7 +41,7 @@ public class SortFunction extends ApplicableFunction {
 			 || item instanceof Symbol
 			 || item instanceof Triple
 			)) {
-			throw new GenyrisException("item in argument to sort must be atomic, but got " + head.getClass().getName());
+			throw new GenyrisException("item in argument to sort must be atomic, but got " + item.getClasses(envForBindOperations).toString());
 		}
 		Class theClass = theList.car().getClass();
 		// Get parent classes. . .
