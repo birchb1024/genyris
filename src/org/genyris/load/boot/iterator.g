@@ -41,7 +41,7 @@ Reader
    def .mkIterator()
       define reader .self
       tag ReaderLineIterator 
-         function()
+         lambda ()
              cond
                 (reader(.hasData))
                    reader(.getline)

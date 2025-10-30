@@ -20,7 +20,7 @@ define path (nth 3 sys:argv)
 #   .format "Number of %s in %s: %a" regex path (count-strings-in-file regex path)
 define total-count 0
 walk-directory-tree path
-   function (path)
+    lambda (path)
       cond
          ((path(.toLowerCase))(.match (file-regex(.toLowerCase))))
             define count (count-strings-in-file tag-regex path)

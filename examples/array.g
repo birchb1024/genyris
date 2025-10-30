@@ -24,7 +24,7 @@ class Array(Graph)
 
     def .setq (i v)
         .select nil nil i 
-            function (s p o)
+            lambda (s p o)
                 .remove (triple s p o)
         .put v ^_ i
 
