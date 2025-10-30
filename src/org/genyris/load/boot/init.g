@@ -77,8 +77,8 @@ System
    define .LIBS 
        "%a/lib" (.format (System.HOME))
 
-def *shutdown-hook*()
-  stderr(.format '%a %a:%a *shutdown-hook*\n' (os!ticks) @FILE @LINE)
+def *shutdown-hook* ()
+
 #
 # Load source functions and classes
 #
