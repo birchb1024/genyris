@@ -4,11 +4,25 @@
 
 catch err
    File!static-list-dir 'test/fixtures/test.pipe'
-assert (equal? err 'File.static-list-dir: failed on test/fixtures/test.pipe')
+assert (equal? err  'File.static-list-dir: failed - either does not exist or is not a directory test/fixtures/test.pipe')
 assert
    equal?
       File!static-list-dir (prepend-home 'test/fixtures/folder')
       ^('file1.txt' 'file2.txt')
+assert
+   equal?
+      File!static-list-dir (prepend-home 'test/fixtures/folder') ^path
+      list
+        "%a/%a"(.format (prepend-home 'test/fixtures/folder') 'file1.txt')
+        "%a/%a"(.format (prepend-home 'test/fixtures/folder') 'file2.txt')
+
+assert
+   equal?
+      (File(.new (prepend-home 'test/fixtures/folder')))
+        .list ^path
+      list
+        "%a/%a"(.format (prepend-home 'test/fixtures/folder') 'file1.txt')
+        "%a/%a"(.format (prepend-home 'test/fixtures/folder') 'file2.txt')
 
 catch err
    File!static-open "qwerty" ^read

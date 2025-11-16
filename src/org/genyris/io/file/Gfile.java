@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import org.genyris.core.Exp;
@@ -65,6 +66,7 @@ public class Gfile {
 
 	public static class FileListDir extends AbstractMethod {
 		private static Class[] types = { StrinG.class };
+        private static Class[] fullPathTypes = { StrinG.class, Symbol.class };
 
 		public FileListDir(Interpreter interp) {
 			super(interp, "static-list-dir");
@@ -73,19 +75,29 @@ public class Gfile {
 		public Exp bindAndExecute(Closure proc, Exp[] arguments, Environment env)
 				throws GenyrisException {
 			Exp retval = NIL;
-			checkMinArguments(arguments, 1);
-			checkArgumentTypes(types, arguments);
-			File dir = new File(arguments[0].toString());
+			checkArguments(arguments, 1, 2);
+            if(arguments.length == 1 ) {
+    			checkArgumentTypes(types, arguments);
+            }
+            String dirname = arguments[0].toString();
+            File dir = new File(dirname);
+            Boolean fullPath = false;
+            if(arguments.length > 1 ) {
+                checkArgumentTypes(fullPathTypes, arguments);
+                if (arguments[1] == _interp.intern("path") ) {
+                    fullPath = true;
+                }
+            }
 			String[] children = dir.list();
 
 			if (children == null) {
-				throw new GenyrisException("File.static-list-dir: failed on "
+				throw new GenyrisException("File.static-list-dir: failed - either does not exist or is not a directory "
 						+ arguments[0]);
-				// Either dir does not exist or is not a directory
 			} else {
 				Arrays.sort(children);
 				for (int i = children.length - 1; i >= 0; i--) {
-					retval = new Pair(new StrinG(children[i]), retval);
+                    String child = ( fullPath ? Paths.get(dirname, children[i]).toString() : children[i] );
+					retval = new Pair(new StrinG(child), retval);
 				}
 			}
 			return retval;

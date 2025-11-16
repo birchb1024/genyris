@@ -14,8 +14,8 @@ File
     def .open((mode = SimpleSymbol))
        .static-open .filename mode 
        
-    def .list()
-       .static-list-dir .filename 
+    def .list(&rest options)
+       apply .static-list-dir (cons .filename options)
        
     def .abs-path()
        .static-abs-path .filename 
