@@ -66,5 +66,5 @@ cond
   (equal? (task:id)!name 'main')
     for _ in (range 1 10)
         httpd 8800 script
-    u:format "Server listening on http://127.0.0.1:8000/\n"
+    u:format "Server listening on http://127.0.0.1:8800/\n"
     sleep forever
