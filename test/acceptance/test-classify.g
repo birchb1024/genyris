@@ -14,5 +14,5 @@ var foo 'a string'
 
 classify A foo
 
-assert (member? A foo!classes)
+assert (member? A foo;classes)
 assert (not (member? B foo!classes))

@@ -332,69 +332,76 @@ public class LexTest extends TestCase {
 		excerciseSpecialParsing("{(1 2 3)}", "(curlyBracket (1 2 3))");
 	}
 
-	public void testPling() throws Exception {
-		excerciseSpecialParsing("(a!b)", "((a .b))");
-		excerciseSpecialParsing("(a!b!c)", "(((a .b) .c))");
-		excerciseSpecialParsing("(a!b!c!d!e!f!g)", "(((((((a .b) .c) .d) .e) .f) .g))");
-		excerciseSpecialParsing("(.f!g)", "((.f .g))");
+	public void testSemi() throws Exception {
+		excerciseSpecialParsing("(a;b)", "((a .b))");
+		excerciseSpecialParsing("(a;b;c)", "(((a .b) .c))");
+		excerciseSpecialParsing("(a;b;c;d;e;f;g)", "(((((((a .b) .c) .d) .e) .f) .g))");
+		excerciseSpecialParsing("(.f;g)", "((.f .g))");
 
-		excerciseSpecialParsing("((f)!g)", "(((f) .g))");
-		excerciseSpecialParsing("((f)!g!h!i)", "(((((f) .g) .h) .i))");
-		excerciseSpecialParsing("((f(g(h)))!i!j)", "((((f (g (h))) .i) .j))");
-		excerciseSpecialParsing("(quote 2!w)", "(quote (2 .w))"); 
-		excerciseSpecialParsing("(a!x = 33)", "((a .x) = 33)"); 
+		excerciseSpecialParsing("((f);g)", "(((f) .g))");
+		excerciseSpecialParsing("((f);g;h;i)", "(((((f) .g) .h) .i))");
+		excerciseSpecialParsing("((f(g(h)));i;j)", "((((f (g (h))) .i) .j))");
+		excerciseSpecialParsing("(quote 2;w)", "(quote (2 .w))");
+		excerciseSpecialParsing("(a;x = 33)", "((a .x) = 33)");
 
-		excerciseBadSpecialParsing("(.f!.g)");
-		excerciseBadSpecialParsing("(x!.y)");
-		excerciseBadSpecialParsing("(a!1)");
-		excerciseBadSpecialParsing("(2!3)"); 
+		excerciseBadSpecialParsing("(.f;.g)");
+		excerciseBadSpecialParsing("(x;.y)");
+		excerciseBadSpecialParsing("(a;1)");
+		excerciseBadSpecialParsing("(2;3)");
 	}
-    public void testSlash() throws Exception {
-        excerciseSpecialParsing("(a;b)", "((slash a b))");
-        excerciseSpecialParsing("(a;b;c)", "((slash (slash a b) c))");
-        excerciseSpecialParsing("(a;b;c;d;e;f;g)", "((slash (slash (slash (slash (slash (slash a b) c) d) e) f) g))");
-        excerciseSpecialParsing("(.f;g)", "((slash .f g))");
 
-        excerciseSpecialParsing("((f);g)", "((slash (f) g))");
-        excerciseSpecialParsing("((f);g;h;i)", "((slash (slash (slash (f) g) h) i))");
-        excerciseSpecialParsing("((f(g(h)));i;j)", "((slash (slash (f (g (h))) i) j))");
-        excerciseSpecialParsing("(quote 2;w)", "(quote (slash 2 w))");
-        excerciseSpecialParsing("(a;x = 33)", "((slash a x) = 33)");
+    public void testPling() throws Exception {
+        excerciseSpecialParsing("(a!b)", "((pling a b))");
+        excerciseSpecialParsing("(a!b!c)", "((pling (pling a b) c))");
+        excerciseSpecialParsing("(a!b!c!d!e!f!g)", "((pling (pling (pling (pling (pling (pling a b) c) d) e) f) g))");
+        excerciseSpecialParsing("(.f!g)", "((pling .f g))");
+
+        excerciseSpecialParsing("((f)!g)", "((pling (f) g))");
+        excerciseSpecialParsing("((f)!g!h!i)", "((pling (pling (pling (f) g) h) i))");
+        excerciseSpecialParsing("((f(g(h)))!i!j)", "((pling (pling (f (g (h))) i) j))");
+        excerciseSpecialParsing("(quote 2!w)", "(quote (pling 2 w))");
+        excerciseSpecialParsing("(a!x = 33)", "((pling a x) = 33)");
 
         // focus on LHS
-        excerciseSpecialParsing("(3;4)", "((slash 3 4))");
-        excerciseSpecialParsing("('g';4)", "((slash 'g' 4))");
-        excerciseSpecialParsing("((5);4)", "((slash (5) 4))");
-        excerciseSpecialParsing("(nil;4)", "((slash nil 4))");
-        excerciseSpecialParsing("(.f;4)", "((slash .f 4))");
-        excerciseSpecialParsing("([g];4)", "((slash (squareBracket g) 4))");
-        excerciseSpecialParsing("({h};4)", "((slash (curlyBracket h) 4))");
+        excerciseSpecialParsing("(3!4)", "((pling 3 4))");
+        excerciseSpecialParsing("('g'!4)", "((pling 'g' 4))");
+        excerciseSpecialParsing("((5)!4)", "((pling (5) 4))");
+        excerciseSpecialParsing("(nil!4)", "((pling nil 4))");
+        excerciseSpecialParsing("(.f!4)", "((pling .f 4))");
+        excerciseSpecialParsing("([g]!4)", "((pling (squareBracket g) 4))");
+        excerciseSpecialParsing("({h}!4)", "((pling (curlyBracket h) 4))");
 
         // focus on RHS
-        excerciseSpecialParsing("(2;3)", "((slash 2 3))");
-        excerciseSpecialParsing("(2;'g')", "((slash 2 'g'))");
-        excerciseSpecialParsing("(2;(5))", "((slash 2 (5)))");
-        excerciseSpecialParsing("(2;nil)", "((slash 2 nil))");
-        excerciseSpecialParsing("(2;.f)", "((slash 2 .f))");
-        excerciseSpecialParsing("(2;[g])", "((slash 2 (squareBracket g)))");
-        excerciseSpecialParsing("(2;{h})", "((slash 2 (curlyBracket h)))");
+        excerciseSpecialParsing("(2!3)", "((pling 2 3))");
+        excerciseSpecialParsing("(2!'g')", "((pling 2 'g'))");
+        excerciseSpecialParsing("(2!(5))", "((pling 2 (5)))");
+        excerciseSpecialParsing("(2!nil)", "((pling 2 nil))");
+        excerciseSpecialParsing("(2!.f)", "((pling 2 .f))");
+        excerciseSpecialParsing("(2![g])", "((pling 2 (squareBracket g)))");
+        excerciseSpecialParsing("(2!{h})", "((pling 2 (curlyBracket h)))");
+
+        excerciseSpecialParsing("($(expression!filename))", "((dollar ((pling expression filename))))");
+        excerciseSpecialParsing("($expression!filename)", "((pling (dollar expression) filename))");
+        excerciseSpecialParsing("(find-abs-path args!left)", "(find-abs-path (pling args left))");
+
 
         // empties
-        excerciseBadSpecialParsing("(;)");
-        excerciseBadSpecialParsing("(1;)");
-        excerciseBadSpecialParsing("(1;;2)");
-        excerciseBadSpecialParsing("(1;;;3)");
+        excerciseBadSpecialParsing("(!)");
+        excerciseBadSpecialParsing("(1!)");
+        excerciseBadSpecialParsing("(1!!2)");
+        excerciseBadSpecialParsing("(1!!!3)");
 
 
         // mixed multiples
-        excerciseSpecialParsing("(nil;2;'3';(4);[5];{6})", "((slash (slash (slash (slash (slash nil 2) '3') (4)) (squareBracket 5)) (curlyBracket 6)))");
+        excerciseSpecialParsing("(nil!2!'3'!(4)![5]!{6})", "((pling (pling (pling (pling (pling nil 2) '3') (4)) (squareBracket 5)) (curlyBracket 6)))");
 
         // examples
         // nth
-        excerciseSpecialParsing("(^(a s d);1)", "((slash (quote (a s d)) 1))");
+        excerciseSpecialParsing("(^(a s d)!1)", "((pling (quote (a s d)) 1))");
         // assoc
-        excerciseSpecialParsing("(^((a = 1)(s = 2));s)", "((slash (quote ((a = 1) (s = 2))) s))");
+        excerciseSpecialParsing("(^((a = 1)(s = 2))!s)", "((pling (quote ((a = 1) (s = 2))) s))");
 
+        excerciseBadSpecialParsing("(a!s;2)");
 
     }
 }

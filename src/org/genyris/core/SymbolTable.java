@@ -16,7 +16,6 @@ import org.genyris.exception.GenyrisException;
 public class SymbolTable implements Internable {
 	private Map          _table;
 	
-	
 	private SimpleSymbol _BIGNUM;
     private SimpleSymbol _BISCUIT;
 	private SimpleSymbol _classes;
@@ -54,6 +53,7 @@ public class SymbolTable implements Internable {
     private SimpleSymbol _PAIRSOURCE;
     private SimpleSymbol _PARENPARSER;
 	private SimpleSymbol _PIPE;
+	private SimpleSymbol _PLING;
 	private SimpleSymbol _PREDICATE;
 	private SimpleSymbol _prefix;
 	private SimpleSymbol _PROCEDUREMISSING;
@@ -62,8 +62,8 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _rest;
 	private SimpleSymbol _right;
 	private SimpleSymbol _self;
+    private SimpleSymbol _SEMI;
 	private SimpleSymbol _SIMPLESYMBOL;
-	private SimpleSymbol _SLASH;
 	private SimpleSymbol _SOURCE;
 	private SimpleSymbol _square;
 	private SimpleSymbol _standardclass;
@@ -149,7 +149,7 @@ public class SymbolTable implements Internable {
     _SUBCLASSOF = bindKeyword(String.valueOf(Constants.SUBCLASSOF));
     _DYNAMICSYMBOLREF = bindKeyword(String.valueOf(Constants.DYNAMICSYMBOLREF));
     _NAME = bindKeyword(String.valueOf(Constants.NAME));
-    _SLASH = bindKeyword(String.valueOf(Constants.SLASH));
+    _PLING = bindKeyword(String.valueOf(Constants.PLING));
     _SOURCE = bindKeyword(String.valueOf(Constants.SOURCE));
 
     _SUBJECT = bindKeyword(String.valueOf(Constants.SUBJECT));
@@ -409,8 +409,11 @@ public class SymbolTable implements Internable {
 	public SimpleSymbol DYNAMICSYMBOLREF() {
 		return _DYNAMICSYMBOLREF;
 	}
-	public SimpleSymbol SLASH() {
-		return _SLASH;
+	public SimpleSymbol SEMI() {
+		return _SEMI;
+	}
+	public SimpleSymbol PLING() {
+		return _PLING;
 	}
 	public SimpleSymbol SOURCE() {
 		return _SOURCE;

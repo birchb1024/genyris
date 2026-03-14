@@ -19,7 +19,8 @@ public class Parser {
     private Exp cursym;
 
     protected Exp NIL;
-    protected Exp SLASH;
+    protected Exp SEMI;
+    protected Exp PLING;
 
     private Exp _prefix;
 
@@ -36,7 +37,8 @@ public class Parser {
         _table = table;
         _lexer = new Lex(stream, table, dynaChar, cdrCharacter, commentChar);
         NIL = table.NIL();
-        SLASH = table.SLASH();
+        SEMI = table.SEMI();
+        PLING = table.PLING();
         _prefix = table.PREFIX();
     }
 
@@ -134,7 +136,7 @@ public class Parser {
         return true;
     }
 
-    private Exp collectPlings(Exp tree) throws GenyrisException {
+    private Exp collectSemis(Exp tree) throws GenyrisException {
         int startline = _lexer.getLineNumber();
         Exp old = cursym;
         nextsym();
@@ -147,8 +149,8 @@ public class Parser {
                 new DynamicSymbol((SimpleSymbol) cursym), NIL, startline), startline); // TODO bad cast
         old = cursym;
         nextsym();
-        if (cursym == _lexer.PLING_TOKEN) {
-            return collectPlings(tree);
+        if (cursym == _lexer.SEMI_TOKEN) {
+            return collectSemis(tree);
         } else {
             pushbacksym(cursym);
             cursym = old;
@@ -156,16 +158,16 @@ public class Parser {
         return tree;
     }
 
-    private Exp collectSlashes(Exp tree) throws GenyrisException {
+    private Exp collectPlings(Exp tree) throws GenyrisException {
         int startline = _lexer.getLineNumber();
         Exp old = cursym;
         nextsym();
         Exp rhs = parseExpression();
-        tree = cons(SLASH, cons(tree, cons(rhs, NIL, startline), startline), startline); // TODO bad cast
+        tree = cons(PLING, cons(tree, cons(rhs, NIL, startline), startline), startline); // TODO bad cast
         old = cursym;
         nextsym();
-        if (cursym == _lexer.SLASH_TOKEN) {
-            return collectSlashes(tree);
+        if (cursym == _lexer.PLING_TOKEN) {
+            return collectPlings(tree);
         } else {
             pushbacksym(cursym);
             cursym = old;
@@ -203,17 +205,17 @@ public class Parser {
                 tree = cons(plings, restOfList, startLine);
                 return tree;
             }
-            else if (cursym.equals(_lexer.SLASH_TOKEN)) {
-                    Exp slashes = collectSlashes(tree);
-                    Exp restOfList = parseList(slashes);
+            else if (cursym.equals(_lexer.SEMI_TOKEN)) {
+                    Exp plings = collectSemis(tree);
+                    Exp restOfList = parseList(plings);
                     if (restOfList == _lexer.CDR_TOKEN) {
                         nextsym();
                         restOfList = parseExpression();
                         nextsym();
-                        tree = new PairEquals(slashes, restOfList);
+                        tree = new PairEquals(plings, restOfList);
                         return tree;
                     }
-                    tree = cons(slashes, restOfList, startLine);
+                    tree = cons(plings, restOfList, startLine);
                     return tree;
             } else {
                 pushbacksym(cursym);
@@ -239,7 +241,7 @@ public class Parser {
         if (cursym.equals(_lexer.PLING_TOKEN)) {
             throw parseError("unexpected !");
         }
-        if (cursym.equals(_lexer.SLASH_TOKEN)) {
+        if (cursym.equals(_lexer.SEMI_TOKEN)) {
             throw parseError("unexpected ;");
         }
         if (cursym.equals(_lexer.CDR_TOKEN)) {

@@ -127,4 +127,20 @@ public class BuiltinInterpreterTests extends TestCase {
         excerciseEval("(asString(intern ^|https://foo.bar/quux|))","'https://foo.bar/quux'");
     }
 
+    public void testPlingPair() throws Exception {
+        excerciseEval("(^(1 2)!left)","1");
+        excerciseEval("(^(1 2)!right)","(2)");
+
+        excerciseEval("(^(q w e)!0)","q");
+        excerciseEval("(^(q w e)!1)","w");
+        excerciseBadEval("(^(q w e)!(+ 0 1))");
+    }
+
+    public void testPlingBignum() throws Exception {
+        excerciseEval("(1!(+ .self .self))","2");
+    }
+
+    public void testPlingString() throws Exception {
+        excerciseEval("('q'!vars)","(.self .vars .classes)");
+    }
 }

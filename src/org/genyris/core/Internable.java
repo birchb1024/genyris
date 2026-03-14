@@ -41,6 +41,7 @@ public interface Internable {
     public SimpleSymbol PAIRSOURCE();
 	public SimpleSymbol PARENPARSER();
 	public SimpleSymbol PIPE();
+    public SimpleSymbol PLING();
 	public SimpleSymbol PREDICATE();
 	public SimpleSymbol PREFIX();
 	public SimpleSymbol PROCEDUREMISSING();
@@ -49,8 +50,8 @@ public interface Internable {
 	public SimpleSymbol REST();
 	public SimpleSymbol RIGHT();
 	public SimpleSymbol SELF();
+    public SimpleSymbol SEMI();
 	public SimpleSymbol SIMPLESYMBOL();
-    public SimpleSymbol SLASH();
 	public SimpleSymbol SOURCE();
 	public SimpleSymbol SQUARE();
 	public SimpleSymbol STANDARDCLASS();
