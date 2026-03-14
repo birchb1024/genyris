@@ -350,20 +350,51 @@ public class LexTest extends TestCase {
 		excerciseBadSpecialParsing("(2!3)"); 
 	}
     public void testSlash() throws Exception {
-        excerciseSpecialParsing("(a/b)", "((a .b))");
-        excerciseSpecialParsing("(a/b/c)", "(((a .b) .c))");
-        excerciseSpecialParsing("(a/b/c/d/e/f/g)", "(((((((a .b) .c) .d) .e) .f) .g))");
-        excerciseSpecialParsing("(.f/g)", "((.f .g))");
+        excerciseSpecialParsing("(a;b)", "((slash a b))");
+        excerciseSpecialParsing("(a;b;c)", "((slash (slash a b) c))");
+        excerciseSpecialParsing("(a;b;c;d;e;f;g)", "((slash (slash (slash (slash (slash (slash a b) c) d) e) f) g))");
+        excerciseSpecialParsing("(.f;g)", "((slash .f g))");
 
-        excerciseSpecialParsing("((f)/g)", "(((f) .g))");
-        excerciseSpecialParsing("((f)/g/h/i)", "(((((f) .g) .h) .i))");
-        excerciseSpecialParsing("((f(g(h)))/i/j)", "((((f (g (h))) .i) .j))");
-        excerciseSpecialParsing("(quote 2/w)", "(quote (2 .w))");
-        excerciseSpecialParsing("(a/x = 33)", "((a .x) = 33)");
+        excerciseSpecialParsing("((f);g)", "((slash (f) g))");
+        excerciseSpecialParsing("((f);g;h;i)", "((slash (slash (slash (f) g) h) i))");
+        excerciseSpecialParsing("((f(g(h)));i;j)", "((slash (slash (f (g (h))) i) j))");
+        excerciseSpecialParsing("(quote 2;w)", "(quote (slash 2 w))");
+        excerciseSpecialParsing("(a;x = 33)", "((slash a x) = 33)");
 
-        excerciseBadSpecialParsing("(.f/.g)");
-        excerciseBadSpecialParsing("(x/.y)");
-        excerciseBadSpecialParsing("(a/1)");
-        excerciseBadSpecialParsing("(2/3)");
+        // focus on LHS
+        excerciseSpecialParsing("(3;4)", "((slash 3 4))");
+        excerciseSpecialParsing("('g';4)", "((slash 'g' 4))");
+        excerciseSpecialParsing("((5);4)", "((slash (5) 4))");
+        excerciseSpecialParsing("(nil;4)", "((slash nil 4))");
+        excerciseSpecialParsing("(.f;4)", "((slash .f 4))");
+        excerciseSpecialParsing("([g];4)", "((slash (squareBracket g) 4))");
+        excerciseSpecialParsing("({h};4)", "((slash (curlyBracket h) 4))");
+
+        // focus on RHS
+        excerciseSpecialParsing("(2;3)", "((slash 2 3))");
+        excerciseSpecialParsing("(2;'g')", "((slash 2 'g'))");
+        excerciseSpecialParsing("(2;(5))", "((slash 2 (5)))");
+        excerciseSpecialParsing("(2;nil)", "((slash 2 nil))");
+        excerciseSpecialParsing("(2;.f)", "((slash 2 .f))");
+        excerciseSpecialParsing("(2;[g])", "((slash 2 (squareBracket g)))");
+        excerciseSpecialParsing("(2;{h})", "((slash 2 (curlyBracket h)))");
+
+        // empties
+        excerciseBadSpecialParsing("(;)");
+        excerciseBadSpecialParsing("(1;)");
+        excerciseBadSpecialParsing("(1;;2)");
+        excerciseBadSpecialParsing("(1;;;3)");
+
+
+        // mixed multiples
+        excerciseSpecialParsing("(nil;2;'3';(4);[5];{6})", "((slash (slash (slash (slash (slash nil 2) '3') (4)) (squareBracket 5)) (curlyBracket 6)))");
+
+        // examples
+        // nth
+        excerciseSpecialParsing("(^(a s d);1)", "((slash (quote (a s d)) 1))");
+        // assoc
+        excerciseSpecialParsing("(^((a = 1)(s = 2));s)", "((slash (quote ((a = 1) (s = 2))) s))");
+
+
     }
 }

@@ -50,6 +50,7 @@ public interface Internable {
 	public SimpleSymbol RIGHT();
 	public SimpleSymbol SELF();
 	public SimpleSymbol SIMPLESYMBOL();
+    public SimpleSymbol SLASH();
 	public SimpleSymbol SOURCE();
 	public SimpleSymbol SQUARE();
 	public SimpleSymbol STANDARDCLASS();

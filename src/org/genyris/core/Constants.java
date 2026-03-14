@@ -116,6 +116,7 @@ public class Constants {
 		public static final String DYNAMICSYMBOLREF = "DynamicSymbolRef";
 		public static final String FORMAT = "format";
 		public static final String NAME = "name";
+		public static final String SLASH = "slash";
 		public static final String SOURCE = "source";
 		public static final String SUBJECT = "subject";
 		public static final String PREDICATE = "predicate";

@@ -19,6 +19,7 @@ public class Parser {
     private Exp cursym;
 
     protected Exp NIL;
+    protected Exp SLASH;
 
     private Exp _prefix;
 
@@ -35,6 +36,7 @@ public class Parser {
         _table = table;
         _lexer = new Lex(stream, table, dynaChar, cdrCharacter, commentChar);
         NIL = table.NIL();
+        SLASH = table.SLASH();
         _prefix = table.PREFIX();
     }
 
@@ -158,13 +160,8 @@ public class Parser {
         int startline = _lexer.getLineNumber();
         Exp old = cursym;
         nextsym();
-        if (!(cursym instanceof Symbol)) {
-            throw parseError("Bad indirection: " + cursym.toString());
-        } else if (cursym == _lexer.DYNAMIC_TOKEN) {
-            throw parseError("Bad indirection: " + cursym.toString());
-        }
-        tree = cons(tree, cons(
-                new DynamicSymbol((SimpleSymbol) cursym), NIL, startline), startline); // TODO bad cast
+        Exp rhs = parseExpression();
+        tree = cons(SLASH, cons(tree, cons(rhs, NIL, startline), startline), startline); // TODO bad cast
         old = cursym;
         nextsym();
         if (cursym == _lexer.SLASH_TOKEN) {
@@ -243,7 +240,7 @@ public class Parser {
             throw parseError("unexpected !");
         }
         if (cursym.equals(_lexer.SLASH_TOKEN)) {
-            throw parseError("unexpected /");
+            throw parseError("unexpected ;");
         }
         if (cursym.equals(_lexer.CDR_TOKEN)) {
             throw parseError("unexpected =");

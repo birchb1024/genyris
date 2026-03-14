@@ -160,7 +160,7 @@ public class Lex {
 		case '\'':
 		case '"':
 		case '!':
-        case '/':
+        case ';':
         return false;
 		default:
 			return true;
@@ -289,7 +289,7 @@ public class Lex {
 				return parseNumber();
 			case '!':
 				return PLING_TOKEN;
-            case '/':
+            case ';':
                 return SLASH_TOKEN;
 			case '(':
 				return LEFT_PAREN_TOKEN;
