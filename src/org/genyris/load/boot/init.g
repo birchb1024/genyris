@@ -30,7 +30,7 @@ defmacro defmethod (name args &rest body)
     template
         def $name $args (defvar ^this .self) $@body
 
-df // (&rest ignore)
+#df // (&rest ignore)
 
 df data (&rest args) args
 

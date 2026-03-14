@@ -36,7 +36,7 @@ public class TripleEnvironment extends ExpressionEnvironment {
 	public Exp lookupDynamicVariableValue(DynamicSymbol dsym)
 			throws UnboundException {
 		Symbol sym = dsym.getRealSymbol();
-		if (sym == _subject) { // TODO equals no ==
+		if (sym == _subject) { // TODO equals not ==
 			return ((Triple) _theExpression).subject;
 		} else if (sym == _predicate) {
 			return ((Triple) _theExpression).predicate;

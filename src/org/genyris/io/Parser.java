@@ -154,6 +154,28 @@ public class Parser {
         return tree;
     }
 
+    private Exp collectSlashes(Exp tree) throws GenyrisException {
+        int startline = _lexer.getLineNumber();
+        Exp old = cursym;
+        nextsym();
+        if (!(cursym instanceof Symbol)) {
+            throw parseError("Bad indirection: " + cursym.toString());
+        } else if (cursym == _lexer.DYNAMIC_TOKEN) {
+            throw parseError("Bad indirection: " + cursym.toString());
+        }
+        tree = cons(tree, cons(
+                new DynamicSymbol((SimpleSymbol) cursym), NIL, startline), startline); // TODO bad cast
+        old = cursym;
+        nextsym();
+        if (cursym == _lexer.SLASH_TOKEN) {
+            return collectSlashes(tree);
+        } else {
+            pushbacksym(cursym);
+            cursym = old;
+        }
+        return tree;
+    }
+
     public Exp parseList(Exp lhs) throws GenyrisException {
         int startLine = _lexer.getLineNumber();
         Exp tree;
@@ -183,6 +205,19 @@ public class Parser {
                 }
                 tree = cons(plings, restOfList, startLine);
                 return tree;
+            }
+            else if (cursym.equals(_lexer.SLASH_TOKEN)) {
+                    Exp slashes = collectSlashes(tree);
+                    Exp restOfList = parseList(slashes);
+                    if (restOfList == _lexer.CDR_TOKEN) {
+                        nextsym();
+                        restOfList = parseExpression();
+                        nextsym();
+                        tree = new PairEquals(slashes, restOfList);
+                        return tree;
+                    }
+                    tree = cons(slashes, restOfList, startLine);
+                    return tree;
             } else {
                 pushbacksym(cursym);
                 cursym = old;
@@ -206,6 +241,9 @@ public class Parser {
         Exp tree = NIL;
         if (cursym.equals(_lexer.PLING_TOKEN)) {
             throw parseError("unexpected !");
+        }
+        if (cursym.equals(_lexer.SLASH_TOKEN)) {
+            throw parseError("unexpected /");
         }
         if (cursym.equals(_lexer.CDR_TOKEN)) {
             throw parseError("unexpected =");

@@ -36,6 +36,7 @@ public class Lex {
 	public Symbol LEFT_SQUARE_TOKEN, RIGHT_SQUARE_TOKEN;
 	public Symbol LEFT_CURLY_TOKEN, RIGHT_CURLY_TOKEN;
 	public Symbol PLING_TOKEN;
+    public Symbol SLASH_TOKEN;
 
     private char _dynamicCharacter;
 
@@ -61,6 +62,7 @@ public class Lex {
 		RIGHT_CURLY_TOKEN = new SimpleSymbol("rightCurlyToken");
 		CDR_TOKEN = new SimpleSymbol("pair-delimiterToken");
 		PLING_TOKEN = new SimpleSymbol("plingToken");
+        SLASH_TOKEN = new SimpleSymbol("slashToken");
 	}
 
 	public Lex(InStream inputSource, Internable table, char dynaChar, char cdrChar, char commentChar) {
@@ -158,7 +160,8 @@ public class Lex {
 		case '\'':
 		case '"':
 		case '!':
-			return false;
+        case '/':
+        return false;
 		default:
 			return true;
 		}
@@ -286,6 +289,8 @@ public class Lex {
 				return parseNumber();
 			case '!':
 				return PLING_TOKEN;
+            case '/':
+                return SLASH_TOKEN;
 			case '(':
 				return LEFT_PAREN_TOKEN;
 			case ')':
