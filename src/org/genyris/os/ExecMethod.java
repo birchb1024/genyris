@@ -195,7 +195,12 @@ public class ExecMethod extends AbstractMethod {
         // insert or update current variables
         for(int i = 0; i < envarray.length ; i++) {
             String[] toke = envarray[i].split("=");
-            currentEnv.put(toke[0], toke[1]);
+            if(toke.length == 1 ) {
+                currentEnv.put(toke[0], "");
+            }
+            if(toke.length > 1 ) {
+                currentEnv.put(toke[0], toke[1]);
+            }
         }
         List<String> envList = asListofKeqV(currentEnv);
         // END Eeewww...
