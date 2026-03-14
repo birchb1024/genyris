@@ -56,6 +56,7 @@ public abstract class BuiltinFunction  extends ApplicableFunction {
         interpreter.bindGlobalProcedureInstance(new ReplaceCdrFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new ReverseFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new SetFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SlashFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new SortFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new SymbolValueFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new SymbolPrefixFunction(interpreter));
