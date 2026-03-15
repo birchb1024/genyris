@@ -128,19 +128,32 @@ public class BuiltinInterpreterTests extends TestCase {
     }
 
     public void testPlingPair() throws Exception {
-        excerciseEval("(^(1 2)!left)","1");
-        excerciseEval("(^(1 2)!right)","(2)");
+        excerciseEval("(^(1 2)!^left)","left");
 
         excerciseEval("(^(q w e)!0)","q");
         excerciseEval("(^(q w e)!1)","w");
-        excerciseBadEval("(^(q w e)!(+ 0 1))");
+        excerciseEval("(^(q w e)!(+ 1 1))", "e");
+        excerciseEval("(^(q w e)!^1)", "w");
+
+        excerciseEval("(^(1 2)!left)","1");
+        excerciseEval("(^(1 2)!right)","(2)");
+        excerciseEval("(^(1 2)!.left)","1");
+        excerciseEval("(^(1 2)!.right)","(2)");
+
+        excerciseEval("(defvar ^index 2)","2");
+        excerciseEval("(^(a s d)!index)","d");
     }
 
     public void testPlingBignum() throws Exception {
         excerciseEval("(1!(+ .self .self))","2");
+        excerciseEval("(1;vars)","(.self .vars .classes)");
+        excerciseEval("(1!vars)","(.self .vars .classes)");
+        excerciseEval("(1!.vars)","(.self .vars .classes)");
     }
 
     public void testPlingString() throws Exception {
+        excerciseEval("('q';vars)","(.self .vars .classes)");
         excerciseEval("('q'!vars)","(.self .vars .classes)");
+        excerciseEval("('q'!.vars)","(.self .vars .classes)");
     }
 }

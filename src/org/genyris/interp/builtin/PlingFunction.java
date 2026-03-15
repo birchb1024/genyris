@@ -23,43 +23,34 @@ public class PlingFunction extends ApplicableFunction {
 			throws GenyrisException {
         Exp lhs = arguments[0].eval(env);
         Exp rhs = arguments[1];
-        if (lhs instanceof Dictionary) {
-            if (rhs instanceof DynamicSymbol) { // d!.w
-                Dictionary dict = (Dictionary) lhs;
-                return ((DynamicSymbol)rhs).eval(dict);
-            }
-            if (rhs instanceof SimpleSymbol) { // d!w
-                DynamicSymbol var = new DynamicSymbol((SimpleSymbol) rhs);
-                Dictionary dict = (Dictionary) lhs;
-                return var.eval(dict);
-            }
-            else {
-                    throw new GenyrisException("pling Dictionary unimplemented: " +  _interp.arrayToList(arguments));
-            }
-        } else if (lhs instanceof Pair) {
-            Pair p = (Pair)lhs;
-            if (rhs instanceof Bignum) {  // ^(q w e)!2
-                return p.nth(((Bignum)rhs).bigDecimalValue().intValue(), NIL);
-            }
-            PairEnvironment pe = new PairEnvironment(env, p);
-            if (rhs instanceof DynamicSymbol) {
-                return ((DynamicSymbol)rhs).eval(pe);
-            }
-            if (rhs instanceof SimpleSymbol) {
-                return new DynamicSymbol((SimpleSymbol)rhs).eval(pe);
-            }
-            throw new GenyrisException("pling on type Pair Unimplemented: " + _interp.arrayToList(arguments));
+        Environment E = lhs.makeEnvironment(env);
+
+        if ((lhs instanceof Dictionary || lhs instanceof StrinG || lhs instanceof Bignum ) && rhs instanceof SimpleSymbol) { // <dict>!w
+                rhs = new DynamicSymbol((SimpleSymbol) rhs);
         }
-        else {
-            Environment e = lhs.makeEnvironment(env);
-            if (rhs instanceof DynamicSymbol) {
-                return ((DynamicSymbol)rhs).eval(e);
+        if (lhs instanceof Pair &&  rhs instanceof Symbol) {
+            if ( rhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!left
+                return ((Pair) lhs).car();
             }
-            if (rhs instanceof SimpleSymbol) {
-                return new DynamicSymbol((SimpleSymbol)rhs).eval(e);
+            if ( rhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!right
+                return ((Pair) lhs).cdr();
             }
-            return rhs.eval(e);
-//		    throw new GenyrisException("pling Unimplemented " + _interp.arrayToList(arguments));
-	    }
+        }
+        if (lhs instanceof Pair && rhs instanceof DynamicSymbol) {
+            DynamicSymbol drhs = (DynamicSymbol) rhs;
+            Symbol slhs = drhs.getRealSymbol();
+            if ( slhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!.left
+                return ((Pair) lhs).car();
+            }
+            if ( slhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!.right
+                return ((Pair) lhs).cdr();
+            }
+        }
+        Exp erhs = rhs.eval(E);
+        if (lhs instanceof Pair && erhs instanceof Bignum) {
+            Pair p = (Pair)lhs;
+            return p.nth(((Bignum)erhs).bigDecimalValue().intValue(), NIL);
+        }
+        return erhs;
     }
 }
