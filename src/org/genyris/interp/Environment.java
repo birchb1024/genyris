@@ -14,32 +14,31 @@ import org.genyris.exception.GenyrisException;
 
 public interface Environment {
 
-    public Exp lookupVariableValue(Symbol symbol) throws UnboundException;
-    public Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException;
-    public Exp lookupLexicalVariableValue(SimpleSymbol symbol) throws UnboundException;
+    Exp lookupVariableValue(Symbol symbol) throws UnboundException;
+    Exp lookupDynamicVariableValue(DynamicSymbol symbol) throws UnboundException;
+    Exp lookupLexicalVariableValue(SimpleSymbol symbol) throws UnboundException;
 
-    public void defineVariable(Symbol symbol, Exp valu) throws GenyrisException;
-    public void defineLexicalVariable(SimpleSymbol symbol, Exp valu) throws GenyrisException;
-    public void defineDynamicVariable(DynamicSymbol symbol, Exp valu) throws GenyrisException;
+    void defineVariable(Symbol symbol, Exp valu) throws GenyrisException;
+    void defineLexicalVariable(SimpleSymbol symbol, Exp valu) throws GenyrisException;
+    void defineDynamicVariable(DynamicSymbol symbol, Exp valu) throws GenyrisException;
 
-    public void setVariableValue(Symbol symbol, Exp valu) throws UnboundException;
-    public void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException;
-    public void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException;
-
-
-    public String toString();
-
-    public Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol) throws UnboundException;
-
-    public SimpleSymbol getNil();
-
-    public Symbol internString(String symbolName);
+    void setVariableValue(Symbol symbol, Exp valu) throws UnboundException;
+    void setLexicalVariableValue(SimpleSymbol symbol, Exp valu) throws UnboundException;
+    void setDynamicVariableValue(DynamicSymbol symbol, Exp valu) throws UnboundException;
 
 
-    public Exp getSelf() throws UnboundException;
+    String toString();
 
-	public Internable getSymbolTable();
-    public boolean isBound(Symbol s);
+    Exp lookupInThisClassAndSuperClasses(DynamicSymbol symbol) throws UnboundException;
+
+    SimpleSymbol getNil();
+
+    Symbol internString(String symbolName);
+
+    Exp getSelf() throws UnboundException;
+
+	Internable getSymbolTable();
+    boolean isBound(Symbol s);
 
 
 }

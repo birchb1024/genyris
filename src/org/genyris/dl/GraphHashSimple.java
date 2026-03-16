@@ -249,7 +249,7 @@ public class GraphHashSimple extends AbstractGraph {
     }
 
 
-    public Exp subjects(Exp NIL) throws AccessException {
+    public Exp subjects(Exp NIL) {
         Iterator iter = subjects.values().iterator();
 		Set<Symbol> Ses = new TreeSet();
         while (iter.hasNext()) {

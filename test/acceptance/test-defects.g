@@ -153,7 +153,7 @@ assert (a-missing-function)
 
 defmacro sys:procedure-missing(&rest args) ^(unboundsymbol)
 
-assertEqual Biscuit (left (some-undefined-function)!classes)
+assertEqual Biscuit (left (some-undefined-function);classes)
  
 #
 # Issue 21: Smiley Crash

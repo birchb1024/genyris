@@ -1,17 +1,17 @@
 package org.genyris.dl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-import org.genyris.core.Atom;
-import org.genyris.core.Exp;
-import org.genyris.core.Internable;
-import org.genyris.core.Symbol;
-import org.genyris.core.Visitor;
+import org.genyris.core.*;
 import org.genyris.exception.AccessException;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.Closure;
+import org.genyris.interp.DynamicEnvironment;
 import org.genyris.interp.Environment;
+import org.genyris.interp.PairEnvironment;
 
 public abstract class AbstractGraph extends Atom {
 
@@ -19,7 +19,7 @@ public abstract class AbstractGraph extends Atom {
         super();
     }
 
-    public abstract Exp subjects(Exp NIL) throws AccessException;
+    public abstract Exp subjects(Exp NIL);
 
     public abstract Exp asTripleList(Exp NIL);
 
@@ -98,4 +98,27 @@ public abstract class AbstractGraph extends Atom {
     }
 
     public abstract ArrayList<Triple> toSortedTriplesArray();
+
+    public Environment makeEnvironment(Environment parent) throws GenyrisException {
+        return new GraphEnvironment(parent, this);
+    }
+
+    public Exp shift(Symbol sub, Environment env) throws GenyrisException {
+        Symbol NIL = env.getNil();
+        AbstractGraph g;
+        Pair subs = (Pair)this.subjects(NIL);
+        if( subs.length(NIL) == 1 && subs.car().equals(NIL) ) {
+            return this.getList(NIL, sub, NIL);
+        }
+        else {
+            g = this.select(sub, null, null, null, env);
+            GraphHashSimple result = new GraphHashSimple();
+            Iterator iter = g.iterator();
+            while(iter.hasNext()) {
+                Triple item = (Triple)iter.next();
+                result.add(new Triple(NIL, item.predicate, item.object));
+            }
+            return result;
+        }
+    }
 }

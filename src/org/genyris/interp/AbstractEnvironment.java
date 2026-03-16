@@ -5,11 +5,7 @@
 //
 package org.genyris.interp;
 
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
-import org.genyris.core.Internable;
-import org.genyris.core.SimpleSymbol;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 
 public abstract class AbstractEnvironment implements Environment {

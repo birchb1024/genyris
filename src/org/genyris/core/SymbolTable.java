@@ -44,6 +44,7 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _lambdaq;
 	private SimpleSymbol _LAZYPROC;
 	private SimpleSymbol _left;
+	private SimpleSymbol _length;
     private SimpleSymbol _lineNumber;
 	private SimpleSymbol _NAME;
     private SimpleSymbol NIL;
@@ -71,6 +72,7 @@ public class SymbolTable implements Internable {
 	private SimpleSymbol _subclasses;
 	private SimpleSymbol _SUBCLASSOF;
 	private SimpleSymbol _SUBJECT;
+	private SimpleSymbol _SUBJECTS;
 	private SimpleSymbol _superclasses;
     private SimpleSymbol _TAILCALL;
 	private SimpleSymbol _template;
@@ -96,6 +98,7 @@ public class SymbolTable implements Internable {
       _superclasses = bindKeyword(Constants.SUPERCLASSES);
       _classname = bindKeyword(Constants.CLASSNAME);
       _left = bindKeyword(Constants.LEFT);
+      _length = bindKeyword(Constants.LENGTH);
       _right = bindKeyword(Constants.RIGHT);
       _lineNumber = bindKeyword(Constants.LINENUMBER);
       _filename = bindKeyword(Constants.FILENAME);
@@ -153,6 +156,7 @@ public class SymbolTable implements Internable {
     _SOURCE = bindKeyword(String.valueOf(Constants.SOURCE));
 
     _SUBJECT = bindKeyword(String.valueOf(Constants.SUBJECT));
+    _SUBJECTS = bindKeyword(String.valueOf(Constants.SUBJECTS));
     _PREDICATE = bindKeyword(String.valueOf(Constants.PREDICATE));
     _OBJECT = bindKeyword(String.valueOf(Constants.OBJECT));
     _JAVAWRAPPER = bindKeyword(String.valueOf(Constants.JAVAWRAPPER));
@@ -197,6 +201,20 @@ public class SymbolTable implements Internable {
         } else {
             _table.put(newSym.getPrintName(), newSym);
             return newSym;
+        }
+    }
+    public Symbol internAny(Exp x) throws GenyrisException {
+        if (x instanceof Symbol) {
+            return internSymbol((Symbol)x);
+        }
+        if (x instanceof StrinG) {
+            return internString(((StrinG) x).toString());
+        }
+        if (x instanceof Bignum) {
+            return internString(((Bignum) x).bigDecimalValue().toString());
+        }
+        else {
+            throw new GenyrisException("cannot intern a " + x.getClass().getName());
         }
     }
 
@@ -254,7 +272,10 @@ public class SymbolTable implements Internable {
 		return _left;
 	}
 
-	public SimpleSymbol RIGHT() {
+    @Override
+    public SimpleSymbol LENGTH() { return _length; }
+
+    public SimpleSymbol RIGHT() {
 		return _right;
 	}
 
@@ -424,7 +445,13 @@ public class SymbolTable implements Internable {
 	public SimpleSymbol SUBJECT() {
 		return _SUBJECT;
 	}
-	public SimpleSymbol PREDICATE() {
+
+    @Override
+    public SimpleSymbol SUBJECTS() {
+        return null;
+    }
+
+    public SimpleSymbol PREDICATE() {
 		return _PREDICATE;
 	}
 	public SimpleSymbol OBJECT() {

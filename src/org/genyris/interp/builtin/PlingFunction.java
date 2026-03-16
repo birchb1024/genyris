@@ -8,6 +8,8 @@ package org.genyris.interp.builtin;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.genyris.core.*;
+import org.genyris.dl.AbstractGraph;
+import org.genyris.dl.GraphHashSimple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.*;
 
@@ -28,26 +30,33 @@ public class PlingFunction extends ApplicableFunction {
         if ((lhs instanceof Dictionary || lhs instanceof StrinG || lhs instanceof Bignum ) && rhs instanceof SimpleSymbol) { // <dict>!w
                 rhs = new DynamicSymbol((SimpleSymbol) rhs);
         }
-        if (lhs instanceof Pair &&  rhs instanceof Symbol) {
-            if ( rhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!left
-                return ((Pair) lhs).car();
-            }
-            if ( rhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!right
-                return ((Pair) lhs).cdr();
+        if (lhs instanceof Pair) {
+            if (rhs instanceof Symbol) {
+                if ( rhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!left
+                    return ((Pair) lhs).car();
+                }
+                if ( rhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!right
+                    return ((Pair) lhs).cdr();
+                }
+            } else if (rhs instanceof DynamicSymbol) {
+                DynamicSymbol drhs = (DynamicSymbol) rhs;
+                Symbol slhs = drhs.getRealSymbol();
+                if ( slhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!.left
+                    return ((Pair) lhs).car();
+                }
+                if ( slhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!.right
+                    return ((Pair) lhs).cdr();
+                }
+            } else if (rhs instanceof Bignum) {
+                Pair p = (Pair)lhs;
+                return p.nth(((Bignum)rhs).bigDecimalValue().intValue(), NIL);
             }
         }
-        if (lhs instanceof Pair && rhs instanceof DynamicSymbol) {
-            DynamicSymbol drhs = (DynamicSymbol) rhs;
-            Symbol slhs = drhs.getRealSymbol();
-            if ( slhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!.left
-                return ((Pair) lhs).car();
-            }
-            if ( slhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!.right
-                return ((Pair) lhs).cdr();
-            }
+        if (lhs instanceof AbstractGraph && rhs instanceof Symbol) {
+            return ((AbstractGraph)lhs).shift((Symbol)rhs, env);
         }
         Exp erhs = rhs.eval(E);
-        if (lhs instanceof Pair && erhs instanceof Bignum) {
+        if (erhs instanceof Bignum && lhs instanceof Pair) {
             Pair p = (Pair)lhs;
             return p.nth(((Bignum)erhs).bigDecimalValue().intValue(), NIL);
         }

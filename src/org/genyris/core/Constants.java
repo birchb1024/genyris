@@ -119,6 +119,7 @@ public class Constants {
 		public static final String PLING = "pling";
 		public static final String SOURCE = "source";
 		public static final String SUBJECT = "subject";
+		public static final String SUBJECTS = "subjects";
 		public static final String PREDICATE = "predicate";
 		public static final String OBJECT = "object";
 		public static final String JAVA = "Java";
