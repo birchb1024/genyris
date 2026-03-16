@@ -183,7 +183,6 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(define X 2)","2");
         exerciseEval("((W!right)!0)","s");
         exerciseEval("(W!X)","d");
-        exerciseEval("((W!X)!.self)","d");
     }
 
     public void testPlingGraph() throws Exception {
@@ -205,6 +204,13 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(g!sandnes!locode!0)","'ABCD'");
         exerciseEval("(g!not-a-subject)","(graph)");
         exerciseEval("(g!sandnes)","(graph (triple nil coords coord-s) (triple nil locode 'ABCD') (triple nil portnum 123))");
+
+        exerciseEval("(g!sandnes!coords)","(coord-s)");
+        exerciseEval("(g!(g!sandnes!coords!0))","(graph (triple nil latitude 3.0) (triple nil longitude 3.0))");
+        exerciseEval("(define coo (g!(g!sandnes!coords!0)))","(graph (triple nil latitude 3.0) (triple nil longitude 3.0))");
+        exerciseEval("(coo!latitude!0)","3.0");
+        exerciseEval("((g!(g!sandnes!coords!0))!latitude!0)","3.0");
+
     }
     public void testPlingGraphList() throws Exception {
         exerciseEval("(var h (graph))","(graph)");

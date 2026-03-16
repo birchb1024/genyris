@@ -56,9 +56,12 @@ public class PlingFunction extends ApplicableFunction {
             return ((AbstractGraph)lhs).shift((Symbol)rhs, env);
         }
         Exp erhs = rhs.eval(E);
-        if (erhs instanceof Bignum && lhs instanceof Pair) {
-            Pair p = (Pair)lhs;
-            return p.nth(((Bignum)erhs).bigDecimalValue().intValue(), NIL);
+        if ((lhs instanceof Pair && erhs instanceof Bignum)
+                || ( lhs instanceof AbstractGraph && erhs instanceof Symbol) ) {
+            Exp[] next = new  Exp[2];
+            next[0] = arguments[0]  ;
+            next[1] = erhs;
+            return bindAndExecute(proc, next, env);
         }
         return erhs;
     }
