@@ -34,20 +34,29 @@ public class GraphFunction extends ApplicableFunction {
 
 	private void addTripleFromList(AbstractGraph ts, Exp exp) throws GenyrisException {
 		// Accept either (s p o) or ^(triple s p o) or a Triple
-		if(exp instanceof Pair) {
-			if(exp.car().equals(_tripleSymbol )) {
-				exp = exp.cdr();
-			}
-			Symbol subject = toSymbol(exp.car());
-			Symbol predicate = toSymbol(exp.cdr().car());
-			Exp object = exp.cdr().cdr().car();
-			ts.add(new Triple(subject, predicate, object));
-		}
-		else if(exp instanceof Triple) {
-			ts.add((Triple)exp);
-		}
-		else {
-			throw new GenyrisException("unknown type in graph argument:" + exp.toString());
+        // also accept (s = o) -> (triple nil s 0)
+        switch (exp) {
+            case Pair ep:
+                if( ep.length(NIL) == 1 && ep.cdr() != NIL)  { // (s = o)
+                    if (! (ep.car() instanceof Symbol)) {
+                        throw new GenyrisException("triple predicate must be a symbol in: " + exp.toString());
+                    }
+                    ts.add(new Triple(NIL, (Symbol)ep.car(), ep.cdr()));
+                    return;
+                }
+                if(ep.length(NIL) == 4 && ep.car().equals(_tripleSymbol )) {
+                    ep = (Pair)ep.cdr();
+                }
+                Symbol subject = toSymbol(ep.car());
+                Symbol predicate = toSymbol(ep.cdr().car());
+                Exp object = ep.cdr().cdr().car();
+                ts.add(new Triple(subject, predicate, object));
+                break;
+            case Triple t:
+                ts.add(t);
+                break;
+            default:
+                    throw new GenyrisException("unknown type in graph argument:" + exp.toString());
 		}
 	}
 

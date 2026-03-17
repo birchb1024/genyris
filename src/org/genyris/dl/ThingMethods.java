@@ -50,11 +50,12 @@ public class ThingMethods {
             Exp results = NIL;
             ExpWithEmbeddedClasses self = (ExpWithEmbeddedClasses) env
                     .getSelf();
-            checkArguments(arguments, 1);
+            checkArguments(arguments, 0, 1);
+            Exp subject = (arguments.length == 1) ? arguments[0]: NIL;
             Exp classes = self.getClasses(env);
             // TODO move this code int ExpWithEmbeddedClasses as a method
             while (classes != NIL) {
-                results = new Pair(new Triple(toSymbol(arguments[0]), env.getSymbolTable()
+                results = new Pair(new Triple(toSymbol(subject), env.getSymbolTable()
                         .TYPE(), classes.car()), results);
                 classes = classes.cdr();
             }
