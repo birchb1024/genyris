@@ -5,10 +5,7 @@
 //
 package org.genyris.interp;
 
-import org.genyris.core.DynamicSymbol;
-import org.genyris.core.Exp;
-import org.genyris.core.Pair;
-import org.genyris.core.Symbol;
+import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
 
 public class PairEnvironment extends ExpressionEnvironment {
@@ -41,7 +38,17 @@ public class PairEnvironment extends ExpressionEnvironment {
 		} else {
 			return super.lookupDynamicVariableValue(dsym);
 		}
+	}
 
+	public Exp lookupLexicalVariableValue(SimpleSymbol sym)
+			throws UnboundException {
+		if (sym == _left) {
+			return ((Pair)_theExpression).car();
+		} else if (sym == _right) {
+			return ((Pair)_theExpression).cdr();
+		} else {
+			return super.lookupLexicalVariableValue(sym);
+		}
 	}
 
 }
