@@ -31,24 +31,26 @@ public class PlingFunction extends ApplicableFunction {
                 rhs = new DynamicSymbol((SimpleSymbol) rhs);
         }
         if (lhs instanceof Pair) {
-            if (rhs instanceof SimpleSymbol) {
-                SimpleSymbol ss =  (SimpleSymbol) rhs;
-                return ((Pair)lhs).makeEnvironment(env).lookupLexicalVariableValue(ss);
-            } else if (rhs instanceof Bignum) {
-                Pair p = (Pair)lhs;
-                return p.nth(((Bignum)rhs).bigDecimalValue().intValue(), NIL);
+            switch (rhs) {
+                case SimpleSymbol ss :
+                    return ((Pair)lhs).makeEnvironment(env).lookupLexicalVariableValue(ss);
+                case DynamicSymbol ds :
+                    return ((Pair)lhs).makeEnvironment(env).lookupDynamicVariableValue(ds);
+                case Bignum bn:
+                    return ((Pair)lhs).nth(bn.bigDecimalValue().intValue(), NIL);
+                default:
             }
         }
         if (lhs instanceof AbstractGraph && rhs instanceof Symbol) {
             return ((AbstractGraph)lhs).shift((Symbol)rhs, env);
         }
         Exp erhs = rhs.eval(E);
-        if (   (lhs instanceof Pair && erhs instanceof Bignum)
-            || (lhs instanceof AbstractGraph && erhs instanceof Symbol) ) {
-            Exp[] next = new  Exp[2];
-            next[0] = arguments[0]  ;
-            next[1] = erhs;
-            return bindAndExecute(proc, next, env);
+        if (lhs instanceof Pair && erhs instanceof Bignum) {
+                Pair p = (Pair)lhs;
+                return p.nth(((Bignum)erhs).bigDecimalValue().intValue(), NIL);
+        }
+        if (lhs instanceof AbstractGraph && erhs instanceof Symbol) {
+            return ((AbstractGraph)lhs).shift((Symbol)erhs, env);
         }
         return erhs;
     }

@@ -136,8 +136,8 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(^(q w e)!^1)", "w");
 
         exerciseEval("(^(1 2)!left)", "1");
+        exerciseEval("(^(1 2)!.left)" ,"1");
         exerciseEval("(^(1 2)!right)", "(2)");
-        //exerciseEval("(^(1 2)!.left)" ,"1"); // BORK BORK BORK
         exerciseEval("(^(1 2)!.right)","(2)");
 
         exerciseEval("(defvar ^index 2)","2");
@@ -146,7 +146,7 @@ public class BuiltinInterpreterTests extends TestCase {
 
     public void testPlingPairSource() throws Exception {
         exerciseEval("(^(1 2)!line-number)","1");
-        exerciseEval("(^(1 2)!.line-number)","2"); // probably wrong ?
+        exerciseEval("(^(1 2)!.line-number)","1");
     }
     public void testPlingDictionary() throws Exception {
         exerciseEval("(var d (dict (.age = 54) (.name = 'Jane')))","(dict (.age = 54) (.name = 'Jane'))");
@@ -183,11 +183,19 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(L!(L!0))","2");
         exerciseEval("(L!(L!(L!0)))","3");
 
+    }
+    public void testPlingBorken() throws Exception {
         exerciseEval("(define W ^(a s d))","(a s d)");
         exerciseEval("(define X 2)","2");
         exerciseEval("((W!right)!0)","s");
-        // exerciseEval("(W!X)","d"); // BORK BORK BORK
+        exerciseEval("(W!(the X))","d"); // BORK BORK BORK
+
+        exerciseEval("(define G (graph ^(a s d) ^(S P O)))","(graph (triple S P O) (triple a s d))"); // BORK BORK BORK
+        exerciseEval("(define S ^a)","a");
+        exerciseEval("(G!S)","(graph (triple nil P O))");
+        exerciseEval("(G!(the S))","(graph (triple nil s d))");
     }
+
 
     public void testPlingGraph() throws Exception {
         exerciseEval("(var g (graph))","(graph)");
