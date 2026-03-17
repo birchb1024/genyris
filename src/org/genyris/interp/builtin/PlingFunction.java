@@ -31,22 +31,9 @@ public class PlingFunction extends ApplicableFunction {
                 rhs = new DynamicSymbol((SimpleSymbol) rhs);
         }
         if (lhs instanceof Pair) {
-            if (rhs instanceof Symbol) {
-                if ( rhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!left
-                    return ((Pair) lhs).car();
-                }
-                if ( rhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!right
-                    return ((Pair) lhs).cdr();
-                }
-            } else if (rhs instanceof DynamicSymbol) {
-                DynamicSymbol drhs = (DynamicSymbol) rhs;
-                Symbol slhs = drhs.getRealSymbol();
-                if ( slhs == _interp.getSymbolTable().LEFT()) { // ^(1 2)!.left
-                    return ((Pair) lhs).car();
-                }
-                if ( slhs == _interp.getSymbolTable().RIGHT()) { // ^(1 2)!.right
-                    return ((Pair) lhs).cdr();
-                }
+            if (rhs instanceof SimpleSymbol) {
+                SimpleSymbol ss =  (SimpleSymbol) rhs;
+                return ((Pair)lhs).makeEnvironment(env).lookupLexicalVariableValue(ss);
             } else if (rhs instanceof Bignum) {
                 Pair p = (Pair)lhs;
                 return p.nth(((Bignum)rhs).bigDecimalValue().intValue(), NIL);
@@ -56,8 +43,8 @@ public class PlingFunction extends ApplicableFunction {
             return ((AbstractGraph)lhs).shift((Symbol)rhs, env);
         }
         Exp erhs = rhs.eval(E);
-        if ((lhs instanceof Pair && erhs instanceof Bignum)
-                || ( lhs instanceof AbstractGraph && erhs instanceof Symbol) ) {
+        if (   (lhs instanceof Pair && erhs instanceof Bignum)
+            || (lhs instanceof AbstractGraph && erhs instanceof Symbol) ) {
             Exp[] next = new  Exp[2];
             next[0] = arguments[0]  ;
             next[1] = erhs;
