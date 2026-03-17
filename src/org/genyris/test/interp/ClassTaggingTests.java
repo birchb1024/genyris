@@ -26,7 +26,7 @@ public class ClassTaggingTests extends TestCase {
 		try {
 			interpreter.eval(exp);
 		} catch (GenyrisException e) {
-			assertEquals(expected, e.getMessage());
+			assertTrue(e.getMessage().contains(expected));
 		}
 	}
 

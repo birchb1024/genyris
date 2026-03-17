@@ -308,7 +308,7 @@ public class Parser {
     public static Exp parseSingleExpressionFromString(Internable table,
             String script) throws GenyrisException {
         InStream input = new UngettableInStream(new StringInStream(script));
-        Parser parser = new Parser(table, input);
+        Parser parser = new ParserSource(table, input);
         Exp expression = parser.read();
         return expression;
     }
