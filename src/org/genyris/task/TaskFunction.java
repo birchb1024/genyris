@@ -17,7 +17,7 @@ public abstract class TaskFunction extends ApplicableFunction {
     	Dictionary result = new Dictionary(env);
     	result.addProperty(env, "state", new StrinG(tr.getState().toString()));
      	result.addProperty(env, "name", new StrinG(tr.getName()));
-     	result.addProperty(env, "id", new Bignum(tr.getId()));
+     	result.addProperty(env, "id", new Bignum(tr.threadId()));
         return result;
        }
 

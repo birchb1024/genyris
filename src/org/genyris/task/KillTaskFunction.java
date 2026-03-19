@@ -24,7 +24,7 @@ public class KillTaskFunction extends TaskFunction {
         Thread retval = null;
         Thread.enumerate(threads);
         for ( int i=0 ; i < threads.length; i++) {
-            if ( threads[i].getId( ) == id ) {
+            if ( threads[i].threadId( ) == id ) {
                 retval = threads[i];
             	break;
             }

@@ -6,6 +6,8 @@
 package org.genyris.io;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,10 +33,10 @@ public class PrefixMapper {
     		abbrev = "";
     	}
         try {
-            new URL(uri);
+            new URI(uri);
         }
-        catch (MalformedURLException e) {
-            throw new GenyrisException("namespace for '" + abbrev +"' is not a valid URL: " + uri);
+        catch (URISyntaxException e) {
+            throw new GenyrisException("namespace for '" + abbrev +"' is not a valid URI: " + uri);
         }
         if(abbrev.startsWith(String.valueOf(_dynaChar))) {
             throw new GenyrisException("cannot start a abbreviation with " + _dynaChar + " in parse: " + abbrev);

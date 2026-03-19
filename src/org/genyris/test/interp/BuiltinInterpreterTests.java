@@ -34,6 +34,20 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("foo", "23");
     }
 
+    public void testExerciseEvalEnvironment() throws Exception {
+        exerciseEval("(1)", "1");
+        exerciseEval("('a')", "'a'");
+        exerciseEval("(^(1 2 3))", "(1 2 3)");
+        exerciseEval("((dict (.s = 2)))", "(dict (.s = 2))");
+        exerciseEval("((graph ^(s p o)))", "(graph (triple s p o))");
+        exerciseEval("(^foo)", "foo");
+        exerciseBadEval("(foo)");
+
+        exerciseEval("(defvar (quote foo) 23)", "23");
+        exerciseEval("foo", "23");
+        exerciseEval("(foo)", "23");
+    }
+
     public void testNth() throws Exception {
         exerciseEval("(nth 0 ^(a b c))", "a");
         exerciseEval("(nth 1 ^(a b c))", "b");
@@ -142,6 +156,7 @@ public class BuiltinInterpreterTests extends TestCase {
 
         exerciseEval("(defvar ^index 2)","2");
         exerciseEval("(^(a s d)!(the index))","d");
+        exerciseEval("(^(a s d)!(index))","d");
     }
 
     public void testPlingPairSource() throws Exception {
@@ -184,16 +199,20 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(L!(L!(L!0)))","3");
 
     }
-    public void testPlingBorken() throws Exception {
+    public void testPlingMiscellany() throws Exception {
         exerciseEval("(define W ^(a s d))","(a s d)");
         exerciseEval("(define X 2)","2");
         exerciseEval("((W!right)!0)","s");
-        exerciseEval("(W!(the X))","d"); // BORK BORK BORK
+        exerciseEval("(W!(the X))","d");
+        exerciseEval("(W!(X))","d");
 
-        exerciseEval("(define G (graph ^(a s d) ^(S P O)))","(graph (triple S P O) (triple a s d))"); // BORK BORK BORK
+        exerciseEval("(define G (graph ^(a s d) ^(S P O)))","(graph (triple S P O) (triple a s d))");
         exerciseEval("(define S ^a)","a");
+        exerciseEval("(define dollar the)","<EagerProc: the>");
         exerciseEval("(G!S)","(graph (triple nil P O))");
+        exerciseEval("(G!(S))","(graph (triple nil s d))");
         exerciseEval("(G!(the S))","(graph (triple nil s d))");
+        exerciseEval("(G!$S)","(graph (triple nil s d))");
     }
 
 
