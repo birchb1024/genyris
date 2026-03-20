@@ -167,7 +167,7 @@
 	</target>
 
 	<target name="only-compile">
-		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="17" target="17" verbose="no" includeantruntime="false">
+		<javac srcdir="${src.dir}" destdir="${src.compile.dir}" classpathref="src.compile.classpath" source="25" target="25" verbose="no" includeantruntime="false">
 			<include name="org/**" />
 			<include name="com/**" />
 			<compilerarg value="-Xlint:deprecation"/>
