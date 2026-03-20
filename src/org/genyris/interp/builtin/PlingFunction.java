@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.genyris.core.*;
 import org.genyris.dl.AbstractGraph;
 import org.genyris.dl.GraphHashSimple;
+import org.genyris.dl.Triple;
 import org.genyris.exception.GenyrisException;
 import org.genyris.interp.*;
 
@@ -27,7 +28,7 @@ public class PlingFunction extends ApplicableFunction {
         Exp rhs = arguments[1];
         Environment E = lhs.makeEnvironment(env);
 
-        if ((lhs instanceof Dictionary || lhs instanceof StrinG || lhs instanceof Bignum ) && rhs instanceof SimpleSymbol) { // <dict>!w
+        if ((lhs instanceof Bignum || lhs instanceof StrinG || lhs instanceof Triple|| lhs instanceof Dictionary ) && rhs instanceof SimpleSymbol) { // <dict>!w
                 rhs = new DynamicSymbol((SimpleSymbol) rhs);
         }
         if (lhs instanceof Pair) {

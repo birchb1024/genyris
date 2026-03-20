@@ -216,6 +216,21 @@ public class BuiltinInterpreterTests extends TestCase {
     }
 
 
+    public void testSemiTriple() throws Exception {
+        exerciseEval("(var tr (triple ^s ^d 7))","(triple s d 7)");
+
+        exerciseEval("((triple ^s ^d 7);object)","7");
+        exerciseEval("(tr;predicate)","d");
+        exerciseEval("(tr;subject)","s");
+    }
+
+    public void testPlingTriple() throws Exception {
+        exerciseEval("((triple ^s ^d 7)!object)","7");
+
+        exerciseEval("(var tr (triple ^s ^d 7))","(triple s d 7)");
+        exerciseEval("(tr!predicate)","d");
+        exerciseEval("(tr!subject)","s");
+    }
     public void testPlingGraph() throws Exception {
         exerciseEval("(var g (graph))","(graph)");
         exerciseEval("(g(.put ^sandnes ^locode 'ABCD'))","(graph (triple sandnes locode 'ABCD'))");

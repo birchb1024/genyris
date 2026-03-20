@@ -33,9 +33,22 @@ public class TripleEnvironment extends ExpressionEnvironment {
 				+ _theExpression.toString());
 	}
 
+	public Exp lookupLexicalVariableValue(Symbol sym)
+			throws UnboundException {
+		if (sym == _subject) { // TODO equals not ==
+			return ((Triple) _theExpression).subject;
+		} else if (sym == _predicate) {
+			return ((Triple) _theExpression).predicate;
+		} else if (sym == _object) {
+			return ((Triple) _theExpression).object;
+		} else {
+			return super.lookupLexicalVariableValue((SimpleSymbol) sym);
+		}
+	}
+
 	public Exp lookupDynamicVariableValue(DynamicSymbol dsym)
 			throws UnboundException {
-		Symbol sym = dsym.getRealSymbol();
+        Symbol sym =dsym.getRealSymbol();
 		if (sym == _subject) { // TODO equals not ==
 			return ((Triple) _theExpression).subject;
 		} else if (sym == _predicate) {
@@ -45,7 +58,5 @@ public class TripleEnvironment extends ExpressionEnvironment {
 		} else {
 			return super.lookupDynamicVariableValue(dsym);
 		}
-
-	}
-
+    }
 }
