@@ -106,12 +106,22 @@ public abstract class AbstractGraph extends Atom {
     public Exp shift(Symbol sub, Environment env) throws GenyrisException {
         Symbol NIL = env.getNil();
         AbstractGraph g;
-        Pair subs = (Pair)this.subjects(NIL);
+        GraphHashSimple result = new GraphHashSimple();
+        Exp subjects = this.subjects(NIL);
+        // an empty graph, return nil
+        if (subjects == NIL ) {
+            return NIL;
+        }
+        if (!(subjects instanceof Pair) ) {
+            throw new GenyrisException("subjects are not a list! This should never happen.");
+        }
+        // a graph with just one subject, NIL, return a List of values
+        Pair subs = (Pair)subjects;
         if( subs.length(NIL) == 1 && subs.car().equals(NIL) ) {
             return this.getList(NIL, sub, NIL);
         }
+        // strip out all the other triples, leave the ones with this subect, and set subjects to NIL
         g = this.select(sub, null, null, null, env);
-        GraphHashSimple result = new GraphHashSimple();
         Iterator iter = g.iterator();
         while(iter.hasNext()) {
             Triple item = (Triple)iter.next();

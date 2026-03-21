@@ -162,6 +162,11 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(asString(intern ^|https://foo.bar/quux|))","'https://foo.bar/quux'");
     }
 
+    public void testPlingWithNil() throws Exception {
+        exerciseEval("((graph)!asd)","nil");
+        exerciseEval("(nil!nil)","nil");
+    }
+
     public void testPlingPair() throws Exception {
         exerciseEval("(^(1 2)!^left)","left");
 
