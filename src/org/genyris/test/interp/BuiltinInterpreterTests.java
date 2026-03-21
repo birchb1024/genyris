@@ -48,6 +48,20 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(foo)", "23");
     }
 
+    public void testMath() throws Exception {
+        exerciseEval("(+ 2 3)","5");
+        exerciseEval("(- 2 3)","-1");
+        exerciseEval("(* 2 3)","6");
+        exerciseEval("(scale (/ 48 2) 0)","24");
+        exerciseEval("(% 3 2)","1");
+        exerciseEval("(< 2 3)","true");
+        exerciseEval("(> 2 3)","nil");
+        exerciseEval("(< 3 2)","nil");
+        exerciseEval("(> 3 2)","true");
+        exerciseEval("(power 2 10)","1024");
+        exerciseEval("(scale (sqrt 2) 10)","1.4142135624");
+    }
+
     public void testNth() throws Exception {
         exerciseEval("(nth 0 ^(a b c))", "a");
         exerciseEval("(nth 1 ^(a b c))", "b");

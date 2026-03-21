@@ -50,15 +50,16 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
     }
 
     public static void bindFunctionsAndMethods(Interpreter interpreter) throws UnboundException, GenyrisException {
-        interpreter.bindGlobalProcedureInstance(new PlusFunction(interpreter));
-        interpreter.bindGlobalProcedureInstance(new MinusFunction(interpreter));
-        interpreter.bindGlobalProcedureInstance(new MultiplyFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new DivideFunction(interpreter));
-        interpreter.bindGlobalProcedureInstance(new RemainderFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new GreaterThanFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new LessThanFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new MinusFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new MultiplyFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new PlusFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new PowerFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new RemainderFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new ScaleFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SquareRootFunction(interpreter));
     }
 
 }

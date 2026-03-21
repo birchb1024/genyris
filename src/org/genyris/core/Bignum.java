@@ -119,6 +119,10 @@ public class Bignum extends Atom  implements Comparable {
 		return (new Bignum(_value.remainder(other._value)));
 	}
 
+	public Exp sqrt() {
+		return new Bignum(_value.sqrt(new MathContext(100000)));
+	}
+
 	public double doubleValue() {
 		return _value.doubleValue();
 	}
