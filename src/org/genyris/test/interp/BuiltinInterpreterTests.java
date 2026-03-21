@@ -62,6 +62,13 @@ public class BuiltinInterpreterTests extends TestCase {
         exerciseEval("(scale (sqrt 2) 10)","1.4142135624");
     }
 
+    public void testMathTrigonometry() throws Exception {
+        exerciseEval("(@ns math 'http://www.genyris.org/lang/math#')math:pi","3.1415926535897932384626433832795028841971");
+        exerciseEval("(@ns math 'http://www.genyris.org/lang/math#')(scale (sin math:pi) 6)","0.000000");
+        exerciseEval("(@ns math 'http://www.genyris.org/lang/math#')(scale (cos math:pi) 6)","-1.000000");
+        exerciseEval("(@ns math 'http://www.genyris.org/lang/math#')(scale (atan2 1 2) 9)","0.463647609");
+    }
+
     public void testNth() throws Exception {
         exerciseEval("(nth 0 ^(a b c))", "a");
         exerciseEval("(nth 1 ^(a b c))", "b");

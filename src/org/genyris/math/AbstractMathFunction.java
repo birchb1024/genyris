@@ -60,6 +60,9 @@ public abstract class AbstractMathFunction extends ApplicableFunction {
         interpreter.bindGlobalProcedureInstance(new RemainderFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new ScaleFunction(interpreter));
         interpreter.bindGlobalProcedureInstance(new SquareRootFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new SinFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new CosFunction(interpreter));
+        interpreter.bindGlobalProcedureInstance(new Atan2Function(interpreter));
     }
 
 }

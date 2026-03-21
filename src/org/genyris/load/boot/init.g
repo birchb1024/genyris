@@ -7,6 +7,7 @@
 @ns sys "http://www.genyris.org/lang/system#"
 @ns u "http://www.genyris.org/lang/utilities#"
 @ns date "http://www.genyris.org/lang/date#"
+@ns math "http://www.genyris.org/lang/math#"
 
 defvar ^sys:path ^('.')
 class syn:Keyword(SimpleSymbol)
@@ -78,6 +79,8 @@ System
        "%a/lib" (.format (System.HOME))
 
 def *shutdown-hook* ()
+
+var math:pi 3.1415926535897932384626433832795028841971
 
 #
 # Load source functions and classes

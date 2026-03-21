@@ -120,7 +120,19 @@ public class Bignum extends Atom  implements Comparable {
 	}
 
 	public Exp sqrt() {
-		return new Bignum(_value.sqrt(new MathContext(100000)));
+		return new Bignum(Math.sqrt(_value.doubleValue()));
+	}
+
+	public Exp sin() {
+		return new Bignum(Math.sin(_value.floatValue()));
+	}
+
+	public Exp cos() {
+		return new Bignum(Math.cos(_value.floatValue()));
+	}
+
+	public Exp atan2(Bignum other) {
+		return new Bignum(Math.atan2(_value.floatValue(), other._value.floatValue()));
 	}
 
 	public double doubleValue() {
