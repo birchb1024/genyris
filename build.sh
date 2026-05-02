@@ -103,7 +103,7 @@ target_git_info() {
     SPECIFICATION_VERSION="${GIT_WORKSPACE_SPECIFICATION_VERSION}"
 
     # Emulate Ant's <buildnumber>: read/increment a counter file
-    BUILD_NUMBER_FILE="${GIT_WORKSPACE_VERSION}-build.number"
+    BUILD_NUMBER_FILE="${GIT_WORKSPACE_VERSION}-sh.build.number"
     if [[ -f "${BUILD_NUMBER_FILE}" ]]; then
         BUILD_NUMBER="$(cat "${BUILD_NUMBER_FILE}")"
         BUILD_NUMBER=$(( BUILD_NUMBER + 1 ))

@@ -56,9 +56,9 @@
 #
 # (1 2)
 #
-# With shorthand syntax ! the expression (shift (shift (shift (shift G2 ^q) ^j) ^a) ^s) may become
+# With shorthand syntax ; the expression (shift (shift (shift (shift G2 ^q) ^j) ^a) ^s) may become
 #
-#  G2!^q!^j!^a!^s
+#  G2;^q;^j;^a;^s
 #
 
 # given a graph `alpha` containing
@@ -84,7 +84,7 @@
 #        url ('https://www.2sandnessjo.no/webcam/webcam%a.jpg')
 #        webcam-id (1)
 #
-# alpha!sandnes gives this graph:
+# alpha;sandnes gives this graph:
 #
 #     home-directory
 #        ports/Sandnes (nil)
@@ -103,12 +103,12 @@
 #        webcam020 ((graph (triple webcam020 interval 1) (triple webcam020 location sandnes) (triple webcam020 type stills-multi) (triple webcam020 url 'https://www.2sandnessjo.no/webcam/webcam%a.jpg') (triple webcam020 webcam-id 1)))
 #        webcam030 (nil)
 #
-# alpha!sandnes!home-directory returns this graph:
+# alpha;sandnes;home-directory returns this graph:
 #
 #     ports/Sandnes
 #        nil (nil)
 #
-# alpha!sandnes!webcam returns this graph:
+# alpha;sandnes;webcam returns this graph:
 #
 #     webcam010
 #        interval (1)
@@ -125,7 +125,7 @@
 #     webcam030
 #        nil (nil)
 #
-# and alpha!sandnes!webcam!webcam020 returns this graph:
+# and alpha;sandnes;webcam;webcam020 returns this graph:
 #
 #     interval
 #        1 (nil)
@@ -149,6 +149,12 @@
 @ns tsb "http://www.genyris.org/test-square-bracket#"
 
 include 'square-bracket.g'
+
+def line(l &rest msg)
+    u:format '%s --------%a--------\n' l
+        cond
+            (null? msg) ""
+            else msg
 
 def graph-pretty-print (grph)
     cond
@@ -217,72 +223,119 @@ graph-alpha
 graph-pretty-print graph-alpha
 
 
-print`(graph-alpha!s)
+print`(graph-alpha;s)
 print (graph-alpha(.select ^sandnes nil nil))
 
 def shift ((g = Graph)(s = Symbol))
     var result (graph)
-    for T in (g(.select s nil nil))
-        #print (list @LINE T)
-        cond
-            (null? T!object)
-                result
-                    .add T!predicate (intern T!object) nil
-            else
+    var top (g(.select s nil nil))
+    print (list @LINE top)
+    cond
+        (equal? top (triple nil nil nil)) (setq result nil)
+        (equal? 0 (top(.length))) (setq result nil)
+        (equal? 1 (top(.length)))
+            var leaf (left(top(.asTriples)))
+            cond
+                (and (null? leaf;predicate) (null? leaf;object)) (setq result leaf;subject)
+                else (setq result (left(top(.asTriples))))
+        else
+            for T in top
+                print (list @LINE T)
                 cond
-                    (is-instance? T!object Graph)
-                        setq result 
-                            result(.union (T!object(.select T!predicate nil nil)))
+                    (null? T;object)
+                        result
+                            .add T;predicate (intern T;object) nil
                     else
-                        var go (g(.select T!object nil nil))
                         cond
-                            (equal? 0 (go(.length)))
-                                result
-                                    .add T!predicate (intern T!object) nil
+                            (is-instance? T;object Graph)
+                                setq result
+                                    result(.union (T;object(.select T;predicate nil nil)))
+                            else
+                                var go (g(.select T;object nil nil))
+                                cond
+                                    (equal? 0 (go(.length)))
+                                        result
+                                            .add T;predicate (intern T;object) nil
+                                    else
+                                        result
+                                            .add T;predicate (intern T;object) go
+    result
+
+def shift2 ((g = Graph)(s = Symbol))
+    var result (graph)
+    var top (g(.select s nil nil))
+    print (list @LINE top)
+    cond
+        (equal? top (triple nil nil nil)) (setq result nil)
+        (equal? 0 (top(.length))) (setq result nil)
+        (equal? 1 (top(.length)))
+            var leaf (left(top(.asTriples)))
+            cond
+                (and (null? leaf;predicate) (null? leaf;object)) (setq result leaf;subject)
+                else (setq result (left(top(.asTriples))))
+        else
+            for T in top
+                #print (list @LINE T)
+                cond
+                    (null? T;object)
+                        result
+                            .add T;predicate nil nil
+                    else
+                        cond
+                            (is-instance? T;object Graph)
+                                setq result
+                                    result(.union (T;object(.select T;predicate nil nil)))
                             else
                                 result
-                                    .add T!predicate (intern T!object) go
+                                    .add T;predicate T;subject (intern T;object)
     result
 
 var G (graph ^(q w e) ^(a s d) ^(q a z))
 for T in G (print T)
-display '----\n'
+line @LINE
 for T in (shift G ^q) (print T) 
-display '----\n'
+line @LINE
 var G2 (graph ^(q w e) ^(q j a) ^(a s 1) ^(a s 2))
-display '----\n'
+line @LINE
 for T in G2 (print T)
-display '----\n'
+line @LINE
 for T in (shift G2 ^q) (print T)
-display '----\n'
+line @LINE
+print (shift (shift G2 ^q) ^j)
+line @LINE
 for T in (shift (shift G2 ^q) ^j) (print T)
-display '----\n'
+line @LINE
 for T in (shift (shift (shift G2 ^q) ^j) ^a) (print T)
-display '----\n'
+line @LINE
 for T in (shift (shift (shift (shift G2 ^q) ^j) ^a) ^s) (print T)
-display '----\n'
+line @LINE
 for T in (shift (shift (shift (shift (shift G2 ^q) ^j) ^a) ^s) (intern 1))(print T)
 
-display '----one-graph-alpha!sandnes----------------------------\n'
+line @LINE '----one-graph-alpha;sandnes----------------------------\n'
 var one
      shift graph-alpha ^sandnes
 graph-pretty-print one
-display '----two-graph-alpha!sandnes!home-directory----------------------------\n'
+line @LINE '----two-graph-alpha;sandnes;home-directory----------------------------\n'
 var two
     shift one ^home-directory
 graph-pretty-print two
 
-display '----three-graph-alpha!sandnes!webcam----------------------------\n'
+line @LINE '----three-graph-alpha;sandnes;webcam----------------------------\n'
 var three
     shift one ^webcam
 graph-pretty-print three
 
-display '----four-graph-alpha!sandnes!webcam!webcam020----------------------------\n'
+line @LINE '----four-graph-alpha;sandnes;webcam;webcam020----------------------------\n'
 var four
     shift three ^webcam020
 graph-pretty-print four
 
-display '----five-graph-alpha!sandnes!webcam!webcam020!location----------------------------\n'
+line @LINE '----five-graph-alpha;sandnes;webcam;webcam020;location----------------------------\n'
 var five
     shift four ^location
 graph-pretty-print five
+
+
+#setq pling shift
+#graph-pretty-print
+#    graph-alpha;sandnes

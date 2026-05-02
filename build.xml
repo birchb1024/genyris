@@ -279,7 +279,8 @@
 			<arg value="-c" />
 			<arg value="-u" />
 			<arg value="-x" />
-			<arg value="xvfb-run -n 98 java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
+			<arg value="java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" />
+            <!-- Macos does not have xvfb <arg value="xvfb-run -n 98 java -Xmx256M -classpath ${GENYRIS_HOME}/dist/\*:${GENYRIS_HOME}/dist/needed/\* org.genyris.interp.ClassicReadEvalPrintLoop test/acceptance/suite.g" /> -->
 		</exec>
 	</target>
 
