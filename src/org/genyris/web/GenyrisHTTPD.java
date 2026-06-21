@@ -1,144 +1,76 @@
 package org.genyris.web;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Properties;
 
 import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
-import org.genyris.format.Formatter;
-import org.genyris.format.HTMLFormatter;
-import org.genyris.format.IndentedFormatter;
-import org.genyris.format.JSONFormatter;
+import org.genyris.format.*;
 import org.genyris.interp.Interpreter;
 import org.genyris.load.SourceLoader;
 
+import com.sun.net.httpserver.HttpExchange;
+
 import static org.genyris.interp.ClassicReadEvalPrintLoop.getContainingDirectoryPath;
 
-public class GenyrisHTTPD extends NanoHTTPD {
+public class GenyrisHTTPD extends GenyrisHttpServer {
 
-    static HashMap serverSockets = new HashMap();
-    Interpreter interpreter;
-    String filename;
-    Exp[] _argv;
+    private Interpreter interpreter;
+    private final String filename;
+    private final Exp[] _argv;
 
     Symbol NIL;
-
     Dictionary HttpRequestClazz, AlistClazz;
 
-    public GenyrisHTTPD(int port, String filename, Exp[] argv)
-            throws GenyrisException {
-        myTcpPort = port;
+    public GenyrisHTTPD(int port, String filename, Exp[] argv) {
+        myTcpPort     = port;
         this.filename = filename;
-        this._argv = argv;
-
-        try {
-            ss = getSharedServerSocket(myTcpPort);
-        } catch (IOException e1) {
-            throw new GenyrisException("GenyrisHTTPD: Port " + myTcpPort + " "
-                    + e1.getMessage());
-        }
+        this._argv    = argv;
     }
 
-    private static synchronized ServerSocket getSharedServerSocket(int port)
-            throws IOException {
-        if (serverSockets.containsKey(Integer.valueOf(port))) {
-            return (ServerSocket) serverSockets.get(Integer.valueOf(port));
-        } else {
-            ServerSocket ss = new ServerSocket(port);
-            ss.setSoTimeout(SERVER_SOCKET_TIMEOUT);
-            serverSockets.put(Integer.valueOf(port), ss);
-            return ss;
-        }
-    }
-
-    private static Exp makeListOfArray(Symbol NIL, Exp[] args) {
-        // TODO DRY - repeated in evaluater somewhere...
-        Exp arglist = NIL;
-        for (int i = args.length - 1; i > 0; i--) {
-            arglist = new Pair(args[i], arglist);
-        }
-        return arglist;
-    }
-
+    @Override
     public Thread run() throws IOException {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                boolean terminating = false;
-                try {
-                    interpreterSetup();
-                } catch (GenyrisException e) {
-                    System.out.println("GenyrisHTTPD: " + e.getMessage());
-                    return;
-                }
-                while (!terminating) {
-                    try {
-                        Thread.yield();
-                        new HTTPSession(ss.accept());
-                    } catch (InterruptedIOException e) {
-                        if (Thread.currentThread().isInterrupted()) {
-                            terminating = true;
-                        }
-                        continue;
-                    } catch (IOException ioe) {
-                        System.out.println("GenyrisHTTPD: IOException "
-                                + ioe.getMessage());
-                    }
-                }
-                // try {
-                // if (ss != null)
-                // ; // ss.close();
-                // } catch (IOException e) {
-                // }
-
-            }
-        });
-        t.setName(this.getClass().getName() + " " + myTcpPort + " "
-                + this.filename);
-        t.setDaemon(true);
-        t.start();
+        try {
+            interpreterSetup();
+        } catch (GenyrisException e) {
+            throw new IOException("GenyrisHTTPD interpreter setup failed: " + e.getMessage(), e);
+        }
+        Thread t = super.run();
+        t.setName(getClass().getName() + " " + myTcpPort + " " + filename);
         return t;
     }
 
-    public synchronized NanoResponse serve(long sessionNumber, Socket sock,
-            String uri, String method, Properties header, Properties parms,
-            String rootdir, String clientIP) {
-        Exp request = NIL;
-        // System.out.println(method + " '" + uri + "' ");
-
+    @Override
+    public synchronized HttpResponse serve(long sessionNumber,
+                                           String clientIP,
+                                           int clientPort,
+                                           String uri,
+                                           String method,
+                                           Properties header,
+                                           Properties parms) {
+        // Build headers alist
         Exp headers = NIL;
-        Enumeration e = header.propertyNames();
+        Enumeration<?> e = header.propertyNames();
         while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-            headers = new Pair(new Pair(new StrinG(value), new StrinG(header
-                    .getProperty(value))), headers);
-            // System.out.println(" HDR: '" + value + "' = '" +
-            // header.getProperty(value) + "'");
+            String key = (String) e.nextElement();
+            headers = new Pair(new Pair(new StrinG(key), new StrinG(header.getProperty(key))), headers);
         }
         headers.addClass(AlistClazz);
 
+        // Build parameters alist
         Exp parameters = NIL;
         e = parms.propertyNames();
         while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-            parameters = new Pair(new Pair(new StrinG(value), new StrinG(parms
-                    .getProperty(value))), parameters);
-            // System.out.println(" PRM: '" + value + "' = '" +
-            // parms.getProperty(value) + "'");
+            String key = (String) e.nextElement();
+            parameters = new Pair(new Pair(new StrinG(key), new StrinG(parms.getProperty(key))), parameters);
         }
-        parameters.addClass(this.AlistClazz);
+        parameters.addClass(AlistClazz);
 
+        // Assemble request Exp — same structure as before
+        Exp request = NIL;
         request = new Pair(new Bignum(sessionNumber), request);
-        request = new Pair(new Bignum(sock.getPort()), request);
+        request = new Pair(new Bignum(clientPort), request);
         request = new Pair(new Pair(new StrinG(clientIP), NIL), request);
         request = new Pair(parameters, request);
         request = new Pair(headers, request);
@@ -146,29 +78,17 @@ public class GenyrisHTTPD extends NanoHTTPD {
         request = new Pair(new StrinG(method), request);
         request.addClass(HttpRequestClazz);
 
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        Writer output = new PrintWriter(buffer);
-        // (httpd-serve request)
-        Exp expression = new Pair(interpreter.intern("httpd-serve"), new Pair(
-                request, NIL));
-
+        Exp expression = new Pair(interpreter.intern("httpd-serve"), new Pair(request, NIL));
         try {
-            Formatter formatter;
-            // formatter = new IndentedFormatter(output, 1, interpreter);
-            // expression.acceptVisitor(formatter);
             Exp result = interpreter.evalInGlobalEnvironment(expression);
             String status = result.nth(0, NIL).toString();
-            if (status.equals("SERVE-FILE")) {
-                // This response from Genyris means web server serves a static
-                // file
-                String rootDirectory = result.nth(1, NIL).toString();
-                String filePath = result.nth(2, NIL).toString();
-                boolean directoryListing = result.nth(3, NIL).toString()
-                        .equals("ls");
 
-                return serveFile(filePath, header, new File(rootDirectory),
-                        directoryListing);
+            if (status.equals("SERVE-FILE")) {
+                String rootDirectory = result.nth(1, NIL).toString();
+                pendingFileRoot.set(rootDirectory);
+                return null; // signals base class to call serveStatic()
             }
+
             result = result.cdr();
             String mime = "text/html";
             Exp responseHeaders = NIL;
@@ -177,57 +97,71 @@ public class GenyrisHTTPD extends NanoHTTPD {
             } else {
                 responseHeaders = result.car();
             }
+
             Exp tmp = responseHeaders;
             while (tmp != NIL) {
-                if (tmp.car().car().toString().equals("Content-Type")) {
+                if (tmp.car().car().toString().equals("Content-Type"))
                     mime = tmp.car().cdr().toString();
-                }
                 tmp = tmp.cdr();
             }
-            if (mime.equals("text/html")) {
-                formatter = new HTMLFormatter(output);
-            } else if ( mime.equals("application/json")) {
-                formatter = new JSONFormatter(output);
-            }
-            else {
-                formatter = new IndentedFormatter(output, 2);
-            }
-            result = result.cdr().car();
-            result.acceptVisitor(formatter);
+
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            Writer output = new PrintWriter(buffer);
+            Formatter formatter;
+            if (mime.equals("text/html"))             formatter = new HTMLFormatter(output);
+            else if (mime.equals("application/json")) formatter = new JSONFormatter(output);
+            else                                      formatter = new IndentedFormatter(output, 2);
+
+            result.cdr().car().acceptVisitor(formatter);
             output.flush();
-            NanoResponse response = new NanoResponse(status, mime,
+
+            HttpResponse response = new HttpResponse(status, mime,
                     new ByteArrayInputStream(buffer.toByteArray()));
             Exp tmph = responseHeaders;
             while (tmph != NIL) {
-                response.addHeader(tmph.car().car().toString(), tmph.car()
-                        .cdr().toString());
+                response.addHeader(tmph.car().car().toString(), tmph.car().cdr().toString());
                 tmph = tmph.cdr();
             }
             return response;
 
         } catch (GenyrisException ey) {
             System.out.println("*** Error: " + ey.getMessage());
-            return new NanoResponse(HTTP_OK, "text/plain", "*** Error: "
-                    + ey.getMessage());
+            return new HttpResponse(HTTP_OK, MIME_PLAINTEXT, "*** Error: " + ey.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
+            return new HttpResponse(HTTP_INTERNALERROR, MIME_PLAINTEXT, ex.getMessage());
         }
+    }
 
-        return new NanoResponse();
+    // ThreadLocal carries the dynamic root from serve() into serveStatic(),
+    // which runs on the same request thread.
+    private static final ThreadLocal<String> pendingFileRoot = new ThreadLocal<>();
 
+    @Override
+    protected void serveStatic(HttpExchange exchange, String ignored) throws IOException {
+        String root = pendingFileRoot.get();
+        pendingFileRoot.remove();
+        super.serveStatic(exchange, root);
+    }
+
+    private static Exp makeListOfArray(Symbol NIL, Exp[] args) {
+        Exp arglist = NIL;
+        for (int i = args.length - 1; i > 0; i--)
+            arglist = new Pair(args[i], arglist);
+        return arglist;
     }
 
     private void interpreterSetup() throws GenyrisException {
         interpreter = new Interpreter();
         interpreter.init(false, getContainingDirectoryPath(filename));
-        Symbol argv = interpreter.intern(new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGV, "sys"));
+        Symbol argv = interpreter.intern(
+                new PrefixSymbol(Constants.GENYRIS + "system#", Constants.ARGV, "sys"));
         NIL = interpreter.NIL;
         interpreter.getGlobalEnv().defineVariable(argv, makeListOfArray(NIL, _argv));
         Writer output = new PrintWriter(System.out);
         HttpRequestClazz = (Dictionary) interpreter.lookupGlobalFromString("HttpRequest");
-        AlistClazz = (Dictionary) interpreter.lookupGlobalFromString("Alist");
-        SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(), interpreter
-                .getSymbolTable(), filename, output);
-
+        AlistClazz       = (Dictionary) interpreter.lookupGlobalFromString("Alist");
+        SourceLoader.loadScriptFromFile(interpreter.getGlobalEnv(),
+                interpreter.getSymbolTable(), filename, output);
     }
 }
