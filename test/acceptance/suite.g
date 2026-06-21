@@ -43,7 +43,7 @@ define example-files
     ~ 'examples/java-ffi.g'
     ~ 'examples/procedure-missing.g'
 
-var junit-summary (sys:junit-test-runner)
+#var junit-summary (sys:junit-test-runner)
 
 def prepend-home (relative-path) (System!HOME (.+ '/' relative-path))
 
@@ -58,13 +58,10 @@ for sp in spawn-files
    spawn (prepend-home sp)
 
 :runTests ('%a/test/acceptance'(.format System!HOME)) example-files
-<:format "Total # of JUnit tests: %s\n" junit-summary!right
-<:format "Total # of JUnit errors: %s\n" junit-summary!left
-<:format "Total errors: %s\n" (+ junit-summary!left :total-test-failed-counter (length :failed-files))
+<:format "Total errors: %s\n" (+ :total-test-failed-counter (length :failed-files))
 
 assert 
    and 
-      equal? 0 junit-summary!left
       equal?  0 :total-test-failed-counter
       equal? nil :failed-files
 

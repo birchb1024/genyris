@@ -3,7 +3,7 @@
 #
 @ns sys "http://www.genyris.org/lang/system#"
 
-load "org/genyris/load/boot/pair.g" true
+load "main/java/org/genyris/load/boot/pair.g" true
 
 catch err
    include "does-not-exist.g"
