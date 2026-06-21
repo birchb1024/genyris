@@ -6,6 +6,7 @@
 # =============================================================================
 
 set -euo pipefail
+set -x
 
 # =============================================================================
 # Properties (mirrors Ant <property> definitions)
@@ -172,7 +173,8 @@ EOF
         -C "${BASEDIR}" LICENSE \
         -C "${BUILD_DIR}" version \
         $(cd "${SRC_COMPILE_DIR}" && find . -name '*.class' ! -name 'GenyrisServlet.class' | sed "s|^|-C ${SRC_COMPILE_DIR} |") \
-        $(cd "${SRC_DIR}" && find . -name '*.g' -o -name '*.properties' | sed "s|^|-C ${SRC_DIR} |") \
+        $(cd "${SRC_DIR}" && find . -name '*.properties' | sed "s|^|-C ${SRC_DIR} |") \
+        $(ls -1 ${SRC_DIR}/resources/boot | sed "s|^|-C src/resources ./boot/|") \
         $(cd "${BASEDIR}" && find test -type f | sed "s|^|-C ${BASEDIR} |")
 
     echo "Created: ${JAR_FILE}"

@@ -85,29 +85,29 @@ var math:pi 3.1415926535897932384626433832795028841971
 #
 # Load source functions and classes
 #
-load "main/java/org/genyris/load/boot/java.g"
-load "main/java/org/genyris/load/boot/assert.g"
-load "main/java/org/genyris/load/boot/pair.g"
-load "main/java/org/genyris/load/boot/alist.g"
-load "main/java/org/genyris/load/boot/parse.g"
-load "main/java/org/genyris/load/boot/object.g"
-load "main/java/org/genyris/load/boot/iterator.g"
-load "main/java/org/genyris/load/boot/range.g"
-load "main/java/org/genyris/load/boot/listoflines.g"
-load "main/java/org/genyris/load/boot/file.g"
-load "main/java/org/genyris/load/boot/util.g"
-load "main/java/org/genyris/load/boot/set.g"
-load "main/java/org/genyris/load/boot/triple.g"
-load "main/java/org/genyris/load/boot/for.g"
-load "main/java/org/genyris/load/boot/import.g"
+load "boot/java.g"
+load "boot/assert.g"
+load "boot/pair.g"
+load "boot/alist.g"
+load "boot/parse.g"
+load "boot/object.g"
+load "boot/iterator.g"
+load "boot/range.g"
+load "boot/listoflines.g"
+load "boot/file.g"
+load "boot/util.g"
+load "boot/set.g"
+load "boot/triple.g"
+load "boot/for.g"
+load "boot/import.g"
 
 setq sys:path (append (list System!LIBS System!HOME) sys:path)
 
-load "main/java/org/genyris/load/boot/task.g"
-load "main/java/org/genyris/load/boot/process.g"
-load "main/java/org/genyris/load/boot/repl.g"
-load "main/java/org/genyris/load/boot/HttpRequest.g"
-load "main/java/org/genyris/load/boot/os.g"
+load "boot/task.g"
+load "boot/process.g"
+load "boot/repl.g"
+load "boot/HttpRequest.g"
+load "boot/os.g"
 
 import Base64
 

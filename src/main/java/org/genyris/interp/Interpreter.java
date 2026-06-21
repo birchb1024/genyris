@@ -139,7 +139,7 @@ public class Interpreter {
 
     public Exp bindAllJavaFunctionsFromScript() throws GenyrisException {
         return SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(),
-                this.getSymbolTable(), "main/java/org/genyris/load/boot/bind-compiled-functions.g",
+                this.getSymbolTable(), "boot/bind-compiled-functions.g",
                 (Writer) new NullWriter());
     }
 
@@ -152,7 +152,7 @@ public class Interpreter {
     public Exp initAux(boolean verbose) throws GenyrisException {
         Writer nullW = new NullWriter();
         Exp retval =  SourceLoader.loadScriptFromClasspath(this.getGlobalEnv(), this
-                .getSymbolTable(), "main/java/org/genyris/load/boot/init.g",
+                .getSymbolTable(), "boot/init.g",
                 verbose ? _defaultOutput : nullW);
         try {
             nullW.close();

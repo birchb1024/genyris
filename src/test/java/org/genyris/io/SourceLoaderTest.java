@@ -46,7 +46,7 @@ public class SourceLoaderTest extends TestCase {
         interp.init(false, "testSourceLoader2");
         StringWriter out = new StringWriter();
         SourceLoader.loadScriptFromClasspath(interp.getGlobalEnv(),
-                interp.getSymbolTable(), "org/genyris/load/boot/init.g", out);
+                interp.getSymbolTable(), "boot/init.g", out);
     }
 
     public void testSourceLoader3() throws GenyrisException {
