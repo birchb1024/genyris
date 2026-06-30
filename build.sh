@@ -6,7 +6,7 @@
 # =============================================================================
 
 set -euo pipefail
-#set -x
+set -x
 
 # =============================================================================
 # Properties (mirrors Ant <property> definitions)
@@ -277,10 +277,10 @@ target_compile_docs() {
     find "${BASEDIR}/doc/reference/" -name '*jpg' -exec cp -v {} "${DIST_DIR}/" \;
 
     # Export to PDF
-    lyx -batch --export pdf2 "genyris-manual-${VERSION}.lyx" 2>&1 | tee dist/lyx.log
+    lyx -batch --export pdf2 "dist/genyris-manual-${VERSION}.lyx" 2>&1 | tee dist/lyx.log
 
     # Export to XHTML
-    lyx -batch --export-to xhtml "genyris-manual-${VERSION}.html" "genyris-manual-${VERSION}.lyx" 2>&1 | tee dist/lyx.log
+    lyx -batch --export-to xhtml "dist/genyris-manual-${VERSION}.html" "genyris-manual-${VERSION}.lyx" 2>&1 | tee dist/lyx.log
 
     # Clean up intermediate files
     find "${DIST_DIR}" \( -name '*jpg' -o -name '*lyx' -o -name '*dvi' \) -delete -print
