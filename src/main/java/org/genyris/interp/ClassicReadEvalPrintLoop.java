@@ -8,9 +8,13 @@ package org.genyris.interp;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
@@ -27,7 +31,15 @@ public class ClassicReadEvalPrintLoop {
     private Interpreter _interpreter;
 
     public static void main(String[] args) {
-
+  // This hack registers NativeImageResourceFileSystemProvider & NativeImageResourceFileSystem when ran via Native Image
+  // It allows lookups using "resource:/" URIs which means calls like Path.of(URI) will not fail.
+  try {
+       FileSystem filesystem = FileSystems.newFileSystem(URI.create("resource:/"), Collections.singletonMap("create", "true"));
+       //LOGGER.info("Created {} filesystem", filesystem.getClass().getSimpleName());
+   } catch(Exception e) {
+       // This will always happen outside of an native image; there no such thing as a "resource:/" file system outside of native image
+       //LOGGER.info("Not creating resource file system as not a native image.");
+   }
         int result = 0;
         try {
             if (args.length == 0) {
