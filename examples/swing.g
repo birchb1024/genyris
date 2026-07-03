@@ -10,6 +10,7 @@ java:import 'javax.swing.JTextField' as JTextField
 java:import 'javax.swing.JButton' as JButton
 java:import 'java.awt.FlowLayout' as FlowLayout
 java:import 'javax.swing.ButtonModel' as ButtonModel
+java:import 'javax.swing.JPanel' as JPanel
 
 var window
    JFrame(.new-java_lang_String "Welcome to Genyris - examples/swing.g")
@@ -17,20 +18,21 @@ var window
 window
   .setSize-java_awt_Dimension (Dimension(.new-int-int 400 200))
 
-java:import (window(.getContentPane))!java:class # need the class first
+#java:import (window(.getContentPane))!java:class # need the class first
 var cp (window(.getContentPane))
+print cp
 
 (var field (JTextField(.new)))
     .setPreferredSize-java_awt_Dimension (Dimension(.new-int-int 150 20))
 
-def onCancel(event)
-    print 'Cancel button pressed'
+def onCancel(event &rest args)
+    print 'Cancel button pressed' event args
     window(.dispose)
 
 var counter 0
 
-def onHit(event)
-    print 'Hit button pressed'
+def onHit(event &rest args)
+    print 'Hit button pressed' event args
     setq counter (+ 1 counter)
     field
        .setText-java_lang_String counter
@@ -57,3 +59,4 @@ window
   .pack
   .show
 
+sleep (* 20 1000)
