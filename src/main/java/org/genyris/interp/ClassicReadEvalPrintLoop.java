@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 
 import org.genyris.core.*;
 import org.genyris.exception.GenyrisException;
@@ -145,28 +146,56 @@ public class ClassicReadEvalPrintLoop {
         interpreter.getGlobalEnv().defineVariable(argv, argsAlist);
     }
 
+//    public static String getContainingDirectoryPath(String url) throws GenyrisException {
+//        String filename = url;
+//        try {
+//            if(url == "-") {
+//                return ".";
+//            }
+//            if(url.startsWith("jar:")) {
+//                String[] path =  url.split("/");
+//                String[] parent = Arrays.copyOfRange(path, 0, path.length-1);
+//                String result = String.join("/", Arrays.asList(parent));
+//                return result;
+//            }
+//            if(url.startsWith("file:")) {
+//                filename = url.substring("file:".length());
+//            }
+//            Path scriptPath = Paths.get(filename).toRealPath();
+//            return scriptPath.getParent().toString();
+//        } catch (IOException e) {
+//            throw new GenyrisException(e);
+//        }
+//
+//    }
     public static String getContainingDirectoryPath(String url) throws GenyrisException {
-        String filename = url;
-        try {
-            if(url == "-") {
-                return ".";
-            }
-            if(url.startsWith("jar:")) {
-                String[] path =  url.split("/");
-                String[] parent = Arrays.copyOfRange(path, 0, path.length-1);
-                String result = String.join("/", Arrays.asList(parent));
-                return result;
-            }
-            if(url.startsWith("file:")) {
-                filename = url.substring("file:".length());
-            }
-            Path scriptPath = Paths.get(filename).toRealPath();
-            return scriptPath.getParent().toString();
-        } catch (IOException e) {
-            throw new GenyrisException(e);
+    String filename = url;
+    try {
+        if(Objects.equals(url, "-")) {
+            return ".";
         }
-
+        if(url.startsWith("jar:")) {
+            String[] path =  url.split("/");
+            String[] parent = Arrays.copyOfRange(path, 0, path.length-1);
+            String result = String.join("/", Arrays.asList(parent));
+            return result;
+        }
+        if(url.startsWith("resource:")) {
+            // We have to do this one for Graal VM native-image which has a 'resource:' type now.
+            String[] path = url.split("/");
+            String[] parent = Arrays.copyOfRange(path, 0, path.length - 1);
+            String result = String.join("/", Arrays.asList(parent));
+            return result;
+        }
+        if(url.startsWith("file:")) {
+            filename = url.substring("file:".length());
+        }
+        Path scriptPath = Paths.get(filename).toRealPath();
+        return scriptPath.getParent().toString();
+    } catch (IOException e) {
+        throw new GenyrisException(e);
     }
+}
 
     private int runWithJline(String[] args) {
         try {
