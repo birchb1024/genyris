@@ -43,7 +43,7 @@ public class FromJSONMethod extends AbstractStringMethod {
                 return convertJSON(jo, env);
             }
             else {
-                throw new GenyrisException("Expexting non-atomic JSON - got " + theString);
+                throw new GenyrisException(Constants.FROMJSON + " Expecting map or list JSON - got '" + theString + "'");
             }
         }
         catch (JSONException e) {
